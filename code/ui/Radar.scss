@@ -1,0 +1,40 @@
+﻿radar {
+	background-image: url( /ui/hover/map.png );
+	box-shadow: 0 0 30px rgba(#000,0.2);
+	background-size: 100%;
+	border-radius: 256px;
+	position: absolute;
+	top: 40px;
+	left: 64px;
+	color: #fff;
+	width: 256px;
+	height: 256px;
+
+	radardot {
+		background-color: #70CFAB;
+		border: 2px solid #277B5B;
+		box-shadow: 0 0px 15px rgba(#70CFAB,0.1);
+		position: absolute;
+		border-radius: 50%;
+		height: 10px;
+		width: 10px;
+
+		&.enemy {
+			background-color: #CF7070;
+			border: 2px solid #7B2727;
+			box-shadow: 0 0px 15px rgba(#CF7070,0.1);
+		}
+	}
+
+	.anchor {
+		background-image: url( /ui/hover/map-lines.png );
+		background-size: 100%;
+		width: 100%;
+		height: 100%;
+		opacity: 0.1;
+	}
+
+	&.hidden {
+		display: none;
+	}
+}

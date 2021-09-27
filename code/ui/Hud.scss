@@ -1,0 +1,134 @@
+﻿rootpanel
+{
+	background-color: rgba( #333, 0 );
+	transition: background-color 0.2s ease-in;
+	transform-origin: 50% 50%;
+
+	&.devcamera
+	{
+		display: none;
+	}
+}
+
+chatbox
+{
+	bottom: 350px;
+}
+
+vitals {
+	align-items: center;
+	background-image: url( /ui/hover/player-container.png );
+	background-size: 100%;
+	color: #fff;
+	padding-left: 20px;
+	padding-right: 24px;
+	font-family: Roboto;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	bottom: 32px;
+	left: 64px;
+	font-size: 40px;
+	height: 80px;
+	width: 280px;
+
+	label {
+		text-shadow: 0px 0px 20px #000;
+
+		&.danger {
+			color: #f00;
+			text-shadow: 0px 0px 10px #f005;
+		}
+	}
+
+	&.hidden {
+		display: none;
+	}
+}
+
+ammo {
+	background-image: url( /ui/hover/ammo-menu.png );
+	background-size: 100%;
+	bottom: 32px;
+	display: none;
+	align-items: center;
+	font-family: Lexend;
+	height: 80px;
+	padding-left: 40px;
+	padding-right: 60px;
+	position: absolute;
+	right: 64px;
+	width: 248px;
+
+	label {
+		text-shadow: 0px 0px 20px #000;
+	}
+
+	.icon {
+		width: 32px;
+		height: 32px;
+		background-image: url( /ui/hover/ammo-icon.png );
+		background-size: 100%;
+		position: absolute;
+		right: 36px;
+	}
+
+	.textContainer {
+		align-items: center;
+		flex-grow: 1;
+	}
+
+	.weapon {
+		font-size: 34px;
+		color: #ECECEC;
+		min-width: 50px;
+		text-align: right;
+		transition: color 0.2s ease;
+	}
+
+	.inventory {
+		color: #ECECEC;
+		font-size: 28px;
+		margin-left: 8px;
+		opacity: 0.5;
+	}
+
+	&.active {
+		display: flex;
+	}
+
+
+	&.low-ammo {
+		.weapon {
+			color: #ff9f9f;
+		}
+	}
+}
+
+.team_red
+{
+	ammo
+	{
+		background-image: url( /ui/grayscale/ammo-gs.png );
+
+		.inventory
+		{
+			color: #79612C;
+		}
+	}
+}
+
+.hv_pistol .icon
+{
+	background-image: url( /ui/weapons/dm_pistol.png );
+}
+
+.hv_shotgun .icon
+{
+	background-image: url( /ui/weapons/dm_shotgun.png );
+}
+
+.hv_smg .icon
+{
+	background-image: url( /ui/weapons/dm_smg.png );
+}

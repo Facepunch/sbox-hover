@@ -1,0 +1,20 @@
+{
+	"name": "Hover",
+	"version": "1.0",
+	"sharedassets": "*.*",
+
+	"depends": 
+	[
+		"base",
+		"rust"
+	],
+	
+	"gamemodes":
+	[
+		{
+			"name": "hover",
+			"title": "Hover",
+			"description": "Frictionless capture the flag combat."
+		}
+	]
+}
