@@ -2,9 +2,9 @@
 
 namespace Facepunch.Hover
 {
-    public class HoverTeam : BaseTeam
+    public class SimpleTeam : BaseTeam
 	{
-		private Radar _radarHud;
+		private Radar RadarHud { get; set; }
 
 		public override void SupplyLoadout( Player player  )
 		{
@@ -39,7 +39,7 @@ namespace Facepunch.Hover
 			player.EnableShadowInFirstPerson = true;
 
 			player.Controller = new MoveController();
-			player.Camera = new HoverCamera();
+			player.Camera = new FirstPersonCamera();
 		}
 
 		public override void OnJoin( Player player  )
@@ -48,7 +48,7 @@ namespace Facepunch.Hover
 
 			if ( Host.IsClient && player.IsLocalPawn )
 			{
-				_radarHud = Local.Hud.AddChild<Radar>();
+				RadarHud = Local.Hud.AddChild<Radar>();
 			}
 
 			base.OnJoin( player );
@@ -61,14 +61,12 @@ namespace Facepunch.Hover
 
 		public override void OnLeave( Player player  )
 		{
-			var client = player.GetClientOwner();
-
 			if ( player.IsLocalPawn )
 			{
-				if ( _radarHud != null )
+				if ( RadarHud != null )
 				{
-					_radarHud.Delete( true );
-					_radarHud = null;
+					RadarHud.Delete( true );
+					RadarHud = null;
 				}
 			}
 

@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public partial class HoverCamera : Camera
+	public partial class FirstPersonCamera : Camera
 	{
 		private Vector3 LastPosition { get; set; }
 

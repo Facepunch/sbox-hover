@@ -8,9 +8,9 @@ namespace Facepunch.Hover
 		public readonly List<Player> Players = new();
 		public int Index { get; internal set; }
 
-		public virtual bool HasDeployments => true;
 		public virtual bool HideNameplate => false;
 		public virtual string HudClassName => "";
+		public virtual TeamType Type => TeamType.None;
 		public virtual string Name => "";
 
 		public void Join( Player player )
