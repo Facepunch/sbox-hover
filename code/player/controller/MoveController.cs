@@ -266,18 +266,18 @@ namespace Facepunch.Hover
 			{
 				var groundAngle = GetSlopeAngle();
 
-				if ( groundAngle < 100F )
+				if ( groundAngle < 100f )
 				{
-					if ( groundAngle < 85F && Velocity.Length < MaxSpeed )
+					if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
 					{
-						Velocity *= 1.01f;
+						Velocity += (Velocity * Time.Delta * 0.3f);
 					}
 
 					frictionAmount = 0f;
 				}
 				else
 				{
-					frictionAmount *= 0.3f;
+					frictionAmount *= 0.2f;
 				}
 			}
 
