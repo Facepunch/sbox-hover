@@ -8,9 +8,9 @@ namespace Facepunch.Hover
 		[Net] public bool IsJetpacking { get; set; }
 
 		protected float MaxSpeed { get; set; } = 1000.0f;
-		protected float SprintSpeed { get; set; } = 320.0f;
-		protected float WalkSpeed { get; set; } = 150.0f;
-		protected float DefaultSpeed { get; set; } = 190.0f;
+		protected float JetpackBoost { get; set; } = 120.0f;
+		protected float SprintSpeed { get; set; } = 400.0f;
+		protected float DefaultSpeed { get; set; } = 250.0f;
 		protected float Acceleration { get; set; } = 10.0f;
 		protected float AirAcceleration { get; set; } = 50.0f;
 		protected float GroundFriction { get; set; } = 4.0f;
@@ -110,7 +110,10 @@ namespace Facepunch.Hover
 
 				if ( GroundEntity != null )
 				{
-					ApplyFriction( GroundFriction * SurfaceFriction );
+					if ( Input.Down( InputButton.Jump ) )
+						HandleSki();
+					else
+						ApplyFriction( GroundFriction * SurfaceFriction );
 				}
 			}
 
@@ -166,8 +169,8 @@ namespace Facepunch.Hover
 			var ws = Duck.GetWishSpeed();
 			if ( ws >= 0 ) return ws;
 
-			if ( Input.Down( InputButton.Run ) ) return SprintSpeed;
-			if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;
+			if ( Input.Down( InputButton.Run ) )
+				return SprintSpeed;
 
 			return DefaultSpeed;
 		}
@@ -257,29 +260,27 @@ namespace Facepunch.Hover
 			Velocity += wishDir * accelSpeed;
 		}
 
+		private void HandleSki()
+		{
+			var groundAngle = GetSlopeAngle();
+
+			if ( groundAngle < 100f )
+			{
+				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
+				{
+					Velocity += (Velocity * Time.Delta * 0.3f);
+				}
+			}
+			else
+			{
+				Velocity *= 0.98f;
+			}
+		}
+
 		private void ApplyFriction( float frictionAmount = 1.0f )
 		{
 			var speed = Velocity.Length;
 			if ( speed < 0.1f ) return;
-
-			if ( Input.Down( InputButton.Jump ) )
-			{
-				var groundAngle = GetSlopeAngle();
-
-				if ( groundAngle < 100f )
-				{
-					if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
-					{
-						Velocity += (Velocity * Time.Delta * 0.3f);
-					}
-
-					frictionAmount = 0f;
-				}
-				else
-				{
-					frictionAmount *= 0.2f;
-				}
-			}
 
 			var control = (speed < StopSpeed) ? StopSpeed : speed;
 			var drop = control * Time.Delta * frictionAmount;
@@ -311,7 +312,7 @@ namespace Facepunch.Hover
 				if ( Jetpack >= 5f )
 				{
 					IsJetpacking = true;
-					Velocity = Velocity.WithZ( startZ + 100f * Time.Delta );
+					Velocity = Velocity.WithZ( startZ + JetpackBoost * Time.Delta );
 				}
 
 				Jetpack = (Jetpack - 20f * Time.Delta).Clamp( 0f, 100f );
