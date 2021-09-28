@@ -2,8 +2,11 @@
 
 namespace Facepunch.Hover
 {
-	public class MoveController : BasePlayerController
+	public partial class MoveController : BasePlayerController
 	{
+		[Net, Predicted] public float Jetpack { get; set; }
+		[Net] public bool IsJetpacking { get; set; }
+
 		protected float SprintSpeed { get; set; } = 320.0f;
 		protected float WalkSpeed { get; set; } = 150.0f;
 		protected float DefaultSpeed { get; set; } = 190.0f;
@@ -36,6 +39,7 @@ namespace Facepunch.Hover
 		{
 			Duck = new Duck( this );
 			Unstuck = new Unstuck( this );
+			Jetpack = 100f;
 		}
 
 		public override BBox GetHull()
@@ -80,16 +84,23 @@ namespace Facepunch.Hover
 			CheckLadder();
 			Swimming = Pawn.WaterLevel.Fraction > 0.6f;
 
-			if ( !Swimming && !IsTouchingLadder )
+			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
 				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 				Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
 				BaseVelocity = BaseVelocity.WithZ( 0 );
 			}
 
+			IsJetpacking = false;
+
 			if ( Input.Down( InputButton.Attack2 ) )
 			{
 				DoJetpackMovement();
+			}
+
+			if ( !IsJetpacking )
+			{
+				Jetpack = (Jetpack + 20f * Time.Delta).Clamp( 0f, 100f );
 			}
 
 			bool startOnGround = GroundEntity != null;
@@ -140,7 +151,7 @@ namespace Facepunch.Hover
 
 			CategorizePosition( stayOnGround );
 
-			if ( !Swimming && !IsTouchingLadder )
+			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
 				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 			}
@@ -276,14 +287,25 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			var startZ = Velocity.z;
+
 			if ( GroundEntity == null )
+			{
+				if ( Jetpack >= 5f )
+				{
+					IsJetpacking = true;
+					Velocity = Velocity.WithZ( startZ + 100f * Time.Delta );
+				}
+
+				Jetpack = (Jetpack - 20f * Time.Delta).Clamp( 0f, 100f );
+
 				return;
+			}
 
 			ClearGroundEntity();
 
 			float groundFactor = 1.0f;
 			float multiplier = 268.3281572999747f * 1.2f;
-			float startZ = Velocity.z;
 
 			if ( Duck.IsActive )
 				multiplier *= 0.8f;
