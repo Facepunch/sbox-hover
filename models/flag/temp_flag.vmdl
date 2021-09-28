@@ -14,7 +14,7 @@
 						filename = "models\\flag\\dmx\\mesh\\temp_flag.dmx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
+						import_scale = 2.0
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
@@ -39,6 +39,30 @@
 						origin = [ -0.001282, -6.42812, 0.599991 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 45.446842, 47.01445, 55.29068 ]
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "base"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, -50.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "back"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 30.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
 					},
 				]
 			},

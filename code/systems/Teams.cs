@@ -5,18 +5,15 @@ namespace Facepunch.Hover
 {
 	public static partial class Teams
 	{
-		public static RedTeam Red { get; private set; }
-		public static BlueTeam Blue { get; private set; }
+		public static RedTeam Red { get; private set; } = new RedTeam();
+		public static BlueTeam Blue { get; private set; } = new BlueTeam();
 		public static List<BaseTeam> All { get; private set; }
 
 		public static void Initialize()
 		{
 			All = new();
 
-			Red = new RedTeam();
 			AddTeam( Red );
-
-			Blue = new BlueTeam();
 			AddTeam( Blue );
 		}
 

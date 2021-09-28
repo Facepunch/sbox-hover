@@ -33,17 +33,6 @@ namespace Facepunch.Hover
 
 			player.Team.OnStart( player );
 			player.Team?.SupplyLoadout( player );
-
-			var spawnpoints = Entity.All.OfType<PlayerSpawnpoint>()
-				.Where( e => e.Team == player.Team.Type )
-				.ToList()
-				.Shuffle();
-
-			if ( spawnpoints.Count == 0 )
-				return;
-
-			var spawnpoint = spawnpoints[0];
-			player.Position = spawnpoint.Position;
 		}
 
 		protected override void OnStart()

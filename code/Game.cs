@@ -1,6 +1,8 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Gamelib.Extensions;
 
 namespace Facepunch.Hover
 {
@@ -34,6 +36,28 @@ namespace Facepunch.Hover
 				await Task.DelaySeconds( 1 );
 				OnSecond();
 			}
+		}
+
+		public override void MoveToSpawnpoint( Entity pawn )
+		{
+			if ( pawn is Player player )
+			{
+				var team = player.Team?.Type ?? TeamType.Red;
+
+				var spawnpoints = All.OfType<PlayerSpawnpoint>()
+					.Where( e => e.Team == team )
+					.ToList()
+					.Shuffle();
+
+				if ( spawnpoints.Count > 0 )
+				{
+					var spawnpoint = spawnpoints[0];
+					player.Transform = spawnpoint.Transform;
+					return;
+				}
+			}
+
+			base.MoveToSpawnpoint( pawn );
 		}
 
 		public override void DoPlayerNoclip( Client client )
