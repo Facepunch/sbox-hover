@@ -274,13 +274,13 @@ namespace Facepunch.Hover
 			if ( groundAngle < 100f )
 			{
 				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
-				{
 					Velocity += (Velocity * Time.Delta * 0.3f);
-				}
+				else
+					Velocity -= Velocity * Time.Delta * 0.1f;
 			}
 			else
 			{
-				Velocity *= 0.98f;
+				Velocity -= Velocity * Time.Delta * 0.25f;
 			}
 
 			LastSkiTime = 0f;
@@ -322,9 +322,10 @@ namespace Facepunch.Hover
 				{
 					IsJetpacking = true;
 					Velocity = Velocity.WithZ( startZ + JetpackBoost * Time.Delta );
+					Velocity += Velocity.WithZ( 0f ).Normal * 40f * Time.Delta;
 				}
 
-				Jetpack = (Jetpack - 20f * Time.Delta).Clamp( 0f, 100f );
+				Jetpack = (Jetpack - 25f * Time.Delta).Clamp( 0f, 100f );
 
 				return;
 			}

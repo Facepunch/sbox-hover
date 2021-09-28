@@ -191,6 +191,50 @@ metadata
 ]
 
 //
+// Facepunch.Hover.FlagSpawnpoint
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/flag/temp_flag_base.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Flag Spawnpoint"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a team's flag spawns"
+}
+= hv_flag_spawnpoint : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.PlayerSpawnpoint
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Player Spawnpoint"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where players on a team can spawn"
+}
+= hv_spawnpoint : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
 // Facepunch.Hover.Knife
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_knife : ""
