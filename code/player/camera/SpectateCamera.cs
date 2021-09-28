@@ -9,14 +9,14 @@ namespace Facepunch.Hover
 
 		public Player TargetPlayer { get; set; }
 
-		private Vector3 _focusPoint;
-		public int _targetIdx;
+		private Vector3 FocusPoint { get; set; }
+		private int TargetIndex { get; set; }
 
 		public override void Activated()
 		{
 			base.Activated();
 
-			_focusPoint = CurrentView.Position - GetViewOffset();
+			FocusPoint = CurrentView.Position - GetViewOffset();
 
 			FieldOfView = 70;
 		}
@@ -41,9 +41,9 @@ namespace Facepunch.Hover
 				*/
 			}
 
-			_focusPoint = Vector3.Lerp( _focusPoint, GetSpectatePoint(), Time.Delta * 5.0f );
+			FocusPoint = Vector3.Lerp( FocusPoint, GetSpectatePoint(), Time.Delta * 5.0f );
 
-			Pos = _focusPoint + GetViewOffset();
+			Pos = FocusPoint + GetViewOffset();
 			Rot = player.EyeRot;
 
 			FieldOfView = FieldOfView.LerpTo( 50, Time.Delta * 3.0f );

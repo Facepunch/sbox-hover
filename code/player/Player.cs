@@ -9,11 +9,11 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public float Stamina { get; set; }
 
-		private Rotation _lastCameraRot = Rotation.Identity;
-		private DamageInfo _lastDamageInfo;
-		private float _walkBob = 0;
-		private float _lean = 0;
-		private float _FOV = 0;
+		private Rotation LastCameraRotation { get; set; }
+		private DamageInfo LastDamageInfo { get; set; }
+		private float WalkBob { get; set; }
+		private float Lean { get; set; }
+		private float FOV { get; set; }
 
 		public bool HasTeam
 		{
@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 		{
 			base.OnKilled();
 
-			BecomeRagdollOnServer( _lastDamageInfo.Force, GetHitboxBone( _lastDamageInfo.HitboxIndex ) );
+			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
 			Team?.OnPlayerKilled( this );
 		}
@@ -145,19 +145,19 @@ namespace Facepunch.Hover
 		{
 			base.PostCameraSetup( ref setup );
 
-			if ( _lastCameraRot == Rotation.Identity )
-				_lastCameraRot = CurrentView.Rotation;
+			if ( LastCameraRotation == Rotation.Identity )
+				LastCameraRotation = CurrentView.Rotation;
 
-			var angleDiff = Rotation.Difference( _lastCameraRot, CurrentView.Rotation );
+			var angleDiff = Rotation.Difference( LastCameraRotation, CurrentView.Rotation );
 			var angleDiffDegrees = angleDiff.Angle();
 			var allowance = 20.0f;
 
 			if ( angleDiffDegrees > allowance )
 			{
-				_lastCameraRot = Rotation.Lerp( _lastCameraRot, CurrentView.Rotation, 1.0f - (allowance / angleDiffDegrees) );
+				LastCameraRotation = Rotation.Lerp( LastCameraRotation, CurrentView.Rotation, 1.0f - (allowance / angleDiffDegrees) );
 			}
 
-			if ( Camera is FirstPersonCamera camera )
+			if ( Camera is HoverCamera camera )
 			{
 				AddCameraEffects( camera );
 			}
@@ -165,31 +165,33 @@ namespace Facepunch.Hover
 
 		private void AddCameraEffects( Camera camera )
 		{
-			var speed = Velocity.Length.LerpInverse( 0, 320 );
-			var forwardspeed = Velocity.Normal.Dot( camera.Rot.Forward );
+			if ( Controller is not MoveController controller ) return;
+
+			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
+			var forwardSpeed = Velocity.Normal.Dot( camera.Rot.Forward );
 
 			var left = camera.Rot.Left;
 			var up = camera.Rot.Up;
 
 			if ( GroundEntity != null )
 			{
-				_walkBob += Time.Delta * 25.0f * speed;
+				WalkBob += Time.Delta * 25.0f * speed;
 			}
 
-			camera.Pos += up * MathF.Sin( _walkBob ) * speed * 2;
-			camera.Pos += left * MathF.Sin( _walkBob * 0.6f ) * speed * 1;
+			camera.Pos += up * MathF.Sin( WalkBob ) * speed * 2;
+			camera.Pos += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1;
 
-			_lean = _lean.LerpTo( Velocity.Dot( camera.Rot.Right ) * 0.03f, Time.Delta * 15.0f );
+			Lean = Lean.LerpTo( Velocity.Dot( camera.Rot.Right ) * 0.03f, Time.Delta * 15.0f );
 
-			var appliedLean = _lean;
-			appliedLean += MathF.Sin( _walkBob ) * speed * 0.2f;
+			var appliedLean = Lean;
+			appliedLean += MathF.Sin( WalkBob ) * speed * 0.2f;
 			camera.Rot *= Rotation.From( 0, 0, appliedLean );
 
 			speed = (speed - 0.7f).Clamp( 0, 1 ) * 3.0f;
 
-			_FOV = _FOV.LerpTo( speed * 20 * MathF.Abs( forwardspeed ), Time.Delta * 2.0f );
+			FOV = FOV.LerpTo( speed * 30 * MathF.Abs( forwardSpeed ), Time.Delta * 2.0f );
 
-			camera.FieldOfView += _FOV;
+			camera.FieldOfView = 80f + FOV;
 		}
 
 		public override void TakeDamage( DamageInfo info )
@@ -226,7 +228,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			_lastDamageInfo = info;
+			LastDamageInfo = info;
 
 			base.TakeDamage( info );
 		}

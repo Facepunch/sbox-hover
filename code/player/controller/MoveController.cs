@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System;
 
 namespace Facepunch.Hover
 {
@@ -6,24 +7,25 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public float Jetpack { get; set; }
 		[Net] public bool IsJetpacking { get; set; }
+		public TimeSince LastSkiTime { get; set; }
 
-		protected float MaxSpeed { get; set; } = 1000.0f;
-		protected float JetpackBoost { get; set; } = 120.0f;
-		protected float SprintSpeed { get; set; } = 400.0f;
-		protected float DefaultSpeed { get; set; } = 250.0f;
-		protected float Acceleration { get; set; } = 10.0f;
-		protected float AirAcceleration { get; set; } = 50.0f;
-		protected float GroundFriction { get; set; } = 4.0f;
-		protected float StopSpeed { get; set; } = 100.0f;
-		protected float GroundAngle { get; set; } = 46.0f;
-		protected float StepSize { get; set; } = 18.0f;
-		protected float MaxNonJumpVelocity { get; set; } = 140.0f;
-		protected float BodyGirth { get; set; } = 32.0f;
-		protected float BodyHeight { get; set; } = 72.0f;
-		protected float EyeHeight { get; set; } = 64.0f;
-		protected float Gravity { get; set; } = 800.0f;
-		protected float AirControl { get; set; } = 100.0f;
-		protected bool Swimming { get; set; } = false;
+		public float MaxSpeed { get; set; } = 1000.0f;
+		public float JetpackBoost { get; set; } = 120.0f;
+		public float SprintSpeed { get; set; } = 400.0f;
+		public float DefaultSpeed { get; set; } = 250.0f;
+		public float Acceleration { get; set; } = 10.0f;
+		public float AirAcceleration { get; set; } = 50.0f;
+		public float GroundFriction { get; set; } = 4.0f;
+		public float StopSpeed { get; set; } = 100.0f;
+		public float GroundAngle { get; set; } = 46.0f;
+		public float StepSize { get; set; } = 18.0f;
+		public float MaxNonJumpVelocity { get; set; } = 140.0f;
+		public float BodyGirth { get; set; } = 32.0f;
+		public float BodyHeight { get; set; } = 72.0f;
+		public float EyeHeight { get; set; } = 64.0f;
+		public float Gravity { get; set; } = 800.0f;
+		public float AirControl { get; set; } = 100.0f;
+		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
 		protected Duck Duck { get; private set; }
@@ -111,9 +113,14 @@ namespace Facepunch.Hover
 				if ( GroundEntity != null )
 				{
 					if ( Input.Down( InputButton.Jump ) )
+					{
 						HandleSki();
+					}
 					else
-						ApplyFriction( GroundFriction * SurfaceFriction );
+					{
+						var skiFriction = MathF.Min( (LastSkiTime / 3f), 1f );
+						ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
+					}
 				}
 			}
 
@@ -275,6 +282,8 @@ namespace Facepunch.Hover
 			{
 				Velocity *= 0.98f;
 			}
+
+			LastSkiTime = 0f;
 		}
 
 		private void ApplyFriction( float frictionAmount = 1.0f )

@@ -39,7 +39,7 @@ namespace Facepunch.Hover
 			player.EnableShadowInFirstPerson = true;
 
 			player.Controller = new MoveController();
-			player.Camera = new FirstPersonCamera();
+			player.Camera = new HoverCamera();
 		}
 
 		public override void OnJoin( Player player  )
