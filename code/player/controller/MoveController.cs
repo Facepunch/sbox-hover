@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 		[Net, Predicted] public float Jetpack { get; set; }
 		[Net] public bool IsJetpacking { get; set; }
 
+		protected float MaxSpeed { get; set; } = 1000.0f;
 		protected float SprintSpeed { get; set; } = 320.0f;
 		protected float WalkSpeed { get; set; } = 150.0f;
 		protected float DefaultSpeed { get; set; } = 190.0f;
@@ -14,8 +15,6 @@ namespace Facepunch.Hover
 		protected float AirAcceleration { get; set; } = 50.0f;
 		protected float GroundFriction { get; set; } = 4.0f;
 		protected float StopSpeed { get; set; } = 100.0f;
-		protected float Size { get; set; } = 20.0f;
-		protected float DistEpsilon { get; set; } = 0.03125f;
 		protected float GroundAngle { get; set; } = 46.0f;
 		protected float StepSize { get; set; } = 18.0f;
 		protected float MaxNonJumpVelocity { get; set; } = 140.0f;
@@ -23,7 +22,7 @@ namespace Facepunch.Hover
 		protected float BodyHeight { get; set; } = 72.0f;
 		protected float EyeHeight { get; set; } = 64.0f;
 		protected float Gravity { get; set; } = 800.0f;
-		protected float AirControl { get; set; } = 30.0f;
+		protected float AirControl { get; set; } = 100.0f;
 		protected bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
@@ -103,7 +102,7 @@ namespace Facepunch.Hover
 				Jetpack = (Jetpack + 20f * Time.Delta).Clamp( 0f, 100f );
 			}
 
-			bool startOnGround = GroundEntity != null;
+			var startOnGround = GroundEntity != null;
 
 			if ( startOnGround )
 			{
@@ -119,7 +118,7 @@ namespace Facepunch.Hover
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
 			WishVelocity *= Input.Rotation;
 
-			if ( !Swimming && !IsTouchingLadder )
+			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
 				WishVelocity = WishVelocity.WithZ( 0 );
 			}
@@ -197,7 +196,6 @@ namespace Facepunch.Hover
 				}
 
 				var dest = (Position + Velocity * Time.Delta).WithZ( Position.z );
-
 				var pm = TraceBBox( Position, dest );
 
 				if ( pm.Fraction == 1 )
@@ -263,6 +261,25 @@ namespace Facepunch.Hover
 		{
 			var speed = Velocity.Length;
 			if ( speed < 0.1f ) return;
+
+			if ( Input.Down( InputButton.Jump ) )
+			{
+				var groundAngle = GetSlopeAngle();
+
+				if ( groundAngle < 100F )
+				{
+					if ( groundAngle < 85F && Velocity.Length < MaxSpeed )
+					{
+						Velocity *= 1.01f;
+					}
+
+					frictionAmount = 0f;
+				}
+				else
+				{
+					frictionAmount *= 0.3f;
+				}
+			}
 
 			var control = (speed < StopSpeed) ? StopSpeed : speed;
 			var drop = control * Time.Delta * frictionAmount;
