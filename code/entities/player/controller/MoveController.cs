@@ -276,7 +276,7 @@ namespace Facepunch.Hover
 				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
 					Velocity += (Velocity * Time.Delta * 0.3f);
 				else
-					Velocity -= Velocity * Time.Delta * 0.1f;
+					Velocity -= Velocity * Time.Delta * 0.05f;
 			}
 			else
 			{
