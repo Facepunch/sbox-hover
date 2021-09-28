@@ -12,7 +12,6 @@ namespace Facepunch.Hover
 		private Rotation LastCameraRotation { get; set; }
 		private DamageInfo LastDamageInfo { get; set; }
 		private float WalkBob { get; set; }
-		private float Lean { get; set; }
 		private float FOV { get; set; }
 
 		public bool HasTeam
@@ -156,42 +155,33 @@ namespace Facepunch.Hover
 			{
 				LastCameraRotation = Rotation.Lerp( LastCameraRotation, CurrentView.Rotation, 1.0f - (allowance / angleDiffDegrees) );
 			}
-
-			if ( Camera is HoverCamera camera )
-			{
-				AddCameraEffects( camera );
-			}
+			
+			AddCameraEffects( ref setup );
 		}
 
-		private void AddCameraEffects( Camera camera )
+		private void AddCameraEffects( ref CameraSetup setup )
 		{
 			if ( Controller is not MoveController controller ) return;
 
 			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
-			var forwardSpeed = Velocity.Normal.Dot( camera.Rot.Forward );
+			var forwardSpeed = Velocity.Normal.Dot( setup.Rotation.Forward );
 
-			var left = camera.Rot.Left;
-			var up = camera.Rot.Up;
+			var left = setup.Rotation.Left;
+			var up = setup.Rotation.Up;
 
 			if ( GroundEntity != null )
 			{
 				WalkBob += Time.Delta * 25.0f * speed;
 			}
 
-			camera.Pos += up * MathF.Sin( WalkBob ) * speed * 2;
-			camera.Pos += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1;
-
-			Lean = Lean.LerpTo( Velocity.Dot( camera.Rot.Right ) * 0.03f, Time.Delta * 15.0f );
-
-			var appliedLean = Lean;
-			appliedLean += MathF.Sin( WalkBob ) * speed * 0.2f;
-			camera.Rot *= Rotation.From( 0, 0, appliedLean );
+			setup.Position += up * MathF.Sin( WalkBob ) * speed * 2;
+			setup.Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1;
 
 			speed = (speed - 0.7f).Clamp( 0, 1 ) * 3.0f;
 
 			FOV = FOV.LerpTo( speed * 30 * MathF.Abs( forwardSpeed ), Time.Delta * 2.0f );
 
-			camera.FieldOfView = 80f + FOV;
+			setup.FieldOfView += FOV;
 		}
 
 		public override void TakeDamage( DamageInfo info )
