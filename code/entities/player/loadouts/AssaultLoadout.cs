@@ -26,6 +26,7 @@ namespace Facepunch.Hover
 			Entity.AttachClothing( "models/citizen_clothes/jacket/labcoat.vmdl" );
 			Entity.AttachClothing( "models/citizen_clothes/shoes/shoes.workboots.vmdl" );
 			Entity.AttachClothing( "models/citizen_clothes/hat/hat_securityhelmet.vmdl" );
+			Entity.AttachClothing( "models/tempmodels/jetpack/jetpack.vmdl" );
 
 			Entity.RemoveAllDecals();
 
