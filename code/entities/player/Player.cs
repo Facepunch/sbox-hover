@@ -9,12 +9,13 @@ namespace Facepunch.Hover
 	{
 		private Rotation LastCameraRotation { get; set; }
 		private DamageInfo LastDamageInfo { get; set; }
+		private Radar RadarHud { get; set; }
 		private float WalkBob { get; set; }
 		private float FOV { get; set; }
 
 		public bool HasTeam
 		{
-			get => Team != null;
+			get => Team != Team.None;
 		}
 
 		public Player()
@@ -71,6 +72,13 @@ namespace Facepunch.Hover
 			};
 		}
 
+		public override void ClientSpawn()
+		{
+			RadarHud = Local.Hud.AddChild<Radar>();
+
+			base.ClientSpawn();
+		}
+
 		public override void Respawn()
 		{
 			Rounds.Current?.OnPlayerSpawn( this );
@@ -86,7 +94,6 @@ namespace Facepunch.Hover
 
 			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
-			Team?.OnPlayerKilled( this );
 		}
 
 		public override void Simulate( Client client )
@@ -104,11 +111,6 @@ namespace Facepunch.Hover
 			}
 
 			TickPlayerUse();
-
-			if ( Team != null )
-			{
-				Team.OnTick( this );
-			}
 
 			if ( ActiveChild is Weapon weapon && !weapon.IsUsable() && weapon.TimeSincePrimaryAttack > 0.5f && weapon.TimeSinceSecondaryAttack > 0.5f )
 			{
@@ -194,9 +196,6 @@ namespace Facepunch.Hover
 					return;
 				}
 
-				Team?.OnTakeDamageFromPlayer( this, attacker, info );
-				attacker.Team?.OnDealDamageToPlayer( attacker, this, info );
-
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}
 
@@ -208,10 +207,7 @@ namespace Facepunch.Hover
 			}
 			else if ( info.Flags.HasFlag( DamageFlags.Bullet ) )
 			{
-				if ( !Team?.PlayPainSounds( this ) == false )
-				{
-					PlaySound( "grunt" + Rand.Int( 1, 4 ) );
-				}
+				PlaySound( "grunt" + Rand.Int( 1, 4 ) );
 			}
 
 			LastDamageInfo = info;
@@ -249,6 +245,9 @@ namespace Facepunch.Hover
 		protected override void OnDestroy()
 		{
 			RemoveRagdollEntity();
+
+			if ( IsLocalPawn )
+				RadarHud?.Delete();
 
 			base.OnDestroy();
 		}

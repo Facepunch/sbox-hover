@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 
 		public override void OnPlayerSpawn( Player player )
 		{
-			player.Team.OnStart( player );
+			player.Loadout?.Setup();
 
 			base.OnPlayerSpawn( player );
 		}
@@ -47,7 +47,8 @@ namespace Facepunch.Hover
 
 			AddPlayer( player );
 
-			player.Team = Rand.Float() > 0.5f ? Teams.Red : Teams.Blue;
+			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
+			player.GiveLoadout<AssaultLoadout>();
 			player.Respawn();
 
 			base.OnPlayerJoin( player );

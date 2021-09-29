@@ -4,10 +4,11 @@ namespace Facepunch.Hover
 {
 	public partial class FlagEntity : ModelEntity
 	{
+		[Net] public RealTimeUntil NextPickupTime { get; private set; }
 		[Net] public FlagSpawnpoint Spawnpoint { get; private set; }
 		[Net] public Player Carrier { get; private set; }
 		[Net] public bool IsAtHome { get; private set; }
-		[Net] public TeamType Team { get; private set; }
+		[Net] public Team Team { get; private set; }
 
 		public override void Spawn()
 		{
@@ -28,11 +29,11 @@ namespace Facepunch.Hover
 			SpawnAt( spawnpoint );
 		}
 
-		public void SetTeam( TeamType team )
+		public void SetTeam( Team team )
 		{
 			Team = team;
 
-			if ( team == TeamType.Blue )
+			if ( team == Team.Blue )
 				RenderColor = Color.Blue;
 			else
 				RenderColor = Color.Red;
@@ -40,9 +41,10 @@ namespace Facepunch.Hover
 
 		public void SpawnAt( FlagSpawnpoint spawnpoint )
 		{
-			// TODO: Do this with attachments and shit.
-			Position = spawnpoint.Position + new Vector3( 0f, 0f, 60f );
 			SetParent( spawnpoint );
+			NextPickupTime = 2f;
+			LocalPosition = new Vector3( 0f, 0f, 60f );
+			LocalRotation = Rotation.Identity;
 			IsAtHome = true;
 			Carrier = null;
 		}
@@ -57,18 +59,22 @@ namespace Facepunch.Hover
 
 		public void GiveToPlayer( Player player )
 		{
+			var boneIndex = player.GetBoneIndex( "spine_2" );
+			var boneTransform = player.GetBoneTransform( boneIndex );
+
+			SetParent( player, boneIndex );
+
+			LocalRotation = Rotation.From( 0f, 90f, 120f );
+			LocalPosition = boneTransform.Rotation.Backward * 15f;
 			Carrier = player;
 			IsAtHome = false;
-			SetParent( player, player.GetBoneIndex( "spine_2" ) );
-			LocalRotation = Rotation.From( 0f, 90f, 120f );
-			LocalPosition = player.Rotation.Left * 10f;
 		}
 
 		public override void StartTouch( Entity other )
 		{
-			if ( other is Player player )
+			if ( IsServer && other is Player player )
 			{
-				if ( player.Team.Type == Team )
+				if ( player.Team == Team )
 				{
 					if ( !IsAtHome && !Carrier.IsValid() )
 					{
@@ -77,7 +83,7 @@ namespace Facepunch.Hover
 				}
 				else
 				{
-					if ( !Carrier.IsValid() )
+					if ( NextPickupTime && !Carrier.IsValid() )
 					{
 						GiveToPlayer( player );
 					}

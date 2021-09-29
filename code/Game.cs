@@ -25,8 +25,6 @@ namespace Facepunch.Hover
 		public Game()
 		{
 			if ( IsServer ) Hud = new();
-
-			Teams.Initialize();
 		}
 
 		public async Task StartSecondTimer()
@@ -42,7 +40,10 @@ namespace Facepunch.Hover
 		{
 			if ( pawn is Player player )
 			{
-				var team = player.Team?.Type ?? TeamType.Red;
+				var team = player.Team;
+
+				if ( team == Team.None )
+					team = Team.Blue;
 
 				var spawnpoints = All.OfType<PlayerSpawnpoint>()
 					.Where( e => e.Team == team )

@@ -7,6 +7,6 @@ namespace Facepunch.Hover
 	[Hammer.EntityTool( "Player Spawnpoint", "Hover", "Defines a point where players on a team can spawn" )]
 	public partial class PlayerSpawnpoint : Entity
 	{
-		[Property] public TeamType Team { get; set; }
+		[Property] public Team Team { get; set; }
 	}
 }

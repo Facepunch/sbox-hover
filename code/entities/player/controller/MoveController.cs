@@ -9,25 +9,30 @@ namespace Facepunch.Hover
 		[Net] public bool IsJetpacking { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
+		public bool OnlyRegenJetpackOnGround { get; set; } = true;
+		public float JetpackGainPerSecond { get; set; } = 20f;
+		public float JetpackLossPerSecond { get; set; } = 35f;
+		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float DownSlopeBoost { get; set; } = 0.3f;
-		public float UpSlopeFriction { get; set; } = 0.25f;
+		public float UpSlopeFriction { get; set; } = 0.4f;
 		public float FlatSkiFriction { get; set; } = 0.05f;
-		public float JetpackBoost { get; set; } = 120.0f;
-		public float MaxSpeed { get; set; } = 1000.0f;
-		public float SprintSpeed { get; set; } = 400.0f;
-		public float DefaultSpeed { get; set; } = 250.0f;
-		public float Acceleration { get; set; } = 10.0f;
-		public float AirAcceleration { get; set; } = 50.0f;
-		public float GroundFriction { get; set; } = 4.0f;
-		public float StopSpeed { get; set; } = 100.0f;
-		public float GroundAngle { get; set; } = 46.0f;
+		public float JetpackAimThrust { get; set; } = 40f;
+		public float JetpackBoost { get; set; } = 150f;
+		public float MaxSpeed { get; set; } = 1000f;
+		public float SprintSpeed { get; set; } = 400f;
+		public float DefaultSpeed { get; set; } = 250f;
+		public float Acceleration { get; set; } = 10f;
+		public float AirAcceleration { get; set; } = 50f;
+		public float GroundFriction { get; set; } = 4f;
+		public float StopSpeed { get; set; } = 100f;
+		public float GroundAngle { get; set; } = 46f;
 		public float StepSize { get; set; } = 18.0f;
-		public float MaxNonJumpVelocity { get; set; } = 140.0f;
-		public float BodyGirth { get; set; } = 32.0f;
-		public float BodyHeight { get; set; } = 72.0f;
-		public float EyeHeight { get; set; } = 64.0f;
-		public float Gravity { get; set; } = 800.0f;
-		public float AirControl { get; set; } = 100.0f;
+		public float MaxNonJumpVelocity { get; set; } = 140f;
+		public float BodyGirth { get; set; } = 32f;
+		public float BodyHeight { get; set; } = 72f;
+		public float EyeHeight { get; set; } = 64f;
+		public float Gravity { get; set; } = 800f;
+		public float AirControl { get; set; } = 100f;
 		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
@@ -102,28 +107,25 @@ namespace Facepunch.Hover
 				DoJetpackMovement();
 			}
 
-			if ( !IsJetpacking )
-			{
-				Jetpack = (Jetpack + 20f * Time.Delta).Clamp( 0f, 100f );
-			}
-
 			var startOnGround = GroundEntity != null;
 
 			if ( startOnGround )
 			{
 				Velocity = Velocity.WithZ( 0 );
 
-				if ( GroundEntity != null )
+				if ( Input.Down( InputButton.Jump ) )
 				{
-					if ( Input.Down( InputButton.Jump ) )
-					{
-						HandleSki();
-					}
-					else
-					{
-						var skiFriction = MathF.Min( (LastSkiTime / 3f), 1f );
-						ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
-					}
+					HandleSki();
+				}
+				else
+				{
+					var skiFriction = MathF.Min( (LastSkiTime / PostSkiFrictionTime), 1f );
+					ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
+				}
+
+				if ( !IsJetpacking )
+				{
+					Jetpack = (Jetpack + JetpackGainPerSecond * Time.Delta).Clamp( 0f, 100f );
 				}
 			}
 
@@ -325,10 +327,10 @@ namespace Facepunch.Hover
 				{
 					IsJetpacking = true;
 					Velocity = Velocity.WithZ( startZ + JetpackBoost * Time.Delta );
-					Velocity += Velocity.WithZ( 0f ).Normal * 40f * Time.Delta;
+					Velocity += Velocity.WithZ( 0f ).Normal * JetpackAimThrust * Time.Delta;
 				}
 
-				Jetpack = (Jetpack - 25f * Time.Delta).Clamp( 0f, 100f );
+				Jetpack = (Jetpack - JetpackLossPerSecond * Time.Delta).Clamp( 0f, 100f );
 
 				return;
 			}

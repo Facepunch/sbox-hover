@@ -36,8 +36,8 @@ namespace Facepunch.Hover
 			ScoreboardHeader = Add.Panel( "scoreboard-header" );
 			ScoreboardTitle = ScoreboardHeader.Add.Label( "SCOREBOARD" );
 
-			AddTeamHeader( Teams.Red );
-			AddTeamHeader( Teams.Blue );
+			AddTeamHeader( Team.Red );
+			AddTeamHeader( Team.Blue );
 
 			PlayerScore.OnPlayerAdded += AddPlayer;
 			PlayerScore.OnPlayerUpdated += UpdatePlayer;
@@ -56,7 +56,7 @@ namespace Facepunch.Hover
 			SetClass( "open", Input.Down( InputButton.Score ) );
 		}
 
-		protected void AddTeamHeader( BaseTeam team )
+		protected void AddTeamHeader( Team team )
 		{
 			var section = new TeamSection
 			{
@@ -70,20 +70,24 @@ namespace Facepunch.Hover
 			section.Canvas = section.TeamContainer.Add.Panel( "canvas" );
 
 			section.TeamIcon = section.TeamHeader.Add.Panel( "teamIcon" );
-			section.TeamName = section.TeamHeader.Add.Label( team.Name, "teamName" );
-			
-			section.TeamIcon.AddClass( team.HudClassName );
+			section.TeamName = section.TeamHeader.Add.Label( team.GetName(), "teamName" );
+
+			var hudClass = team.GetHudClass();
+
+			section.TeamIcon.AddClass( hudClass );
 
 			section.Header.Add.Label( "NAME", "name" );
 			section.Header.Add.Label( "KILLS", "kills" );
 			section.Header.Add.Label( "DEATHS", "deaths" );
 			section.Header.Add.Label( "PING", "ping" );
 
-			section.Canvas.AddClass( team.HudClassName );
-			section.Header.AddClass( team.HudClassName );
-			section.TeamHeader.AddClass( team.HudClassName );
+			section.Canvas.AddClass( hudClass );
+			section.Header.AddClass( hudClass );
+			section.TeamHeader.AddClass( hudClass );
 
-			TeamSections[team.Index] = section;
+			var index = (int)team;
+
+			TeamSections[index] = section;
 		}
 
 		protected void AddPlayer( PlayerScore.Entry entry )
@@ -92,7 +96,7 @@ namespace Facepunch.Hover
 
 			if ( !TeamSections.TryGetValue( teamIndex, out var section ) )
 			{
-				section = TeamSections[ Teams.Blue.Index ];
+				section = TeamSections[0];
 			}
 
 			var p = section.Canvas.AddChild<ScoreboardEntry>();

@@ -63,7 +63,7 @@ namespace Facepunch.Hover
 
 		public bool UpdateNameplate( Player player )
 		{
-			if ( player.IsLocalPawn || !player.HasTeam || player.Team.HideNameplate )
+			if ( player.IsLocalPawn || !player.HasTeam )
 				return false;
 
 			if ( player.LifeState != LifeState.Alive )

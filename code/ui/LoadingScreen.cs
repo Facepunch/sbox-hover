@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 
 			if ( Local.Pawn is Player player )
 			{
-				if ( player.Team != null )
+				if ( player.HasTeam )
 					isHidden = true;
 
 				if ( player.IsSpectator && !player.HasSpectatorTarget )

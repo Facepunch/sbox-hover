@@ -31,8 +31,13 @@ namespace Facepunch.Hover
 		{
 			base.OnPlayerSpawn( player );
 
-			player.Team.OnStart( player );
-			player.Team?.SupplyLoadout( player );
+			var loadout = player.Loadout;
+
+			if ( loadout != null )
+			{
+				loadout.Setup();
+				loadout.SupplyLoadout();
+			}
 		}
 
 		protected override void OnStart()
@@ -65,10 +70,8 @@ namespace Facepunch.Hover
 			if ( !Players.Contains( player ) )
 				AddPlayer( player );
 
-			var redTeamCount = Teams.Red.Players.Count;
-			var blueTeamCount = Teams.Blue.Players.Count;
-
-			player.Team = redTeamCount > blueTeamCount ? Teams.Blue : Teams.Red;
+			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
+			player.GiveLoadout<AssaultLoadout>();
 			player.Respawn();
 		}
 	}

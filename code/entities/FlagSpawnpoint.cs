@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	[Hammer.EntityTool( "Flag Spawnpoint", "Hover", "Defines a point where a team's flag spawns" )]
 	public partial class FlagSpawnpoint : ModelEntity
 	{
-		[Property] public TeamType Team { get; set; }
+		[Property] public Team Team { get; set; }
 
 		[Net] public FlagEntity Flag { get; set; }
 
@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 
 			Transmit = TransmitType.Always;
 
-			if ( Team == TeamType.Blue )
+			if ( Team == Team.Blue )
 				RenderColor = Color.Blue;
 			else
 				RenderColor = Color.Red;
@@ -36,18 +36,18 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( other is FlagEntity flag && flag.Carrier.IsValid() )
+			if ( IsServer && other is FlagEntity flag && flag.Carrier.IsValid() )
 			{
-				if ( flag.Team == Team )
+				if ( flag.Team == Team && flag.Carrier.Team == Team )
 				{
 					// TODO: Well done we got it home, boys!
+					flag.Respawn();
 				}
-				else
+				else if ( flag.Team != Team && flag.Carrier.Team == Team )
 				{
 					// TODO: Well done we scored a point!
+					flag.Respawn();
 				}
-
-				flag.Respawn();
 			}
 
 			base.StartTouch( other );
