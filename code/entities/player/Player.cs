@@ -7,8 +7,6 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
-		[Net, Predicted] public float Stamina { get; set; }
-
 		private Rotation LastCameraRotation { get; set; }
 		private DamageInfo LastDamageInfo { get; set; }
 		private float WalkBob { get; set; }
@@ -78,8 +76,6 @@ namespace Facepunch.Hover
 			Rounds.Current?.OnPlayerSpawn( this );
 
 			RemoveRagdollEntity();
-
-			Stamina = 100f;
 
 			base.Respawn();
 		}

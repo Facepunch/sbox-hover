@@ -9,8 +9,11 @@ namespace Facepunch.Hover
 		[Net] public bool IsJetpacking { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
-		public float MaxSpeed { get; set; } = 1000.0f;
+		public float DownSlopeBoost { get; set; } = 0.3f;
+		public float UpSlopeFriction { get; set; } = 0.25f;
+		public float FlatSkiFriction { get; set; } = 0.05f;
 		public float JetpackBoost { get; set; } = 120.0f;
+		public float MaxSpeed { get; set; } = 1000.0f;
 		public float SprintSpeed { get; set; } = 400.0f;
 		public float DefaultSpeed { get; set; } = 250.0f;
 		public float Acceleration { get; set; } = 10.0f;
@@ -274,13 +277,13 @@ namespace Facepunch.Hover
 			if ( groundAngle < 100f )
 			{
 				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
-					Velocity += (Velocity * Time.Delta * 0.3f);
+					Velocity += (Velocity * Time.Delta * DownSlopeBoost);
 				else
-					Velocity -= Velocity * Time.Delta * 0.05f;
+					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
 			}
 			else
 			{
-				Velocity -= Velocity * Time.Delta * 0.25f;
+				Velocity -= Velocity * Time.Delta * UpSlopeFriction;
 			}
 
 			LastSkiTime = 0f;

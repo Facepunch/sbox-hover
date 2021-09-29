@@ -16,6 +16,9 @@ namespace Facepunch.Hover
 			SetModel( "models/flag/temp_flag_base.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 
+			EnableAllCollisions = false;
+			EnableTouch = true;
+
 			Transmit = TransmitType.Always;
 
 			if ( Team == TeamType.Blue )
@@ -29,6 +32,25 @@ namespace Facepunch.Hover
 			Flag.Respawn();
 
 			base.Spawn();
+		}
+
+		public override void StartTouch( Entity other )
+		{
+			if ( other is FlagEntity flag && flag.Carrier.IsValid() )
+			{
+				if ( flag.Team == Team )
+				{
+					// TODO: Well done we got it home, boys!
+				}
+				else
+				{
+					// TODO: Well done we scored a point!
+				}
+
+				flag.Respawn();
+			}
+
+			base.StartTouch( other );
 		}
 	}
 }

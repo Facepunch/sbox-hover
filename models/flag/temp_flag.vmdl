@@ -32,13 +32,12 @@
 				children = 
 				[
 					{
-						_class = "PhysicsShapeBox"
+						_class = "PhysicsShapeSphere"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_prop = "default"
-						origin = [ -0.001282, -6.42812, 0.599991 ]
-						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 45.446842, 47.01445, 55.29068 ]
+						radius = 80.0
+						center = [ 0.0, 0.0, 0.0 ]
 					},
 				]
 			},
