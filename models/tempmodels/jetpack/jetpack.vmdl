@@ -12,34 +12,17 @@
 					{
 						_class = "RenderMeshFile"
 						filename = "models\\tempmodels\\jetpack\\dmx\\mesh\\jetpack.dmx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_translation = [ 3.0, -6.0, 0.0 ]
+						import_rotation = [ 270.0, 270.0, 270.0 ]
 						import_scale = 1.0
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
-						parent_bone = ""
+						parent_bone = "spine_1"
 						import_filter = 
 						{
 							exclude_by_default = false
 							exception_list = [  ]
-						}
-					},
-				]
-			},
-			{
-				_class = "GameDataList"
-				children = 
-				[
-					{
-						_class = "GenericGameData"
-						game_class = "particle"
-						game_keys = 
-						{
-							name = resource:"particles/jetpack/jetpack_trail.vpcf"
-							attachment_point = "JetPackTrail"
-							attachment_type = "point_follow"
-							attachment_offset = [ 0.0, 0.0, 0.0 ]
 						}
 					},
 				]
@@ -52,10 +35,33 @@
 						_class = "Attachment"
 						name = "JetPackTrail"
 						parent_bone = ""
-						relative_origin = [ 0.0, 4.308202, -10.847192 ]
-						relative_angles = [ 0.0, 90.0, 0.0 ]
+						relative_origin = [ -6.5, 0.0, 95.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "spine_1"
+						children = 
+						[
+							{
+								_class = "Bone"
+								name = "spine_1_end"
+								origin = [ 0.000008, 14.250545, -0.000001 ]
+								angles = [ -0.0, -0.000009, 0.000003 ]
+								do_not_discard = true
+							},
+						]
+						origin = [ 3.20924, -0.00015, 103.139168 ]
+						angles = [ -89.975166, -90.015892, 0.0 ]
+						do_not_discard = true
 					},
 				]
 			},
