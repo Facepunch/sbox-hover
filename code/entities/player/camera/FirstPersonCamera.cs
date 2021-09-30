@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 				Pos = eyePos;
 
 			Rot = pawn.EyeRot;
+			ZNear = 0.1f;
 			Viewer = pawn;
 			LastPosition = Pos;
 		}

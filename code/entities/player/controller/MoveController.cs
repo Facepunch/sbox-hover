@@ -65,8 +65,8 @@ namespace Facepunch.Hover
 		private void UpdateBBox()
 		{
 			var girth = BodyGirth * 0.5f;
-			var mins = new Vector3( -girth, -girth, 0 ) * Pawn.Scale;
-			var maxs = new Vector3( +girth, +girth, BodyHeight ) * Pawn.Scale;
+			var mins = Scale( new Vector3( -girth, -girth, 0 ) );
+			var maxs = Scale( new Vector3( +girth, +girth, BodyHeight ) );
 
 			SetBBox( mins, maxs );
 		}
@@ -75,7 +75,7 @@ namespace Facepunch.Hover
 		{
 			if ( Pawn is not Player player ) return;
 
-			EyePosLocal = Vector3.Up * (EyeHeight * Pawn.Scale);
+			EyePosLocal = Vector3.Up * Scale( EyeHeight );
 			UpdateBBox();
 
 			EyePosLocal += TraceOffset;
@@ -173,7 +173,7 @@ namespace Facepunch.Hover
 
 		private float GetWishSpeed( Player player )
 		{
-			return player.MoveSpeed;
+			return Scale( player.MoveSpeed ); 
 		}
 
 		private void WalkMove()
@@ -341,8 +341,8 @@ namespace Facepunch.Hover
 				if ( player.Energy >= 5f )
 				{
 					IsJetpacking = true;
-					Velocity = Velocity.WithZ( startZ + JetpackBoost * Time.Delta );
-					Velocity += Velocity.WithZ( 0f ).Normal * JetpackAimThrust * Time.Delta;
+					Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost ) * Time.Delta );
+					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust ) * Time.Delta;
 				}
 
 				player.Energy = (player.Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
@@ -353,12 +353,22 @@ namespace Facepunch.Hover
 			ClearGroundEntity();
 
 			float groundFactor = 1.0f;
-			float multiplier = 268.3281572999747f * 1.2f;
+			float multiplier = Scale( 268.3281572999747f * 1.2f );
 
 			Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
 			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
 			AddEvent( "jump" );
+		}
+
+		private float Scale( float speed )
+		{
+			return speed * Pawn.Scale;
+		}
+
+		private Vector3 Scale( Vector3 velocity )
+		{
+			return velocity * Pawn.Scale;
 		}
 
 		private void AirMove()
