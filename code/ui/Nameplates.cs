@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 	{
 		private readonly Dictionary<Player, Nameplate> _activeNameplates = new();
 
-		public float MaxDrawDistance = 400;
+		public float MaxDrawDistance = 2000f;
 		public int MaxNameplates = 10;
 
 		public Nameplates()
@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 			}
 
 			var alpha = dist.LerpInverse( MaxDrawDistance, MaxDrawDistance * 0.1f, true );
-			var objectSize = 0.05f / dist / (2.0f * MathF.Tan( (CurrentView.FieldOfView / 2.0f).DegreeToRadian() )) * 1500.0f;
+			var objectSize = 0.05f / dist / (2.0f * MathF.Tan( (CurrentView.FieldOfView / 2.0f).DegreeToRadian() )) * 5000.0f;
 
 			objectSize = objectSize.Clamp( 0.05f, 1.0f );
 
@@ -103,6 +103,11 @@ namespace Facepunch.Hover
 			{
 				tag = CreateNameplate( player );
 				_activeNameplates[player] = tag;
+			}
+
+			if ( player.Team != localPlayer.Team )
+			{
+				tag.SetClass( "enemy", true );
 			}
 
 			var screenPos = labelPos.ToScreen();

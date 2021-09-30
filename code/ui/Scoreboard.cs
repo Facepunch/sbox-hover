@@ -23,18 +23,11 @@ namespace Facepunch.Hover
 		public Dictionary<int, ScoreboardEntry> Entries = new();
 		public Dictionary<int, TeamSection> TeamSections = new();
 
-		public Panel ScoreboardHeader;
-		public Label ScoreboardTitle;
-
-
 		public Scoreboard()
 		{
 			StyleSheet.Load( "/ui/Scoreboard.scss" );
 
 			AddClass( "scoreboard" );
-
-			ScoreboardHeader = Add.Panel( "scoreboard-header" );
-			ScoreboardTitle = ScoreboardHeader.Add.Label( "SCOREBOARD" );
 
 			AddTeamHeader( Team.Red );
 			AddTeamHeader( Team.Blue );

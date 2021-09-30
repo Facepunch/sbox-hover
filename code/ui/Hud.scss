@@ -17,11 +17,11 @@ chatbox
 
 vitals {
 	align-items: center;
-	background-image: url( /ui/hover/player-container.png );
-	background-size: 100%;
 	color: #fff;
 	padding-left: 20px;
 	padding-right: 24px;
+	box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+	backdrop-filter-blur: 8px;
 	font-family: Roboto;
 	flex-direction: column;
 	justify-content: center;
@@ -32,12 +32,19 @@ vitals {
 	height: 80px;
 	width: 280px;
 
-	label {
-		text-shadow: 0px 0px 20px #000;
+	.energy {
+		.innerBar {
+			background-color: rgba( 0 0 255 0.2 );
+		}
 
-		&.danger {
-			color: #f00;
-			text-shadow: 0px 0px 10px #f005;
+		.icon {
+			background-image: url( /ui/icons/energy.png );
+		}
+	}
+
+	.health {
+		.icon {
+			background-image: url( /ui/icons/health.png );
 		}
 	}
 
@@ -47,28 +54,29 @@ vitals {
 }
 
 ammo {
-	background-image: url( /ui/hover/ammo-menu.png );
-	background-size: 100%;
 	bottom: 32px;
 	display: none;
 	align-items: center;
-	font-family: Lexend;
+	font-family: Roboto;
 	height: 80px;
 	padding-left: 40px;
 	padding-right: 60px;
 	position: absolute;
+	box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+	backdrop-filter-blur: 8px;
 	right: 64px;
 	width: 248px;
 
 	label {
-		text-shadow: 0px 0px 20px #000;
+		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
 	}
 
 	.icon {
 		width: 32px;
 		height: 32px;
-		background-image: url( /ui/hover/ammo-icon.png );
+		background-image: url( /ui/icons/ammo.png );
 		background-size: 100%;
+		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
 		position: absolute;
 		right: 36px;
 	}
@@ -98,22 +106,9 @@ ammo {
 	}
 
 
-	&.low-ammo {
+	&.low {
 		.weapon {
 			color: #ff9f9f;
-		}
-	}
-}
-
-.team_red
-{
-	ammo
-	{
-		background-image: url( /ui/grayscale/ammo-gs.png );
-
-		.inventory
-		{
-			color: #79612C;
 		}
 	}
 }

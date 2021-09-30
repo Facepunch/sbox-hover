@@ -149,11 +149,11 @@ namespace Facepunch.Hover
 
 		public override void Respawn()
 		{
-			Rounds.Current?.OnPlayerSpawn( this );
+			base.Respawn();
 
 			RemoveRagdollEntity();
 
-			base.Respawn();
+			Rounds.Current?.OnPlayerSpawn( this );
 		}
 
 		public override void OnKilled()

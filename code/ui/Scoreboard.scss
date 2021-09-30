@@ -1,16 +1,16 @@
 ﻿.scoreboard {
 	align-items: center;
 	background-color: rgba(#000,0.8);
-	font-family: Lexend;
+	font-family: Roboto;
 	flex-direction: column;
 	justify-content: center;
+	backdrop-filter-blur: 8px;
 	position: absolute;
 	opacity: 0;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	transition: all 0.15s ease;
 	transform: scale(0.95);
 	z-index: 100;
 
@@ -18,29 +18,7 @@
 		opacity: 1;
 		transform: scale(1);
 	}
-	// Header
-	.scoreboard-header {
-		align-items: center;
-		background-image: url( /ui/hover/scoreboard-header-bg.png );
-		background-size: 100%;
-		font-family: Lexend;
-		justify-content: center;
-		display: flex;
-		flex-direction: row;
-		position: absolute;
-		top: 40px;
-		width: 410px;
-		height: 55px;
 
-		label {
-			align-items: center;
-			color: #ECECEC;
-			font-size: 24px;
-			font-weight: 600;
-			text-shadow: 0px 2px rgba(#000,0.5);
-		}
-	}
-	// Team Container
 	.team-container {
 		box-shadow: 0 10px 50px rgba(#000,0.4);
 		flex-direction: column;
@@ -59,18 +37,18 @@
 			padding-left: 80px;
 
 			&.team_blue {
-				background-image: url( /ui/hover/iris-bg.png );
+				background-image: url( /ui/hover/blue-bg.png );
 
 				.teamIcon {
-					background-image: url( /ui/hover/icon-iris.png );
+					background-image: url( /ui/icons/blue.png );
 				}
 			}
 
 			&.team_red {
-				background-image: url( /ui/hover/hidden-bg.png );
+				background-image: url( /ui/hover/red-bg.png );
 
 				.teamIcon {
-					background-image: url( /ui/hover/icon-hidden.png );
+					background-image: url( /ui/icons/red.png );
 				}
 			}
 
@@ -99,7 +77,7 @@
 			flex-direction: column;
 			min-width: 30%;
 			mix-blend-mode: lighten;
-			// Player Row
+
 			.entry {
 				align-items: center;
 				background-size: 100%;

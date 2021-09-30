@@ -7,8 +7,8 @@ namespace Facepunch.Hover
 {
     public partial class PlayRound : BaseRound
 	{
-		public override string RoundName => "PLAY";
-		public override int RoundDuration => 0;
+		public override string RoundName => "CTF";
+		public override int RoundDuration => 1200;
 		public override bool ShowRoundInfo => true;
 		public override bool ShowTimeLeft => true;
 
