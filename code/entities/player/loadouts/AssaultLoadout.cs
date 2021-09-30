@@ -4,9 +4,6 @@ namespace Facepunch.Hover
 {
 	public partial class AssaultLoadout : BaseLoadout
 	{
-		protected ModelEntity JetpackEntity { get; set; }
-		protected Particles JetpackParticles { get; set; }
-
 		public override void SupplyLoadout()
 		{
 			Entity.ClearAmmo();
@@ -28,7 +25,7 @@ namespace Facepunch.Hover
 			Entity.AttachClothing( "models/citizen_clothes/shoes/shoes.workboots.vmdl" );
 			Entity.AttachClothing( "models/citizen_clothes/hat/hat_securityhelmet.vmdl" );
 
-			JetpackEntity = Entity.AttachClothing( "models/tempmodels/jetpack/jetpack.vmdl" );
+			Entity.AttachClothing<Jetpack>();
 
 			Entity.RemoveAllDecals();
 
@@ -40,25 +37,5 @@ namespace Facepunch.Hover
 			Entity.Controller = new MoveController();
 			Entity.Camera = new FirstPersonCamera();
 		}
-
-		[Event.Tick.Server]
-		protected virtual void ServerTick()
-		{
-			if ( Entity.Controller is not MoveController controller )
-				return;
-
-			if ( controller.IsJetpacking )
-			{
-				if ( JetpackParticles == null )
-				{
-					JetpackParticles = Particles.Create( "particles/jetpack/jetpack_trail.vpcf" );
-					JetpackParticles.SetEntityAttachment( 0, JetpackEntity, "trail" );
-				}
-			}
-			else if ( JetpackParticles != null )
-			{
-				JetpackParticles.Destroy();
-				JetpackParticles = null;
-			}
 	}
 }

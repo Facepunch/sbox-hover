@@ -5,25 +5,41 @@ namespace Facepunch.Hover
 {
 	public partial class Player
 	{
-		protected List<ModelEntity> Clothing { get; set; } = new();
+		protected List<BaseClothing> Clothing { get; set; } = new();
 
-		public ModelEntity AttachClothing( string modelName )
+		public BaseClothing AttachClothing( string modelName )
 		{
-			var entity = new ModelEntity();
-
+			var entity = new BaseClothing();
 			entity.SetModel( modelName );
-			entity.SetParent( this, true );
-			entity.EnableShadowInFirstPerson = true;
-			entity.EnableHideInFirstPerson = true;
-
-			Clothing.Add( entity );
-
+			AttachClothing( entity );
 			return entity;
+		}
+
+		public T AttachClothing<T>() where T : BaseClothing, new()
+		{
+			var entity = new T();
+			AttachClothing( entity );
+			return entity;
+		}
+
+		public void AttachClothing( BaseClothing clothing )
+		{
+			clothing.SetParent( this, true );
+			clothing.EnableShadowInFirstPerson = true;
+			clothing.EnableHideInFirstPerson = true;
+			clothing.Attached();
+
+			Clothing.Add( clothing );
 		}
 
 		public void RemoveClothing()
 		{
-			Clothing.ForEach( ( entity ) => entity.Delete() );
+			Clothing.ForEach( ( entity ) =>
+			{
+				entity.Detatched();
+				entity.Delete();
+			} );
+
 			Clothing.Clear();
 		}
 	}
