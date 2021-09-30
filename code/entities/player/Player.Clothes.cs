@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
-	partial class Player
+	public partial class Player
 	{
-		List<ModelEntity> Clothing = new();
+		protected List<ModelEntity> Clothing { get; set; } = new();
 
 		public ModelEntity AttachClothing( string modelName )
 		{

@@ -6,7 +6,7 @@ namespace Facepunch.Hover
 	public partial class MoveController : BasePlayerController
 	{
 		[Net, Predicted] public float Jetpack { get; set; }
-		[Net] public bool IsJetpacking { get; set; }
+		[Net, Predicted] public bool IsJetpacking { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
@@ -174,6 +174,8 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 			}
+
+			if ( IsJetpacking ) SetTag( "jetpack" );
 		}
 
 		private float GetWishSpeed()

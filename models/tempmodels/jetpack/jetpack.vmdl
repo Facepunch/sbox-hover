@@ -33,9 +33,9 @@
 				[
 					{
 						_class = "Attachment"
-						name = "JetPackTrail"
-						parent_bone = ""
-						relative_origin = [ -6.5, 0.0, 95.0 ]
+						name = "trail"
+						parent_bone = "spine_1"
+						relative_origin = [ -7.221336, -9.449539, -0.076491 ]
 						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
