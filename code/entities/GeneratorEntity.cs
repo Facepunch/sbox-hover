@@ -26,7 +26,14 @@ namespace Facepunch.Hover
 			else
 				RenderColor = Color.Red;
 
+			Health = 2000f;
+
 			base.Spawn();
+		}
+
+		public override void OnKilled()
+		{
+			LifeState = LifeState.Dead;
 		}
 	}
 }
