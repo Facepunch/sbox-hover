@@ -5,7 +5,7 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class Projectile : ModelEntity
+	public partial class TimedProjectile : ModelEntity
 	{
 		private Particles Trail { get; set; }
 		public Vector3 EndPosition { get; private set; }
@@ -14,7 +14,7 @@ namespace Facepunch.Hover
 		public float TravelDuration { get; private set; }
 		public RealTimeUntil TimeUntilHit { get; private set; }
 		public Entity Target { get; private set; }
-		public Action<Projectile, Entity> Callback { get; private set; }
+		public Action<TimedProjectile, Entity> Callback { get; private set; }
 		public string ExplosionEffect { get; set; } = "";
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSound { get; set; } = null;
@@ -27,12 +27,12 @@ namespace Facepunch.Hover
 
 		private Sound _launchSound;
 
-		public Projectile()
+		public TimedProjectile()
 		{
 			Transmit = TransmitType.Always;
 		}
 
-		public void Initialize( Vector3 start, Vector3 end, float duration, Action<Projectile, Entity> callback = null )
+		public void Initialize( Vector3 start, Vector3 end, float duration, Action<TimedProjectile, Entity> callback = null )
 		{
 			StartPosition = start;
 			EndPosition = end;
@@ -55,7 +55,7 @@ namespace Facepunch.Hover
 				_launchSound = PlaySound( LaunchSound );
 		}
 
-		public void Initialize( Vector3 start, Entity target, float duration, Action<Projectile, Entity> callback = null )
+		public void Initialize( Vector3 start, Entity target, float duration, Action<TimedProjectile, Entity> callback = null )
 		{
 			Initialize( start, target.Position, duration, callback );
 			Target = target;

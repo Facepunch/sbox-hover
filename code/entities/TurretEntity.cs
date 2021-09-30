@@ -18,9 +18,10 @@ namespace Facepunch.Hover
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
-		public float RotateSpeed => 40f;
+		public float ProjectileSpeed => 10000f;
+		public float RotateSpeed => 20f;
 		public float AttackRadius => 3000f;
-		public float FireRate => 1.5f;
+		public float FireRate => 2f;
 
 		public override void Spawn()
 		{
@@ -63,9 +64,9 @@ namespace Facepunch.Hover
 			}
 
 			if ( closestTarget.IsValid() )
-			{
 				Target = closestTarget;
-			}
+			else
+				Target = null;
 		}
 
 		[Event.Tick.Server]
@@ -74,12 +75,12 @@ namespace Facepunch.Hover
 			if ( NextFindTarget )
 			{
 				FindClosestTarget();
-				NextFindTarget = 1f;
+				NextFindTarget = 0.1f;
 			}
 
-			if ( Target.IsValid() )
+			if ( Target.IsValid() && IsValidTarget( Target ) )
 			{
-				TargetDirection = TargetDirection.LerpTo( (Target.Position - Position).Normal, Time.Delta * RotateSpeed );
+				TargetDirection = TargetDirection.LerpTo( (GetProjectedPosition( Target ) - Position).Normal, Time.Delta * RotateSpeed );
 				SetAnimVector( "target", Transform.NormalToLocal( TargetDirection ) );
 
 				if ( NextFireTime && IsFacingTarget() )
@@ -87,6 +88,10 @@ namespace Facepunch.Hover
 					FireProjectile();
 					NextFireTime = FireRate;
 				}
+			}
+			else
+			{
+				Target = null;
 			}
 
 			SetAnimFloat( "fire", Recoil );
@@ -99,27 +104,43 @@ namespace Facepunch.Hover
 
 			Particles.Create( MuzzleFlash, this, "muzzle" );
 
-			var projectile = new Projectile()
+			var projectile = new PhysicsProjectile()
 			{
-				BezierCurve = false,
 				Debug = true
 			};
 
 			var muzzle = GetAttachment( "muzzle" );
-
-			projectile.Initialize( muzzle.Value.Position, Target.WorldSpaceBounds.Center, 0.3f );
+			projectile.Initialize( muzzle.Value.Position, TargetDirection, 16f, ProjectileSpeed );
 
 			Recoil = 1f;
 		}
 
 		private bool IsValidTarget( Player player )
 		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team);
+			return (player.LifeState == LifeState.Alive && player.Team != Team && CanSeeTarget( player ));
+		}
+
+		private bool CanSeeTarget( Player player )
+		{
+			var muzzle = GetAttachment( "muzzle" );
+			var trace = Trace.Ray( muzzle.Value.Position, player.WorldSpaceBounds.Center )
+				.Ignore( this )
+				.Size( 16f )
+				.Run();
+
+			return trace.Entity == player;
+		}
+
+		private Vector3 GetProjectedPosition( Player target )
+		{
+			var position = target.WorldSpaceBounds.Center;
+			var timeToReach = (Position.Distance( position ) / ProjectileSpeed);
+			return (position + target.Velocity * timeToReach);
 		}
 
 		private bool IsFacingTarget()
 		{
-			var goalDirection = (Target.Position - Position).Normal;
+			var goalDirection = (GetProjectedPosition( Target )- Position).Normal;
 
 			if ( TargetDirection.Distance( goalDirection ) > (1f / RotateSpeed) )
 				return false;
