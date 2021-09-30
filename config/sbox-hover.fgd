@@ -258,6 +258,29 @@ metadata
 ]
 
 //
+// Facepunch.Hover.TurretEntity
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/generator/generator_temp.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Turret"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a team's turret spawns"
+}
+= hv_turret : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Knife
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_knife : ""
