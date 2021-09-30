@@ -6,13 +6,14 @@ namespace Facepunch.Hover
 	public partial class MoveController : BasePlayerController
 	{
 		[Net, Predicted] public bool IsJetpacking { get; set; }
+		[Net, Predicted] public bool IsSkiing { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
 		public float JetpackGainPerSecond { get; set; } = 20f;
 		public float JetpackLossPerSecond { get; set; } = 35f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
-		public float DownSlopeBoost { get; set; } = 0.3f;
+		public float DownSlopeBoost { get; set; } = 0.4f;
 		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0.05f;
 		public float JetpackAimThrust { get; set; } = 40f;
@@ -94,6 +95,7 @@ namespace Facepunch.Hover
 			}
 
 			IsJetpacking = false;
+			IsSkiing = false;
 
 			if ( Input.Down( InputButton.Attack2 ) )
 			{
@@ -256,7 +258,32 @@ namespace Facepunch.Hover
 			if ( accelSpeed > addSpeed )
 				accelSpeed = addSpeed;
 
-			Velocity += wishDir * accelSpeed;
+			if ( IsSkiing )
+			{
+				var previousLength = Math.Max( Velocity.Length, wishSpeed );
+				Velocity += wishDir * accelSpeed;
+				Velocity = Velocity.ClampLength( previousLength );
+			}
+			else
+			{
+				Velocity += wishDir * accelSpeed;
+			}
+		}
+
+		private void ClassicAccelerate( Vector3 wishDir, float wishSpeed, float speedLimit )
+		{
+			if ( speedLimit > 0 && wishSpeed > speedLimit )
+				wishSpeed = speedLimit;
+
+			var wishVelocity = wishDir * wishSpeed;
+			var pushDir = wishVelocity - Velocity;
+			var pushLen = pushDir.Length;
+			var canPush = 1f * Time.Delta * wishSpeed;
+			
+			if ( canPush > pushLen )
+				canPush = pushLen;
+			
+			Velocity += (pushDir * canPush * Time.Delta);
 		}
 
 		private void HandleSki( Player player )
@@ -276,6 +303,7 @@ namespace Facepunch.Hover
 			}
 
 			LastSkiTime = 0f;
+			IsSkiing = true;
 		}
 
 		private void ApplyFriction( float frictionAmount = 1.0f )
