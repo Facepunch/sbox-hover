@@ -260,7 +260,7 @@ metadata
 //
 // Facepunch.Hover.TurretEntity
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/generator/generator_temp.vmdl", fixedbounds ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) 
 metadata
 {
 	entity_tool_name = "Turret"
