@@ -5,7 +5,6 @@ namespace Facepunch.Hover
 {
 	public partial class MoveController : BasePlayerController
 	{
-		[Net, Predicted] public float Jetpack { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
@@ -18,9 +17,6 @@ namespace Facepunch.Hover
 		public float FlatSkiFriction { get; set; } = 0.05f;
 		public float JetpackAimThrust { get; set; } = 40f;
 		public float JetpackBoost { get; set; } = 150f;
-		public float MaxSpeed { get; set; } = 1000f;
-		public float SprintSpeed { get; set; } = 400f;
-		public float DefaultSpeed { get; set; } = 250f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
@@ -36,7 +32,6 @@ namespace Facepunch.Hover
 		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
-		protected Duck Duck { get; private set; }
 
 		protected float SurfaceFriction { get; set; }
 		protected Vector3 Mins { get; set; }
@@ -46,9 +41,7 @@ namespace Facepunch.Hover
 
 		public MoveController()
 		{
-			Duck = new Duck( this );
 			Unstuck = new Unstuck( this );
-			Jetpack = 100f;
 		}
 
 		public override BBox GetHull()
@@ -74,13 +67,13 @@ namespace Facepunch.Hover
 			var mins = new Vector3( -girth, -girth, 0 ) * Pawn.Scale;
 			var maxs = new Vector3( +girth, +girth, BodyHeight ) * Pawn.Scale;
 
-			Duck.UpdateBBox( ref mins, ref maxs, Pawn.Scale );
-
 			SetBBox( mins, maxs );
 		}
 
 		public override void Simulate()
 		{
+			if ( Pawn is not Player player ) return;
+
 			EyePosLocal = Vector3.Up * (EyeHeight * Pawn.Scale);
 			UpdateBBox();
 
@@ -104,7 +97,7 @@ namespace Facepunch.Hover
 
 			if ( Input.Down( InputButton.Attack2 ) )
 			{
-				DoJetpackMovement();
+				DoJetpackMovement( player );
 			}
 
 			var startOnGround = GroundEntity != null;
@@ -115,7 +108,7 @@ namespace Facepunch.Hover
 
 				if ( Input.Down( InputButton.Jump ) )
 				{
-					HandleSki();
+					HandleSki( player );
 				}
 				else
 				{
@@ -125,7 +118,7 @@ namespace Facepunch.Hover
 
 				if ( !IsJetpacking )
 				{
-					Jetpack = (Jetpack + JetpackGainPerSecond * Time.Delta).Clamp( 0f, 100f );
+					player.Energy = (player.Energy + JetpackGainPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
 				}
 			}
 
@@ -139,9 +132,7 @@ namespace Facepunch.Hover
 			}
 
 			WishVelocity = WishVelocity.Normal * inSpeed;
-			WishVelocity *= GetWishSpeed();
-
-			Duck.PreTick();
+			WishVelocity *= GetWishSpeed( player );
 
 			bool stayOnGround = false;
 			if ( Swimming )
@@ -178,15 +169,9 @@ namespace Facepunch.Hover
 			if ( IsJetpacking ) SetTag( "jetpack" );
 		}
 
-		private float GetWishSpeed()
+		private float GetWishSpeed( Player player )
 		{
-			var ws = Duck.GetWishSpeed();
-			if ( ws >= 0 ) return ws;
-
-			if ( Input.Down( InputButton.Run ) )
-				return SprintSpeed;
-
-			return DefaultSpeed;
+			return player.MoveSpeed;
 		}
 
 		private void WalkMove()
@@ -274,13 +259,13 @@ namespace Facepunch.Hover
 			Velocity += wishDir * accelSpeed;
 		}
 
-		private void HandleSki()
+		private void HandleSki( Player player )
 		{
 			var groundAngle = GetSlopeAngle();
 
 			if ( groundAngle < 100f )
 			{
-				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
+				if ( groundAngle < 85f && Velocity.Length < player.MaxSpeed )
 					Velocity += (Velocity * Time.Delta * DownSlopeBoost);
 				else
 					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
@@ -311,7 +296,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		private void DoJetpackMovement()
+		private void DoJetpackMovement( Player player )
 		{
 			if ( Swimming )
 			{
@@ -325,14 +310,14 @@ namespace Facepunch.Hover
 
 			if ( GroundEntity == null )
 			{
-				if ( Jetpack >= 5f )
+				if ( player.Energy >= 5f )
 				{
 					IsJetpacking = true;
 					Velocity = Velocity.WithZ( startZ + JetpackBoost * Time.Delta );
 					Velocity += Velocity.WithZ( 0f ).Normal * JetpackAimThrust * Time.Delta;
 				}
 
-				Jetpack = (Jetpack - JetpackLossPerSecond * Time.Delta).Clamp( 0f, 100f );
+				player.Energy = (player.Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
 
 				return;
 			}
@@ -341,9 +326,6 @@ namespace Facepunch.Hover
 
 			float groundFactor = 1.0f;
 			float multiplier = 268.3281572999747f * 1.2f;
-
-			if ( Duck.IsActive )
-				multiplier *= 0.8f;
 
 			Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
 			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;

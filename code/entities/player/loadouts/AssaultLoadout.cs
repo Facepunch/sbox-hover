@@ -36,6 +36,8 @@ namespace Facepunch.Hover
 
 			Entity.Controller = new MoveController();
 			Entity.Camera = new FirstPersonCamera();
+
+			base.Setup();
 		}
 	}
 }

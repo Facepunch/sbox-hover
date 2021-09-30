@@ -7,6 +7,12 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
+		[Net, Predicted] public float Energy { get; set; }
+		[Net] public float MaxHealth { get; set; }
+		[Net] public float MaxEnergy { get; set; }
+		[Net] public float MoveSpeed { get; set; }
+		[Net] public float MaxSpeed { get; set; }
+
 		private Rotation LastCameraRotation { get; set; }
 		private DamageInfo LastDamageInfo { get; set; }
 		private Radar RadarHud { get; set; }
@@ -161,7 +167,7 @@ namespace Facepunch.Hover
 		{
 			if ( Controller is not MoveController controller ) return;
 
-			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
+			var speed = Velocity.Length.LerpInverse( 0, MaxSpeed );
 			var forwardSpeed = Velocity.Normal.Dot( setup.Rotation.Forward );
 
 			var left = setup.Rotation.Left;
