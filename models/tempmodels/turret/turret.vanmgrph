@@ -121,7 +121,7 @@
 				{
 					m_id = 204619005
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -169,7 +169,7 @@
 				{
 					m_id = 350365717
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_children = 
 				[
@@ -224,7 +224,7 @@
 				{
 					m_id = 517168428
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -256,7 +256,7 @@
 				{
 					m_id = 702887995
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_sequenceName = "aim"
 				m_nFrameIndex = 0
@@ -276,7 +276,7 @@
 				{
 					m_id = 853543169
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -308,7 +308,7 @@
 				{
 					m_id = 1261387022
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_sequenceName = "fire"
 				m_nFrameIndex = 1
@@ -328,7 +328,7 @@
 				{
 					m_id = 1569685189
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -350,7 +350,7 @@
 				{
 					m_id = 1634485854
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -398,7 +398,7 @@
 				{
 					m_id = 1688070002
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -430,7 +430,7 @@
 				{
 					m_id = 1821366964
 				}
-				m_networkMode = "ClientSimulate"
+				m_networkMode = "ServerAuthoritative"
 				m_sNote = ""
 				m_sequenceName = "fire"
 				m_nFrameIndex = 0
