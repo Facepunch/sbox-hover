@@ -22,6 +22,15 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = true;
 
+		[ServerCmd( "hv_makeallsmall" )]
+		private static void MakeAllSmall()
+		{
+			foreach ( var player in All.OfType<Player>() )
+			{
+				player.Scale = 0.25f;
+			}
+		}
+
 		public Game()
 		{
 			if ( IsServer ) Hud = new();
