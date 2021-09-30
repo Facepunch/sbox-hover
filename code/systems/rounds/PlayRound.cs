@@ -130,7 +130,7 @@ namespace Facepunch.Hover
 
 			player.Reset();
 			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
-			player.GiveLoadout<AssaultLoadout>();
+			player.GiveLoadout<LightAssault>();
 			player.Respawn();
 		}
 	}

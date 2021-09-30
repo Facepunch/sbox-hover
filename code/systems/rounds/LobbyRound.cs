@@ -49,7 +49,7 @@ namespace Facepunch.Hover
 
 			player.Reset();
 			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
-			player.GiveLoadout<AssaultLoadout>();
+			player.GiveLoadout<LightAssault>();
 			player.Respawn();
 
 			base.OnPlayerJoin( player );
