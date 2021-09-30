@@ -40,7 +40,7 @@
 						cull_unskinned_verts = true
 						skin_threshold = 0.75
 						multibone_skinning = false
-						preview_as_rope = false
+						preview_as_rope = true
 						preview_show_indices = true
 						preview_start_index = 0
 						preview_end_index = 2
