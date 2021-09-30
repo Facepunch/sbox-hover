@@ -47,6 +47,7 @@ namespace Facepunch.Hover
 
 			AddPlayer( player );
 
+			player.Reset();
 			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
 			player.GiveLoadout<AssaultLoadout>();
 			player.Respawn();

@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Facepunch.Hover
@@ -20,6 +21,11 @@ namespace Facepunch.Hover
 		public static string GetName( this Team team )
 		{
 			return team == Team.Blue ? "Snakes" : "Scorpions";
+		}
+
+		public static IEnumerable<Player> GetAll( this Team team )
+		{
+			return Entity.All.OfType<Player>().Where( e => e.Team == team );
 		}
 
 		public static int GetCount( this Team team )

@@ -25,6 +25,14 @@ namespace Facepunch.Hover
 		public Game()
 		{
 			if ( IsServer ) Hud = new();
+
+			Awards.Add<KillAward>();
+			Awards.Add<AssistAward>();
+			Awards.Add<BuzzkillAward>();
+			Awards.Add<CaptureFlagAward>();
+			Awards.Add<ReturnFlagAward>();
+			Awards.Add<RevengeAward>();
+			Awards.Add<FirstBloodAward>();
 		}
 
 		public async Task StartSecondTimer()
@@ -84,7 +92,7 @@ namespace Facepunch.Hover
 			base.PostLevelLoaded();
 		}
 
-		public override void OnKilled( Entity entity)
+		public override void OnKilled( Entity entity )
 		{
 			if ( entity is Player player )
 				Rounds.Current?.OnPlayerKilled( player );

@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System;
 
 namespace Facepunch.Hover
 {
@@ -7,6 +8,10 @@ namespace Facepunch.Hover
 	[Hammer.EntityTool( "Flag Spawnpoint", "Hover", "Defines a point where a team's flag spawns" )]
 	public partial class FlagSpawnpoint : ModelEntity
 	{
+		public delegate void FlagEvent( Player player, FlagEntity flag );
+		public static event FlagEvent OnFlagReturned;
+		public static event FlagEvent OnFlagCaptured;
+
 		[Property] public Team Team { get; set; }
 
 		[Net] public FlagEntity Flag { get; set; }
@@ -40,12 +45,14 @@ namespace Facepunch.Hover
 			{
 				if ( flag.Team == Team && flag.Carrier.Team == Team )
 				{
-					// TODO: Well done we got it home, boys!
+					OnFlagReturned?.Invoke( flag.Carrier, flag );
+					flag.Carrier.GiveAward<ReturnFlagAward>();
 					flag.Respawn();
 				}
 				else if ( flag.Team != Team && flag.Carrier.Team == Team )
 				{
-					// TODO: Well done we scored a point!
+					OnFlagCaptured?.Invoke( flag.Carrier, flag );
+					flag.Carrier.GiveAward<CaptureFlagAward>();
 					flag.Respawn();
 				}
 			}

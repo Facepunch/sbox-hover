@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		public float JetpackLossPerSecond { get; set; } = 35f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float DownSlopeBoost { get; set; } = 0.3f;
-		public float UpSlopeFriction { get; set; } = 0.4f;
+		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0.05f;
 		public float JetpackAimThrust { get; set; } = 40f;
 		public float JetpackBoost { get; set; } = 150f;
@@ -184,7 +184,7 @@ namespace Facepunch.Hover
 
 			Velocity = Velocity.WithZ( 0 );
 
-			Accelerate( wishDir, wishSpeed, 0, Acceleration );
+			Accelerate( wishDir, wishSpeed, 0f, Acceleration );
 
 			Velocity = Velocity.WithZ( 0 );
 			Velocity += BaseVelocity;
@@ -354,7 +354,7 @@ namespace Facepunch.Hover
 
 			wishSpeed *= 0.8f;
 
-			Accelerate( wishDir, wishSpeed, 100, Acceleration );
+			Accelerate( wishDir, wishSpeed, 100f, Acceleration );
 
 			Velocity += BaseVelocity;
 
