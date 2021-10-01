@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<InventoryBar>();
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<Scoreboard>();
-			RootPanel.AddChild<LoadingScreen>();
+			RootPanel.AddChild<RespawnScreen>();
 		}
 	}
 }
