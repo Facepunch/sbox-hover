@@ -4,6 +4,7 @@
 	m_nBehaviorVersion = 10
 	m_flConstantRadius = 10.0
 	m_nMaxParticles = 150
+	m_flDepthSortBias = 2.0
 	m_controlPointConfigurations = 
 	[
 		{
@@ -1765,6 +1766,11 @@
 					]
 				}
 			}
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ -10.0, 0.0, 0.0 ]
+			m_OffsetMax = [ -10.0, 0.0, 0.0 ]
 		},
 	]
 	m_Operators = 

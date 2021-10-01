@@ -5,6 +5,7 @@
 	m_flConstantRadius = 1.0
 	m_nConstantSequenceNumber = 5
 	m_nConstantSequenceNumber1 = 4
+	m_flDepthSortBias = 3.0
 	m_controlPointConfigurations = 
 	[
 		{
@@ -1547,6 +1548,11 @@
 					]
 				}
 			}
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ -30.0, 0.0, 0.0 ]
+			m_OffsetMax = [ -30.0, 0.0, 0.0 ]
 		},
 	]
 	m_Operators = 
