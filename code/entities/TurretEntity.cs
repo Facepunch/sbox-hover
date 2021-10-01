@@ -21,6 +21,8 @@ namespace Facepunch.Hover
 		public float ProjectileSpeed => 10000f;
 		public float RotateSpeed => 20f;
 		public float AttackRadius => 3000f;
+		public float BlastDamage => 400f;
+		public float BlastRadius => 300f;
 		public float FireRate => 2f;
 
 		public override void Spawn()
@@ -106,18 +108,25 @@ namespace Facepunch.Hover
 
 			var projectile = new PhysicsProjectile()
 			{
-				Debug = true
+				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf"
 			};
 
+			Particles.Create( "particles/weapons/projectile_plasma.vpcf", projectile );
+
 			var muzzle = GetAttachment( "muzzle" );
-			projectile.Initialize( muzzle.Value.Position, TargetDirection, 16f, ProjectileSpeed );
+			projectile.Initialize( muzzle.Value.Position, TargetDirection, 16f, ProjectileSpeed, OnProjectileHit );
 
 			Recoil = 1f;
 		}
 
 		private bool IsValidTarget( Player player )
 		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team && CanSeeTarget( player ));
+			return (IsValidVictim( player ) && CanSeeTarget( player ));
+		}
+
+		private bool IsValidVictim( Player player )
+		{
+			return (player.LifeState == LifeState.Alive && player.Team != Team);
 		}
 
 		private bool CanSeeTarget( Player player )
@@ -136,6 +145,33 @@ namespace Facepunch.Hover
 			var position = target.WorldSpaceBounds.Center;
 			var timeToReach = (Position.Distance( position ) / ProjectileSpeed);
 			return (position + target.Velocity * timeToReach);
+		}
+
+		private void OnProjectileHit( PhysicsProjectile projectile, Entity victim )
+		{
+			var blastPosition = projectile.Position;
+
+			var proximity = Physics.GetEntitiesInSphere( blastPosition, BlastRadius )
+				.OfType<Player>()
+				.Where( IsValidVictim );
+
+			foreach ( var target in proximity )
+			{
+				var position = target.Position;
+				var distance = position.Distance( blastPosition );
+				var damageInfo = new DamageInfo()
+					.WithAttacker( this )
+					.WithFlag( DamageFlags.Blast | DamageFlags.Shock )
+					.WithForce( (blastPosition - position).Normal * projectile.Speed )
+					.WithPosition( blastPosition )
+					.WithWeapon( this );
+
+				damageInfo.Damage = BlastDamage - ((BlastDamage / BlastRadius) * distance);
+
+				Log.Info( "Dealing " + damageInfo.Damage + " to " + target.Name );
+
+				target.TakeDamage( damageInfo );
+			}
 		}
 
 		private bool IsFacingTarget()

@@ -55,9 +55,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			player.MakeSpectator( player.Position );
-
-			RespawnPlayer( player );
+			player.MakeSpectator( player.Position, 5f );
 
 			base.OnPlayerKilled( player );
 		}
@@ -101,13 +99,6 @@ namespace Facepunch.Hover
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
 			}
-		}
-
-		private async void RespawnPlayer( Player player )
-		{
-			await GameTask.DelaySeconds( 5 );
-
-			player.Respawn();
 		}
 
 		private void OnFlagReturned( Player player, FlagEntity flag )

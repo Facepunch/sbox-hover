@@ -6,30 +6,34 @@ using System;
 
 namespace Facepunch.Hover
 {
-	public class LoadingScreen : Panel
+	public class RespawnScreen : Panel
 	{
-		public Label Text;
+		public Label RespawnTime { get; private set; }
 
-		public LoadingScreen()
+		public RespawnScreen()
 		{
 			StyleSheet.Load( "/ui/LoadingScreen.scss" );
 
-			Text = Add.Label( "Loading", "loading" );
+			RespawnTime = Add.Label( "", "respawn" );
 		}
 
 		public override void Tick()
 		{
 			var isHidden = false;
 
+			RespawnTime.SetClass( "hidden", true );
+
 			if ( Local.Pawn is Player player )
 			{
 				if ( player.HasTeam )
 					isHidden = true;
 
-				if ( player.IsSpectator && !player.HasSpectatorTarget )
+				if ( player.IsSpectator )
 				{
-					if ( player.SpectatorDeathPosition.IsNearlyZero() )
-						isHidden = false;
+					isHidden = false;
+
+					RespawnTime.SetClass( "hidden", false );
+					RespawnTime.Text = $"Respawn in {player.RespawnTime.Relative.CeilToInt()}";
 				}
 			}
 

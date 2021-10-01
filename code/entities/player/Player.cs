@@ -9,6 +9,8 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
+		[Net] public RealTimeUntil RespawnTime { get; set; }
+		[Net] public Vector3 DeathPosition { get; set; }
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 		[Net] public float MaxEnergy { get; set; }
@@ -37,37 +39,6 @@ namespace Facepunch.Hover
 		public bool IsSpectator
 		{
 			get => (Camera is SpectateCamera);
-		}
-
-		public Vector3 SpectatorDeathPosition
-		{
-			get
-			{
-				if ( Camera is SpectateCamera camera )
-					return camera.DeathPosition;
-
-				return Vector3.Zero;
-			}
-		}
-
-		public bool HasSpectatorTarget
-		{
-			get
-			{
-				var target = SpectatorTarget;
-				return (target != null && target.IsValid());
-			}
-		}
-
-		public Player SpectatorTarget
-		{
-			get
-			{
-				if ( Camera is SpectateCamera camera )
-					return camera.TargetPlayer;
-
-				return null;
-			}
 		}
 
 		public void Reset()
@@ -128,16 +99,14 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public void MakeSpectator( Vector3 position = default )
+		public void MakeSpectator( Vector3 position, float respawnTime )
 		{
 			EnableAllCollisions = false;
 			EnableDrawing = false;
+			DeathPosition = position;
+			RespawnTime = respawnTime;
 			Controller = null;
-			Camera = new SpectateCamera
-			{
-				DeathPosition = position,
-				TimeSinceDied = 0
-			};
+			Camera = new SpectateCamera();
 		}
 
 		public override void ClientSpawn()
@@ -184,9 +153,7 @@ namespace Facepunch.Hover
 			}
 
 			if ( LifeState != LifeState.Alive )
-			{
 				return;
-			}
 
 			TickPlayerUse();
 
@@ -197,11 +164,6 @@ namespace Facepunch.Hover
 
 			var controller = GetActiveController();
 			controller?.Simulate( client, this, GetActiveAnimator() );
-		}
-
-		protected override void UseFail()
-		{
-			// Do nothing. By default this plays a sound that we don't want.
 		}
 
 		public void SwitchToBestWeapon()
@@ -317,6 +279,20 @@ namespace Facepunch.Hover
 				_ = new Sandbox.ScreenShake.Perlin(2f, 1f, 1.5f, 0.8f);
 
 			DamageIndicator.Current?.OnHit( position );
+		}
+
+		[Event.Tick.Server]
+		protected virtual void ServerTick()
+		{
+			if ( LifeState != LifeState.Alive && RespawnTime )
+			{
+				Respawn();
+			}
+		}
+
+		protected override void UseFail()
+		{
+			// Do nothing. By default this plays a sound that we don't want.
 		}
 
 		protected override void OnDestroy()
