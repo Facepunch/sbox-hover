@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 			if ( Wearer.Controller is not MoveController controller )
 				return;
 
-			if ( controller.IsJetpacking )
+			if ( controller.IsJetpacking && Wearer.LifeState == LifeState.Alive )
 			{
 				if ( Trail == null )
 				{

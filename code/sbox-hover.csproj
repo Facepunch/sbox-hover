@@ -34,6 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ui\WeaponList.scss">
+      <DependentUpon>WeaponList.cs</DependentUpon>
+    </None>
     <None Update="ui\RespawnScreen.scss">
       <DependentUpon>RespawnScreen.cs</DependentUpon>
     </None>

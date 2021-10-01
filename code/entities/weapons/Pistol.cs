@@ -7,7 +7,8 @@ namespace Facepunch.Hover
 	partial class Pistol : Weapon
 	{
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
-
+		public override Texture Icon => Texture.Load( "ui/weapons/dm_pistol.png" );
+		public override string WeaponName => "Standard Issue";
 		public override bool UnlimitedAmmo => true;
 		public override int ClipSize => 10;
 		public override float PrimaryRate => 15.0f;
@@ -15,7 +16,7 @@ namespace Facepunch.Hover
 		public override float ReloadTime => 3.0f;
 		public override bool HasLaserDot => true;
 		public override int BaseDamage => 8;
-		public override int Bucket => 1;
+		public override int Slot => 2;
 
 		public override void Spawn()
 		{

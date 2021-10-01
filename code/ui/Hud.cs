@@ -24,7 +24,8 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<Nameplates>();
 			RootPanel.AddChild<DamageIndicator>();
 			RootPanel.AddChild<HitIndicator>();
-			RootPanel.AddChild<InventoryBar>();
+			RootPanel.AddChild<WeaponList>();
+			RootPanel.AddChild<Crosshair>();
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<Scoreboard>();
 			RootPanel.AddChild<RespawnScreen>();

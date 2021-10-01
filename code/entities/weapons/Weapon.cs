@@ -3,14 +3,15 @@ using System;
 
 namespace Facepunch.Hover
 {
-	partial class Weapon : BaseWeapon
+	public partial class Weapon : BaseWeapon
 	{
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
-		public virtual int Bucket => 1;
-		public virtual int BucketWeight => 100;
+		public virtual int Slot => 0;
+		public virtual Texture Icon => null;
+		public virtual string WeaponName => "Weapon";
 		public virtual bool UnlimitedAmmo => false;
 		public virtual float ChargeAttackDuration => 2;
 		public virtual bool HasFlashlight => false;
@@ -178,7 +179,7 @@ namespace Facepunch.Hover
 		{
 			Host.AssertClient();
 
-			if (!IsMelee)
+			if ( !IsMelee )
 			{
 				Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 			}

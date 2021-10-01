@@ -179,25 +179,8 @@ namespace Facepunch.Hover
 
 			TickPlayerUse();
 
-			if ( ActiveChild is Weapon weapon && !weapon.IsUsable() && weapon.TimeSincePrimaryAttack > 0.5f && weapon.TimeSinceSecondaryAttack > 0.5f )
-			{
-				SwitchToBestWeapon();
-			}
-
 			var controller = GetActiveController();
 			controller?.Simulate( client, this, GetActiveAnimator() );
-		}
-
-		public void SwitchToBestWeapon()
-		{
-			var best = Children.Select( x => x as Weapon )
-				.Where( x => x.IsValid() && x.IsUsable() )
-				.OrderByDescending( x => x.BucketWeight )
-				.FirstOrDefault();
-
-			if ( best == null ) return;
-
-			ActiveChild = best;
 		}
 
 		public override void PostCameraSetup( ref CameraSetup setup )

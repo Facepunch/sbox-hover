@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 0.3f;
 		public override bool IsMelee => true;
 		public override int HoldType => 0;
-		public override int Bucket => 1;
+		public override int Slot => 3;
 		public override int BaseDamage => 35;
 		public virtual int MeleeDistance => 80;
 

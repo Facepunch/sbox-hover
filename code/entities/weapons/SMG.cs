@@ -6,15 +6,16 @@ namespace Facepunch.Hover
 	partial class SMG : Weapon
 	{
 		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
-
+		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
+		public override string WeaponName => "Blaster";
 		public override float PrimaryRate => 10.0f;
 		public override float SecondaryRate => 1.0f;
+		public override int Slot => 1;
 		public override int ClipSize => 30;
 		public override float ReloadTime => 4.0f;
 		public override bool HasFlashlight => true;
 		public override bool HasLaserDot => true;
 		public override int BaseDamage => 5;
-		public override int Bucket => 2;
 
 		public override void Spawn()
 		{
