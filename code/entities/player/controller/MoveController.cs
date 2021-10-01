@@ -345,7 +345,10 @@ namespace Facepunch.Hover
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust ) * Time.Delta;
 				}
 
-				player.Energy = (player.Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
+				if ( !player.InEnergyElevator )
+				{
+					player.Energy = (player.Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
+				}
 
 				return;
 			}

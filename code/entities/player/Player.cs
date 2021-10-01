@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
+		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public RealTimeUntil RespawnTime { get; set; }
@@ -32,6 +33,7 @@ namespace Facepunch.Hover
 
 		public Player()
 		{
+			EnableTouch = true;
 			Inventory = new Inventory( this );
 			Animator = new StandardPlayerAnimator();
 		}
@@ -114,6 +116,26 @@ namespace Facepunch.Hover
 			RadarHud = Local.Hud.AddChild<Radar>();
 
 			base.ClientSpawn();
+		}
+
+		public override void StartTouch( Entity other )
+		{
+			if ( other is JetpackElevator )
+			{
+				InEnergyElevator = true;
+			}
+
+			base.StartTouch( other );
+		}
+
+		public override void EndTouch( Entity other )
+		{
+			if ( other is JetpackElevator )
+			{
+				InEnergyElevator = false;
+			}
+
+			base.EndTouch( other );
 		}
 
 		public override void Respawn()
