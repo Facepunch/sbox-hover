@@ -10,6 +10,8 @@ namespace Facepunch.Hover
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
+		[Net] public float HealthRegen { get; set; }
+		[Net] public RealTimeUntil NextRegenTime { get; set; }
 		[Net] public RealTimeUntil RespawnTime { get; set; }
 		[Net] public Vector3 DeathPosition { get; set; }
 		[Net] public int KillStreak { get; set; }
@@ -255,6 +257,7 @@ namespace Facepunch.Hover
 			}
 
 			LastDamageInfo = info;
+			NextRegenTime = 5f;
 
 			base.TakeDamage( info );
 		}
@@ -292,6 +295,11 @@ namespace Facepunch.Hover
 			if ( LifeState != LifeState.Alive && RespawnTime )
 			{
 				Respawn();
+			}
+
+			if ( LifeState == LifeState.Alive && NextRegenTime )
+			{
+				Health = Math.Clamp( Health + HealthRegen * Time.Delta, 0f, MaxHealth );
 			}
 		}
 

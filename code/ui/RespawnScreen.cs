@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 
 		public RespawnScreen()
 		{
-			StyleSheet.Load( "/ui/LoadingScreen.scss" );
+			StyleSheet.Load( "/ui/RespawnScreen.scss" );
 
 			RespawnTime = Add.Label( "", "respawn" );
 		}

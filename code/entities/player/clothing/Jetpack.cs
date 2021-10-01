@@ -20,7 +20,15 @@ namespace Facepunch.Hover
 			if ( !Wearer.IsValid() ) return;
 
 			if ( Wearer.Controller is not MoveController controller )
+			{
+				if ( Trail != null )
+				{
+					Trail.Destroy();
+					Trail = null;
+				}
+
 				return;
+			}
 
 			if ( controller.IsJetpacking && Wearer.LifeState == LifeState.Alive )
 			{
