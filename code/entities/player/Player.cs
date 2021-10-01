@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
+		[Net] public float RegenDelay { get; set; }
 		[Net] public RealTimeUntil NextRegenTime { get; set; }
 		[Net] public RealTimeUntil RespawnTime { get; set; }
 		[Net] public Vector3 DeathPosition { get; set; }
@@ -257,7 +258,7 @@ namespace Facepunch.Hover
 			}
 
 			LastDamageInfo = info;
-			NextRegenTime = 5f;
+			NextRegenTime = RegenDelay;
 
 			base.TakeDamage( info );
 		}

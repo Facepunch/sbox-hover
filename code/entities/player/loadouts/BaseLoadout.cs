@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 	public partial class BaseLoadout : EntityComponent<Player>
 	{
 		public virtual float HealthRegen => 50f;
+		public virtual float RegenDelay => 5f;
 		public virtual float Health => 500f;
 		public virtual float Energy => 100f;
 		public virtual float MoveSpeed => 400f;
@@ -35,6 +36,7 @@ namespace Facepunch.Hover
 			}
 
 			Entity.HealthRegen = HealthRegen;
+			Entity.RegenDelay = RegenDelay;
 			Entity.MoveSpeed = MoveSpeed;
 			Entity.MaxSpeed = MaxSpeed;
 			Entity.MaxEnergy = Energy;
