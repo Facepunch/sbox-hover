@@ -231,7 +231,7 @@ namespace Facepunch.Hover
 
 		public override void TakeDamage( DamageInfo info )
 		{
-			if ( info.HitboxIndex == 0 )
+			if ( info.HitboxIndex == 0 && !info.Flags.HasFlag( DamageFlags.Blast ) )
 			{
 				info.Damage *= 2.0f;
 			}

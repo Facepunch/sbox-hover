@@ -16,6 +16,8 @@ namespace Facepunch.Hover
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSound { get; set; } = null;
 		public string Attachment { get; set; } = null;
+		public ModelEntity Target { get; set; } = null;
+		public float MoveTowardTarget { get; set; } = 0f;
 		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 300f;
 		public float Radius { get; set; } = 16f;
@@ -85,6 +87,12 @@ namespace Facepunch.Hover
 			var newPosition = Position;
 			newPosition += Direction * Speed * Time.Delta;
 			newPosition -= new Vector3( 0f, 0f, Gravity * Time.Delta );
+
+			if ( Target.IsValid() && MoveTowardTarget > 0f )
+			{
+				var targetDirection = (Target.WorldSpaceBounds.Center - newPosition).Normal;
+				newPosition += targetDirection * MoveTowardTarget * Time.Delta;
+			}
 
 			var trace = Trace.Ray( Position, newPosition )
 				.Size( Radius )

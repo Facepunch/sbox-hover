@@ -18,12 +18,12 @@ namespace Facepunch.Hover
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
-		public float ProjectileSpeed => 10000f;
+		public float ProjectileSpeed => 5000f;
 		public float RotateSpeed => 20f;
 		public float AttackRadius => 3000f;
 		public float BlastDamage => 400f;
 		public float BlastRadius => 300f;
-		public float FireRate => 2f;
+		public float FireRate => 2.2f;
 
 		public override void Spawn()
 		{
@@ -108,13 +108,16 @@ namespace Facepunch.Hover
 
 			var projectile = new PhysicsProjectile()
 			{
-				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf"
+				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
+				MoveTowardTarget = 500f,
+				Target = Target,
+				Gravity = 100f
 			};
 
 			Particles.Create( "particles/weapons/projectile_plasma.vpcf", projectile );
 
 			var muzzle = GetAttachment( "muzzle" );
-			projectile.Initialize( muzzle.Value.Position, TargetDirection, 16f, ProjectileSpeed, OnProjectileHit );
+			projectile.Initialize( muzzle.Value.Position, TargetDirection, 32f, ProjectileSpeed, OnProjectileHit );
 
 			Recoil = 1f;
 		}
@@ -134,7 +137,7 @@ namespace Facepunch.Hover
 			var muzzle = GetAttachment( "muzzle" );
 			var trace = Trace.Ray( muzzle.Value.Position, player.WorldSpaceBounds.Center )
 				.Ignore( this )
-				.Size( 16f )
+				.Size( 32f )
 				.Run();
 
 			return trace.Entity == player;
@@ -142,8 +145,9 @@ namespace Facepunch.Hover
 
 		private Vector3 GetProjectedPosition( Player target )
 		{
+			var muzzle = GetAttachment( "muzzle" );
 			var position = target.WorldSpaceBounds.Center;
-			var timeToReach = (Position.Distance( position ) / ProjectileSpeed);
+			var timeToReach = (muzzle.Value.Position.Distance( position ) / ProjectileSpeed);
 			return (position + target.Velocity * timeToReach);
 		}
 
