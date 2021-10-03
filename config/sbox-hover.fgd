@@ -284,7 +284,7 @@ metadata
 }
 = hv_launch_pad : ""
 [
-	targetentity(string) : "Target Entity" :  : ""
+	targetentity(target_destination) : "Target Entity" : "" : ""
 	verticalboost(float) : "Vertical Boost" : 200 : ""
 	force(float) : "Force" : 1000 : ""
 	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
