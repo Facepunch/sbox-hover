@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 		public static int MinPlayers { get; set; } = 2;
 
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
-		public static bool AllowFriendlyFire { get; set; } = true;
+		public static bool AllowFriendlyFire { get; set; } = false;
 
 		[ServerCmd( "hv_makeallsmall" )]
 		private static void MakeAllSmall()
