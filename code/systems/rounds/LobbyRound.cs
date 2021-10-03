@@ -24,11 +24,11 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public override void OnPlayerKilled( Player player )
+		public override void OnPlayerKilled( Player player, Player attacker, DamageInfo damageInfo )
 		{
 			player.Respawn();
 
-			base.OnPlayerKilled( player );
+			base.OnPlayerKilled( player, attacker, damageInfo );
 		}
 
 		public override void OnPlayerSpawn( Player player )

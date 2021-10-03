@@ -1,5 +1,7 @@
-﻿.roundContainer {
-    box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+﻿@import "Variables.scss";
+
+.roundContainer {
+    box-shadow: $blueTeamBackground;
     backdrop-filter-blur: 8px;
     font-family: Roboto;
     display: flex;
@@ -14,7 +16,7 @@
         color: #ECECEC;
         font-size: 24px;
         font-weight: bold;
-        text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+        text-shadow: $blueTeamShadow;
 
         &.roundName {
             width: 50%;
@@ -51,13 +53,29 @@
 
     .icon {
         position: absolute;
-        background-image: url( /ui/hover/blue.png );
+        background-image-tint: $blueTeamTint;
+        background-image: $blueTeamIcon;
         background-size: 100%;
         width: 64px;
         height: 64px;
         left: 50%;
         top: 50%;
         transform: translateX(-50%) translateY(-50%);
+    }
+}
+
+.team_red {
+    .roundContainer {
+        box-shadow: $redTeamBackground;
+
+        label {
+            text-shadow: $redTeamShadow;
+        }
+
+        .icon {
+            background-image-tint: $redTeamTint;
+            background-image: $redTeamIcon;
+        }
     }
 }
 

@@ -46,13 +46,13 @@ namespace Facepunch.Hover
 				if ( flag.Team == Team && flag.Carrier.Team == Team )
 				{
 					OnFlagReturned?.Invoke( flag.Carrier, flag );
-					flag.Carrier.GiveAward<ReturnFlagAward>();
+					flag.Carrier.OnReturnFlag( flag );
 					flag.Respawn();
 				}
 				else if ( flag.Team != Team && flag.Carrier.Team == Team )
 				{
 					OnFlagCaptured?.Invoke( flag.Carrier, flag );
-					flag.Carrier.GiveAward<CaptureFlagAward>();
+					flag.Carrier.OnCaptureFlag( flag );
 					flag.Respawn();
 				}
 			}

@@ -101,14 +101,6 @@ namespace Facepunch.Hover
 			base.PostLevelLoaded();
 		}
 
-		public override void OnKilled( Entity entity )
-		{
-			if ( entity is Player player )
-				Rounds.Current?.OnPlayerKilled( player );
-
-			base.OnKilled( entity);
-		}
-
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
 			Rounds.Current?.OnPlayerLeave( client.Pawn as Player );

@@ -4,7 +4,7 @@ namespace Facepunch.Hover
 {
 	public partial class Player
 	{
-		[Net] public Team Team { get; private set; }
+		[Net, Change] public Team Team { get; private set; }
 
 		public void SetTeam( Team team )
 		{
@@ -12,6 +12,12 @@ namespace Facepunch.Hover
 
 			var client = GetClientOwner();
 			client.SetScore( "team", (int)team );
+		}
+
+		protected virtual void OnTeamChanged( Team oldTeam, Team newTeam )
+		{
+			Local.Hud.RemoveClass( oldTeam.GetHudClass() );
+			Local.Hud.AddClass( newTeam.GetHudClass() );
 		}
 	}
 }

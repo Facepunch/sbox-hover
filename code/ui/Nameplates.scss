@@ -1,4 +1,6 @@
-﻿nameplates {
+﻿@import "Variables.scss";
+
+nameplates {
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -15,7 +17,7 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: row-reverse;
-		box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+		box-shadow: $blueTeamBackground;
 		backdrop-filter-blur: 8px;
 		background-size: 100%;
 		font-family: Roboto;
@@ -24,11 +26,23 @@
 		label {
 			padding: 1px 60px;
 			padding-left: 40px;
-			text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+			text-shadow: $blueTeamShadow;
 		}
 
 		&.enemy {
 			color: red;
+		}
+	}
+}
+
+.team_red {
+	nameplates {
+		nameplate {
+			box-shadow: $redTeamBackground;
+
+			label {
+				text-shadow: $blueTeamShadow;
+			}
 		}
 	}
 }

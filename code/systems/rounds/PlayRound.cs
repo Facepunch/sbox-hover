@@ -1,6 +1,4 @@
-﻿using Gamelib.Extensions;
-using Sandbox;
-using System.Collections.Generic;
+﻿using Sandbox;
 using System.Linq;
 
 namespace Facepunch.Hover
@@ -29,10 +27,8 @@ namespace Facepunch.Hover
 			base.OnPlayerJoin( player );
 		}
 
-		public override void OnPlayerKilled( Player player )
+		public override void OnPlayerKilled( Player player, Player attacker, DamageInfo damageInfo )
 		{
-			var attacker = player.LastAttacker as Player;
-
 			if ( attacker.IsValid() )
 			{
 				if ( !HasFirstBlood )
@@ -57,7 +53,7 @@ namespace Facepunch.Hover
 
 			player.MakeSpectator( player.Position, 5f );
 
-			base.OnPlayerKilled( player );
+			base.OnPlayerKilled( player, attacker, damageInfo );
 		}
 
 		public override void OnPlayerSpawn( Player player )

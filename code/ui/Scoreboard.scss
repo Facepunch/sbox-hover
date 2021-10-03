@@ -100,12 +100,11 @@
 		}
 	}
 
-
 	.name {
 		flex-grow: 1;
 	}
 
-	.deaths, .kills, .ping, .fps {
+	.deaths, .kills, .ping, .fps, .captures {
 		width: 90px;
 		text-align: center;
 	}

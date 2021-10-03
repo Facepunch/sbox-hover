@@ -1,4 +1,6 @@
-﻿rootpanel
+﻿@import "Variables.scss";
+
+rootpanel
 {
 	background-color: rgba( #333, 0 );
 	transition: background-color 0.2s ease-in;
@@ -20,7 +22,7 @@ vitals {
 	color: #fff;
 	padding-left: 20px;
 	padding-right: 24px;
-	box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+	box-shadow: $blueTeamBackground;
 	backdrop-filter-blur: 8px;
 	font-family: Roboto;
 	flex-direction: column;
@@ -53,6 +55,12 @@ vitals {
 	}
 }
 
+.team_red {
+	vitals {
+		box-shadow: $redTeamBackground;
+	}
+}
+
 ammo {
 	bottom: 32px;
 	display: none;
@@ -62,13 +70,13 @@ ammo {
 	padding-left: 40px;
 	padding-right: 60px;
 	position: absolute;
-	box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+	box-shadow: $blueTeamBackground;
 	backdrop-filter-blur: 8px;
 	left: 360px;
 	width: 248px;
 
 	label {
-		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+		text-shadow: $blueTeamShadow;
 	}
 
 	.icon {
@@ -76,7 +84,7 @@ ammo {
 		height: 32px;
 		background-image: url( /ui/icons/ammo.png );
 		background-size: 100%;
-		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+		text-shadow: $blueTeamShadow;
 		position: absolute;
 		right: 36px;
 	}
@@ -109,6 +117,20 @@ ammo {
 	&.low {
 		.weapon {
 			color: #ff9f9f;
+		}
+	}
+}
+
+.team_red {
+	ammo {
+		box-shadow: $redTeamBackground;
+
+		.icon {
+			text-shadow: $redTeamShadow;
+		}
+
+		label {
+			text-shadow: $redTeamShadow;
 		}
 	}
 }

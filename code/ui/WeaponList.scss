@@ -1,8 +1,10 @@
-﻿weaponlist {
+﻿@import "Variables.scss";
+
+weaponlist {
 	position: absolute;
 	display: flex;
 	flex-direction: row;
-	box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.05 );
+	box-shadow: $blueTeamBackground;
 	padding: 16px;
 	bottom: 32px;
 	right: 64px;
@@ -18,17 +20,17 @@
 		}
 
 		.name {
-			text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+			text-shadow: $blueTeamShadow;
 			margin-top: -20px;
 			font-size: 20px;
 			color: white;
 		}
 
 		&.active {
-			box-shadow: 0px 0px 32px -2px rgba( 18 210 255 0.2 );
+			box-shadow: $blueTeamForeground;
 
 			.name {
-				color: cyan;
+				color: $blueTeamColor;
 			}
 		}
 
@@ -39,5 +41,25 @@
 
 	&.hidden {
 		display: none;
+	}
+}
+
+.team_red {
+	weaponlist {
+		box-shadow: $redTeamBackground;
+
+		.weapon {
+			.name {
+				text-shadow: $redTeamShadow;
+			}
+
+			&.active {
+				box-shadow: $redTeamForeground;
+
+				.name {
+					color: $redTeamColor;
+				}
+			}
+		}
 	}
 }

@@ -12,9 +12,7 @@ namespace Facepunch.Hover
 		{
 			public Label TeamName;
 			public Panel TeamIcon;
-
 			public Panel TeamContainer;
-
 			public Panel Header;
 			public Panel TeamHeader;
 			public Panel Canvas;
@@ -70,6 +68,7 @@ namespace Facepunch.Hover
 			section.TeamIcon.AddClass( hudClass );
 
 			section.Header.Add.Label( "NAME", "name" );
+			section.Header.Add.Label( "CAPTURES", "captures" );
 			section.Header.Add.Label( "KILLS", "kills" );
 			section.Header.Add.Label( "DEATHS", "deaths" );
 			section.Header.Add.Label( "PING", "ping" );
@@ -133,16 +132,18 @@ namespace Facepunch.Hover
 
 	public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
 	{
-		public ScoreboardEntry()
-		{
+		public Label Captures;
 
+		public ScoreboardEntry() : base()
+		{
+			Captures = Add.Label( "", "captures" );
 		}
 
 		public override void UpdateFrom( PlayerScore.Entry entry )
 		{
 			base.UpdateFrom( entry );
 
-
+			Captures.Text = entry.Get<int>( "captures", 0 ).ToString();
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace Facepunch.Hover
 				Players.Add( player );
 		}
 
-		public virtual void OnPlayerKilled( Player player ) { }
+		public virtual void OnPlayerKilled( Player player, Player attacker, DamageInfo damageInfo ) { }
 
 		public virtual void OnPlayerSpawn( Player player ) { }
 

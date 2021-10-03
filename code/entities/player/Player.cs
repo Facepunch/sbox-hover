@@ -48,6 +48,12 @@ namespace Facepunch.Hover
 
 		public void Reset()
 		{
+			var client = GetClientOwner();
+
+			client.SetScore( "captures", 0 );
+			client.SetScore( "deaths", 0 );
+			client.SetScore( "kills", 0 );
+
 			LastDamageInfo = default;
 			LastKiller = null;
 			Tokens = 0;
@@ -158,9 +164,16 @@ namespace Facepunch.Hover
 
 			if ( attacker.IsValid() )
 			{
-				if ( attacker.LifeState == LifeState.Alive )
-					attacker.KillStreak++;
+				attacker.OnKillPlayer( this, LastDamageInfo );
+				Rounds.Current?.OnPlayerKilled( this, attacker, LastDamageInfo );
 			}
+			else
+			{
+				Rounds.Current?.OnPlayerKilled( this, null, LastDamageInfo );
+			}
+
+			var client = GetClientOwner();
+			client.SetScore( "deaths", client.GetScore( "deaths", 0 ) + 1 );
 
 			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
@@ -288,6 +301,27 @@ namespace Facepunch.Hover
 				_ = new Sandbox.ScreenShake.Perlin(2f, 1f, 1.5f, 0.8f);
 
 			DamageIndicator.Current?.OnHit( position );
+		}
+
+		public virtual void OnCaptureFlag( FlagEntity flag )
+		{
+			var client = GetClientOwner();
+			client.SetScore( "captures", client.GetScore( "captures", 0 ) + 1 );
+			GiveAward<CaptureFlagAward>();
+		}
+
+		public virtual void OnReturnFlag( FlagEntity flag )
+		{
+			GiveAward<ReturnFlagAward>();
+		}
+
+		public virtual void OnKillPlayer( Player victim, DamageInfo damageInfo )
+		{
+			if ( LifeState == LifeState.Alive )
+				KillStreak++;
+
+			var client = GetClientOwner();
+			client.SetScore( "kills", client.GetScore( "kills", 0 ) + 1 );
 		}
 
 		[Event.Tick.Server]
