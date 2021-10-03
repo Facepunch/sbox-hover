@@ -16,8 +16,11 @@ namespace Facepunch.Hover
 
 		protected virtual void OnTeamChanged( Team oldTeam, Team newTeam )
 		{
-			Local.Hud.RemoveClass( oldTeam.GetHudClass() );
-			Local.Hud.AddClass( newTeam.GetHudClass() );
+			if ( IsLocalPawn )
+			{
+				Local.Hud.RemoveClass( oldTeam.GetHudClass() );
+				Local.Hud.AddClass( newTeam.GetHudClass() );
+			}
 		}
 	}
 }

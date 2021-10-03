@@ -122,7 +122,10 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			RadarHud = Local.Hud.AddChild<Radar>();
+			if ( IsLocalPawn )
+			{
+				RadarHud = Local.Hud.AddChild<Radar>();
+			}
 
 			base.ClientSpawn();
 		}

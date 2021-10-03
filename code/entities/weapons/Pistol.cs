@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3.0f;
 		public override bool HasLaserDot => true;
-		public override int BaseDamage => 8;
+		public override int BaseDamage => 20;
 		public override int Slot => 2;
 
 		public override void Spawn()
