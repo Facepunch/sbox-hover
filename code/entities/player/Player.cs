@@ -1,12 +1,20 @@
 ﻿using Sandbox;
 using Sandbox.Joints;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
+		private class AssistTracker
+		{
+			public TimeSince LastDamageTime { get; set; }
+			public Player Attacker { get; set; }
+			public float TotalDamage { get; set; }
+		}
+
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
@@ -24,6 +32,7 @@ namespace Facepunch.Hover
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
 
+		private List<AssistTracker> AssistTrackers { get; set; }
 		private Rotation LastCameraRotation { get; set; }
 		private Radar RadarHud { get; set; }
 		private float WalkBob { get; set; }
@@ -36,6 +45,7 @@ namespace Facepunch.Hover
 
 		public Player()
 		{
+			AssistTrackers = new();
 			EnableTouch = true;
 			Inventory = new Inventory( this );
 			Animator = new StandardPlayerAnimator();
@@ -118,6 +128,27 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public Player GetBestAssist( Player attacker )
+		{
+			var minDamageTarget = MaxHealth * 0.3f;
+			var assister = (Player)null;
+			var damage = 0f;
+
+			foreach ( var tracker in AssistTrackers )
+			{
+				if ( tracker.Attacker != attacker && tracker.TotalDamage >= minDamageTarget )
+				{
+					if ( assister == null || tracker.TotalDamage > damage )
+					{
+						assister = tracker.Attacker;
+						damage = tracker.TotalDamage;
+					}
+				}
+			}
+
+			return assister;
+		}
+
 		public void MakeSpectator( Vector3 position, float respawnTime )
 		{
 			EnableAllCollisions = false;
@@ -163,6 +194,7 @@ namespace Facepunch.Hover
 			base.Respawn();
 
 			RemoveRagdollEntity();
+			ClearAssistTrackers();
 
 			Rounds.Current?.OnPlayerSpawn( this );
 		}
@@ -229,6 +261,45 @@ namespace Facepunch.Hover
 			AddCameraEffects( ref setup );
 		}
 
+		private void ClearAssistTrackers()
+		{
+			AssistTrackers.Clear();
+		}
+
+		private AssistTracker GetAssistTracker( Player attacker )
+		{
+			foreach ( var v in AssistTrackers )
+			{
+				if ( v.Attacker == attacker )
+				{
+					return v;
+				}
+			}
+
+			var tracker = new AssistTracker
+			{
+				LastDamageTime = 0f,
+				Attacker = attacker
+			};
+
+			AssistTrackers.Add( tracker );
+
+			return tracker;
+		}
+
+		private void AddAssistDamage( Player attacker, DamageInfo info )
+		{
+			var tracker = GetAssistTracker( attacker );
+
+			if ( tracker.LastDamageTime > 10f )
+			{
+				tracker.TotalDamage = 0f;
+			}
+
+			tracker.LastDamageTime = 0f;
+			tracker.TotalDamage += info.Damage;
+		}
+
 		private void AddCameraEffects( ref CameraSetup setup )
 		{
 			if ( Controller is not MoveController controller ) return;
@@ -266,6 +337,8 @@ namespace Facepunch.Hover
 				{
 					return;
 				}
+
+				AddAssistDamage( attacker, info );
 
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}
@@ -346,6 +419,16 @@ namespace Facepunch.Hover
 			if ( LifeState == LifeState.Alive && NextRegenTime )
 			{
 				Health = Math.Clamp( Health + HealthRegen * Time.Delta, 0f, MaxHealth );
+			}
+
+			for ( int i = AssistTrackers.Count - 1; i >= 0; i-- )
+			{
+				var tracker = AssistTrackers[i];
+
+				if ( tracker.LastDamageTime > 10f )
+				{
+					AssistTrackers.RemoveAt( i );
+				}
 			}
 		}
 

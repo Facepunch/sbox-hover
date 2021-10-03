@@ -52,6 +52,13 @@ namespace Facepunch.Hover
 				}
 
 				Hud.AddKillFeed( To.Everyone, attacker, player, attacker.ActiveChild as Weapon );
+
+				var assister = player.GetBestAssist( attacker );
+
+				if ( assister.IsValid() )
+				{
+					assister.GiveAward<AssistAward>();
+				}
 			}
 
 			player.MakeSpectator( player.Position, 5f );
