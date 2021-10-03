@@ -77,6 +77,11 @@ namespace Facepunch.Hover
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
 
+				foreach ( var flag in Entity.All.OfType<FlagEntity>() )
+				{
+					flag.Respawn();
+				}
+
 				BlueScore = 0;
 				RedScore = 0;
 

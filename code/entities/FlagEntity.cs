@@ -2,13 +2,17 @@
 
 namespace Facepunch.Hover
 {
-	public partial class FlagEntity : ModelEntity
+	public partial class FlagEntity : ModelEntity, IHudEntity
 	{
 		[Net] public RealTimeUntil NextPickupTime { get; private set; }
 		[Net] public FlagSpawnpoint Spawnpoint { get; private set; }
 		[Net] public Player Carrier { get; private set; }
 		[Net] public bool IsAtHome { get; private set; }
 		[Net] public Team Team { get; private set; }
+
+		public FlagIndicator Indicator { get; private set; }
+		public EntityHudAnchor Hud { get; private set; }
+		public Vector3 LocalCenter => CollisionBounds.Center;
 
 		public override void Spawn()
 		{
@@ -21,6 +25,16 @@ namespace Facepunch.Hover
 			Transmit = TransmitType.Always;
 
 			base.Spawn();
+		}
+
+		public override void ClientSpawn()
+		{
+			Hud = EntityHud.Instance.Create( this );
+			
+			Indicator = Hud.AddChild<FlagIndicator>( "flag" );
+			Indicator.SetTeam( Team );
+
+			base.ClientSpawn();
 		}
 
 		public void SetSpawnpoint( FlagSpawnpoint spawnpoint )
@@ -102,6 +116,13 @@ namespace Facepunch.Hover
 			base.StartTouch( other );
 		}
 
+		protected override void OnDestroy()
+		{
+			Hud?.Delete();
+
+			base.OnDestroy();
+		}
+
 		[Event.Tick.Server]
 		private void ServerTick()
 		{
@@ -137,6 +158,23 @@ namespace Facepunch.Hover
 
 				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, 10f * Time.Delta );
 				Position = Position.LerpTo( trace.EndPos + height, 20f * Time.Delta );
+			}
+		}
+
+		public bool ShouldUpdateHud()
+		{
+			return true;
+		}
+
+		public void UpdateHudComponents()
+		{
+			var distance = Local.Pawn.Position.Distance( Position ) - 1500f;
+			var mapped = distance.Remap( 0f, 1000f, 0f, 1f );
+
+			if ( Hud.Style.Opacity != mapped )
+			{
+				Hud.Style.Opacity = mapped;
+				Hud.Style.Dirty();
 			}
 		}
 	}

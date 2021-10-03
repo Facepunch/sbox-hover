@@ -17,6 +17,7 @@ namespace Facepunch.Hover
 
 			RootPanel.StyleSheet.Load( "/ui/Hud.scss" );
 
+			RootPanel.AddChild<EntityHud>();
 			RootPanel.AddChild<RoundInfo>();
 			RootPanel.AddChild<Vitals>();
 			RootPanel.AddChild<Ammo>();
