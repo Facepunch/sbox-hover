@@ -5,6 +5,7 @@ namespace Facepunch.Hover
 {
 	public partial class MoveController : BasePlayerController
 	{
+		[Net, Predicted] public Vector3 Impulse { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
 		public TimeSince LastSkiTime { get; set; }
@@ -45,6 +46,15 @@ namespace Facepunch.Hover
 			Unstuck = new Unstuck( this );
 		}
 
+		public void ClearGroundEntity()
+		{
+			if ( GroundEntity == null ) return;
+
+			GroundEntity = null;
+			GroundNormal = Vector3.Up;
+			SurfaceFriction = 1.0f;
+		}
+
 		public override BBox GetHull()
 		{
 			var girth = BodyGirth * 0.5f;
@@ -83,6 +93,13 @@ namespace Facepunch.Hover
 
 			if ( Unstuck.TestAndFix() )
 				return;
+
+			if ( Impulse.Length > 0 )
+			{
+				ClearGroundEntity();
+				Velocity += Impulse;
+				Impulse = 0f;
+			}
 
 			CheckLadder();
 			Swimming = Pawn.WaterLevel.Fraction > 0.6f;
@@ -136,7 +153,8 @@ namespace Facepunch.Hover
 			WishVelocity = WishVelocity.Normal * inSpeed;
 			WishVelocity *= GetWishSpeed( player );
 
-			bool stayOnGround = false;
+			var stayOnGround = false;
+
 			if ( Swimming )
 			{
 				ApplyFriction( 1 );
@@ -355,8 +373,8 @@ namespace Facepunch.Hover
 
 			ClearGroundEntity();
 
-			float groundFactor = 1.0f;
-			float multiplier = Scale( 268.3281572999747f * 1.2f );
+			var groundFactor = 1.0f;
+			var multiplier = Scale( 268.3281572999747f * 1.2f );
 
 			Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
 			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
@@ -492,27 +510,19 @@ namespace Facepunch.Hover
 			}
 		}
 
-		private void UpdateGroundEntity( TraceResult tr )
+		private void UpdateGroundEntity( TraceResult trace )
 		{
-			GroundNormal = tr.Normal;
-			SurfaceFriction = tr.Surface.Friction * 1.25f;
+			GroundNormal = trace.Normal;
+			SurfaceFriction = trace.Surface.Friction * 1.25f;
+
 			if ( SurfaceFriction > 1 ) SurfaceFriction = 1;
 
-			GroundEntity = tr.Entity;
+			GroundEntity = trace.Entity;
 
 			if ( GroundEntity != null )
 			{
 				BaseVelocity = GroundEntity.Velocity;
 			}
-		}
-
-		private void ClearGroundEntity()
-		{
-			if ( GroundEntity == null ) return;
-
-			GroundEntity = null;
-			GroundNormal = Vector3.Up;
-			SurfaceFriction = 1.0f;
 		}
 
 		public override TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )

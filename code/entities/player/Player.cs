@@ -99,6 +99,14 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public void ApplyForce( Vector3 force )
+		{
+			if ( Controller is MoveController controller )
+			{
+				controller.Impulse += force;
+			}
+		}
+
 		[ClientRpc]
 		public void ShowAward( string name )
 		{
