@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	[Hammer.EntityTool( "Launch Pad", "Hover", "A pad that launches players toward a target entity" )]
 	public partial class LaunchPad : ModelEntity
 	{
-		[Net, Property] public string TargetEntity { get; set; }
+		[Net, Property, FGDType( "target_destination" )] public string TargetEntity { get; set; } = "";
 		[Net, Property] public float VerticalBoost { get; set; } = 200f;
 		[Net, Property] public float Force { get; set; } = 1000f;
 
