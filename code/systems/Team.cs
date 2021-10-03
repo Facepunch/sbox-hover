@@ -18,6 +18,11 @@ namespace Facepunch.Hover
 			return team == Team.Blue ? "team_blue" : "team_red";
 		}
 
+		public static Color GetColor( this Team team )
+		{
+			return team == Team.Blue ? Color.Cyan : new Color( 255, 99, 71 );
+		}
+
 		public static string GetName( this Team team )
 		{
 			return team == Team.Blue ? "Snakes" : "Scorpions";

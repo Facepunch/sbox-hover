@@ -4,6 +4,10 @@ namespace Facepunch.Hover
 {
 	public partial class FlagEntity : ModelEntity, IHudEntity
 	{
+		public delegate void FlagEvent( Player player, FlagEntity flag );
+		public static event FlagEvent OnFlagPickedUp;
+		public static event FlagEvent OnFlagDropped;
+
 		[Net] public RealTimeUntil NextPickupTime { get; private set; }
 		[Net] public FlagSpawnpoint Spawnpoint { get; private set; }
 		[Net] public Player Carrier { get; private set; }
@@ -75,6 +79,7 @@ namespace Facepunch.Hover
 		{
 			if ( !IsAtHome && Carrier.IsValid() )
 			{
+				OnFlagDropped?.Invoke( Carrier, this );
 				SetParent( null );
 				Carrier = null;
 			}
@@ -91,6 +96,8 @@ namespace Facepunch.Hover
 			LocalPosition = boneTransform.Rotation.Backward * 15f;
 			Carrier = player;
 			IsAtHome = false;
+
+			OnFlagPickedUp?.Invoke( player, this );
 		}
 
 		public override void StartTouch( Entity other )

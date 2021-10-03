@@ -88,13 +88,13 @@ namespace Facepunch.Hover
 					foreach ( var member in Team.GetAll() )
 					{
 						member.GiveTokens( award.Tokens );
-						member.ShowAward( type );
+						member.ShowAward( To.Single( member ), type );
 					}
 				}
 				else
 				{
 					GiveTokens( award.Tokens );
-					ShowAward( type );
+					ShowAward( To.Single( this ), type );
 				}
 			}
 		}
@@ -114,7 +114,7 @@ namespace Facepunch.Hover
 
 			if ( award != null )
 			{
-				Log.Info( Name + " earned the " + award.Name + " award and received " + award.Tokens + " token(s)!" );
+				award.Show();
 			}
 		}
 
