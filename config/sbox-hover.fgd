@@ -242,7 +242,7 @@ metadata
 @SolidClass base(BaseProperties_sbox_hover) 
 metadata
 {
-	auto_apply_material = "materials/tools/toolstrigger.vmat"
+	auto_apply_material = "materials/editor/hv_jetpack_elevator.vmat"
 }
 = hv_jetpack_elevator : ""
 [

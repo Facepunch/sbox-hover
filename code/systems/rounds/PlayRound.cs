@@ -13,6 +13,7 @@ namespace Facepunch.Hover
 		[Net] public int BlueScore { get; set; }
 		[Net] public int RedScore { get; set; }
 		
+		private RoundScore ScoreHud { get; set; }
 		private bool HasFirstBlood { get; set; }
 
 		public int GetScore( Team team )
@@ -86,6 +87,10 @@ namespace Facepunch.Hover
 					SpawnPlayer( player );
 				}
 			}
+			else
+			{
+				ScoreHud = Local.Hud.AddChild<RoundScore>();
+			}
 		}
 
 		protected override void OnFinish()
@@ -94,6 +99,10 @@ namespace Facepunch.Hover
 			{
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
+			}
+			else
+			{
+				ScoreHud?.Delete();
 			}
 		}
 

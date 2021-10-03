@@ -36,7 +36,7 @@ vitals {
 
 	.energy {
 		.innerBar {
-			background-color: rgba( 0 0 255 0.2 );
+			background-color: rgba( 0 170 255 0.3 );
 		}
 
 		.icon {
@@ -52,6 +52,51 @@ vitals {
 
 	&.hidden {
 		display: none;
+	}
+}
+
+tokens {
+	backdrop-filter-blur: 8px;
+	box-shadow: $blueTeamBackground;
+	justify-content: center;
+	justify-items: center;
+	align-items: center;
+	font-family: Roboto;
+	flex-direction: row;
+	position: absolute;
+	padding: 16px;
+	height: 72px;
+	color: #fff;
+	right: 64px;
+	top: 32px;
+
+	.icon {
+		background-image: url( /ui/icons/tokens.png );
+		background-size: 100%;
+		text-shadow: $tokenShadow;
+		margin-right: 16px;
+		width: 40px;
+		height: 40px;
+	}
+
+	.amount {
+		text-shadow: $tokenShadow;
+		font-size: 32px;
+		color: $tokenColor;
+	}
+}
+
+.team_red {
+	tokens {
+		box-shadow: $redTeamBackground;
+
+		.icon {
+			text-shadow: $redTeamShadow;
+		}
+
+		.amount {
+			text-shadow: $redTeamShadow;
+		}
 	}
 }
 

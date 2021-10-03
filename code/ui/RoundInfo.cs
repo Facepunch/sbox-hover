@@ -17,8 +17,8 @@ namespace Facepunch.Hover
 		{
 			StyleSheet.Load( "/ui/RoundInfo.scss" );
 
-			Container = Add.Panel( "roundContainer" );
-			RoundName = Container.Add.Label( "Round", "roundName" );
+			Container = Add.Panel( "container" );
+			RoundName = Container.Add.Label( "Round", "name" );
 			Icon = Container.Add.Panel( "icon" );
 			TimeLeft = Container.Add.Label( "00:00", "timeLeft" );
 		}

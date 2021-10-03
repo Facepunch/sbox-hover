@@ -1,86 +1,6 @@
 ﻿@import "Variables.scss";
 
-.roundContainer {
-    box-shadow: $blueTeamBackground;
-    backdrop-filter-blur: 8px;
-    font-family: Roboto;
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 48px;
-    width: 410px;
-    height: 44px;
-
-    label {
-        align-items: center;
-        color: #ECECEC;
-        font-size: 24px;
-        font-weight: bold;
-        text-shadow: $blueTeamShadow;
-
-        &.roundName {
-            width: 50%;
-            padding-right: 50px;
-            text-align: right;
-            left: 0;
-        }
-
-        &.timeLeft {
-            padding-left: 50px;
-            right: 0;
-            text-align: left;
-            width: 50%;
-        }
-    }
-
-    &.roundNameOnly {
-        .roundName {
-            text-align: center;
-            margin-right: 0px;
-            left: auto;
-            padding: 0;
-            width: 100%;
-        }
-
-        .timeLeft {
-            display: none;
-        }
-
-        .icon {
-            display: none;
-        }
-    }
-
-    .icon {
-        position: absolute;
-        background-image-tint: $blueTeamTint;
-        background-image: $blueTeamIcon;
-        background-size: 100%;
-        width: 64px;
-        height: 64px;
-        left: 50%;
-        top: 50%;
-        transform: translateX(-50%) translateY(-50%);
-    }
-}
-
-.team_red {
-    .roundContainer {
-        box-shadow: $redTeamBackground;
-
-        label {
-            text-shadow: $redTeamShadow;
-        }
-
-        .icon {
-            background-image-tint: $redTeamTint;
-            background-image: $redTeamIcon;
-        }
-    }
-}
-
-roundInfo
-{
+roundInfo {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -88,4 +8,85 @@ roundInfo
     min-height: 100%;
     padding: 0;
     width: 100%;
+
+    .container {
+        box-shadow: $blueTeamBackground;
+        backdrop-filter-blur: 8px;
+        font-family: Roboto;
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        top: 48px;
+        width: 410px;
+        height: 44px;
+
+        label {
+            align-items: center;
+            color: #ECECEC;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: $blueTeamShadow;
+
+            &.name {
+                width: 50%;
+                padding-right: 50px;
+                text-align: right;
+                left: 0;
+            }
+
+            &.timeLeft {
+                padding-left: 50px;
+                right: 0;
+                text-align: left;
+                width: 50%;
+            }
+        }
+
+        &.roundNameOnly {
+            .name {
+                text-align: center;
+                margin-right: 0px;
+                left: auto;
+                padding: 0;
+                width: 100%;
+            }
+
+            .timeLeft {
+                display: none;
+            }
+
+            .icon {
+                display: none;
+            }
+        }
+
+        .icon {
+            position: absolute;
+            background-image-tint: $blueTeamTint;
+            background-image: $blueTeamIcon;
+            background-size: 100%;
+            width: 64px;
+            height: 64px;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+}
+
+.team_red {
+    roundInfo {
+        .container {
+            box-shadow: $redTeamBackground;
+
+            label {
+                text-shadow: $redTeamShadow;
+            }
+
+            .icon {
+                background-image-tint: $redTeamTint;
+                background-image: $redTeamIcon;
+            }
+        }
+    }
 }

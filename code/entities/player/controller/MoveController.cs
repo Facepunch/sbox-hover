@@ -11,12 +11,12 @@ namespace Facepunch.Hover
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
 		public float JetpackGainPerSecond { get; set; } = 20f;
-		public float JetpackLossPerSecond { get; set; } = 35f;
+		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float DownSlopeBoost { get; set; } = 0.4f;
 		public float UpSlopeFriction { get; set; } = 0.6f;
-		public float FlatSkiFriction { get; set; } = 0.05f;
-		public float JetpackAimThrust { get; set; } = 40f;
+		public float FlatSkiFriction { get; set; } = 0f;
+		public float JetpackAimThrust { get; set; } = 70f;
 		public float JetpackBoost { get; set; } = 150f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;

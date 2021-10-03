@@ -57,6 +57,15 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public void Drop()
+		{
+			if ( !IsAtHome && Carrier.IsValid() )
+			{
+				SetParent( null );
+				Carrier = null;
+			}
+		}
+
 		public void GiveToPlayer( Player player )
 		{
 			var boneIndex = player.GetBoneIndex( "spine_2" );
@@ -91,6 +100,44 @@ namespace Facepunch.Hover
 			}
 
 			base.StartTouch( other );
+		}
+
+		[Event.Tick.Server]
+		private void ServerTick()
+		{
+			if ( IsAtHome ) return;
+
+			if ( Carrier.IsValid() && Carrier.LifeState == LifeState.Dead )
+			{
+				Drop();
+				return;
+			}
+
+			if ( !Carrier.IsValid() )
+			{
+				var height = 60f;
+				var position = Position.WithZ( Position.z - height );
+
+				var trace = Trace.Ray( position, position + Vector3.Down * height )
+					.Ignore( this )
+					.Run();
+
+				if ( trace.Hit || trace.StartedSolid )
+				{
+					Rotation = Rotation.FromYaw( Rotation.Yaw() + 45f * Time.Delta );
+					return;
+				}
+
+				trace = Trace.Ray( position, position + Vector3.Down * 300f )
+					.Ignore( this )
+					.Run();
+
+				if ( trace.StartedSolid )
+					return;
+
+				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, 10f * Time.Delta );
+				Position = Position.LerpTo( trace.EndPos + height, 20f * Time.Delta );
+			}
 		}
 	}
 }

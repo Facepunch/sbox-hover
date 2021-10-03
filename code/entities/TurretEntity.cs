@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
-		public float ProjectileSpeed => 5000f;
+		public float ProjectileSpeed => 4000f;
 		public float RotateSpeed => 20f;
 		public float AttackRadius => 3000f;
 		public float BlastDamage => 400f;
@@ -166,7 +166,7 @@ namespace Facepunch.Hover
 				var damageInfo = new DamageInfo()
 					.WithAttacker( this )
 					.WithFlag( DamageFlags.Blast | DamageFlags.Shock )
-					.WithForce( (blastPosition - position).Normal * projectile.Speed )
+					.WithForce( (blastPosition - position).Normal * projectile.Speed * 0.1f )
 					.WithPosition( blastPosition )
 					.WithWeapon( this );
 
