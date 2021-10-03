@@ -128,7 +128,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public Player GetBestAssist( Player attacker )
+		public Player GetBestAssist( Entity attacker )
 		{
 			var minDamageTarget = MaxHealth * 0.3f;
 			var assister = (Player)null;
@@ -203,11 +203,15 @@ namespace Facepunch.Hover
 		{
 			base.OnKilled();
 
-			var attacker = LastAttacker as Player;
+			var attacker = LastAttacker;
 
 			if ( attacker.IsValid() )
 			{
-				attacker.OnKillPlayer( this, LastDamageInfo );
+				if ( attacker is Player killer )
+				{
+					killer.OnKillPlayer( this, LastDamageInfo );
+				}
+
 				Rounds.Current?.OnPlayerKilled( this, attacker, LastDamageInfo );
 			}
 			else

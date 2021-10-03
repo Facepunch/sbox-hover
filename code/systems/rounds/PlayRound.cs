@@ -28,37 +28,41 @@ namespace Facepunch.Hover
 			base.OnPlayerJoin( player );
 		}
 
-		public override void OnPlayerKilled( Player player, Player attacker, DamageInfo damageInfo )
+		public override void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo )
 		{
-			if ( attacker.IsValid() )
+			if ( attacker.IsValid() && attacker is Player killer )
 			{
 				if ( !HasFirstBlood )
 				{
-					attacker.GiveAward<FirstBloodAward>();
+					killer.GiveAward<FirstBloodAward>();
 					HasFirstBlood = true;
 				}
 
-				if ( player == attacker.LastKiller )
+				if ( player == killer.LastKiller )
 				{
-					attacker.GiveAward<RevengeAward>();
-					attacker.LastKiller = null;
+					killer.GiveAward<RevengeAward>();
+					killer.LastKiller = null;
 				}
 
-				attacker.GiveAward<KillAward>();
+				killer.GiveAward<KillAward>();
 
-				if ( player.KillStreak > 2 )
+				if ( killer.KillStreak > 2 )
 				{
-					attacker.GiveAward<BuzzkillAward>();
+					killer.GiveAward<BuzzkillAward>();
 				}
 
-				Hud.AddKillFeed( To.Everyone, attacker, player, attacker.ActiveChild as Weapon );
+				Hud.AddKillFeed( To.Everyone, killer, player, attacker.ActiveChild as Weapon );
+			}
+			else
+			{
+				Hud.AddKillFeed( To.Everyone, player );
+			}
 
-				var assister = player.GetBestAssist( attacker );
+			var assister = player.GetBestAssist( attacker );
 
-				if ( assister.IsValid() )
-				{
-					assister.GiveAward<AssistAward>();
-				}
+			if ( assister.IsValid() )
+			{
+				assister.GiveAward<AssistAward>();
 			}
 
 			player.MakeSpectator( player.Position, 5f );

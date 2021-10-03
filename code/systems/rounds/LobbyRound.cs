@@ -24,7 +24,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public override void OnPlayerKilled( Player player, Player attacker, DamageInfo damageInfo )
+		public override void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo )
 		{
 			player.Respawn();
 

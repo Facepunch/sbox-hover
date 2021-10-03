@@ -16,6 +16,12 @@ namespace Facepunch.Hover
 			ToastList.Instance.AddKillFeed( attacker, victim, weapon );
 		}
 
+		[ClientRpc]
+		public static void AddKillFeed( Player victim )
+		{
+			ToastList.Instance.AddKillFeed( victim );
+		}
+
 		public static void ToastAll( string text, string icon = "" )
 		{
 			Toast( To.Everyone, text, icon );

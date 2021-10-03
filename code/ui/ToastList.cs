@@ -21,6 +21,19 @@ namespace Facepunch.Hover
 			Victim = Add.Label( "", "victim" );
 		}
 
+		public void Update( Player victim )
+		{
+			Attacker.SetClass( "hidden", true );
+
+			Victim.Text = victim.GetClientOwner().Name;
+			Victim.Style.FontColor = victim.Team.GetColor();
+			Victim.Style.Dirty();
+
+			Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+
+			EndTime = Time.Now + 3f;
+		}
+
 		public void Update( Player attacker, Player victim, Weapon weapon )
 		{
 			Attacker.Text = attacker.GetClientOwner().Name;
@@ -90,6 +103,12 @@ namespace Facepunch.Hover
 		{
 			var item = AddChild<KillFeedItem>();
 			item.Update( attacker, victim, weapon );
+		}
+
+		public void AddKillFeed( Player victim )
+		{
+			var item = AddChild<KillFeedItem>();
+			item.Update( victim );
 		}
 
 		public void AddItem( string text, Texture icon = null )
