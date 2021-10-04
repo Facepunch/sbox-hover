@@ -13,8 +13,7 @@ namespace Facepunch.Hover
 
 		public Nameplate( Player player )
 		{
-			var client = player.GetClientOwner();
-			NameLabel = Add.Label( client.Name );
+			NameLabel = Add.Label( player.Client.Name );
 		}
 	}
 }

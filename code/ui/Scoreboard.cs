@@ -3,6 +3,7 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -18,7 +19,7 @@ namespace Facepunch.Hover
 			public Panel Canvas;
 		}
 
-		public Dictionary<int, ScoreboardEntry> Entries = new();
+		public Dictionary<Client, ScoreboardEntry> Rows = new();
 		public Dictionary<int, TeamSection> TeamSections = new();
 
 		public Scoreboard()
@@ -29,15 +30,6 @@ namespace Facepunch.Hover
 
 			AddTeamHeader( Team.Red );
 			AddTeamHeader( Team.Blue );
-
-			PlayerScore.OnPlayerAdded += AddPlayer;
-			PlayerScore.OnPlayerUpdated += UpdatePlayer;
-			PlayerScore.OnPlayerRemoved += RemovePlayer;
-
-			foreach ( var player in PlayerScore.All )
-			{
-				AddPlayer( player );
-			}
 		}
 
 		public override void Tick()
@@ -45,6 +37,29 @@ namespace Facepunch.Hover
 			base.Tick();
 			
 			SetClass( "open", Input.Down( InputButton.Score ) );
+
+			if ( !IsVisible )
+				return;
+
+			foreach ( var client in Client.All.Except( Rows.Keys ) )
+			{
+				var entry = AddClient( client );
+				Rows[client] = entry;
+			}
+
+			foreach ( var client in Rows.Keys.Except( Client.All ) )
+			{
+				if ( Rows.TryGetValue( client, out var row ) )
+				{
+					row?.Delete();
+					Rows.Remove( client );
+				}
+			}
+
+			foreach ( var kv in Rows )
+			{
+				CheckTeamIndex( kv.Value);
+			}
 		}
 
 		protected void AddTeamHeader( Team team )
@@ -54,7 +69,6 @@ namespace Facepunch.Hover
 				
 			};
 
-			// Set up the Container for the Team on the scoreboard
 			section.TeamContainer = Add.Panel( "team-container" );
 			section.TeamHeader = section.TeamContainer.Add.Panel( "team-header" );
 			section.Header = section.TeamContainer.Add.Panel( "table-header" );
@@ -82,9 +96,9 @@ namespace Facepunch.Hover
 			TeamSections[index] = section;
 		}
 
-		protected void AddPlayer( PlayerScore.Entry entry )
+		protected virtual ScoreboardEntry AddClient( Client entry )
 		{
-			var teamIndex = entry.Get( "team", 0 );
+			var teamIndex = entry.GetInt( "team" );
 
 			if ( !TeamSections.TryGetValue( teamIndex, out var section ) )
 			{
@@ -92,40 +106,26 @@ namespace Facepunch.Hover
 			}
 
 			var p = section.Canvas.AddChild<ScoreboardEntry>();
-			p.UpdateFrom( entry );
-			Entries[entry.Id] = p;
+			p.Client = entry;
+			return p;
 		}
 
-		protected void UpdatePlayer( PlayerScore.Entry entry )
+		private void CheckTeamIndex( ScoreboardEntry entry )
 		{
-			if ( Entries.TryGetValue( entry.Id, out var panel ) )
+			var currentTeamIndex = 0;
+			var newTeamIndex = entry.Client.GetInt( "team" );
+
+			foreach ( var kv in TeamSections )
 			{
-				var currentTeamIndex = 0;
-				var newTeamIndex = entry.Get( "team", 0 );
-
-				foreach (var kv in TeamSections)
+				if ( kv.Value.Canvas == entry.Parent )
 				{
-					if ( kv.Value.Canvas == panel.Parent )
-					{
-						currentTeamIndex = kv.Key;
-					}
+					currentTeamIndex = kv.Key;
 				}
-
-				if ( currentTeamIndex != newTeamIndex )
-				{
-					panel.Parent = TeamSections[newTeamIndex].Canvas;
-				}
-
-				panel.UpdateFrom( entry );
 			}
-		}
 
-		protected void RemovePlayer( PlayerScore.Entry entry )
-		{
-			if ( Entries.TryGetValue( entry.Id, out var panel ) )
+			if ( currentTeamIndex != newTeamIndex )
 			{
-				panel.Delete();
-				Entries.Remove( entry.Id );
+				entry.Parent = TeamSections[newTeamIndex].Canvas;
 			}
 		}
 	}
@@ -139,11 +139,11 @@ namespace Facepunch.Hover
 			Captures = Add.Label( "", "captures" );
 		}
 
-		public override void UpdateFrom( PlayerScore.Entry entry )
+		public override void UpdateData()
 		{
-			base.UpdateFrom( entry );
+			base.UpdateData();
 
-			Captures.Text = entry.Get<int>( "captures", 0 ).ToString();
+			Captures.Text = Client.GetInt( "captures" ).ToString();
 		}
 	}
 }

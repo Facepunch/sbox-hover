@@ -9,9 +9,7 @@ namespace Facepunch.Hover
 		public void SetTeam( Team team )
 		{
 			Team = team;
-
-			var client = GetClientOwner();
-			client.SetScore( "team", (int)team );
+			Client.SetInt( "team", (int)team );
 		}
 
 		protected virtual void OnTeamChanged( Team oldTeam, Team newTeam )
