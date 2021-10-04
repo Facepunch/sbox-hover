@@ -23,15 +23,20 @@ namespace Facepunch.Hover
 
 			SetClass( "hidden", player.LifeState != LifeState.Alive );
 
-			Health.InnerBar.Style.Width = Length.Fraction( Math.Max( player.Health / player.MaxHealth, 0.15f ) );
-			Health.InnerBar.Style.Dirty();
-			Health.Text.Text = ((int)player.Health).ToString();
-			Health.SetClass( "low", player.Health < player.MaxHealth * 0.4f );
+			var health = player.Health;
 
-			Energy.InnerBar.Style.Width = Length.Fraction( Math.Max( player.Energy / player.MaxEnergy, 0.15f ) );
-			Energy.InnerBar.Style.Dirty();
-			Energy.Text.Text = ((int)player.Energy).ToString();
-			Energy.SetClass( "low", player.Energy < player.MaxEnergy * 0.4f );
+			Health.InnerBar.Style.Width = Length.Fraction( Math.Max( health / player.MaxHealth, 0.15f ) );
+			Health.InnerBar.Style.Dirty();
+			Health.Text.Text = ((int)health).ToString();
+			Health.SetClass( "low", health < player.MaxHealth * 0.4f );
+
+			if ( player.Controller is MoveController controller )
+			{
+				Energy.InnerBar.Style.Width = Length.Fraction( Math.Max( controller.Energy / controller.MaxEnergy, 0.15f ) );
+				Energy.InnerBar.Style.Dirty();
+				Energy.Text.Text = ((int)controller.Energy).ToString();
+				Energy.SetClass( "low", controller.Energy < controller.MaxEnergy * 0.4f );
+			}
 
 			base.Tick();
 		}

@@ -16,7 +16,6 @@ namespace Facepunch.Hover
 		}
 
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
-		[Net, Predicted] public float Energy { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
@@ -25,9 +24,6 @@ namespace Facepunch.Hover
 		[Net] public Vector3 DeathPosition { get; set; }
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
-		[Net] public float MaxEnergy { get; set; }
-		[Net] public float MoveSpeed { get; set; }
-		[Net] public float MaxSpeed { get; set; }
 
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
@@ -314,10 +310,11 @@ namespace Facepunch.Hover
 
 		private void AddCameraEffects( ref CameraSetup setup )
 		{
-			if ( Controller is not MoveController controller ) return;
+			if ( Controller is not MoveController controller )
+				return;
 
 			var forwardSpeed = Velocity.Normal.Dot( setup.Rotation.Forward );
-			var speed = Velocity.Length.LerpInverse( 0, MaxSpeed );
+			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
 			var left = setup.Rotation.Left;
 			var up = setup.Rotation.Up;
 

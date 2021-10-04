@@ -35,12 +35,18 @@ namespace Facepunch.Hover
 				Entity.AttachClothing( model );
 			}
 
+			Entity.Controller = new MoveController
+			{
+				MoveSpeed = MoveSpeed,
+				MaxSpeed = MaxSpeed,
+				MaxEnergy = Energy,
+				Energy = Energy
+			};
+
+			Entity.Camera = new FirstPersonCamera();
+
 			Entity.HealthRegen = HealthRegen;
 			Entity.RegenDelay = RegenDelay;
-			Entity.MoveSpeed = MoveSpeed;
-			Entity.MaxSpeed = MaxSpeed;
-			Entity.MaxEnergy = Energy;
-			Entity.Energy = Energy;
 			Entity.MaxHealth = Health;
 			Entity.Health = Health;
 
@@ -50,9 +56,6 @@ namespace Facepunch.Hover
 			Entity.EnableDrawing = true;
 			Entity.EnableHideInFirstPerson = true;
 			Entity.EnableShadowInFirstPerson = true;
-
-			Entity.Controller = new MoveController();
-			Entity.Camera = new FirstPersonCamera();
 		}
 	}
 }

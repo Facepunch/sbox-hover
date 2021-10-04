@@ -7,7 +7,11 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public Vector3 Impulse { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
+		[Net, Predicted] public float Energy { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
+		[Net] public float MaxEnergy { get; set; }
+		[Net] public float MaxSpeed { get; set; }
+		[Net] public float MoveSpeed { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
@@ -137,7 +141,7 @@ namespace Facepunch.Hover
 
 				if ( !IsJetpacking )
 				{
-					player.Energy = (player.Energy + JetpackGainPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
+					Energy = (Energy + JetpackGainPerSecond * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
 			}
 
@@ -185,13 +189,11 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 			}
-
-			if ( IsJetpacking ) SetTag( "jetpack" );
 		}
 
 		private float GetWishSpeed( Player player )
 		{
-			return Scale( player.MoveSpeed ); 
+			return Scale( MoveSpeed ); 
 		}
 
 		private void WalkMove()
@@ -310,7 +312,7 @@ namespace Facepunch.Hover
 
 			if ( groundAngle < 100f )
 			{
-				if ( groundAngle < 85f && Velocity.Length < player.MaxSpeed )
+				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
 					Velocity += (Velocity * Time.Delta * DownSlopeBoost);
 				else
 					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
@@ -348,7 +350,6 @@ namespace Facepunch.Hover
 			{
 				ClearGroundEntity();
 				Velocity = Velocity.WithZ( 100 );
-
 				return;
 			}
 
@@ -356,7 +357,7 @@ namespace Facepunch.Hover
 
 			if ( GroundEntity == null )
 			{
-				if ( player.Energy >= 5f )
+				if ( Energy >= 5f )
 				{
 					IsJetpacking = true;
 					Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost ) * Time.Delta );
@@ -365,7 +366,7 @@ namespace Facepunch.Hover
 
 				if ( !player.InEnergyElevator )
 				{
-					player.Energy = (player.Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, player.MaxEnergy );
+					Energy = (Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
 
 				return;
