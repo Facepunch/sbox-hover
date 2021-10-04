@@ -4,13 +4,16 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library( "hv_launch_pad" )]
-	[Hammer.EditorModel( "models/flag/temp_flag_base.vmdl", FixedBounds = true )]
+	[Hammer.RenderFields]
+	[Hammer.EditorModel( "models/launch_pad/launch_pad.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Launch Pad", "Hover", "A pad that launches players toward a target entity" )]
 	public partial class LaunchPad : ModelEntity
 	{
 		[Net, Property, FGDType( "target_destination" )] public string TargetEntity { get; set; } = "";
 		[Net, Property] public float VerticalBoost { get; set; } = 200f;
 		[Net, Property] public float Force { get; set; } = 1000f;
+
+
 
 		public LaunchPad()
 		{
@@ -20,7 +23,7 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			SetModel( "models/flag/temp_flag_base.vmdl" );
+			SetModel( "models/launch_pad/launch_pad.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 
 			if ( Force == 0f )
