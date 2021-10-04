@@ -240,6 +240,14 @@ namespace Facepunch.Hover
 			if ( LifeState != LifeState.Alive )
 				return;
 
+			if ( Input.Released( InputButton.View ) )
+			{
+				if ( Camera is FirstPersonCamera )
+					Camera = new ThirdPersonCamera();
+				else
+					Camera = new FirstPersonCamera();
+			} 
+
 			TickPlayerUse();
 
 			var controller = GetActiveController();

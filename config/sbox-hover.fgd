@@ -25,7 +25,7 @@ metadata
 }
 = flowfield_blocker : "Blocks off areas that players should not be able to access."
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -44,7 +44,7 @@ metadata
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
 		2 : "Npcs" : 0
@@ -83,7 +83,7 @@ metadata
 	dayambience(sound) : "Day Ambient Sound" :  : ""
 	duskambience(sound) : "Dusk Ambient Sound" :  : ""
 	nightambience(sound) : "Night Ambient Sound" :  : ""
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -105,7 +105,7 @@ metadata
 	duskskycolor(color255) : "Dusk Sky Color" :  : ""
 	nightcolor(color255) : "Night Color" :  : ""
 	nightskycolor(color255) : "Night Sky Color" :  : ""
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 
@@ -126,12 +126,12 @@ metadata
 }
 = daynight_prop : "Sets the skin of a model depending on if it's day time or night time, example: A street lamp turning on and night time then turning off in the morning"
 [
-	model(resource:vmdl) { report = true }: "World Model" : "" : "The model this entity should use."
-	skin(materialgroup) { group="Render Properties" } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
-	bodygroups(bodygroupchoices) { group="Render Properties" } : "Body Groups" : "" : "Some models have multiple variations of certain items, such as characters having different hair styles, etc."
+	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
+	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
+	bodygroups(bodygroupchoices) { group = "Rendering" hide_when_solid = true } : "Body Groups" : "" : "Some models have multiple variations of certain items, such as characters having different hair styles, etc."
 	daymaterialgroup(integer) : "Day Material Group" : 0 : ""
 	nightmaterialgroup(integer) : "Night Material Group" : 1 : ""
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -151,7 +151,7 @@ metadata
 	timetoplay(integer) : "Time To Play" : 12 : ""
 	timetostop(integer) : "Time To Stop" : -1 : ""
 	deleteonplay(boolean) : "Delete On Play" : 0 : ""
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -166,12 +166,12 @@ metadata
 = daynight_window : "A brush entity that will enable and disable at random times during the morning and night time"
 [
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
-	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	renderamt(integer) [ group="Rendering" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	enabledelay(float) : "Enable Delay Time" : 3 : ""
 	disabledelay(float) : "Disable Delay Time" : 3 : ""
 	enabled(boolean) : "Enabled" : 1 : "Whether this func_brush is visible/active at all"
 	solid(boolean) : "Solid" : 1 : "Whether this func_brush has collisions"
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input DisableSolid(void) : "Make this func_brush non solid"
 	input EnableSolid(void) : "Make this func_brush solid"
@@ -187,7 +187,7 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hover : ""
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -208,7 +208,7 @@ metadata
 		1 : "Red"
 		2 : "Blue"
 	]
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -231,7 +231,7 @@ metadata
 		1 : "Red"
 		2 : "Blue"
 	]
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -248,7 +248,7 @@ metadata
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 	spawnflags(flags) = [
 		1 : "Clients" : 1
 		2 : "Npcs" : 0
@@ -275,7 +275,7 @@ metadata
 //
 // Facepunch.Hover.LaunchPad
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/flag/temp_flag_base.vmdl", fixedbounds ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/launch_pad/launch_pad.vmdl", fixedbounds ) 
 metadata
 {
 	entity_tool_name = "Launch Pad"
@@ -284,10 +284,12 @@ metadata
 }
 = hv_launch_pad : ""
 [
+	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Rendering" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
 	targetentity(target_destination) : "Target Entity" : "" : ""
 	verticalboost(float) : "Vertical Boost" : 200 : ""
 	force(float) : "Force" : 1000 : ""
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -310,7 +312,7 @@ metadata
 		1 : "Red"
 		2 : "Blue"
 	]
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -331,7 +333,7 @@ metadata
 		1 : "Red"
 		2 : "Blue"
 	]
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -341,7 +343,7 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_knife : ""
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -351,7 +353,7 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_pistol : ""
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -361,7 +363,7 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_shotgun : ""
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
@@ -371,7 +373,7 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_smg : ""
 [
-	enable_shadows(boolean) { group = "Render Properties" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]

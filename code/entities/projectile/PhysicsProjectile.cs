@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public Action<PhysicsProjectile, Entity> Callback { get; private set; }
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
-		public RealTimeUntil LifeTime { get; set; } = 10f;
+		public RealTimeUntil LifeTime { get; set; }
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSound { get; set; } = null;
 		public string Attachment { get; set; } = null;
@@ -108,8 +108,6 @@ namespace Facepunch.Hover
 					var explosion = Particles.Create( ExplosionEffect );
 					explosion.SetPosition( 0, Position );
 				}
-
-				Log.Info( trace.Entity );
 
 				if ( !string.IsNullOrEmpty( HitSound ) )
 					Audio.Play( HitSound, Position );

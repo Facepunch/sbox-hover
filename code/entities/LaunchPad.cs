@@ -38,6 +38,12 @@ namespace Facepunch.Hover
 			{
 				var target = FindByName( TargetEntity );
 
+				if ( IsServer )
+				{
+					var effect = Particles.Create( "particles/launch_pad/launch_pad_horizontal_jump.vpcf" );
+					effect.SetPosition( 0, Position );
+				}
+
 				if ( target.IsValid() )
 				{
 					var direction = (target.Position - player.Position).Normal;

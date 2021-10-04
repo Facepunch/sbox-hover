@@ -17,6 +17,7 @@ namespace Facepunch.Hover
 		public FlagIndicator Indicator { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
+		public Particles Effects { get; private set; }
 
 		public override void Spawn()
 		{
@@ -59,6 +60,7 @@ namespace Facepunch.Hover
 
 		public void SpawnAt( FlagSpawnpoint spawnpoint )
 		{
+			DoBaseEffects();
 			SetParent( spawnpoint );
 			NextPickupTime = 2f;
 			LocalPosition = new Vector3( 0f, 0f, 60f );
@@ -79,6 +81,7 @@ namespace Facepunch.Hover
 		{
 			if ( !IsAtHome && Carrier.IsValid() )
 			{
+				DoIdleEffects();
 				OnFlagDropped?.Invoke( Carrier, this );
 				SetParent( null );
 				Carrier = null;
@@ -87,6 +90,8 @@ namespace Facepunch.Hover
 
 		public void GiveToPlayer( Player player )
 		{
+			DoTrailEffects();
+
 			var boneIndex = player.GetBoneIndex( "spine_2" );
 			var boneTransform = player.GetBoneTransform( boneIndex );
 
@@ -130,6 +135,24 @@ namespace Facepunch.Hover
 			base.OnDestroy();
 		}
 
+		private void DoBaseEffects()
+		{
+			Effects?.Destroy();
+			Effects = Particles.Create( "particles/flag/flag_idle_base.vpcf", this );
+		}
+
+		private void DoIdleEffects()
+		{
+			Effects?.Destroy();
+			Effects = Particles.Create( "particles/flag/flag_idle_ground.vpcf", this );
+		}
+
+		private void DoTrailEffects()
+		{
+			Effects?.Destroy();
+			Effects = Particles.Create( "particles/flag/flag_idle_trail.vpcf", this );
+		}
+
 		[Event.Tick.Server]
 		private void ServerTick()
 		{
@@ -144,9 +167,9 @@ namespace Facepunch.Hover
 			if ( !Carrier.IsValid() )
 			{
 				var height = 60f;
-				var position = Position.WithZ( Position.z - height );
+				var position = Position.WithZ( Position.z + height );
 
-				var trace = Trace.Ray( position, position + Vector3.Down * height )
+				var trace = Trace.Ray( position, position + Vector3.Down * height * 2f )
 					.Ignore( this )
 					.Run();
 
@@ -156,7 +179,7 @@ namespace Facepunch.Hover
 					return;
 				}
 
-				trace = Trace.Ray( position, position + Vector3.Down * 300f )
+				trace = Trace.Ray( position, position + Vector3.Down * height * 4f )
 					.Ignore( this )
 					.Run();
 
