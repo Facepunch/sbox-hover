@@ -137,32 +137,26 @@ namespace Facepunch.Hover
 
 		private void OnFlagPickedUp( Player player, FlagEntity flag )
 		{
-			var client = player.GetClientOwner();
-
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
+				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
+				Hud.ToastAll( player.Client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
 		}
 
 		private void OnFlagReturned( Player player, FlagEntity flag )
 		{
-			var client = player.GetClientOwner();
-
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
+				Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
+				Hud.ToastAll( player.Client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
 		}
 
 		private void OnFlagCaptured( Player player, FlagEntity flag )
 		{
-			var client = player.GetClientOwner();
-
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
+				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
+				Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
 
 			if ( player.Team == Team.Blue )
 				BlueScore++;

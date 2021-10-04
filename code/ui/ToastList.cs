@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 		{
 			Attacker.SetClass( "hidden", true );
 
-			Victim.Text = victim.GetClientOwner().Name;
+			Victim.Text = victim.Client.Name;
 			Victim.Style.FontColor = victim.Team.GetColor();
 			Victim.Style.Dirty();
 
@@ -36,11 +36,11 @@ namespace Facepunch.Hover
 
 		public void Update( Player attacker, Player victim, Weapon weapon )
 		{
-			Attacker.Text = attacker.GetClientOwner().Name;
+			Attacker.Text = attacker.Client.Name;
 			Attacker.Style.FontColor = attacker.Team.GetColor();
 			Attacker.Style.Dirty();
 
-			Victim.Text = victim.GetClientOwner().Name;
+			Victim.Text = victim.Client.Name;
 			Victim.Style.FontColor = victim.Team.GetColor();
 			Victim.Style.Dirty();
 
