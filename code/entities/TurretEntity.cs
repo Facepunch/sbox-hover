@@ -110,7 +110,6 @@ namespace Facepunch.Hover
 			{
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
 				MoveTowardTarget = 500f,
-				LifeTime = 10f,
 				Target = Target,
 				Gravity = 100f
 			};

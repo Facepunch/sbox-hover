@@ -139,18 +139,21 @@ namespace Facepunch.Hover
 		{
 			Effects?.Destroy();
 			Effects = Particles.Create( "particles/flag/flag_idle_base.vpcf", this );
+			Effects.SetPosition( 1, Team.GetColor() * 255f );
 		}
 
 		private void DoIdleEffects()
 		{
 			Effects?.Destroy();
 			Effects = Particles.Create( "particles/flag/flag_idle_ground.vpcf", this );
+			Effects.SetPosition( 1, Team.GetColor() * 255f );
 		}
 
 		private void DoTrailEffects()
 		{
 			Effects?.Destroy();
 			Effects = Particles.Create( "particles/flag/flag_idle_trail.vpcf", this );
+			Effects.SetPosition( 1, Team.GetColor() * 255f );
 		}
 
 		[Event.Tick.Server]

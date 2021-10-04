@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public Action<PhysicsProjectile, Entity> Callback { get; private set; }
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
-		public RealTimeUntil LifeTime { get; set; }
+		public RealTimeUntil LifeTime { get; set; } = 10f;
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSound { get; set; } = null;
 		public string Attachment { get; set; } = null;
@@ -84,6 +84,13 @@ namespace Facepunch.Hover
 			if ( Debug )
 				DebugOverlay.Sphere( Position, Radius, Color.Red );
 
+			if ( LifeTime )
+			{
+				Log.Info( "Reached lifetime" );
+				Delete();
+				return;
+			}
+
 			var newPosition = Position;
 			newPosition += Direction * Speed * Time.Delta;
 			newPosition -= new Vector3( 0f, 0f, Gravity * Time.Delta );
@@ -101,7 +108,7 @@ namespace Facepunch.Hover
 
 			Position = newPosition;
 
-			if ( trace.Hit || LifeTime )
+			if ( trace.Hit )
 			{
 				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
 				{

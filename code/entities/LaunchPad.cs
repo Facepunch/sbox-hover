@@ -42,6 +42,7 @@ namespace Facepunch.Hover
 				{
 					var effect = Particles.Create( "particles/launch_pad/launch_pad_horizontal_jump.vpcf" );
 					effect.SetPosition( 0, Position );
+					effect.SetPosition( 1, RenderColor * 255f );
 				}
 
 				if ( target.IsValid() )

@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 
 		public static Color GetColor( this Team team )
 		{
-			return team == Team.Blue ? Color.Cyan : new Color( 255, 99, 71 );
+			return team == Team.Blue ? Color.Cyan : new Color( 1f, 0.38f, 0.27f );
 		}
 
 		public static string GetName( this Team team )
