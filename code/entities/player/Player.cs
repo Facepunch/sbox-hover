@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 
 		private List<AssistTracker> AssistTrackers { get; set; }
 		private Rotation LastCameraRotation { get; set; }
+		private Particles SpeedLines { get; set; }
 		private Radar RadarHud { get; set; }
 		private float WalkBob { get; set; }
 		private float FOV { get; set; }
@@ -159,6 +160,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsLocalPawn )
 			{
+				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
 				RadarHud = Local.Hud.AddChild<Radar>();
 			}
 
@@ -242,7 +244,7 @@ namespace Facepunch.Hover
 					Camera = new ThirdPersonCamera();
 				else
 					Camera = new FirstPersonCamera();
-			} 
+			}
 
 			TickPlayerUse();
 
@@ -417,6 +419,17 @@ namespace Facepunch.Hover
 			client.SetScore( "kills", client.GetScore( "kills", 0 ) + 1 );
 		}
 
+		[Event.Tick.Client]
+		protected virtual void ClientTick()
+		{
+			if ( IsLocalPawn && Controller is MoveController controller )
+			{
+				var speed = Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 1f );
+				speed = Math.Min( Easing.EaseIn( speed ) * 60f, 60f );
+				SpeedLines.SetPosition( 1, new Vector3( speed, 0f, 0f ) );
+			}
+		}
+
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
@@ -451,7 +464,10 @@ namespace Facepunch.Hover
 			RemoveRagdollEntity();
 
 			if ( IsLocalPawn )
+			{
+				SpeedLines?.Destroy();
 				RadarHud?.Delete();
+			}
 
 			base.OnDestroy();
 		}
