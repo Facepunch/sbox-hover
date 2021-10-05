@@ -31,6 +31,10 @@ namespace Facepunch.Hover
 		private Rotation LastCameraRotation { get; set; }
 		private Particles SpeedLines { get; set; }
 		private Radar RadarHud { get; set; }
+		private bool IsPlayingJetpackLoop { get; set; }
+		private bool IsPlayingSkiLoop { get; set; }
+		private Sound JetpackLoop { get; set; }
+		private Sound SkiLoop { get; set; }
 		private float WalkBob { get; set; }
 		private float FOV { get; set; }
 
@@ -190,6 +194,8 @@ namespace Facepunch.Hover
 
 			RemoveRagdollEntity();
 			ClearAssistTrackers();
+			StopJetpackLoop();
+			StopSkiLoop();
 
 			Rounds.Current?.OnPlayerSpawn( this );
 		}
@@ -218,6 +224,7 @@ namespace Facepunch.Hover
 
 			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
+			StopSkiLoop();
 
 			KillStreak = 0;
 		}
@@ -458,6 +465,86 @@ namespace Facepunch.Hover
 					AssistTrackers.RemoveAt( i );
 				}
 			}
+
+			UpdateJetpackLoop();
+			UpdateSkiLoop();
+		}
+
+		protected virtual void UpdateJetpackLoop()
+		{
+			if ( Controller is MoveController controller )
+			{
+				if ( IsPlayingJetpackLoop )
+				{
+					if ( !controller.IsJetpacking )
+					{
+						PlaySound( "jetpack.blast" ).SetVolume( 0.2f );
+						StopJetpackLoop();
+					}
+				}
+				else if ( controller.IsJetpacking )
+				{
+					StartJetpackLoop();
+				}
+			}
+			else if ( IsPlayingJetpackLoop )
+			{
+				StopJetpackLoop();
+			}
+		}
+
+		protected virtual void StopJetpackLoop()
+		{
+			IsPlayingJetpackLoop = false;
+			JetpackLoop.Stop();
+		}
+
+		protected virtual void StartJetpackLoop()
+		{
+			IsPlayingJetpackLoop = true;
+			JetpackLoop.Stop();
+			JetpackLoop = PlaySound( "jetpack.fly" );
+			PlaySound( "jetpack.blast" );
+		}
+
+		protected virtual void UpdateSkiLoop()
+		{
+			if ( Controller is MoveController controller )
+			{
+				if ( IsPlayingSkiLoop )
+				{
+					if ( !controller.IsSkiing || Velocity.Length < controller.MaxSpeed * 0.1f )
+					{
+						StopSkiLoop();
+						PlaySound( "ski.stop" );
+					}
+					else
+					{
+						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.4f ) );
+					}
+				}
+				else if ( controller.IsSkiing && Velocity.Length > controller.MaxSpeed * 0.1f )
+				{
+					StartSkiLoop();
+				}
+			}
+			else if ( IsPlayingSkiLoop )
+			{
+				StopSkiLoop();
+			}
+		}
+
+		protected virtual void StopSkiLoop()
+		{
+			IsPlayingSkiLoop = false;
+			SkiLoop.Stop();
+		}
+
+		protected virtual void StartSkiLoop()
+		{
+			IsPlayingSkiLoop = true;
+			SkiLoop.Stop();
+			SkiLoop = PlaySound( "ski.loop" );
 		}
 
 		protected override void UseFail()
@@ -468,6 +555,8 @@ namespace Facepunch.Hover
 		protected override void OnDestroy()
 		{
 			RemoveRagdollEntity();
+			StopJetpackLoop();
+			StopSkiLoop();
 
 			if ( IsLocalPawn )
 			{

@@ -7,8 +7,8 @@
 			"sound/weapons/blaster.fire1.vsnd",
 		]
 		UI = false
-		Volume = 1.0
-		VolumeRandom = 0.8
+		Volume = 0.8
+		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.1
 		DistanceMax = 2000.0

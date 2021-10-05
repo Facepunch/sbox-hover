@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( "blaster.fire1" );
+			PlaySound( $"blaster.fire1" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
