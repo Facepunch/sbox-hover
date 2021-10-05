@@ -24,15 +24,20 @@ namespace Facepunch.Hover
 			SetModel( "models/launch_pad/launch_pad.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 
-			var particles = Particles.Create( "particles/launch_pad/launch_pad_horizontal.vpcf", this );
-			particles.SetPosition( 1, RenderColor * 255f );
-
 			if ( Force == 0f )
 			{
 				Force = 1000f;
 			}
 
 			base.Spawn();
+		}
+
+		public override void ClientSpawn()
+		{
+			var particles = Particles.Create( "particles/launch_pad/launch_pad_horizontal.vpcf", this );
+			particles.SetPosition( 1, RenderColor * 255f );
+
+			base.ClientSpawn();
 		}
 
 		public override void StartTouch( Entity other )
