@@ -220,10 +220,10 @@ namespace Facepunch.Hover
 				Rounds.Current?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
-			Client.SetInt( "deaths", Client.GetInt( "deaths", 0 ) + 1 );
-
 			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
+
+			StopJetpackLoop();
 			StopSkiLoop();
 
 			KillStreak = 0;
@@ -428,8 +428,6 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState == LifeState.Alive )
 				KillStreak++;
-
-			Client.SetInt( "kills", Client.GetInt( "kills", 0 ) + 1 );
 		}
 
 		[Event.Tick.Client]

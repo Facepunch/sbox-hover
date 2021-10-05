@@ -130,20 +130,59 @@ namespace Facepunch.Hover
 		}
 	}
 
-	public class ScoreboardEntry : Sandbox.UI.ScoreboardEntry
+	public class ScoreboardEntry : Panel
 	{
-		public Label Captures;
+		public Client Client { get; set; }
+		public Label PlayerName { get; set; }
+		public Label Captures { get; set; }
+		public Label Kills { get; set; }
+		public Label Deaths { get; set; }
+		public Label Ping { get; set; }
 
-		public ScoreboardEntry() : base()
+		private RealTimeSince TimeSinceUpdate { get; set; }
+
+		public ScoreboardEntry()
 		{
+			AddClass( "entry" );
+
+			PlayerName = Add.Label( "PlayerName", "name" );
 			Captures = Add.Label( "", "captures" );
+			Kills = Add.Label( "", "kills" );
+			Deaths = Add.Label( "", "deaths" );
+			Ping = Add.Label( "", "ping" );
 		}
 
-		public override void UpdateData()
+		public override void Tick()
 		{
-			base.UpdateData();
+			base.Tick();
 
+			if ( !IsVisible )
+				return;
+
+			if ( !Client.IsValid() )
+				return;
+
+			if ( TimeSinceUpdate < 0.1f )
+				return;
+
+			TimeSinceUpdate = 0;
+			UpdateData();
+		}
+
+		public virtual void UpdateData()
+		{
+			PlayerName.Text = Client.Name;
 			Captures.Text = Client.GetInt( "captures" ).ToString();
+			Kills.Text = Client.GetInt( "kills" ).ToString();
+			Deaths.Text = Client.GetInt( "deaths" ).ToString();
+			Ping.Text = Client.Ping.ToString();
+			SetClass( "me", Client == Local.Client );
+		}
+
+		public virtual void UpdateFrom( Client client )
+		{
+			Client = client;
+			UpdateData();
 		}
 	}
 }

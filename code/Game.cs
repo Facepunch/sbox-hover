@@ -90,7 +90,6 @@ namespace Facepunch.Hover
 				// This simulates the player being killed.
 				client.Pawn.LifeState = LifeState.Dead;
 				client.Pawn.OnKilled();
-				OnKilled( client.Pawn );
 			}
 		}
 
