@@ -8,6 +8,12 @@
 			m_name = "preview"
 		},
 	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_PositionLock"
+		},
+	]
 	m_Children = 
 	[
 		{
