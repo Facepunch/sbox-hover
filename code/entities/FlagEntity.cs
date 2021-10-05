@@ -16,6 +16,7 @@ namespace Facepunch.Hover
 
 		public FlagIndicator Indicator { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
+		public Vector3 CustomVelocity { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Particles Effects { get; private set; }
 
@@ -77,10 +78,21 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public void Drop()
+		public void Drop( bool inheritVelocity = false )
 		{
 			if ( !IsAtHome && Carrier.IsValid() )
 			{
+				if ( inheritVelocity )
+				{
+					CustomVelocity = Carrier.Velocity * 0.75f;
+					Position += Carrier.Velocity * 0.25f;
+				}
+				else
+				{
+					CustomVelocity = 0f;
+				}
+
+				NextPickupTime = 0.5f;
 				DoIdleEffects();
 				OnFlagDropped?.Invoke( Carrier, this );
 				SetParent( null );
@@ -98,7 +110,7 @@ namespace Facepunch.Hover
 			SetParent( player, boneIndex );
 
 			LocalRotation = Rotation.From( 0f, 90f, 120f );
-			LocalPosition = boneTransform.Rotation.Backward * 15f;
+			LocalPosition = boneTransform.Rotation.Right * 20f;
 			Carrier = player;
 			IsAtHome = false;
 
@@ -163,7 +175,7 @@ namespace Facepunch.Hover
 
 			if ( Carrier.IsValid() && Carrier.LifeState == LifeState.Dead )
 			{
-				Drop();
+				Drop( true );
 				return;
 			}
 
@@ -178,19 +190,25 @@ namespace Facepunch.Hover
 
 				if ( trace.Hit || trace.StartedSolid )
 				{
-					Rotation = Rotation.FromYaw( Rotation.Yaw() + 45f * Time.Delta );
+					Rotation = Rotation.FromYaw( Rotation.Yaw() + 90f * Time.Delta );
 					return;
 				}
 
-				trace = Trace.Ray( position, position + Vector3.Down * height * 4f )
+				trace = Trace.Ray( position, position + CustomVelocity * Time.Delta )
 					.Ignore( this )
 					.Run();
 
-				if ( trace.StartedSolid )
+				if ( trace.Hit || trace.StartedSolid )
+				{
+					Position = trace.EndPos + height;
 					return;
+				}
 
-				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, 10f * Time.Delta );
-				Position = Position.LerpTo( trace.EndPos + height, 20f * Time.Delta );
+				CustomVelocity -= (CustomVelocity * 0.2f * Time.Delta);
+
+				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, Time.Delta );
+				Position += CustomVelocity * Time.Delta;
+				Position += Vector3.Down * 600f * Time.Delta;
 			}
 		}
 

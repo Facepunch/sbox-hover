@@ -15,6 +15,7 @@ namespace Facepunch.Hover
 		public virtual string WeaponName => "Weapon";
 		public virtual bool UnlimitedAmmo => false;
 		public virtual float ChargeAttackDuration => 2;
+		public virtual DamageFlags DamageType => DamageFlags.Bullet;
 		public virtual bool HasFlashlight => false;
 		public virtual bool HasLaserDot => false;
 		public virtual int BaseDamage => 10;
@@ -202,21 +203,26 @@ namespace Facepunch.Hover
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
 			{
-				tr.Surface.DoBulletImpact( tr );
+				trace.Surface.DoBulletImpact( trace );
 
 				if ( !IsServer ) continue;
-				if ( !tr.Entity.IsValid() ) continue;
+				if ( !trace.Entity.IsValid() ) continue;
 
 				using ( Prediction.Off() )
 				{
-					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
-						.UsingTraceResult( tr )
+					var damageInfo = new DamageInfo()
+						.WithPosition( trace.EndPos )
+						.WithFlag( DamageType )
+						.WithForce( forward * 100 * force )
+						.UsingTraceResult( trace )
 						.WithAttacker( Owner )
 						.WithWeapon( this );
 
-					tr.Entity.TakeDamage( damageInfo );
+					damageInfo.Damage = damage;
+
+					trace.Entity.TakeDamage( damageInfo );
 				}
 			}
 		}

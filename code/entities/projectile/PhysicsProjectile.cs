@@ -8,7 +8,6 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class PhysicsProjectile : ModelEntity
 	{
-		private Particles Trail { get; set; }
 		public Action<PhysicsProjectile, Entity> Callback { get; private set; }
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
@@ -29,6 +28,7 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil DestroyTime { get; set; }
 		private Sound LaunchSound { get; set; }
+		private Particles Trail { get; set; }
 
 		public void Initialize( Vector3 start, Vector3 direction, float radius, float speed, Action<PhysicsProjectile, Entity> callback = null )
 		{
@@ -113,7 +113,6 @@ namespace Facepunch.Hover
 
 			if ( trace.Hit && CanHitTime )
 			{
-				Log.Info( trace.Entity );
 				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
 				{
 					var explosion = Particles.Create( ExplosionEffect );

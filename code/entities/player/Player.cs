@@ -242,6 +242,18 @@ namespace Facepunch.Hover
 					Camera = new FirstPersonCamera();
 			}
 
+			if ( IsServer && Input.Released( InputButton.Drop ) )
+			{
+				foreach ( var flag in All.OfType<FlagEntity>() )
+				{
+					if ( flag.Carrier == this )
+					{
+						flag.Drop( true );
+						break;
+					}
+				}
+			}
+
 			TickPlayerUse();
 
 			var controller = GetActiveController();
