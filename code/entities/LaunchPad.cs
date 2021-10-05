@@ -43,8 +43,7 @@ namespace Facepunch.Hover
 
 				if ( IsServer )
 				{
-					var effect = Particles.Create( "particles/launch_pad/launch_pad_horizontal_jump.vpcf" );
-					effect.SetPosition( 0, Position );
+					var effect = Particles.Create( "particles/launch_pad/launch_pad_horizontal_jump.vpcf", this );
 					effect.SetPosition( 1, RenderColor * 255f );
 				}
 
