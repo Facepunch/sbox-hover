@@ -108,14 +108,13 @@ namespace Facepunch.Hover
 
 			var projectile = new PhysicsProjectile()
 			{
+				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
 				MoveTowardTarget = 500f,
 				LifeTime = 10f,
 				Target = Target,
 				Gravity = 100f
 			};
-
-			Particles.Create( "particles/weapons/projectile_plasma.vpcf", projectile );
 
 			var muzzle = GetAttachment( "muzzle" );
 			projectile.Initialize( muzzle.Value.Position, TargetDirection, 32f, ProjectileSpeed, OnProjectileHit );

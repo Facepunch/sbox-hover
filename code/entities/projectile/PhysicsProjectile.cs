@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
 		public float? LifeTime { get; set; }
+		public string FollowEffect { get; set; } = "";
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
@@ -28,6 +29,7 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil DestroyTime { get; set; }
 		private Sound LaunchSound { get; set; }
+		private Particles Follower { get; set; }
 		private Particles Trail { get; set; }
 
 		public void Initialize( Vector3 start, Vector3 direction, float radius, float speed, Action<PhysicsProjectile, Entity> callback = null )
@@ -60,6 +62,11 @@ namespace Facepunch.Hover
 					Trail.SetEntity( 0, this );
 			}
 
+			if ( !string.IsNullOrEmpty( FollowEffect ) )
+			{
+				Follower = Particles.Create( FollowEffect, this );
+			}
+
 			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
 				LaunchSound = PlaySound( LaunchSoundName );
 		}
@@ -74,6 +81,7 @@ namespace Facepunch.Hover
 		private void RemoveEffects()
 		{
 			LaunchSound.Stop();
+			Follower?.Destroy();
 			Trail?.Destroy();
 			Trail = null;
 		}
