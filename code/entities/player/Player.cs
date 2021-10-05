@@ -15,7 +15,6 @@ namespace Facepunch.Hover
 			public float TotalDamage { get; set; }
 		}
 
-		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
@@ -167,9 +166,9 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( other is JetpackElevator )
+			if ( other is JetpackElevator && Controller is MoveController controller )
 			{
-				InEnergyElevator = true;
+				controller.InEnergyElevator = true;
 			}
 
 			base.StartTouch( other );
@@ -177,9 +176,9 @@ namespace Facepunch.Hover
 
 		public override void EndTouch( Entity other )
 		{
-			if ( other is JetpackElevator )
+			if ( other is JetpackElevator && Controller is MoveController controller )
 			{
-				InEnergyElevator = false;
+				controller.InEnergyElevator = false;
 			}
 
 			base.EndTouch( other );

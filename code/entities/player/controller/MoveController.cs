@@ -5,6 +5,7 @@ namespace Facepunch.Hover
 {
 	public partial class MoveController : BasePlayerController
 	{
+		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public Vector3 Impulse { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
 		[Net, Predicted] public float Energy { get; set; }
@@ -364,7 +365,7 @@ namespace Facepunch.Hover
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust ) * Time.Delta;
 				}
 
-				if ( !player.InEnergyElevator )
+				if ( !InEnergyElevator )
 				{
 					Energy = (Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
