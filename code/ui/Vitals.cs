@@ -25,14 +25,14 @@ namespace Facepunch.Hover
 
 			var health = player.Health;
 
-			Health.InnerBar.Style.Width = Length.Fraction( Math.Max( health / player.MaxHealth, 0.15f ) );
+			Health.InnerBar.Fill = Length.Fraction( Math.Max( health / player.MaxHealth, 0.15f ) );
 			Health.InnerBar.Style.Dirty();
 			Health.Text.Text = ((int)health).ToString();
 			Health.SetClass( "low", health < player.MaxHealth * 0.4f );
 
 			if ( player.Controller is MoveController controller )
 			{
-				Energy.InnerBar.Style.Width = Length.Fraction( Math.Max( controller.Energy / controller.MaxEnergy, 0.15f ) );
+				Energy.InnerBar.Fill = Length.Fraction( Math.Max( controller.Energy / controller.MaxEnergy, 0.15f ) );
 				Energy.InnerBar.Style.Dirty();
 				Energy.Text.Text = ((int)controller.Energy).ToString();
 				Energy.SetClass( "low", controller.Energy < controller.MaxEnergy * 0.4f );

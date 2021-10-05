@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 {
 	public class HudIconBar : Panel
 	{
-		public Panel InnerBar;
+		public FillPanel InnerBar;
 		public Panel OuterBar;
 		public Panel Icon;
 		public Label Text;
@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 			StyleSheet.Load( "/ui/HudIconBar.scss" );
 
 			OuterBar = Add.Panel( "outerBar" );
-			InnerBar = OuterBar.Add.Panel( "innerBar" );
+			InnerBar = OuterBar.AddChild<FillPanel>( "innerBar" );
 			Icon = Add.Panel( "icon" );
 			Text = Add.Label( "0", "text" );
 		}
