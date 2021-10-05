@@ -4,11 +4,11 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library( "hv_pistol", Title = "Baretta" )]
-	partial class Pistol : Weapon
+	partial class Sideman : Weapon
 	{
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_pistol.png" );
-		public override string WeaponName => "Standard Issue";
+		public override string WeaponName => "Sideman";
 		public override bool UnlimitedAmmo => true;
 		public override int ClipSize => 10;
 		public override float PrimaryRate => 15.0f;

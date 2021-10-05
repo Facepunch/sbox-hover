@@ -19,8 +19,13 @@ namespace Facepunch.Hover
 		{
 			base.SupplyLoadout();
 
-			Entity.Inventory.Add( new Pistol(), true );
-			Entity.Inventory.Add( new Blaster(), true );
+			var sideman = new Sideman();
+			Entity.Inventory.Add( sideman );
+
+			var blaster = new Blaster();
+			Entity.Inventory.Add( blaster, true );
+			Entity.ActiveChild = blaster;
+
 			Entity.GiveAmmo( AmmoType.Pistol, 120 );
 		}
 
