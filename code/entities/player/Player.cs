@@ -31,8 +31,10 @@ namespace Facepunch.Hover
 		private Rotation LastCameraRotation { get; set; }
 		private Particles SpeedLines { get; set; }
 		private Radar RadarHud { get; set; }
+		private bool PlayLowEnergySound { get; set; }
 		private bool IsPlayingJetpackLoop { get; set; }
 		private bool IsPlayingSkiLoop { get; set; }
+		private bool IsRegenerating { get; set; }
 		private Sound JetpackLoop { get; set; }
 		private Sound SkiLoop { get; set; }
 		private float WalkBob { get; set; }
@@ -380,6 +382,7 @@ namespace Facepunch.Hover
 				PlaySound( "grunt" + Rand.Int( 1, 4 ) );
 			}
 
+			IsRegenerating = false;
 			LastDamageInfo = info;
 			NextRegenTime = RegenDelay;
 
@@ -449,11 +452,6 @@ namespace Facepunch.Hover
 				Respawn();
 			}
 
-			if ( LifeState == LifeState.Alive && NextRegenTime )
-			{
-				Health = Math.Clamp( Health + HealthRegen * Time.Delta, 0f, MaxHealth );
-			}
-
 			for ( int i = AssistTrackers.Count - 1; i >= 0; i-- )
 			{
 				var tracker = AssistTrackers[i];
@@ -464,8 +462,27 @@ namespace Facepunch.Hover
 				}
 			}
 
+			CheckLowEnergy();
+			UpdateHealthRegen();
 			UpdateJetpackLoop();
 			UpdateSkiLoop();
+		}
+
+		protected virtual void UpdateHealthRegen()
+		{
+			if ( LifeState == LifeState.Dead || !NextRegenTime )
+				return;
+
+			if ( Health == MaxHealth )
+				return;
+
+			if ( !IsRegenerating )
+			{
+				IsRegenerating = true;
+				PlaySound( "regen.start" );
+			}
+
+			Health = Math.Clamp( Health + HealthRegen * Time.Delta, 0f, MaxHealth );
 		}
 
 		protected virtual void UpdateJetpackLoop()
@@ -488,6 +505,22 @@ namespace Facepunch.Hover
 			else if ( IsPlayingJetpackLoop )
 			{
 				StopJetpackLoop();
+			}
+		}
+
+		protected virtual void CheckLowEnergy()
+		{
+			if ( Controller is MoveController controller )
+			{
+				if ( controller.Energy < 5f && PlayLowEnergySound )
+				{
+					PlaySound( "regen.energylow" );
+					PlayLowEnergySound = false;
+				}
+				else if ( controller.Energy > controller.MaxEnergy * 0.5f && !PlayLowEnergySound )
+				{
+					PlayLowEnergySound = true;
+				}
 			}
 		}
 
