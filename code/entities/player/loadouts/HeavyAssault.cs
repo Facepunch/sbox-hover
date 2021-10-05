@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 			base.SupplyLoadout();
 
 			Entity.Inventory.Add( new Pistol(), true );
-			Entity.Inventory.Add( new SMG(), true );
+			Entity.Inventory.Add( new Blaster(), true );
 			Entity.GiveAmmo( AmmoType.Pistol, 120 );
 		}
 

@@ -12,12 +12,13 @@ namespace Facepunch.Hover
 		public Action<PhysicsProjectile, Entity> Callback { get; private set; }
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
-		public RealTimeUntil LifeTime { get; set; } = 10f;
+		public float? LifeTime { get; set; }
 		public string TrailEffect { get; set; } = "";
-		public string LaunchSound { get; set; } = null;
+		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
+		public Entity IgnoreEntity { get; set; }
 		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 300f;
 		public float Radius { get; set; } = 16f;
@@ -26,12 +27,8 @@ namespace Facepunch.Hover
 		public Vector3 Direction { get; set; }
 		public bool Debug { get; set; } = false;
 
-		private Sound _launchSound;
-
-		public PhysicsProjectile()
-		{
-			Transmit = TransmitType.Always;
-		}
+		private RealTimeUntil DestroyTime { get; set; }
+		private Sound LaunchSound { get; set; }
 
 		public void Initialize( Vector3 start, Vector3 direction, float radius, float speed, Action<PhysicsProjectile, Entity> callback = null )
 		{
@@ -41,10 +38,16 @@ namespace Facepunch.Hover
 
 		public void Initialize( Vector3 start, Vector3 direction, float speed, Action<PhysicsProjectile, Entity> callback = null )
 		{
+			if ( LifeTime.HasValue )
+			{
+				DestroyTime = LifeTime.Value;
+			}
+
 			PhysicsEnabled = false;
 			Direction = direction;
 			Callback = callback;
 			Position = start;
+			Transmit = TransmitType.Always;
 			Speed = speed;
 
 			if ( !string.IsNullOrEmpty( TrailEffect ) )
@@ -57,8 +60,8 @@ namespace Facepunch.Hover
 					Trail.SetEntity( 0, this );
 			}
 
-			if ( !string.IsNullOrEmpty( LaunchSound ) )
-				_launchSound = PlaySound( LaunchSound );
+			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
+				LaunchSound = PlaySound( LaunchSoundName );
 		}
 
 		protected override void OnDestroy()
@@ -70,7 +73,7 @@ namespace Facepunch.Hover
 
 		private void RemoveEffects()
 		{
-			_launchSound.Stop();
+			LaunchSound.Stop();
 			Trail?.Destroy();
 			Trail = null;
 		}
@@ -79,14 +82,13 @@ namespace Facepunch.Hover
 		private void ServerTick()
 		{
 			if ( FaceDirection )
-				Rotation = Rotation.LookAt( Velocity );
+				Rotation = Rotation.LookAt( Direction );
 
 			if ( Debug )
 				DebugOverlay.Sphere( Position, Radius, Color.Red );
 
-			if ( LifeTime )
+			if ( LifeTime.HasValue && DestroyTime )
 			{
-				Log.Info( "Reached lifetime" );
 				Delete();
 				return;
 			}
@@ -104,12 +106,14 @@ namespace Facepunch.Hover
 			var trace = Trace.Ray( Position, newPosition )
 				.Size( Radius )
 				.Ignore( this )
+				.Ignore( IgnoreEntity )
 				.Run();
 
 			Position = newPosition;
 
-			if ( trace.Hit )
+			if ( trace.Hit && CanHitTime )
 			{
+				Log.Info( trace.Entity );
 				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
 				{
 					var explosion = Particles.Create( ExplosionEffect );

@@ -6,6 +6,7 @@ namespace Facepunch.Hover
 	public partial class Weapon : BaseWeapon
 	{
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
+		public virtual string MuzzleFlashEffect => "particles/pistol_muzzleflash.vpcf";
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
@@ -35,7 +36,9 @@ namespace Facepunch.Hover
 		[Net, Predicted]
 		public TimeSince TimeSinceChargeAttack { get; set; }
 
-		public float ChargeAttackEndTime;
+		public float ChargeAttackEndTime { get; private set; }
+
+		public AnimEntity AnimationOwner => Owner as AnimEntity;
 
 		public int AvailableAmmo()
 		{
@@ -80,7 +83,7 @@ namespace Facepunch.Hover
 
 			IsReloading = true;
 
-			(Owner as AnimEntity).SetAnimBool( "b_reload", true );
+			AnimationOwner.SetAnimBool( "b_reload", true );
 
 			DoClientReload();
 		}
@@ -179,9 +182,9 @@ namespace Facepunch.Hover
 		{
 			Host.AssertClient();
 
-			if ( !IsMelee )
+			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
 			{
-				Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
+				Particles.Create( MuzzleFlashEffect, EffectEntity, "muzzle" );
 			}
 
 			if ( IsLocalPawn )

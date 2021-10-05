@@ -32,8 +32,6 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			(Owner as AnimEntity).SetAnimBool( "b_attack", true );
-
 			ShootEffects();
 			PlaySound( "rust_pumpshotgun.shoot" );
 
@@ -41,6 +39,8 @@ namespace Facepunch.Hover
 			{
 				ShootBullet( 0.15f, 0.3f, BaseDamage, 3.0f );
 			}
+
+			AnimationOwner.SetAnimBool( "b_attack", true );
 		}
 
 		[ClientRpc]
