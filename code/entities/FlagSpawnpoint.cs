@@ -45,12 +45,14 @@ namespace Facepunch.Hover
 			{
 				if ( flag.Team == Team && flag.Carrier.Team == Team )
 				{
+					PlaySound( "flag.capture" );
 					OnFlagReturned?.Invoke( flag.Carrier, flag );
 					flag.Carrier.OnReturnFlag( flag );
 					flag.Respawn();
 				}
 				else if ( flag.Team != Team && flag.Carrier.Team == Team )
 				{
+					PlaySound( "flag.capture" );
 					OnFlagCaptured?.Invoke( flag.Carrier, flag );
 					flag.Carrier.OnCaptureFlag( flag );
 					flag.Respawn();

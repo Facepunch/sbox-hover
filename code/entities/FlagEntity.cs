@@ -16,6 +16,7 @@ namespace Facepunch.Hover
 
 		public FlagIndicator Indicator { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
+		public bool IsOnGround { get; private set; }
 		public Vector3 CustomVelocity { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Particles Effects { get; private set; }
@@ -66,6 +67,7 @@ namespace Facepunch.Hover
 			NextPickupTime = 2f;
 			LocalPosition = new Vector3( 0f, 0f, 60f );
 			LocalRotation = Rotation.Identity;
+			PlaySound( "flag.land" );
 			IsAtHome = true;
 			Carrier = null;
 		}
@@ -93,6 +95,7 @@ namespace Facepunch.Hover
 				}
 
 				NextPickupTime = 0.5f;
+				IsOnGround = false;
 				DoIdleEffects();
 				OnFlagDropped?.Invoke( Carrier, this );
 				SetParent( null );
@@ -105,14 +108,14 @@ namespace Facepunch.Hover
 			DoTrailEffects();
 
 			var boneIndex = player.GetBoneIndex( "spine_2" );
-			var boneTransform = player.GetBoneTransform( boneIndex );
 
 			SetParent( player, boneIndex );
 
-			LocalRotation = Rotation.From( 0f, 90f, 120f );
-			LocalPosition = boneTransform.Rotation.Right * 20f;
+			IsOnGround = true;
 			Carrier = player;
 			IsAtHome = false;
+
+			UpdateLocalPosition();
 
 			OnFlagPickedUp?.Invoke( player, this );
 		}
@@ -125,6 +128,7 @@ namespace Facepunch.Hover
 				{
 					if ( !IsAtHome && !Carrier.IsValid() )
 					{
+						PlaySound( "flag.pickup" );
 						GiveToPlayer( player );
 					}
 				}
@@ -132,6 +136,7 @@ namespace Facepunch.Hover
 				{
 					if ( NextPickupTime && !Carrier.IsValid() )
 					{
+						PlaySound( "flag.pickup" );
 						GiveToPlayer( player );
 					}
 				}
@@ -145,6 +150,12 @@ namespace Facepunch.Hover
 			Hud?.Delete();
 
 			base.OnDestroy();
+		}
+
+		private void UpdateLocalPosition()
+		{
+			LocalRotation = Rotation.From( 0f, 90f, 120f );
+			LocalPosition = new Vector3( 0f, -15, 0f );
 		}
 
 		private void DoBaseEffects()
@@ -190,6 +201,12 @@ namespace Facepunch.Hover
 
 				if ( trace.Hit || trace.StartedSolid )
 				{
+					if ( !IsOnGround )
+					{
+						IsOnGround = true;
+						PlaySound( "flag.land" );
+					}
+
 					Rotation = Rotation.FromYaw( Rotation.Yaw() + 90f * Time.Delta );
 					return;
 				}
@@ -209,6 +226,10 @@ namespace Facepunch.Hover
 				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, Time.Delta );
 				Position += CustomVelocity * Time.Delta;
 				Position += Vector3.Down * 600f * Time.Delta;
+			}
+			else
+			{
+				UpdateLocalPosition();
 			}
 		}
 
