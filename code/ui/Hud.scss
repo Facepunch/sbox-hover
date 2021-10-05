@@ -32,7 +32,7 @@ vitals {
 	left: 64px;
 	font-size: 40px;
 	height: 80px;
-	width: 280px;
+	width: 25%;
 
 	.energy {
 		.innerBar {
@@ -117,7 +117,7 @@ ammo {
 	position: absolute;
 	box-shadow: $blueTeamBackground;
 	backdrop-filter-blur: 8px;
-	left: 360px;
+	left: 30%;
 	width: 248px;
 
 	label {
