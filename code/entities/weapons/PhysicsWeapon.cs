@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 		public virtual string ProjectileModel => "";
 		public virtual float ImpactForce => 1000f;
 		public virtual string TrailEffect => null;
+		public virtual string HitSound => null;
 		public virtual float LifeTime => 5f;
 
 		protected bool FireNextTick { get; set; }
@@ -26,6 +27,7 @@ namespace Facepunch.Hover
 			{
 				ExplosionEffect = ImpactEffect,
 				TrailEffect = TrailEffect,
+				HitSound = HitSound,
 				LifeTime = LifeTime,
 				Owner = Owner
 			};

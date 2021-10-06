@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Barage";
+		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
 		public override float ProjectileForce => 100f;
@@ -38,7 +39,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"blaster.fire1" );
+			PlaySound( $"barage.launch" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 

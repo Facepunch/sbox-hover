@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Pulsar";
+		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
 		public override DamageFlags DamageType => DamageFlags.Blast;
