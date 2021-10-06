@@ -22,6 +22,12 @@ namespace Facepunch.Hover
 			var sideman = new Sideman();
 			Entity.Inventory.Add( sideman );
 
+			var barage = new Barage();
+			Entity.Inventory.Add( barage );
+
+			var shotblast = new Shotblast();
+			Entity.Inventory.Add( shotblast );
+
 			var longshot = new Longshot();
 			Entity.Inventory.Add( longshot );
 
@@ -33,6 +39,7 @@ namespace Facepunch.Hover
 			Entity.ActiveChild = blaster;
 
 			Entity.GiveAmmo( AmmoType.Pistol, 120 );
+			Entity.GiveAmmo( AmmoType.Buckshot, 120 );
 		}
 
 		public override void Setup()

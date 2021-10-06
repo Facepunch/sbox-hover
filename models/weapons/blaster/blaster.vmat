@@ -12,7 +12,7 @@ Layer0
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "models/weapons/blaster/textures/blaster_color.tga"
+	TextureColor "models/weapons/blaster/textures/blaster_color.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -28,10 +28,10 @@ Layer0
 	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "models/weapons/blaster/textures/blaster_normal.tga"
+	TextureNormal "models/weapons/blaster/textures/blaster_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "models/weapons/blaster/textures/blaster_rough.tga"
+	TextureRoughness "models/weapons/blaster/textures/blaster_rough.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

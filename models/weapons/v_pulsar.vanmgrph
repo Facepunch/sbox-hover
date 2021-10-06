@@ -48,6 +48,20 @@
 				m_bPredicted = false
 				m_bDefaultValue = false
 			},
+			{
+				_class = "CBoolAnimParameter"
+				m_name = "melee"
+				m_id = 
+				{
+					m_id = 523980114
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = false
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = false
+				m_bDefaultValue = false
+			},
 		]
 	}
 	m_pTagManager = 
@@ -95,7 +109,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/weapons/v_pulsar.vmdl",
+		"models/weapons/v_sideman.vmdl",
 	]
 	m_nodes = 
 	[
@@ -119,6 +133,28 @@
 				{
 					m_id = 1714022296
 				}
+			}
+		},
+		{
+			key = 
+			{
+				m_id = 452250672
+			}
+			value = 
+			{
+				_class = "CSequenceAnimNode"
+				m_sName = "Unnamed"
+				m_vecPosition = [ -400.0, 96.0 ]
+				m_nNodeID = 
+				{
+					m_id = 452250672
+				}
+				m_networkMode = "ClientSimulate"
+				m_sNote = ""
+				m_tagSpans = [  ]
+				m_sequenceName = "melee"
+				m_playbackSpeed = 1.0
+				m_bLoop = false
 			}
 		},
 		{
@@ -319,7 +355,7 @@
 						{
 							m_id = 1361374698
 						}
-						m_position = [ -117.0, -149.0 ]
+						m_position = [ -128.0, -160.0 ]
 						m_bIsStartState = true
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
@@ -369,7 +405,7 @@
 						{
 							m_id = 1911934699
 						}
-						m_position = [ -361.0, -124.0 ]
+						m_position = [ -368.0, -128.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
@@ -419,7 +455,7 @@
 						{
 							m_id = 1346017069
 						}
-						m_position = [ -359.0, 17.0 ]
+						m_position = [ -368.0, 16.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
@@ -469,7 +505,7 @@
 						{
 							m_id = 1243514606
 						}
-						m_position = [ -362.0, -237.0 ]
+						m_position = [ -368.0, -240.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
@@ -594,12 +630,33 @@
 						{
 							m_id = 1830143744
 						}
-						m_position = [ -573.0, -188.0 ]
+						m_position = [ -577.0, -186.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
 						m_bIsRootMotionExclusive = false
 						m_bAlwaysEvaluate = true
+					},
+					{
+						_class = "CAnimState"
+						m_transitions = [  ]
+						m_tags = [  ]
+						m_tagBehaviors = [  ]
+						m_name = "melee"
+						m_childNodeID = 
+						{
+							m_id = 452250672
+						}
+						m_stateID = 
+						{
+							m_id = 715122460
+						}
+						m_position = [ -368.0, 128.0 ]
+						m_bIsStartState = false
+						m_bIsEndtState = false
+						m_bIsPassthrough = false
+						m_bIsRootMotionExclusive = false
+						m_bAlwaysEvaluate = false
 					},
 				]
 				m_bBlockWaningTags = false
@@ -615,7 +672,7 @@
 			{
 				_class = "CSequenceAnimNode"
 				m_sName = "Unnamed"
-				m_vecPosition = [ -528.0, -320.0 ]
+				m_vecPosition = [ -532.0, -279.0 ]
 				m_nNodeID = 
 				{
 					m_id = 2060363704

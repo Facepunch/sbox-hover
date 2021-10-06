@@ -3,19 +3,17 @@ using System;
 
 namespace Facepunch.Hover
 {
-	[Library( "hv_pistol", Title = "Baretta" )]
+	[Library( "hv_sideman", Title = "Sideman" )]
 	partial class Sideman : Weapon
 	{
-		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_pistol.png" );
 		public override string WeaponName => "Sideman";
-		public override bool UnlimitedAmmo => true;
-		public override int ClipSize => 10;
+		public override int ClipSize => 15;
 		public override float PrimaryRate => 15.0f;
 		public override float SecondaryRate => 1.0f;
-		public override float ReloadTime => 3.0f;
-		public override bool HasLaserDot => true;
-		public override int BaseDamage => 20;
+		public override float ReloadTime => 2.0f;
+		public override int BaseDamage => 50;
 		public override int Slot => 2;
 
 		public override void Spawn()
@@ -41,6 +39,8 @@ namespace Facepunch.Hover
 			ShootEffects();
 			PlaySound( "rust_pistol.shoot" );
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
+
+			TimeSincePrimaryAttack = 0f;
 		}
 	}
 }

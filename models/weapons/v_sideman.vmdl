@@ -11,7 +11,7 @@
 				[
 					{
 						_class = "ModelModifier_Translate"
-						translation = [ -10.0, 0.0, -20.0 ]
+						translation = [ -10.0, 5.0, -5.0 ]
 					},
 					{
 						_class = "ModelModifier_ScaleAndMirror"
@@ -37,8 +37,12 @@
 								to = "models/weapons/arms/arms.vmat"
 							},
 							{
-								from = "flux_m200 ravager.vmat"
-								to = "models/weapons/blaster/blaster.vmat"
+								from = "pistol.vmat"
+								to = "models/weapons/sideman/sideman.vmat"
+							},
+							{
+								from = "pistol_collimator.vmat"
+								to = "models/weapons/sideman/sideman_scope.vmat"
 							},
 						]
 						use_global_default = false
@@ -54,10 +58,10 @@
 						_class = "Attachment"
 						name = "muzzle"
 						parent_bone = "Bone1"
-						relative_origin = [ -72.636856, 40.101608, -16.511282 ]
+						relative_origin = [ -61.629429, -24.05496, 81.44429 ]
 						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
-						ignore_rotation = false
+						ignore_rotation = true
 					},
 				]
 			},
@@ -67,7 +71,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/weapons/blaster/blaster.fbx"
+						filename = "models/weapons/sideman/sideman.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -101,7 +105,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/weapons/blaster/animations/blaster@deploy.fbx"
+						source_filename = "models/weapons/sideman/animations/sideman@deploy.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -121,7 +125,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/weapons/blaster/animations/blaster@dryfire.FBX"
+						source_filename = "models/weapons/sideman/animations/sideman@dryfire.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -141,7 +145,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/weapons/blaster/animations/blaster@fire.FBX"
+						source_filename = "models/weapons/sideman/animations/sideman@fire.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -161,7 +165,27 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/weapons/blaster/animations/blaster@idle.fbx"
+						source_filename = "models/weapons/sideman/animations/sideman@idle.fbx"
+						start_frame = -1
+						end_frame = -1
+						framerate = -1.0
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "melee"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/weapons/sideman/animations/sideman@melee.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -181,7 +205,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/weapons/blaster/animations/blaster@reload.FBX"
+						source_filename = "models/weapons/sideman/animations/sideman@reload.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -193,6 +217,6 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "models/weapons/v_blaster.vanmgrph"
+		anim_graph_name = "models/weapons/v_sideman.vanmgrph"
 	}
 }

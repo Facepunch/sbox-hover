@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	{
 		public override string ImpactEffect => "particles/weapons/pulse_sniper/pulse_sniper_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
-		public override string ViewModelPath => "weapons/rust_shotgun/v_rust_shotgun.vmdl";
+		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Longshot";
@@ -15,7 +15,6 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override int Slot => 3;
 		public override int ClipSize => 5;
-		public override bool ReloadAnimation => false;
 		public override float ReloadTime => 4f;
 		public override int BaseDamage => 300;
 

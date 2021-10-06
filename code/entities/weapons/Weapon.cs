@@ -21,8 +21,6 @@ namespace Facepunch.Hover
 		public virtual bool UnlimitedAmmo => false;
 		public virtual float ChargeAttackDuration => 2;
 		public virtual DamageFlags DamageType => DamageFlags.Bullet;
-		public virtual bool HasFlashlight => false;
-		public virtual bool HasLaserDot => false;
 		public virtual int BaseDamage => 10;
 		public virtual int HoldType => 1;
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -293,15 +291,12 @@ namespace Facepunch.Hover
 		{
 			if ( Local.Hud == null ) return;
 
-			if ( !HasLaserDot )
+			CrosshairPanel = new Crosshair
 			{
-				CrosshairPanel = new Crosshair
-				{
-					Parent = Local.Hud
-				};
+				Parent = Local.Hud
+			};
 
-				CrosshairPanel.AddClass( ClassInfo.Name );
-			}
+			CrosshairPanel.AddClass( ClassInfo.Name );
 		}
 
 		public bool IsUsable()
