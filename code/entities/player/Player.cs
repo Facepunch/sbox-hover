@@ -494,7 +494,7 @@ namespace Facepunch.Hover
 				{
 					if ( !controller.IsJetpacking )
 					{
-						PlaySound( "jetpack.blast" ).SetVolume( 0.2f );
+						PlaySound( "jetpack.blast" ).SetVolume( 0.1f );
 						StopJetpackLoop();
 					}
 				}
