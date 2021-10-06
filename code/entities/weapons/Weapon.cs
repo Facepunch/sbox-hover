@@ -227,18 +227,20 @@ namespace Facepunch.Hover
 					trace.Surface.DoBulletImpact( trace );
 				}
 
+				var fullEndPos = trace.EndPos + trace.Direction * bulletSize;
+
 				if ( !string.IsNullOrEmpty( TracerEffect ) )
 				{
 					var muzzle = EffectEntity?.GetAttachment( MuzzleAttachment );
 					var tracer = Particles.Create( TracerEffect );
 					tracer.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
-					tracer.SetPosition( 1, trace.EndPos );
+					tracer.SetPosition( 1, fullEndPos );
 				}
 
 				if ( !string.IsNullOrEmpty( ImpactEffect ) )
 				{
-					var impact = Particles.Create( ImpactEffect );
-					impact.SetPosition( 0, trace.EndPos );
+					var impact = Particles.Create( ImpactEffect, fullEndPos );
+					impact.SetForward( 0, trace.Normal );
 				}
 
 				if ( !IsServer ) continue;
