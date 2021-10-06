@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	{
 		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
-		public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
+		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Blaster";
@@ -15,8 +15,8 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override int Slot => 1;
 		public override int ClipSize => 30;
-		public override bool ReloadAnimation => false;
-		public override float ReloadTime => 2f;
+		public override bool ReloadAnimation => true;
+		public override float ReloadTime => 3f;
 		public override int BaseDamage => 40;
 
 		public override void Spawn()

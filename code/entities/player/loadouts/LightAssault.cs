@@ -25,6 +25,9 @@ namespace Facepunch.Hover
 			var longshot = new Longshot();
 			Entity.Inventory.Add( longshot );
 
+			var pulsar = new Pulsar();
+			Entity.Inventory.Add( pulsar );
+
 			var blaster = new Blaster();
 			Entity.Inventory.Add( blaster, true );
 			Entity.ActiveChild = blaster;
