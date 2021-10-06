@@ -362,7 +362,7 @@ namespace Facepunch.Hover
 
 			if ( info.Attacker is Player attacker && attacker != this )
 			{
-				if ( !Game.AllowFriendlyFire )
+				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
 					return;
 				}
