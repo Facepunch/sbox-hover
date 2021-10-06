@@ -2,6 +2,12 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_nBehaviorVersion = 10
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+		},
+	]
 	m_Emitters = 
 	[
 		{
@@ -57,6 +63,11 @@
 	[
 		{
 			_class = "C_INIT_CreateWithinSphere"
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ 0.0, 0.0, -48.0 ]
+			m_OffsetMax = [ 0.0, 0.0, -48.0 ]
 		},
 	]
 	m_Operators = 
@@ -167,12 +178,6 @@
 			_class = "C_OP_RenderSprites"
 			m_nOrientationType = 2
 			m_hTexture = resource:"materials/particles/particle_ring_wave.vtex"
-		},
-	]
-	m_controlPointConfigurations = 
-	[
-		{
-			m_name = "preview"
 		},
 	]
 }
