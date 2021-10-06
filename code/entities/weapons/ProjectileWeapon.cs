@@ -4,8 +4,6 @@ namespace Facepunch.Hover
 {
 	partial class ProjectileWeapon : Weapon
 	{
-		public virtual string MuzzleAttachment => "muzzle";
-		public virtual string ImpactEffect => null;
 		public virtual string TrailEffect => null;
 		public virtual float Gravity => 50f;
 		public virtual float Speed => 2000f;
