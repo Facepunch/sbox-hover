@@ -222,7 +222,10 @@ namespace Facepunch.Hover
 
 			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * BulletRange, bulletSize ) )
 			{
-				trace.Surface.DoBulletImpact( trace );
+				if ( string.IsNullOrEmpty( ImpactEffect ) )
+				{
+					trace.Surface.DoBulletImpact( trace );
+				}
 
 				if ( !string.IsNullOrEmpty( TracerEffect ) )
 				{
