@@ -3,7 +3,7 @@
 namespace Facepunch.Hover
 {
 	[Library( "hv_pulsar", Title = "Pulsar" )]
-	partial class Pulsar : ProjectileWeapon
+	partial class Pulsar : BulletDropWeapon
 	{
 		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
@@ -63,13 +63,13 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override void OnProjectileHit( PhysicsProjectile projectile, Entity target )
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position );
 
 			var position = projectile.Position;
-			var entities = Physics.GetEntitiesInSphere( position, 600f );
+			var entities = Physics.GetEntitiesInSphere( position, 500f );
 			
 			foreach ( var entity in entities )
 			{

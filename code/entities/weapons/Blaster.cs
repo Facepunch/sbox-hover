@@ -3,7 +3,7 @@
 namespace Facepunch.Hover
 {
 	[Library( "hv_blaser", Title = "Blaster" )]
-	partial class Blaster : ProjectileWeapon
+	partial class Blaster : BulletDropWeapon
 	{
 		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";

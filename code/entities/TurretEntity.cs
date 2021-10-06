@@ -108,7 +108,7 @@ namespace Facepunch.Hover
 
 			Particles.Create( MuzzleFlash, this, "muzzle" );
 
-			var projectile = new PhysicsProjectile()
+			var projectile = new BulletDropProjectile()
 			{
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
@@ -153,7 +153,7 @@ namespace Facepunch.Hover
 			return (position + target.Velocity * timeToReach);
 		}
 
-		private void OnProjectileHit( PhysicsProjectile projectile, Entity victim )
+		private void OnProjectileHit( BulletDropProjectile projectile, Entity victim )
 		{
 			var blastPosition = projectile.Position;
 

@@ -2,12 +2,13 @@
 
 namespace Facepunch.Hover
 {
-	partial class ProjectileWeapon : Weapon
+	partial class PhysicsWeapon : Weapon
 	{
+		public virtual float ProjectileForce => 1000f;
+		public virtual string ProjectileModel => "";
+		public virtual float ImpactForce => 1000f;
 		public virtual string TrailEffect => null;
-		public virtual float Gravity => 50f;
-		public virtual float Speed => 2000f;
-		public virtual float Spread => 0.05f;
+		public virtual float LifeTime => 5f;
 
 		protected bool FireNextTick { get; set; }
 
@@ -24,21 +25,21 @@ namespace Facepunch.Hover
 			var projectile = new PhysicsProjectile()
 			{
 				ExplosionEffect = ImpactEffect,
-				IgnoreEntity = this,
 				TrailEffect = TrailEffect,
-				LifeTime = 10f,
-				Gravity = 50f,
+				LifeTime = LifeTime,
 				Owner = Owner
 			};
 
+			projectile.SetModel( ProjectileModel );
+
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
-			var forward = Owner.EyeRot.Forward;
+			var forward = Owner.EyeRot.Forward.Normal;
 
-			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
-			forward = forward.Normal;
-
-			projectile.Initialize( position, forward, 20f, Speed, OnProjectileHit );
+			projectile.Position = position + forward * 50f;
+			projectile.Rotation = Rotation.LookAt( forward );
+			projectile.Initialize( OnProjectileHit );
+			projectile.PhysicsBody.ApplyForce( forward * ProjectileForce * 200f );
 		}
 
 		[Event.Tick.Server]
@@ -51,9 +52,16 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected virtual void OnProjectileHit( PhysicsProjectile projectile, Entity target )
+		protected virtual void OnProjectileHit( PhysicsProjectile projectile )
 		{
-			DealDamage( target, projectile.Position, projectile.Direction * projectile.Speed * 0.1f );
+			var position = projectile.Position;
+			var entities = Physics.GetEntitiesInSphere( position, 500f );
+
+			foreach ( var entity in entities )
+			{
+				var direction = (entity.Position - position).Normal;
+				DealDamage( entity, position, direction * ImpactForce * 0.4f );
+			}
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damageScale = 1f )

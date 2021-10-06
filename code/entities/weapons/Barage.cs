@@ -3,21 +3,24 @@
 namespace Facepunch.Hover
 {
 	[Library( "hv_barage", Title = "Barage" )]
-	partial class Barage : ProjectileWeapon
+	partial class Barage : PhysicsWeapon
 	{
-		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
+		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
-		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Barage";
-		public override float PrimaryRate => 5.0f;
+		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
+		public override float ProjectileForce => 100f;
+		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
+		public override float ImpactForce => 1000f;
 		public override int Slot => 0;
-		public override int ClipSize => 30;
-		public override bool ReloadAnimation => true;
+		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 40;
+		public override float LifeTime => 2f;
+		public override int BaseDamage => 150;
 
 		public override void Spawn()
 		{
@@ -61,6 +64,11 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		{
+			base.OnProjectileHit( projectile );
 		}
 	}
 }
