@@ -360,6 +360,11 @@ namespace Facepunch.Hover
 				info.Damage *= 2.0f;
 			}
 
+			if ( Controller is MoveController controller )
+			{
+				controller.Impulse += info.Force;
+			}
+
 			if ( info.Attacker is Player attacker )
 			{
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )

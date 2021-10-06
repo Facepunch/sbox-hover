@@ -117,9 +117,9 @@ namespace Facepunch.Hover
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = newPosition;
+			Position = trace.EndPos + Direction * Radius;
 
-			if ( trace.Hit && CanHitTime )
+			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
 			{
 				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
 				{

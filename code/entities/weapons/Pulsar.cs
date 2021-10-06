@@ -13,6 +13,7 @@ namespace Facepunch.Hover
 		public override string WeaponName => "Pulsar";
 		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
+		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override int Slot => 4;
 		public override int ClipSize => 1;
 		public override bool ReloadAnimation => false;
@@ -50,7 +51,6 @@ namespace Facepunch.Hover
 			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
 		}
 
-
 		public override void PlayReloadSound()
 		{
 			PlaySound( "blaster.reload" );
@@ -61,6 +61,21 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected override void OnProjectileHit( PhysicsProjectile projectile, Entity target )
+		{
+			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
+			explosion.SetPosition( 0, projectile.Position );
+
+			var position = projectile.Position;
+			var entities = Physics.GetEntitiesInSphere( position, 600f );
+			
+			foreach ( var entity in entities )
+			{
+				var direction = (entity.Position - position).Normal;
+				DealDamage( entity, position, direction * projectile.Speed * 0.4f );
+			}
 		}
 	}
 }

@@ -38,8 +38,6 @@ namespace Facepunch.Hover
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			forward = forward.Normal;
 
-			position += forward * 100f;
-
 			projectile.Initialize( position, forward, 20f, Speed, OnProjectileHit );
 		}
 
