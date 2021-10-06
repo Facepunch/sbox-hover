@@ -6,12 +6,16 @@ namespace Facepunch.Hover
 	public partial class Weapon : BaseWeapon
 	{
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
+		public virtual string MuzzleAttachment => "muzzle";
 		public virtual string MuzzleFlashEffect => "particles/pistol_muzzleflash.vpcf";
+		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
 		public virtual int Slot => 0;
 		public virtual Texture Icon => null;
+		public virtual float BulletRange => 20000f;
+		public virtual string TracerEffect => null;
 		public virtual string WeaponName => "Weapon";
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
@@ -216,9 +220,28 @@ namespace Facepunch.Hover
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * BulletRange, bulletSize ) )
 			{
-				trace.Surface.DoBulletImpact( trace );
+				if ( string.IsNullOrEmpty( ImpactEffect ) )
+				{
+					trace.Surface.DoBulletImpact( trace );
+				}
+
+				var fullEndPos = trace.EndPos + trace.Direction * bulletSize;
+
+				if ( !string.IsNullOrEmpty( TracerEffect ) )
+				{
+					var muzzle = EffectEntity?.GetAttachment( MuzzleAttachment );
+					var tracer = Particles.Create( TracerEffect );
+					tracer.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
+					tracer.SetPosition( 1, fullEndPos );
+				}
+
+				if ( !string.IsNullOrEmpty( ImpactEffect ) )
+				{
+					var impact = Particles.Create( ImpactEffect, fullEndPos );
+					impact.SetForward( 0, trace.Normal );
+				}
 
 				if ( !IsServer ) continue;
 				if ( !trace.Entity.IsValid() ) continue;

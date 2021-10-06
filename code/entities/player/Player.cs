@@ -360,9 +360,9 @@ namespace Facepunch.Hover
 				info.Damage *= 2.0f;
 			}
 
-			if ( info.Attacker is Player attacker && attacker != this )
+			if ( info.Attacker is Player attacker )
 			{
-				if ( !Game.AllowFriendlyFire )
+				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
 					return;
 				}

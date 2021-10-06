@@ -22,6 +22,9 @@ namespace Facepunch.Hover
 			var sideman = new Sideman();
 			Entity.Inventory.Add( sideman );
 
+			var longshot = new Longshot();
+			Entity.Inventory.Add( longshot );
+
 			var blaster = new Blaster();
 			Entity.Inventory.Add( blaster, true );
 			Entity.ActiveChild = blaster;
