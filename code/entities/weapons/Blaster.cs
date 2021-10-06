@@ -15,8 +15,8 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override int Slot => 1;
 		public override int ClipSize => 30;
-		public override float ReloadTime => 4.0f;
-		public override bool HasLaserDot => true;
+		public override bool ReloadAnimation => false;
+		public override float ReloadTime => 2f;
 		public override int BaseDamage => 40;
 
 		public override void Spawn()
@@ -39,7 +39,22 @@ namespace Facepunch.Hover
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
+			if ( AmmoClip == 0 )
+				PlaySound( "blaster.empty" );
+
 			base.AttackPrimary();
+		}
+
+		public override bool CanReload()
+		{
+			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
+		}
+
+
+		public override void PlayReloadSound()
+		{
+			PlaySound( "blaster.reload" );
+			base.PlayReloadSound();
 		}
 
 		public override void SimulateAnimator( PawnAnimator anim )

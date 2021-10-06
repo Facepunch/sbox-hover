@@ -13,6 +13,7 @@ namespace Facepunch.Hover
 		public virtual int Slot => 0;
 		public virtual Texture Icon => null;
 		public virtual string WeaponName => "Weapon";
+		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
 		public virtual float ChargeAttackDuration => 2;
 		public virtual DamageFlags DamageType => DamageFlags.Bullet;
@@ -84,8 +85,12 @@ namespace Facepunch.Hover
 
 			IsReloading = true;
 
-			AnimationOwner.SetAnimBool( "b_reload", true );
+			if ( ReloadAnimation )
+			{
+				AnimationOwner.SetAnimBool( "b_reload", true );
+			}
 
+			PlayReloadSound();
 			DoClientReload();
 		}
 
@@ -163,10 +168,18 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public virtual void PlayReloadSound()
+		{
+
+		}
+
 		[ClientRpc]
 		public virtual void DoClientReload()
 		{
-			ViewModelEntity?.SetAnimBool( "reload", true );
+			if ( ReloadAnimation )
+			{
+				ViewModelEntity?.SetAnimBool( "reload", true );
+			}
 		}
 
 		public override void AttackPrimary()
