@@ -7,7 +7,7 @@
 			"sound/flag.land.vsnd",
 		]
 		UI = false
-		Volume = 0.8
+		Volume = 0.4
 		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.1

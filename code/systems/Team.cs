@@ -28,6 +28,11 @@ namespace Facepunch.Hover
 			return team == Team.Blue ? "Snakes" : "Scorpions";
 		}
 
+		public static To GetTo( this Team team )
+		{
+			return To.Multiple( team.GetAll().Select( e => e.Client ) );
+		}
+
 		public static IEnumerable<Player> GetAll( this Team team )
 		{
 			return Entity.All.OfType<Player>().Where( e => e.Team == team );

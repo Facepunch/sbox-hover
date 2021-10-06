@@ -7,8 +7,8 @@
 			"sound/ski.stop.vsnd",
 		]
 		UI = false
-		Volume = 0.25
-		VolumeRandom = 0.1
+		Volume = 0.1
+		VolumeRandom = 0.0
 		Pitch = 1.0
 		PitchRandom = 0.2
 		DistanceMax = 800.0

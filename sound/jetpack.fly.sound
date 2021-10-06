@@ -7,10 +7,10 @@
 			"sound/jetpack.fly.vsnd",
 		]
 		UI = false
-		Volume = 0.1
-		VolumeRandom = 0.05
+		Volume = 0.01
+		VolumeRandom = 0.0
 		Pitch = 1.0
-		PitchRandom = 0.1
+		PitchRandom = 0.0
 		DistanceMax = 700.0
 	}
 }

@@ -7,7 +7,7 @@
 			"sound/jetpack.blast.vsnd",
 		]
 		UI = false
-		Volume = 0.3
+		Volume = 0.15
 		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.1

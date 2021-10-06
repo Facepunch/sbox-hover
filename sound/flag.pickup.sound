@@ -7,7 +7,7 @@
 			"sound/flag.pickup.vsnd",
 		]
 		UI = false
-		Volume = 0.4
+		Volume = 0.2
 		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.1

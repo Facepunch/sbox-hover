@@ -90,6 +90,7 @@ namespace Facepunch.Hover
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
+				FlagEntity.OnFlagDropped += OnFlagDropped;
 
 				foreach ( var flag in Entity.All.OfType<FlagEntity>() )
 				{
@@ -126,6 +127,7 @@ namespace Facepunch.Hover
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
+				FlagEntity.OnFlagDropped -= OnFlagDropped;
 
 				Rounds.Change( new StatsRound() );
 			}
@@ -135,28 +137,52 @@ namespace Facepunch.Hover
 			}
 		}
 
+		private void OnFlagDropped( Player player, FlagEntity flag )
+		{
+			if ( flag.Team == Team.Blue )
+			{
+				Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
+			}
+			else
+			{
+				Hud.ToastAll( player.Client.Name + " dropped the Red flag", "ui/icons/flag-red.png" );
+			}
+		}
+
 		private void OnFlagPickedUp( Player player, FlagEntity flag )
 		{
 			if ( flag.Team == Team.Blue )
+			{
 				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
+			}
 			else
+			{
 				Hud.ToastAll( player.Client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
+			}
 		}
 
 		private void OnFlagReturned( Player player, FlagEntity flag )
 		{
 			if ( flag.Team == Team.Blue )
+			{
 				Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
+			}
 			else
+			{
 				Hud.ToastAll( player.Client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
+			}
 		}
 
 		private void OnFlagCaptured( Player player, FlagEntity flag )
 		{
 			if ( flag.Team == Team.Blue )
+			{
 				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
+			}
 			else
+			{
 				Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
+			}
 
 			if ( player.Team == Team.Blue )
 				BlueScore++;

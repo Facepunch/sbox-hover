@@ -7,8 +7,8 @@
 			"sound/regen.start.vsnd",
 		]
 		UI = false
-		Volume = 0.3
-		VolumeRandom = 0.1
+		Volume = 0.05
+		VolumeRandom = 0.0
 		Pitch = 1.0
 		PitchRandom = 0.1
 		DistanceMax = 500.0
