@@ -84,6 +84,7 @@ namespace Facepunch.Hover
 		{
 			if ( Queue.Count > 0 )
 			{
+				Audio.Play( "award.earned" );
 				var item = Queue.Dequeue();
 				item.EndTime = Time.Now + 3f;
 				AddChild( item );

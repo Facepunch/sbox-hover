@@ -124,7 +124,6 @@ namespace Facepunch.Hover
 
 			if ( award != null )
 			{
-				Audio.Play( "award.earned" );
 				award.Show();
 			}
 		}
