@@ -4,6 +4,8 @@ namespace Facepunch.Hover
 {
 	public partial class SpectateCamera : Camera
 	{
+		[Net] public Vector3 DeathPosition { get; set; }
+
 		private Vector3 FocusPoint { get; set; }
 
 		public override void Activated()
@@ -30,10 +32,7 @@ namespace Facepunch.Hover
 
 		private Vector3 GetSpectatePoint()
 		{
-			if ( Local.Pawn is Player player )
-				return player.DeathPosition;
-			else
-				return Vector3.Up * 5000f;
+			return DeathPosition;
 		}
 
 		private Vector3 GetViewOffset()

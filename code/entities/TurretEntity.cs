@@ -37,6 +37,8 @@ namespace Facepunch.Hover
 			else
 				RenderColor = Color.Red;
 
+			Name = "Turret";
+
 			base.Spawn();
 		}
 
