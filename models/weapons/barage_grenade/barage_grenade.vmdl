@@ -34,7 +34,7 @@
 					{
 						_class = "PhysicsShapeCylinder"
 						parent_bone = ""
-						surface_prop = "default"
+						surface_prop = "rubber"
 						collision_prop = "default"
 						radius = 1.0
 						point0 = [ -1.485074, 0.0, 0.0 ]
