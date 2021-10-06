@@ -19,11 +19,10 @@ namespace Facepunch.Hover
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
 		[Net] public RealTimeUntil NextRegenTime { get; set; }
-		[Net] public RealTimeUntil RespawnTime { get; set; }
-		[Net] public Vector3 DeathPosition { get; set; }
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
+		public RealTimeUntil RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
 
@@ -153,10 +152,12 @@ namespace Facepunch.Hover
 		{
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			DeathPosition = position;
 			RespawnTime = respawnTime;
 			Controller = null;
-			Camera = new SpectateCamera();
+			Camera = new SpectateCamera
+			{
+				DeathPosition = position
+			};
 		}
 
 		public override void ClientSpawn()

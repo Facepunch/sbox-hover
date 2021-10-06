@@ -9,12 +9,44 @@ respawnscreen {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     z-index: 5;
 
     .respawn {
         text-shadow: $blueTeamShadow;
         font-size: 50px;
         color: white;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .killedby {
+        margin-top: 24px;
+        text-shadow: $blueTeamShadow;
+        font-size: 32px;
+        color: white;
+    }
+
+    .killer {
+        box-shadow: $blueTeamForeground;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        padding: 16px;
+        margin-top: 16px;
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        .name {
+            text-shadow: $blueTeamShadow;
+            font-size: 24px;
+        }
     }
 
     &.hidden {
@@ -25,6 +57,18 @@ respawnscreen {
 .team_red {
     respawnscreen {
         box-shadow: $redTeamBackground;
+
+        .killedby {
+            text-shadow: $redTeamShadow;
+        }
+
+        .killer {
+            box-shadow: $redTeamForeground;
+
+            .name {
+                text-shadow: $redTeamShadow;
+            }
+        }
 
         .respawn {
             text-shadow: $redTeamShadow;

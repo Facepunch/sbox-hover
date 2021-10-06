@@ -65,6 +65,8 @@ namespace Facepunch.Hover
 				assister.GiveAward<AssistAward>();
 			}
 
+			RespawnScreen.Show( To.Single( player ), 5f, attacker );
+
 			player.MakeSpectator( player.Position, 5f );
 
 			base.OnPlayerKilled( player, attacker, damageInfo );
@@ -73,6 +75,8 @@ namespace Facepunch.Hover
 		public override void OnPlayerSpawn( Player player )
 		{
 			base.OnPlayerSpawn( player );
+
+			RespawnScreen.Hide( To.Single( player ) );
 
 			var loadout = player.Loadout;
 
