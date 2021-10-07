@@ -44,7 +44,7 @@
 						_class = "Attachment"
 						name = "muzzle"
 						parent_bone = ""
-						relative_origin = [ 31.921494, 0.0, 4.379425 ]
+						relative_origin = [ 32.241295, 0.0, 4.379425 ]
 						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false

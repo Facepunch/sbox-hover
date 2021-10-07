@@ -836,6 +836,11 @@
 			_class = "C_OP_Decay"
 		},
 		{
+			_class = "C_OP_PositionLock"
+			m_bLockRot = true
+			m_nOpEndCapState = 0
+		},
+		{
 			_class = "C_OP_BasicMovement"
 		},
 		{
@@ -883,21 +888,21 @@
 					[
 						{
 							x = 0.0
-							y = 1.4544
-							m_flSlopeIncoming = 14.843602
-							m_flSlopeOutgoing = 14.843602
+							y = 5.8176
+							m_flSlopeIncoming = 59.374367
+							m_flSlopeOutgoing = 59.374367
 						},
 						{
 							x = 0.293945
-							y = 5.8176
-							m_flSlopeIncoming = 31.024021
-							m_flSlopeOutgoing = 31.024021
+							y = 23.270399
+							m_flSlopeIncoming = 124.096176
+							m_flSlopeOutgoing = 124.096176
 						},
 						{
 							x = 0.339917
-							y = 12.0
-							m_flSlopeIncoming = 134.480667
-							m_flSlopeOutgoing = 134.480667
+							y = 48.0
+							m_flSlopeIncoming = 537.927551
+							m_flSlopeOutgoing = 537.927551
 						},
 					]
 					m_tangents = 
@@ -916,7 +921,7 @@
 						},
 					]
 					m_vDomainMins = [ 0.0, 0.0 ]
-					m_vDomainMaxs = [ 0.6, 12.0 ]
+					m_vDomainMaxs = [ 0.6, 48.0 ]
 				}
 			}
 		},
