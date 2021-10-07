@@ -529,8 +529,8 @@ namespace Facepunch.Hover
 
 				if ( !wasOnGround )
 				{
-					var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.9f );
-					Pawn.PlaySound( "player.land" ).SetVolume( volume );
+					var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
+					Pawn.PlaySound( $"player.land{Rand.Int(1, 4)}" ).SetVolume( volume );
 				}
 			}
 		}

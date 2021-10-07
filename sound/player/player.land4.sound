@@ -4,13 +4,13 @@
 	{
 		sounds = 
 		[
-			"sound/player/player.land.vsnd",
+			"sound/player/player.land4.vsnd",
 		]
 		UI = false
-		Volume = 0.8
-		VolumeRandom = 0.1
+		Volume = 1.0
+		VolumeRandom = 0.0
 		Pitch = 1.0
-		PitchRandom = 0.3
-		DistanceMax = 400.0
+		PitchRandom = 0.5
+		DistanceMax = 500.0
 	}
 }
