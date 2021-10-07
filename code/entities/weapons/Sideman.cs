@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
+			SetModel( "models/weapons/w_sideman.vmdl" );
 		}
 
 		public override bool CanPrimaryAttack()

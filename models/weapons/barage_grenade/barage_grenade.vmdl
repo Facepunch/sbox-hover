@@ -11,7 +11,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models\\weapons\\gl_grenade\\dmx\\mesh\\gl_grenade.dmx"
+						filename = "models/weapons/barage_grenade/dmx/mesh/gl_grenade.dmx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 270.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -54,6 +54,24 @@
 						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "materials/weapons/weapon_temp.vmat"
+								to = "materials/generic/wall_panel_d_metal_galvanized.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
 					},
 				]
 			},

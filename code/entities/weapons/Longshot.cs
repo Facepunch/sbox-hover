@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_shotgun/rust_shotgun.vmdl" );
+			SetModel( "models/weapons/w_longshot.vmdl" );
 		}
 
 		public override void AttackPrimary()
