@@ -564,7 +564,7 @@ namespace Facepunch.Hover
 					}
 					else
 					{
-						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.4f ) );
+						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.7f ) );
 					}
 				}
 				else if ( controller.IsSkiing && Velocity.Length > controller.MaxSpeed * 0.1f )

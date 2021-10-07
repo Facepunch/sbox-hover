@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
 		public float StopSpeed { get; set; } = 100f;
-		public float GroundAngle { get; set; } = 46f;
+		public float GroundAngle { get; set; } = 120f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
 		public float BodyGirth { get; set; } = 32f;
