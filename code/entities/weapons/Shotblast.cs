@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "weapons/rust_pumpshotgun/rust_pumpshotgun.vmdl" );
+			SetModel( "models/weapons/w_shotblast.vmdl" );
 		}
 
 		public override void AttackPrimary()
