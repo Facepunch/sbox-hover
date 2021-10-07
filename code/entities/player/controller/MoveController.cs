@@ -514,16 +514,24 @@ namespace Facepunch.Hover
 
 		private void UpdateGroundEntity( TraceResult trace )
 		{
+			var wasOnGround = (GroundEntity != null);
+
 			GroundNormal = trace.Normal;
+			GroundEntity = trace.Entity;
 			SurfaceFriction = trace.Surface.Friction * 1.25f;
 
-			if ( SurfaceFriction > 1 ) SurfaceFriction = 1;
-
-			GroundEntity = trace.Entity;
+			if ( SurfaceFriction > 1 )
+				SurfaceFriction = 1;
 
 			if ( GroundEntity != null )
 			{
 				BaseVelocity = GroundEntity.Velocity;
+
+				if ( !wasOnGround )
+				{
+					var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.9f );
+					Pawn.PlaySound( "player.land" ).SetVolume( volume );
+				}
 			}
 		}
 
