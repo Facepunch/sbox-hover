@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public float BodyHeight { get; set; } = 72f;
 		public float EyeHeight { get; set; } = 64f;
 		public float Gravity { get; set; } = 800f;
-		public float AirControl { get; set; } = 100f;
+		public float AirControl { get; set; } = 50f;
 		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
