@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 		public virtual float ProjectileForce => 1000f;
 		public virtual string ProjectileModel => "";
 		public virtual float ImpactForce => 1000f;
+		public virtual float DamageRadius => 500f;
 		public virtual string TrailEffect => null;
 		public virtual string HitSound => null;
 		public virtual float LifeTime => 5f;
@@ -57,27 +58,15 @@ namespace Facepunch.Hover
 		protected virtual void OnProjectileHit( PhysicsProjectile projectile )
 		{
 			var position = projectile.Position;
-			var entities = Physics.GetEntitiesInSphere( position, 500f );
+			var entities = Physics.GetEntitiesInSphere( position, DamageRadius );
 
 			foreach ( var entity in entities )
 			{
 				var direction = (entity.Position - position).Normal;
-				DealDamage( entity, position, direction * ImpactForce * 0.4f );
+				var distance = entity.Position.Distance( position );
+				var damage = BaseDamage - ((BaseDamage / DamageRadius) * distance);
+				DealDamage( entity, position, direction * ImpactForce * 0.4f, damage );
 			}
-		}
-
-		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damageScale = 1f )
-		{
-			var damageInfo = new DamageInfo()
-				.WithAttacker( Owner )
-				.WithWeapon( this )
-				.WithPosition( position )
-				.WithForce( force )
-				.WithFlag( DamageType );
-
-			damageInfo.Damage = BaseDamage * damageScale;
-
-			target.TakeDamage( damageInfo );
 		}
 	}
 }

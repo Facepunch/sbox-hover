@@ -57,19 +57,5 @@ namespace Facepunch.Hover
 		{
 			DealDamage( target, projectile.Position, projectile.Direction * projectile.Speed * 0.1f );
 		}
-
-		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damageScale = 1f )
-		{
-			var damageInfo = new DamageInfo()
-				.WithAttacker( Owner )
-				.WithWeapon( this )
-				.WithPosition( position )
-				.WithForce( force )
-				.WithFlag( DamageType );
-
-			damageInfo.Damage = BaseDamage * damageScale;
-
-			target.TakeDamage( damageInfo );
-		}
 	}
 }

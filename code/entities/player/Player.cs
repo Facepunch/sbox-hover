@@ -365,7 +365,7 @@ namespace Facepunch.Hover
 				controller.Impulse += info.Force;
 			}
 
-			if ( info.Attacker is Player attacker )
+			if ( info.Attacker is Player attacker && attacker != this )
 			{
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
@@ -373,7 +373,6 @@ namespace Facepunch.Hover
 				}
 
 				AddAssistDamage( attacker, info );
-
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}
 

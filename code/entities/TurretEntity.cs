@@ -174,8 +174,6 @@ namespace Facepunch.Hover
 
 				damageInfo.Damage = BlastDamage - ((BlastDamage / BlastRadius) * distance);
 
-				Log.Info( "Dealing " + damageInfo.Damage + " to " + target.Name );
-
 				target.TakeDamage( damageInfo );
 			}
 		}

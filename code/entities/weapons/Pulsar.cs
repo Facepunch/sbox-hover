@@ -19,7 +19,8 @@ namespace Facepunch.Hover
 		public override int ClipSize => 1;
 		public override bool ReloadAnimation => false;
 		public override float ReloadTime => 1f;
-		public override int BaseDamage => 200;
+		public override int BaseDamage => 300;
+		public virtual float BlastRadius => 500f;
 
 		public override void Spawn()
 		{
@@ -70,12 +71,14 @@ namespace Facepunch.Hover
 			explosion.SetPosition( 0, projectile.Position );
 
 			var position = projectile.Position;
-			var entities = Physics.GetEntitiesInSphere( position, 500f );
+			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
 			
 			foreach ( var entity in entities )
 			{
 				var direction = (entity.Position - position).Normal;
-				DealDamage( entity, position, direction * projectile.Speed * 0.4f );
+				var distance = entity.Position.Distance( position );
+				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+				DealDamage( entity, position, direction * projectile.Speed * 0.25f, damage );
 			}
 		}
 	}

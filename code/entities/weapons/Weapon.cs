@@ -193,25 +193,6 @@ namespace Facepunch.Hover
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 		}
 
-		[ClientRpc]
-		protected virtual void ShootEffects()
-		{
-			Host.AssertClient();
-
-			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
-			{
-				Particles.Create( MuzzleFlashEffect, EffectEntity, "muzzle" );
-			}
-
-			if ( IsLocalPawn )
-			{
-				_ = new Sandbox.ScreenShake.Perlin();
-			}
-
-			ViewModelEntity?.SetAnimBool( "fire", true );
-			CrosshairPanel?.CreateEvent( "fire" );
-		}
-
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
 			var forward = Owner.EyeRot.Forward;
@@ -307,6 +288,44 @@ namespace Facepunch.Hover
 			}
 
 			return AvailableAmmo() > 0;
+		}
+
+		[ClientRpc]
+		protected virtual void ShootEffects()
+		{
+			Host.AssertClient();
+
+			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			{
+				Particles.Create( MuzzleFlashEffect, EffectEntity, "muzzle" );
+			}
+
+			if ( IsLocalPawn )
+			{
+				_ = new Sandbox.ScreenShake.Perlin();
+			}
+
+			ViewModelEntity?.SetAnimBool( "fire", true );
+			CrosshairPanel?.CreateEvent( "fire" );
+		}
+
+		protected void DealDamage( Entity target, Vector3 position, Vector3 force )
+		{
+			DealDamage( target, position, force, BaseDamage );
+		}
+
+		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damage )
+		{
+			var damageInfo = new DamageInfo()
+				.WithAttacker( Owner )
+				.WithWeapon( this )
+				.WithPosition( position )
+				.WithForce( force )
+				.WithFlag( DamageType );
+
+			damageInfo.Damage = damage;
+
+			target.TakeDamage( damageInfo );
 		}
 	}
 }
