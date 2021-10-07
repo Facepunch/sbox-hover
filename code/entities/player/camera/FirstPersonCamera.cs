@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 
 			Pos = pawn.EyePos;
 			Rot = pawn.EyeRot;
-			FieldOfView = 80;
+			FieldOfView = 80f;
 			LastPosition = Pos;
 		}
 

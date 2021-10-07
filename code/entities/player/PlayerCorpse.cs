@@ -32,13 +32,9 @@ namespace Facepunch.Hover
 
 			foreach ( var child in player.Children )
 			{
-				if ( child is ModelEntity e )
+				if ( child is BaseClothing e )
 				{
 					var model = e.GetModelName();
-
-					if ( model != null && !model.Contains( "clothes" ) )
-						continue;
-
 					var clothing = new ModelEntity();
 					clothing.SetModel( model );
 					clothing.SetParent( this, true );

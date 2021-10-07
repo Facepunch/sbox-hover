@@ -150,14 +150,12 @@ namespace Facepunch.Hover
 
 		public void MakeSpectator( Vector3 position, float respawnTime )
 		{
+			// TODO: For some reason setting this to false on the server does nothing.
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 			RespawnTime = respawnTime;
 			Controller = null;
-			Camera = new SpectateCamera
-			{
-				DeathPosition = position
-			};
+			Camera = new SpectateCamera();
 		}
 
 		public override void ClientSpawn()
@@ -223,7 +221,7 @@ namespace Facepunch.Hover
 				Rounds.Current?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
-			BecomeRagdollOnServer( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
+			BecomeRagdollOnClient( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
 
 			StopJetpackLoop();
@@ -387,8 +385,19 @@ namespace Facepunch.Hover
 			base.TakeDamage( info );
 		}
 
+		[ClientRpc]
+		public void RemoveRagdollOnClient()
+		{
+			RemoveRagdollEntity();
+		}
+
 		public void RemoveRagdollEntity()
 		{
+			if ( IsServer )
+			{
+				RemoveRagdollOnClient();
+			}
+
 			if ( Ragdoll != null && Ragdoll.IsValid() )
 			{
 				Ragdoll.Delete();
@@ -444,6 +453,8 @@ namespace Facepunch.Hover
 				speed = Math.Min( Easing.EaseIn( speed ) * 60f, 60f );
 				SpeedLines.SetPosition( 1, new Vector3( speed, 0f, 0f ) );
 			}
+
+			EnableDrawing = (LifeState == LifeState.Alive);
 		}
 
 		[Event.Tick.Server]
