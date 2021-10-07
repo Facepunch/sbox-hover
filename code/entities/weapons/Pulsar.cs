@@ -15,6 +15,7 @@ namespace Facepunch.Hover
 		public override AmmoType AmmoType => AmmoType.Rifle;
 		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
+		public override float Speed => 3000f;
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override int Slot => 4;
 		public override int ClipSize => 1;
