@@ -11,9 +11,11 @@ namespace Facepunch.Hover
 		public override string WeaponName => "Sideman";
 		public override int ClipSize => 15;
 		public override float PrimaryRate => 15.0f;
+		public override AmmoType AmmoType => AmmoType.Pistol;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
 		public override int BaseDamage => 50;
+		public override bool CanMeleeAttack => false;
 		public override int Slot => 2;
 
 		public override void Spawn()

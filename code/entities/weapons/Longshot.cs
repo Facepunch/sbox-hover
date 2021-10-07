@@ -11,8 +11,10 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Longshot";
+		public override AmmoType AmmoType => AmmoType.Sniper;
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
+		public override bool CanMeleeAttack => false;
 		public override int Slot => 3;
 		public override int ClipSize => 5;
 		public override float ReloadTime => 4f;

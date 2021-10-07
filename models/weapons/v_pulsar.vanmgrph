@@ -58,7 +58,7 @@
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
 				m_bNetwork = false
 				m_bUseMostRecentValue = false
-				m_bAutoReset = false
+				m_bAutoReset = true
 				m_bPredicted = false
 				m_bDefaultValue = false
 			},
@@ -521,6 +521,56 @@
 								m_conditions = 
 								[
 									{
+										_class = "CFinishedCondition"
+										m_comparisonOp = 0
+										m_option = "FinishedConditionOption_OnFinished"
+										m_bIsFinished = true
+									},
+								]
+								m_blendDuration = 0.2
+								m_destState = 
+								{
+									m_id = 1361374698
+								}
+								m_bReset = true
+								m_resetCycleOption = "Beginning"
+								m_flFixedCycleValue = 0.0
+								m_blendCurve = 
+								{
+									m_vControlPoint1 = [ 0.5, 0.0 ]
+									m_vControlPoint2 = [ 0.5, 1.0 ]
+								}
+								m_bForceFootPlant = false
+								m_bDisabled = false
+							},
+						]
+						m_tags = [  ]
+						m_tagBehaviors = [  ]
+						m_name = "melee"
+						m_childNodeID = 
+						{
+							m_id = 452250672
+						}
+						m_stateID = 
+						{
+							m_id = 715122460
+						}
+						m_position = [ -368.0, 160.0 ]
+						m_bIsStartState = false
+						m_bIsEndtState = false
+						m_bIsPassthrough = false
+						m_bIsRootMotionExclusive = false
+						m_bAlwaysEvaluate = false
+					},
+					{
+						_class = "CAnimState"
+						m_transitions = 
+						[
+							{
+								_class = "CAnimStateTransition"
+								m_conditions = 
+								[
+									{
 										_class = "CParameterAnimCondition"
 										m_comparisonOp = 0
 										m_paramID = 
@@ -618,6 +668,40 @@
 								m_bForceFootPlant = false
 								m_bDisabled = false
 							},
+							{
+								_class = "CAnimStateTransition"
+								m_conditions = 
+								[
+									{
+										_class = "CParameterAnimCondition"
+										m_comparisonOp = 0
+										m_paramID = 
+										{
+											m_id = 523980114
+										}
+										m_comparisonValue = 
+										{
+											m_nType = 1
+											m_data = true
+										}
+									},
+								]
+								m_blendDuration = 0.0
+								m_destState = 
+								{
+									m_id = 715122460
+								}
+								m_bReset = true
+								m_resetCycleOption = "Beginning"
+								m_flFixedCycleValue = 0.0
+								m_blendCurve = 
+								{
+									m_vControlPoint1 = [ 0.5, 0.0 ]
+									m_vControlPoint2 = [ 0.5, 1.0 ]
+								}
+								m_bForceFootPlant = false
+								m_bDisabled = false
+							},
 						]
 						m_tags = [  ]
 						m_tagBehaviors = [  ]
@@ -630,33 +714,12 @@
 						{
 							m_id = 1830143744
 						}
-						m_position = [ -577.0, -186.0 ]
+						m_position = [ -560.0, -208.0 ]
 						m_bIsStartState = false
 						m_bIsEndtState = false
 						m_bIsPassthrough = false
 						m_bIsRootMotionExclusive = false
 						m_bAlwaysEvaluate = true
-					},
-					{
-						_class = "CAnimState"
-						m_transitions = [  ]
-						m_tags = [  ]
-						m_tagBehaviors = [  ]
-						m_name = "melee"
-						m_childNodeID = 
-						{
-							m_id = 452250672
-						}
-						m_stateID = 
-						{
-							m_id = 715122460
-						}
-						m_position = [ -368.0, 128.0 ]
-						m_bIsStartState = false
-						m_bIsEndtState = false
-						m_bIsPassthrough = false
-						m_bIsRootMotionExclusive = false
-						m_bAlwaysEvaluate = false
 					},
 				]
 				m_bBlockWaningTags = false

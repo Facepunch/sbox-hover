@@ -3,6 +3,10 @@
 	public enum AmmoType
 	{
 		Pistol,
-		Buckshot
+		SMG,
+		Rifle,
+		Sniper,
+		Shotgun,
+		Grenade
 	}
 }

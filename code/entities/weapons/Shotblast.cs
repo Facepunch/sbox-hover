@@ -11,9 +11,10 @@ namespace Facepunch.Hover
 		public override string WeaponName => "Shotblast";
 		public override float PrimaryRate => 1;
 		public override float SecondaryRate => 1;
-		public override AmmoType AmmoType => AmmoType.Buckshot;
+		public override AmmoType AmmoType => AmmoType.Shotgun;
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
+		public override bool CanMeleeAttack => false;
 		public override int BaseDamage => 50;
 		public override int Slot => 5;
 

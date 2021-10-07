@@ -39,7 +39,11 @@ namespace Facepunch.Hover
 			Entity.ActiveChild = blaster;
 
 			Entity.GiveAmmo( AmmoType.Pistol, 120 );
-			Entity.GiveAmmo( AmmoType.Buckshot, 120 );
+			Entity.GiveAmmo( AmmoType.Rifle, 120 );
+			Entity.GiveAmmo( AmmoType.SMG, 120 );
+			Entity.GiveAmmo( AmmoType.Sniper, 120 );
+			Entity.GiveAmmo( AmmoType.Grenade, 120 );
+			Entity.GiveAmmo( AmmoType.Shotgun, 120 );
 		}
 
 		public override void Setup()

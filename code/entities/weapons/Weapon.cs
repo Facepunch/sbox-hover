@@ -19,7 +19,11 @@ namespace Facepunch.Hover
 		public virtual string WeaponName => "Weapon";
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
-		public virtual float ChargeAttackDuration => 2;
+		public virtual bool CanMeleeAttack => false;
+		public virtual float MeleeDamage => 100f;
+		public virtual float MeleeRange => 200f;
+		public virtual float MeleeRate => 1f;
+		public virtual float ChargeAttackDuration => 2f;
 		public virtual DamageFlags DamageType => DamageFlags.Bullet;
 		public virtual int BaseDamage => 10;
 		public virtual int HoldType => 1;
@@ -40,8 +44,10 @@ namespace Facepunch.Hover
 		[Net, Predicted]
 		public TimeSince TimeSinceChargeAttack { get; set; }
 
-		public float ChargeAttackEndTime { get; private set; }
+		[Net, Predicted]
+		public TimeSince TimeSinceMeleeAttack { get; set; }
 
+		public float ChargeAttackEndTime { get; private set; }
 		public AnimEntity AnimationOwner => Owner as AnimEntity;
 
 		public int AvailableAmmo()
@@ -50,11 +56,29 @@ namespace Facepunch.Hover
 			return owner.AmmoCount( AmmoType );
 		}
 
+		public virtual void OnMeleeAttack()
+		{
+			ViewModelEntity?.SetAnimBool( "melee", true );
+			TimeSinceMeleeAttack = 0f;
+			MeleeStrike( MeleeDamage, 2f );
+			PlaySound( "player.melee" );
+		}
+
+		public override bool CanReload()
+		{
+			if ( CanMeleeAttack && TimeSinceMeleeAttack < (1 / MeleeRate) )
+			{
+				return false;
+			}
+
+			return base.CanReload();
+		}
+
 		public override void ActiveStart( Entity owner )
 		{
 			base.ActiveStart( owner );
 
-			TimeSinceDeployed = 0;
+			TimeSinceDeployed = 0f;
 		}
 
 		public override void Spawn()
@@ -74,7 +98,7 @@ namespace Facepunch.Hover
 			if ( AmmoClip >= ClipSize )
 				return;
 
-			TimeSinceReload = 0;
+			TimeSinceReload = 0f;
 
 			if ( Owner is Player player )
 			{
@@ -111,6 +135,16 @@ namespace Facepunch.Hover
 				else
 				{
 					ChargeAttackEndTime = 0f;
+				}
+			}
+
+			if ( Input.Down( InputButton.Flashlight ) )
+			{
+				if ( CanMeleeAttack && TimeSinceMeleeAttack > (1 / MeleeRate) )
+				{
+					IsReloading = false;
+					OnMeleeAttack();
+					return;
 				}
 			}
 
@@ -193,6 +227,33 @@ namespace Facepunch.Hover
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 		}
 
+		public virtual void MeleeStrike( float damage, float force )
+		{
+			var forward = Owner.EyeRot.Forward;
+			forward = forward.Normal;
+
+			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * MeleeRange, 40f ) )
+			{
+				if ( !trace.Entity.IsValid() ) continue;
+				if ( !IsServer ) continue;
+
+				using ( Prediction.Off() )
+				{
+					var damageInfo = new DamageInfo()
+						.WithPosition( trace.EndPos )
+						.WithFlag( DamageFlags.Blunt )
+						.WithForce( forward * 100f * force )
+						.UsingTraceResult( trace )
+						.WithAttacker( Owner )
+						.WithWeapon( this );
+
+					damageInfo.Damage = damage;
+
+					trace.Entity.TakeDamage( damageInfo );
+				}
+			}
+		}
+
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
 			var forward = Owner.EyeRot.Forward;
@@ -230,7 +291,7 @@ namespace Facepunch.Hover
 					var damageInfo = new DamageInfo()
 						.WithPosition( trace.EndPos )
 						.WithFlag( DamageType )
-						.WithForce( forward * 100 * force )
+						.WithForce( forward * 100f * force )
 						.UsingTraceResult( trace )
 						.WithAttacker( Owner )
 						.WithWeapon( this );

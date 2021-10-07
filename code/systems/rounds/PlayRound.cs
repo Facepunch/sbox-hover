@@ -32,23 +32,26 @@ namespace Facepunch.Hover
 		{
 			if ( attacker.IsValid() && attacker is Player killer )
 			{
-				if ( !HasFirstBlood )
+				if ( player.IsEnemyPlayer( killer ) )
 				{
-					killer.GiveAward<FirstBloodAward>();
-					HasFirstBlood = true;
-				}
+					if ( !HasFirstBlood )
+					{
+						killer.GiveAward<FirstBloodAward>();
+						HasFirstBlood = true;
+					}
 
-				if ( player == killer.LastKiller )
-				{
-					killer.GiveAward<RevengeAward>();
-					killer.LastKiller = null;
-				}
+					if ( player == killer.LastKiller )
+					{
+						killer.GiveAward<RevengeAward>();
+						killer.LastKiller = null;
+					}
 
-				killer.GiveAward<KillAward>();
+					killer.GiveAward<KillAward>();
 
-				if ( killer.KillStreak > 2 )
-				{
-					killer.GiveAward<BuzzkillAward>();
+					if ( killer.KillStreak > 2 )
+					{
+						killer.GiveAward<BuzzkillAward>();
+					}
 				}
 
 				Hud.AddKillFeed( To.Everyone, killer, player, attacker.ActiveChild as Weapon );

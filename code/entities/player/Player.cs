@@ -378,14 +378,7 @@ namespace Facepunch.Hover
 
 			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position, info.Flags );
 
-			if ( info.Flags.HasFlag( DamageFlags.Fall ) )
-			{
-				PlaySound( "fall" );
-			}
-			else if ( info.Flags.HasFlag( DamageFlags.Bullet ) )
-			{
-				PlaySound( "grunt" + Rand.Int( 1, 4 ) );
-			}
+			PlaySound( "grunt" + Rand.Int( 1, 4 ) );
 
 			IsRegenerating = false;
 			LastDamageInfo = info;
@@ -406,8 +399,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void DidDamage( Vector3 position, float amount, float inverseHealth )
 		{
-			Sound.FromScreen( "dm.ui_attacker" )
-				.SetPitch( 1 + inverseHealth * 1 );
+			Sound.FromScreen( "hitmarker" ).SetPitch( 1 + inverseHealth * 1 );
 
 			HitIndicator.Current?.OnHit( position, amount );
 		}
@@ -419,6 +411,11 @@ namespace Facepunch.Hover
 				_ = new Sandbox.ScreenShake.Perlin(2f, 1f, 1.5f, 0.8f);
 
 			DamageIndicator.Current?.OnHit( position );
+		}
+
+		public virtual bool IsEnemyPlayer( Player other )
+		{
+			return other.Team != Team;
 		}
 
 		public virtual void OnCaptureFlag( FlagEntity flag )
@@ -434,7 +431,7 @@ namespace Facepunch.Hover
 
 		public virtual void OnKillPlayer( Player victim, DamageInfo damageInfo )
 		{
-			if ( LifeState == LifeState.Alive )
+			if ( LifeState == LifeState.Alive && IsEnemyPlayer( victim ) )
 				KillStreak++;
 		}
 

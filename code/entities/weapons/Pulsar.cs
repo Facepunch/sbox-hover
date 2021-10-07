@@ -12,12 +12,14 @@ namespace Facepunch.Hover
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Pulsar";
 		public override string HitSound => "barage.explode";
+		public override AmmoType AmmoType => AmmoType.Rifle;
 		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override int Slot => 4;
 		public override int ClipSize => 1;
 		public override bool ReloadAnimation => false;
+		public override bool CanMeleeAttack => false;
 		public override float ReloadTime => 1f;
 		public override int BaseDamage => 300;
 		public virtual float BlastRadius => 500f;
