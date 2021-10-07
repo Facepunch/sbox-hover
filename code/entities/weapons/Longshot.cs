@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"pulserifle.fire{Rand.Int(1, 2)}" );
+			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
 			ShootBullet( 0f, 4f, BaseDamage, 20.0f );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
