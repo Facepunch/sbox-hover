@@ -1,13 +1,11 @@
 ﻿@import "Variables.scss";
 
-rootpanel
-{
+rootpanel {
 	background-color: rgba( #333, 0 );
 	transition: background-color 0.2s ease-in;
 	transform-origin: 50% 50%;
 
-	&.devcamera
-	{
+	&.devcamera {
 		display: none;
 	}
 }

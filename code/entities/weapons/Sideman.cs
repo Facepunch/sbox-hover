@@ -44,10 +44,13 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( "rust_pistol.shoot" );
+			PlaySound( $"sideman.fire{Rand.Int(1, 2)}" );
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 
 			TimeSincePrimaryAttack = 0f;
+
+			if ( AmmoClip == 0 )
+				PlaySound( "blaster.empty" );
 		}
 	}
 }

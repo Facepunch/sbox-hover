@@ -63,5 +63,19 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<AwardQueue>();
 			RootPanel.AddChild<ToastList>();
 		}
+
+		[Event.Tick.Client]
+		private void ClientTick()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				// TODO: Use a nice shader for this effect instead of this shit method.
+				var healthScale = (0.4f / player.MaxHealth) * player.Health;
+
+				RootPanel.Style.BackdropFilterSaturate = 0.6f + healthScale;
+				RootPanel.Style.BackdropFilterContrast = 1.4f - healthScale;
+				RootPanel.Style.Dirty();
+			}
+		}
 	}
 }

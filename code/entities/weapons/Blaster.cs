@@ -54,7 +54,6 @@ namespace Facepunch.Hover
 			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
 		}
 
-
 		public override void PlayReloadSound()
 		{
 			PlaySound( "blaster.reload" );

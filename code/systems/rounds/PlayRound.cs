@@ -48,7 +48,7 @@ namespace Facepunch.Hover
 
 					killer.GiveAward<KillAward>();
 
-					if ( killer.KillStreak > 2 )
+					if ( player.KillStreak > 2 )
 					{
 						killer.GiveAward<BuzzkillAward>();
 					}

@@ -4,13 +4,13 @@
 	{
 		sounds = 
 		[
-			"sound/weapons/pulserifle.fire2.vsnd",
+			"sound/weapons/shotblast.fire1.vsnd",
 		]
 		UI = false
 		Volume = 1.0
-		VolumeRandom = 0.0
+		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.2
-		DistanceMax = 6000.0
+		DistanceMax = 3000.0
 	}
 }

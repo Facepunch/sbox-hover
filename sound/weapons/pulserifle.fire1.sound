@@ -7,10 +7,10 @@
 			"sound/weapons/pulserifle.fire1.vsnd",
 		]
 		UI = false
-		Volume = 0.8
-		VolumeRandom = 0.1
+		Volume = 1.0
+		VolumeRandom = 0.0
 		Pitch = 1.0
-		PitchRandom = 0.1
-		DistanceMax = 2000.0
+		PitchRandom = 0.2
+		DistanceMax = 6000.0
 	}
 }

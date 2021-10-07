@@ -15,6 +15,8 @@ namespace Facepunch.Hover
 		public override AmmoType AmmoType => AmmoType.Rifle;
 		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
+		public override float Speed => 3000f;
+		public override float Spread => 0f;
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override int Slot => 4;
 		public override int ClipSize => 1;
@@ -22,7 +24,7 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => false;
 		public override float ReloadTime => 1f;
 		public override int BaseDamage => 300;
-		public virtual float BlastRadius => 500f;
+		public virtual float BlastRadius => 400f;
 
 		public override void Spawn()
 		{
@@ -40,7 +42,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"blaster.fire1" );
+			PlaySound( $"pulserifle.fire{Rand.Int(1, 2)}" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
@@ -57,7 +59,7 @@ namespace Facepunch.Hover
 
 		public override void PlayReloadSound()
 		{
-			PlaySound( "blaster.reload" );
+			PlaySound( "pulserifle.reload" );
 			base.PlayReloadSound();
 		}
 
