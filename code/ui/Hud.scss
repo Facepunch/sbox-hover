@@ -54,6 +54,50 @@ vitals {
 	}
 }
 
+speedometer {
+	box-shadow: $blueTeamBackground;
+	justify-content: center;
+	justify-items: center;
+	align-items: center;
+	font-family: Roboto;
+	flex-direction: row;
+	position: absolute;
+	height: 50px;
+	color: #fff;
+	min-width: 256px;
+	top: 320px;
+	left: 64px;
+
+	.icon {
+		background-image: url( /ui/icons/speed.png );
+		background-size: 100%;
+		text-shadow: $blueTeamShadow;
+		margin-right: 16px;
+		width: 24px;
+		height: 24px;
+	}
+
+	.speed {
+		text-shadow: $blueTeamShadow;
+		font-size: 20px;
+		color: white;
+	}
+}
+
+.team_red {
+	speedometer {
+		box-shadow: $redTeamBackground;
+
+		.icon {
+			text-shadow: $redTeamShadow;
+		}
+
+		.speed {
+			text-shadow: $redTeamShadow;
+		}
+	}
+}
+
 tokens {
 	box-shadow: $blueTeamBackground;
 	justify-content: center;
