@@ -15,6 +15,8 @@ namespace Facepunch.Hover
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
+		public override float DamageFalloffStart => 15000f;
+		public override float DamageFalloffEnd => 25000f;
 		public override int Slot => 3;
 		public override int ClipSize => 5;
 		public override float ReloadTime => 4f;

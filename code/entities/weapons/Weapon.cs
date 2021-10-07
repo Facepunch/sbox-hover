@@ -14,6 +14,8 @@ namespace Facepunch.Hover
 		public virtual bool IsMelee => false;
 		public virtual int Slot => 0;
 		public virtual Texture Icon => null;
+		public virtual float DamageFalloffStart => 0f;
+		public virtual float DamageFalloffEnd => 0f;
 		public virtual float BulletRange => 20000f;
 		public virtual string TracerEffect => null;
 		public virtual string WeaponName => "Weapon";
@@ -54,6 +56,29 @@ namespace Facepunch.Hover
 		{
 			if ( Owner is not Player owner ) return 0;
 			return owner.AmmoCount( AmmoType );
+		}
+
+		public float GetDamageFalloff( float distance, float damage )
+		{
+			if ( DamageFalloffEnd > 0f )
+			{
+				if ( DamageFalloffStart > 0f )
+				{
+					if ( distance < DamageFalloffStart )
+					{
+						return damage;
+					}
+
+					var falloffRange = DamageFalloffEnd - DamageFalloffStart;
+					var difference = (distance - DamageFalloffStart);
+
+					return Math.Max( damage - (damage / falloffRange) * difference, 0f );
+				}
+
+				return Math.Max( damage - (damage / DamageFalloffEnd) * distance, 0f );
+			}
+
+			return damage;
 		}
 
 		public virtual void OnMeleeAttack()
@@ -296,7 +321,7 @@ namespace Facepunch.Hover
 						.WithAttacker( Owner )
 						.WithWeapon( this );
 
-					damageInfo.Damage = damage;
+					damageInfo.Damage = GetDamageFalloff( trace.Distance, damage );
 
 					trace.Entity.TakeDamage( damageInfo );
 				}

@@ -165,8 +165,7 @@ metadata
 }
 = daynight_window : "A brush entity that will enable and disable at random times during the morning and night time"
 [
-	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
-	renderamt(integer) [ group="Rendering" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	rendercolor(color255) { alpha = true } : "Color (R G B A)" : "255 255 255 255" : "The color tint of this entity."
 	enabledelay(float) : "Enable Delay Time" : 3 : ""
 	disabledelay(float) : "Disable Delay Time" : 3 : ""
 	enabled(boolean) : "Enabled" : 1 : "Whether this func_brush is visible/active at all"
@@ -284,8 +283,7 @@ metadata
 }
 = hv_launch_pad : ""
 [
-	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
-	renderamt(integer) [ group="Rendering" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	rendercolor(color255) { alpha = true } : "Color (R G B A)" : "255 255 255 255" : "The color tint of this entity."
 	targetentity(target_destination) : "Target Entity" : "" : ""
 	verticalboost(float) : "Vertical Boost" : 200 : ""
 	force(float) : "Force" : 1000 : ""
@@ -339,6 +337,26 @@ metadata
 ]
 
 //
+// Facepunch.Hover.Barage
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_barage : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.Blaster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_blaser : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Knife
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_knife : ""
@@ -349,9 +367,9 @@ metadata
 ]
 
 //
-// Facepunch.Hover.Pistol
+// Facepunch.Hover.Longshot
 //
-@PointClass base(BaseProperties_sbox_hover) = hv_pistol : ""
+@PointClass base(BaseProperties_sbox_hover) = hv_longshot : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -359,9 +377,9 @@ metadata
 ]
 
 //
-// Facepunch.Hover.Shotgun
+// Facepunch.Hover.Pulsar
 //
-@PointClass base(BaseProperties_sbox_hover) = hv_shotgun : ""
+@PointClass base(BaseProperties_sbox_hover) = hv_pulsar : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -369,9 +387,19 @@ metadata
 ]
 
 //
-// Facepunch.Hover.SMG
+// Facepunch.Hover.Shotblast
 //
-@PointClass base(BaseProperties_sbox_hover) = hv_smg : ""
+@PointClass base(BaseProperties_sbox_hover) = hv_shotblast : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.Sideman
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_sideman : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

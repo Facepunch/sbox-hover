@@ -55,7 +55,12 @@ namespace Facepunch.Hover
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			DealDamage( target, projectile.Position, projectile.Direction * projectile.Speed * 0.1f );
+			if ( target.IsValid() )
+			{
+				var distance = target.Position.Distance( projectile.StartPosition );
+				var damage = GetDamageFalloff( distance, BaseDamage );
+				DealDamage( target, projectile.Position, projectile.Direction * projectile.Speed * 0.1f, damage );
+			}
 		}
 	}
 }

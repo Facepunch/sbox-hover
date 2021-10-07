@@ -24,6 +24,7 @@ namespace Facepunch.Hover
 		public float Radius { get; set; } = 16f;
 		public float Speed { get; set; } = 2000f;
 		public bool FaceDirection { get; set; } = false;
+		public Vector3 StartPosition { get; private set; }
 		public Vector3 Direction { get; set; }
 		public bool Debug { get; set; } = false;
 
@@ -46,6 +47,7 @@ namespace Facepunch.Hover
 			}
 
 			PhysicsEnabled = false;
+			StartPosition = start;
 			Direction = direction;
 			Callback = callback;
 			Position = start;

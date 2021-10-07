@@ -22,31 +22,6 @@ namespace Facepunch.Hover
 			SetModel( "weapons/rust_boneknife/rust_boneknife.vmdl" );
 		}
 
-		public virtual void MeleeStrike( float damage, float force )
-		{
-			var forward = Owner.EyeRot.Forward;
-			forward = forward.Normal;
-
-			foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * MeleeDistance, 10f ) )
-			{
-				if ( !tr.Entity.IsValid() ) continue;
-
-				tr.Surface.DoBulletImpact( tr );
-
-				if ( !IsServer ) continue;
-
-				using ( Prediction.Off() )
-				{
-					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
-						.UsingTraceResult( tr )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
-
-					tr.Entity.TakeDamage( damageInfo );
-				}
-			}
-		}
-
 		public override void AttackSecondary()
 		{
 			StartChargeAttack();

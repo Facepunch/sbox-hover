@@ -12,6 +12,8 @@ namespace Facepunch.Hover
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
 		public override string WeaponName => "Blaster";
 		public override float PrimaryRate => 5.0f;
+		public override float DamageFalloffStart => 1000f;
+		public override float DamageFalloffEnd => 3000f;
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;

@@ -6,12 +6,17 @@ namespace Facepunch.Hover
 	[Library( "hv_sideman", Title = "Sideman" )]
 	partial class Sideman : Weapon
 	{
+		public override string ImpactEffect => "particles/weapons/pulse_sniper/pulse_sniper_impact.vpcf";
+		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/dm_pistol.png" );
 		public override string WeaponName => "Sideman";
 		public override int ClipSize => 15;
 		public override float PrimaryRate => 15.0f;
 		public override AmmoType AmmoType => AmmoType.Pistol;
+		public override float DamageFalloffStart => 500f;
+		public override float DamageFalloffEnd => 2000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
 		public override int BaseDamage => 50;
