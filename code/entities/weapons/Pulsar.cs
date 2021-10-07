@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"blaster.fire1" );
+			PlaySound( $"pulserifle.fire{Rand.Int(1, 2)}" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
@@ -57,7 +57,7 @@ namespace Facepunch.Hover
 
 		public override void PlayReloadSound()
 		{
-			PlaySound( "blaster.reload" );
+			PlaySound( "pulserifle.reload" );
 			base.PlayReloadSound();
 		}
 

@@ -11,6 +11,6 @@
 		VolumeRandom = 0.1
 		Pitch = 1.0
 		PitchRandom = 0.2
-		DistanceMax = 1000.0
+		DistanceMax = 2000.0
 	}
 }

@@ -70,7 +70,7 @@ namespace Facepunch.Hover
 	public class EntityHudAnchor : Panel
 	{
 		public IHudEntity Entity { get; private set; }
-		public bool IsActive { get; private set; }
+		public bool IsActive { get; private set; } = true;
 
 		public void SetEntity( IHudEntity entity )
 		{
@@ -90,11 +90,18 @@ namespace Facepunch.Hover
 		public void UpdatePosition()
 		{
 			var position = (Entity.Position + Entity.LocalCenter + Vector3.Up * 80f).ToScreen();
-			if ( position.z < 0 ) return;
+
+			if ( position.z < 0 )
+			{
+				SetClass( "hidden", true );
+				return;
+			}
 
 			Style.Left = Length.Fraction( position.x );
 			Style.Top = Length.Fraction( position.y );
 			Style.Dirty();
+
+			SetClass( "hidden", !IsActive );
 		}
 
 		public override void Tick()
