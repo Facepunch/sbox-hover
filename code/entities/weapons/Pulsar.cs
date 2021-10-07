@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => false;
 		public override float ReloadTime => 1f;
 		public override int BaseDamage => 300;
-		public virtual float BlastRadius => 500f;
+		public virtual float BlastRadius => 400f;
 
 		public override void Spawn()
 		{
