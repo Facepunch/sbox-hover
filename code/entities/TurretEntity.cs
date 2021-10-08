@@ -7,12 +7,10 @@ namespace Facepunch.Hover
 	[Library( "hv_turret" )]
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a team's turret spawns" )]
-	[Hammer.Sphere( "attkradius", 75, 255, 65, false)]
+	[Hammer.Sphere( 3000, 75, 255, 65)]
 	public partial class TurretEntity : AnimEntity
 	{
 		[Property] public Team Team { get; set; }
-
-		public float AttkRadius = 3000f;
 
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }

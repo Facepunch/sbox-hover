@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 	[Hammer.RenderFields]
 	[Hammer.EditorModel( "models/launch_pad/launch_pad.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Launch Pad", "Hover", "A pad that launches players toward a target entity" )]
+	[Hammer.Line( "targetname", "targetentity" )]
 	public partial class LaunchPad : ModelEntity
 	{
 		[Net, Property, FGDType( "target_destination" )] public string TargetEntity { get; set; } = "";
