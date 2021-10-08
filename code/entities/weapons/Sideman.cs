@@ -35,6 +35,12 @@ namespace Facepunch.Hover
 			return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
 		}
 
+		public override void PlayReloadSound()
+		{
+			PlaySound( "blaster.reload" );
+			base.PlayReloadSound();
+		}
+
 		public override void AttackPrimary()
 		{
 			if ( !TakeAmmo( 1 ) )

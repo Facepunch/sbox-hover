@@ -53,11 +53,11 @@
 					{
 						_class = "Attachment"
 						name = "muzzle"
-						parent_bone = "Bone1"
-						relative_origin = [ -72.636856, 40.101608, -16.511282 ]
-						relative_angles = [ 0.0, 0.0, 0.0 ]
+						parent_bone = "Bone"
+						relative_origin = [ 4.031725, -1.624224, -47.991066 ]
+						relative_angles = [ 90.0, 0.0, 0.0 ]
 						weight = 1.0
-						ignore_rotation = true
+						ignore_rotation = false
 					},
 				]
 			},
