@@ -34,8 +34,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ui\FloatingDamage - Copy.scss">
+      <DependentUpon>FloatingDamage.cs</DependentUpon>
+    </None>
     <None Update="ui\FloatingDamage.scss">
       <DependentUpon>FloatingDamage.cs</DependentUpon>
+    </None>
+    <None Update="ui\SimpleIconBar.scss">
+      <DependentUpon>SimpleIconBar.cs</DependentUpon>
     </None>
   </ItemGroup>
 
