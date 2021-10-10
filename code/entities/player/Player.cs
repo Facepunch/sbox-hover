@@ -374,6 +374,8 @@ namespace Facepunch.Hover
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}
 
+			ShowFloatingDamage( info.Damage, info.Position );
+
 			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position, info.Flags );
 
 			PlaySound( "grunt" + Rand.Int( 1, 4 ) );
@@ -383,6 +385,17 @@ namespace Facepunch.Hover
 			NextRegenTime = RegenDelay;
 
 			base.TakeDamage( info );
+		}
+
+		[ClientRpc]
+		public void ShowFloatingDamage( float damage, Vector3 position )
+		{
+			var panel = new FloatingDamage();
+
+			panel.SetLifeTime( Rand.Float( 1f, 3f ) );
+			panel.SetDamage( damage );
+			panel.Velocity = Vector3.Random * Rand.Float( 100f, 300f );
+			panel.Position = position;
 		}
 
 		[ClientRpc]
