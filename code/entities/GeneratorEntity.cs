@@ -51,6 +51,17 @@ namespace Facepunch.Hover
 			base.ClientSpawn();
 		}
 
+		public override void TakeDamage( DamageInfo info )
+		{
+			if ( info.Attacker is Player player && player.Team == Team )
+			{
+				// Players cannot destroy their own team's generator.
+				return;
+			}
+
+			base.TakeDamage( info );
+		}
+
 		public override void OnKilled()
 		{
 			LifeState = LifeState.Dead;
