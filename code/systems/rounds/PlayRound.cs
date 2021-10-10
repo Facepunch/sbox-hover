@@ -99,9 +99,9 @@ namespace Facepunch.Hover
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
 				FlagEntity.OnFlagDropped += OnFlagDropped;
 
-				foreach ( var flag in Entity.All.OfType<FlagEntity>() )
+				foreach ( var resettable in Entity.All.OfType<IGameResettable>() )
 				{
-					flag.Respawn();
+					resettable.OnGameReset();
 				}
 
 				BlueScore = 0;

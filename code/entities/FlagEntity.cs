@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public partial class FlagEntity : ModelEntity, IHudEntity
+	public partial class FlagEntity : ModelEntity, IHudEntity, IGameResettable
 	{
 		public delegate void FlagEvent( Player player, FlagEntity flag );
 		public static event FlagEvent OnFlagPickedUp;
@@ -20,6 +20,11 @@ namespace Facepunch.Hover
 		public Vector3 CustomVelocity { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Particles Effects { get; private set; }
+
+		public void OnGameReset()
+		{
+			Respawn();
+		}
 
 		public override void Spawn()
 		{

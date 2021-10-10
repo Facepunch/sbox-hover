@@ -72,13 +72,13 @@ entityhudicon {
     height: 20px;
     width: 20px;
 
-    &.rank {
-        width: 16px;
-        height: 16px;
-    }
-
     &.hidden {
         display: none;
+    }
+
+    &.power {
+        width: 32px;
+        height: 32px;
     }
 }
 

@@ -1,12 +1,13 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_generator" )]
 	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Generator", "Hover", "Defines a point where a team's generator spawns" )]
-	public partial class GeneratorEntity : ModelEntity
+	public partial class GeneratorEntity : ModelEntity, IGameResettable
 	{
 		public delegate void GeneratorEvent( GeneratorEntity generator );
 		public static event GeneratorEvent OnGeneratorRepaired;
@@ -36,6 +37,11 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
+		public void OnGameReset()
+		{
+			Health = MaxHealth;
+		}
+
 		public override void ClientSpawn()
 		{
 			HealthBarLeft = new WorldHealthBar();
@@ -56,7 +62,8 @@ namespace Facepunch.Hover
 			if ( info.Attacker is Player player && player.Team == Team )
 			{
 				// Players cannot destroy their own team's generator.
-				return;
+				//return;
+				info.Damage *= 5f;
 			}
 
 			base.TakeDamage( info );
@@ -65,6 +72,9 @@ namespace Facepunch.Hover
 		public override void OnKilled()
 		{
 			LifeState = LifeState.Dead;
+
+			OnClientGeneratorBroken();
+			OnGeneratorBroken?.Invoke( this );
 		}
 
 		[Event.Tick.Client]
@@ -74,6 +84,18 @@ namespace Facepunch.Hover
 			HealthBarLeft.SetIsLow( Health < MaxHealth * 0.2f );
 			HealthBarRight.SetValue( Health );
 			HealthBarRight.SetIsLow( Health < MaxHealth * 0.2f );
+		}
+
+		[ClientRpc]
+		private void OnClientGeneratorRepaired()
+		{
+			OnGeneratorRepaired?.Invoke( this );
+		}
+
+		[ClientRpc]
+		private void OnClientGeneratorBroken()
+		{
+			OnGeneratorBroken?.Invoke( this );
 		}
 	}
 }
