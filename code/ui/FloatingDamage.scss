@@ -1,5 +1,11 @@
 ﻿floatingdamage {
 	.damage {
+		transition: all 1s ease-out;
+
+		&:intro {
+			font-size: 150px;
+		}
+
 		font-family: Roboto;
 		font-size: 96px;
 		font-weight: bold;
