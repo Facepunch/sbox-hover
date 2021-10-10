@@ -62,8 +62,7 @@ namespace Facepunch.Hover
 			if ( info.Attacker is Player player && player.Team == Team )
 			{
 				// Players cannot destroy their own team's generator.
-				//return;
-				info.Damage *= 5f;
+				return;
 			}
 
 			base.TakeDamage( info );
