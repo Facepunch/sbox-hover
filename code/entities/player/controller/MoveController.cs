@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 		public float JetpackGainPerSecond { get; set; } = 20f;
 		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
+		public float FallDamageThreshold { get; set; } = -300f;
 		public float DownSlopeBoost { get; set; } = 0.4f;
 		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0f;
@@ -28,6 +29,8 @@ namespace Facepunch.Hover
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
 		public float StopSpeed { get; set; } = 100f;
+		public float FallDamageMin { get; set; } = 100f;
+		public float FallDamageMax { get; set; } = 500f;
 		public float GroundAngle { get; set; } = 120f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
@@ -41,6 +44,7 @@ namespace Facepunch.Hover
 		protected Unstuck Unstuck { get; private set; }
 
 		protected float SurfaceFriction { get; set; }
+		protected Vector3 PreVelocity { get; set; }
 		protected Vector3 Mins { get; set; }
 		protected Vector3 Maxs { get; set; }
 		protected bool IsTouchingLadder { get; set; }
@@ -108,6 +112,8 @@ namespace Facepunch.Hover
 
 			CheckLadder();
 			Swimming = Pawn.WaterLevel.Fraction > 0.6f;
+
+			PreVelocity = Velocity;
 
 			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
@@ -529,15 +535,47 @@ namespace Facepunch.Hover
 
 				if ( !wasOnGround )
 				{
-					var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
-					Pawn.PlaySound( $"player.land{Rand.Int(1, 4)}" ).SetVolume( volume );
-				}
+					var fallVelocity = PreVelocity.z + Gravity;
+
+					if ( fallVelocity < FallDamageThreshold )
+					{
+						var overstep = FallDamageThreshold - fallVelocity;
+						var fraction = overstep.Remap( 0f, 500f, 0f, 1f ).Clamp( 0f, 1f );
+
+						Pawn.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
+							.SetVolume( 0.7f + (0.3f * fraction) )
+							.SetPitch( 1f - (0.35f * fraction) );
+
+						OnTakeFallDamage( fraction );
+					}
+					else
+					{
+						var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
+						Pawn.PlaySound( $"player.land{Rand.Int( 1, 4 )}" ).SetVolume( volume );
+					}
+			 	}
 			}
 		}
 
 		public override TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
 		{
 			return TraceBBox( start, end, Mins, Maxs, liftFeet );
+		}
+
+		private void OnTakeFallDamage( float fraction )
+		{
+			if ( Host.IsServer )
+			{
+				var damage = new DamageInfo()
+					.WithAttacker( Pawn )
+					.WithFlag( DamageFlags.Fall )
+					.WithForce( Vector3.Down * Velocity.Length * fraction )
+					.WithPosition( Position );
+
+				damage.Damage = FallDamageMin + (FallDamageMax - FallDamageMin) * fraction;
+
+				Pawn.TakeDamage( damage );
+			}
 		}
 
 		private void StayOnGround()
