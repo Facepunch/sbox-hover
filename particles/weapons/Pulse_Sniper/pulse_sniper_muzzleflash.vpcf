@@ -16,5 +16,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/pulse_sniper/pulse_sniper_muzzleflash_b.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/pulse_sniper/pulse_sniper_muzzleflash_c.vpcf"
+		},
 	]
 }
