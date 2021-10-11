@@ -8,14 +8,11 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a team's turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
-	public partial class TurretEntity : AnimEntity, IHudEntity, IGameResettable
+	public partial class TurretEntity : GeneratorDependency
 	{
-		[Property] public Team Team { get; set; }
-
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }
 		[Net] public Player Target { get; set; }
-		[Net, Change] public bool IsPowered { get; set; } = true;
 
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
@@ -26,33 +23,6 @@ namespace Facepunch.Hover
 		public float BlastDamage => 400f;
 		public float BlastRadius => 300f;
 		public float FireRate => 2.2f;
-
-		public EntityHudIcon PowerIcon { get; private set; }
-		public EntityHudAnchor Hud { get; private set; }
-
-		public Vector3 LocalCenter => CollisionBounds.Center;
-
-		public void OnGameReset()
-		{
-			IsPowered = true;
-		}
-
-		public bool ShouldUpdateHud()
-		{
-			return true;
-		}
-
-		public void UpdateHudComponents()
-		{
-			var distance = Local.Pawn.Position.Distance( Position ) - 1000f;
-			var mapped = 1f - distance.Remap( 0f, 1000f, 0f, 1f );
-
-			if ( Hud.Style.Opacity != mapped )
-			{
-				Hud.Style.Opacity = mapped;
-				Hud.Style.Dirty();
-			}
-		}
 
 		public override void Spawn()
 		{
@@ -68,31 +38,12 @@ namespace Facepunch.Hover
 
 			Name = "Turret";
 
-			GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
-
 			base.Spawn();
-		}
-
-		public override void ClientSpawn()
-		{
-			Hud = EntityHud.Instance.Create( this );
-
-			PowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
-			PowerIcon.SetTexture( "ui/icons/power.png" );
-
-			base.ClientSpawn();
 		}
 
 		public override void OnKilled()
 		{
 			// TODO: Can it be killed separately to the generator?
-		}
-
-		protected override void OnDestroy()
-		{
-			GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
-
-			base.OnDestroy();
 		}
 
 		private void FindClosestTarget()
@@ -245,22 +196,6 @@ namespace Facepunch.Hover
 				return false;
 
 			return true;
-		}
-
-		private void OnGeneratorBroken( GeneratorEntity generator )
-		{
-			if ( generator.Team == Team )
-			{
-				IsPowered = false;
-			}
-		}
-
-		private void OnIsPoweredChanged( bool isPowered )
-		{
-			if ( isPowered )
-				PowerIcon.SetTexture( "ui/icons/power.png" );
-			else
-				PowerIcon.SetTexture( "ui/icons/no-power.png" );
 		}
 	}
 }
