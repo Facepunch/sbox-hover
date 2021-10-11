@@ -142,6 +142,7 @@ namespace Facepunch.Hover
 			{
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
+				ExplosionEffect = "particles/weapons/projectile_plasma_impact.vpcf",
 				IgnoreEntity = this,
 				LaunchSoundName = $"pulserifle.fire{Rand.Int(1, 2)}",
 				MoveTowardTarget = 500f,
