@@ -6,6 +6,8 @@ namespace Facepunch.Hover
 {
 	public partial class LightAssault : BaseLoadout
 	{
+		public override float MaxSpeed => 1500f;
+
 		public override List<string> Clothing => new()
 		{
 			CitizenClothing.Shoes.WorkBoots,

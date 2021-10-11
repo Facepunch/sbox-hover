@@ -8,6 +8,8 @@ namespace Facepunch.Hover
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public Vector3 Impulse { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
+		[Net, Predicted] public float DownSlopeBoost { get; set; } = 100f;
+		[Net, Predicted] public float UpSlopeFriction { get; set; } = 0.3f;
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
 		[Net] public float MaxEnergy { get; set; }
@@ -20,8 +22,6 @@ namespace Facepunch.Hover
 		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float FallDamageThreshold { get; set; } = -300f;
-		public float DownSlopeBoost { get; set; } = 50f;
-		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0f;
 		public float JetpackAimThrust { get; set; } = 20f;
 		public float JetpackBoostElevator { get; set; } = 200f;
