@@ -63,7 +63,7 @@
 						_class = "Attachment"
 						name = "health_left"
 						parent_bone = ""
-						relative_origin = [ -23.495178, 32.574417, -20.572144 ]
+						relative_origin = [ -5.0, 32.5345, 25.937401 ]
 						relative_angles = [ 0.0, 90.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
@@ -72,7 +72,7 @@
 						_class = "Attachment"
 						name = "health_right"
 						parent_bone = ""
-						relative_origin = [ 19.170362, -33.365685, -20.572144 ]
+						relative_origin = [ -5.0, -32.5345, 25.937401 ]
 						relative_angles = [ 0.0, -90.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
