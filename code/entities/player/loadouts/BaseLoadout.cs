@@ -7,6 +7,8 @@ namespace Facepunch.Hover
 	[DisallowMultipleComponent]
 	public partial class BaseLoadout : EntityComponent<Player>
 	{
+		public virtual float DownSlopeBoost => 100f;
+		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
 		public virtual float RegenDelay => 5f;
 		public virtual float Health => 500f;
@@ -37,6 +39,8 @@ namespace Facepunch.Hover
 
 			Entity.Controller = new MoveController
 			{
+				UpSlopeFriction = UpSlopeFriction,
+				DownSlopeBoost = DownSlopeBoost,
 				MoveSpeed = MoveSpeed,
 				MaxSpeed = MaxSpeed,
 				MaxEnergy = Energy,
