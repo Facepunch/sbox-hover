@@ -395,6 +395,9 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void ShowFloatingDamage( float damage, Vector3 position )
 		{
+			// Don't show damage that happened to us.
+			if ( IsLocalPawn ) return;
+
 			var panel = new FloatingDamage();
 
 			panel.SetLifeTime( Rand.Float( 1f, 3f ) );
