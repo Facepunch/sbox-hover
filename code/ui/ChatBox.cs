@@ -158,7 +158,10 @@ namespace Facepunch.Hover
 			if ( string.IsNullOrWhiteSpace( msg ) )
 				return;
 
-			Say( msg, Channel );
+			if ( TextEntry.Input.IsShiftDown )
+				Say( msg, ChatBoxChannel.Team );
+			else
+				Say( msg, Channel );
 		}
 	}
 }
