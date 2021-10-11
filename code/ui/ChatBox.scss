@@ -10,17 +10,40 @@ chatbox {
 	font-family: Poppins;
 	font-size: 13px;
 
-	textentry {
+	textentrycontainer {
 		box-shadow: $blueTeamBackground;
-		opacity: 0;
-		color: white;
-		padding: 16px;
+		background-color: rgba( 0 0 0 0.2 );
 		border-radius: 8px;
-		background-color: rgba( 0 0 0 0.3 );
-		font-size: 14px;
-		flex-shrink: 0;
-		flex-grow: 0;
+		padding: 16px;
+		align-items: center;
+		opacity: 0;
 		width: 100%;
+
+		tabtextentry {
+			font-size: 14px;
+			flex-shrink: 0;
+			flex-grow: 0;
+			color: white;
+			width: 90%;
+		}
+
+		.channel {
+			margin-right: 8px;
+			font-size: 16px;
+			flex-shrink: 0;
+			flex-grow: 0;
+			color: white;
+
+			&.team {
+				text-shadow: $blueTeamShadow;
+				color: $blueTeamColor;
+			}
+
+			&.all {
+				text-shadow: $chatInfoShadow;
+				color: $chatInfoColor;
+			}
+		}
 	}
 
 	.chat_canvas {
@@ -30,17 +53,23 @@ chatbox {
 	}
 
 	&.open {
-		textentry {
+		textentrycontainer {
 			opacity: 1;
-			backdrop-filter: blur( 10px );
 		}
 	}
 }
 
 .team_red {
 	chatbox {
-		textentry {
+		textentrycontainer {
 			box-shadow: $redTeamBackground;
+
+			.channel {
+				&.team {
+					text-shadow: $redTeamShadow;
+					color: $redTeamColor;
+				}
+			}
 		}
 	}
 }
@@ -85,8 +114,21 @@ chatentry {
 		top: 6px;
 	}
 
+	.channel {
+		padding-right: 8px;
+		font-weight: 600;
+		font-size: 14px;
+		color: #c0fb2e;
+		flex-shrink: 0;
+		opacity: 0.7;
+
+		&.hidden {
+			display: none;
+		}
+	}
+
 	.name {
-		padding-right: 16px;
+		padding-right: 8px;
 		font-weight: 600;
 		font-size: 14px;
 		color: #c0fb2e;
@@ -123,6 +165,11 @@ chatentry {
 			text-shadow: $redTeamShadow;
 		}
 
+		.channel {
+			text-shadow: $redTeamShadow;
+			color: red;
+		}
+
 		.name {
 			text-shadow: $redTeamShadow;
 			color: red;
@@ -134,6 +181,11 @@ chatentry {
 
 		.message {
 			text-shadow: $blueTeamShadow;
+		}
+
+		.channel {
+			text-shadow: $blueTeamShadow;
+			color: cyan;
 		}
 
 		.name {
