@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
-		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
+		public override Texture Icon => Texture.Load( "ui/weapons/blaster.png" );
 		public override string WeaponName => "Blaster";
 		public override float PrimaryRate => 5.0f;
 		public override float DamageFalloffStart => 1000f;

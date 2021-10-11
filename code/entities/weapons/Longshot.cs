@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
-		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
+		public override Texture Icon => Texture.Load( "ui/weapons/longshot.png" );
 		public override string WeaponName => "Longshot";
 		public override AmmoType AmmoType => AmmoType.Sniper;
 		public override float PrimaryRate => 0.5f;

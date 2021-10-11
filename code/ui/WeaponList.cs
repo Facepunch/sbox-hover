@@ -125,6 +125,7 @@ namespace Facepunch.Hover
 			if ( weapon.Weapon.IsValid() && player.ActiveChild != weapon.Weapon )
 			{
 				input.ActiveChild = weapon.Weapon;
+				//Audio.Play( "weapon.change" );
 			}
 
 			input.MouseWheel = 0;

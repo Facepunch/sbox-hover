@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 		public override string TracerEffect => "particles/weapons/shotblast/shotblast_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/shotblast/shotblast_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
-		public override Texture Icon => Texture.Load( "ui/weapons/dm_shotgun.png" );
+		public override Texture Icon => Texture.Load( "ui/weapons/shotblast.png" );
 		public override float DamageFalloffStart => 0f;
 		public override float DamageFalloffEnd => 1000f;
 		public override string WeaponName => "Shotblast";

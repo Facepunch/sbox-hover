@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
-		public override Texture Icon => Texture.Load( "ui/weapons/dm_smg.png" );
+		public override Texture Icon => Texture.Load( "ui/weapons/pulsar.png" );
 		public override string WeaponName => "Pulsar";
 		public override string HitSound => "barage.explode";
 		public override AmmoType AmmoType => AmmoType.Rifle;

@@ -5,7 +5,7 @@ weaponlist {
 	display: flex;
 	flex-direction: row;
 	box-shadow: $blueTeamBackground;
-	padding: 16px;
+	padding: 8px;
 	bottom: 32px;
 	right: 64px;
 
@@ -13,29 +13,39 @@ weaponlist {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		margin-right: 16px;
+		min-width: 100px;
 
 		.icon {
-			width: 96px;
-			height: 96px;
+			width: 72px;
+			height: 72px;
 		}
 
 		.name {
+			transform: translateY(-50%);
 			text-shadow: $blueTeamShadow;
-			margin-top: -20px;
-			font-size: 20px;
-			color: white;
+			margin-top: 8px;
+			font-size: 18px;
+			color: rgba( 255 255 255 0.8 );
+			transition: all 0.1s ease-out;
 		}
 
 		&.active {
 			box-shadow: $blueTeamForeground;
 
 			.name {
+				transition: all 0.1s ease-out;
+				font-size: 20px;
 				color: $blueTeamColor;
 			}
 		}
 
 		&.hidden {
 			display: none;
+		}
+
+		&:last-child {
+			margin-right: 0px;
 		}
 	}
 

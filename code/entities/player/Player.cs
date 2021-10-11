@@ -234,8 +234,9 @@ namespace Facepunch.Hover
 		{
 			SimulateActiveChild( client, ActiveChild );
 
-			if ( Input.ActiveChild != null )
+			if ( Input.ActiveChild != null && ActiveChild != Input.ActiveChild )
 			{
+				PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
 				ActiveChild = Input.ActiveChild;
 			}
 
