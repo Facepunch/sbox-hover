@@ -23,7 +23,8 @@ namespace Facepunch.Hover
 		public float DownSlopeBoost { get; set; } = 50f;
 		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0f;
-		public float JetpackAimThrust { get; set; } = 70f;
+		public float JetpackAimThrust { get; set; } = 20f;
+		public float JetpackBoostElevator { get; set; } = 200f;
 		public float JetpackBoost { get; set; } = 100f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
@@ -367,7 +368,12 @@ namespace Facepunch.Hover
 				if ( Energy >= 5f )
 				{
 					IsJetpacking = true;
-					Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost ) * Time.Delta );
+
+					if ( InEnergyElevator )
+						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoostElevator ) * Time.Delta );
+					else
+						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost ) * Time.Delta );
+
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust ) * Time.Delta;
 				}
 
