@@ -127,6 +127,7 @@ namespace Facepunch.Hover
 				{
 					var explosion = Particles.Create( ExplosionEffect );
 					explosion.SetPosition( 0, Position );
+					explosion.SetForward( 0, trace.Normal );
 				}
 
 				if ( !string.IsNullOrEmpty( HitSound ) )
