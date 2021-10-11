@@ -4,9 +4,6 @@ Layer0
 {
 	shader "complex.vfx"
 
-	//---- PBR ----
-	F_SPECULAR 1
-
 	//---- Ambient Occlusion ----
 	g_flAmbientOcclusionDirectDiffuse "0.000"
 	g_flAmbientOcclusionDirectSpecular "0.000"
@@ -28,13 +25,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	g_flMetalness "0.000"
+	g_flMetalness "0.200"
 
 	//---- Normal ----
 	TextureNormal "models/weapons/sideman/textures/sideman_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "models/weapons/sideman/textures/sideman_rough.png"
+	TextureRoughness "models/weapons/longshot/textures/longshot_rough.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
