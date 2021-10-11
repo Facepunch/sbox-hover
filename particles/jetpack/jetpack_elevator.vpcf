@@ -23,5 +23,8 @@
 		{
 			m_ChildRef = resource:"particles/jetpack/jetpack_elevator_d.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/jetpack/jetpack_elevator_e.vpcf"
+		},
 	]
 }
