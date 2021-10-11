@@ -48,11 +48,13 @@ namespace Facepunch.Hover
 			HealthBarLeft.SetEntity( this, "health_left" );
 			HealthBarLeft.MaximumValue = MaxHealth;
 			HealthBarLeft.WorldScale = 2f;
+			HealthBarLeft.ShowIcon = false;
 
 			HealthBarRight = new WorldHealthBar();
 			HealthBarRight.SetEntity( this, "health_right" );
 			HealthBarRight.MaximumValue = MaxHealth;
 			HealthBarRight.WorldScale = 2f;
+			HealthBarRight.ShowIcon = false;
 
 			base.ClientSpawn();
 		}

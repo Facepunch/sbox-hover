@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
+		public bool ShowIcon { get; set; } = true;
 
 		public WorldHealthBar()
 		{
@@ -56,6 +57,8 @@ namespace Facepunch.Hover
 			{
 				Transform = attachment.Value.WithScale( WorldScale );
 			}
+
+			IconBar.Icon.SetClass( "hidden", !ShowIcon );
 
 			base.Tick();
 		}
