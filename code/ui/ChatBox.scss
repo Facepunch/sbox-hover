@@ -114,8 +114,21 @@ chatentry {
 		top: 6px;
 	}
 
+	.channel {
+		padding-right: 8px;
+		font-weight: 600;
+		font-size: 14px;
+		color: #c0fb2e;
+		flex-shrink: 0;
+		opacity: 0.7;
+
+		&.hidden {
+			display: none;
+		}
+	}
+
 	.name {
-		padding-right: 16px;
+		padding-right: 8px;
 		font-weight: 600;
 		font-size: 14px;
 		color: #c0fb2e;
@@ -152,6 +165,11 @@ chatentry {
 			text-shadow: $redTeamShadow;
 		}
 
+		.channel {
+			text-shadow: $redTeamShadow;
+			color: red;
+		}
+
 		.name {
 			text-shadow: $redTeamShadow;
 			color: red;
@@ -163,6 +181,11 @@ chatentry {
 
 		.message {
 			text-shadow: $blueTeamShadow;
+		}
+
+		.channel {
+			text-shadow: $blueTeamShadow;
+			color: cyan;
 		}
 
 		.name {

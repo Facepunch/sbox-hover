@@ -44,9 +44,9 @@ namespace Facepunch.Hover
 		public Panel Canvas { get; private set; }
 
 		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
-		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, bool teamOnly = false )
+		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, ChatBoxChannel channel = ChatBoxChannel.All )
 		{
-			Current?.AddEntry( name, message, avatar, className, teamOnly );
+			Current?.AddEntry( name, message, avatar, className, channel );
 
 			if ( !Global.IsListenServer )
 			{
@@ -77,7 +77,7 @@ namespace Facepunch.Hover
 			if ( channel == ChatBoxChannel.All )
 				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass() );
 			else
-				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), true );
+				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), channel );
 		}
 
 		[ClientCmd( "openchat" )]
@@ -127,16 +127,21 @@ namespace Facepunch.Hover
 			TextEntry.Input.Blur();
 		}
 
-		public void AddEntry( string name, string message, string avatar, string className = null, bool teamOnly = false )
+		public void AddEntry( string name, string message, string avatar, string className = null, ChatBoxChannel channel = ChatBoxChannel.All )
 		{
 			var entry = Canvas.AddChild<ChatEntry>();
 			entry.Message.Text = message;
-			entry.NameLabel.Text = teamOnly ? $"[Team] {name}" : name;
+			entry.NameLabel.Text = name;
 			entry.Avatar.SetTexture( avatar );
 
 			if ( !string.IsNullOrEmpty( className ) )
 			{
 				entry.AddClass( className );
+			}
+
+			if ( channel != ChatBoxChannel.All )
+			{
+				entry.SetChannel( channel );
 			}
 
 			entry.SetClass( "noname", string.IsNullOrEmpty( name ) );
