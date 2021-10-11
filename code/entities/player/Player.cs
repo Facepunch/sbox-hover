@@ -22,6 +22,8 @@ namespace Facepunch.Hover
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
+		[Net, Predicted] public Entity Vehicle { get; set; }
+
 		public RealTimeUntil RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
