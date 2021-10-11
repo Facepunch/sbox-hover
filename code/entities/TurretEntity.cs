@@ -18,11 +18,13 @@ namespace Facepunch.Hover
 		public RealTimeUntil NextFireTime { get; set; }
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
 		public float ProjectileSpeed => 4000f;
-		public float RotateSpeed => 20f;
+		public float RotateSpeed => 10f;
 		public float AttackRadius => 3000f;
 		public float BlastDamage => 400f;
-		public float BlastRadius => 300f;
+		public float BlastRadius => 400f;
 		public float FireRate => 2.2f;
+
+		private Vector3 ClientDirection { get; set; }
 
 		public override void Spawn()
 		{
@@ -66,6 +68,11 @@ namespace Facepunch.Hover
 				}
 			}
 
+			if ( closestTarget != Target )
+			{
+				NextFireTime = 1f;
+			}
+
 			if ( closestTarget.IsValid() )
 				Target = closestTarget;
 			else
@@ -75,39 +82,54 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		private void UpdateTarget()
 		{
-			if ( !IsPowered )
+			if ( IsPowered )
 			{
-				var positionAhead = (Position + Rotation.Forward * 500f) + Vector3.Down * 200f;
-				TargetDirection = (positionAhead - Position).Normal;
-				SetAnimVector( "target", Transform.NormalToLocal( TargetDirection ) );
-				return;
-			}
-
-			if ( NextFindTarget )
-			{
-				FindClosestTarget();
-				NextFindTarget = 0.1f;
-			}
-
-			if ( Target.IsValid() && IsValidTarget( Target ) )
-			{
-				TargetDirection = TargetDirection.LerpTo( (GetProjectedPosition( Target ) - Position).Normal, Time.Delta * RotateSpeed );
-				SetAnimVector( "target", Transform.NormalToLocal( TargetDirection ) );
-
-				if ( NextFireTime && IsFacingTarget() )
+				if ( NextFindTarget )
 				{
-					FireProjectile();
-					NextFireTime = FireRate;
+					FindClosestTarget();
+					NextFindTarget = 0.1f;
+				}
+
+				if ( Target.IsValid() && IsValidTarget( Target ) )
+				{
+					TargetDirection = (GetProjectedPosition( Target ) - Position).Normal;
+
+					if ( NextFireTime && IsFacingTarget() )
+					{
+						FireProjectile();
+						NextFireTime = FireRate;
+					}
+				}
+				else
+				{
+					TargetDirection = Vector3.Zero;
+					Target = null;
 				}
 			}
 			else
 			{
-				TargetDirection = Vector3.Zero;
-				Target = null;
+				var positionAhead = (Position + Rotation.Forward * 500f) + Vector3.Down * 200f;
+				TargetDirection = (positionAhead - Position).Normal;
 			}
 
-			SetAnimFloat( "fire", Recoil );
+			UpdateAnimation();
+
 			Recoil = Recoil.LerpTo( 0f, Time.Delta * 2f );
+		}
+
+		[Event.Tick.Client]
+		private void ClientTick()
+		{
+			UpdateAnimation();
+		}
+
+		private void UpdateAnimation()
+		{
+			ClientDirection = ClientDirection.LerpTo( TargetDirection, Time.Delta * RotateSpeed );
+
+			SetAnimFloat( "fire", Recoil );
+			SetAnimVector( "target", Transform.NormalToLocal( ClientDirection ) );
+			SetAnimFloat( "weight", 1f );
 		}
 
 		private void FireProjectile()
@@ -120,6 +142,7 @@ namespace Facepunch.Hover
 			{
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
+				IgnoreEntity = this,
 				LaunchSoundName = $"pulserifle.fire{Rand.Int(1, 2)}",
 				MoveTowardTarget = 500f,
 				HitSound = "barage.explode",

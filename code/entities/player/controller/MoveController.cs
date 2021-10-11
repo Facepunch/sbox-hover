@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float FallDamageThreshold { get; set; } = -300f;
-		public float DownSlopeBoost { get; set; } = 0.4f;
+		public float DownSlopeBoost { get; set; } = 50f;
 		public float UpSlopeFriction { get; set; } = 0.6f;
 		public float FlatSkiFriction { get; set; } = 0f;
 		public float JetpackAimThrust { get; set; } = 70f;
@@ -320,7 +320,7 @@ namespace Facepunch.Hover
 			if ( groundAngle < 100f )
 			{
 				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
-					Velocity += (Velocity * Time.Delta * DownSlopeBoost);
+					Velocity += (Velocity.Normal * Time.Delta * DownSlopeBoost);
 				else
 					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
 			}

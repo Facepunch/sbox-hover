@@ -14,10 +14,10 @@
 					m_id = 342525352
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
-				m_bPredicted = true
+				m_bPredicted = false
 				m_defaultValue = [ 0.0, 0.0, 0.0 ]
 				m_bInterpolate = false
 			},
@@ -29,10 +29,10 @@
 					m_id = 414480508
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
-				m_bPredicted = true
+				m_bPredicted = false
 				m_fDefaultValue = 1.0
 				m_fMinValue = 0.0
 				m_fMaxValue = 1.0
@@ -46,7 +46,7 @@
 					m_id = 1946280194
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
 				m_bPredicted = false
@@ -116,12 +116,12 @@
 			{
 				_class = "CLookAtAnimNode"
 				m_sName = "Unnamed"
-				m_vecPosition = [ -336.0, 48.0 ]
+				m_vecPosition = [ -335.0, 48.0 ]
 				m_nNodeID = 
 				{
 					m_id = 204619005
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -169,7 +169,7 @@
 				{
 					m_id = 350365717
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_children = 
 				[
@@ -224,7 +224,7 @@
 				{
 					m_id = 517168428
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -251,12 +251,12 @@
 			{
 				_class = "CSingleFrameAnimNode"
 				m_sName = "Unnamed"
-				m_vecPosition = [ -532.0, 51.0 ]
+				m_vecPosition = [ -544.0, 48.0 ]
 				m_nNodeID = 
 				{
 					m_id = 702887995
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_sequenceName = "aim"
 				m_nFrameIndex = 0
@@ -271,12 +271,12 @@
 			{
 				_class = "CSubtractAnimNode"
 				m_sName = "Unnamed"
-				m_vecPosition = [ -368.0, -62.0 ]
+				m_vecPosition = [ -368.0, -64.0 ]
 				m_nNodeID = 
 				{
 					m_id = 853543169
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -308,7 +308,7 @@
 				{
 					m_id = 1261387022
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_sequenceName = "fire"
 				m_nFrameIndex = 1
@@ -328,7 +328,7 @@
 				{
 					m_id = 1569685189
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -350,7 +350,7 @@
 				{
 					m_id = 1634485854
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_childID = 
 				{
@@ -398,7 +398,7 @@
 				{
 					m_id = 1688070002
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_baseChildID = 
 				{
@@ -430,7 +430,7 @@
 				{
 					m_id = 1821366964
 				}
-				m_networkMode = "ServerAuthoritative"
+				m_networkMode = "ClientSimulate"
 				m_sNote = ""
 				m_sequenceName = "fire"
 				m_nFrameIndex = 0

@@ -58,7 +58,7 @@ chatentry {
 	min-height: 47px;
 	max-width: 100%;
 	transform: scale( 1 );
-	backdrop-filter: blur( 10px );
+	backdrop-filter: blur( 2px );
 
 	&:intro {
 		max-height: 0px;
@@ -125,7 +125,7 @@ chatentry {
 
 		.name {
 			text-shadow: $redTeamShadow;
-			color: tomato;
+			color: red;
 		}
 	}
 

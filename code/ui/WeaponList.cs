@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 {
 	public class WeaponIcon : Panel
 	{
+		public bool IsHidden { get; set; }
 		public Weapon Weapon { get; private set; }
 		public Image Icon { get; private set; }
 		public Label Name { get; private set; }
@@ -23,16 +24,17 @@ namespace Facepunch.Hover
 			SetClass( "active", isActive );
 		}
 
-		public void SetHidden( bool isHidden )
-		{
-			SetClass( "hidden", isHidden );
-		}
-
 		public void Update( Weapon weapon )
 		{
 			Weapon = weapon;
 			Icon.Texture = weapon.Icon;
 			Name.Text = weapon.WeaponName;
+		}
+
+		public override void Tick()
+		{
+			SetClass( "hidden", IsHidden );
+			base.Tick();
 		}
 	}
 
@@ -47,7 +49,7 @@ namespace Facepunch.Hover
 			for ( int i = 0; i < 6; i++ )
 			{
 				var weapon = AddChild<WeaponIcon>( "weapon" );
-				weapon.SetHidden( true );
+				weapon.IsHidden = true;
 				Weapons[i] = weapon;
 			}
 		}
@@ -62,7 +64,7 @@ namespace Facepunch.Hover
 			for ( int i = 0; i < 6; i++ )
 			{
 				var weapon = Weapons[i];
-				weapon.SetHidden( true );
+				weapon.IsHidden = true;
 			}
 
 			var weapons = player.Children.OfType<Weapon>();
@@ -73,8 +75,8 @@ namespace Facepunch.Hover
 				{
 					var weapon = Weapons[child.Slot];
 					weapon.Update( child );
-					weapon.SetHidden( false );
 					weapon.SetActive( player.ActiveChild == child );
+					weapon.IsHidden = false;
 				}
 			}
 		}
