@@ -221,8 +221,16 @@ namespace Facepunch.Hover
 				Rounds.Current?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
+
 			BecomeRagdollOnClient( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
 			Inventory.DeleteContents();
+
+			if ( LastDamageInfo.Flags.HasFlag( DamageFlags.Fall ) )
+			{
+				PlaySound( "player.falldie" );
+			}
+
+			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
 
 			StopJetpackLoop();
 			StopSkiLoop();
