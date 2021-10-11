@@ -7,17 +7,46 @@ using System;
 
 namespace Facepunch.Hover
 {
+	public enum ChatBoxChannel
+	{
+		All,
+		Team
+	}
+
+	public class TextEntryContainer : Panel
+	{
+		public TabTextEntry Input { get; private set; }
+		public Label Channel { get; private set; }
+
+		public TextEntryContainer()
+		{
+			Channel = Add.Label( "[All]", "channel" );
+			Input = AddChild<TabTextEntry>( "" );
+		}
+
+		public void SetChannel( ChatBoxChannel channel )
+		{
+			Channel.SetClass( "team", channel == ChatBoxChannel.Team );
+			Channel.SetClass( "all", channel == ChatBoxChannel.All );
+
+			if ( channel == ChatBoxChannel.All )
+				Channel.Text = "[All]";
+			else
+				Channel.Text = "[Team]";
+		}
+	}
+
 	public partial class ChatBox : Panel
 	{
 		public static ChatBox Current { get; private set; }
 
-		public TextEntry Input { get; private set; }
+		public TextEntryContainer TextEntry { get; private set; }
 		public Panel Canvas { get; private set; }
 
 		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
-		public static void AddChatEntry( string name, string message, string avatar = null, string className = null )
+		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, bool teamOnly = false )
 		{
-			Current?.AddEntry( name, message, avatar, className );
+			Current?.AddEntry( name, message, avatar, className, teamOnly );
 
 			if ( !Global.IsListenServer )
 			{
@@ -32,7 +61,7 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd( "say" )]
-		public static void Say( string message )
+		public static void Say( string message, ChatBoxChannel channel )
 		{
 			var caller = ConsoleSystem.Caller;
 			Assert.NotNull( caller );
@@ -44,7 +73,11 @@ namespace Facepunch.Hover
 				return;
 
 			Log.Info( $"{caller}: {message}" );
-			AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass() );
+
+			if ( channel == ChatBoxChannel.All )
+				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass() );
+			else
+				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), true );
 		}
 
 		[ClientCmd( "openchat" )]
@@ -52,6 +85,8 @@ namespace Facepunch.Hover
 		{
 			Current?.Open();
 		}
+
+		public ChatBoxChannel Channel { get; private set; } = ChatBoxChannel.Team;
 
 		public ChatBox()
 		{
@@ -61,30 +96,42 @@ namespace Facepunch.Hover
 
 			Canvas = Add.Panel( "chat_canvas" );
 
-			Input = Add.TextEntry( "" );
-			Input.AddEventListener( "onsubmit", () => Submit() );
-			Input.AddEventListener( "onblur", () => Close() );
-			Input.AcceptsFocus = true;
-			Input.AllowEmojiReplace = true;
+			TextEntry = AddChild<TextEntryContainer>();
+			TextEntry.Input.AddEventListener( "onsubmit", () => Submit() );
+			TextEntry.Input.AddEventListener( "onblur", () => Close() );
+			TextEntry.Input.AcceptsFocus = true;
+			TextEntry.Input.AllowEmojiReplace = true;
+			TextEntry.Input.OnTabPressed += OnTabPressed;
+			TextEntry.SetChannel( Channel );
+		}
+
+		private void OnTabPressed()
+		{
+			if ( Channel == ChatBoxChannel.All )
+				Channel = ChatBoxChannel.Team;
+			else
+				Channel = ChatBoxChannel.All;
+
+			TextEntry.SetChannel( Channel );
 		}
 
 		public void Open()
 		{
 			AddClass( "open" );
-			Input.Focus();
+			TextEntry.Input.Focus();
 		}
 
 		public void Close()
 		{
 			RemoveClass( "open" );
-			Input.Blur();
+			TextEntry.Input.Blur();
 		}
 
-		public void AddEntry( string name, string message, string avatar, string className = null )
+		public void AddEntry( string name, string message, string avatar, string className = null, bool teamOnly = false )
 		{
 			var entry = Canvas.AddChild<ChatEntry>();
 			entry.Message.Text = message;
-			entry.NameLabel.Text = name;
+			entry.NameLabel.Text = teamOnly ? $"[Team] {name}" : name;
 			entry.Avatar.SetTexture( avatar );
 
 			if ( !string.IsNullOrEmpty( className ) )
@@ -100,13 +147,13 @@ namespace Facepunch.Hover
 		{
 			Close();
 
-			var msg = Input.Text.Trim();
-			Input.Text = "";
+			var msg = TextEntry.Input.Text.Trim();
+			TextEntry.Input.Text = "";
 
 			if ( string.IsNullOrWhiteSpace( msg ) )
 				return;
 
-			Say( msg );
+			Say( msg, Channel );
 		}
 	}
 }
