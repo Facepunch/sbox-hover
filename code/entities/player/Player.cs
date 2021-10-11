@@ -379,7 +379,11 @@ namespace Facepunch.Hover
 
 			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position, info.Flags );
 
-			PlaySound( "grunt" + Rand.Int( 1, 4 ) );
+			// Don't play grunt sounds too often - it can be annoying.
+			if ( Rand.Float() >= 0.5f )
+			{
+				PlaySound( "grunt" + Rand.Int( 1, 4 ) );
+			}
 
 			IsRegenerating = false;
 			LastDamageInfo = info;
