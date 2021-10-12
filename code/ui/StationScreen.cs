@@ -353,10 +353,10 @@ namespace Facepunch.Hover
 			var upgradesContent = ContentContainer.AddChild<StationScreenTabContent>( "upgrades" );
 
 			var loadoutsTab = new StationScreenTab();
-			loadoutsTab.Setup( "Loadouts", "ui/icons/buzzkill.png", loadoutsContent );
+			loadoutsTab.Setup( "Loadouts", "ui/icons/loadouts.png", loadoutsContent );
 
 			var upgradesTab = new StationScreenTab();
-			upgradesTab.Setup( "Upgrades", "ui/icons/buzzkill.png", upgradesContent );
+			upgradesTab.Setup( "Upgrades", "ui/icons/upgrades.png", upgradesContent );
 
 			TabList.AddTab( "loadouts", loadoutsTab );
 			TabList.AddTab( "upgrades", upgradesTab );
