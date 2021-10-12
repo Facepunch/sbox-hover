@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			SetModel( "models/tempmodels/turret/turret.vmdl" );
+			SetModel( "models/upgrade_station/upgrade_station.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 
 			Transmit = TransmitType.Always;
