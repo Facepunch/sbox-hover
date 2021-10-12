@@ -579,6 +579,11 @@ namespace Facepunch.Hover
 				SpeedLines.SetPosition( 1, new Vector3( speed, 0f, 0f ) );
 			}
 
+			if ( IsLocalPawn )
+			{
+				UpdateWindLoop();
+			}
+
 			EnableDrawing = (LifeState == LifeState.Alive);
 		}
 
@@ -603,7 +608,6 @@ namespace Facepunch.Hover
 			CheckLowEnergy();
 			UpdateHealthRegen();
 			UpdateJetpackLoop();
-			UpdateWindLoop();
 			UpdateSkiLoop();
 		}
 
