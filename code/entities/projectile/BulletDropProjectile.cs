@@ -53,6 +53,7 @@ namespace Facepunch.Hover
 
 			PhysicsEnabled = false;
 			StartPosition = start;
+			Predictable = false;
 			Direction = direction;
 			Callback = callback;
 			NextFlyby = 0.2f;

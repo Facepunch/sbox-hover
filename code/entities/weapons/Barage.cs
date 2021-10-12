@@ -10,6 +10,7 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/barage.png" );
+		public override string CrosshairClass => "shotgun";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override string WeaponName => "Barage";
 		public override string HitSound => "barage.explode";

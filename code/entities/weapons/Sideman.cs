@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/sideman/sideman_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/sideman.png" );
+		public override string CrosshairClass => "semiautomatic";
 		public override string WeaponName => "Sideman";
 		public override int ClipSize => 15;
 		public override float PrimaryRate => 15.0f;

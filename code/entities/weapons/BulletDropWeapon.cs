@@ -4,6 +4,8 @@ namespace Facepunch.Hover
 {
 	public partial class BulletDropWeapon : Weapon
 	{
+		public virtual float ProjectileRadius => 20f;
+		public virtual float ProjectileLifeTime => 10f;
 		public virtual string TrailEffect => null;
 		public virtual string HitSound => null;
 		public virtual float Gravity => 50f;
@@ -30,7 +32,7 @@ namespace Facepunch.Hover
 				TrailEffect = TrailEffect,
 				Attacker = Owner,
 				HitSound = HitSound,
-				LifeTime = 10f,
+				LifeTime = ProjectileLifeTime,
 				Gravity = Gravity,
 				Owner = Owner
 			};
@@ -42,7 +44,7 @@ namespace Facepunch.Hover
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			forward = forward.Normal;
 
-			projectile.Initialize( position, forward, 20f, Speed, OnProjectileHit );
+			projectile.Initialize( position, forward, ProjectileRadius, Speed, OnProjectileHit );
 		}
 
 		[Event.Tick.Server]

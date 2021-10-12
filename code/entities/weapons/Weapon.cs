@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 			"flyby.rifleclose3",
 			"flyby.rifleclose4"
 		};
+		public virtual string CrosshairClass => "automatic";
 		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
@@ -374,12 +375,8 @@ namespace Facepunch.Hover
 		{
 			if ( Local.Hud == null ) return;
 
-			CrosshairPanel = new Crosshair
-			{
-				Parent = Local.Hud
-			};
-
-			CrosshairPanel.AddClass( ClassInfo.Name );
+			CrosshairPanel = Local.Hud.AddChild<Crosshair>();
+			CrosshairPanel.AddClass( CrosshairClass );
 		}
 
 		public bool IsUsable()

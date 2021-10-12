@@ -23,6 +23,8 @@ namespace Facepunch.Hover
 
 		public void CopyFrom( Player player )
 		{
+			RenderColor = player.RenderColor;
+
 			SetModel( player.GetModelName() );
 			TakeDecalsFrom( player );
 
@@ -36,6 +38,8 @@ namespace Facepunch.Hover
 				{
 					var model = e.GetModelName();
 					var clothing = new ModelEntity();
+
+					clothing.RenderColor = e.RenderColor;
 					clothing.SetModel( model );
 					clothing.SetParent( this, true );
 				}

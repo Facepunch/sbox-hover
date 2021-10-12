@@ -45,7 +45,8 @@ namespace Facepunch.Hover
 
 			foreach ( var model in Clothing )
 			{
-				Entity.AttachClothing( model );
+				var clothes = Entity.AttachClothing( model );
+				clothes.RenderColor = Entity.Team.GetColor();
 			}
 
 			Entity.Controller = new MoveController

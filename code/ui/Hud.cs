@@ -56,7 +56,6 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<DamageIndicator>();
 			RootPanel.AddChild<HitIndicator>();
 			RootPanel.AddChild<WeaponList>();
-			RootPanel.AddChild<Crosshair>();
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<Scoreboard>();
 			RootPanel.AddChild<StationScreen>();

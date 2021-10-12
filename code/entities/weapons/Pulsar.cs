@@ -5,11 +5,13 @@ namespace Facepunch.Hover
 	[Library( "hv_pulsar", Title = "Pulsar" )]
 	partial class Pulsar : BulletDropWeapon
 	{
+		public override float ProjectileRadius => 30f;
 		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/pulsar.png" );
+		public override string CrosshairClass => "semiautomatic";
 		public override string WeaponName => "Pulsar";
 		public override string HitSound => "barage.explode";
 		public override AmmoType AmmoType => AmmoType.Rifle;

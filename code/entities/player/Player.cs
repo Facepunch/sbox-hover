@@ -340,7 +340,7 @@ namespace Facepunch.Hover
 					using ( Prediction.Off() )
 					{
 						station.ShowUseEffects();
-						StationScreen.Show();
+						StationScreen.Show( To.Single( this ) );
 					}
 				}
 			}
@@ -471,7 +471,14 @@ namespace Facepunch.Hover
 
 			ShowFloatingDamage( info.Damage, info.Position );
 
-			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position, info.Flags );
+			var fromPosition = info.Position;
+
+			if ( info.Weapon.IsValid() )
+				fromPosition = info.Weapon.Position;
+			else if ( info.Attacker.IsValid() )
+				fromPosition = info.Attacker.Position;
+
+			TookDamage( To.Single( this ), fromPosition, info.Flags );
 
 			var bloodSplat = Particles.Create( "particles/blood/large_blood/large_blood.vpcf", info.Position );
 			bloodSplat.SetForward( 0, info.Force.Normal );
