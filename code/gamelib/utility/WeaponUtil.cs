@@ -13,7 +13,7 @@ namespace Gamelib.Utility
 			Sound.FromScreen( sound );
 		}
 
-		public static void PlayFlybySounds( Entity attacker, Vector3 start, Vector3 end, float minDistance, float maxDistance, List<string> sounds )
+		public static void PlayFlybySounds( Entity attacker, Entity victim, Vector3 start, Vector3 end, float minDistance, float maxDistance, List<string> sounds )
 		{
 			var sound = Rand.FromList( sounds );
 
@@ -34,6 +34,11 @@ namespace Gamelib.Utility
 					PlayFlybySound( To.Single( client ), sound );
 				}
 			}
+		}
+
+		public static void PlayFlybySounds( Entity attacker, Vector3 start, Vector3 end, float minDistance, float maxDistance, List<string> sounds )
+		{
+			PlayFlybySounds( attacker, null, start, end, minDistance, maxDistance, sounds );
 		}
 	}
 }

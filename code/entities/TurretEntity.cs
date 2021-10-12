@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Facepunch.Hover
@@ -13,6 +14,14 @@ namespace Facepunch.Hover
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }
 		[Net] public Player Target { get; set; }
+
+		public List<string> FlybySounds => new()
+		{
+			"flyby.rifleclose1",
+			"flyby.rifleclose2",
+			"flyby.rifleclose3",
+			"flyby.rifleclose4"
+		};
 
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
@@ -143,6 +152,7 @@ namespace Facepunch.Hover
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
 				ExplosionEffect = "particles/weapons/projectile_plasma_impact.vpcf",
+				FlybySounds = FlybySounds,
 				IgnoreEntity = this,
 				LaunchSoundName = $"pulserifle.fire{Rand.Int(1, 2)}",
 				MoveTowardTarget = 500f,

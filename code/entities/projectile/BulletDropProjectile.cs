@@ -147,7 +147,7 @@ namespace Facepunch.Hover
 			{
 				if ( NextFlyby && FlybySounds != null )
 				{
-					WeaponUtil.PlayFlybySounds( Attacker, trace.StartPos, trace.EndPos, Radius * 2f, Radius * 4f, FlybySounds );
+					WeaponUtil.PlayFlybySounds( Attacker, trace.StartPos, trace.EndPos, Radius, Radius * 4f, FlybySounds );
 					NextFlyby = Time.Delta * 2f;
 				}
 			}

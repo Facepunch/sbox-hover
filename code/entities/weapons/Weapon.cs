@@ -319,24 +319,27 @@ namespace Facepunch.Hover
 					impact.SetForward( 0, trace.Normal );
 				}
 
-				if ( !IsServer ) continue;
-				if ( !trace.Entity.IsValid() ) continue;
+				if ( !IsServer )
+					continue;
 
-				WeaponUtil.PlayFlybySounds( Owner, trace.StartPos, trace.EndPos, bulletSize * 10f, bulletSize * 50f, FlybySounds );
+				WeaponUtil.PlayFlybySounds( Owner, trace.Entity, trace.StartPos, trace.EndPos, bulletSize * 2f, bulletSize * 50f, FlybySounds );
 
-				using ( Prediction.Off() )
+				if ( trace.Entity.IsValid() )
 				{
-					var damageInfo = new DamageInfo()
-						.WithPosition( trace.EndPos )
-						.WithFlag( DamageType )
-						.WithForce( forward * 100f * force )
-						.UsingTraceResult( trace )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
+					using ( Prediction.Off() )
+					{
+						var damageInfo = new DamageInfo()
+							.WithPosition( trace.EndPos )
+							.WithFlag( DamageType )
+							.WithForce( forward * 100f * force )
+							.UsingTraceResult( trace )
+							.WithAttacker( Owner )
+							.WithWeapon( this );
 
-					damageInfo.Damage = GetDamageFalloff( trace.Distance, damage );
+						damageInfo.Damage = GetDamageFalloff( trace.Distance, damage );
 
-					trace.Entity.TakeDamage( damageInfo );
+						trace.Entity.TakeDamage( damageInfo );
+					}
 				}
 			}
 		}

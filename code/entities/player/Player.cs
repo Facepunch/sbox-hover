@@ -57,9 +57,11 @@ namespace Facepunch.Hover
 		private Radar RadarHud { get; set; }
 		private bool PlayLowEnergySound { get; set; }
 		private bool IsPlayingJetpackLoop { get; set; }
+		private bool IsPlayingWindLoop { get; set; }
 		private bool IsPlayingSkiLoop { get; set; }
 		private bool IsRegenerating { get; set; }
 		private Sound JetpackLoop { get; set; }
+		private Sound WindLoop { get; set; }
 		private Sound SkiLoop { get; set; }
 		private float WalkBob { get; set; }
 		private float FOV { get; set; }
@@ -591,6 +593,7 @@ namespace Facepunch.Hover
 			CheckLowEnergy();
 			UpdateHealthRegen();
 			UpdateJetpackLoop();
+			UpdateWindLoop();
 			UpdateSkiLoop();
 		}
 
@@ -664,6 +667,32 @@ namespace Facepunch.Hover
 			PlaySound( "jetpack.blast" );
 		}
 
+		protected virtual void UpdateWindLoop()
+		{
+			if ( Controller is MoveController controller )
+			{
+				if ( IsPlayingWindLoop )
+				{
+					if ( controller.GroundEntity.IsValid() || Velocity.Length < controller.MaxSpeed * 0.1f )
+					{
+						StopWindLoop();
+					}
+					else
+					{
+						WindLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.4f ) );
+					}
+				}
+				else if ( !controller.GroundEntity.IsValid() && Velocity.Length > controller.MaxSpeed * 0.1f )
+				{
+					StartWindLoop();
+				}
+			}
+			else if ( IsPlayingWindLoop )
+			{
+				StopWindLoop();
+			}
+		}
+
 		protected virtual void UpdateSkiLoop()
 		{
 			if ( Controller is MoveController controller )
@@ -691,6 +720,20 @@ namespace Facepunch.Hover
 			}
 		}
 
+		protected virtual void StopWindLoop()
+		{
+			IsPlayingWindLoop = false;
+			WindLoop.Stop();
+		}
+
+		protected virtual void StartWindLoop()
+		{
+			IsPlayingWindLoop = true;
+			WindLoop.Stop();
+			WindLoop = PlaySound( "player.windloop" );
+			WindLoop.SetVolume( 0.1f );
+		}
+
 		protected virtual void StopSkiLoop()
 		{
 			IsPlayingSkiLoop = false;
@@ -713,6 +756,7 @@ namespace Facepunch.Hover
 		{
 			RemoveRagdollEntity();
 			StopJetpackLoop();
+			StopWindLoop();
 			StopSkiLoop();
 
 			if ( IsLocalPawn )
