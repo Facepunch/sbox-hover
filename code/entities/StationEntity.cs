@@ -20,8 +20,10 @@ namespace Facepunch.Hover
 
 			if ( Team == Team.Blue )
 				RenderColor = Color.Blue;
-			else
+			else if ( Team == Team.Red )
 				RenderColor = Color.Red;
+			else if ( Team == Team.None )
+				RenderColor = Color.Yellow;
 
 			EnableTouch = true;
 			Name = "Station";
