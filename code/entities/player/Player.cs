@@ -281,6 +281,25 @@ namespace Facepunch.Hover
 			KillStreak = 0;
 		}
 
+		public override void BuildInput( InputBuilder input )
+		{
+			if ( StationScreen.Instance.IsOpen )
+			{
+				if ( input.Released( InputButton.Use ) )
+				{
+					StationScreen.Hide();
+				}
+
+				input.StopProcessing = true;
+				input.ClearButtons();
+				input.Clear();
+
+				return;
+			}
+
+			base.BuildInput( input );
+		}
+
 		public override void Simulate( Client client )
 		{
 			SimulateActiveChild( client, ActiveChild );
@@ -310,7 +329,7 @@ namespace Facepunch.Hover
 
 				if ( station != null && station.CanPlayerUse( this ) )
 				{
-					StationScreen.Toggle();
+					StationScreen.Show();
 					Particles.Create( "particles/upgrade_station/upgrade_use", this );
 				}
 			}

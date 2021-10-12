@@ -54,7 +54,10 @@ namespace Facepunch.Hover
 					}
 				}
 
-				Hud.AddKillFeed( To.Everyone, killer, player, attacker.ActiveChild as Weapon );
+				if ( player == killer && damageInfo.Flags.HasFlag( DamageFlags.Fall ) )
+					Hud.AddKillFeed( To.Everyone, killer, player, null );
+				else
+					Hud.AddKillFeed( To.Everyone, killer, player, attacker.ActiveChild as Weapon );
 			}
 			else
 			{

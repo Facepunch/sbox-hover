@@ -314,24 +314,32 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public static void Toggle()
 		{
-			Instance.SetClass( "hidden", !Instance.HasClass( "hidden" ) );
+			Instance.SetOpen( !Instance.IsOpen );
 		}
 
 		[ClientRpc]
 		public static void Show()
 		{
-			Instance.SetClass( "hidden", false );
+			Instance.SetOpen( true );
 		}
 
 		[ClientRpc]
 		public static void Hide()
 		{
-			Instance.SetClass( "hidden", true );
+			Instance.SetOpen( false );
 		}
 
 		public StationScreenTabList TabList { get; private set; }
 		public Panel ContentContainer { get; private set; }
 		public Label CloseTip { get; private set; }
+
+		public bool IsOpen { get; private set; }
+
+		public void SetOpen( bool isOpen )
+		{
+			SetClass( "hidden", !isOpen );
+			IsOpen = isOpen;
+		}
 
 		public StationScreen()
 		{
@@ -353,7 +361,7 @@ namespace Facepunch.Hover
 			TabList.AddTab( "loadouts", loadoutsTab );
 			TabList.AddTab( "upgrades", upgradesTab );
 
-			SetClass( "hidden", true );
+			SetOpen( false );
 
 			Instance = this;
 		}
