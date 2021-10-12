@@ -30,6 +30,14 @@ namespace Facepunch.Hover
 			CitizenClothing.Hat.SecurityHelmet.Normal
 		};
 
+		public override void Restock()
+		{
+			base.Restock();
+
+			Entity.GiveAmmo( AmmoType.Rifle, 20 );
+			Entity.GiveAmmo( AmmoType.SMG, 90 );
+		}
+
 		public override void SupplyLoadout()
 		{
 			base.SupplyLoadout();
@@ -41,8 +49,7 @@ namespace Facepunch.Hover
 			Entity.Inventory.Add( blaster, true );
 			Entity.ActiveChild = blaster;
 
-			Entity.GiveAmmo( AmmoType.Rifle, 20 );
-			Entity.GiveAmmo( AmmoType.SMG, 90 );
+			Restock();
 		}
 
 		public override void Setup()

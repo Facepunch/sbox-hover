@@ -46,6 +46,7 @@ namespace Facepunch.Hover
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
+		public RealTimeUntil NextStationRestock { get; set; }
 		public RealTimeUntil RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
@@ -198,6 +199,20 @@ namespace Facepunch.Hover
 			if ( other is JetpackElevator && Controller is MoveController controller )
 			{
 				controller.InEnergyElevator = true;
+			}
+
+			if ( other is StationEntity && NextStationRestock )
+			{
+				var loadout = Loadout;
+
+				if ( loadout != null )
+				{
+					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+					loadout.Restock();
+				}
+
+				NextStationRestock = 30f;
+				NextRegenTime = 0f;
 			}
 
 			base.StartTouch( other );

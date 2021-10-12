@@ -24,6 +24,11 @@ namespace Facepunch.Hover
 		public virtual int TokenCost => 1000;
 		public virtual List<string> Clothing => new();
 
+		public virtual void Restock()
+		{
+			Entity.ClearAmmo();
+		}
+
 		public virtual void SupplyLoadout()
 		{
 			Entity.ClearAmmo();
