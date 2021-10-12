@@ -65,7 +65,8 @@ namespace Facepunch.Hover
 		private void CreateIdleParticles()
 		{
 			IdleParticles?.Destroy();
-			IdleParticles = Particles.Create( "particles/upgrade_station/upgrade_idle", this );
+			IdleParticles = Particles.Create( "particles/upgrade_station/upgrade_idle.vpcf", this );
+			IdleParticles.SetPosition( 5, RenderColor * 255f );
 		}
 
 		private void DestroyIdleParticles()
