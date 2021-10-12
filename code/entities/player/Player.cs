@@ -271,6 +271,9 @@ namespace Facepunch.Hover
 				PlaySound( "player.falldie" );
 			}
 
+			var bloodExplosion = Particles.Create( "particles/blood/explosion_blood/explosion_blood.vpcf", Position );
+			bloodExplosion.SetForward( 0, LastDamageInfo.Force.Normal );
+
 			StationScreen.Hide( To.Single( this ) );
 
 			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
@@ -451,7 +454,7 @@ namespace Facepunch.Hover
 			{
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
-					return;
+					//return;
 				}
 
 				AddAssistDamage( attacker, info );
@@ -461,6 +464,9 @@ namespace Facepunch.Hover
 			ShowFloatingDamage( info.Damage, info.Position );
 
 			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position, info.Flags );
+
+			var bloodSplat = Particles.Create( "particles/blood/large_blood/large_blood.vpcf", info.Position );
+			bloodSplat.SetForward( 0, info.Force.Normal );
 
 			// Don't play grunt sounds too often - it can be annoying.
 			if ( Rand.Float() >= 0.5f )
