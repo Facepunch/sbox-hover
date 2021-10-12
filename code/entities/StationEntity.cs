@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 	{
 		public Particles IdleParticles { get; private set; }
 
+		private RealTimeUntil NextRestockAvailable { get; set; }
 		private WorldStationHud StationHud { get; set; }
 
 		public void ShowUseEffects()
@@ -97,10 +98,14 @@ namespace Facepunch.Hover
 			{
 				if ( player.LifeState == LifeState.Alive && CanPlayerUse( player ) )
 				{
-					ShowUseEffects();
-					player.TryRestock();
+					if ( NextRestockAvailable && player.TryRestock() )
+					{
+						NextRestockAvailable = 2f;
+						ShowUseEffects();
+					}
 				}
 			}
 		}
 	}
 }
+
