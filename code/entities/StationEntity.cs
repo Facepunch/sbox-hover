@@ -59,6 +59,11 @@ namespace Facepunch.Hover
 			else
 				DestroyIdleParticles();
 
+			if ( isPowered )
+				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+			else
+				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
+
 			base.OnIsPoweredChanged( isPowered );
 		}
 

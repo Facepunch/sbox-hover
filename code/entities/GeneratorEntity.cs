@@ -90,12 +90,14 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		private void OnClientGeneratorRepaired()
 		{
+			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
 			OnGeneratorRepaired?.Invoke( this );
 		}
 
 		[ClientRpc]
 		private void OnClientGeneratorBroken()
 		{
+			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
 			OnGeneratorBroken?.Invoke( this );
 		}
 	}
