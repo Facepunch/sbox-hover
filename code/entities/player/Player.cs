@@ -152,9 +152,10 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public void TryRestock()
+		public bool TryRestock()
 		{
-			if ( !NextStationRestock ) return;
+			if ( !NextStationRestock )
+				return false;
 
 			var loadout = Loadout;
 
@@ -166,6 +167,8 @@ namespace Facepunch.Hover
 
 			NextStationRestock = 30f;
 			NextRegenTime = 0f;
+
+			return true;
 		}
 
 		public Player GetBestAssist( Entity attacker )
