@@ -1,0 +1,48 @@
+﻿@import "Variables.scss";
+
+worldstationhud {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+
+	.label {
+		text-shadow: $blueTeamShadow;
+		box-shadow: $blueTeamForeground;
+		color: $blueTeamColor;
+		padding: 16px;
+		font-size: 30px;
+		margin-bottom: 16px;
+	}
+
+	simpleiconbar {
+		box-shadow: $blueTeamForeground;
+
+		.innerBar {
+			background-color: rgba( 255 216 0 0.8 );
+		}
+
+		.icon {
+			background-image: url( ui/icons/ammo.png );
+			background-image-tint: yellow;
+		}
+	}
+
+	&.hidden {
+		display: none;
+	}
+}
+
+.team_red {
+	worldstationhud {
+		.label {
+			text-shadow: $redTeamShadow;
+			box-shadow: $redTeamForeground;
+			color: $redTeamColor;
+		}
+
+		simpleiconbar {
+			box-shadow: $redTeamForeground;
+		}
+	}
+}

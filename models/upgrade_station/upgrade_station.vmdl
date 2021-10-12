@@ -55,6 +55,21 @@
 					},
 				]
 			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "hud"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 54.430012 ]
+						relative_angles = [ 0.0, 90.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""

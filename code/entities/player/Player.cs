@@ -39,6 +39,7 @@ namespace Facepunch.Hover
 			public float TotalDamage { get; set; }
 		}
 
+		[Net] public RealTimeUntil NextStationRestock { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
@@ -46,7 +47,6 @@ namespace Facepunch.Hover
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
-		public RealTimeUntil NextStationRestock { get; set; }
 		public RealTimeUntil RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
@@ -152,6 +152,22 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public void TryRestock()
+		{
+			if ( !NextStationRestock ) return;
+
+			var loadout = Loadout;
+
+			if ( loadout != null )
+			{
+				PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+				loadout.Restock();
+			}
+
+			NextStationRestock = 30f;
+			NextRegenTime = 0f;
+		}
+
 		public Player GetBestAssist( Entity attacker )
 		{
 			var minDamageTarget = MaxHealth * 0.3f;
@@ -199,20 +215,6 @@ namespace Facepunch.Hover
 			if ( other is JetpackElevator && Controller is MoveController controller )
 			{
 				controller.InEnergyElevator = true;
-			}
-
-			if ( other is StationEntity && NextStationRestock )
-			{
-				var loadout = Loadout;
-
-				if ( loadout != null )
-				{
-					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
-					loadout.Restock();
-				}
-
-				NextStationRestock = 30f;
-				NextRegenTime = 0f;
 			}
 
 			base.StartTouch( other );
@@ -298,6 +300,19 @@ namespace Facepunch.Hover
 					Camera = new ThirdPersonCamera();
 				else
 					Camera = new FirstPersonCamera();
+			}
+
+			if ( IsServer && Input.Released( InputButton.Use ) )
+			{
+				var station = Physics.GetEntitiesInSphere( Position, 50f )
+					.OfType<StationEntity>()
+					.FirstOrDefault();
+
+				if ( station != null && station.CanPlayerUse( this ) )
+				{
+					StationScreen.Toggle();
+					Particles.Create( "particles/upgrade_station/upgrade_use", this );
+				}
 			}
 
 			if ( IsServer && Input.Released( InputButton.Drop ) )

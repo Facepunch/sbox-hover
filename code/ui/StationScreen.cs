@@ -312,6 +312,12 @@ namespace Facepunch.Hover
 		public static StationScreen Instance { get; private set; }
 
 		[ClientRpc]
+		public static void Toggle()
+		{
+			Instance.SetClass( "hidden", !Instance.HasClass( "hidden" ) );
+		}
+
+		[ClientRpc]
 		public static void Show()
 		{
 			Instance.SetClass( "hidden", false );
@@ -355,19 +361,6 @@ namespace Facepunch.Hover
 		public override void Tick()
 		{
 			base.Tick();
-		}
-
-		[Event.BuildInput]
-		private void BuildInput( InputBuilder builder )
-		{
-			if ( !Instance.HasClass( "hidden" ) )
-			{
-				if ( builder.Pressed( InputButton.Use ) )
-				{
-					Hide();
-					return;
-				}
-			}
 		}
 	}
 }

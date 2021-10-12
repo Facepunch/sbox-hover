@@ -7,9 +7,16 @@ namespace Facepunch.Hover
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a team's station spawns" )]
-	public partial class StationEntity : GeneratorDependency, IUse
+	public partial class StationEntity : GeneratorDependency
 	{
 		public Particles IdleParticles { get; private set; }
+
+		private WorldStationHud Hud { get; set; }
+
+		public virtual bool CanPlayerUse( Player player )
+		{
+			return Team == Team.None || player.Team == Team;
+		}
 
 		public override void Spawn()
 		{
@@ -25,7 +32,6 @@ namespace Facepunch.Hover
 			else if ( Team == Team.None )
 				RenderColor = Color.Yellow;
 
-			EnableTouch = true;
 			Name = "Station";
 
 			base.Spawn();
@@ -34,6 +40,9 @@ namespace Facepunch.Hover
 		public override void ClientSpawn()
 		{
 			CreateIdleParticles();
+
+			Hud = new WorldStationHud();
+			Hud.SetEntity( this, "hud" );
 
 			base.ClientSpawn();
 		}
@@ -65,20 +74,18 @@ namespace Facepunch.Hover
 			IdleParticles = null;
 		}
 
-		public bool OnUse( Entity user )
+		[Event.Tick.Server]
+		private void ServerTick()
 		{
-			if ( user is Player player )
+			var entities = Physics.GetEntitiesInSphere( Position, 100f ).OfType<Player>();
+
+			foreach ( var player in entities )
 			{
-				StationScreen.Show( To.Single( player ) );
-				Particles.Create( "particles/upgrade_station/upgrade_use", this );
+				if ( player.LifeState == LifeState.Alive && CanPlayerUse( player ) )
+				{
+					player.TryRestock();
+				}
 			}
-
-			return false;
-		}
-
-		public bool IsUsable( Entity user )
-		{
-			return true;
 		}
 	}
 }

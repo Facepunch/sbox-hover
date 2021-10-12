@@ -271,6 +271,48 @@ stationscreen {
 
 .team_red {
     stationscreen {
-        
+        .close {
+            box-shadow: $redTeamBackground;
+            text-shadow: $redTeamShadow;
+        }
+
+        .content {
+            .loadouts {
+                stationscreenloadout {
+                    box-shadow: $redTeamBackground;
+
+                    .title {
+                        text-shadow: $redTeamShadow;
+                        color: $redTeamColor;
+                    }
+
+                    .description {
+                        text-shadow: $redTeamShadow;
+                    }
+
+                    &.selected {
+                        box-shadow: $redTeamForeground;
+                    }
+                }
+            }
+        }
+
+        .tabs {
+            box-shadow: $redTeamBackground;
+
+            stationscreentab {
+                .title {
+                    text-shadow: $redTeamShadow;
+                }
+
+                &.selected {
+                    box-shadow: $redTeamForeground;
+
+                    .title {
+                        color: $redTeamColor;
+                    }
+                }
+            }
+        }
     }
 }
