@@ -25,6 +25,11 @@ namespace Facepunch.Hover
 		{
 			Entity = entity;
 			Attachment = attachment;
+			
+			if ( entity.Team == Team.None )
+				AddClass( "team_none" );
+			else
+				AddClass( entity.Team.GetHudClass() );
 		}
 
 		public void SetRestockTime( float value )
@@ -72,8 +77,6 @@ namespace Facepunch.Hover
 			Transform = transform;
 
 			SetRestockTime( player.NextStationRestock );
-			SetClass( Team.Blue.GetHudClass(), player.Team == Team.Blue );
-			SetClass( Team.Red.GetHudClass(), player.Team == Team.Red );
 			SetClass( "hidden", false );
 
 			base.Tick();

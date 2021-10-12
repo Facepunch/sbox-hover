@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public EntityHudIcon PowerIcon { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
 
-		[Property] public Team Team { get; set; }
+		[Net, Property] public Team Team { get; set; }
 
 		public Vector3 LocalCenter => CollisionBounds.Center;
 

@@ -42,4 +42,15 @@ worldstationhud {
 			box-shadow: $redTeamForeground;
 		}
 	}
+
+	&.team_none {
+		.label {
+			text-shadow: $tokenShadow;
+			box-shadow: $tokenBackground;
+		}
+
+		simpleiconbar {
+			box-shadow: $tokenBackground;
+		}
+	}
 }
