@@ -13,6 +13,12 @@ namespace Facepunch.Hover
 
 		private WorldStationHud StationHud { get; set; }
 
+		public void ShowUseEffects()
+		{
+			var particles = Particles.Create( "particles/upgrade_station/upgrade_use.vpcf", this );
+			particles.SetPosition( 5, RenderColor * 255f );
+		}
+
 		public virtual bool CanPlayerUse( Player player )
 		{
 			return IsPowered && (Team == Team.None || player.Team == Team);
@@ -91,6 +97,7 @@ namespace Facepunch.Hover
 			{
 				if ( player.LifeState == LifeState.Alive && CanPlayerUse( player ) )
 				{
+					ShowUseEffects();
 					player.TryRestock();
 				}
 			}

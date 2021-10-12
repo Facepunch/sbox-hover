@@ -332,8 +332,8 @@ namespace Facepunch.Hover
 
 				if ( station != null && station.CanPlayerUse( this ) )
 				{
+					station.ShowUseEffects();
 					StationScreen.Show();
-					Particles.Create( "particles/upgrade_station/upgrade_use", this );
 				}
 			}
 
