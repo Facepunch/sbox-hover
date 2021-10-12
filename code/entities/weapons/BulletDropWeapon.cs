@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	partial class BulletDropWeapon : Weapon
+	public partial class BulletDropWeapon : Weapon
 	{
 		public virtual string TrailEffect => null;
 		public virtual string HitSound => null;
@@ -26,7 +26,9 @@ namespace Facepunch.Hover
 			{
 				ExplosionEffect = ImpactEffect,
 				IgnoreEntity = this,
+				FlybySounds = FlybySounds,
 				TrailEffect = TrailEffect,
+				Attacker = Owner,
 				HitSound = HitSound,
 				LifeTime = 10f,
 				Gravity = Gravity,

@@ -20,6 +20,37 @@ namespace Gamelib.Extensions
 			return new Vector3( self.y, self.x, self.z );
 		}
 
+		public static float DistanceToLine( this Vector3 self, Vector3 start, Vector3 end, out Vector3 intersection )
+		{
+			var v = end - start;
+			var w = self - start;
+
+			var c1 = Vector3.Dot( w, v );
+			if ( c1 <= 0 )
+			{
+				intersection = start;
+				return self.Distance( start );
+			}
+
+			var c2 = Vector3.Dot( v, v );
+			if ( c2 <= c1 )
+			{
+				intersection = end;
+				return self.Distance( end );
+			}
+
+			var b = c1 / c2;
+			var pb = start + b * v;
+
+			intersection = pb;
+			return self.Distance( pb );
+		}
+
+		public static float DistanceToRay( this Vector3 self, Ray ray )
+		{
+			return Vector3.Cross( ray.Direction, self - ray.Origin ).Length;
+		}
+
 		/*
 		public static Vector3 Unproject( this Vector3 self, Matrix inverseViewProjection )
 		{

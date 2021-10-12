@@ -1,5 +1,9 @@
-﻿using Sandbox;
+﻿using Gamelib.Extensions;
+using Gamelib.Utility;
+using Sandbox;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -8,6 +12,13 @@ namespace Facepunch.Hover
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
 		public virtual string MuzzleAttachment => "muzzle";
 		public virtual string MuzzleFlashEffect => "particles/pistol_muzzleflash.vpcf";
+		public virtual List<string> FlybySounds => new()
+		{
+			"flyby.rifleclose1",
+			"flyby.rifleclose2",
+			"flyby.rifleclose3",
+			"flyby.rifleclose4"
+		};
 		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
@@ -310,6 +321,8 @@ namespace Facepunch.Hover
 
 				if ( !IsServer ) continue;
 				if ( !trace.Entity.IsValid() ) continue;
+
+				WeaponUtil.PlayFlybySounds( Owner, trace.StartPos, trace.EndPos, bulletSize * 10f, bulletSize * 50f, FlybySounds );
 
 				using ( Prediction.Off() )
 				{

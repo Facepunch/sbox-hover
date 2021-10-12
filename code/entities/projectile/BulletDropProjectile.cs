@@ -1,4 +1,5 @@
 ﻿using Gamelib.Maths;
+using Gamelib.Utility;
 using Sandbox;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace Facepunch.Hover
 	public partial class BulletDropProjectile : ModelEntity
 	{
 		public Action<BulletDropProjectile, Entity> Callback { get; private set; }
+		public List<string> FlybySounds { get; set; }
+		public bool PlayFlybySounds { get; set; } = false;
 		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
 		public float? LifeTime { get; set; }
@@ -16,6 +19,7 @@ namespace Facepunch.Hover
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
+		public Entity Attacker{ get; set; } = null;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
 		public Entity IgnoreEntity { get; set; }
@@ -28,6 +32,7 @@ namespace Facepunch.Hover
 		public Vector3 Direction { get; set; }
 		public bool Debug { get; set; } = false;
 
+		private RealTimeUntil NextFlyby { get; set; }
 		private RealTimeUntil DestroyTime { get; set; }
 		private Sound LaunchSound { get; set; }
 		private Particles Follower { get; set; }
@@ -50,6 +55,7 @@ namespace Facepunch.Hover
 			StartPosition = start;
 			Direction = direction;
 			Callback = callback;
+			NextFlyby = 0.2f;
 			Position = start;
 			Transmit = TransmitType.Always;
 			Speed = speed;
@@ -136,6 +142,14 @@ namespace Facepunch.Hover
 				Callback?.Invoke( this, trace.Entity );
 				RemoveEffects();
 				Delete();
+			}
+			else
+			{
+				if ( NextFlyby && FlybySounds != null )
+				{
+					WeaponUtil.PlayFlybySounds( Attacker, trace.StartPos, trace.EndPos, Radius * 2f, Radius * 4f, FlybySounds );
+					NextFlyby = Time.Delta * 2f;
+				}
 			}
 		}
 	}
