@@ -39,12 +39,14 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
+			base.ClientSpawn();
+
 			CreateIdleParticles();
 
 			StationHud = new WorldStationHud();
 			StationHud.SetEntity( this, "hud" );
 
-			base.ClientSpawn();
+			Hud.UpOffset = 0f;
 		}
 
 		public override void OnKilled()
