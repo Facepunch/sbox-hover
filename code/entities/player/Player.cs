@@ -337,8 +337,11 @@ namespace Facepunch.Hover
 
 				if ( station != null && station.CanPlayerUse( this ) )
 				{
-					station.ShowUseEffects();
-					StationScreen.Show();
+					using ( Prediction.Off() )
+					{
+						station.ShowUseEffects();
+						StationScreen.Show();
+					}
 				}
 			}
 
