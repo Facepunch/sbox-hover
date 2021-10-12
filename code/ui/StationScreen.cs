@@ -347,7 +347,7 @@ namespace Facepunch.Hover
 			TabList.AddTab( "loadouts", loadoutsTab );
 			TabList.AddTab( "upgrades", upgradesTab );
 
-			//SetClass( "hidden", true );
+			SetClass( "hidden", true );
 
 			Instance = this;
 		}
