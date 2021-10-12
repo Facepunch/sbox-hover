@@ -8,3 +8,4 @@ sbox-pool.csproj
 *bakeresourcecache*
 tools_*_*.bin
 code/sbox-rts.csproj
+release.zip
