@@ -6,7 +6,7 @@ namespace Facepunch.Hover
 	{
 		[Net, Change] public bool IsPowered { get; set; } = true;
 
-		public EntityHudIcon PowerIcon { get; private set; }
+		public EntityHudIcon NoPowerIcon { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
 
 		[Net, Property] public Team Team { get; set; }
@@ -45,9 +45,10 @@ namespace Facepunch.Hover
 		public override void ClientSpawn()
 		{
 			Hud = EntityHud.Instance.Create( this );
+			Hud.SetActive( false );
 
-			PowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
-			PowerIcon.SetTexture( "ui/icons/power.png" );
+			NoPowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
+			NoPowerIcon.SetTexture( "ui/icons/no-power.png" );
 
 			base.ClientSpawn();
 		}
@@ -69,10 +70,7 @@ namespace Facepunch.Hover
 
 		protected virtual void OnIsPoweredChanged( bool isPowered )
 		{
-			if ( isPowered )
-				PowerIcon.SetTexture( "ui/icons/power.png" );
-			else
-				PowerIcon.SetTexture( "ui/icons/no-power.png" );
+			Hud.SetActive( !isPowered );
 		}
 	}
 }

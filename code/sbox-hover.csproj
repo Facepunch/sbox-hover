@@ -37,6 +37,9 @@
     <None Update="ui\StationScreen.scss">
       <DependentUpon>StationScreen.cs</DependentUpon>
     </None>
+    <None Update="ui\WorldStationHud.scss">
+      <DependentUpon>WorldStationHud.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>

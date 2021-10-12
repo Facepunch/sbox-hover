@@ -10,6 +10,7 @@ namespace Facepunch.Hover
 		public override string Description => "A fast assault unit with medium health and high energy.";
 		public override string Name => "Light Assault";
 		public override int DisplayOrder => 1;
+		public override int TokenCost => 300;
 		public override List<string> WeaponIcons => new()
 		{
 			"ui/weapons/pulsar.png",

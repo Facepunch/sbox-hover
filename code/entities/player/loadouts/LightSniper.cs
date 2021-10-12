@@ -9,6 +9,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A fast sniper unit with low health and medium energy.";
 		public override string Name => "Light Sniper";
+		public override int TokenCost => 800;
 		public override int DisplayOrder => 2;
 		public override List<string> WeaponIcons => new()
 		{

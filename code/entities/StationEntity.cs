@@ -39,12 +39,14 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
+			base.ClientSpawn();
+
 			CreateIdleParticles();
 
 			StationHud = new WorldStationHud();
 			StationHud.SetEntity( this, "hud" );
 
-			base.ClientSpawn();
+			Hud.UpOffset = 0f;
 		}
 
 		public override void OnKilled()
@@ -59,13 +61,19 @@ namespace Facepunch.Hover
 			else
 				DestroyIdleParticles();
 
+			if ( isPowered )
+				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+			else
+				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
+
 			base.OnIsPoweredChanged( isPowered );
 		}
 
 		private void CreateIdleParticles()
 		{
 			IdleParticles?.Destroy();
-			IdleParticles = Particles.Create( "particles/upgrade_station/upgrade_idle", this );
+			IdleParticles = Particles.Create( "particles/upgrade_station/upgrade_idle.vpcf", this );
+			IdleParticles.SetPosition( 5, RenderColor * 255f );
 		}
 
 		private void DestroyIdleParticles()
