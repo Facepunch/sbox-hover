@@ -11,11 +11,11 @@ namespace Facepunch.Hover
 	{
 		public Particles IdleParticles { get; private set; }
 
-		private WorldStationHud Hud { get; set; }
+		private WorldStationHud StationHud { get; set; }
 
 		public virtual bool CanPlayerUse( Player player )
 		{
-			return Team == Team.None || player.Team == Team;
+			return IsPowered && (Team == Team.None || player.Team == Team);
 		}
 
 		public override void Spawn()
@@ -41,8 +41,8 @@ namespace Facepunch.Hover
 		{
 			CreateIdleParticles();
 
-			Hud = new WorldStationHud();
-			Hud.SetEntity( this, "hud" );
+			StationHud = new WorldStationHud();
+			StationHud.SetEntity( this, "hud" );
 
 			base.ClientSpawn();
 		}

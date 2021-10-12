@@ -72,6 +72,8 @@ namespace Facepunch.Hover
 			Transform = transform;
 
 			SetRestockTime( player.NextStationRestock );
+			SetClass( Team.Blue.GetHudClass(), player.Team == Team.Blue );
+			SetClass( Team.Red.GetHudClass(), player.Team == Team.Red );
 			SetClass( "hidden", false );
 
 			base.Tick();

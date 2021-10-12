@@ -9,7 +9,7 @@ worldstationhud {
 	.label {
 		text-shadow: $blueTeamShadow;
 		box-shadow: $blueTeamForeground;
-		color: $blueTeamColor;
+		color: white;
 		padding: 16px;
 		font-size: 30px;
 		margin-bottom: 16px;
@@ -31,14 +31,11 @@ worldstationhud {
 	&.hidden {
 		display: none;
 	}
-}
 
-.team_red {
-	worldstationhud {
+	&.team_red {
 		.label {
 			text-shadow: $redTeamShadow;
 			box-shadow: $redTeamForeground;
-			color: $redTeamColor;
 		}
 
 		simpleiconbar {
