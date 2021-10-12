@@ -5,7 +5,7 @@ Layer0
 	shader "complex.vfx"
 
 	//---- Translucent ----
-	F_TRANSLUCENT 1
+	F_ALPHA_TEST 1
 
 	//---- Ambient Occlusion ----
 	g_flAmbientOcclusionDirectDiffuse "0.000"
@@ -44,6 +44,7 @@ Layer0
 	g_vTexCoordScrollSpeed "[0.000 1.000]"
 
 	//---- Translucent ----
-	g_flOpacityScale "1.000"
+	g_flAlphaTestReference "0.500"
+	g_flAntiAliasedEdgeStrength "1.000"
 	TextureTranslucency "materials/tempmodels/temp_gen.png"
 }
