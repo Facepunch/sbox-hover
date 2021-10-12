@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 {
 	public class WeaponIcon : Panel
 	{
+		public bool IsActive { get; set; }
 		public bool IsHidden { get; set; }
 		public Weapon Weapon { get; private set; }
 		public Image Icon { get; private set; }
@@ -17,11 +18,6 @@ namespace Facepunch.Hover
 		{
 			Icon = Add.Image( "", "icon" );
 			Name = Add.Label( "", "name" );
-		}
-
-		public void SetActive( bool isActive )
-		{
-			SetClass( "active", isActive );
 		}
 
 		public void Update( Weapon weapon )
@@ -34,6 +30,8 @@ namespace Facepunch.Hover
 		public override void Tick()
 		{
 			SetClass( "hidden", IsHidden );
+			SetClass( "active", IsActive );
+
 			base.Tick();
 		}
 	}
@@ -50,6 +48,7 @@ namespace Facepunch.Hover
 			{
 				var weapon = AddChild<WeaponIcon>( "weapon" );
 				weapon.IsHidden = true;
+				weapon.IsActive = false;
 				Weapons[i] = weapon;
 			}
 		}
@@ -67,30 +66,86 @@ namespace Facepunch.Hover
 				weapon.IsHidden = true;
 			}
 
-			var weapons = player.Children.OfType<Weapon>();
+			var weapons = player.Children.OfType<Weapon>().ToList();
+			weapons.Sort( ( a, b ) => a.Slot.CompareTo( b.Slot ) );
+
+			var currentIndex = 0;
 
 			foreach ( var child in weapons )
 			{
 				if ( child.Slot < 6 )
 				{
-					var weapon = Weapons[child.Slot];
+					var weapon = Weapons[currentIndex];
 					weapon.Update( child );
-					weapon.SetActive( player.ActiveChild == child );
+					weapon.IsActive = (player.ActiveChild == child);
 					weapon.IsHidden = false;
+					currentIndex++;
 				}
 			}
 		}
 
 		private int SlotPressInput( InputBuilder input )
 		{
-			if ( input.Pressed( InputButton.Slot0 ) ) return 0;
 			if ( input.Pressed( InputButton.Slot1 ) ) return 1;
 			if ( input.Pressed( InputButton.Slot2 ) ) return 2;
 			if ( input.Pressed( InputButton.Slot3 ) ) return 3;
 			if ( input.Pressed( InputButton.Slot4 ) ) return 4;
 			if ( input.Pressed( InputButton.Slot5 ) ) return 5;
+			if ( input.Pressed( InputButton.Slot6 ) ) return 6;
 
 			return -1;
+		}
+
+		private void PreviousWeapon( Player player, InputBuilder input )
+		{
+			var currentIndex = 0;
+
+			for ( int i = 0; i < Weapons.Length; i++ )
+			{
+				var weapon = Weapons[i];
+
+				if ( weapon.IsActive )
+				{
+					currentIndex = i;
+					break;
+				}
+			}
+
+			currentIndex--;
+			currentIndex = currentIndex.UnsignedMod( 6 );
+
+			SelectWeapon( player, input, currentIndex );
+		}
+
+		private void NextWeapon( Player player, InputBuilder input )
+		{
+			var currentIndex = 0;
+
+			for ( int i = 0; i < Weapons.Length; i++ )
+			{
+				var weapon = Weapons[i];
+
+				if ( weapon.IsActive )
+				{
+					currentIndex = i;
+					break;
+				}
+			}
+
+			currentIndex++;
+			currentIndex = currentIndex.UnsignedMod( 6 );
+
+			SelectWeapon( player, input, currentIndex );
+		}
+
+		private void SelectWeapon( Player player, InputBuilder input, int index )
+		{
+			var weapon = Weapons[index];
+
+			if ( weapon.Weapon.IsValid() && player.ActiveChild != weapon.Weapon )
+			{
+				input.ActiveChild = weapon.Weapon;
+			}
 		}
 
 		[Event.BuildInput]
@@ -99,38 +154,25 @@ namespace Facepunch.Hover
 			if ( Local.Pawn is not Player player )
 				return;
 
-			var selectedIndex = -1;
-			var weapons = player.Children.OfType<Weapon>().ToList();
-
-			foreach ( var child in weapons )
+			if ( input.MouseWheel == 1 )
 			{
-				if ( child.Slot >= 6 ) continue;
+				NextWeapon( player, input );
+				input.MouseWheel = 0;
+			}
+			else if ( input.MouseWheel == -1 )
+			{
+				PreviousWeapon( player, input );
+				input.MouseWheel = 0;
+			}
+			else
+			{
+				var pressedInput = SlotPressInput( input );
 
-				if ( selectedIndex == -1 || player.ActiveChild == child )
+				if ( pressedInput != -1 )
 				{
-					selectedIndex = child.Slot;
+					SelectWeapon( player, input, pressedInput - 1 );
 				}
 			}
-
-			var pressedInput = SlotPressInput( input );
-
-			if ( pressedInput != -1 )
-			{
-				selectedIndex = pressedInput;
-			}
-
-			selectedIndex += input.MouseWheel;
-			selectedIndex = selectedIndex.UnsignedMod( 6 );
-
-			var weapon = Weapons[selectedIndex];
-
-			if ( weapon.Weapon.IsValid() && player.ActiveChild != weapon.Weapon )
-			{
-				input.ActiveChild = weapon.Weapon;
-				//Audio.Play( "weapon.change" );
-			}
-
-			input.MouseWheel = 0;
 		}
 	}
 }
