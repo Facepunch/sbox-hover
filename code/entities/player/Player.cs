@@ -454,7 +454,7 @@ namespace Facepunch.Hover
 			{
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
-					//return;
+					return;
 				}
 
 				AddAssistDamage( attacker, info );
