@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a team's station spawns" )]
-	public partial class StationEntity : GeneratorDependency
+	public partial class StationEntity : GeneratorDependency, IUse
 	{
 		public Particles IdleParticles { get; private set; }
 
@@ -61,6 +61,22 @@ namespace Facepunch.Hover
 		{
 			IdleParticles?.Destroy();
 			IdleParticles = null;
+		}
+
+		public bool OnUse( Entity user )
+		{
+			if ( user is Player player )
+			{
+				StationScreen.Show( To.Single( player ) );
+				Particles.Create( "particles/upgrade_station/upgrade_use", this );
+			}
+
+			return false;
+		}
+
+		public bool IsUsable( Entity user )
+		{
+			return true;
 		}
 	}
 }
