@@ -8,6 +8,30 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
+		[ServerCmd]
+		public static void BuyLoadout( string loadoutName )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				var loadoutType = Library.Get<BaseLoadout>( loadoutName );
+
+				if ( loadoutType != null )
+				{
+					var loadout = Library.Create<BaseLoadout>( loadoutType );
+					if ( loadout == null ) return;
+
+					if ( player.HasTokens( loadout.TokenCost ) )
+					{
+						player.TakeTokens( loadout.TokenCost );
+						player.GiveLoadout( loadout );
+
+						loadout.Setup();
+						loadout.SupplyLoadout();
+					}
+				}
+			}
+		}
+
 		private class AssistTracker
 		{
 			public TimeSince LastDamageTime { get; set; }
@@ -229,6 +253,8 @@ namespace Facepunch.Hover
 			{
 				PlaySound( "player.falldie" );
 			}
+
+			StationScreen.Hide( To.Single( this ) );
 
 			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
 

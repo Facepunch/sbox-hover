@@ -59,6 +59,7 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<Crosshair>();
 			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<Scoreboard>();
+			RootPanel.AddChild<StationScreen>();
 			RootPanel.AddChild<RespawnScreen>();
 			RootPanel.AddChild<AwardQueue>();
 			RootPanel.AddChild<ToastList>();

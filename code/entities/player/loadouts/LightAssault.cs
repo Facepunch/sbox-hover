@@ -4,8 +4,21 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public partial class LightAssault : BaseLoadout
 	{
+		public override string Description => "A fast assault unit with medium health and high energy.";
+		public override string Name => "Light Assault";
+		public override int DisplayOrder => 1;
+		public override List<string> WeaponIcons => new()
+		{
+			"ui/weapons/pulsar.png",
+			"ui/weapons/blaster.png"
+		};
+		public override float RegenDelay => 20f;
+		public override float Health => 500f;
+		public override float Energy => 100f;
+		public override float MoveSpeed => 400f;
 		public override float MaxSpeed => 1500f;
 
 		public override List<string> Clothing => new()
@@ -21,18 +34,6 @@ namespace Facepunch.Hover
 		{
 			base.SupplyLoadout();
 
-			var sideman = new Sideman();
-			Entity.Inventory.Add( sideman );
-
-			var barage = new Barage();
-			Entity.Inventory.Add( barage );
-
-			var shotblast = new Shotblast();
-			Entity.Inventory.Add( shotblast );
-
-			var longshot = new Longshot();
-			Entity.Inventory.Add( longshot );
-
 			var pulsar = new Pulsar();
 			Entity.Inventory.Add( pulsar );
 
@@ -40,12 +41,8 @@ namespace Facepunch.Hover
 			Entity.Inventory.Add( blaster, true );
 			Entity.ActiveChild = blaster;
 
-			Entity.GiveAmmo( AmmoType.Pistol, 120 );
-			Entity.GiveAmmo( AmmoType.Rifle, 120 );
-			Entity.GiveAmmo( AmmoType.SMG, 120 );
-			Entity.GiveAmmo( AmmoType.Sniper, 120 );
-			Entity.GiveAmmo( AmmoType.Grenade, 120 );
-			Entity.GiveAmmo( AmmoType.Shotgun, 120 );
+			Entity.GiveAmmo( AmmoType.Rifle, 20 );
+			Entity.GiveAmmo( AmmoType.SMG, 90 );
 		}
 
 		public override void Setup()

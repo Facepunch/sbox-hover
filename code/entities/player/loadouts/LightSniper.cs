@@ -4,9 +4,22 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public partial class LightSniper : BaseLoadout
 	{
-		public override float MaxSpeed => 1500f;
+		public override string Description => "A fast sniper unit with low health and medium energy.";
+		public override string Name => "Light Sniper";
+		public override int DisplayOrder => 2;
+		public override List<string> WeaponIcons => new()
+		{
+			"ui/weapons/longshot.png",
+			"ui/weapons/sideman.png"
+		};
+		public override float RegenDelay => 20f;
+		public override float Health => 200f;
+		public override float Energy => 80f;
+		public override float MoveSpeed => 350f;
+		public override float MaxSpeed => 1200f;
 
 		public override List<string> Clothing => new()
 		{
@@ -24,11 +37,12 @@ namespace Facepunch.Hover
 			var sideman = new Sideman();
 			Entity.Inventory.Add( sideman );
 
-			var blaster = new Blaster();
-			Entity.Inventory.Add( blaster, true );
-			Entity.ActiveChild = blaster;
+			var longshot = new Longshot();
+			Entity.Inventory.Add( longshot, true );
+			Entity.ActiveChild = longshot;
 
-			Entity.GiveAmmo( AmmoType.Pistol, 120 );
+			Entity.GiveAmmo( AmmoType.Rifle, 20 );
+			Entity.GiveAmmo( AmmoType.Pistol, 60 );
 		}
 
 		public override void Setup()

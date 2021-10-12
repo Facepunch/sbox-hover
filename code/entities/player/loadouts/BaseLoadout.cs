@@ -7,6 +7,9 @@ namespace Facepunch.Hover
 	[DisallowMultipleComponent]
 	public partial class BaseLoadout : EntityComponent<Player>
 	{
+		public virtual List<string> WeaponIcons => new();
+		public virtual string DisplayWeapon => "models/weapons/w_blaster.vmdl";
+		public virtual int DisplayOrder => 0;
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
@@ -16,6 +19,9 @@ namespace Facepunch.Hover
 		public virtual float MoveSpeed => 400f;
 		public virtual float MaxSpeed => 1000f;
 		public virtual string Model => "models/citizen/citizen.vmdl";
+		public virtual string Description => "";
+		public virtual string Name => "Loadout";
+		public virtual int TokenCost => 1000;
 		public virtual List<string> Clothing => new();
 
 		public virtual void SupplyLoadout()
