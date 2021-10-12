@@ -12,13 +12,11 @@ namespace Facepunch.Hover
 		public virtual float Speed => 2000f;
 		public virtual float Spread => 0.05f;
 
-		protected bool FireNextTick { get; set; }
-
 		public override void AttackPrimary()
 		{
 			if ( IsServer )
 			{
-				FireNextTick = true;
+				FireProjectile();
 			}
 		}
 
@@ -33,28 +31,23 @@ namespace Facepunch.Hover
 				Attacker = Owner,
 				HitSound = HitSound,
 				LifeTime = ProjectileLifeTime,
-				Gravity = Gravity,
-				Owner = Owner
+				Gravity = Gravity
 			};
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
 			var forward = Owner.EyeRot.Forward;
+			var endPosition = Owner.EyePos + forward * BulletRange;
+			var trace = Trace.Ray( Owner.EyePos, endPosition )
+				.Ignore( Owner )
+				.Ignore( this )
+				.Run();
+			var direction = (trace.EndPos - position).Normal;
 
-			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
-			forward = forward.Normal;
+			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
+			direction = direction.Normal;
 
-			projectile.Initialize( position, forward, ProjectileRadius, Speed, OnProjectileHit );
-		}
-
-		[Event.Tick.Server]
-		protected virtual void ServerTick()
-		{
-			if ( FireNextTick )
-			{
-				FireProjectile();
-				FireNextTick = false;
-			}
+			projectile.Initialize( position, direction, ProjectileRadius, Speed, OnProjectileHit );
 		}
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )

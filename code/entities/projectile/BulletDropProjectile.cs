@@ -53,7 +53,6 @@ namespace Facepunch.Hover
 
 			PhysicsEnabled = false;
 			StartPosition = start;
-			Predictable = false;
 			Direction = direction;
 			Callback = callback;
 			NextFlyby = 0.2f;
@@ -61,23 +60,26 @@ namespace Facepunch.Hover
 			Transmit = TransmitType.Always;
 			Speed = speed;
 
-			if ( !string.IsNullOrEmpty( TrailEffect ) )
+			using ( Prediction.Off() )
 			{
-				Trail = Particles.Create( TrailEffect );
+				if ( !string.IsNullOrEmpty( TrailEffect ) )
+				{
+					Trail = Particles.Create( TrailEffect );
 
-				if ( !string.IsNullOrEmpty( Attachment ) )
-					Trail.SetEntityAttachment( 0, this, Attachment );
-				else
-					Trail.SetEntity( 0, this );
+					if ( !string.IsNullOrEmpty( Attachment ) )
+						Trail.SetEntityAttachment( 0, this, Attachment );
+					else
+						Trail.SetEntity( 0, this );
+				}
+
+				if ( !string.IsNullOrEmpty( FollowEffect ) )
+				{
+					Follower = Particles.Create( FollowEffect, this );
+				}
+
+				if ( !string.IsNullOrEmpty( LaunchSoundName ) )
+					LaunchSound = PlaySound( LaunchSoundName );
 			}
-
-			if ( !string.IsNullOrEmpty( FollowEffect ) )
-			{
-				Follower = Particles.Create( FollowEffect, this );
-			}
-
-			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
-				LaunchSound = PlaySound( LaunchSoundName );
 		}
 
 		protected override void OnDestroy()
