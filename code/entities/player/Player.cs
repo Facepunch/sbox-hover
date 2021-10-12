@@ -679,7 +679,7 @@ namespace Facepunch.Hover
 					}
 					else
 					{
-						WindLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.4f ) );
+						WindLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.8f ) );
 					}
 				}
 				else if ( !controller.GroundEntity.IsValid() && Velocity.Length > controller.MaxSpeed * 0.1f )
