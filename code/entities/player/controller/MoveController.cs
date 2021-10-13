@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 		public float JetpackGainPerSecond { get; set; } = 20f;
 		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
-		public float FallDamageThreshold { get; set; } = -400f;
+		public float FallDamageThreshold { get; set; } = 500f;
 		public float FlatSkiFriction { get; set; } = 0f;
 		public float JetpackAimThrust { get; set; } = 20f;
 		public float JetpackBoostElevator { get; set; } = 200f;
@@ -543,10 +543,10 @@ namespace Facepunch.Hover
 				{
 					var fallVelocity = PreVelocity.z + Gravity;
 
-					if ( fallVelocity < FallDamageThreshold )
+					if ( fallVelocity < -FallDamageThreshold )
 					{
-						var overstep = FallDamageThreshold - fallVelocity;
-						var fraction = overstep.Remap( 0f, 500f, 0f, 1f ).Clamp( 0f, 1f );
+						var overstep = -FallDamageThreshold - fallVelocity;
+						var fraction = overstep.Remap( 0f, FallDamageThreshold, 0f, 1f ).Clamp( 0f, 1f );
 
 						Pawn.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
 							.SetVolume( 0.7f + (0.3f * fraction) )
