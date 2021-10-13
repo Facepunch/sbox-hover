@@ -274,7 +274,7 @@ metadata
 //
 // Facepunch.Hover.LaunchPad
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/launch_pad/launch_pad.vmdl", fixedbounds ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/launch_pad/launch_pad.vmdl", fixedbounds ) line( 255 255 255, "targetname", "targetentity" ) 
 metadata
 {
 	entity_tool_name = "Launch Pad"
@@ -314,9 +314,32 @@ metadata
 ]
 
 //
+// Facepunch.Hover.StationEntity
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/upgrade_station/upgrade_station.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Station"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a team's station spawns"
+}
+= hv_station : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.TurretEntity
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) sphere( "3000", 75, 255, 65 ) 
 metadata
 {
 	entity_tool_name = "Turret"
@@ -349,7 +372,7 @@ metadata
 //
 // Facepunch.Hover.Blaster
 //
-@PointClass base(BaseProperties_sbox_hover) = hv_blaser : ""
+@PointClass base(BaseProperties_sbox_hover) = hv_blaster : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

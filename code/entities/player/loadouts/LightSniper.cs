@@ -31,33 +31,34 @@ namespace Facepunch.Hover
 			CitizenClothing.Hat.SecurityHelmet.Normal
 		};
 
-		public override void Restock()
+		public override void Restock( Player player )
 		{
-			base.Restock();
+			base.Restock( player );
 
-			Entity.GiveAmmo( AmmoType.Rifle, 20 );
-			Entity.GiveAmmo( AmmoType.Pistol, 60 );
+			player.GiveAmmo( AmmoType.Rifle, 20 );
+			player.GiveAmmo( AmmoType.Pistol, 60 );
+			player.RestockWeaponUpgrades();
 		}
 
-		public override void SupplyLoadout()
+		public override void SupplyLoadout( Player player )
 		{
-			base.SupplyLoadout();
+			base.SupplyLoadout( player );
 
 			var sideman = new Sideman();
-			Entity.Inventory.Add( sideman );
+			player.Inventory.Add( sideman );
 
 			var longshot = new Longshot();
-			Entity.Inventory.Add( longshot, true );
-			Entity.ActiveChild = longshot;
+			player.Inventory.Add( longshot, true );
+			player.ActiveChild = longshot;
 
-			Restock();
+			Restock( player );
 		}
 
-		public override void Setup()
+		public override void Setup( Player player )
 		{
-			base.Setup();
+			base.Setup( player );
 
-			Entity.AttachClothing<Jetpack>();
+			player.AttachClothing<Jetpack>();
 		}
 	}
 }

@@ -88,8 +88,8 @@ namespace Facepunch.Hover
 
 			if ( loadout != null )
 			{
-				loadout.Setup();
-				loadout.SupplyLoadout();
+				loadout.Setup( player );
+				loadout.SupplyLoadout( player );
 			}
 		}
 
@@ -208,6 +208,7 @@ namespace Facepunch.Hover
 			player.Reset();
 			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
 			player.GiveLoadout<LightAssault>();
+			player.GiveTokens( 10000 );
 			player.Respawn();
 		}
 	}

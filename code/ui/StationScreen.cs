@@ -3,9 +3,181 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
+	public partial class StationScreenLoadoutUpgrade : StationScreenLoadout
+	{
+		protected override void OnBuyClicked()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				if ( player.HasTokens( Loadout.TokenCost ) )
+				{
+					StationScreen.Hide();
+					Player.BuyLoadoutUpgrade( Loadout.GetType().Name );
+					Audio.Play( "hover.clickbeep" );
+				}
+			}
+		}
+	}
+
+	public partial class StationScreenWeaponUpgrade : Panel
+	{
+		public Label Title { get; private set; }
+		public Label Description { get; private set; }
+		public Image Weapon { get; private set; }
+		public StationScreenBuyButton BuyButton { get; private set; }
+		public string WeaponName { get; private set; }
+		public WeaponUpgrade Upgrade { get; private set; }
+
+		public StationScreenWeaponUpgrade()
+		{
+			Title = Add.Label( "", "title" );
+			Description = Add.Label( "", "description" );
+			Weapon = Add.Image( "", "weapon" );
+
+			BuyButton = AddChild<StationScreenBuyButton>( "buy" );
+			BuyButton.OnClicked = OnBuyClicked;
+		}
+
+		public void SetUpgrade( Weapon weapon, WeaponUpgrade upgrade )
+		{
+			WeaponName = weapon.Name;
+			Upgrade = upgrade;
+
+			Title.Text = upgrade.Name;
+			Weapon.Texture = weapon.Icon;
+			Description.Text = upgrade.Description;
+
+			BuyButton.SetAmount( upgrade.TokenCost );
+		}
+
+		public override void Tick()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				BuyButton.SetClass( "affordable", player.HasTokens( Upgrade.TokenCost ) );
+			}
+
+			base.Tick();
+		}
+
+		protected virtual void OnBuyClicked()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				if ( player.HasTokens( Upgrade.TokenCost ) )
+				{
+					Player.BuyWeaponUpgrade( WeaponName, Upgrade.GetType().Name );
+					Audio.Play( "hover.clickbeep" );
+				}
+			}
+		}
+	}
+
+	public partial class StationScreenUpgrades : StationScreenTabContent
+	{
+		public List<StationScreenWeaponUpgrade> WeaponUpgrades { get; private set; }
+		public StationScreenLoadoutUpgrade LoadoutUpgrade { get; private set; }
+		public Panel WeaponContainer { get; private set; }
+
+		private bool HasUpgrades { get; set; }
+
+		public StationScreenUpgrades()
+		{
+			WeaponUpgrades = new();
+		}
+
+		public override bool IsAvailable()
+		{
+			return HasUpgrades;
+		}
+
+		public override void Initialize()
+		{
+			if ( Local.Pawn is not Player player )
+				return;
+
+			if ( LoadoutUpgrade != null )
+			{
+				LoadoutUpgrade.Delete( true );
+				LoadoutUpgrade = null;
+			}
+
+			WeaponContainer?.Delete();
+			HasUpgrades = false;
+
+			foreach ( var upgrade in WeaponUpgrades )
+			{
+				upgrade.Delete( true );
+			}
+
+			WeaponUpgrades.Clear();
+
+			var loadoutUpgradeType = player.Loadout.UpgradesTo;
+			var loadouts = Library.GetAll<BaseLoadout>();
+			var maxHealth = 0f;
+			var maxEnergy = 0f;
+			var maxSpeed = 0f;
+
+			foreach ( var type in loadouts )
+			{
+				if ( type == typeof( BaseLoadout ) )
+					continue;
+
+				var loadout = Library.Create<BaseLoadout>( type );
+
+				if ( type == loadoutUpgradeType )
+				{
+					LoadoutUpgrade = AddChild<StationScreenLoadoutUpgrade>();
+					LoadoutUpgrade.SetLoadout( loadout );
+					HasUpgrades = true;
+				}
+
+				if ( loadout.Health > maxHealth ) maxHealth = loadout.Health;
+				if ( loadout.Energy > maxEnergy ) maxEnergy = loadout.Energy;
+				if ( loadout.MaxSpeed > maxSpeed ) maxSpeed = loadout.MaxSpeed;
+			}
+
+			if ( LoadoutUpgrade != null )
+			{
+				LoadoutUpgrade.UpdateBars( maxHealth, maxEnergy, maxSpeed );
+			}
+
+			WeaponContainer = Add.Panel( "weapons" );
+
+			var weapons = player.Children.OfType<Weapon>();
+
+			foreach ( var weapon in weapons )
+			{
+				if ( weapon.Upgrades != null )
+				{
+					foreach ( var upgradeType in weapon.Upgrades )
+					{
+						if ( player.HasWeaponUpgrade( weapon, upgradeType ) )
+						{
+							continue;
+						}
+
+						var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
+
+						var child = WeaponContainer.AddChild<StationScreenWeaponUpgrade>();
+						child.SetUpgrade( weapon, upgrade );
+
+						WeaponUpgrades.Add( child );
+						HasUpgrades = true;
+
+						break;
+					}
+				}
+			}
+
+			base.Initialize();
+		}
+	}
+
 	public partial class StationScreenBuyButton : Panel
 	{
 		public Image Icon { get; private set; }
@@ -35,6 +207,7 @@ namespace Facepunch.Hover
 		public List<AnimSceneObject> SceneObjects { get; private set; } = new();
 		public Label Title { get; private set; }
 		public Label Description { get; private set; }
+		public Label SecondaryDescription { get; private set; }
 		public SimpleIconBar HealthBar { get; private set; }
 		public SimpleIconBar EnergyBar { get; private set; }
 		public SimpleIconBar SpeedBar { get; private set; }
@@ -53,6 +226,7 @@ namespace Facepunch.Hover
 
 			Title = Add.Label( "", "title" );
 			Description = Add.Label( "", "description" );
+			SecondaryDescription = Add.Label( "", "secondary_description" );
 
 			StatsContainer = Add.Panel( "stats" );
 			HealthBar = StatsContainer.AddChild<SimpleIconBar>( "health" );
@@ -83,6 +257,12 @@ namespace Facepunch.Hover
 
 			Title.Text = loadout.Name;
 			Description.Text = loadout.Description;
+			SecondaryDescription.Text = loadout.SecondaryDescription;
+
+			if ( string.IsNullOrEmpty( loadout.SecondaryDescription ) )
+				SecondaryDescription.SetClass( "hidden", true );
+			else
+				SecondaryDescription.SetClass( "hidden", false );
 
 			BuyButton.SetAmount( loadout.TokenCost );
 
@@ -98,15 +278,6 @@ namespace Facepunch.Hover
 					Avatar.AddChild( "clothing", clothes );
 					SceneObjects.Add( clothes );
 				}
-
-				// TODO: Can't seem to get the weapon model to display.
-
-				/*
-				var weapon = new AnimSceneObject( Model.Load( loadout.DisplayWeapon ), Avatar.Transform );
-				Avatar.AddChild( "clothing", weapon );
-				Avatar.SetAnimInt( "holdtype", 2 );
-				SceneObjects.Add( weapon );
-				*/
 
 				var lightWarm = new SpotLight( Vector3.Up * 100f + Vector3.Forward * 100f + Vector3.Right * -200f, new Color( 1f, 0.95f, 0.8f ) * 60f );
 				lightWarm.Rotation = Rotation.LookAt( -lightWarm.Position );
@@ -126,6 +297,11 @@ namespace Facepunch.Hover
 				Scene.AmbientColor = Color.Gray * 0.2f;
 
 				SceneObjects.Add( Avatar );
+			}
+
+			foreach ( var sceneObject in SceneObjects )
+			{
+				sceneObject.Update( RealTime.Delta );
 			}
 		}
 
@@ -157,7 +333,7 @@ namespace Facepunch.Hover
 			base.Tick();
 		}
 
-		private void OnBuyClicked()
+		protected virtual void OnBuyClicked()
 		{
 			if ( Local.Pawn is Player player )
 			{
@@ -177,6 +353,21 @@ namespace Facepunch.Hover
 
 		public StationScreenLoadouts()
 		{
+
+		}
+
+		public override void Initialize()
+		{
+			if ( Local.Pawn is not Player player )
+				return;
+
+			foreach ( var loadout in Loadouts )
+			{
+				loadout.Delete( true );
+			}
+
+			Loadouts.Clear();
+
 			var loadouts = Library.GetAll<BaseLoadout>();
 			var maxHealth = 0f;
 			var maxEnergy = 0f;
@@ -188,9 +379,16 @@ namespace Facepunch.Hover
 					continue;
 
 				var loadout = Library.Create<BaseLoadout>( type );
-				var child = AddChild<StationScreenLoadout>();
-				child.SetLoadout( loadout );
-				Loadouts.Add( child );
+
+				if ( loadout.UpgradesTo == null || !player.HasLoadoutUpgrade( loadout.UpgradesTo ) )
+				{
+					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( type ) )
+					{
+						var child = AddChild<StationScreenLoadout>();
+						child.SetLoadout( loadout );
+						Loadouts.Add( child );
+					}
+				}
 
 				if ( loadout.Health > maxHealth ) maxHealth = loadout.Health;
 				if ( loadout.Energy > maxEnergy ) maxEnergy = loadout.Energy;
@@ -206,18 +404,24 @@ namespace Facepunch.Hover
 			{
 				loadout.UpdateBars( maxHealth, maxEnergy, maxSpeed );
 			}
-		}
 
-		public override void Show()
-		{
-
-
-			base.Show();
+			base.Initialize();
 		}
 	}
 
 	public partial class StationScreenTabContent : Panel
 	{
+		public virtual bool IsAvailable()
+		{
+			return true;
+		}
+
+
+		public virtual void Initialize()
+		{
+
+		}
+
 		public virtual void Show()
 		{
 			SetClass( "hidden", false );
@@ -245,8 +449,26 @@ namespace Facepunch.Hover
 
 		protected override void OnClick( MousePanelEvent e )
 		{
-			OnClicked?.Invoke();
+			if ( IsAvailable() )
+			{
+				OnClicked?.Invoke();
+			}
+
 			base.OnClick( e );
+		}
+
+		public virtual bool IsAvailable()
+		{
+			return Content.IsAvailable();
+		}
+
+		public override void Tick()
+		{
+			var isAvailable = IsAvailable();
+			SetClass( "selected", isAvailable && IsSelected );
+			SetClass( "hidden", !isAvailable );
+
+			base.Tick();
 		}
 
 		public void Setup( string title, string icon, StationScreenTabContent content )
@@ -254,12 +476,6 @@ namespace Facepunch.Hover
 			Content = content;
 			Title.Text = title;
 			Icon.SetTexture( icon );
-		}
-
-		public override void Tick()
-		{
-			SetClass( "selected", IsSelected );
-			base.Tick();
 		}
 	}
 
@@ -291,11 +507,6 @@ namespace Facepunch.Hover
 
 		public void AddTab( string className, StationScreenTab tab )
 		{
-			if ( SelectedTab == null )
-			{
-				Select( tab );
-			}
-
 			tab.AddClass( className );
 			tab.OnClicked = () =>
 			{
@@ -304,12 +515,48 @@ namespace Facepunch.Hover
 			};
 
 			AddChild( tab );
+
+			Tabs.Add( tab );
+
+			if ( SelectedTab == null )
+			{
+				Select( tab );
+				return;
+			}
+
+			tab.Content.Hide();
+		}
+
+		public override void Tick()
+		{
+			if ( SelectedTab != null && !SelectedTab.IsAvailable() )
+			{
+				foreach ( var tab in Tabs )
+				{
+					if ( tab.IsAvailable() )
+					{
+						Select( tab );
+						break;
+					}
+				}
+			}
+
+			base.Tick();
 		}
 	}
 
 	public partial class StationScreen : Panel
 	{
 		public static StationScreen Instance { get; private set; }
+
+		[ClientRpc]
+		public static void Refresh()
+		{
+			if ( Instance.IsOpen )
+			{
+				Instance.InitializeContent();
+			}
+		}
 
 		[ClientRpc]
 		public static void Toggle()
@@ -337,6 +584,7 @@ namespace Facepunch.Hover
 
 		public void SetOpen( bool isOpen )
 		{
+			if ( isOpen ) InitializeContent();
 			SetClass( "hidden", !isOpen );
 			IsOpen = isOpen;
 		}
@@ -350,7 +598,10 @@ namespace Facepunch.Hover
 			ContentContainer = Add.Panel( "content" );
 
 			var loadoutsContent = ContentContainer.AddChild<StationScreenLoadouts>( "loadouts" );
-			var upgradesContent = ContentContainer.AddChild<StationScreenTabContent>( "upgrades" );
+			loadoutsContent.Initialize();
+
+			var upgradesContent = ContentContainer.AddChild<StationScreenUpgrades>( "upgrades" );
+			upgradesContent.Initialize();
 
 			var loadoutsTab = new StationScreenTab();
 			loadoutsTab.Setup( "Loadouts", "ui/icons/loadouts.png", loadoutsContent );
@@ -369,6 +620,14 @@ namespace Facepunch.Hover
 		public override void Tick()
 		{
 			base.Tick();
+		}
+
+		private void InitializeContent()
+		{
+			foreach ( var tab in TabList.Tabs )
+			{
+				tab.Content?.Initialize();
+			}
 		}
 	}
 }

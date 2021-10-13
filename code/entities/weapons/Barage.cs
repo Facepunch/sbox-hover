@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
@@ -10,6 +12,10 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/barage.png" );
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade )
+		};
 		public override string CrosshairClass => "shotgun";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override string WeaponName => "Barage";

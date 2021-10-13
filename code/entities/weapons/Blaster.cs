@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
@@ -10,6 +12,10 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade )
+		};
 		public override Texture Icon => Texture.Load( "ui/weapons/blaster.png" );
 		public override string CrosshairClass => "automatic";
 		public override float ProjectileLifeTime => 2f;
