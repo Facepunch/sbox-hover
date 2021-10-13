@@ -24,7 +24,6 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => false;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override float ImpactForce => 1000f;
-		public override int Slot => 0;
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 2f;

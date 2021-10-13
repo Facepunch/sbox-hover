@@ -74,6 +74,7 @@ namespace Facepunch.Hover
 				var weapon = Library.Create<Weapon>( SecondaryWeapon.ClassName );
 				player.Inventory.Add( weapon );
 				player.ActiveChild = weapon;
+				weapon.Slot = 2;
 			}
 
 			if ( PrimaryWeapon != null )
@@ -81,6 +82,7 @@ namespace Facepunch.Hover
 				var weapon = Library.Create<Weapon>( PrimaryWeapon.ClassName );
 				player.Inventory.Add( weapon );
 				player.ActiveChild = weapon;
+				weapon.Slot = 1;
 			}
 
 			Restock( player );

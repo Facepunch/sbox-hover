@@ -25,7 +25,6 @@ namespace Facepunch.Hover
 		public virtual int ClipSize => 16;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
-		public virtual int Slot => 0;
 		public virtual float DamageFalloffStart => 0f;
 		public virtual float DamageFalloffEnd => 0f;
 		public virtual float BulletRange => 20000f;
@@ -41,6 +40,9 @@ namespace Facepunch.Hover
 		public virtual int BaseDamage => 10;
 		public virtual int HoldType => 1;
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+
+		[Net]
+		public int Slot { get; set; }
 
 		[Net, Predicted]
 		public int AmmoClip { get; set; }

@@ -25,7 +25,6 @@ namespace Facepunch.Hover
 		public override float ReloadTime => 2.0f;
 		public override int BaseDamage => 50;
 		public override bool CanMeleeAttack => false;
-		public override int Slot => 2;
 
 		public override void Spawn()
 		{

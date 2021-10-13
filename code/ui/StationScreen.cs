@@ -392,7 +392,7 @@ namespace Facepunch.Hover
 				var secondaryMatch = loadout.SecondaryWeapons.Find( v => v.Name == weapon.Config.Name );
 
 				if ( secondaryMatch != null )
-					PrimaryConfig = secondaryMatch;
+					SecondaryConfig = secondaryMatch;
 			}
 
 			PrimaryConfig ??= loadout.PrimaryWeapons.FirstOrDefault();
