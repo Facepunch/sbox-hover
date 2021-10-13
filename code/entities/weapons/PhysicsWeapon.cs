@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	partial class PhysicsWeapon : Weapon
+	public abstract partial class PhysicsWeapon : Weapon
 	{
 		public virtual float ProjectileForce => 1000f;
 		public virtual string ProjectileModel => "";

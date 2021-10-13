@@ -48,7 +48,7 @@ namespace Facepunch.Hover
 			Upgrade = upgrade;
 
 			Title.Text = upgrade.Name;
-			Weapon.Texture = weapon.Icon;
+			Weapon.Texture = Texture.Load( weapon.Config.Icon );
 			Description.Text = upgrade.Description;
 
 			BuyButton.SetAmount( upgrade.TokenCost );
@@ -178,6 +178,28 @@ namespace Facepunch.Hover
 		}
 	}
 
+	public partial class StationScreenTextButton : Panel
+	{
+		public Label Label { get; private set; }
+		public Action OnClicked { get; set; }
+
+		public StationScreenTextButton()
+		{
+			Label = Add.Label( "", "label" );
+		}
+
+		public void SetText( string text )
+		{
+			Label.Text = text;
+		}
+
+		protected override void OnClick( MousePanelEvent e )
+		{
+			OnClicked?.Invoke();
+			base.OnClick( e );
+		}
+	}
+
 	public partial class StationScreenBuyButton : Panel
 	{
 		public Image Icon { get; private set; }
@@ -202,6 +224,104 @@ namespace Facepunch.Hover
 		}
 	}
 
+	public partial class StationScreenWeapon : Panel
+	{
+		public Image Icon { get; private set; }
+		public Action OnClicked { get; set; }
+
+		public StationScreenWeapon()
+		{
+			Icon = Add.Image( "", "icon" );
+		}
+
+		public void SetConfig( WeaponConfig config )
+		{
+			Icon.SetTexture( config.Icon );
+		}
+
+		protected override void OnClick( MousePanelEvent e )
+		{
+			OnClicked?.Invoke();
+			base.OnClick( e );
+		}
+	}
+
+	public partial class StationScreenWeaponInfo : Panel
+	{
+		public Label Name { get; set; }
+		public Label Description { get; set; }
+		public Image Icon { get; set; }
+		public StationScreenTextButton Button { get; set; }
+		public WeaponConfig Weapon { get; set; }
+		public Action<WeaponConfig> Callback { get; set; }
+
+		public StationScreenWeaponInfo()
+		{
+			Name = Add.Label( "", "name" );
+			Description = Add.Label( "", "description" );
+			Icon = Add.Image( "", "icon" );
+			Button = AddChild<StationScreenTextButton>( "button" );
+			Button.SetText( "Select" );
+			Button.OnClicked = OnSelected;
+		}
+
+		public void SetWeapon( WeaponConfig weapon, Action<WeaponConfig> callback )
+		{
+			Name.Text = weapon.Name;
+			Description.Text = weapon.Description;
+			Icon.SetTexture( weapon.Icon );
+			Callback = callback;
+			Weapon = weapon;
+		}
+
+		private void OnSelected()
+		{
+			Callback?.Invoke( Weapon );
+		}
+	}
+
+	public partial class StationScreenWeaponSelector : Panel
+	{
+		public List<StationScreenWeaponInfo> WeaponInfo { get; set; }
+		public StationScreenWeapon WeaponHolder { get; set; }
+		public Panel Container { get; set; }
+
+		public StationScreenWeaponSelector()
+		{
+			WeaponInfo = new();
+			Container = Add.Panel( "container" );
+		}
+
+		public void SetWeapons( StationScreenWeapon holder, List<WeaponConfig> weapons )
+		{
+			foreach ( var weapon in WeaponInfo )
+			{
+				weapon.Delete( true );
+			}
+
+			WeaponHolder = holder;
+			WeaponInfo.Clear();
+
+			foreach ( var weapon in weapons )
+			{
+				var item = Container.AddChild<StationScreenWeaponInfo>( "weapon" );
+				item.SetWeapon( weapon, OnWeaponSelected );
+				WeaponInfo.Add( item );
+			}
+		}
+
+		public void Show( bool shouldShow )
+		{
+			SetClass( "hidden", !shouldShow );
+		}
+
+		private void OnWeaponSelected( WeaponConfig config )
+		{
+			WeaponHolder.SetConfig( config );
+			Show( false );
+		}
+	}
+
 	public partial class StationScreenLoadout : Panel
 	{
 		public List<AnimSceneObject> SceneObjects { get; private set; } = new();
@@ -218,6 +338,8 @@ namespace Facepunch.Hover
 		public Panel StatsContainer { get; private set; }
 		public StationScreenBuyButton BuyButton { get; private set; }
 		public BaseLoadout Loadout { get; private set; }
+		public WeaponConfig PrimaryConfig { get; private set; }
+		public WeaponConfig SecondaryConfig { get; private set; }
 
 		public StationScreenLoadout()
 		{
@@ -250,9 +372,31 @@ namespace Facepunch.Hover
 		{
 			Loadout = loadout;
 
-			foreach ( var icon in loadout.WeaponIcons )
+			PrimaryConfig = loadout.PrimaryWeapons.FirstOrDefault();
+			SecondaryConfig = loadout.SecondaryWeapons.FirstOrDefault();
+
+			var stationScreen = StationScreen.Instance;
+
+			if ( PrimaryConfig  != null )
 			{
-				WeaponsContainer.Add.Image( icon, "icon" );
+				var primary = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon primary" );
+				primary.SetConfig( PrimaryConfig );
+				primary.OnClicked = () =>
+				{
+					stationScreen.WeaponSelector.SetWeapons( primary, loadout.PrimaryWeapons );
+					stationScreen.WeaponSelector.Show( true );
+				};
+			}
+
+			if ( SecondaryConfig != null )
+			{
+				var secondary = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon secondary" );
+				secondary.SetConfig( SecondaryConfig );
+				secondary.OnClicked = () =>
+				{
+					stationScreen.WeaponSelector.SetWeapons( secondary, loadout.SecondaryWeapons );
+					stationScreen.WeaponSelector.Show( true );
+				};
 			}
 
 			Title.Text = loadout.Name;
@@ -576,6 +720,7 @@ namespace Facepunch.Hover
 			Instance.SetOpen( false );
 		}
 
+		public StationScreenWeaponSelector WeaponSelector { get; private set; }
 		public StationScreenTabList TabList { get; private set; }
 		public Panel ContentContainer { get; private set; }
 		public Label CloseTip { get; private set; }
@@ -611,6 +756,9 @@ namespace Facepunch.Hover
 
 			TabList.AddTab( "loadouts", loadoutsTab );
 			TabList.AddTab( "upgrades", upgradesTab );
+
+			WeaponSelector = AddChild<StationScreenWeaponSelector>( "selector" );
+			WeaponSelector.Show( false );
 
 			SetOpen( false );
 

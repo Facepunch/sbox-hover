@@ -185,7 +185,7 @@ namespace Facepunch.Hover
 
 		public bool HasWeaponUpgrade( Weapon weapon, Type type )
 		{
-			var weaponName = weapon.WeaponName;
+			var weaponName = weapon.Config.Name;
 
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var set ) )
 			{
@@ -245,7 +245,7 @@ namespace Facepunch.Hover
 
 		public void GiveWeaponUpgrade( Weapon weapon, WeaponUpgrade upgrade )
 		{
-			var weaponName = weapon.WeaponName;
+			var weaponName = weapon.Config.Name;
 
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
 			{

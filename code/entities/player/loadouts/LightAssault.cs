@@ -13,10 +13,13 @@ namespace Facepunch.Hover
 		public override Type UpgradesTo => typeof( LightAssaultMk2 );
 		public override int DisplayOrder => 1;
 		public override int TokenCost => 300;
-		public override List<string> WeaponIcons => new()
+		public override List<WeaponConfig> PrimaryWeapons => new()
 		{
-			"ui/weapons/pulsar.png",
-			"ui/weapons/blaster.png"
+			new PulsarConfig()
+		};
+		public override List<WeaponConfig> SecondaryWeapons => new()
+		{
+			new BlasterConfig()
 		};
 		public override float RegenDelay => 20f;
 		public override float Health => 500f;

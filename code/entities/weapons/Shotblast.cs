@@ -7,11 +7,11 @@ namespace Facepunch.Hover
 	[Library( "hv_shotblast", Title = "Shotblast" )]
 	partial class Shotblast : Weapon
 	{
+		public override WeaponConfig Config => new ShotblastConfig();
 		public override string ImpactEffect => "particles/weapons/shotblast/shotblast_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/shotblast/shotblast_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/shotblast/shotblast_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
-		public override Texture Icon => Texture.Load( "ui/weapons/shotblast.png" );
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade )
@@ -19,10 +19,8 @@ namespace Facepunch.Hover
 		public override string CrosshairClass => "shotgun";
 		public override float DamageFalloffStart => 0f;
 		public override float DamageFalloffEnd => 1000f;
-		public override string WeaponName => "Shotblast";
 		public override float PrimaryRate => 1;
 		public override float SecondaryRate => 1;
-		public override AmmoType AmmoType => AmmoType.Shotgun;
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
 		public override bool CanMeleeAttack => false;

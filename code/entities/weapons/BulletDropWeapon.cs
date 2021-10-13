@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public partial class BulletDropWeapon : Weapon
+	public abstract partial class BulletDropWeapon : Weapon
 	{
 		public virtual float ProjectileRadius => 20f;
 		public virtual float ProjectileLifeTime => 10f;

@@ -23,8 +23,8 @@ namespace Facepunch.Hover
 		public void Update( Weapon weapon )
 		{
 			Weapon = weapon;
-			Icon.Texture = weapon.Icon;
-			Name.Text = weapon.WeaponName;
+			Icon.Texture = Texture.Load( weapon.Config.Icon );
+			Name.Text = weapon.Config.Name;
 		}
 
 		public override void Tick()

@@ -7,18 +7,16 @@ namespace Facepunch.Hover
 	[Library( "hv_barage", Title = "Barage" )]
 	partial class Barage : PhysicsWeapon
 	{
+		public override WeaponConfig Config => new BarageConfig();
 		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
-		public override Texture Icon => Texture.Load( "ui/weapons/barage.png" );
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "shotgun";
-		public override AmmoType AmmoType => AmmoType.Grenade;
-		public override string WeaponName => "Barage";
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;

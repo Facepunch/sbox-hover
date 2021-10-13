@@ -7,18 +7,16 @@ namespace Facepunch.Hover
 	[Library( "hv_longshot", Title = "Longshot" )]
 	partial class Longshot : Weapon
 	{
+		public override WeaponConfig Config => new LongshotConfig();
 		public override string ImpactEffect => "particles/weapons/pulse_sniper/pulse_sniper_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
-		public override Texture Icon => Texture.Load( "ui/weapons/longshot.png" );
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
-		public override string WeaponName => "Longshot";
-		public override AmmoType AmmoType => AmmoType.Sniper;
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;

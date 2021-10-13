@@ -11,10 +11,13 @@ namespace Facepunch.Hover
 		public override string Name => "Heavy Assault";
 		public override int TokenCost => 1000;
 		public override int DisplayOrder => 3;
-		public override List<string> WeaponIcons => new()
+		public override List<WeaponConfig> PrimaryWeapons => new()
 		{
-			"ui/weapons/shotblast.png",
-			"ui/weapons/pulsar.png"
+			new ShotblastConfig()
+		};
+		public override List<WeaponConfig> SecondaryWeapons => new()
+		{
+			new PulsarConfig()
 		};
 		public override float RegenDelay => 20f;
 		public override float Health => 700f;

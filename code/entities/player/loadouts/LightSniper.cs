@@ -11,10 +11,13 @@ namespace Facepunch.Hover
 		public override string Name => "Light Sniper";
 		public override int TokenCost => 800;
 		public override int DisplayOrder => 2;
-		public override List<string> WeaponIcons => new()
+		public override List<WeaponConfig> PrimaryWeapons => new()
 		{
-			"ui/weapons/longshot.png",
-			"ui/weapons/sideman.png"
+			new LongshotConfig()
+		};
+		public override List<WeaponConfig> SecondaryWeapons => new()
+		{
+			new SidemanConfig()
 		};
 		public override float RegenDelay => 20f;
 		public override float Health => 200f;

@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 	[Library( "hv_blaster", Title = "Blaster" )]
 	partial class Blaster : BulletDropWeapon
 	{
+		public override WeaponConfig Config => new BlasterConfig();
 		public override float ProjectileRadius => 30f;
 		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
@@ -16,15 +17,12 @@ namespace Facepunch.Hover
 		{
 			typeof( AmmoPackUpgrade )
 		};
-		public override Texture Icon => Texture.Load( "ui/weapons/blaster.png" );
 		public override string CrosshairClass => "automatic";
 		public override float ProjectileLifeTime => 2f;
-		public override string WeaponName => "Blaster";
 		public override float PrimaryRate => 7.5f;
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 4000f;
 		public override float Speed => 3000f;
-		public override AmmoType AmmoType => AmmoType.SMG;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
 		public override int Slot => 1;

@@ -19,7 +19,7 @@ namespace Facepunch.Hover
 			if ( weapon != null && IsCarryingType( entity.GetType() ) )
 			{
 				var ammo = weapon.AmmoClip;
-				var ammoType = weapon.AmmoType;
+				var ammoType = weapon.Config.AmmoType;
 
 				if ( ammo > 0 )
 				{

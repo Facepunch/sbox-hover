@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 			Victim.Style.Dirty();
 
 			if ( weapon.IsValid() )
-				Icon.Texture = weapon.Icon;
+				Icon.Texture = Texture.Load( weapon.Config.Icon );
 			else
 				Icon.Texture = Texture.Load( "ui/icons/skull.png" );
 

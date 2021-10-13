@@ -6,8 +6,8 @@ namespace Facepunch.Hover
 {
 	public partial class BaseLoadout : BaseNetworkable
 	{
-		public virtual List<string> WeaponIcons => new();
-		public virtual string DisplayWeapon => "models/weapons/w_blaster.vmdl";
+		public virtual List<WeaponConfig> PrimaryWeapons => new();
+		public virtual List<WeaponConfig> SecondaryWeapons => new();
 		public virtual int DisplayOrder => 0;
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;

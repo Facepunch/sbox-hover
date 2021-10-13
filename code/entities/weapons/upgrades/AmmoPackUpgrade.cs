@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 
 		public override void Restock( Player player, Weapon weapon )
 		{
-			player.GiveAmmo( weapon.AmmoType, weapon.AmmoClip );
+			player.GiveAmmo( weapon.Config.AmmoType, weapon.AmmoClip );
 		}
 
 		public override void Apply( Player player, Weapon weapon )

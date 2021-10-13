@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	public partial class Weapon : BaseWeapon
+	public abstract partial class Weapon : BaseWeapon
 	{
-		public virtual AmmoType AmmoType => AmmoType.Pistol;
+		public abstract WeaponConfig Config { get; }
 		public virtual string MuzzleAttachment => "muzzle";
 		public virtual string MuzzleFlashEffect => "particles/pistol_muzzleflash.vpcf";
 		public virtual List<string> FlybySounds => new()
@@ -26,12 +26,10 @@ namespace Facepunch.Hover
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
 		public virtual int Slot => 0;
-		public virtual Texture Icon => null;
 		public virtual float DamageFalloffStart => 0f;
 		public virtual float DamageFalloffEnd => 0f;
 		public virtual float BulletRange => 20000f;
 		public virtual string TracerEffect => null;
-		public virtual string WeaponName => "Weapon";
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
 		public virtual bool CanMeleeAttack => false;
@@ -68,7 +66,7 @@ namespace Facepunch.Hover
 		public int AvailableAmmo()
 		{
 			if ( Owner is not Player owner ) return 0;
-			return owner.AmmoCount( AmmoType );
+			return owner.AmmoCount( Config.AmmoType );
 		}
 
 		public float GetDamageFalloff( float distance, float damage )
@@ -142,7 +140,7 @@ namespace Facepunch.Hover
 			{
 				if ( !UnlimitedAmmo )
 				{
-					if ( player.AmmoCount( AmmoType ) <= 0 )
+					if ( player.AmmoCount( Config.AmmoType ) <= 0 )
 						return;
 				}
 			}
@@ -228,7 +226,7 @@ namespace Facepunch.Hover
 			{
 				if ( !UnlimitedAmmo )
 				{
-					var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
+					var ammo = player.TakeAmmo( Config.AmmoType, ClipSize - AmmoClip );
 
 					if ( ammo == 0 )
 						return;
