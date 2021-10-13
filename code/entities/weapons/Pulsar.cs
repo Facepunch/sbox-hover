@@ -5,7 +5,7 @@ namespace Facepunch.Hover
 	[Library( "hv_pulsar", Title = "Pulsar" )]
 	partial class Pulsar : BulletDropWeapon
 	{
-		public override float ProjectileRadius => 30f;
+		public override float ProjectileRadius => 40f;
 		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
@@ -15,9 +15,9 @@ namespace Facepunch.Hover
 		public override string WeaponName => "Pulsar";
 		public override string HitSound => "barage.explode";
 		public override AmmoType AmmoType => AmmoType.Rifle;
-		public override float PrimaryRate => 1.0f;
+		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override float Speed => 3000f;
+		public override float Speed => 3500f;
 		public override float Spread => 0f;
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override int Slot => 4;

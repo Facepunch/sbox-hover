@@ -36,6 +36,9 @@ namespace Facepunch.Hover
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
+
+			position += Owner.Velocity * Time.Delta;
+
 			var forward = Owner.EyeRot.Forward;
 			var endPosition = Owner.EyePos + forward * BulletRange;
 			var trace = Trace.Ray( Owner.EyePos, endPosition )

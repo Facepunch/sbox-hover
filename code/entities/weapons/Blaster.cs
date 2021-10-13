@@ -12,11 +12,12 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/blaster.png" );
 		public override string CrosshairClass => "automatic";
-		public override float ProjectileLifeTime => 1f;
+		public override float ProjectileLifeTime => 2f;
 		public override string WeaponName => "Blaster";
 		public override float PrimaryRate => 7.5f;
-		public override float DamageFalloffStart => 1000f;
-		public override float DamageFalloffEnd => 3000f;
+		public override float DamageFalloffStart => 1500f;
+		public override float DamageFalloffEnd => 4000f;
+		public override float Speed => 3000f;
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
