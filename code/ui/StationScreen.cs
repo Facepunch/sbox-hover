@@ -192,7 +192,7 @@ namespace Facepunch.Hover
 
 		public void SetAmount( int amount )
 		{
-			Amount.Text = amount.ToString();
+			Amount.Text = $"{amount:C0}";
 		}
 
 		protected override void OnClick( MousePanelEvent e )

@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 
 			SetClass( "hidden", player.LifeState != LifeState.Alive );
 
-			Amount.Text = player.Tokens.ToString();
+			Amount.Text = $"{player.Tokens:C0}";
 		}
 	}
 }

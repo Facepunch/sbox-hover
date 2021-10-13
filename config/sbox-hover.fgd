@@ -360,6 +360,21 @@ metadata
 ]
 
 //
+// Facepunch.Hover.WorldBorder
+//
+@SolidClass base(BaseProperties_sbox_hover) 
+metadata
+{
+	auto_apply_material = "materials/map_border.vmat"
+}
+= hv_world_border : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Barage
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_barage : ""

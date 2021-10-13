@@ -50,7 +50,7 @@ namespace Facepunch.Hover
 
 		public void SetReward( int amount )
 		{
-			Reward.Amount.Text = amount.ToString();
+			Reward.Amount.Text = $"{amount:C0}";
 		}
 
 		public override void Tick()
