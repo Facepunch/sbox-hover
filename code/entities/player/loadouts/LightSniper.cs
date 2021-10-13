@@ -34,29 +34,6 @@ namespace Facepunch.Hover
 			CitizenClothing.Hat.SecurityHelmet.Normal
 		};
 
-		public override void Restock( Player player )
-		{
-			base.Restock( player );
-
-			player.GiveAmmo( AmmoType.Rifle, 20 );
-			player.GiveAmmo( AmmoType.Pistol, 60 );
-			player.RestockWeaponUpgrades();
-		}
-
-		public override void SupplyLoadout( Player player )
-		{
-			base.SupplyLoadout( player );
-
-			var sideman = new Sideman();
-			player.Inventory.Add( sideman );
-
-			var longshot = new Longshot();
-			player.Inventory.Add( longshot, true );
-			player.ActiveChild = longshot;
-
-			Restock( player );
-		}
-
 		public override void Setup( Player player )
 		{
 			base.Setup( player );

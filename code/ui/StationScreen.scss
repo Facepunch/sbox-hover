@@ -403,11 +403,8 @@ stationscreenloadout, stationscreenloadoutupgrade {
     }
 
     &.selected {
-        box-shadow: $blueTeamPanelFg;
-
-        .buy {
-            display: none;
-        }
+        box-shadow: $blueTeamForeground;
+        background-color: $blueTeamPanelFg;
     }
 }
 

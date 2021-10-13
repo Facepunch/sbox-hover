@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 	public abstract class WeaponConfig
 	{
 		public virtual string Name => "";
+		public virtual string ClassName => "";
 		public virtual string Description => "";
 		public virtual string Icon => "";
 		public virtual AmmoType AmmoType => AmmoType.Pistol;

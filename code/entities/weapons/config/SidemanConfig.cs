@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Sideman";
 		public override string Description => "Short-range hitscan pistol.";
+		public override string ClassName => "hv_sideman";
 		public override string Icon => "ui/weapons/sideman.png";
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override int Ammo => 60;

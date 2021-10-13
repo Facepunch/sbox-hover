@@ -15,8 +15,11 @@ namespace Facepunch.Hover
 			{
 				if ( player.HasTokens( Loadout.TokenCost ) )
 				{
+					var primaryWeapon = PrimaryHolder?.Config?.Name ?? "";
+					var secondaryWeapon = SecondaryHolder?.Config?.Name ?? "";
+
 					StationScreen.Hide();
-					Player.BuyLoadoutUpgrade( Loadout.GetType().Name );
+					Player.BuyLoadoutUpgrade( Loadout.GetType().Name, primaryWeapon, secondaryWeapon );
 					Audio.Play( "hover.clickbeep" );
 				}
 			}
@@ -228,6 +231,7 @@ namespace Facepunch.Hover
 	{
 		public Image Icon { get; private set; }
 		public Action OnClicked { get; set; }
+		public WeaponConfig Config { get; set; }
 
 		public StationScreenWeapon()
 		{
@@ -237,6 +241,7 @@ namespace Facepunch.Hover
 		public void SetConfig( WeaponConfig config )
 		{
 			Icon.SetTexture( config.Icon );
+			Config = config;
 		}
 
 		protected override void OnClick( MousePanelEvent e )
@@ -340,6 +345,8 @@ namespace Facepunch.Hover
 		public BaseLoadout Loadout { get; private set; }
 		public WeaponConfig PrimaryConfig { get; private set; }
 		public WeaponConfig SecondaryConfig { get; private set; }
+		public StationScreenWeapon PrimaryHolder { get; private set; }
+		public StationScreenWeapon SecondaryHolder { get; private set; }
 
 		public StationScreenLoadout()
 		{
@@ -370,31 +377,47 @@ namespace Facepunch.Hover
 
 		public void SetLoadout( BaseLoadout loadout )
 		{
+			if ( Local.Pawn is not Player player )
+				return;
+
 			Loadout = loadout;
 
-			PrimaryConfig = loadout.PrimaryWeapons.FirstOrDefault();
-			SecondaryConfig = loadout.SecondaryWeapons.FirstOrDefault();
+			foreach ( var weapon in player.Children.OfType<Weapon>() )
+			{
+				var primaryMatch = loadout.PrimaryWeapons.Find( v => v.Name == weapon.Config.Name );
+
+				if ( primaryMatch != null )
+					PrimaryConfig = primaryMatch;
+
+				var secondaryMatch = loadout.SecondaryWeapons.Find( v => v.Name == weapon.Config.Name );
+
+				if ( secondaryMatch != null )
+					PrimaryConfig = secondaryMatch;
+			}
+
+			PrimaryConfig ??= loadout.PrimaryWeapons.FirstOrDefault();
+			SecondaryConfig ??= loadout.SecondaryWeapons.FirstOrDefault();
 
 			var stationScreen = StationScreen.Instance;
 
 			if ( PrimaryConfig  != null )
 			{
-				var primary = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon primary" );
-				primary.SetConfig( PrimaryConfig );
-				primary.OnClicked = () =>
+				PrimaryHolder = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon primary" );
+				PrimaryHolder.SetConfig( PrimaryConfig );
+				PrimaryHolder.OnClicked = () =>
 				{
-					stationScreen.WeaponSelector.SetWeapons( primary, loadout.PrimaryWeapons );
+					stationScreen.WeaponSelector.SetWeapons( PrimaryHolder, loadout.PrimaryWeapons );
 					stationScreen.WeaponSelector.Show( true );
 				};
 			}
 
 			if ( SecondaryConfig != null )
 			{
-				var secondary = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon secondary" );
-				secondary.SetConfig( SecondaryConfig );
-				secondary.OnClicked = () =>
+				SecondaryHolder = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon secondary" );
+				SecondaryHolder.SetConfig( SecondaryConfig );
+				SecondaryHolder.OnClicked = () =>
 				{
-					stationScreen.WeaponSelector.SetWeapons( secondary, loadout.SecondaryWeapons );
+					stationScreen.WeaponSelector.SetWeapons( SecondaryHolder, loadout.SecondaryWeapons );
 					stationScreen.WeaponSelector.Show( true );
 				};
 			}
@@ -483,8 +506,11 @@ namespace Facepunch.Hover
 			{
 				if ( player.HasTokens( Loadout.TokenCost ) )
 				{
+					var primaryWeapon = PrimaryHolder?.Config?.Name ?? "";
+					var secondaryWeapon = SecondaryHolder?.Config?.Name ?? "";
+
 					StationScreen.Hide();
-					Player.BuyLoadout( Loadout.GetType().Name );
+					Player.BuyLoadout( Loadout.GetType().Name, primaryWeapon, secondaryWeapon );
 					Audio.Play( "hover.clickbeep" );
 				}
 			}
