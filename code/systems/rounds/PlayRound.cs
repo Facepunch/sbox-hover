@@ -208,7 +208,6 @@ namespace Facepunch.Hover
 			player.Reset();
 			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
 			player.GiveLoadout<LightAssault>();
-			player.GiveTokens( 10000 );
 			player.Respawn();
 		}
 	}
