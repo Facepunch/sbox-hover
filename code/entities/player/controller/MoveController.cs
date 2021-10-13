@@ -542,10 +542,11 @@ namespace Facepunch.Hover
 				if ( !wasOnGround )
 				{
 					var fallVelocity = PreVelocity.z + Gravity;
+					var threshold = -FallDamageThreshold;
 
-					if ( fallVelocity < -FallDamageThreshold )
+					if ( fallVelocity < threshold && ( !IsJetpacking || Energy < MaxEnergy * 0.1f ) )
 					{
-						var overstep = -FallDamageThreshold - fallVelocity;
+						var overstep = threshold - fallVelocity;
 						var fraction = overstep.Remap( 0f, FallDamageThreshold, 0f, 1f ).Clamp( 0f, 1f );
 
 						Pawn.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
