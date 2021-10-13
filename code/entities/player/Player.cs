@@ -8,6 +8,65 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
+		public Dictionary<string,HashSet<WeaponUpgrade>> WeaponUpgrades { get; private set; }
+		public HashSet<Type> LoadoutUpgrades { get; private set; }
+
+		[ServerCmd]
+		public static void BuyWeaponUpgrade( string weaponName, string upgradeName )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				var upgradeType = Library.Get<WeaponUpgrade>( upgradeName );
+				if ( upgradeType == null ) return;
+
+				foreach ( var weapon in player.Children.OfType<Weapon>() )
+				{
+					if ( weapon.Name == weaponName && weapon.Upgrades != null )
+					{
+						if ( weapon.Upgrades.Contains( upgradeType ) )
+						{
+							var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
+
+							if ( player.HasTokens( upgrade.TokenCost) )
+							{
+								player.GiveWeaponUpgrade( weapon, upgrade );
+								player.TakeTokens( upgrade.TokenCost );
+
+								upgrade.Apply( player, weapon );
+							}
+
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		[ServerCmd]
+		public static void BuyLoadoutUpgrade( string loadoutName )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				var loadoutType = Library.Get<BaseLoadout>( loadoutName );
+
+				if ( loadoutType != null )
+				{
+					var loadout = Library.Create<BaseLoadout>( loadoutType );
+					if ( loadout == null ) return;
+
+					if ( player.HasTokens( loadout.UpgradeCost ) )
+					{
+						player.GiveLoadoutUpgrade( loadoutType );
+						player.TakeTokens( loadout.UpgradeCost );
+						player.GiveLoadout( loadout );
+
+						loadout.Setup( player );
+						loadout.SupplyLoadout( player );
+					}
+				}
+			}
+		}
+
 		[ServerCmd]
 		public static void BuyLoadout( string loadoutName )
 		{
@@ -25,8 +84,8 @@ namespace Facepunch.Hover
 						player.TakeTokens( loadout.TokenCost );
 						player.GiveLoadout( loadout );
 
-						loadout.Setup();
-						loadout.SupplyLoadout();
+						loadout.Setup( player );
+						loadout.SupplyLoadout( player );
 					}
 				}
 			}
@@ -73,6 +132,8 @@ namespace Facepunch.Hover
 
 		public Player()
 		{
+			LoadoutUpgrades = new();
+			WeaponUpgrades = new();
 			AssistTrackers = new();
 			EnableTouch = true;
 			Inventory = new Inventory( this );
@@ -90,10 +151,21 @@ namespace Facepunch.Hover
 			Client.SetInt( "deaths", 0 );
 			Client.SetInt( "kills", 0 );
 
+			LoadoutUpgrades = new();
+			WeaponUpgrades = new();
 			LastDamageInfo = default;
 			LastKiller = null;
 			Tokens = 0;
 			Team = Team.None;
+
+			ResetClient( To.Single( this ) );
+		}
+
+		[ClientRpc]
+		public void ResetClient()
+		{
+			LoadoutUpgrades = new();
+			WeaponUpgrades = new();
 		}
 
 		public void GiveTokens( int tokens )
@@ -109,6 +181,130 @@ namespace Facepunch.Hover
 		public bool HasTokens( int tokens )
 		{
 			return (Tokens >= tokens);
+		}
+
+		public bool HasWeaponUpgrade( Weapon weapon, Type type )
+		{
+			var weaponName = weapon.WeaponName;
+
+			if ( WeaponUpgrades.TryGetValue( weaponName, out var set ) )
+			{
+				foreach ( var upgrade in set )
+				{
+					if ( upgrade.GetType() == type )
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		public void ApplyWeaponUpgrades()
+		{
+			foreach ( var weapon in Children.OfType<Weapon>() )
+			{
+				var upgrades = GetWeaponUpgrades( weapon );
+
+				if ( upgrades != null )
+				{
+					foreach ( var upgrade in upgrades )
+					{
+						upgrade.Apply( this, weapon );
+					}
+				}
+			}
+		}
+
+		public void RestockWeaponUpgrades()
+		{
+			foreach ( var weapon in Children.OfType<Weapon>() )
+			{
+				var upgrades = GetWeaponUpgrades( weapon );
+
+				if ( upgrades != null )
+				{
+					foreach ( var upgrade in upgrades )
+					{
+						upgrade.Restock( this, weapon );
+					}
+				}
+			}
+		}
+
+		public HashSet<WeaponUpgrade> GetWeaponUpgrades( Weapon weapon )
+		{
+			if ( WeaponUpgrades.TryGetValue( weapon.Name, out var upgrades ) )
+			{
+				return upgrades;
+			}
+
+			return null;
+		}
+
+		public void GiveWeaponUpgrade( Weapon weapon, WeaponUpgrade upgrade )
+		{
+			var weaponName = weapon.WeaponName;
+
+			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
+			{
+				GiveWeaponUpgrade( weapon.Name, upgrade.GetType().Name );
+				upgrades.Add( upgrade );
+				return;
+			}
+
+			upgrades = new HashSet<WeaponUpgrade>();
+			WeaponUpgrades[weaponName] = upgrades;
+			upgrades.Add( upgrade );
+
+			GiveWeaponUpgrade( To.Single( this ), weaponName, upgrade.GetType().Name );
+		}
+
+		[ClientRpc]
+		public void GiveWeaponUpgrade( string weaponName, string typeName )
+		{
+			var upgrade = Library.Create<WeaponUpgrade>( typeName );
+
+			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
+			{
+				upgrades.Add( upgrade );
+				StationScreen.Refresh();
+				return;
+			}
+
+			upgrades = new HashSet<WeaponUpgrade>();
+			WeaponUpgrades[weaponName] = upgrades;
+			upgrades.Add( upgrade );
+			StationScreen.Refresh();
+		}
+
+		public bool HasLoadoutUpgrade( Type type )
+		{
+			return LoadoutUpgrades.Contains( type );
+		}
+
+		public bool HasLoadoutUpgrade<T>() where T : BaseLoadout
+		{
+			return LoadoutUpgrades.Contains( typeof( T ) );
+		}
+
+		public void GiveLoadoutUpgrade( Type type )
+		{
+			LoadoutUpgrades.Add( type );
+			GiveLoadoutUpgrade( To.Single( this ), type.Name );
+		}
+
+		[ClientRpc]
+		public void GiveLoadoutUpgrade( string typeName )
+		{
+			var type = Library.Get<BaseLoadout>( typeName );
+
+			if ( type != null )
+			{
+				LoadoutUpgrades.Add( type );
+				StationScreen.Refresh();
+			}
 		}
 
 		public void GiveAward<T>() where T : Award
@@ -164,7 +360,7 @@ namespace Facepunch.Hover
 			if ( loadout != null )
 			{
 				PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
-				loadout.Restock();
+				loadout.Restock( this );
 			}
 
 			NextStationRestock = 30f;

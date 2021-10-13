@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
@@ -10,6 +12,10 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override Texture Icon => Texture.Load( "ui/weapons/longshot.png" );
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade )
+		};
 		public override string CrosshairClass => "semiautomatic";
 		public override string WeaponName => "Longshot";
 		public override AmmoType AmmoType => AmmoType.Sniper;

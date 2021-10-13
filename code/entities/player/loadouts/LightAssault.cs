@@ -1,5 +1,6 @@
 ﻿using Gamelib.Utility;
 using Sandbox;
+using System;
 using System.Collections.Generic;
 
 namespace Facepunch.Hover
@@ -9,6 +10,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A fast assault unit with medium health and high energy.";
 		public override string Name => "Light Assault";
+		public override Type UpgradesTo => typeof( LightAssaultMk2 );
 		public override int DisplayOrder => 1;
 		public override int TokenCost => 300;
 		public override List<string> WeaponIcons => new()
@@ -31,33 +33,34 @@ namespace Facepunch.Hover
 			CitizenClothing.Hat.SecurityHelmet.Normal
 		};
 
-		public override void Restock()
+		public override void Restock( Player player )
 		{
-			base.Restock();
+			base.Restock( player );
 
-			Entity.GiveAmmo( AmmoType.Rifle, 20 );
-			Entity.GiveAmmo( AmmoType.SMG, 90 );
+			player.GiveAmmo( AmmoType.Rifle, 20 );
+			player.GiveAmmo( AmmoType.SMG, 90 );
+			player.RestockWeaponUpgrades();
 		}
 
-		public override void SupplyLoadout()
+		public override void SupplyLoadout( Player player )
 		{
-			base.SupplyLoadout();
+			base.SupplyLoadout( player );
 
 			var pulsar = new Pulsar();
-			Entity.Inventory.Add( pulsar );
+			player.Inventory.Add( pulsar );
 
 			var blaster = new Blaster();
-			Entity.Inventory.Add( blaster, true );
-			Entity.ActiveChild = blaster;
+			player.Inventory.Add( blaster, true );
+			player.ActiveChild = blaster;
 
-			Restock();
+			Restock( player );
 		}
 
-		public override void Setup()
+		public override void Setup( Player player )
 		{
-			base.Setup();
+			base.Setup( player );
 
-			Entity.AttachClothing<Jetpack>();
+			player.AttachClothing<Jetpack>();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Sandbox;
-
+using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
@@ -11,6 +12,10 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/shotblast/shotblast_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/shotblast.png" );
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade )
+		};
 		public override string CrosshairClass => "shotgun";
 		public override float DamageFalloffStart => 0f;
 		public override float DamageFalloffEnd => 1000f;

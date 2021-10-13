@@ -29,7 +29,7 @@ stationscreen {
         width: 80%;
         height: 70%;
 
-        stationscreentabcontent, .loadouts {
+        .upgrades, .loadouts {
             transform: scale( 1 1 );
             transition: all 0.1s ease-out;
             opacity: 1;
@@ -40,164 +40,26 @@ stationscreen {
             }
         }
 
+        .upgrades {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 32px;
+        }
+
         .loadouts {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
+            position: absolute;
             width: 100%;
             height: 100%;
             padding: 32px;
-
-            stationscreenloadout {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                margin-right: 32px;
-                box-shadow: $blueTeamBackground;
-                width: 300px;
-                height: 90%;
-
-                .title {
-                    text-shadow: $blueTeamShadow;
-                    margin-top: 24px;
-                    font-size: 20px;
-                    color: $blueTeamColor;
-                }
-
-                .description {
-                    text-shadow: $blueTeamShadow;
-                    margin-top: 8px;
-                    font-size: 16px;
-                    width: 80%;
-                    color: white;
-                }
-
-                .stats {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-top: 80%;
-                    width: 80%;
-
-                    simpleiconbar {
-                        width: 100%;
-                        height: 26px;
-                        margin-bottom: 8px;
-
-                        .outerBar {
-                            height: 26px;
-                        }
-
-                        .icon {
-                            width: 26px;
-                            height: 26px;
-                        }
-                    }
-
-                    .speed {
-                        .innerBar {
-                            background-color: rgba( 200 255 0 0.3 );
-                        }
-
-                        .icon {
-                            background-image: url( /ui/icons/speed.png );
-                        }
-                    }
-
-                    .energy {
-                        .innerBar {
-                            background-color: rgba( 0 170 255 0.3 );
-                        }
-
-                        .icon {
-                            background-image: url( /ui/icons/energy.png );
-                        }
-                    }
-
-                    .health {
-                        .icon {
-                            background-image: url( /ui/icons/health.png );
-                        }
-                    }
-                }
-
-                .weapons {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: rgba(255 255 255 0.1);
-                    border-radius: 16px;
-                    width: 80%;
-
-                    .icon {
-                        width: 80px;
-                        height: 80px;
-                    }
-                }
-
-                .buy {
-                    width: 80%;
-                    border-radius: 16px;
-                    cursor: pointer;
-                    padding: 8px;
-                    margin-top: 16px;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-                    box-shadow: 0px 0px 32px -2px rgba(255 0 0 0.1 );
-                    background-color: rgba(50 50 50 0.6);
-                    border: 2px solid rgba(255 50 50 0.1);
-                    transition: all 0.1s ease-out;
-
-                    .icon {
-                        width: 40px;
-                        height: 40px;
-                        margin-right: 8px;
-                    }
-
-                    .amount {
-                        color: tomato;
-                        font-size: 30px;
-                    }
-
-                    &:hover {
-                        &.affordable {
-                            sound-in: hover.hoversharp;
-                            transform: scale( 1.02 1.04 );
-                            background-color: rgba(255 216 0 0.4);
-                            border: 2px solid rgba(255 216 0 0.6);
-                        }
-                    }
-
-                    &.affordable {
-                        background-color: rgba(255 216 0 0.2);
-                        border: 2px solid rgba(255 216 0 0.4);
-                        box-shadow: $tokenBackground;
-
-                        .amount {
-                            color: $tokenColor;
-                            text-shadow: $tokenShadow;
-                        }
-                    }
-                }
-
-                .scene {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                }
-
-                &.selected {
-                    box-shadow: $blueTeamForeground;
-
-                    .buy {
-                        display: none;
-                    }
-                }
-            }
         }
     }
 
@@ -230,14 +92,15 @@ stationscreen {
                 margin-top: 24px;
                 font-size: 24px;
                 color: rgba( 255 255 255 0.8 );
-                transition: all 0.1s ease-out;
                 top: 50px;
             }
 
             &:hover {
                 &:not(.selected) {
-                    box-shadow: $selectedTabBackground;
-                    sound-in: hover.hoversharp;
+                    &:not(.hidden) {
+                        box-shadow: $selectedTabBackground;
+                        sound-in: hover.hoversharp;
+                    }
                 }
             }
 
@@ -249,6 +112,10 @@ stationscreen {
                     font-size: 26px;
                     color: $selectedTabColor;
                 }
+            }
+
+            &.hidden {
+                opacity: 0.2;
             }
 
             &:last-child {
@@ -269,27 +136,231 @@ stationscreen {
     }
 }
 
-.team_red {
-    stationscreen {
-        .content {
-            .loadouts {
-                stationscreenloadout {
-                    box-shadow: $redTeamBackground;
+stationscreenweaponupgrade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 32px;
+    box-shadow: $blueTeamBackground;
+    width: 300px;
+    height: 300px;
 
-                    .title {
-                        text-shadow: $redTeamShadow;
-                        color: $redTeamColor;
-                    }
+    .title {
+        text-shadow: $blueTeamShadow;
+        margin-top: 24px;
+        font-size: 20px;
+        color: $blueTeamColor;
+    }
 
-                    .description {
-                        text-shadow: $redTeamShadow;
-                    }
+    .description {
+        text-shadow: $blueTeamShadow;
+        margin-top: 8px;
+        font-size: 16px;
+        color: white;
+    }
 
-                    &.selected {
-                        box-shadow: $redTeamForeground;
-                    }
-                }
+    .weapon {
+        width: 175px;
+        height: 175px;
+        margin-top: -24px;
+    }
+}
+
+stationscreenloadout, stationscreenloadoutupgrade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 32px;
+    box-shadow: $blueTeamBackground;
+    width: 300px;
+    height: 90%;
+
+    .title {
+        text-shadow: $blueTeamShadow;
+        margin-top: 24px;
+        font-size: 20px;
+        color: $blueTeamColor;
+    }
+
+    .description {
+        text-shadow: $blueTeamShadow;
+        margin-top: 8px;
+        font-size: 16px;
+        width: 80%;
+        color: white;
+    }
+
+    .secondary_description {
+        text-shadow: $blueTeamShadow;
+        margin-top: 8px;
+        font-size: 14px;
+        width: 80%;
+        color: $blueTeamColor;
+    }
+
+    .stats {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        width: 80%;
+
+        simpleiconbar {
+            width: 100%;
+            height: 26px;
+            margin-bottom: 8px;
+
+            .outerBar {
+                height: 26px;
             }
+
+            .icon {
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        .speed {
+            .innerBar {
+                background-color: rgba( 200 255 0 0.3 );
+            }
+
+            .icon {
+                background-image: url( /ui/icons/speed.png );
+            }
+        }
+
+        .energy {
+            .innerBar {
+                background-color: rgba( 0 170 255 0.3 );
+            }
+
+            .icon {
+                background-image: url( /ui/icons/energy.png );
+            }
+        }
+
+        .health {
+            .icon {
+                background-image: url( /ui/icons/health.png );
+            }
+        }
+    }
+
+    .weapons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255 255 255 0.1);
+        border-radius: 16px;
+        position: absolute;
+        top: 70%;
+        width: 80%;
+
+        .icon {
+            width: 80px;
+            height: 80px;
+        }
+    }
+
+    .scene {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    &.selected {
+        box-shadow: $blueTeamForeground;
+
+        .buy {
+            display: none;
+        }
+    }
+}
+
+stationscreenbuybutton {
+    width: 80%;
+    border-radius: 16px;
+    cursor: pointer;
+    padding: 8px;
+    position: absolute;
+    bottom: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 32px -2px rgba(255 0 0 0.1 );
+    background-color: rgba(50 50 50 0.6);
+    border: 2px solid rgba(255 50 50 0.1);
+    transition: all 0.1s ease-out;
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+    }
+
+    .amount {
+        color: tomato;
+        font-size: 30px;
+    }
+
+    &:hover {
+        &.affordable {
+            sound-in: hover.hoversharp;
+            transform: scale( 1.02 1.04 );
+            background-color: rgba(255 216 0 0.4);
+            border: 2px solid rgba(255 216 0 0.6);
+        }
+    }
+
+    &.affordable {
+        background-color: rgba(255 216 0 0.2);
+        border: 2px solid rgba(255 216 0 0.4);
+        box-shadow: $tokenBackground;
+
+        .amount {
+            color: $tokenColor;
+            text-shadow: $tokenShadow;
+        }
+    }
+}
+
+.team_red {
+    stationscreenloadout, stationscreenloadoutupgrade {
+        box-shadow: $redTeamBackground;
+
+        .title {
+            text-shadow: $redTeamShadow;
+            color: $redTeamColor;
+        }
+
+        .description {
+            text-shadow: $redTeamShadow;
+        }
+
+        .secondary_description {
+            text-shadow: $redTeamShadow;
+            color: $redTeamColor;
+        }
+
+        &.selected {
+            box-shadow: $redTeamForeground;
+        }
+    }
+
+    stationscreenweaponupgrade {
+        box-shadow: $redTeamBackground;
+
+        .title {
+            text-shadow: $redTeamShadow;
+            color: $redTeamColor;
+        }
+
+        .description {
+            text-shadow: $redTeamShadow;
         }
     }
 }

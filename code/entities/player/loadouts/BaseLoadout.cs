@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
-	[DisallowMultipleComponent]
-	public partial class BaseLoadout : EntityComponent<Player>
+	public partial class BaseLoadout : BaseNetworkable
 	{
 		public virtual List<string> WeaponIcons => new();
 		public virtual string DisplayWeapon => "models/weapons/w_blaster.vmdl";
@@ -14,42 +13,45 @@ namespace Facepunch.Hover
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
 		public virtual float RegenDelay => 5f;
+		public virtual Type UpgradesTo => null;
 		public virtual float Health => 500f;
 		public virtual float Energy => 100f;
 		public virtual float MoveSpeed => 400f;
 		public virtual float MaxSpeed => 1000f;
 		public virtual string Model => "models/citizen/citizen.vmdl";
+		public virtual string SecondaryDescription => "";
 		public virtual string Description => "";
 		public virtual string Name => "Loadout";
+		public virtual int UpgradeCost => 0;
 		public virtual int TokenCost => 1000;
 		public virtual List<string> Clothing => new();
 
-		public virtual void Restock()
+		public virtual void Restock( Player player )
 		{
-			Entity.ClearAmmo();
+			player.ClearAmmo();
 		}
 
-		public virtual void SupplyLoadout()
+		public virtual void SupplyLoadout( Player player )
 		{
-			Entity.ClearAmmo();
-			Entity.Inventory.DeleteContents();
+			player.ClearAmmo();
+			player.Inventory.DeleteContents();
 		}
 
-		public virtual void Setup()
+		public virtual void Setup( Player player )
 		{
-			Entity.ClearAmmo();
-			Entity.Inventory.DeleteContents();
+			player.ClearAmmo();
+			player.Inventory.DeleteContents();
 
-			Entity.RemoveClothing();
-			Entity.SetModel( Model );
+			player.RemoveClothing();
+			player.SetModel( Model );
 
 			foreach ( var model in Clothing )
 			{
-				var clothes = Entity.AttachClothing( model );
-				clothes.RenderColor = Entity.Team.GetColor();
+				var clothes = player.AttachClothing( model );
+				clothes.RenderColor = player.Team.GetColor();
 			}
 
-			Entity.Controller = new MoveController
+			player.Controller = new MoveController
 			{
 				UpSlopeFriction = UpSlopeFriction,
 				DownSlopeBoost = DownSlopeBoost,
@@ -59,19 +61,19 @@ namespace Facepunch.Hover
 				Energy = Energy
 			};
 
-			Entity.Camera = new FirstPersonCamera();
+			player.Camera = new FirstPersonCamera();
 
-			Entity.HealthRegen = HealthRegen;
-			Entity.RegenDelay = RegenDelay;
-			Entity.MaxHealth = Health;
-			Entity.Health = Health;
+			player.HealthRegen = HealthRegen;
+			player.RegenDelay = RegenDelay;
+			player.MaxHealth = Health;
+			player.Health = Health;
 
-			Entity.RemoveAllDecals();
+			player.RemoveAllDecals();
 
-			Entity.EnableAllCollisions = true;
-			Entity.EnableDrawing = true;
-			Entity.EnableHideInFirstPerson = true;
-			Entity.EnableShadowInFirstPerson = true;
+			player.EnableAllCollisions = true;
+			player.EnableDrawing = true;
+			player.EnableHideInFirstPerson = true;
+			player.EnableShadowInFirstPerson = true;
 		}
 	}
 }

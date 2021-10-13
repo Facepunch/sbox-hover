@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
@@ -11,6 +12,10 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/sideman/sideman_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override Texture Icon => Texture.Load( "ui/weapons/sideman.png" );
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade )
+		};
 		public override string CrosshairClass => "semiautomatic";
 		public override string WeaponName => "Sideman";
 		public override int ClipSize => 15;
