@@ -195,5 +195,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/pulse_sniper/pulse_sniper_impact_b.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/pulse_sniper/pulse_sniper_impact_c.vpcf"
+		},
 	]
 }

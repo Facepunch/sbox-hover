@@ -195,5 +195,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/sideman/sideman_impact_b.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/sideman/sideman_impact_c.vpcf"
+		},
 	]
 }

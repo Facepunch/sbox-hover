@@ -1565,5 +1565,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/grenade_launcher/grenade_launcher_smoke2.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/grenade_launcher/grenade_launcher_impact_a.vpcf"
+		},
 	]
 }

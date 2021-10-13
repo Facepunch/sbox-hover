@@ -204,5 +204,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/fusion_rifle/fusion_rifle_explosion_e.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/fusion_rifle/fusion_rifle_explosion_f.vpcf"
+		},
 	]
 }
