@@ -2,6 +2,9 @@
 
 radar {
 	box-shadow: $blueTeamBackground;
+	background-color: $blueTeamPanelBg;
+	border: $blueTeamPanelBorder;
+	padding: 8px;
 	border-radius: 256px;
 	position: absolute;
 	top: 40px;
@@ -42,5 +45,7 @@ radar {
 .team_red {
 	radar {
 		box-shadow: $redTeamBackground;
+		background-color: $redTeamPanelBg;
+		border: $redTeamPanelBorder;
 	}
 }

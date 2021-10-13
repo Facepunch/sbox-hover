@@ -152,6 +152,9 @@ namespace Facepunch.Hover
 		{
 			Close();
 
+			if ( string.IsNullOrEmpty( TextEntry.Input.Text ) )
+				return;
+
 			var msg = TextEntry.Input.Text.Trim();
 			TextEntry.Input.Text = "";
 

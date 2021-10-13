@@ -16,9 +16,13 @@ vitals {
 	padding-left: 20px;
 	padding-right: 24px;
 	box-shadow: $blueTeamBackground;
-	font-family: Roboto;
+	background-color: $blueTeamPanelBg;
+	border: $blueTeamPanelBorder;
+	border-radius: 8px;
+	font-family: $mainFont;
 	flex-direction: column;
 	justify-content: center;
+	padding: 8px;
 	position: absolute;
 	bottom: 32px;
 	left: 64px;
@@ -27,18 +31,40 @@ vitals {
 	width: 25%;
 
 	.energy {
+		.outerBar {
+			background-color: rgba( 0 170 255 0.1 );
+		}
+
 		.innerBar {
-			background-color: rgba( 0 170 255 0.3 );
+			background-color: rgba( 0 170 255 0.5 );
+		}
+
+		.text {
+			text-shadow: $blueTeamShadow;
 		}
 
 		.icon {
 			background-image: url( /ui/icons/energy.png );
+			height: 90%;
 		}
 	}
 
 	.health {
+		.outerBar {
+			background-color: rgba( 0 255 0 0.15 );
+		}
+
+		.innerBar {
+			background-color: rgba( 0 255 0 0.5 );
+		}
+
+		.text {
+			text-shadow: $blueTeamShadow;
+		}
+
 		.icon {
 			background-image: url( /ui/icons/health.png );
+			height: 90%;
 		}
 	}
 
@@ -49,10 +75,13 @@ vitals {
 
 speedometer {
 	box-shadow: $blueTeamBackground;
+	background-color: $blueTeamPanelBg;
+	border-radius: 8px;
+	padding: 8px;
 	justify-content: center;
 	justify-items: center;
 	align-items: center;
-	font-family: Roboto;
+	font-family: $mainFont;
 	flex-direction: row;
 	position: absolute;
 	height: 50px;
@@ -79,6 +108,7 @@ speedometer {
 
 .team_red {
 	speedometer {
+		background-color: $redTeamPanelBg;
 		box-shadow: $redTeamBackground;
 
 		.icon {
@@ -93,13 +123,17 @@ speedometer {
 
 tokens {
 	box-shadow: $blueTeamBackground;
+	background-color: $blueTeamPanelBg;
+	border-radius: 8px;
+	border: $blueTeamPanelBorder;
+	padding: 8px;
 	justify-content: center;
 	justify-items: center;
 	align-items: center;
-	font-family: Roboto;
+	font-family: $mainFont;
 	flex-direction: row;
 	position: absolute;
-	padding: 16px;
+	min-width: 200px;
 	height: 72px;
 	color: #fff;
 	right: 64px;
@@ -109,7 +143,7 @@ tokens {
 		background-image: url( /ui/icons/tokens.png );
 		background-size: 100%;
 		text-shadow: $tokenShadow;
-		margin-right: 16px;
+		margin-right: 8px;
 		width: 40px;
 		height: 40px;
 	}
@@ -123,6 +157,8 @@ tokens {
 
 .team_red {
 	tokens {
+		border: $redTeamPanelBorder;
+		background-color: $redTeamPanelBg;
 		box-shadow: $redTeamBackground;
 
 		.icon {
@@ -137,7 +173,21 @@ tokens {
 
 .team_red {
 	vitals {
+		border: $redTeamPanelBorder;
 		box-shadow: $redTeamBackground;
+		background-color: $redTeamPanelBg;
+
+		.health {
+			.text {
+				text-shadow: $redTeamShadow;
+			}
+		}
+
+		.energy {
+			.text {
+				text-shadow: $redTeamShadow;
+			}
+		}
 	}
 }
 
@@ -145,14 +195,16 @@ ammo {
 	bottom: 32px;
 	display: none;
 	align-items: center;
-	font-family: Roboto;
+	font-family: $mainFont;
+	justify-content: center;
 	height: 80px;
-	padding-left: 40px;
-	padding-right: 60px;
 	position: absolute;
 	box-shadow: $blueTeamBackground;
+	background-color: $blueTeamPanelBg;
+	border: $blueTeamPanelBorder;
+	border-radius: 8px;
+	padding: 16px;
 	left: 30%;
-	width: 248px;
 
 	label {
 		text-shadow: $blueTeamShadow;
@@ -163,29 +215,25 @@ ammo {
 		height: 32px;
 		background-image: url( /ui/icons/ammo.png );
 		background-size: 100%;
+		margin-left: 16px;
 		text-shadow: $blueTeamShadow;
-		position: absolute;
-		right: 36px;
 	}
 
 	.textContainer {
 		align-items: center;
-		flex-grow: 1;
+		justify-content: center;
 	}
 
 	.weapon {
 		font-size: 34px;
 		color: #ECECEC;
-		min-width: 50px;
-		text-align: right;
 		transition: color 0.2s ease;
 	}
 
 	.inventory {
 		color: #ECECEC;
 		font-size: 28px;
-		margin-left: 8px;
-		opacity: 0.5;
+		margin-left: 8px opacity: 0.5;
 	}
 
 	&.active {
@@ -202,7 +250,9 @@ ammo {
 
 .team_red {
 	ammo {
+		background-color: $redTeamPanelBg;
 		box-shadow: $redTeamBackground;
+		border: $redTeamPanelBorder;
 
 		.icon {
 			text-shadow: $redTeamShadow;

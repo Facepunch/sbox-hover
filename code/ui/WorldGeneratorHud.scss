@@ -9,17 +9,22 @@ worldgeneratorhud {
 		flex-direction: column;
 		align-items: center;
 		box-shadow: $blueTeamForeground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
+		border-radius: 8px;
 		padding: 16px;
 
 		.label {
 			text-shadow: $blueTeamShadow;
 			color: $blueTeamColor;
+			font-family: $mainFont;
 			font-size: 30px;
 		}
 
 		.regen {
 			text-shadow: $blueTeamShadow;
 			color: white;
+			font-family: $mainFont;
 			font-size: 20px;
 			margin-top: 16px;
 
@@ -35,7 +40,9 @@ worldgeneratorhud {
 
 	&.team_red {
 		.container {
+			background-color: $redTeamPanelBg;
 			box-shadow: $redTeamForeground;
+			border: $redTeamPanelBorder;
 
 			.label {
 				text-shadow: $redTeamShadow;

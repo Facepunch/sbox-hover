@@ -17,9 +17,13 @@ stationscreen {
         position: absolute;
         top: 220px;
         box-shadow: $selectedTabBackground;
-        padding: 8px;
+        background-color: $selectedTabPanelBg;
+        border: $selectedTabPanelBorder;
+        border-radius: 16px;
+        padding: 16px;
         font-size: 18px;
         text-shadow: $selectedTabShadow;
+        font-family: $mainFont;
         color: yellow;
     }
 
@@ -69,14 +73,19 @@ stationscreen {
         display: flex;
         flex-direction: row;
         box-shadow: $selectedTabBackground;
+        border-radius: 8px;
         padding: 8px;
 
         stationscreentab {
+            background-color: $selectedTabPanelBg;
+            border: $selectedTabPanelBorder;
+            transition: all 0.1s ease-out;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-right: 24px;
             padding: 16px;
+            border-radius: 8px;
             min-width: 200px;
             height: 110px;
             cursor: pointer;
@@ -88,6 +97,7 @@ stationscreen {
 
             .title {
                 text-shadow: $selectedTabShadow;
+                font-family: $mainFont;
                 position: absolute;
                 margin-top: 24px;
                 font-size: 24px;
@@ -98,13 +108,17 @@ stationscreen {
             &:hover {
                 &:not(.selected) {
                     &:not(.hidden) {
+                        transition: all 0.1s ease-out;
+                        transform: scale( 1.05 1.05 );
                         box-shadow: $selectedTabBackground;
+                        background-color: $selectedTabPanelFg;
                         sound-in: hover.hoversharp;
                     }
                 }
             }
 
             &.selected {
+                background-color: $selectedTabPanelFg;
                 box-shadow: $selectedTabForeground;
 
                 .title {
@@ -142,11 +156,16 @@ stationscreenweaponupgrade {
     align-items: center;
     margin-right: 32px;
     box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    padding: 8px;
     width: 300px;
     height: 300px;
 
     .title {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         margin-top: 24px;
         font-size: 20px;
         color: $blueTeamColor;
@@ -154,6 +173,7 @@ stationscreenweaponupgrade {
 
     .description {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         margin-top: 8px;
         font-size: 16px;
         color: white;
@@ -172,11 +192,16 @@ stationscreenloadout, stationscreenloadoutupgrade {
     align-items: center;
     margin-right: 32px;
     box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    padding: 8px;
+    border-radius: 8px;
     width: 300px;
     height: 90%;
 
     .title {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         margin-top: 24px;
         font-size: 20px;
         color: $blueTeamColor;
@@ -184,6 +209,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
 
     .description {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         margin-top: 8px;
         font-size: 16px;
         width: 80%;
@@ -192,6 +218,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
 
     .secondary_description {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         margin-top: 8px;
         font-size: 14px;
         width: 80%;
@@ -253,7 +280,9 @@ stationscreenloadout, stationscreenloadoutupgrade {
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        background-color: rgba(255 255 255 0.1);
+        background-color: rgba(255 255 255 0.05);
+        border: 1px solid rgba(255 255 255 0.1);
+        box-shadow: 0px 0px 32px 0px rgba( 255 255 255 0.02 );
         border-radius: 16px;
         position: absolute;
         top: 70%;
@@ -272,7 +301,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
     }
 
     &.selected {
-        box-shadow: $blueTeamForeground;
+        box-shadow: $blueTeamPanelFg;
 
         .buy {
             display: none;
@@ -305,6 +334,7 @@ stationscreenbuybutton {
     .amount {
         color: tomato;
         font-size: 30px;
+        font-family: $mainFont;
     }
 
     &:hover {
@@ -330,7 +360,9 @@ stationscreenbuybutton {
 
 .team_red {
     stationscreenloadout, stationscreenloadoutupgrade {
+        background-color: $redTeamPanelBg;
         box-shadow: $redTeamBackground;
+        border: $redTeamPanelBorder;
 
         .title {
             text-shadow: $redTeamShadow;
@@ -347,12 +379,15 @@ stationscreenbuybutton {
         }
 
         &.selected {
+            background-color: $redTeamPanelFg;
             box-shadow: $redTeamForeground;
         }
     }
 
     stationscreenweaponupgrade {
+        background-color: $redTeamPanelBg;
         box-shadow: $redTeamBackground;
+        border: $redTeamPanelBorder;
 
         .title {
             text-shadow: $redTeamShadow;

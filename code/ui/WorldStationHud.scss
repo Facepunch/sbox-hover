@@ -9,6 +9,10 @@ worldstationhud {
 	.label {
 		text-shadow: $blueTeamShadow;
 		box-shadow: $blueTeamForeground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
+		border-radius: 8px;
+		font-family: $mainFont;
 		color: white;
 		padding: 16px;
 		font-size: 30px;
@@ -16,7 +20,12 @@ worldstationhud {
 	}
 
 	simpleiconbar {
+		text-shadow: $blueTeamShadow;
 		box-shadow: $blueTeamForeground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
+		border-radius: 8px;
+		padding: 8px;
 
 		.innerBar {
 			background-color: rgba( 255 216 0 0.8 );
@@ -34,19 +43,26 @@ worldstationhud {
 
 	&.team_red {
 		.label {
+			background-color: $redTeamPanelBg;
 			text-shadow: $redTeamShadow;
 			box-shadow: $redTeamForeground;
+			border: $redTeamPanelBorder;
 		}
 
 		simpleiconbar {
+			background-color: $redTeamPanelBg;
+			text-shadow: $redTeamShadow;
 			box-shadow: $redTeamForeground;
+			border: $redTeamPanelBorder;
 		}
 	}
 
 	&.team_none {
 		.label {
-			text-shadow: $tokenShadow;
-			box-shadow: $tokenBackground;
+			text-shadow: $selectedTabShadow;
+			box-shadow: $selectedTabBackground;
+			background-color: $selectedTabPanelBg;
+			border: $selectedTabPanelBorder;
 		}
 
 		simpleiconbar {

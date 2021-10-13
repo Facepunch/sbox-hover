@@ -12,6 +12,7 @@ awardqueue {
 		align-self: flex-start;
 		align-items: center;
 		box-shadow: $blueTeamBackground;
+		background-color: $blueTeamPanelBg;
 		border-radius: 16px;
 		flex-direction: column;
 		padding: 8px;
@@ -50,6 +51,7 @@ awardqueue {
 
 			.title {
 				text-shadow: $blueTeamShadow;
+				font-family: $mainFont;
 				font-size: 32px;
 				color: yellow;
 			}
@@ -58,7 +60,7 @@ awardqueue {
 		.text {
 			color: white;
 			font-size: 18px;
-			font-family: Poppins;
+			font-family: $mainFont;
 			margin-left: 8px;
 			flex-grow: 1;
 			margin-right: 16px;
@@ -80,6 +82,7 @@ awardqueue {
 
 			.amount {
 				text-shadow: $tokenShadow;
+				font-family: $mainFont;
 				font-size: 24px;
 				color: $tokenColor;
 			}
@@ -90,6 +93,7 @@ awardqueue {
 .team_red {
 	awardqueue {
 		awarditem {
+			background-color: $redTeamPanelBg;
 			box-shadow: $redTeamBackground;
 
 			.header {

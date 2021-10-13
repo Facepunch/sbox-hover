@@ -10,6 +10,10 @@ roundscore {
 
     .container {
         box-shadow: $blueTeamBackground;
+        background-color: $blueTeamPanelBg;
+        border: $blueTeamPanelBorder;
+        border-radius: 8px;
+        padding: 8px;
         font-family: Roboto;
         display: flex;
         flex-direction: row;
@@ -33,7 +37,8 @@ roundscore {
 
             .score {
                 text-shadow: $blueTeamShadow;
-                font-size: 24px;
+                font-family: $mainFont;
+                font-size: 28px;
                 color: white;
             }
         }
@@ -59,7 +64,9 @@ roundscore {
 .team_red {
     roundscore {
         .container {
+            background-color: $redTeamPanelBg;
             box-shadow: $redTeamBackground;
+            border: $redTeamPanelBorder;
 
             roundscoreitem {
                 .score {

@@ -14,6 +14,7 @@ respawnscreen {
 
     .respawn {
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         font-size: 50px;
         color: white;
 
@@ -25,12 +26,15 @@ respawnscreen {
     .killedby {
         margin-top: 24px;
         text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
         font-size: 32px;
         color: white;
     }
 
     .killer {
         box-shadow: $blueTeamForeground;
+        background-color: $blueTeamPanelBg;
+        border-radius: 8px;
         justify-content: center;
         justify-items: center;
         align-items: center;
@@ -46,6 +50,7 @@ respawnscreen {
 
         .name {
             text-shadow: $blueTeamShadow;
+            font-family: $mainFont;
             font-size: 24px;
         }
     }
@@ -64,6 +69,7 @@ respawnscreen {
         }
 
         .killer {
+            background-color: $redTeamPanelBg;
             box-shadow: $redTeamForeground;
 
             .name {

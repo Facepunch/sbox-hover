@@ -18,6 +18,8 @@ nameplates {
 		justify-content: center;
 		flex-direction: row-reverse;
 		box-shadow: $blueTeamBackground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
 		background-size: 100%;
 		font-family: Roboto;
 		padding: 32px;
@@ -25,6 +27,7 @@ nameplates {
 		label {
 			padding: 1px 60px;
 			padding-left: 40px;
+			font-family: $mainFont;
 			text-shadow: $blueTeamShadow;
 		}
 
@@ -38,6 +41,8 @@ nameplates {
 	nameplates {
 		nameplate {
 			box-shadow: $redTeamBackground;
+			background-color: $redTeamPanelBg;
+			border: $redTeamPanelBorder;
 
 			label {
 				text-shadow: $blueTeamShadow;

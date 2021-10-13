@@ -12,9 +12,10 @@ chatbox {
 
 	textentrycontainer {
 		box-shadow: $blueTeamBackground;
-		background-color: rgba( 0 0 0 0.2 );
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
 		border-radius: 8px;
-		padding: 16px;
+		padding: 8px;
 		align-items: center;
 		opacity: 0;
 		width: 100%;
@@ -63,6 +64,9 @@ chatbox {
 	chatbox {
 		textentrycontainer {
 			box-shadow: $redTeamBackground;
+			background-color: $redTeamPanelBg;
+			border: $redTeamPanelBorder;
+
 
 			.channel {
 				&.team {

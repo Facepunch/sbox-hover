@@ -12,6 +12,8 @@ toastlist {
 		align-self: flex-start;
 		align-items: center;
 		box-shadow: $blueTeamBackground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
 		border-radius: 8px;
 		flex-direction: row;
 		margin-top: 8px;
@@ -35,7 +37,7 @@ toastlist {
 		.attacker {
 			color: white;
 			font-size: 24px;
-			font-family: Roboto;
+			font-family: $mainFont;
 			margin-left: 8px;
 			flex-grow: 1;
 			margin-right: 8px;
@@ -49,7 +51,7 @@ toastlist {
 		.victim {
 			color: white;
 			font-size: 24px;
-			font-family: Roboto;
+			font-family: $mainFont;
 			margin-left: 8px;
 			flex-grow: 1;
 			margin-right: 8px;
@@ -66,6 +68,8 @@ toastlist {
 		align-self: flex-start;
 		align-items: center;
 		box-shadow: $blueTeamBackground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
 		border-radius: 8px;
 		flex-direction: row;
 		margin-top: 8px;
@@ -89,7 +93,7 @@ toastlist {
 		.text {
 			color: white;
 			font-size: 18px;
-			font-family: Roboto;
+			font-family: $mainFont;
 			margin-left: 8px;
 			flex-grow: 1;
 			margin-right: 16px;
@@ -112,6 +116,8 @@ toastlist {
 	toastlist {
 		killfeeditem {
 			box-shadow: $redTeamBackground;
+			background-color: $redTeamPanelBg;
+			border: $redTeamPanelBorder;
 
 			.attacker, .victim {
 				text-shadow: $redTeamShadow;
@@ -124,6 +130,9 @@ toastlist {
 
 		toastitem {
 			box-shadow: $redTeamBackground;
+			background-color: $redTeamPanelBg;
+			border: $redTeamPanelBorder;
+
 
 			.text {
 				text-shadow: $redTeamShadow;
