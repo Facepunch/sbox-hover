@@ -1,0 +1,130 @@
+//=========================================================================================================================
+// Optional
+//=========================================================================================================================
+HEADER
+{
+	CompileTargets = ( IS_SM_50 && ( PC || VULKAN ) );
+	Description = "Matrix Grid";
+    DevShadter = true;
+}
+
+//=========================================================================================================================
+// Optional
+//=========================================================================================================================
+FEATURES
+{
+    #include "common/features.hlsl"
+}
+
+MODES
+{
+    VrForward();
+	ToolsVis( S_MODE_TOOLS_VIS );
+	ToolsWireframe( "vr_tools_wireframe.vfx" );
+}
+
+//=========================================================================================================================
+COMMON
+{
+    #define S_TRANSLUCENT 1
+    #define BLEND_MODE_ALREADY_SET
+    #define COLOR_WRITE_ALREADY_SET
+	#include "common/shared.hlsl"
+}
+
+//=========================================================================================================================
+
+struct VertexInput
+{
+	#include "common/vertexinput.hlsl"
+};
+
+//=========================================================================================================================
+
+struct PixelInput
+{
+	#include "common/pixelinput.hlsl"
+};
+
+//=========================================================================================================================
+
+VS
+{
+	#include "common/vertex.hlsl"
+	//VS_CommonProcessing_Post
+	// Main
+	//
+	PixelInput MainVs( INSTANCED_SHADER_PARAMS( VertexInput i ) )
+	{
+		PixelInput o = ProcessVertex( i );
+		return FinalizeVertex( o );
+	}
+}
+
+//=========================================================================================================================
+
+PS
+{
+    #include "common/pixel.hlsl"
+
+    RenderState( BlendEnable, true );
+    RenderState( SrcBlend, SRC_ALPHA );
+    RenderState( DstBlend, INV_SRC_ALPHA );
+    RenderState( ColorWriteEnable0, RGBA );
+
+    float LineThickness< UiType(Slider); Range(0, 1); Default(0.1); >;
+    float Boost< UiType(Slider); Range(1, 32); Default(1); >;
+    float BeginFadeDistance< UiType(Slider); Default(256); >;
+    float FullVisiblityDistance < UiType(Slider); Default(64); >;
+    uint CellCount< UiType(Slider); Range(1, 2048); Default(64); >;
+    float CellWiggleAmount< UiType(Slider); Range(0, 1); Default(0.04); >;
+    float CellWiggleTimeMultiplier< UiType(Slider); Range(0, 10); Default(1); >;
+
+	PixelOutput MainPs( PixelInput i )
+	{
+        PixelOutput o;
+
+        // Get the world position of the vertex
+        float3 vPositionWs = i.vPositionWithOffsetWs.xyz + g_vHighPrecisionLightingOffsetWs.xyz;
+        float distanceToVert = distance(g_vCameraPositionWs, vPositionWs);
+        
+        float calculatedAlpha = 1.0f;
+        float t = 1.0f;
+        
+        // If we're out of range, don't bother calculating anymore
+        if(distanceToVert > BeginFadeDistance) {
+            discard;
+        }
+        else
+        {
+            t = RemapValClamped(distanceToVert, FullVisiblityDistance, BeginFadeDistance, 0.0f, 1.0f);
+            calculatedAlpha = 1 - t;
+        }
+        
+        // Wiggle time
+        i.vTextureCoords.y += (sin(CellWiggleTimeMultiplier * g_flTime + (i.vTextureCoords.x * CellCount)) / CellCount) * CellWiggleAmount;
+        i.vTextureCoords.x += (cos(CellWiggleTimeMultiplier * g_flTime + (i.vTextureCoords.y * CellCount)) / CellCount) * CellWiggleAmount;
+
+        // Create our grid
+        float2 gridUvs = frac(i.vTextureCoords * CellCount);
+        float halfLineThickness = LineThickness * 0.5f;
+
+        // Create a mask for our grid
+        float gridMask = step(gridUvs.x, halfLineThickness) + step(1.0f - halfLineThickness, gridUvs.x);
+        gridMask += step(gridUvs.y, halfLineThickness) + step(1.0f - halfLineThickness, gridUvs.y);
+        gridMask = saturate(gridMask);
+
+        // If we're not in the mask, discard
+        if(gridMask < 1.0f) {
+            discard;
+        }
+
+        // Color our grid and add bloom
+        float3 color = float3(0,0,0);
+        color.xyz += (i.vVertexColor.rgb * gridMask) * (Boost * calculatedAlpha);
+
+        // Write output
+        o.vColor = float4(color,calculatedAlpha);
+        return o;
+	}
+}
