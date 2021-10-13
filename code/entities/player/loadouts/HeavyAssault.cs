@@ -13,11 +13,12 @@ namespace Facepunch.Hover
 		public override int DisplayOrder => 3;
 		public override List<WeaponConfig> PrimaryWeapons => new()
 		{
-			new ShotblastConfig()
+			new PulsarConfig(),
 		};
 		public override List<WeaponConfig> SecondaryWeapons => new()
 		{
-			new PulsarConfig()
+			new ShotblastConfig(),
+			new BlasterConfig()
 		};
 		public override float RegenDelay => 20f;
 		public override float Health => 700f;
