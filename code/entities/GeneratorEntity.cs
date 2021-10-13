@@ -7,18 +7,103 @@ namespace Facepunch.Hover
 	[Library( "hv_generator" )]
 	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Generator", "Hover", "Defines a point where a team's generator spawns" )]
-	public partial class GeneratorEntity : ModelEntity, IGameResettable
+	public partial class GeneratorEntity : ModelEntity, IGameResettable, IUse
 	{
 		public delegate void GeneratorEvent( GeneratorEntity generator );
 		public static event GeneratorEvent OnGeneratorRepaired;
 		public static event GeneratorEvent OnGeneratorBroken;
 
-		[Net] public float MaxHealth { get; set; } = 4000f;
+		[Net] public RealTimeUntil StartRegenTime { get; set; }
+		[Net] public float MaxHealth { get; set; } = 3000f;
+		[Net] public bool IsDestroyed { get; set; }
+		public float RepairRate { get; set; } = 100f;
 
 		[Property] public Team Team { get; set; }
 
 		private WorldHealthBar HealthBarLeft { get; set; }
 		private WorldHealthBar HealthBarRight { get; set; }
+		private WorldGeneratorHud GeneratorHud { get; set; }
+
+		private RealTimeUntil KillRepairEffectTime { get; set; }
+		private RealTimeUntil NextAttackedEffect { get; set; }
+		private Particles RepairEffect { get; set; }
+		private bool IsRegenerating { get; set; }
+		private Sound RepairSound { get; set; }
+		private Sound IdleSound { get; set; }
+
+		public void OnGameReset()
+		{
+			Repair();
+		}
+
+		public void Repair()
+		{
+			Health = MaxHealth;
+			IsDestroyed = false;
+			IsRegenerating = false;
+			StopRepairSound();
+			PlayIdleSound();
+			OnClientGeneratorRepaired();
+			OnGeneratorRepaired?.Invoke( this );
+		}
+
+		public void StopRepairSound()
+		{
+			RepairSound.Stop();
+		}
+
+		public void PlayRepairSound()
+		{
+			RepairSound.Stop();
+			RepairSound = PlaySound( "generator.repairloop" );
+		}
+
+		public void StopIdleSound()
+		{
+			IdleSound.Stop();
+		}
+
+
+		public void PlayIdleSound()
+		{
+			IdleSound.Stop();
+			IdleSound = PlaySound( "generator.idleloop" );
+		}
+
+		public bool OnUse( Entity user )
+		{
+			if ( Health == MaxHealth )
+			{
+				return false;
+			}
+
+			if ( RepairEffect == null )
+			{
+				RepairEffect = Particles.Create( "particles/generator/generator_repair/generator_repair.vpcf", this );
+				PlayRepairSound();
+			}
+
+			KillRepairEffectTime = 1f;
+			Health += RepairRate * Time.Delta;
+
+			if ( Health >= MaxHealth )
+			{
+				Repair();
+				return false;
+			}
+
+			return true;
+		}
+
+		public bool IsUsable( Entity user )
+		{
+			if ( user is Player player )
+			{
+				return CanPlayerRepair( player );
+			}
+
+			return false;
+		}
 
 		public override void Spawn()
 		{
@@ -34,12 +119,14 @@ namespace Facepunch.Hover
 
 			Health = MaxHealth;
 
+			PlayIdleSound();
+
 			base.Spawn();
 		}
 
-		public void OnGameReset()
+		public virtual bool CanPlayerRepair( Player player )
 		{
-			Health = MaxHealth;
+			return Health < MaxHealth;
 		}
 
 		public override void ClientSpawn()
@@ -56,6 +143,10 @@ namespace Facepunch.Hover
 			HealthBarRight.WorldScale = 2f;
 			HealthBarRight.ShowIcon = false;
 
+			GeneratorHud = new WorldGeneratorHud();
+			GeneratorHud.SetEntity( this, "repair_hud" );
+			GeneratorHud.WorldScale = 2f;
+
 			base.ClientSpawn();
 		}
 
@@ -67,15 +158,69 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			if ( !IsDestroyed && NextAttackedEffect )
+			{
+				Particles.Create( "particles/generator/generator_attacked/generator_attacked.vpcf", this );
+				NextAttackedEffect = 0.5f;
+			}
+
+			StartRegenTime = 240f;
+			IsRegenerating = false;
+
 			base.TakeDamage( info );
 		}
 
 		public override void OnKilled()
 		{
-			LifeState = LifeState.Dead;
+			if ( !IsDestroyed )
+			{
+				IsDestroyed = true;
+				IsRegenerating = false;
 
-			OnClientGeneratorBroken();
-			OnGeneratorBroken?.Invoke( this );
+				PlaySound( "barage.explode" );
+
+				StopIdleSound();
+				OnClientGeneratorBroken();
+				OnGeneratorBroken?.Invoke( this );
+
+				Particles.Create( "particles/generator/generator_destroy/generator_destroy.vpcf", this );
+
+				PlaySound( "regen.energylow" );
+			}
+		}
+
+		[Event.Tick.Server]
+		public virtual void ServerTick()
+		{
+			if ( RepairEffect != null && KillRepairEffectTime )
+			{
+				RepairEffect?.Destroy();
+				RepairEffect = null;
+				StopRepairSound();
+			}
+
+			if ( IsDestroyed && StartRegenTime )
+			{
+				if ( !IsRegenerating )
+				{
+					IsRegenerating = true;
+					PlaySound( "regen.start" );
+				}
+
+				if ( RepairEffect == null )
+				{
+					RepairEffect = Particles.Create( "particles/generator/generator_repair/generator_repair.vpcf", this );
+					PlayRepairSound();
+				}
+
+				KillRepairEffectTime = 1f;
+				Health += RepairRate * Time.Delta;
+
+				if ( Health >= MaxHealth )
+				{
+					Repair();
+				}
+			}
 		}
 
 		[Event.Tick.Client]

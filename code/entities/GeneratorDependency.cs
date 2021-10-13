@@ -38,6 +38,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
+			GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
 
 			base.Spawn();
 		}
@@ -56,14 +57,25 @@ namespace Facepunch.Hover
 		protected override void OnDestroy()
 		{
 			GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
+			GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
 
 			base.OnDestroy();
+		}
+
+		protected virtual void OnGeneratorRepaired( GeneratorEntity generator )
+		{
+			if ( generator.Team == Team )
+			{
+				PlaySound( "regen.start" );
+				IsPowered = true;
+			}
 		}
 
 		protected virtual void OnGeneratorBroken( GeneratorEntity generator )
 		{
 			if ( generator.Team == Team )
 			{
+				PlaySound( "regen.energylow" );
 				IsPowered = false;
 			}
 		}

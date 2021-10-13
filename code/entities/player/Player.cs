@@ -957,9 +957,24 @@ namespace Facepunch.Hover
 			SkiLoop = PlaySound( "ski.loop" );
 		}
 
-		protected override void UseFail()
+		protected override Entity FindUsable()
 		{
-			// Do nothing. By default this plays a sound that we don't want.
+			var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+				.Ignore( this )
+				.Run();
+
+			if ( !IsValidUseEntity( trace.Entity ) )
+			{
+				trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+				.Radius( 2 )
+				.Ignore( this )
+				.Run();
+			}
+
+			if ( !IsValidUseEntity( trace.Entity ) )
+				return null;
+
+			return trace.Entity;
 		}
 
 		protected override void OnDestroy()

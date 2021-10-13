@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
+using System;
 
 namespace Facepunch.Hover
 {
@@ -33,6 +34,7 @@ namespace Facepunch.Hover
 			{
 				IconBar.InnerBar.Style.Width = fraction;
 				IconBar.InnerBar.Style.Dirty();
+				IconBar.InnerBar.SetClass( "hidden", value == 0f );
 			}
 		}
 

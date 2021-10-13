@@ -1,0 +1,50 @@
+﻿@import "Variables.scss";
+
+worldgeneratorhud {
+	align-items: center;
+	justify-content: center;
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		box-shadow: $blueTeamForeground;
+		padding: 16px;
+
+		.label {
+			text-shadow: $blueTeamShadow;
+			color: $blueTeamColor;
+			font-size: 30px;
+		}
+
+		.regen {
+			text-shadow: $blueTeamShadow;
+			color: white;
+			font-size: 20px;
+			margin-top: 16px;
+
+			&.hidden {
+				display: none;
+			}
+		}
+	}
+
+	&.hidden {
+		display: none;
+	}
+
+	&.team_red {
+		.container {
+			box-shadow: $redTeamForeground;
+
+			.label {
+				text-shadow: $redTeamShadow;
+				color: $redTeamColor;
+			}
+
+			.regen {
+				text-shadow: $redTeamShadow;
+			}
+		}
+	}
+}
