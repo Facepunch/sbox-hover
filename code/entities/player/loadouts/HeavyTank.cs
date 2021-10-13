@@ -10,13 +10,21 @@ namespace Facepunch.Hover
 		public override string Description => "A slow tank unit with high health, low energy and fast regen.";
 		public override string Name => "Heavy Tank";
 		public override int DisplayOrder => 4;
-		public override List<WeaponConfig> PrimaryWeapons => new()
+		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
-			new ShotblastConfig()
-		};
-		public override List<WeaponConfig> SecondaryWeapons => new()
-		{
-			new BarageConfig()
+			new WeaponConfig[]
+			{
+				new ShotblastConfig(),
+			},
+			new WeaponConfig[]
+			{
+				new BarageConfig()
+			},
+			new WeaponConfig[]
+			{
+				new HeavyShieldBoosterConfig(),
+				new HeavyEnergyBoosterConfig()
+			}
 		};
 		public override float HealthRegen => 100f;
 		public override float RegenDelay => 5f;

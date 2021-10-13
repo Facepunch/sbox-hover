@@ -68,7 +68,8 @@ stationscreen {
     }
 
     .selector {
-        backdrop-filter-blur: 32px;
+        backdrop-filter-blur: 64px;
+        background-color: rgba ( 0 0 0 0.7 );
         transition: all 0.3s ease-out;
         position: absolute;
         display: flex;
@@ -206,9 +207,11 @@ stationscreenweaponinfo {
     }
 
     .icon {
-        width: 175px;
-        height: 175px;
-        margin-top: -24px;
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        bottom: 25%;
+        z-index: -1;
     }
 }
 
@@ -375,11 +378,13 @@ stationscreenloadout, stationscreenloadoutupgrade {
             backdrop-filter-blur: 16px;
             margin-right: 8px;
             border-radius: 8px;
+            flex-shrink: 0;
+            flex-grow: 0;
             padding: 8px;
 
             .icon {
-                width: 80px;
-                height: 80px;
+                width: 48px;
+                height: 48px;
             }
 
             &:hover {

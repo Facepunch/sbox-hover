@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 {
 	public class WeaponIcon : Panel
 	{
+		public bool IsDisabled { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsHidden { get; set; }
 		public Weapon Weapon { get; private set; }
@@ -29,6 +30,7 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
+			SetClass( "disabled", IsDisabled );
 			SetClass( "hidden", IsHidden );
 			SetClass( "active", IsActive );
 
@@ -60,7 +62,7 @@ namespace Facepunch.Hover
 			if ( Local.Pawn is not Player player )
 				return;
 
-			for ( int i = 0; i < 6; i++ )
+			for ( int i = 0; i < Weapons.Length; i++ )
 			{
 				var weapon = Weapons[i];
 				weapon.IsHidden = true;
@@ -73,12 +75,13 @@ namespace Facepunch.Hover
 
 			foreach ( var child in weapons )
 			{
-				if ( child.Slot < 6 )
+				if ( child.Slot < Weapons.Length )
 				{
 					var weapon = Weapons[currentIndex];
 					weapon.Update( child );
 					weapon.IsActive = (player.ActiveChild == child);
 					weapon.IsHidden = false;
+					weapon.IsDisabled = !child.CanSelectWeapon;
 					currentIndex++;
 				}
 			}
@@ -94,6 +97,16 @@ namespace Facepunch.Hover
 			if ( input.Pressed( InputButton.Slot6 ) ) return 6;
 
 			return -1;
+		}
+
+		private bool CanSelectWeapon( WeaponIcon weapon )
+		{
+			if ( !weapon.IsHidden && weapon.Weapon.IsValid() && weapon.Weapon.CanSelectWeapon )
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		private void PreviousWeapon( Player player, InputBuilder input )
@@ -112,7 +125,24 @@ namespace Facepunch.Hover
 			}
 
 			currentIndex--;
-			currentIndex = currentIndex.UnsignedMod( 6 );
+
+			for ( int i = currentIndex; i >= 0; i-- )
+			{
+				var weapon = Weapons[i];
+
+				if ( !CanSelectWeapon( weapon ) )
+					currentIndex--;
+				else
+					break;
+			}
+
+			var firstIndex = GetFirstIndex();
+			var lastIndex = GetLastIndex();
+
+			if ( currentIndex < firstIndex )
+			{
+				currentIndex = lastIndex;
+			}
 
 			SelectWeapon( player, input, currentIndex );
 		}
@@ -133,16 +163,62 @@ namespace Facepunch.Hover
 			}
 
 			currentIndex++;
-			currentIndex = currentIndex.UnsignedMod( 6 );
+
+			for ( int i = currentIndex; i < Weapons.Length; i++ )
+			{
+				var weapon = Weapons[i];
+
+				if ( !CanSelectWeapon( weapon ) )
+					currentIndex++;
+				else
+					break;
+			}
+
+
+			var firstIndex = GetFirstIndex();
+			var lastIndex = GetLastIndex();
+
+			if ( currentIndex > lastIndex )
+				currentIndex = firstIndex;
 
 			SelectWeapon( player, input, currentIndex );
+		}
+
+		private int GetLastIndex()
+		{
+			for ( int i = Weapons.Length - 1; i >= 0; i-- )
+			{
+				var weapon = Weapons[i];
+
+				if ( CanSelectWeapon( weapon ) )
+				{
+					return i;
+				}
+			}
+
+			return 0;
+		}
+
+		private int GetFirstIndex()
+		{
+			for ( int i = 0; i < Weapons.Length; i++ )
+			{
+				var weapon = Weapons[i];
+
+				if ( CanSelectWeapon( weapon ) )
+				{
+					return i;
+				}
+			}
+
+			return 0;
 		}
 
 		private void SelectWeapon( Player player, InputBuilder input, int index )
 		{
 			var weapon = Weapons[index];
 
-			if ( weapon.Weapon.IsValid() && player.ActiveChild != weapon.Weapon )
+			if ( CanSelectWeapon( weapon ) && player.ActiveChild != weapon.Weapon )
 			{
 				input.ActiveChild = weapon.Weapon;
 			}
