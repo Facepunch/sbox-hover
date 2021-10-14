@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		[Net] public bool IsDestroyed { get; set; }
 		public float RepairRate { get; set; } = 100f;
 
-		[Property] public Team Team { get; set; }
+		[Net, Property] public Team Team { get; set; }
 
 		private WorldHealthBar HealthBarLeft { get; set; }
 		private WorldHealthBar HealthBarRight { get; set; }
