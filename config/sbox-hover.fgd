@@ -316,7 +316,7 @@ metadata
 //
 // Facepunch.Hover.RadarSensorEntity
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) sphere( "4000", 75, 75, 255 ) 
 metadata
 {
 	entity_tool_name = "Radar Sensor"

@@ -80,7 +80,7 @@ namespace Facepunch.Hover
 			base.OnIsPoweredChanged( isPowered );
 		}
 
-		private void IsValidTarget( Player player )
+		private bool IsValidTarget( Player player )
 		{
 			return (player.LifeState == LifeState.Alive && player.Team != Team);
 		}
