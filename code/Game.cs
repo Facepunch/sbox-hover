@@ -22,6 +22,21 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
+		[ServerCmd( "destroydat" )]
+		private static void DoTheThing()
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				var gens = Entity.All.OfType<GeneratorEntity>().Where( t => t.Team == player.Team );
+
+				foreach ( var gen in gens )
+				{
+					gen.Health = 0f;
+					gen.OnKilled();
+				}
+			}
+		}
+
 		[ServerCmd( "gimmedat" )]
 		private static void MakeAllSmall()
 		{
