@@ -241,6 +241,9 @@ namespace Facepunch.Hover
 			HealthBarLeft.SetIsLow( Health < MaxHealth * 0.2f );
 			HealthBarRight.SetValue( Health );
 			HealthBarRight.SetIsLow( Health < MaxHealth * 0.2f );
+
+			var damage = 1f - (Health / MaxHealth);
+			SceneObject.SetValue( "Damage", Easing.EaseIn( damage ) * 0.5f );
 		}
 
 		[ClientRpc]

@@ -2,18 +2,30 @@
 
 Layer0
 {
-	shader "vr_simple.vfx"
+	shader "damage.vfx"
 
-	//---- PBR ----
-	F_METALNESS_TEXTURE 1
+	BleedAmbience "0.400"
+	BleedAmount "0.050"
+	BleedBoost "1.000"
+	BleedColor "[0.149020 0.164706 0.184314 1.000000]"
+	BleedTimeMultiplier "2.000"
+	Damage "0.000"
+	NoiseOctaves "3"
+	NoiseScale "1.000"
+	NoiseSeed "100.000"
 
-	//---- Ambient Occlusion ----
-	TextureAmbientOcclusion "materials/default/default_ao.tga"
+	//---- Bottom Material ----
+	BottomTextureAmbientOcclusion "materials/default/default.tga"
+	BottomTextureColor "[0.000000 0.000000 0.000000 1.000000]"
+	BottomTextureMetalness "materials/default/default.tga"
+	BottomTextureNormal "materials/default/default.tga"
+	BottomTextureRoughness "materials/default/default.tga"
+	BottomTextureTintMask "materials/default/default.tga"
+	g_flBottomTintColor "[1.000000 1.000000 1.000000 0.000000]"
 
 	//---- Color ----
 	g_flModelTintAmount "0.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "[0.501961 0.501961 0.501961 1.000000]"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -21,23 +33,24 @@ Layer0
 	//---- Fog ----
 	g_bFogEnabled "1"
 
-	//---- Lighting ----
-	g_flDirectionalLightmapMinZ "0.050"
-	g_flDirectionalLightmapStrength "1.000"
-
-	//---- Metalness ----
-	TextureMetalness "[0.189000 0.189000 0.189000 0.000000]"
-
-	//---- Normal ----
-	TextureNormal "[0.501961 0.501961 1.000000 0.000000]"
-
-	//---- Roughness ----
-	TextureRoughness "[0.368627 0.368627 0.368627 0.000000]"
-
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
 	g_nScaleTexCoordVByModelScaleAxis "0"
 	g_vTexCoordOffset "[0.000 0.000]"
 	g_vTexCoordScale "[1.000 1.000]"
 	g_vTexCoordScrollSpeed "[0.000 0.000]"
+
+	//---- Top Material ----
+	g_flTopTintColor "[1.000000 1.000000 1.000000 0.000000]"
+	TopTextureAmbientOcclusion "materials/default/default.tga"
+	TopTextureColor "[0.223529 0.219608 0.211765 1.000000]"
+	TopTextureMetalness "materials/default/default.tga"
+	TopTextureNormal "materials/default/default.tga"
+	TopTextureRoughness "materials/default/default.tga"
+	TopTextureTintMask "materials/default/default.tga"
+
+	DynamicParams
+	{
+		Damage "Damage"
+	}
 }
