@@ -17,6 +17,11 @@ namespace Facepunch.Hover
 			Energy = AddChild<HudIconBar>( "energy" );
 		}
 
+		private RealTimeUntil HealthGrowTime { get; set; }
+		private RealTimeUntil EnergyGrowTime { get; set; }
+		private float LastHealth { get; set; }
+		private float LastEnergy { get; set; }
+
 		public override void Tick()
 		{
 			if ( Local.Pawn is not Player player ) return;
@@ -36,7 +41,23 @@ namespace Facepunch.Hover
 				Energy.InnerBar.Style.Dirty();
 				Energy.Text.Text = ((int)controller.Energy).ToString();
 				Energy.SetClass( "low", controller.Energy < controller.MaxEnergy * 0.25f );
+
+				if ( controller.Energy != LastEnergy && EnergyGrowTime )
+				{
+					EnergyGrowTime = 0.1f;
+				}
+
+				Energy.SetClass( "grow", !EnergyGrowTime );
+				LastEnergy = controller.Energy;
 			}
+
+			if ( health != LastHealth && HealthGrowTime )
+			{
+				HealthGrowTime = 0.1f;
+			}
+
+			Health.SetClass( "grow", !HealthGrowTime );
+			LastHealth = health;
 
 			base.Tick();
 		}
