@@ -33,10 +33,21 @@ namespace Facepunch.Hover
 
 		public void OnGameReset()
 		{
-			Repair( false );
+			Health = MaxHealth;
+			IsDestroyed = false;
+			IsRegenerating = false;
+			StopRepairSound();
+			PlayIdleSound();
+			OnClientGameReset();
 		}
 
-		public void Repair( bool announcerSound = true )
+		[ClientRpc]
+		public void OnClientGameReset()
+		{
+			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+		}
+
+		public void Repair()
 		{
 			Health = MaxHealth;
 			IsDestroyed = false;
@@ -45,11 +56,6 @@ namespace Facepunch.Hover
 			PlayIdleSound();
 			OnClientGeneratorRepaired();
 			OnGeneratorRepaired?.Invoke( this );
-
-			if ( announcerSound )
-			{
-				Audio.Play( Team, $"generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
-			}
 		}
 
 		public void StopRepairSound()
@@ -187,8 +193,6 @@ namespace Facepunch.Hover
 				StopIdleSound();
 				OnClientGeneratorBroken();
 				OnGeneratorBroken?.Invoke( this );
-
-				Audio.Play( Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
 
 				Particles.Create( "particles/generator/generator_destroy/generator_destroy.vpcf", this );
 

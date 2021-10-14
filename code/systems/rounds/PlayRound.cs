@@ -97,6 +97,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
+				GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
+				GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
@@ -134,6 +136,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
+				GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
+				GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
@@ -145,6 +149,17 @@ namespace Facepunch.Hover
 			{
 				ScoreHud?.Delete();
 			}
+		}
+
+		private void OnGeneratorBroken( GeneratorEntity generator )
+		{
+			Audio.Play( generator.Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
+		}
+
+
+		private void OnGeneratorRepaired( GeneratorEntity generator )
+		{
+			Audio.Play( generator.Team, $"generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
 		}
 
 		private void OnFlagDropped( Player player, FlagEntity flag )
