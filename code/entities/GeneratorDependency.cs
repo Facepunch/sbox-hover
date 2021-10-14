@@ -75,6 +75,8 @@ namespace Facepunch.Hover
 		{
 			if ( generator.Team == Team )
 			{
+				// TODO: Replace this with a power down particle?
+				Particles.Create( "particles/generator/generator_attacked/generator_attacked.vpcf", this );
 				PlaySound( "regen.energylow" );
 				IsPowered = false;
 			}
