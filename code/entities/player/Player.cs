@@ -408,6 +408,11 @@ namespace Facepunch.Hover
 			Camera = new SpectateCamera();
 		}
 
+		public virtual bool CanSelectWeapon( Weapon weapon )
+		{
+			return !weapon.IsPassive && weapon.IsAvailable();
+		}
+
 		public override void ClientSpawn()
 		{
 			if ( IsLocalPawn )
@@ -516,10 +521,25 @@ namespace Facepunch.Hover
 		{
 			SimulateActiveChild( client, ActiveChild );
 
-			if ( Input.ActiveChild != null && ActiveChild != Input.ActiveChild )
+			var targetWeapon = Input.ActiveChild as Weapon;
+
+			if ( targetWeapon != null && ActiveChild != targetWeapon )
 			{
-				PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
-				ActiveChild = Input.ActiveChild;
+				if ( CanSelectWeapon( targetWeapon ) )
+				{
+					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+					ActiveChild = targetWeapon;
+				}
+				else
+				{
+					var firstWeapon = Children.OfType<Weapon>().Where( CanSelectWeapon ).FirstOrDefault();
+
+					if ( ActiveChild != firstWeapon )
+					{
+						PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+						ActiveChild = firstWeapon;
+					}
+				}
 			}
 
 			if ( LifeState != LifeState.Alive )

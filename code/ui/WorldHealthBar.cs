@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
+		public bool RotateToFace { get; set; }
 		public bool ShowIcon { get; set; } = true;
 
 		public WorldHealthBar()
@@ -58,6 +59,13 @@ namespace Facepunch.Hover
 			if ( attachment.HasValue )
 			{
 				Transform = attachment.Value.WithScale( WorldScale );
+			}
+
+			if ( RotateToFace )
+			{
+				var transform = Transform;
+				transform.Rotation = Rotation.LookAt( CurrentView.Position - Position );
+				Transform = transform;
 			}
 
 			IconBar.Icon.SetClass( "hidden", !ShowIcon );

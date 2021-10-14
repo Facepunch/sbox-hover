@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
 		public virtual bool CanMeleeAttack => false;
-		public virtual bool CanSelectWeapon => true;
+		public virtual bool IsPassive => false;
 		public virtual float MeleeDamage => 100f;
 		public virtual float MeleeRange => 200f;
 		public virtual float MeleeRate => 1f;
@@ -74,30 +74,17 @@ namespace Facepunch.Hover
 
 		public float GetDamageFalloff( float distance, float damage )
 		{
-			if ( DamageFalloffEnd > 0f )
-			{
-				if ( DamageFalloffStart > 0f )
-				{
-					if ( distance < DamageFalloffStart )
-					{
-						return damage;
-					}
-
-					var falloffRange = DamageFalloffEnd - DamageFalloffStart;
-					var difference = (distance - DamageFalloffStart);
-
-					return Math.Max( damage - (damage / falloffRange) * difference, 0f );
-				}
-
-				return Math.Max( damage - (damage / DamageFalloffEnd) * distance, 0f );
-			}
-
-			return damage;
+			return WeaponUtil.GetDamageFalloff( distance, damage, DamageFalloffStart, DamageFalloffEnd );
 		}
 
 		public virtual void Restock()
 		{
 
+		}
+
+		public virtual bool IsAvailable()
+		{
+			return true;
 		}
 
 		public virtual void OnMeleeAttack()

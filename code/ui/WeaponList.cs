@@ -8,7 +8,8 @@ namespace Facepunch.Hover
 {
 	public class WeaponIcon : Panel
 	{
-		public bool IsDisabled { get; set; }
+		public bool IsAvailable { get; set; }
+		public bool IsPassive { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsHidden { get; set; }
 		public Weapon Weapon { get; private set; }
@@ -30,7 +31,8 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			SetClass( "disabled", IsDisabled );
+			SetClass( "unavailable", !IsAvailable );
+			SetClass( "passive", IsPassive );
 			SetClass( "hidden", IsHidden );
 			SetClass( "active", IsActive );
 
@@ -81,7 +83,8 @@ namespace Facepunch.Hover
 					weapon.Update( child );
 					weapon.IsActive = (player.ActiveChild == child);
 					weapon.IsHidden = false;
-					weapon.IsDisabled = !child.CanSelectWeapon;
+					weapon.IsPassive = child.IsPassive;
+					weapon.IsAvailable = child.IsAvailable();
 					currentIndex++;
 				}
 			}
@@ -101,7 +104,8 @@ namespace Facepunch.Hover
 
 		private bool CanSelectWeapon( WeaponIcon weapon )
 		{
-			if ( !weapon.IsHidden && weapon.Weapon.IsValid() && weapon.Weapon.CanSelectWeapon )
+			if ( !weapon.IsHidden && weapon.Weapon.IsValid()
+				&& !weapon.Weapon.IsPassive && weapon.Weapon.IsAvailable() )
 			{
 				return true;
 			}
@@ -248,6 +252,30 @@ namespace Facepunch.Hover
 				{
 					SelectWeapon( player, input, pressedInput - 1 );
 				}
+			}
+
+			WeaponIcon activeWeapon = null;
+
+			for ( int i = 0; i < Weapons.Length; i++ )
+			{
+				var weapon = Weapons[i];
+
+				if ( weapon.IsActive )
+				{
+					activeWeapon = weapon;
+					break;
+				}
+			}
+
+			if ( activeWeapon != null && !CanSelectWeapon( activeWeapon ) )
+			{
+				var firstIndex = GetFirstIndex();
+				var firstWeapon = Weapons[firstIndex];
+
+				if ( CanSelectWeapon( firstWeapon ) )
+					input.ActiveChild = firstWeapon.Weapon;
+				else
+					Input.ActiveChild = null;
 			}
 		}
 	}

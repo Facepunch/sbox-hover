@@ -44,7 +44,7 @@ weaponlist {
 			}
 		}
 
-		&.disabled {
+		&.passive {
 			box-shadow: $selectedTabBackground;
 			background-color: $selectedTabPanelBg;
 			border: $selectedTabPanelBorder;
@@ -52,6 +52,11 @@ weaponlist {
 			.name {
 				text-shadow: $selectedTabShadow;
 			}
+		}
+
+		&.unavailable {
+			transition: all 0.5s ease-out;
+			opacity: 0.2;
 		}
 
 		&.hidden {
@@ -73,7 +78,7 @@ weaponlist {
 		box-shadow: $redTeamBackground;
 
 		.weapon {
-			&:not(.disabled) {
+			&:not(.passive) {
 				background-color: $redTeamPanelBg;
 				border: $redTeamPanelBorder;
 

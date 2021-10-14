@@ -117,6 +117,15 @@
 						weight = 1.0
 						ignore_rotation = false
 					},
+					{
+						_class = "Attachment"
+						name = "health_bar"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 57.792446 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
 				]
 			},
 			{

@@ -16,6 +16,6 @@ namespace Facepunch.Hover
 	public partial class RadarJammer : Equipment
 	{
 		public override WeaponConfig Config => new RadarJammerConfig();
-		public override bool CanSelectWeapon => false;
+		public override bool IsPassive => true;
 	}
 }

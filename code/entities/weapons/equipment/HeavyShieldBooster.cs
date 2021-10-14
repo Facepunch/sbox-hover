@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 	public partial class HeavyShieldBooster : Equipment
 	{
 		public override WeaponConfig Config => new HeavyShieldBoosterConfig();
-		public override bool CanSelectWeapon => false;
+		public override bool IsPassive => true;
 
 		public override DamageInfo OwnerTakeDamage( DamageInfo info )
 		{

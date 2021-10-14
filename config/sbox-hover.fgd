@@ -293,6 +293,22 @@ metadata
 ]
 
 //
+// Facepunch.Hover.LightTurret
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_light_turret : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.PlayerSpawnpoint
 //
 @PointClass base(BaseProperties_sbox_hover) editormodel( "models/editor/playerstart.vmdl", fixedbounds ) 
@@ -461,6 +477,16 @@ metadata
 // Facepunch.Hover.AmmoBooster
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_ammo_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.DeployableTurret
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_deployable_turret : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

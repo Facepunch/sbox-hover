@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 	public partial class AmmoBooster : Equipment
 	{
 		public override WeaponConfig Config => new AmmoBoosterConfig();
-		public override bool CanSelectWeapon => false;
+		public override bool IsPassive => true;
 
 		public override void Restock()
 		{

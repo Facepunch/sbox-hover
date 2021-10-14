@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class LightSniperMk2 : LightSniper
 	{
-		public override string SecondaryDescription => "Has more health and energy and regenerates faster.";
+		public override string SecondaryDescription => "Has more health and energy and regenerates faster";
 		public override string Name => "Light Sniper Mk. II";
 		public override Type UpgradesTo => null;
 		public override int UpgradeCost => 600;

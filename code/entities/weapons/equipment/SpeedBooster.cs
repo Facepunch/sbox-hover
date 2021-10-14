@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 	public partial class SpeedBooster : Equipment
 	{
 		public override WeaponConfig Config => new SpeedBoosterConfig();
-		public override bool CanSelectWeapon => false;
+		public override bool IsPassive => true;
 
 		protected override void OnEquipmentGiven( Player player )
 		{

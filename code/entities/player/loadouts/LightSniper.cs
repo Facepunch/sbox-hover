@@ -8,9 +8,9 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class LightSniper : BaseLoadout
 	{
-		public override string Description => "A fast sniper unit with lower health and medium energy.";
+		public override string Description => "A fast sniper unit with lower health and medium energy";
 		public override string Name => "Light Sniper";
-		public override int TokenCost => 800;
+		public override int TokenCost => 600;
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSniperMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
