@@ -58,6 +58,7 @@ namespace Facepunch.Hover
 					using ( Prediction.Off() )
 					{
 						var turret = new LightTurret();
+						turret.Deployer = player;
 						turret.SetTeam( player.Team );
 						turret.Position = position;
 						turret.Rotation = rotation;

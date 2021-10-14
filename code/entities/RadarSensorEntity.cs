@@ -5,7 +5,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_radar_sensor" )]
-	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
+	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Radar Sensor", "Hover", "Defines a point where a sensor spawns" )]
 	[Hammer.Sphere( 4000, 75, 75, 255 )]
 	public partial class RadarSensorEntity : GeneratorDependency
@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			SetModel( "models/tempmodels/turret/turret.vmdl" );
+			SetModel( "models/radar_sensor/radar_sensor.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 			PlayIdleSound();
 
