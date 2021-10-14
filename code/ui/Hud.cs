@@ -47,8 +47,11 @@ namespace Facepunch.Hover
 
 			RootPanel.AddChild<EntityHud>();
 			RootPanel.AddChild<RoundInfo>();
-			RootPanel.AddChild<Vitals>();
-			RootPanel.AddChild<Ammo>();
+
+			var leftRow = RootPanel.Add.Panel( "hud_left" );
+			leftRow.AddChild<Vitals>();
+			leftRow.AddChild<Ammo>();
+
 			RootPanel.AddChild<Tokens>();
 			RootPanel.AddChild<Speedometer>();
 			RootPanel.AddChild<VoiceList>();

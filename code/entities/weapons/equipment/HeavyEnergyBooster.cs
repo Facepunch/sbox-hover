@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	public class HeavyEnergyBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Energy++";
-		public override string Description => "+25 Max Energy + 15% Energy Regen";
+		public override string Description => "+30 Max Energy, Converts Incoming Damage to Energy";
 		public override string Icon => "ui/equipment/heavy_energy_booster.png";
 		public override string ClassName => "hv_heavy_energy_booster";
 	}
@@ -18,12 +18,21 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new HeavyEnergyBoosterConfig();
 		public override bool CanSelectWeapon => false;
 
+		public override DamageInfo TakeDamage( DamageInfo info )
+		{
+			if ( Owner is Player player && player.Controller is MoveController controller )
+			{
+				controller.Energy = (controller.Energy + info.Damage * 0.2f).Clamp( 0f, controller.MaxEnergy );
+			}
+
+			return info;
+		}
+
 		protected override void OnEquipmentGiven( Player player )
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 1.15f;
-				controller.MaxEnergy += 25f;
+				controller.MaxEnergy += 30f;
 			}
 		}
 
@@ -31,8 +40,7 @@ namespace Facepunch.Hover
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 1f / 1.15f;
-				controller.MaxEnergy -= 25f;
+				controller.MaxEnergy -= 30f;
 			}
 		}
 	}

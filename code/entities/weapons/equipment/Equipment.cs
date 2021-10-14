@@ -9,6 +9,11 @@ namespace Facepunch.Hover
 		protected virtual void OnEquipmentGiven( Player player ) { }
 		protected virtual void OnEquipmentTaken( Player player ) { }
 
+		public virtual DamageInfo TakeDamage( DamageInfo info )
+		{
+			return info;
+		}
+
 		public override void OnCarryStart( Entity carrier )
 		{
 			if ( carrier is Player player )

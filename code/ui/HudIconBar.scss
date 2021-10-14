@@ -2,22 +2,23 @@
 
 hudiconbar {
 	align-items: center;
+	display: flex;
+	flex-direction: row;
 	color: #fff;
 	height: 36px;
-	width: 100%;
 
 	.outerBar {
 		background-color: rgba( 255 255 255 0.05 );
 		box-shadow: 0px 0px 2px 2px rgba( 0 0 0 0.1 );
+		width: 300px;
 		border-radius: 2px;
-		width: 100%;
 		height: 24px;
 	}
 
 	.innerBar {
 		background-color: rgba( 0 255 0 0.2 );
 		border-radius: 2px;
-		width: 100%;
+		width: 300px;
 		height: 100%;
 		min-width: 1px;
 	}
@@ -30,17 +31,15 @@ hudiconbar {
 		font-weight: 500;
 		text-shadow: 0 1px 1px rgba(#000,0.2);
 		margin-left: 8px;
-		position: absolute;
-		right: 32px;
 	}
 
 	.icon {
 		background-image: url( /ui/icons/health.png );
 		background-size: 100%;
-		margin-left: 60px;
+		margin-left: 16px;
 		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
-		width: 32px;
-		height: 32px;
+		width: 28px;
+		height: 28px;
 	}
 
 	&.hidden {

@@ -329,6 +329,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
 
             .icon {
                 background-image: url( /ui/icons/speed.png );
+                background-image-tint: rgba( 255 255 0 1 );
             }
         }
 
@@ -343,6 +344,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
 
             .icon {
                 background-image: url( /ui/icons/energy.png );
+                background-image-tint: rgba( 0 170 255 1 );
             }
         }
 
@@ -357,6 +359,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
 
             .icon {
                 background-image: url( /ui/icons/health.png );
+                background-image-tint: rgba( 0 255 0 1 );
             }
         }
     }

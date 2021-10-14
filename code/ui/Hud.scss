@@ -10,8 +10,15 @@ rootpanel {
 	}
 }
 
+.hud_left {
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	bottom: 32px;
+	left: 64px;
+}
+
 vitals {
-	align-items: center;
 	color: #fff;
 	padding-left: 20px;
 	padding-right: 24px;
@@ -23,12 +30,8 @@ vitals {
 	flex-direction: column;
 	justify-content: center;
 	padding: 8px;
-	position: absolute;
-	bottom: 32px;
-	left: 64px;
 	font-size: 40px;
 	height: 80px;
-	width: 25%;
 
 	.energy {
 		.outerBar {
@@ -45,7 +48,7 @@ vitals {
 
 		.icon {
 			background-image: url( /ui/icons/energy.png );
-			height: 90%;
+			background-image-tint: rgba( 0 170 255 1 );
 		}
 	}
 
@@ -64,7 +67,7 @@ vitals {
 
 		.icon {
 			background-image: url( /ui/icons/health.png );
-			height: 90%;
+			background-image-tint: rgba( 0 255 0 1 );
 		}
 	}
 
@@ -92,6 +95,7 @@ speedometer {
 
 	.icon {
 		background-image: url( /ui/icons/speed.png );
+		background-image-tint: rgba( 255 255 0 1 );
 		background-size: 100%;
 		text-shadow: $blueTeamShadow;
 		margin-right: 16px;
@@ -192,19 +196,17 @@ tokens {
 }
 
 ammo {
-	bottom: 32px;
 	display: none;
 	align-items: center;
 	font-family: $mainFont;
 	justify-content: center;
 	height: 80px;
-	position: absolute;
 	box-shadow: $blueTeamBackground;
 	background-color: $blueTeamPanelBg;
 	border: $blueTeamPanelBorder;
+	margin-left: 32px;
 	border-radius: 8px;
 	padding: 16px;
-	left: 30%;
 
 	label {
 		text-shadow: $blueTeamShadow;

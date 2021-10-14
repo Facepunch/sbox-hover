@@ -667,6 +667,11 @@ namespace Facepunch.Hover
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}
 
+			foreach ( var equipment in Children.OfType<Equipment>() )
+			{
+				info = equipment.TakeDamage( info );
+			}
+
 			ShowFloatingDamage( info.Damage, info.Position );
 
 			var fromPosition = info.Position;

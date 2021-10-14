@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	public class ShieldBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Shield+";
-		public override string Description => "-20% Energy Regen and +10% Move Shield";
+		public override string Description => "-20% Energy Regen and Energy Absorbs Damage";
 		public override string Icon => "ui/equipment/shield_booster.png";
 		public override string ClassName => "hv_shield_booster";
 	}
@@ -17,6 +17,17 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new ShieldBoosterConfig();
 		public override bool CanSelectWeapon => false;
+
+		public override DamageInfo TakeDamage( DamageInfo info )
+		{
+			if ( Owner is Player player && player.Controller is MoveController controller )
+			{
+				info.Damage = Math.Max( info.Damage - controller.Energy, 0f );
+				controller.Energy *= 0.5f;
+			}
+
+			return info;
+		}
 
 		protected override void OnEquipmentGiven( Player player )
 		{
