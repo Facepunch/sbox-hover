@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 0.1f;
+				controller.EnergyRegen *= 0.9f;
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 1f / 0.9f;
+				controller.EnergyRegen *= 1f / 0.9f;
 			}
 		}
 	}

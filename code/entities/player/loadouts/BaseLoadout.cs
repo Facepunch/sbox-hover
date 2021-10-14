@@ -12,8 +12,11 @@ namespace Facepunch.Hover
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
+		public virtual float EnergyRegen => 20f;
+		public virtual float EnergyDrain => 20f;
 		public virtual float RegenDelay => 5f;
 		public virtual Type UpgradesTo => null;
+		public virtual float JetpackScale => 1f;
 		public virtual float Health => 500f;
 		public virtual float Energy => 100f;
 		public virtual float MoveSpeed => 400f;
@@ -116,7 +119,10 @@ namespace Facepunch.Hover
 			player.Controller = new MoveController
 			{
 				UpSlopeFriction = UpSlopeFriction,
+				JetpackScale = JetpackScale,
 				DownSlopeBoost = DownSlopeBoost,
+				EnergyRegen = EnergyRegen,
+				EnergyDrain = EnergyDrain,
 				MoveSpeed = MoveSpeed,
 				MaxSpeed = MaxSpeed,
 				MaxEnergy = Energy,

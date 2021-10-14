@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 1.1f;
+				controller.EnergyRegen *= 1.1f;
 				controller.MaxEnergy += 20f;
 			}
 		}
@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 		{
 			if ( player.Controller is MoveController controller )
 			{
-				controller.JetpackGainPerSecond *= 1f / 1.1f;
+				controller.EnergyRegen *= 1f / 1.1f;
 				controller.MaxEnergy -= 20f;
 			}
 		}

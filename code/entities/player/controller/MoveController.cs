@@ -12,14 +12,15 @@ namespace Facepunch.Hover
 		[Net, Predicted] public float UpSlopeFriction { get; set; } = 0.3f;
 		[Net, Predicted] public float Energy { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
+		[Net] public float EnergyRegen { get; set; } = 20f;
+		[Net] public float EnergyDrain { get; set; } = 20f;
+		[Net] public float JetpackScale { get; set; }
 		[Net] public float MaxEnergy { get; set; }
 		[Net] public float MaxSpeed { get; set; }
 		[Net] public float MoveSpeed { get; set; }
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
-		public float JetpackGainPerSecond { get; set; } = 20f;
-		public float JetpackLossPerSecond { get; set; } = 25f;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float FallDamageThreshold { get; set; } = 500f;
 		public float FlatSkiFriction { get; set; } = 0f;
@@ -146,10 +147,13 @@ namespace Facepunch.Hover
 					var skiFriction = MathF.Min( (LastSkiTime / PostSkiFrictionTime), 1f );
 					ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
 				}
+			}
 
+			if ( startOnGround || !OnlyRegenJetpackOnGround )
+			{
 				if ( !IsJetpacking )
 				{
-					Energy = (Energy + JetpackGainPerSecond * Time.Delta).Clamp( 0f, MaxEnergy );
+					Energy = (Energy + EnergyRegen * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
 			}
 
@@ -370,16 +374,16 @@ namespace Facepunch.Hover
 					IsJetpacking = true;
 
 					if ( InEnergyElevator )
-						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoostElevator ) * Time.Delta );
+						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoostElevator * JetpackScale ) * Time.Delta );
 					else
-						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost ) * Time.Delta );
+						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost * JetpackScale ) * Time.Delta );
 
-					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust ) * Time.Delta;
+					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
 				}
 
 				if ( !InEnergyElevator )
 				{
-					Energy = (Energy - JetpackLossPerSecond * Time.Delta).Clamp( 0f, MaxEnergy );
+					Energy = (Energy - EnergyDrain * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
 
 				return;
