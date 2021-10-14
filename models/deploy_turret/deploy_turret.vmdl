@@ -213,12 +213,12 @@
 						remaps = 
 						[
 							{
-								from = "models/buildings/buildingtempmaterials/color.vmat"
-								to = "materials/tempmodels/color.vmat"
+								from = "materials/tempmodels/color.vmat"
+								to = "materials/tempmodels/color_1.vmat"
 							},
 							{
-								from = "models/buildings/buildingtempmaterials/nocolor.vmat"
-								to = "materials/tempmodels/nocolor.vmat"
+								from = "materials/tempmodels/nocolor.vmat"
+								to = "materials/tempmodels/nocolor_1.vmat"
 							},
 						]
 						use_global_default = false
