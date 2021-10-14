@@ -63,8 +63,8 @@
 	[
 		{
 			_class = "C_INIT_MoveBetweenPoints"
-			m_flSpeedMin = 600.0
-			m_flSpeedMax = 600.0
+			m_flSpeedMin = 10000.0
+			m_flSpeedMax = 10000.0
 			m_bDisableOperator = true
 		},
 		{
@@ -76,8 +76,8 @@
 		},
 		{
 			_class = "C_INIT_MoveBetweenPoints"
-			m_flSpeedMin = 2000.0
-			m_flSpeedMax = 2000.0
+			m_flSpeedMin = 10000.0
+			m_flSpeedMax = 10000.0
 		},
 		{
 			_class = "C_INIT_InitVec"
