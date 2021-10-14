@@ -32,6 +32,7 @@ namespace Facepunch.Hover
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
 		public virtual bool CanMeleeAttack => false;
+		public virtual bool CanSelectWeapon => true;
 		public virtual float MeleeDamage => 100f;
 		public virtual float MeleeRange => 200f;
 		public virtual float MeleeRate => 1f;
@@ -92,6 +93,11 @@ namespace Facepunch.Hover
 			}
 
 			return damage;
+		}
+
+		public virtual void Restock()
+		{
+
 		}
 
 		public virtual void OnMeleeAttack()

@@ -44,6 +44,16 @@ weaponlist {
 			}
 		}
 
+		&.disabled {
+			box-shadow: $selectedTabBackground;
+			background-color: $selectedTabPanelBg;
+			border: $selectedTabPanelBorder;
+
+			.name {
+				text-shadow: $selectedTabShadow;
+			}
+		}
+
 		&.hidden {
 			display: none;
 		}
@@ -63,19 +73,21 @@ weaponlist {
 		box-shadow: $redTeamBackground;
 
 		.weapon {
-			background-color: $redTeamPanelBg;
-			border: $redTeamPanelBorder;
-
-			.name {
-				text-shadow: $redTeamShadow;
-			}
-
-			&.active {
-				box-shadow: $redTeamForeground;
-				background-color: $redTeamPanelFg;
+			&:not(.disabled) {
+				background-color: $redTeamPanelBg;
+				border: $redTeamPanelBorder;
 
 				.name {
-					color: $redTeamColor;
+					text-shadow: $redTeamShadow;
+				}
+
+				&.active {
+					box-shadow: $redTeamForeground;
+					background-color: $redTeamPanelFg;
+
+					.name {
+						color: $redTeamColor;
+					}
 				}
 			}
 		}

@@ -97,6 +97,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
+				GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
+				GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
@@ -134,6 +136,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
+				GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
+				GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
@@ -147,52 +151,55 @@ namespace Facepunch.Hover
 			}
 		}
 
+		private void OnGeneratorBroken( GeneratorEntity generator )
+		{
+			Audio.Play( generator.Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
+		}
+
+
+		private void OnGeneratorRepaired( GeneratorEntity generator )
+		{
+			Audio.Play( generator.Team, $"generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
+		}
+
 		private void OnFlagDropped( Player player, FlagEntity flag )
 		{
+			Audio.Play( flag.Team, $"flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
+
 			if ( flag.Team == Team.Blue )
-			{
 				Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
-			}
 			else
-			{
 				Hud.ToastAll( player.Client.Name + " dropped the Red flag", "ui/icons/flag-red.png" );
-			}
 		}
 
 		private void OnFlagPickedUp( Player player, FlagEntity flag )
 		{
+			Audio.Play( flag.Team, $"flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
+
 			if ( flag.Team == Team.Blue )
-			{
 				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
-			}
 			else
-			{
 				Hud.ToastAll( player.Client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
-			}
 		}
 
 		private void OnFlagReturned( Player player, FlagEntity flag )
 		{
+			Audio.Play( flag.Team, $"flagreturned{Rand.Int( 1, 2 )}", $"flagreturned{Rand.Int( 1, 2 )}" );
+
 			if ( flag.Team == Team.Blue )
-			{
 				Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
-			}
 			else
-			{
 				Hud.ToastAll( player.Client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
-			}
 		}
 
 		private void OnFlagCaptured( Player player, FlagEntity flag )
 		{
+			Audio.Play( flag.Team, $"flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
+
 			if ( flag.Team == Team.Blue )
-			{
 				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
-			}
 			else
-			{
 				Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
-			}
 
 			if ( player.Team == Team.Blue )
 				BlueScore++;

@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 {
 	[Library( "hv_turret" )]
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a team's turret spawns" )]
+	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
 	public partial class TurretEntity : GeneratorDependency
 	{

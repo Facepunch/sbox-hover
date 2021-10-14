@@ -7,8 +7,7 @@ namespace Facepunch.Hover
 {
 	public partial class BaseLoadout : BaseNetworkable
 	{
-		public virtual List<WeaponConfig> PrimaryWeapons => new();
-		public virtual List<WeaponConfig> SecondaryWeapons => new();
+		public virtual WeaponConfig[][] AvailableWeapons => new WeaponConfig[][] { };
 		public virtual int DisplayOrder => 0;
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;
@@ -27,25 +26,30 @@ namespace Facepunch.Hover
 		public virtual int TokenCost => 1000;
 		public virtual List<string> Clothing => new();
 
-		public WeaponConfig PrimaryWeapon { get; set; }
-		public WeaponConfig SecondaryWeapon { get; set; }
+		public WeaponConfig[] Weapons { get; set; }
 
-		public virtual void SetWeapons( string primaryWeapon, string secondaryWeapon )
+		public BaseLoadout()
 		{
-			if ( !string.IsNullOrEmpty( primaryWeapon ) )
+			Weapons = new WeaponConfig[AvailableWeapons.Length];
+		}
+
+		public virtual void UpdateWeapons( params string[] weapons )
+		{
+			for ( int i = 0; i < weapons.Length; i++ )
 			{
-				var match = PrimaryWeapons.Find( v => v.Name == primaryWeapon );
+				var weapon = weapons[i];
 
-				if ( match != null )
-					PrimaryWeapon = match;
-			}
-
-			if ( !string.IsNullOrEmpty( secondaryWeapon ) )
-			{
-				var match = SecondaryWeapons.Find( v => v.Name == secondaryWeapon );
-
-				if ( match != null )
-					SecondaryWeapon = match;
+				if ( AvailableWeapons.Length > i )
+				{
+					foreach ( var match in AvailableWeapons[i] )
+					{
+						if ( match.Name == weapon )
+						{
+							Weapons[i] = match;
+							break;
+						}
+					}
+				}
 			}
 		}
 
@@ -53,11 +57,18 @@ namespace Facepunch.Hover
 		{
 			player.ClearAmmo();
 
-			if ( PrimaryWeapon != null )
-				player.GiveAmmo( PrimaryWeapon.AmmoType, PrimaryWeapon.Ammo );
+			foreach ( var weapon in Weapons )
+			{
+				if ( weapon != null && weapon.Ammo > 0 )
+				{
+					player.GiveAmmo( weapon.AmmoType, weapon.Ammo );
+				}
+			}
 
-			if ( SecondaryWeapon != null )
-				player.GiveAmmo( SecondaryWeapon.AmmoType, SecondaryWeapon.Ammo );
+			foreach ( var weapon in player.Children.OfType<Weapon>() )
+			{
+				weapon.Restock();
+			}
 
 			player.RestockWeaponUpgrades();
 		}
@@ -66,23 +77,23 @@ namespace Facepunch.Hover
 		{
 			player.Inventory.DeleteContents();
 
-			PrimaryWeapon ??= PrimaryWeapons.FirstOrDefault();
-			SecondaryWeapon ??= SecondaryWeapons.FirstOrDefault();
-
-			if ( SecondaryWeapon != null )
+			for ( int i = Weapons.Length - 1; i >= 0; i-- )
 			{
-				var weapon = Library.Create<Weapon>( SecondaryWeapon.ClassName );
-				player.Inventory.Add( weapon );
-				player.ActiveChild = weapon;
-				weapon.Slot = 2;
-			}
+				var weapon = Weapons[i];
 
-			if ( PrimaryWeapon != null )
-			{
-				var weapon = Library.Create<Weapon>( PrimaryWeapon.ClassName );
-				player.Inventory.Add( weapon );
-				player.ActiveChild = weapon;
-				weapon.Slot = 1;
+				if ( weapon == null )
+				{
+					weapon = AvailableWeapons[i].FirstOrDefault();
+					Weapons[i] = weapon;
+				}
+
+				if ( weapon != null )
+				{
+					var entity = Library.Create<Weapon>( weapon.ClassName );
+					player.Inventory.Add( entity );
+					player.ActiveChild = entity;
+					entity.Slot = i + 1;
+				}
 			}
 
 			Restock( player );

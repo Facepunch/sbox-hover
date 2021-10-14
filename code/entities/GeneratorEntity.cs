@@ -33,7 +33,18 @@ namespace Facepunch.Hover
 
 		public void OnGameReset()
 		{
-			Repair();
+			Health = MaxHealth;
+			IsDestroyed = false;
+			IsRegenerating = false;
+			StopRepairSound();
+			PlayIdleSound();
+			OnClientGameReset();
+		}
+
+		[ClientRpc]
+		public void OnClientGameReset()
+		{
+			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
 		}
 
 		public void Repair()

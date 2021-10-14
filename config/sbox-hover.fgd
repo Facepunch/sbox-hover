@@ -314,6 +314,29 @@ metadata
 ]
 
 //
+// Facepunch.Hover.RadarSensorEntity
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) sphere( "4000", 75, 75, 255 ) 
+metadata
+{
+	entity_tool_name = "Radar Sensor"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a sensor spawns"
+}
+= hv_radar_sensor : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.StationEntity
 //
 @PointClass base(BaseProperties_sbox_hover) editormodel( "models/upgrade_station/upgrade_station.vmdl", fixedbounds ) 
@@ -321,7 +344,7 @@ metadata
 {
 	entity_tool_name = "Station"
 	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a team's station spawns"
+	entity_tool_tip = "Defines a point where a station spawns"
 }
 = hv_station : ""
 [
@@ -344,7 +367,7 @@ metadata
 {
 	entity_tool_name = "Turret"
 	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a team's turret spawns"
+	entity_tool_tip = "Defines a point where a turret spawns"
 }
 = hv_turret : ""
 [
@@ -428,6 +451,76 @@ metadata
 // Facepunch.Hover.Sideman
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_sideman : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.AmmoBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_ammo_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.EnergyBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_energy_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.HeavyEnergyBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_heavy_energy_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.HeavyShieldBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_heavy_shield_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.RadarJammer
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_radar_jammer : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.ShieldBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_shield_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.SpeedBooster
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_speed_booster : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

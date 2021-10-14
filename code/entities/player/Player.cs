@@ -43,7 +43,7 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd]
-		public static void BuyLoadoutUpgrade( string loadoutName, string primaryWeapon = null, string secondaryWeapon = null )
+		public static void BuyLoadoutUpgrade( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
@@ -60,7 +60,7 @@ namespace Facepunch.Hover
 						player.TakeTokens( loadout.UpgradeCost );
 						player.GiveLoadout( loadout );
 
-						loadout.SetWeapons( primaryWeapon, secondaryWeapon );
+						loadout.UpdateWeapons( weapons.Split( ',' ) );
 						loadout.Setup( player );
 						loadout.SupplyLoadout( player );
 					}
@@ -69,7 +69,7 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd]
-		public static void BuyLoadout( string loadoutName, string primaryWeapon = null, string secondaryWeapon = null )
+		public static void BuyLoadout( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
@@ -85,7 +85,7 @@ namespace Facepunch.Hover
 						player.TakeTokens( loadout.TokenCost );
 						player.GiveLoadout( loadout );
 
-						loadout.SetWeapons( primaryWeapon, secondaryWeapon );
+						loadout.UpdateWeapons( weapons.Split( ',' ) );
 						loadout.Setup( player );
 						loadout.SupplyLoadout( player );
 					}
@@ -101,6 +101,7 @@ namespace Facepunch.Hover
 		}
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
+		[Net] public RealTimeUntil HideOnRadarTime { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
@@ -161,6 +162,11 @@ namespace Facepunch.Hover
 			Team = Team.None;
 
 			ResetClient( To.Single( this ) );
+		}
+
+		public bool HasWeapon<T>() where T : Weapon
+		{
+			return Children.OfType<T>().Any();
 		}
 
 		[ClientRpc]
@@ -665,6 +671,11 @@ namespace Facepunch.Hover
 
 				AddAssistDamage( attacker, info );
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
+			}
+
+			foreach ( var equipment in Children.OfType<Equipment>() )
+			{
+				info = equipment.OwnerTakeDamage( info );
 			}
 
 			ShowFloatingDamage( info.Damage, info.Position );

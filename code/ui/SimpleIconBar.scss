@@ -1,5 +1,7 @@
 ﻿simpleiconbar {
 	align-items: center;
+	display: flex;
+	flex-direction: row;
 	color: #fff;
 	height: 36px;
 	width: 300px;

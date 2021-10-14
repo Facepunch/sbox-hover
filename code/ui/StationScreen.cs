@@ -15,11 +15,16 @@ namespace Facepunch.Hover
 			{
 				if ( player.HasTokens( Loadout.TokenCost ) )
 				{
-					var primaryWeapon = PrimaryHolder?.Config?.Name ?? "";
-					var secondaryWeapon = SecondaryHolder?.Config?.Name ?? "";
+					var weapons = new string[Holders.Length];
+
+					for ( int i = 0; i < Holders.Length; i++ )
+					{
+						var holder = Holders[i];
+						weapons[i] = holder.Config.Name;
+					}
 
 					StationScreen.Hide();
-					Player.BuyLoadoutUpgrade( Loadout.GetType().Name, primaryWeapon, secondaryWeapon );
+					Player.BuyLoadoutUpgrade( Loadout.GetType().Name, string.Join( ',', weapons ) );
 					Audio.Play( "hover.clickbeep" );
 				}
 			}
@@ -297,7 +302,7 @@ namespace Facepunch.Hover
 			Container = Add.Panel( "container" );
 		}
 
-		public void SetWeapons( StationScreenWeapon holder, List<WeaponConfig> weapons )
+		public void SetWeapons( StationScreenWeapon holder, WeaponConfig[] weapons )
 		{
 			foreach ( var weapon in WeaponInfo )
 			{
@@ -343,10 +348,8 @@ namespace Facepunch.Hover
 		public Panel StatsContainer { get; private set; }
 		public StationScreenBuyButton BuyButton { get; private set; }
 		public BaseLoadout Loadout { get; private set; }
-		public WeaponConfig PrimaryConfig { get; private set; }
-		public WeaponConfig SecondaryConfig { get; private set; }
-		public StationScreenWeapon PrimaryHolder { get; private set; }
-		public StationScreenWeapon SecondaryHolder { get; private set; }
+		public WeaponConfig[] Configs { get; private set; }
+		public StationScreenWeapon[] Holders { get; private set; }
 
 		public StationScreenLoadout()
 		{
@@ -381,45 +384,47 @@ namespace Facepunch.Hover
 				return;
 
 			Loadout = loadout;
+			Configs = new WeaponConfig[loadout.AvailableWeapons.Length];
+			Holders = new StationScreenWeapon[loadout.AvailableWeapons.Length];
 
 			foreach ( var weapon in player.Children.OfType<Weapon>() )
 			{
-				var primaryMatch = loadout.PrimaryWeapons.Find( v => v.Name == weapon.Config.Name );
+				var slotToIndex = weapon.Slot - 1;
 
-				if ( primaryMatch != null )
-					PrimaryConfig = primaryMatch;
-
-				var secondaryMatch = loadout.SecondaryWeapons.Find( v => v.Name == weapon.Config.Name );
-
-				if ( secondaryMatch != null )
-					SecondaryConfig = secondaryMatch;
+				if ( slotToIndex < Configs.Length )
+				{
+					foreach ( var valid in loadout.AvailableWeapons[slotToIndex] )
+					{
+						if ( weapon.Config.Name == valid.Name )
+						{
+							Configs[slotToIndex] = weapon.Config;
+						}
+					}
+				}
 			}
 
-			PrimaryConfig ??= loadout.PrimaryWeapons.FirstOrDefault();
-			SecondaryConfig ??= loadout.SecondaryWeapons.FirstOrDefault();
+			for ( var i = 0; i < Configs.Length; i++ )
+			{
+				if ( Configs[i] == null )
+				{
+					Configs[i] = loadout.AvailableWeapons[i].FirstOrDefault();
+				}
+			}
 
 			var stationScreen = StationScreen.Instance;
 
-			if ( PrimaryConfig  != null )
+			for ( var i = 0; i < Configs.Length; i++ )
 			{
-				PrimaryHolder = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon primary" );
-				PrimaryHolder.SetConfig( PrimaryConfig );
-				PrimaryHolder.OnClicked = () =>
+				var config = Configs[i];
+				var holder = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon" );
+				var index = i;
+				holder.SetConfig( config );
+				holder.OnClicked = () =>
 				{
-					stationScreen.WeaponSelector.SetWeapons( PrimaryHolder, loadout.PrimaryWeapons );
+					stationScreen.WeaponSelector.SetWeapons( holder, loadout.AvailableWeapons[index] );
 					stationScreen.WeaponSelector.Show( true );
 				};
-			}
-
-			if ( SecondaryConfig != null )
-			{
-				SecondaryHolder = WeaponsContainer.AddChild<StationScreenWeapon>( "weapon secondary" );
-				SecondaryHolder.SetConfig( SecondaryConfig );
-				SecondaryHolder.OnClicked = () =>
-				{
-					stationScreen.WeaponSelector.SetWeapons( SecondaryHolder, loadout.SecondaryWeapons );
-					stationScreen.WeaponSelector.Show( true );
-				};
+				Holders[i] = holder;
 			}
 
 			Title.Text = loadout.Name;
@@ -506,11 +511,16 @@ namespace Facepunch.Hover
 			{
 				if ( player.HasTokens( Loadout.TokenCost ) )
 				{
-					var primaryWeapon = PrimaryHolder?.Config?.Name ?? "";
-					var secondaryWeapon = SecondaryHolder?.Config?.Name ?? "";
+					var weapons = new string[Holders.Length];
+
+					for ( int i = 0; i < Holders.Length; i++ )
+					{
+						var holder = Holders[i];
+						weapons[i] = holder.Config.Name;
+					}
 
 					StationScreen.Hide();
-					Player.BuyLoadout( Loadout.GetType().Name, primaryWeapon, secondaryWeapon );
+					Player.BuyLoadout( Loadout.GetType().Name, string.Join( ',', weapons ) );
 					Audio.Play( "hover.clickbeep" );
 				}
 			}

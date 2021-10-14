@@ -6,7 +6,7 @@ namespace Facepunch.Hover
 {
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a team's station spawns" )]
+	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a station spawns" )]
 	public partial class StationEntity : GeneratorDependency
 	{
 		public Particles IdleParticles { get; private set; }
