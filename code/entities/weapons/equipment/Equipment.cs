@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		protected virtual void OnEquipmentGiven( Player player ) { }
 		protected virtual void OnEquipmentTaken( Player player ) { }
 
-		public virtual DamageInfo TakeDamage( DamageInfo info )
+		public virtual DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
 			return info;
 		}

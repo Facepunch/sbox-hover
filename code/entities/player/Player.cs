@@ -164,6 +164,11 @@ namespace Facepunch.Hover
 			ResetClient( To.Single( this ) );
 		}
 
+		public bool HasWeapon<T>() where T : Weapon
+		{
+			return Children.OfType<T>().Any();
+		}
+
 		[ClientRpc]
 		public void ResetClient()
 		{
@@ -670,7 +675,7 @@ namespace Facepunch.Hover
 
 			foreach ( var equipment in Children.OfType<Equipment>() )
 			{
-				info = equipment.TakeDamage( info );
+				info = equipment.OwnerTakeDamage( info );
 			}
 
 			ShowFloatingDamage( info.Damage, info.Position );

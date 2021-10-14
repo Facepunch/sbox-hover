@@ -26,7 +26,8 @@ namespace Facepunch.Hover
 			new WeaponConfig[]
 			{
 				new EnergyBoosterConfig(),
-				new AmmoBoosterConfig()
+				new AmmoBoosterConfig(),
+				new RadarJammerConfig()
 			}
 		};
 		public override float RegenDelay => 20f;

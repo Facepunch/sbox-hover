@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new HeavyShieldBoosterConfig();
 		public override bool CanSelectWeapon => false;
 
-		public override DamageInfo TakeDamage( DamageInfo info )
+		public override DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
 			if ( Owner is Player player && player.Controller is MoveController controller )
 			{

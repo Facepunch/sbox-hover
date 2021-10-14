@@ -82,7 +82,16 @@ namespace Facepunch.Hover
 
 		private bool IsValidTarget( Player player )
 		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team);
+			if ( player.LifeState == LifeState.Dead )
+				return false;
+
+			if ( player.Team == Team )
+				return false;
+
+			if ( player.HasWeapon<RadarJammer>() )
+				return false;
+
+			return true;
 		}
 
 		[Event.Tick.Server]
