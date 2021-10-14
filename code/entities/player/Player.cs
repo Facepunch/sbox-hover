@@ -101,6 +101,7 @@ namespace Facepunch.Hover
 		}
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
+		[Net] public RealTimeUntil HideOnRadarTime { get; set; }
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }

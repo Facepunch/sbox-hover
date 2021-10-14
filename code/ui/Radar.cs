@@ -69,6 +69,9 @@ namespace Facepunch.Hover
 			if ( player.LifeState != LifeState.Alive )
 				return false;
 
+			if ( player.HideOnRadarTime )
+				return false;
+
 			if ( Local.Pawn is not Player localPlayer )
 				return false;
 
@@ -93,7 +96,7 @@ namespace Facepunch.Hover
 
 			var angle = (MathF.PI / 180) * (CurrentView.Rotation.Yaw() - 90f);
 			var x2 = x * MathF.Cos( angle ) + y * MathF.Sin( angle );
-			var y2 = y * MathF.Cos( angle ) - x *MathF.Sin( angle );
+			var y2 = y * MathF.Cos( angle ) - x * MathF.Sin( angle );
 
 			dot.SetClass( "enemy", player.Team != localPlayer.Team );
 

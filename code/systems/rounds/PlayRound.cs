@@ -194,16 +194,12 @@ namespace Facepunch.Hover
 
 		private void OnFlagCaptured( Player player, FlagEntity flag )
 		{
+			Audio.Play( flag.Team, $"flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
+
 			if ( flag.Team == Team.Blue )
-			{
-				Audio.Play( $"blue.flagcaptured{Rand.Int( 1, 2 )}" );
 				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
-			}
 			else
-			{
-				Audio.Play( $"red.flagcaptured{Rand.Int( 1, 2 )}" );
 				Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
-			}
 
 			if ( player.Team == Team.Blue )
 				BlueScore++;
