@@ -14,7 +14,8 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override List<Type> Upgrades => new()
 		{
-			typeof( AmmoPackUpgrade )
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy )
 		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 15;

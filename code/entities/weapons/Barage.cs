@@ -14,7 +14,8 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
-			typeof( AmmoPackUpgrade )
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy )
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";

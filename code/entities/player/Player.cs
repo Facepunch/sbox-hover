@@ -257,7 +257,7 @@ namespace Facepunch.Hover
 
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
 			{
-				GiveWeaponUpgrade( weapon.Name, upgrade.GetType().Name );
+				GiveWeaponUpgrade( To.Single( this ), weaponName, upgrade.GetType().Name );
 				upgrades.Add( upgrade );
 				return;
 			}
@@ -667,6 +667,19 @@ namespace Facepunch.Hover
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
 				{
 					return;
+				}
+
+				if ( info.Weapon is Weapon weapon )
+				{
+					var upgrades = attacker.GetWeaponUpgrades( weapon );
+
+					if ( upgrades != null )
+					{
+						foreach ( var upgrade in upgrades )
+						{
+							info = upgrade.DealDamage( attacker, this, weapon, info );
+						}
+					}
 				}
 
 				AddAssistDamage( attacker, info );

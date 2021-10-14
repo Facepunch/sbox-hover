@@ -5,9 +5,17 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	public enum LoadoutArmorType
+	{
+		Light,
+		Medium,
+		Heavy
+	}
+
 	public partial class BaseLoadout : BaseNetworkable
 	{
 		public virtual WeaponConfig[][] AvailableWeapons => new WeaponConfig[][] { };
+		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
 		public virtual int DisplayOrder => 0;
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;
@@ -98,6 +106,8 @@ namespace Facepunch.Hover
 					entity.Slot = i + 1;
 				}
 			}
+
+			player.ApplyWeaponUpgrades();
 
 			Restock( player );
 		}

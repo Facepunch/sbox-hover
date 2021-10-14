@@ -245,9 +245,11 @@ stationscreenweaponupgrade {
     }
 
     .weapon {
-        width: 175px;
-        height: 175px;
-        margin-top: -24px;
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        bottom: 30%;
+        z-index: -1;
     }
 }
 

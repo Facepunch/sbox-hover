@@ -9,6 +9,11 @@ namespace Facepunch.Hover
 		public virtual string Description => "";
 		public virtual int TokenCost => 50;
 
+		public virtual DamageInfo DealDamage( Player player, Player victim, Weapon weapon, DamageInfo info )
+		{
+			return info;
+		}
+
 		public virtual void Restock( Player player, Weapon weapon )
 		{
 

@@ -14,7 +14,8 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
-			typeof( AmmoPackUpgrade )
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy )
 		};
 		public override string CrosshairClass => "semiautomatic";
 		public override float PrimaryRate => 0.5f;

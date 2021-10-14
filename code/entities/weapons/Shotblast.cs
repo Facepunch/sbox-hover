@@ -14,7 +14,8 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override List<Type> Upgrades => new()
 		{
-			typeof( AmmoPackUpgrade )
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy )
 		};
 		public override string CrosshairClass => "shotgun";
 		public override float DamageFalloffStart => 0f;
