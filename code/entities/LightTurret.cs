@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 		public float AttackRadius => 1000f;
 		public float LockOnTime => 1f;
 		public float DeployTime => 2f;
-		public float BaseDamage => 20f;
+		public float BaseDamage => 15f;
 		public float FireRate => 0.2f;
 		public float MaxHealth => 800f;
 
@@ -266,8 +266,8 @@ namespace Facepunch.Hover
 				Particles.Create( MuzzleFlashEffect, this, "muzzle" );
 			}
 
-			ShootBullet( Target, 0.05f, BulletForce, BaseDamage, 16f );
-			PlaySound( $"sideman.fire{Rand.Int( 1, 2 )}" );
+			ShootBullet( Target, 0.3f, BulletForce, BaseDamage, 16f );
+			PlaySound( $"generic.bullet1" );
 
 			Recoil = 1f;
 		}
