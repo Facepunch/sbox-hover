@@ -14,6 +14,11 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
+		public override void Attached()
+		{
+			RenderColor = Wearer.Team.GetColor();
+		}
+
 		[Event.Tick.Client]
 		protected virtual void ClientTick()
 		{
