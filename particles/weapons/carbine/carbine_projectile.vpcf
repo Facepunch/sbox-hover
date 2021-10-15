@@ -11,7 +11,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/weapons/sideman/sideman_projectile_a.vpcf"
+			m_ChildRef = resource:"particles/weapons/carbine/carbine_projectile_a.vpcf"
 		},
 	]
 }

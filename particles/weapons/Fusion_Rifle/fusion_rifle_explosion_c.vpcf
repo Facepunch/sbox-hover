@@ -1019,6 +1019,7 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 		{
 			_class = "C_OP_RenderSprites"
@@ -1159,6 +1160,7 @@
 				}
 			}
 			m_hTexture = resource:"materials/particles/ring_wave_radial.vtex"
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 	]
 }
