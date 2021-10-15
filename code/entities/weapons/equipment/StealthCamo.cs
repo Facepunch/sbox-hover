@@ -19,6 +19,14 @@ namespace Facepunch.Hover
 		public override InputButton? AbilityButton => InputButton.Flashlight;
 		public override string AbilityBind => "iv_flashlight";
 		public override bool IsPassive => true;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( StealthCamoUpgrade ),
+			typeof( StealthCamoUpgrade ),
+			typeof( StealthCamoUpgrade )
+		};
+
+		public float EnergyDrain { get; set; } = 8f;
 
 		private RealTimeUntil NextReturnToStealth { get; set; }
 
@@ -59,7 +67,13 @@ namespace Facepunch.Hover
 
 			if ( IsUsingAbility )
 			{
-				var energyDrain = (controller.EnergyRegen + 8f) * Time.Delta;
+				var energyDrain = EnergyDrain * Time.Delta;
+
+				if ( controller.IsRegeneratingEnergy )
+				{
+					energyDrain = (controller.EnergyRegen + EnergyDrain) * Time.Delta;
+				}
+
 				controller.Energy = Math.Max( controller.Energy - energyDrain, 0f );
 
 				if ( controller.Energy <= 1f )

@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public Vector3 Impulse { get; set; }
+		[Net, Predicted] public bool IsRegeneratingEnergy { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
 		[Net, Predicted] public float DownSlopeBoost { get; set; } = 100f;
 		[Net, Predicted] public float UpSlopeFriction { get; set; } = 0.3f;
@@ -124,6 +125,7 @@ namespace Facepunch.Hover
 				BaseVelocity = BaseVelocity.WithZ( 0 );
 			}
 
+			IsRegeneratingEnergy = false;
 			IsJetpacking = false;
 			IsSkiing = false;
 
@@ -153,6 +155,7 @@ namespace Facepunch.Hover
 			{
 				if ( !IsJetpacking )
 				{
+					IsRegeneratingEnergy = true;
 					Energy = (Energy + EnergyRegen * Time.Delta).Clamp( 0f, MaxEnergy );
 				}
 			}

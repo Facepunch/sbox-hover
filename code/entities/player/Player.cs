@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 {
 	public partial class Player : Sandbox.Player
 	{
-		public Dictionary<string,HashSet<WeaponUpgrade>> WeaponUpgrades { get; private set; }
+		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
 
 		[ServerCmd]
@@ -242,9 +242,9 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public HashSet<WeaponUpgrade> GetWeaponUpgrades( Weapon weapon )
+		public List<WeaponUpgrade> GetWeaponUpgrades( Weapon weapon )
 		{
-			if ( WeaponUpgrades.TryGetValue( weapon.Name, out var upgrades ) )
+			if ( WeaponUpgrades.TryGetValue( weapon.Config.Name, out var upgrades ) )
 			{
 				return upgrades;
 			}
@@ -263,7 +263,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			upgrades = new HashSet<WeaponUpgrade>();
+			upgrades = new List<WeaponUpgrade>();
 			WeaponUpgrades[weaponName] = upgrades;
 			upgrades.Add( upgrade );
 
@@ -282,7 +282,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			upgrades = new HashSet<WeaponUpgrade>();
+			upgrades = new List<WeaponUpgrade>();
 			WeaponUpgrades[weaponName] = upgrades;
 			upgrades.Add( upgrade );
 			StationScreen.Refresh();

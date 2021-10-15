@@ -160,25 +160,31 @@ namespace Facepunch.Hover
 
 			foreach ( var weapon in weapons )
 			{
-				if ( weapon.Upgrades != null )
+				if ( weapon.Upgrades == null ) continue;
+
+				var ownedUpgrades = player.GetWeaponUpgrades( weapon );
+
+				for ( var i = 0; i < weapon.Upgrades.Count; i++ )
 				{
-					foreach ( var upgradeType in weapon.Upgrades )
+					var upgradeType = weapon.Upgrades[i];
+
+					if ( ownedUpgrades != null )
 					{
-						if ( player.HasWeaponUpgrade( weapon, upgradeType ) )
-						{
+						var ownedUpgrade = ownedUpgrades.ElementAtOrDefault( i );
+
+						if ( ownedUpgrade != null && ownedUpgrade.GetType() == upgradeType )
 							continue;
-						}
-
-						var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
-
-						var child = WeaponContainer.AddChild<StationScreenWeaponUpgrade>();
-						child.SetUpgrade( weapon, upgrade );
-
-						WeaponUpgrades.Add( child );
-						HasUpgrades = true;
-
-						break;
 					}
+
+					var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
+
+					var child = WeaponContainer.AddChild<StationScreenWeaponUpgrade>();
+					child.SetUpgrade( weapon, upgrade );
+
+					WeaponUpgrades.Add( child );
+					HasUpgrades = true;
+
+					break;
 				}
 			}
 

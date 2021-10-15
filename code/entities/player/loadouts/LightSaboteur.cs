@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 			}
 		};
 		public override float RegenDelay => 20f;
-		public override float Health => 500f;
+		public override float Health => 700f;
 		public override float Energy => 90f;
 		public override float EnergyRegen => 15f;
 		public override float MoveSpeed => 350f;
