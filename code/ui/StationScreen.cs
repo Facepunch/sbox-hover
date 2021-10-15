@@ -393,17 +393,21 @@ namespace Facepunch.Hover
 			Configs = new WeaponConfig[loadout.AvailableWeapons.Length];
 			Holders = new StationScreenWeapon[loadout.AvailableWeapons.Length];
 
-			foreach ( var weapon in player.Children.OfType<Weapon>() )
+			// If we are this loadout, default to the weapons we have equipped.
+			if ( player.Loadout.GetType() == loadout.GetType() )
 			{
-				var slotToIndex = weapon.Slot - 1;
-
-				if ( slotToIndex < Configs.Length )
+				foreach ( var weapon in player.Children.OfType<Weapon>() )
 				{
-					foreach ( var valid in loadout.AvailableWeapons[slotToIndex] )
+					var slotToIndex = weapon.Slot - 1;
+
+					if ( slotToIndex < Configs.Length )
 					{
-						if ( weapon.Config.Name == valid.Name )
+						foreach ( var valid in loadout.AvailableWeapons[slotToIndex] )
 						{
-							Configs[slotToIndex] = weapon.Config;
+							if ( weapon.Config.Name == valid.Name )
+							{
+								Configs[slotToIndex] = weapon.Config;
+							}
 						}
 					}
 				}
