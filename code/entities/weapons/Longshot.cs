@@ -151,5 +151,14 @@ namespace Facepunch.Hover
 
 			base.OnDestroy();
 		}
+
+		[Event.BuildInput]
+		protected virtual void BuildInput( InputBuilder builder )
+		{
+			if ( IsScoped )
+			{
+				builder.AnalogLook *= 0.3f;
+			}
+		}
 	}
 }
