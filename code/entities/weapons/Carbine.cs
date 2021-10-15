@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade ),
 			typeof( DamageVsHeavy )
 		};
-		public override string CrosshairClass => "automatic";
+		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 20;
 		public override float PrimaryRate => 7f;
 		public override float DamageFalloffStart => 2000f;
