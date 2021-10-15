@@ -18,9 +18,9 @@ namespace Facepunch.Hover
 	partial class Carbine : Weapon
 	{
 		public override WeaponConfig Config => new CarbineConfig();
-		public override string ImpactEffect => "particles/weapons/deployable_turret/deployable_turret_impact.vpcf";
-		public override string TracerEffect => "particles/weapons/deployable_turret/deployable_turret_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/deployable_turret/deployable_turret_muzzleflash.vpcf";
+		public override string ImpactEffect => "particles/weapons/carbine/carbine_impact.vpcf";
+		public override string TracerEffect => "particles/weapons/carbine/carbine_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/carbine/carbine_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 2;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override List<Type> Upgrades => new()

@@ -18,9 +18,9 @@ namespace Facepunch.Hover
 	partial class Burst : Weapon
 	{
 		public override WeaponConfig Config => new BurstConfig();
-		public override string ImpactEffect => "particles/weapons/deployable_turret/deployable_turret_impact.vpcf";
-		public override string TracerEffect => "particles/weapons/deployable_turret/deployable_turret_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/deployable_turret/deployable_turret_muzzleflash.vpcf";
+		public override string ImpactEffect => "particles/weapons/burst/burst_impact.vpcf";
+		public override string TracerEffect => "particles/weapons/burst/burst_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/burst/burst_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 1;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override List<Type> Upgrades => new()
