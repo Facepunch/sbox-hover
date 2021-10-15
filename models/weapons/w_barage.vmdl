@@ -57,6 +57,21 @@
 							},
 						]
 					},
+					{
+						_class = "MaterialGroup"
+						name = "destroyer"
+						remaps = 
+						[
+							{
+								from = "models/weapons/barage/barage.vmat"
+								to = "models/weapons/barage/destroyer.vmat"
+							},
+							{
+								from = "models/weapons/barage/barage_scope.vmat"
+								to = "models/weapons/barage/destroyer_scope.vmat"
+							},
+						]
+					},
 				]
 			},
 			{

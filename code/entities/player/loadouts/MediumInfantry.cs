@@ -22,6 +22,7 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
+				new BoomerConfig(),
 				new SidemanConfig()
 			},
 			new WeaponConfig[]

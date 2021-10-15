@@ -12,18 +12,17 @@ namespace Facepunch.Hover
 		public override string Name => "Heavy Assault";
 		public override int TokenCost => 1000;
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
-		public override int DisplayOrder => 6;
+		public override int DisplayOrder => 7;
 		public override Type UpgradesTo => typeof( HeavyAssaultMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
 			{
-				new PulsarConfig(),
+				new BigPulsarConfig(),
 			},
 			new WeaponConfig[]
 			{
-				new ShotblastConfig(),
-				new BlasterConfig()
+				new ShotblastConfig()
 			},
 			new WeaponConfig[]
 			{

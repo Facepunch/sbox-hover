@@ -45,6 +45,11 @@ namespace Facepunch.Hover
 			projectile.PhysicsBody.ApplyForce( forward * ProjectileForce * 200f );
 		}
 
+		protected virtual float ModifyDamage( Entity victim, float damage )
+		{
+			return damage;
+		}
+
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
@@ -65,6 +70,9 @@ namespace Facepunch.Hover
 				var direction = (entity.Position - position).Normal;
 				var distance = entity.Position.Distance( position );
 				var damage = BaseDamage - ((BaseDamage / DamageRadius) * distance);
+
+				damage = ModifyDamage( entity, damage );
+
 				DealDamage( entity, position, direction * ImpactForce * 0.4f, damage );
 			}
 		}

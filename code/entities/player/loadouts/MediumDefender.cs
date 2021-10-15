@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 			new WeaponConfig[]
 			{
 				new BlasterConfig(),
-				new BarageConfig()
+				new BoomerConfig()
 			},
 			new WeaponConfig[]
 			{
