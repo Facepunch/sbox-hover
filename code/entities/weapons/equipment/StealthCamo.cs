@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -29,6 +30,7 @@ namespace Facepunch.Hover
 		public float EnergyDrain { get; set; } = 8f;
 
 		private RealTimeUntil NextReturnToStealth { get; set; }
+		private RealTimeUntil NextJammerCheck { get; set; }
 
 		public override DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
@@ -82,6 +84,22 @@ namespace Facepunch.Hover
 					return;
 				}
 
+				if ( NextJammerCheck )
+				{
+					var jammers = Physics.GetEntitiesInSphere( Position, 1000f ).OfType<RadarJammer>();
+
+					foreach ( var jammer in jammers )
+					{
+						if ( jammer.IsUsingAbility )
+						{
+							DisableAbility();
+							return;
+						}
+					}
+
+					NextJammerCheck = 1f;
+				}
+
 				if ( controller.IsJetpacking )
 				{
 					NextReturnToStealth = 1f;
@@ -123,6 +141,12 @@ namespace Facepunch.Hover
 		protected virtual void EnableAbility()
 		{
 			if ( Owner is not Player player )
+				return;
+
+			if ( player.Controller is not MoveController controller )
+				return;
+
+			if ( controller.Energy < 10f )
 				return;
 
 			player.TargetAlpha = 0f;

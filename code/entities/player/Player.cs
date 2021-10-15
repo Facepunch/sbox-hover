@@ -165,6 +165,11 @@ namespace Facepunch.Hover
 			ResetClient( To.Single( this ) );
 		}
 
+		public T GetWeapon<T>() where T : Weapon
+		{
+			return Children.OfType<T>().FirstOrDefault();
+		}
+
 		public bool HasWeapon<T>() where T : Weapon
 		{
 			return Children.OfType<T>().Any();

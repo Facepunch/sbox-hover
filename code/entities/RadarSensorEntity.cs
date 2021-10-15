@@ -88,7 +88,9 @@ namespace Facepunch.Hover
 			if ( player.Team == Team )
 				return false;
 
-			if ( player.HasWeapon<RadarJammer>() )
+			var jammer = player.GetWeapon<RadarJammer>();
+
+			if ( jammer.IsValid() && jammer.IsUsingAbility )
 				return false;
 
 			return true;
