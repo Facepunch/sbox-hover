@@ -2553,6 +2553,7 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_bDistanceAlpha = true
 		},
 		{
 			_class = "C_OP_RenderSprites"
@@ -3338,6 +3339,7 @@
 			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 			m_hTexture = resource:"materials/particles/simulated/smoke/maya_wispy/wispy_small.vtex"
 			m_hMotionVectorsTexture = resource:"materials/particles/fpstest/fps30_flw.vtex"
+			m_bDistanceAlpha = true
 		},
 	]
 }

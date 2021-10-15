@@ -2097,6 +2097,7 @@
 				}
 			}
 			m_hTexture = resource:"materials/particles/glow_simple_01.vtex"
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 		{
 			_class = "C_OP_RenderSprites"
@@ -2243,6 +2244,7 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 		{
 			_class = "C_OP_RenderSprites"
@@ -2294,6 +2296,7 @@
 			}
 			m_bOnlyRenderInEffectsBloomPass = true
 			m_hTexture = resource:"materials/particles/glow_simple_01.vtex"
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 		{
 			_class = "C_OP_RenderTrails"
@@ -2343,6 +2346,7 @@
 				}
 			}
 			m_bOnlyRenderInEffectsBloomPass = true
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 	]
 }

@@ -1020,6 +1020,7 @@
 			m_hTexture = resource:"materials/particles/smoke/render/smokeburst_c.vtex"
 			m_flAnimationRate = 1.0
 			m_nAnimationType = "ANIMATION_TYPE_FIT_LIFETIME"
+			m_nFeatheringMode = "PARTICLE_DEPTH_FEATHERING_ON_OPTIONAL"
 		},
 	]
 }
