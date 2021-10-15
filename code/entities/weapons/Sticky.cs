@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 10f;
 		public override float DamageRadius => 200;
-		public override int BaseDamage => 600;
+		public override int BaseDamage => 800;
 
 		public override void Spawn()
 		{

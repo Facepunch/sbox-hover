@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 2f;
-		public override int BaseDamage => 500;
+		public override int BaseDamage => 400;
 
 		public override void Spawn()
 		{

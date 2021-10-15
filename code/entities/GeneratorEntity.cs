@@ -14,7 +14,7 @@ namespace Facepunch.Hover
 		public static event GeneratorEvent OnGeneratorBroken;
 
 		[Net] public RealTimeUntil StartRegenTime { get; set; }
-		[Net] public float MaxHealth { get; set; } = 3000f;
+		[Net] public float MaxHealth { get; set; } = 4000f;
 		[Net] public bool IsDestroyed { get; set; }
 		public float RepairRate { get; set; } = 100f;
 
@@ -137,7 +137,7 @@ namespace Facepunch.Hover
 
 		public virtual bool CanPlayerRepair( Player player )
 		{
-			return Health < MaxHealth;
+			return (player.Team == Team && Health < MaxHealth);
 		}
 
 		public override void ClientSpawn()
