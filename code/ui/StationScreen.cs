@@ -266,6 +266,7 @@ namespace Facepunch.Hover
 	{
 		public Label Name { get; set; }
 		public Label Description { get; set; }
+		public Label SecondaryDescription { get; set; }
 		public Image Icon { get; set; }
 		public StationScreenTextButton Button { get; set; }
 		public WeaponConfig Weapon { get; set; }
@@ -275,6 +276,7 @@ namespace Facepunch.Hover
 		{
 			Name = Add.Label( "", "name" );
 			Description = Add.Label( "", "description" );
+			SecondaryDescription = Add.Label( "", "secondary_description" );
 			Icon = Add.Image( "", "icon" );
 			Button = AddChild<StationScreenTextButton>( "button" );
 			Button.SetText( "Select" );
@@ -285,6 +287,17 @@ namespace Facepunch.Hover
 		{
 			Name.Text = weapon.Name;
 			Description.Text = weapon.Description;
+
+			if ( !string.IsNullOrEmpty( weapon.SecondaryDescription ) )
+			{
+				SecondaryDescription.SetClass( "hidden", false );
+				SecondaryDescription.Text = weapon.SecondaryDescription;
+			}
+			else
+			{
+				SecondaryDescription.SetClass( "hidden", true );
+			}
+
 			Icon.SetTexture( weapon.Icon );
 			Callback = callback;
 			Weapon = weapon;

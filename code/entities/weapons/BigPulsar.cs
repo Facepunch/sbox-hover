@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position );
+			explosion.SetPosition( 0, projectile.Position - projectile.Direction * projectile.Radius );
 
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );

@@ -38,6 +38,7 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => false;
 		public override int ClipSize => 30;
 		public override float Spread => 0.05f;
+		public override float Gravity => 0f;
 		public override bool ReloadAnimation => true;
 		public override float ReloadTime => 3f;
 		public override int BaseDamage => 80;

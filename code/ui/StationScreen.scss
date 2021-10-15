@@ -215,7 +215,7 @@ stationscreenweaponinfo {
     border-radius: 8px;
     padding: 8px;
     width: 300px;
-    height: 300px;
+    height: 400px;
 
     .name {
         text-shadow: $blueTeamShadow;
@@ -233,11 +233,23 @@ stationscreenweaponinfo {
         color: white;
     }
 
+    .secondary_description {
+        text-shadow: $selectedTabShadow;
+        font-family: $mainFont;
+        margin-top: 8px;
+        font-size: 15px;
+        color: $selectedTabColor;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
     .icon {
         width: 150px;
         height: 150px;
         position: absolute;
-        bottom: 25%;
+        bottom: 40%;
         z-index: -1;
     }
 }
@@ -253,7 +265,7 @@ stationscreenweaponupgrade {
     border-radius: 8px;
     padding: 8px;
     width: 300px;
-    height: 300px;
+    height: 350px;
 
     .title {
         text-shadow: $blueTeamShadow;
@@ -264,18 +276,18 @@ stationscreenweaponupgrade {
     }
 
     .description {
-        text-shadow: $blueTeamShadow;
+        text-shadow: $selectedTabShadow;
         font-family: $mainFont;
         margin-top: 8px;
         font-size: 16px;
-        color: white;
+        color: $selectedTabColor;
     }
 
     .weapon {
         width: 150px;
         height: 150px;
         position: absolute;
-        bottom: 30%;
+        bottom: 40%;
         z-index: -1;
     }
 }

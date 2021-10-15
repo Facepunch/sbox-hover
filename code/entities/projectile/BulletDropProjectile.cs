@@ -24,7 +24,7 @@ namespace Facepunch.Hover
 		public float MoveTowardTarget { get; set; } = 0f;
 		public Entity IgnoreEntity { get; set; }
 		public string HitSound { get; set; } = "";
-		public float Gravity { get; set; } = 300f;
+		public float Gravity { get; set; } = 10f;
 		public float Radius { get; set; } = 16f;
 		public float Speed { get; set; } = 2000f;
 		public bool FaceDirection { get; set; } = false;
@@ -32,6 +32,7 @@ namespace Facepunch.Hover
 		public Vector3 Direction { get; set; }
 		public bool Debug { get; set; } = false;
 
+		private float GravityModifier { get; set; }
 		private RealTimeUntil NextFlyby { get; set; }
 		private RealTimeUntil DestroyTime { get; set; }
 		private Sound LaunchSound { get; set; }
@@ -114,7 +115,9 @@ namespace Facepunch.Hover
 
 			var newPosition = Position;
 			newPosition += Direction * Speed * Time.Delta;
-			newPosition -= new Vector3( 0f, 0f, Gravity * Time.Delta );
+
+			GravityModifier += Gravity * Time.Delta;
+			newPosition -= new Vector3( 0f, 0f, GravityModifier );
 
 			if ( Target.IsValid() && MoveTowardTarget > 0f )
 			{

@@ -16,14 +16,15 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
-	partial class Destroyer : PhysicsWeapon<PhysicsProjectile>
+	partial class Destroyer : BulletDropWeapon
 	{
 		public override WeaponConfig Config => new DestroyerConfig();
-		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
+		public override float ProjectileRadius => 50f;
+		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
-		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
@@ -33,14 +34,13 @@ namespace Facepunch.Hover
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 100f;
 		public override bool CanMeleeAttack => false;
-		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
-		public override float ImpactForce => 2000f;
+		public override float Speed => 600f;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 5f;
 		public override int BaseDamage => 1500;
+		public override float Gravity => 15f;
+		public virtual float BlastRadius => 800f;
 
 		public override void Spawn()
 		{
@@ -59,7 +59,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"barage.launch" );
+			PlaySound( $"pulserifle.fire{Rand.Int( 1, 2 )}" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
@@ -74,10 +74,9 @@ namespace Facepunch.Hover
 			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
 		}
 
-
 		public override void PlayReloadSound()
 		{
-			PlaySound( "blaster.reload" );
+			PlaySound( "pulserifle.reload" );
 			base.PlayReloadSound();
 		}
 
@@ -87,14 +86,21 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override float ModifyDamage( Entity victim, float damage )
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( victim is GeneratorEntity )
-			{
-				return damage * 1.5f;
-			}
+			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
+			explosion.SetPosition( 0, projectile.Position - projectile.Direction * projectile.Radius );
 
-			return base.ModifyDamage( victim, damage );
+			var position = projectile.Position;
+			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
+
+			foreach ( var entity in entities )
+			{
+				var direction = (entity.Position - position).Normal;
+				var distance = entity.Position.Distance( position );
+				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+				DealDamage( entity, position, direction * projectile.Speed * 0.25f, damage );
+			}
 		}
 	}
 }

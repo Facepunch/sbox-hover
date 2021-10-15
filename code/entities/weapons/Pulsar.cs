@@ -21,8 +21,8 @@ namespace Facepunch.Hover
 		public override float ProjectileRadius => 40f;
 		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
-		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
+		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
@@ -39,6 +39,7 @@ namespace Facepunch.Hover
 		public override bool ReloadAnimation => false;
 		public override bool CanMeleeAttack => false;
 		public override float ReloadTime => 1f;
+		public override float Gravity => 0f;
 		public override int BaseDamage => 600;
 		public virtual float BlastRadius => 400f;
 
@@ -88,7 +89,7 @@ namespace Facepunch.Hover
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position );
+			explosion.SetPosition( 0, projectile.Position - projectile.Direction * projectile.Radius );
 
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
