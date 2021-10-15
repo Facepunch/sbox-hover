@@ -42,7 +42,7 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			var screenSize = Screen.Size * ScaleFromScreen;
+			var screenSize = Box.Rect.Size * ScaleFromScreen;
 			var scopeSize = screenSize.y * 0.5f;
 
 			Inner.Style.Width = scopeSize;
