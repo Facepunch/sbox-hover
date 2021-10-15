@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override string Description => "A unit that can deploy light turrets and upgrade base defences";
 		public override string Name => "Medium Defender";
 		public override Type UpgradesTo => typeof( MediumDefenderMk2 );
-		public override int DisplayOrder => 3;
+		public override int DisplayOrder => 5;
 		public override int TokenCost => 800;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

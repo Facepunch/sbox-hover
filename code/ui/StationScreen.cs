@@ -531,10 +531,25 @@ namespace Facepunch.Hover
 	{
 		public List<StationScreenLoadout> Loadouts { get; private set; } = new();
 
+		public StationScreenTextButton PreviousButton { get; private set; }
+		public StationScreenTextButton NextButton { get; private set; }
+		public Panel Container { get; private set; }
+
 		public StationScreenLoadouts()
 		{
+			PreviousButton = AddChild<StationScreenTextButton>( "previous" );
+			PreviousButton.SetText( "<" );
+			PreviousButton.OnClicked += OnPreviousPage;
 
+			Container = Add.Panel( "container" );
+
+			NextButton = AddChild<StationScreenTextButton>( "next" );
+			NextButton.SetText( ">" );
+			NextButton.OnClicked += OnNextPage;
 		}
+
+		public int ItemsPerPage { get; set; } = 3;
+		public int PageIndex { get; private set; }
 
 		public override void Initialize()
 		{
@@ -564,8 +579,9 @@ namespace Facepunch.Hover
 				{
 					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( type ) )
 					{
-						var child = AddChild<StationScreenLoadout>();
+						var child = Container.AddChild<StationScreenLoadout>();
 						child.SetLoadout( loadout );
+						child.SetClass( "hidden", true );
 						Loadouts.Add( child );
 					}
 				}
@@ -575,17 +591,61 @@ namespace Facepunch.Hover
 				if ( loadout.MaxSpeed > maxSpeed ) maxSpeed = loadout.MaxSpeed;
 			}
 
-			SortChildren<StationScreenLoadout>( ( panel ) =>
+			Container.SortChildren<StationScreenLoadout>( ( panel ) =>
 			{
 				return panel.Loadout.DisplayOrder;
 			} );
+
+			Loadouts.Sort( ( a, b ) => a.Loadout.DisplayOrder.CompareTo( b.Loadout.DisplayOrder ) );
 
 			foreach ( var loadout in Loadouts )
 			{
 				loadout.UpdateBars( maxHealth, maxEnergy, maxSpeed );
 			}
 
+			UpdatePageItems();
+
 			base.Initialize();
+		}
+
+		private void UpdatePageItems()
+		{
+			foreach ( var loadout in Loadouts )
+			{
+				loadout.SetClass( "hidden", true );
+			}
+
+			for ( var i = PageIndex; i < PageIndex + ItemsPerPage; i++ )
+			{
+				if ( i < Loadouts.Count )
+				{
+					var loadout = Loadouts[i];
+					loadout.SetClass( "hidden", false );
+				}
+			}
+
+			PreviousButton.SetClass( "disabled", PageIndex == 0 );
+			NextButton.SetClass( "disabled", PageIndex >= Loadouts.Count - ItemsPerPage );
+		}
+
+		private void OnPreviousPage()
+		{
+			if ( PageIndex == 0 )
+				return;
+
+			PageIndex = Math.Max( PageIndex - ItemsPerPage, 0 );
+			UpdatePageItems();
+			Audio.Play( "hover.clickbeep" );
+		}
+
+		private void OnNextPage()
+		{
+			if ( PageIndex >= Loadouts.Count - ItemsPerPage )
+				return;
+
+			PageIndex = Math.Min( PageIndex + ItemsPerPage, Loadouts.Count - ItemsPerPage );
+			UpdatePageItems();
+			Audio.Play( "hover.clickbeep" );
 		}
 	}
 

@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override string Description => "A fast sniper unit with lower health and medium energy";
 		public override string Name => "Light Sniper";
 		public override int TokenCost => 600;
-		public override int DisplayOrder => 2;
+		public override int DisplayOrder => 3;
 		public override Type UpgradesTo => typeof( LightSniperMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

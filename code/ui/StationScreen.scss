@@ -64,6 +64,33 @@ stationscreen {
             width: 100%;
             height: 100%;
             padding: 32px;
+
+            .container {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+
+            .previous, .next {
+                width: 128px;
+                height: 64px;
+                position: relative;
+                bottom: unset;
+
+                .label {
+                    font-size: 64px;
+                }
+            }
+
+            .previous {
+                margin-right: 64px;
+            }
+
+            .next {
+                margin-left: 64px;
+            }
         }
     }
 
@@ -412,6 +439,10 @@ stationscreenloadout, stationscreenloadoutupgrade {
         height: 100%;
     }
 
+    &.hidden {
+        display: none;
+    }
+
     &.selected {
         box-shadow: $blueTeamForeground;
         background-color: $blueTeamPanelFg;
@@ -448,10 +479,16 @@ stationscreentextbutton {
     }
 
     &:hover {
-        sound-in: hover.hoversharp;
-        transform: scale( 1.02 1.04 );
-        background-color: rgba(255 216 0 0.4);
-        border: 2px solid rgba(255 216 0 0.6);
+        &:not(.disabled) {
+            sound-in: hover.hoversharp;
+            transform: scale( 1.02 1.04 );
+            background-color: rgba(255 216 0 0.4);
+            border: 2px solid rgba(255 216 0 0.6);
+        }
+    }
+
+    &.disabled {
+        opacity: 0.1;
     }
 }
 
