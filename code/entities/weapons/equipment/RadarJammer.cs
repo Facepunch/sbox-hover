@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 		public override string AbilityBind => "iv_flashlight";
 		public override bool IsPassive => true;
 
-		public float EnergyDrain { get; set; } = 8f;
+		public float EnergyDrain { get; set; } = 4f;
 
 		public override void OnAbilityUsed()
 		{
