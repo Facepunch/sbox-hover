@@ -15,6 +15,7 @@ weaponlist {
 		margin-right: 16px;
 		min-width: 100px;
 		border-radius: 8px;
+		transition: all 0.2s ease-out;
 		background-color: $blueTeamPanelBg;
 		border: $blueTeamPanelBorder;
 
@@ -31,6 +32,26 @@ weaponlist {
 			color: rgba( 255 255 255 0.8 );
 			transition: all 0.1s ease-out;
 			font-family: $mainFont;
+		}
+
+		.ability {
+			position: absolute;
+			box-shadow: $blueTeamForeground;
+			text-shadow: $blueTeamShadow;
+			background-color: $blueTeamPanelFg;
+			padding: 8px;
+			text-align: center;
+			border-radius: 8px;
+			color: white;
+			font-size: 20px;
+			border: $blueTeamPanelBorder;
+			color: $blueTeamColor;
+			font-family: $mainFont;
+			top: -56px;
+
+			&.hidden {
+				display: none;
+			}
 		}
 
 		&.active {
@@ -52,11 +73,39 @@ weaponlist {
 			.name {
 				text-shadow: $selectedTabShadow;
 			}
+
+			.ability {
+				box-shadow: $selectedTabForeground;
+				text-shadow: $selectedTabShadow;
+				background-color: $selectedTabPanelBg;
+				border: $selectedTabPanelBorder;
+				color: $selectedTabColor;
+			}
+		}
+
+		&.using_ability {
+			transition: all 0.2s ease-out;
+			transform: scale( 0.9 0.9 );
+			background-color: $abilityUsingPanelBg;
+			box-shadow: $abilityUsingBackground;
+			border: $abilityUsingBorder;
+
+			.ability {
+				box-shadow: $abilityUsingBackground;
+				text-shadow: $abilityUsingShadow;
+				background-color: $abilityUsingPanelBg;
+				border: $abilityUsingBorder;
+				color: $abilityUsingColor;
+			}
 		}
 
 		&.unavailable {
 			transition: all 0.5s ease-out;
 			opacity: 0.2;
+
+			.ability {
+				display: none;
+			}
 		}
 
 		&.hidden {
@@ -84,6 +133,14 @@ weaponlist {
 
 				.name {
 					text-shadow: $redTeamShadow;
+				}
+
+				.ability {
+					box-shadow: $redTeamForeground;
+					text-shadow: $redTeamShadow;
+					background-color: $redTeamPanelFg;
+					border: $redTeamPanelBorder;
+					color: $redTeamColor;
 				}
 
 				&.active {

@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	public class PulsarConfig : WeaponConfig
+	{
+		public override string Name => "Pulsar";
+		public override string Description => "Long-range explosive projectile based rifle";
+		public override string Icon => "ui/weapons/pulsar.png";
+		public override string ClassName => "hv_pulsar";
+		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override int Ammo => 30;
+	}
+
 	[Library( "hv_pulsar", Title = "Pulsar" )]
 	partial class Pulsar : BulletDropWeapon
 	{
@@ -29,7 +39,7 @@ namespace Facepunch.Hover
 		public override bool ReloadAnimation => false;
 		public override bool CanMeleeAttack => false;
 		public override float ReloadTime => 1f;
-		public override int BaseDamage => 300;
+		public override int BaseDamage => 600;
 		public virtual float BlastRadius => 400f;
 
 		public override void Spawn()

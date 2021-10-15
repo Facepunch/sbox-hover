@@ -15,9 +15,9 @@ namespace Facepunch.Hover
 		public string LaunchSoundName { get; set; } = null;
 		public string HitSound { get; set; } = "";
 
-		private RealTimeUntil DestroyTime { get; set; }
-		private Sound LaunchSound { get; set; }
-		private Particles Trail { get; set; }
+		protected RealTimeUntil DestroyTime { get; set; }
+		protected Sound LaunchSound { get; set; }
+		protected Particles Trail { get; set; }
 
 		public void Initialize( Action<PhysicsProjectile> callback = null )
 		{
@@ -51,7 +51,7 @@ namespace Facepunch.Hover
 		}
 
 		[Event.Tick.Server]
-		private void ServerTick()
+		protected virtual void ServerTick()
 		{
 			if ( DestroyTime )
 			{

@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	public class BlasterConfig : WeaponConfig
+	{
+		public override string Name => "Blaster";
+		public override string Description => "Medium-range projectile plasma SMG";
+		public override string Icon => "ui/weapons/blaster.png";
+		public override string ClassName => "hv_blaster";
+		public override AmmoType AmmoType => AmmoType.SMG;
+		public override int Ammo => 90;
+	}
+
 	[Library( "hv_blaster", Title = "Blaster" )]
 	partial class Blaster : BulletDropWeapon
 	{
@@ -30,7 +40,7 @@ namespace Facepunch.Hover
 		public override float Spread => 0.05f;
 		public override bool ReloadAnimation => true;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 60;
+		public override int BaseDamage => 80;
 
 		public override void Spawn()
 		{

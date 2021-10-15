@@ -4,8 +4,18 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	public class BarageConfig : WeaponConfig
+	{
+		public override string Name => "Barage";
+		public override string Description => "Short-range grenade launcher";
+		public override string Icon => "ui/weapons/barage.png";
+		public override string ClassName => "hv_barage";
+		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override int Ammo => 20;
+	}
+
 	[Library( "hv_barage", Title = "Barage" )]
-	partial class Barage : PhysicsWeapon
+	partial class Barage : PhysicsWeapon<PhysicsProjectile>
 	{
 		public override WeaponConfig Config => new BarageConfig();
 		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
@@ -28,7 +38,7 @@ namespace Facepunch.Hover
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 2f;
-		public override int BaseDamage => 150;
+		public override int BaseDamage => 500;
 
 		public override void Spawn()
 		{
