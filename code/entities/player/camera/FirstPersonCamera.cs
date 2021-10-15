@@ -4,6 +4,9 @@ namespace Facepunch.Hover
 {
 	public partial class FirstPersonCamera : Camera
 	{
+		public float DefaultFieldOfView { get; set; } = 80f;
+		public float TargetFieldOfView { get; set; }
+
 		private Vector3 LastPosition { get; set; }
 
 		public override void Activated()
@@ -13,8 +16,9 @@ namespace Facepunch.Hover
 
 			Pos = pawn.EyePos;
 			Rot = pawn.EyeRot;
-			FieldOfView = 80f;
+			FieldOfView = DefaultFieldOfView;
 			LastPosition = Pos;
+			TargetFieldOfView = DefaultFieldOfView;
 		}
 
 		public override void Update()
@@ -33,6 +37,7 @@ namespace Facepunch.Hover
 			ZNear = 4f;
 			Viewer = pawn;
 			LastPosition = Pos;
+			FieldOfView = FieldOfView.LerpTo( TargetFieldOfView, Time.Delta * 4f );
 		}
 	}
 }

@@ -37,11 +37,71 @@ namespace Facepunch.Hover
 		public override float ReloadTime => 4f;
 		public override int BaseDamage => 300;
 
+		public bool IsScoped { get; private set; }
+
+		public void SetScoped( bool isScoped )
+		{
+			IsScoped = isScoped;
+
+			if ( isScoped )
+				LongshotScope.Instance.Show();
+			else
+				LongshotScope.Instance.Hide();
+
+			if ( ViewModelEntity is ViewModel viewModel )
+			{
+				viewModel.SetIsAiming( isScoped, 0.15f );
+			}
+
+			if ( Owner.Camera is FirstPersonCamera camera )
+			{
+				camera.TargetFieldOfView = isScoped ? 10f : camera.DefaultFieldOfView;
+			}
+		}
+
+		public override void ActiveEnd( Entity owner, bool dropped )
+		{
+			if ( IsScoped )
+			{
+				SetScoped( false );
+			}
+
+			base.ActiveEnd( owner, dropped );
+		}
+
 		public override void Spawn()
 		{
 			base.Spawn();
 
 			SetModel( "models/weapons/w_longshot.vmdl" );
+		}
+
+		public override void CreateViewModel()
+		{
+			base.CreateViewModel();
+
+			if ( ViewModelEntity is ViewModel viewModel )
+			{
+				var aimConfig = new ViewModelAimConfig
+				{
+					AutoHide = true,
+					Position = Vector3.Backward * 20f + Vector3.Left * 18f + Vector3.Up * 4f,
+					Speed = 3f
+				};
+
+				viewModel.AimConfig = aimConfig;
+			}
+		}
+
+		public override void Simulate( Client owner )
+		{
+			if ( IsClient && Input.Pressed( InputButton.Run ) )
+			{
+				SetScoped( !IsScoped );
+				PlaySound( "longshot.scope" );
+			}
+
+			base.Simulate( owner );
 		}
 
 		public override void AttackPrimary()
@@ -80,6 +140,16 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected override void OnDestroy()
+		{
+			if ( IsScoped )
+			{
+				SetScoped( false );
+			}
+
+			base.OnDestroy();
 		}
 	}
 }
