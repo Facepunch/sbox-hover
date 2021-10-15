@@ -23,9 +23,11 @@ archive.on( "error" , function(err) {
 
 archive.pipe( output );
 
-archive.glob( "**/{*.cs,*.scss,*.vmdl_c,*.vmat_c,*.vsnd_c,*.sound_c,*.html,*.vfx,*.png,*.vpcf_c,*.vtex_c,.addon,*.fgd,!.git}", {
+archive.glob( "**/{*.cs,*.scss,*.vmdl_c,*.vmat_c,*.vsnd_c,*.sound_c,*.html,*.vfx,*.vcs,*.ini,*.png,*.vpcf_c,*.vtex_c,.addon,*.fgd,!.git}", {
     ignore: [
-        "_bakeresourcecache/**/*.*"
+        "_bakeresourcecache/**/*.*",
+        "materials/**/*.png",
+        "models/**/*.png"
     ]
 });
 
