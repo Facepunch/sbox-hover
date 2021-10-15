@@ -36,6 +36,22 @@ namespace Facepunch.Hover
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		}
 
+		public void Kill()
+		{
+			if ( !string.IsNullOrEmpty( ExplosionEffect ) )
+			{
+				var explosion = Particles.Create( ExplosionEffect );
+				explosion.SetPosition( 0, Position );
+			}
+
+			if ( !string.IsNullOrEmpty( HitSound ) )
+				Audio.Play( HitSound, Position );
+
+			Callback?.Invoke( this );
+			RemoveEffects();
+			Delete();
+		}
+
 		protected override void OnDestroy()
 		{
 			RemoveEffects();
@@ -55,18 +71,7 @@ namespace Facepunch.Hover
 		{
 			if ( DestroyTime )
 			{
-				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
-				{
-					var explosion = Particles.Create( ExplosionEffect );
-					explosion.SetPosition( 0, Position );
-				}
-
-				if ( !string.IsNullOrEmpty( HitSound ) )
-					Audio.Play( HitSound, Position );
-
-				Callback?.Invoke( this );
-				RemoveEffects();
-				Delete();
+				Kill();
 			}
 		}
 	}

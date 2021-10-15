@@ -60,21 +60,25 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected virtual void OnProjectileHit( PhysicsProjectile projectile )
+		protected virtual void DamageInRadius( Vector3 position, float radius, float baseDamage )
 		{
-			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, DamageRadius );
 
 			foreach ( var entity in entities )
 			{
 				var direction = (entity.Position - position).Normal;
 				var distance = entity.Position.Distance( position );
-				var damage = BaseDamage - ((BaseDamage / DamageRadius) * distance);
+				var damage = baseDamage - ((baseDamage / radius) * distance);
 
 				damage = ModifyDamage( entity, damage );
 
 				DealDamage( entity, position, direction * ImpactForce * 0.4f, damage );
 			}
+		}
+
+		protected virtual void OnProjectileHit( PhysicsProjectile projectile )
+		{
+			DamageInRadius( projectile.Position, DamageRadius, BaseDamage );
 		}
 	}
 }

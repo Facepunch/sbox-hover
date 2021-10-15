@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
-	partial class Cluster : PhysicsWeapon<ClusterProjectile>
+	partial class Cluster : PhysicsWeapon<PhysicsProjectile>
 	{
 		public override WeaponConfig Config => new ClusterConfig();
 		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
@@ -32,14 +32,14 @@ namespace Facepunch.Hover
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 150f;
+		public override float ProjectileForce => 60f;
 		public override bool CanMeleeAttack => false;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 3f;
-		public override int BaseDamage => 100;
+		public override float LifeTime => 2f;
+		public override int BaseDamage => 150;
 
 		public override void Spawn()
 		{
@@ -58,7 +58,7 @@ namespace Facepunch.Hover
 			}
 
 			ShootEffects();
-			PlaySound( $"cluster.launch" );
+			PlaySound( $"barage.launch" );
 
 			AnimationOwner.SetAnimBool( "b_attack", true );
 
@@ -84,6 +84,42 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected virtual void CreateBomb( Vector3 position )
+		{
+			var bomb = new PhysicsProjectile()
+			{
+				ExplosionEffect = ImpactEffect,
+				TrailEffect = TrailEffect,
+				HitSound = HitSound,
+				LifeTime = Rand.Float( 1f, 2f ),
+				Owner = Owner
+			};
+
+			bomb.SetModel( ProjectileModel );
+
+			bomb.Position = position;
+			bomb.Rotation = Rotation.From( Angles.Random );
+			bomb.Initialize( OnBombHit );
+			bomb.PhysicsBody.ApplyForce( (Vector3.Up * ProjectileForce * 100f) + (Vector3.Random * ProjectileForce * 250f) );
+		}
+
+		protected virtual void OnBombHit( PhysicsProjectile bomb )
+		{
+			DamageInRadius( bomb.Position, DamageRadius * 0.7f, BaseDamage * 4f );
+		}
+
+		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		{
+			base.OnProjectileHit( projectile );
+
+			PlaySound( $"barage.launch" );
+
+			for ( var i = 0; i < 5; i++ )
+			{
+				CreateBomb( projectile.Position );
+			}
 		}
 	}
 }
