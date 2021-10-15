@@ -25,7 +25,8 @@ namespace Facepunch.Hover
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy )
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";

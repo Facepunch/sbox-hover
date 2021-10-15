@@ -7,11 +7,11 @@ namespace Facepunch.Hover
 	public class BoomerConfig : WeaponConfig
 	{
 		public override string Name => "Boomer";
-		public override string Description => "Medium-range explosive projectile launcher";
+		public override string Description => "Short-range explosive projectile launcher";
 		public override string Icon => "ui/weapons/boomer.png";
 		public override string ClassName => "hv_boomer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
-		public override int Ammo => 20;
+		public override int Ammo => 10;
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
@@ -26,20 +26,22 @@ namespace Facepunch.Hover
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy )
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
-		public override float PrimaryRate => 0.5f;
+		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
 		public override float ProjectileForce => 150f;
 		public override bool CanMeleeAttack => false;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override float ImpactForce => 1000f;
-		public override int ClipSize => 3;
-		public override float ReloadTime => 3f;
-		public override float LifeTime => 2f;
-		public override int BaseDamage => 600;
+		public override int ClipSize => 1;
+		public override float ReloadTime => 2.3f;
+		public override float LifeTime => 1.2f;
+		public override int BaseDamage => 500;
+		public override float DamageRadius => 300f;
 
 		public override void Spawn()
 		{

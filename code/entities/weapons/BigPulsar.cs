@@ -27,7 +27,8 @@ namespace Facepunch.Hover
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy )
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
 		};
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 5000f;

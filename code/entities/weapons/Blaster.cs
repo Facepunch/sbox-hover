@@ -26,7 +26,8 @@ namespace Facepunch.Hover
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy )
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "automatic";
 		public override float ProjectileLifeTime => 2f;
