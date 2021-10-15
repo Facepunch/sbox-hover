@@ -40,6 +40,7 @@ namespace Facepunch.Hover
 		public virtual DamageFlags DamageType => DamageFlags.Bullet;
 		public virtual int BaseDamage => 10;
 		public virtual int HoldType => 1;
+		public virtual int ViewModelMaterialGroup => 0;
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
 		[Net]
@@ -357,12 +358,13 @@ namespace Facepunch.Hover
 
 			ViewModelEntity = new ViewModel
 			{
+				EnableViewmodelRendering = true,
 				Position = Position,
-				Owner = Owner,
-				EnableViewmodelRendering = true
+				Owner = Owner
 			};
 
 			ViewModelEntity.SetModel( ViewModelPath );
+			ViewModelEntity.SetMaterialGroup( ViewModelMaterialGroup );
 		}
 
 		public override void CreateHudElements()

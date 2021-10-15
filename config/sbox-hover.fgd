@@ -434,6 +434,26 @@ metadata
 ]
 
 //
+// Facepunch.Hover.Burst
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_burst : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.Carbine
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_carbine : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Longshot
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_longshot : ""
@@ -467,6 +487,16 @@ metadata
 // Facepunch.Hover.Sideman
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_sideman : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.Sticky
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_sticky : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -547,6 +577,16 @@ metadata
 // Facepunch.Hover.SpeedBooster
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_speed_booster : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.StealthCamo
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_stealth_camo : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

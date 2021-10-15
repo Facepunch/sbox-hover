@@ -102,6 +102,7 @@ namespace Facepunch.Hover
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
 		[Net] public RealTimeUntil HideOnRadarTime { get; set; }
+		[Net] public float TargetAlpha { get; set; } = 1f;
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
 		[Net] public float RegenDelay { get; set; }
@@ -553,6 +554,17 @@ namespace Facepunch.Hover
 					Camera = new FirstPersonCamera();
 			}
 
+			foreach ( var child in Children )
+			{
+				if ( child is Equipment equipment && equipment.AbilityButton.HasValue )
+				{
+					if ( Input.Released( equipment.AbilityButton.Value )  )
+					{
+						equipment.OnAbilityUsed();
+					}
+				}
+			}
+
 			if ( IsServer && Input.Released( InputButton.Use ) )
 			{
 				var station = Physics.GetEntitiesInSphere( Position, 50f )
@@ -851,6 +863,20 @@ namespace Facepunch.Hover
 			UpdateHealthRegen();
 			UpdateJetpackLoop();
 			UpdateSkiLoop();
+			UpdateTargetAlpha();
+		}
+
+		protected virtual void UpdateTargetAlpha()
+		{
+			RenderColor = RenderColor.WithAlpha( RenderColor.a.LerpTo( TargetAlpha, Time.Delta * 4f ) );
+
+			foreach ( var child in Children )
+			{
+				if ( child is ModelEntity model )
+				{
+					model.RenderColor = model.RenderColor.WithAlpha( model.RenderColor.a.LerpTo( TargetAlpha, Time.Delta * 4f ) );
+				}
+			}
 		}
 
 		protected virtual void UpdateHealthRegen()

@@ -34,6 +34,28 @@
 						use_global_default = false
 						global_default_material = ""
 					},
+					{
+						_class = "MaterialGroup"
+						name = "burst"
+						remaps = 
+						[
+							{
+								from = "models/weapons/blaster/blaster.vmat"
+								to = "models/weapons/blaster/burst.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "carbine"
+						remaps = 
+						[
+							{
+								from = "models/weapons/blaster/blaster.vmat"
+								to = "models/weapons/blaster/carbine.vmat"
+							},
+						]
+					},
 				]
 			},
 			{

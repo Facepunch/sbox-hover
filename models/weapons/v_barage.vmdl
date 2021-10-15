@@ -48,6 +48,21 @@
 						use_global_default = false
 						global_default_material = ""
 					},
+					{
+						_class = "MaterialGroup"
+						name = "sticky"
+						remaps = 
+						[
+							{
+								from = "models/weapons/barage/barage.vmat"
+								to = "models/weapons/barage/sticky.vmat"
+							},
+							{
+								from = "models/weapons/barage/barage_scope.vmat"
+								to = "models/weapons/barage/sticky_scope.vmat"
+							},
+						]
+					},
 				]
 			},
 			{

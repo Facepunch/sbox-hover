@@ -29,9 +29,9 @@ namespace Facepunch.Hover
 		public float ProjectileSpeed => 4000f;
 		public float RotateSpeed => 10f;
 		public float AttackRadius => 3000f;
-		public float BlastDamage => 400f;
-		public float BlastRadius => 400f;
-		public float FireRate => 2.2f;
+		public float BlastDamage => 500f;
+		public float BlastRadius => 300f;
+		public float FireRate => 3f;
 
 		private Vector3 ClientDirection { get; set; }
 

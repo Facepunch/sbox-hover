@@ -6,6 +6,11 @@ namespace Facepunch.Hover
 {
 	public abstract partial class Equipment : Weapon
 	{
+		public virtual InputButton? AbilityButton => null;
+		public virtual string AbilityBind => null;
+
+		[Net] public bool IsUsingAbility { get; protected set; }
+
 		protected virtual void OnEquipmentGiven( Player player ) { }
 		protected virtual void OnEquipmentTaken( Player player ) { }
 
@@ -13,6 +18,8 @@ namespace Facepunch.Hover
 		{
 			return info;
 		}
+
+		public virtual void OnAbilityUsed() { }
 
 		public override void OnCarryStart( Entity carrier )
 		{

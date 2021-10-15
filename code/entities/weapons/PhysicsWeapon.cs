@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public abstract partial class PhysicsWeapon : Weapon
+	public abstract partial class PhysicsWeapon<T> : Weapon where T : PhysicsProjectile, new()
 	{
 		public virtual float ProjectileForce => 1000f;
 		public virtual string ProjectileModel => "";
@@ -24,7 +24,7 @@ namespace Facepunch.Hover
 
 		public virtual void FireProjectile()
 		{
-			var projectile = new PhysicsProjectile()
+			var projectile = new T()
 			{
 				ExplosionEffect = ImpactEffect,
 				TrailEffect = TrailEffect,
