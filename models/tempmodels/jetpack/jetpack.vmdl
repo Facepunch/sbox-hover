@@ -72,6 +72,32 @@
 					},
 				]
 			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "materials/dev/reflectivity_30b.vmat"
+								to = "materials/tempmodels/color_1.vmat"
+							},
+							{
+								from = "materials/dev/reflectivity_10b.vmat"
+								to = "materials/tempmodels/nocolor_1.vmat"
+							},
+							{
+								from = "materials/models/solids/black.vmat"
+								to = "materials/devtemp/black_jetpack.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
