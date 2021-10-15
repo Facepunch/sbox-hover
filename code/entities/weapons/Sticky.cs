@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Sticky";
 		public override string Description => "Short-range sticky grenade launcher";
-		public override string Icon => "ui/weapons/barage.png";
+		public override string Icon => "ui/weapons/sticky.png";
 		public override string ClassName => "hv_sticky";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 9;

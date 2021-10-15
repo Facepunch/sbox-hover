@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public override string Name => "Carbine";
 		public override string Description => "Medium-range hitscan assault rifle";
 		public override string ClassName => "hv_carbine";
-		public override string Icon => "ui/weapons/blaster.png";
+		public override string Icon => "ui/weapons/carbine.png";
 		public override AmmoType AmmoType => AmmoType.Rifle;
 		public override int Ammo => 90;
 	}

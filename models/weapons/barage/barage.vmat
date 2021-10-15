@@ -30,7 +30,7 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	g_flMetalness "1.000"
+	g_flMetalness "0.700"
 
 	//---- Normal ----
 	TextureNormal "models/weapons/barage/textures/barage_normal.png"

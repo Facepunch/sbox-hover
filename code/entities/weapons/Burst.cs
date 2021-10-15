@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 		public override string Name => "Burst";
 		public override string Description => "Medium-range hitscan burst-fire SMG";
 		public override string ClassName => "hv_burst";
-		public override string Icon => "ui/weapons/blaster.png";
+		public override string Icon => "ui/weapons/burst.png";
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override int Ammo => 60;
 	}
