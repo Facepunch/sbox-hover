@@ -22,6 +22,16 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil NextReturnToStealth { get; set; }
 
+		public override DamageInfo OwnerTakeDamage( DamageInfo info )
+		{
+			if ( IsUsingAbility )
+			{
+				NextReturnToStealth = 1f;
+			}
+
+			return base.OwnerTakeDamage( info );
+		}
+
 		public override void OnAbilityUsed()
 		{
 			if ( IsServer )
