@@ -66,6 +66,7 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<RespawnScreen>();
 			RootPanel.AddChild<AwardQueue>();
 			RootPanel.AddChild<ToastList>();
+			RootPanel.AddChild<TutorialScreen>();
 		}
 
 		[Event.Tick.Client]

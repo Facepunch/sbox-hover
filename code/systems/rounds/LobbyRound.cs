@@ -52,6 +52,8 @@ namespace Facepunch.Hover
 			player.GiveLoadout<LightAssault>();
 			player.Respawn();
 
+			TutorialScreen.Show( To.Single( player ) );
+
 			base.OnPlayerJoin( player );
 		}
 	}

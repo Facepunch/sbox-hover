@@ -25,6 +25,8 @@ namespace Facepunch.Hover
 		{
 			SpawnPlayer( player );
 
+			TutorialScreen.Show( To.Single( player ) );
+
 			base.OnPlayerJoin( player );
 		}
 
