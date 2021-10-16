@@ -105,10 +105,8 @@ namespace Facepunch.Hover
 				_activeNameplates[player] = tag;
 			}
 
-			if ( player.Team != localPlayer.Team )
-			{
-				tag.SetClass( "enemy", true );
-			}
+			tag.SetClass( Team.Blue.GetHudClass(), player.Team == Team.Blue );
+			tag.SetClass( Team.Red.GetHudClass(), player.Team == Team.Red );
 
 			var screenPos = labelPos.ToScreen();
 

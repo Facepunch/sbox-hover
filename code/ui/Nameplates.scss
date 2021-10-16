@@ -10,7 +10,7 @@ nameplates {
 	nameplate {
 		position: absolute;
 		font-weight: 500;
-		color: white;
+		color: $blueTeamColor;
 		font-size: 40px;
 		transform-origin: 50% 0%;
 		border-radius: 10px;
@@ -22,7 +22,7 @@ nameplates {
 		border: $blueTeamPanelBorder;
 		background-size: 100%;
 		font-family: Roboto;
-		padding: 32px;
+		padding: 8px;
 
 		label {
 			padding: 1px 60px;
@@ -31,18 +31,11 @@ nameplates {
 			text-shadow: $blueTeamShadow;
 		}
 
-		&.enemy {
-			color: red;
-		}
-	}
-}
-
-.team_red {
-	nameplates {
-		nameplate {
+		&.team_red {
 			box-shadow: $redTeamBackground;
 			background-color: $redTeamPanelBg;
 			border: $redTeamPanelBorder;
+			color: $redTeamColor;
 
 			label {
 				text-shadow: $blueTeamShadow;
