@@ -1,4 +1,5 @@
 ﻿
+using Gamelib.Maths;
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
@@ -44,30 +45,35 @@ namespace Facepunch.Hover
 		{
 			var screenSize = Box.Rect.Size * ScaleFromScreen;
 			var scopeSize = screenSize.y * 0.5f;
+			var halfScopeSize = scopeSize * 0.5f;
+			var halfScreenX = screenSize.x * 0.5f;
+			var halfScreenY = screenSize.y * 0.5f;
+
+			Inner.SetTexture( "ui/scope_inner.png" );
 
 			Inner.Style.Width = scopeSize;
 			Inner.Style.Height = scopeSize;
-			Inner.Style.Left = Length.Pixels( screenSize.x / 2f );
-			Inner.Style.Top = Length.Pixels( screenSize.y / 2f );
+			Inner.Style.Left = halfScreenX - halfScopeSize;
+			Inner.Style.Top = halfScreenY - halfScopeSize;
 
-			Left.Style.Width = ((screenSize.x * 0.5f) - (scopeSize * 0.5f)) + 1f;
-			Left.Style.Top = scopeSize * 0.5f;
+			Left.Style.Width = halfScreenX - halfScopeSize;
+			Left.Style.Top = halfScopeSize;
 			Left.Style.Left = 0f;
-			Left.Style.Height = screenSize.y - (scopeSize * 0.5f);
+			Left.Style.Height = screenSize.y - scopeSize;
 
-			Right.Style.Width = Left.Style.Width;
-			Right.Style.Left = ((screenSize.x * 0.5f) + (scopeSize * 0.5f)) - 1f;
-			Right.Style.Top = scopeSize * 0.5f;
-			Right.Style.Height = screenSize.y - (scopeSize * 0.5f);
+			Right.Style.Width = Length.Percent( 100f );
+			Right.Style.Left = halfScreenX + halfScopeSize;
+			Right.Style.Top = halfScopeSize;
+			Right.Style.Height = screenSize.y - scopeSize;
 
 			Top.Style.Top = 0f;
 			Top.Style.Width = screenSize.x;
-			Top.Style.Height = (scopeSize * 0.5f) + 1f;
+			Top.Style.Height = halfScopeSize;
 			Top.Style.Left = 0f;
 
-			Bottom.Style.Bottom = 0f;
+			Bottom.Style.Top = halfScreenY + halfScopeSize;
 			Bottom.Style.Width = screenSize.x;
-			Bottom.Style.Height = (scopeSize * 0.5f) + 1f;
+			Bottom.Style.Height = Length.Percent( 100f );
 			Bottom.Style.Left = 0f;
 
 			base.Tick();
