@@ -4,13 +4,15 @@ using Sandbox.Hooks;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Facepunch.Hover
 {
 	public enum ChatBoxChannel
 	{
 		All,
-		Team
+		Team,
+		Tip
 	}
 
 	public class TextEntryContainer : Panel
@@ -40,8 +42,21 @@ namespace Facepunch.Hover
 	{
 		public static ChatBox Current { get; private set; }
 
+		public static string[] Tips => new string[]
+		{
+			"Hold [+iv_jump] to ski and maintain velocity",
+			"Slide down slopes while skiing to gain velocity",
+			"Hold [+iv_attack2] to jetpack over hills while skiing to maintain velocity",
+			"Destroy the enemy Generator to disable their defences",
+			"Visit a Station to change or upgrade your loadout",
+			"Heavier loadouts will decrease your movement speed",
+			"Be careful of weapons that cause blast damage"
+		};
+
 		public TextEntryContainer TextEntry { get; private set; }
 		public Panel Canvas { get; private set; }
+
+		private RealTimeUntil NextTipTime { get; set; }
 
 		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
 		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, ChatBoxChannel channel = ChatBoxChannel.All )
@@ -105,16 +120,6 @@ namespace Facepunch.Hover
 			TextEntry.SetChannel( Channel );
 		}
 
-		private void OnTabPressed()
-		{
-			if ( Channel == ChatBoxChannel.All )
-				Channel = ChatBoxChannel.Team;
-			else
-				Channel = ChatBoxChannel.All;
-
-			TextEntry.SetChannel( Channel );
-		}
-
 		public void Open()
 		{
 			AddClass( "open" );
@@ -146,6 +151,39 @@ namespace Facepunch.Hover
 
 			entry.SetClass( "noname", string.IsNullOrEmpty( name ) );
 			entry.SetClass( "noavatar", string.IsNullOrEmpty( avatar ) );
+		}
+
+		public override void Tick()
+		{
+			if ( NextTipTime )
+			{
+				ShowRandomTip();
+				NextTipTime = Rand.Float( 45f, 60f );
+			}
+
+			base.Tick();
+		}
+
+		private void ShowRandomTip()
+		{
+			var tip = Rand.FromArray( Tips );
+
+			tip = Regex.Replace( tip, "(\\+iv_[a-zA-Z0-9]+)", ( match ) =>
+			{
+				return Input.GetKeyWithBinding( match.Value );
+			} );
+
+			Current?.AddEntry( null, tip, null, "tip", ChatBoxChannel.Tip );
+		}
+
+		private void OnTabPressed()
+		{
+			if ( Channel == ChatBoxChannel.All )
+				Channel = ChatBoxChannel.Team;
+			else
+				Channel = ChatBoxChannel.All;
+
+			TextEntry.SetChannel( Channel );
 		}
 
 		private void Submit()

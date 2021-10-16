@@ -6,7 +6,7 @@ chatbox {
 	left: 100px;
 	z-index: 100;
 	flex-direction: column;
-	width: 500px;
+	width: 700px;
 	font-family: Poppins;
 	font-size: 13px;
 
@@ -153,12 +153,30 @@ chatentry {
 		display: none;
 	}
 
+	&.noavatar {
+		padding-left: 12px;
+	}
+
 	&.info {
 		box-shadow: $chatInfoBackground;
 
 		.message {
 			text-shadow: $chatInfoShadow;
 			color: $chatInfoColor;
+		}
+	}
+
+	&.tip {
+		box-shadow: $chatTipBackground;
+
+		.message {
+			text-shadow: $chatTipShadow;
+			font-size: 16px;
+			color: $chatTipColor;
+		}
+
+		.channel {
+			font-size: 16px;
 		}
 	}
 

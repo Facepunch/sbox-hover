@@ -29,8 +29,10 @@ namespace Facepunch.Hover
 		{
 			if ( channel == ChatBoxChannel.All )
 				Channel.Text = "[All]";
-			else
+			else if ( channel == ChatBoxChannel.Team )
 				Channel.Text = "[Team]";
+			else if ( channel == ChatBoxChannel.Tip )
+				Channel.Text = "[Tip]";
 
 			Channel.SetClass( "hidden", false );
 		}
