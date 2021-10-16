@@ -73,40 +73,10 @@ namespace Facepunch.Hover
 			// TODO: Can it be killed separately to the generator?
 		}
 
-		private void FindClosestTarget()
+		protected override void ServerTick()
 		{
-			var targets = Physics.GetEntitiesInSphere( Position, AttackRadius )
-				.OfType<Player>()
-				.Where( IsValidTarget );
+			base.ServerTick();
 
-			var closestTarget = (Player)null;
-			var closestDistance = 0f;
-
-			foreach ( var target in targets )
-			{
-				var distance = target.Position.Distance( Position );
-
-				if ( !closestTarget.IsValid() || distance < closestDistance )
-				{
-					closestTarget = target;
-					closestDistance = distance;
-				}
-			}
-
-			if ( closestTarget != Target )
-			{
-				NextFireTime = 1f;
-			}
-
-			if ( closestTarget.IsValid() )
-				Target = closestTarget;
-			else
-				Target = null;
-		}
-
-		[Event.Tick.Server]
-		private void UpdateTarget()
-		{
 			if ( IsPowered )
 			{
 				if ( NextFindTarget )
@@ -140,6 +110,37 @@ namespace Facepunch.Hover
 			UpdateAnimation();
 
 			Recoil = Recoil.LerpTo( 0f, Time.Delta * 2f );
+		}
+
+		private void FindClosestTarget()
+		{
+			var targets = Physics.GetEntitiesInSphere( Position, AttackRadius )
+				.OfType<Player>()
+				.Where( IsValidTarget );
+
+			var closestTarget = (Player)null;
+			var closestDistance = 0f;
+
+			foreach ( var target in targets )
+			{
+				var distance = target.Position.Distance( Position );
+
+				if ( !closestTarget.IsValid() || distance < closestDistance )
+				{
+					closestTarget = target;
+					closestDistance = distance;
+				}
+			}
+
+			if ( closestTarget != Target )
+			{
+				NextFireTime = 1f;
+			}
+
+			if ( closestTarget.IsValid() )
+				Target = closestTarget;
+			else
+				Target = null;
 		}
 
 		[Event.Tick.Client]
@@ -179,7 +180,7 @@ namespace Facepunch.Hover
 			};
 
 			var muzzle = GetAttachment( "muzzle" );
-			projectile.Initialize( muzzle.Value.Position, TargetDirection, 32f, ProjectileSpeed, OnProjectileHit );
+			projectile.Initialize( muzzle.Value.Position, TargetDirection * ProjectileSpeed, 32f, OnProjectileHit );
 
 			Recoil = 1f;
 		}
@@ -228,7 +229,7 @@ namespace Facepunch.Hover
 				var damageInfo = new DamageInfo()
 					.WithAttacker( this )
 					.WithFlag( DamageFlags.Blast | DamageFlags.Shock )
-					.WithForce( (blastPosition - position).Normal * projectile.Speed * 0.1f )
+					.WithForce( (blastPosition - position).Normal * projectile.Velocity.Length * 0.1f )
 					.WithPosition( blastPosition )
 					.WithWeapon( this );
 

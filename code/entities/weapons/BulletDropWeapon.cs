@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 		public virtual float ProjectileLifeTime => 10f;
 		public virtual string TrailEffect => null;
 		public virtual string HitSound => null;
+		public virtual float InheritVelocity => 0f;
 		public virtual float Gravity => 50f;
 		public virtual float Speed => 2000f;
 		public virtual float Spread => 0.05f;
@@ -36,9 +37,6 @@ namespace Facepunch.Hover
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
-
-			position += Owner.Velocity * Time.Delta;
-
 			var forward = Owner.EyeRot.Forward;
 			var endPosition = Owner.EyePos + forward * BulletRange;
 			var trace = Trace.Ray( Owner.EyePos, endPosition )
@@ -50,7 +48,8 @@ namespace Facepunch.Hover
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
 
-			projectile.Initialize( position, direction, ProjectileRadius, Speed, OnProjectileHit );
+			var velocity = (direction * Speed) + (Owner.Velocity * InheritVelocity);
+			projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
 		}
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )
@@ -59,7 +58,7 @@ namespace Facepunch.Hover
 			{
 				var distance = target.Position.Distance( projectile.StartPosition );
 				var damage = GetDamageFalloff( distance, BaseDamage );
-				DealDamage( target, projectile.Position, projectile.Direction * projectile.Speed * 0.1f, damage );
+				DealDamage( target, projectile.Position, projectile.Velocity * 0.1f, damage );
 			}
 		}
 	}

@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
+		public override float InheritVelocity => 0.5f;
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
@@ -90,7 +91,7 @@ namespace Facepunch.Hover
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position - projectile.Direction * projectile.Radius );
+			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
@@ -100,7 +101,7 @@ namespace Facepunch.Hover
 				var direction = (entity.Position - position).Normal;
 				var distance = entity.Position.Distance( position );
 				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
-				DealDamage( entity, position, direction * projectile.Speed * 0.25f, damage );
+				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.25f, damage );
 			}
 		}
 	}

@@ -6,6 +6,7 @@ namespace Facepunch.Hover
 	{
 		public virtual float ProjectileForce => 1000f;
 		public virtual string ProjectileModel => "";
+		public virtual float InheritVelocity => 0f;
 		public virtual float ImpactForce => 1000f;
 		public virtual float DamageRadius => 500f;
 		public virtual string TrailEffect => null;
@@ -42,6 +43,8 @@ namespace Facepunch.Hover
 			projectile.Position = position + forward * 50f;
 			projectile.Rotation = Rotation.LookAt( forward );
 			projectile.Initialize( OnProjectileHit );
+
+			projectile.Velocity = Owner.Velocity * InheritVelocity;
 			projectile.PhysicsBody.ApplyForce( forward * ProjectileForce * 200f );
 		}
 

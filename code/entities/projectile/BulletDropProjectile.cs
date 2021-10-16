@@ -26,10 +26,9 @@ namespace Facepunch.Hover
 		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 10f;
 		public float Radius { get; set; } = 16f;
-		public float Speed { get; set; } = 2000f;
 		public bool FaceDirection { get; set; } = false;
 		public Vector3 StartPosition { get; private set; }
-		public Vector3 Direction { get; set; }
+		public Vector3 Velocity { get; set; }
 		public bool Debug { get; set; } = false;
 
 		private float GravityModifier { get; set; }
@@ -39,13 +38,13 @@ namespace Facepunch.Hover
 		private Particles Follower { get; set; }
 		private Particles Trail { get; set; }
 
-		public void Initialize( Vector3 start, Vector3 direction, float radius, float speed, Action<BulletDropProjectile, Entity> callback = null )
+		public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
 		{
-			Initialize( start, direction, speed, callback );
+			Initialize( start, velocity, callback );
 			Radius = radius;
 		}
 
-		public void Initialize( Vector3 start, Vector3 direction, float speed, Action<BulletDropProjectile, Entity> callback = null )
+		public void Initialize( Vector3 start, Vector3 velocity, Action<BulletDropProjectile, Entity> callback = null )
 		{
 			if ( LifeTime.HasValue )
 			{
@@ -54,12 +53,11 @@ namespace Facepunch.Hover
 
 			PhysicsEnabled = false;
 			StartPosition = start;
-			Direction = direction;
+			Velocity = velocity;
 			Callback = callback;
 			NextFlyby = 0.2f;
 			Position = start;
 			Transmit = TransmitType.Always;
-			Speed = speed;
 
 			using ( Prediction.Off() )
 			{
@@ -102,7 +100,7 @@ namespace Facepunch.Hover
 		private void ServerTick()
 		{
 			if ( FaceDirection )
-				Rotation = Rotation.LookAt( Direction );
+				Rotation = Rotation.LookAt( Velocity.Normal );
 
 			if ( Debug )
 				DebugOverlay.Sphere( Position, Radius, Color.Red );
@@ -114,7 +112,7 @@ namespace Facepunch.Hover
 			}
 
 			var newPosition = Position;
-			newPosition += Direction * Speed * Time.Delta;
+			newPosition += Velocity * Time.Delta;
 
 			GravityModifier += Gravity * Time.Delta;
 			newPosition -= new Vector3( 0f, 0f, GravityModifier );
@@ -131,7 +129,7 @@ namespace Facepunch.Hover
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = trace.EndPos + Direction * Radius;
+			Position = trace.EndPos + Velocity.Normal * Radius;
 
 			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
 			{
