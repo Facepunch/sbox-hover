@@ -28,7 +28,6 @@ namespace Facepunch.Hover
 		public float Radius { get; set; } = 16f;
 		public bool FaceDirection { get; set; } = false;
 		public Vector3 StartPosition { get; private set; }
-		public Vector3 Velocity { get; set; }
 		public bool Debug { get; set; } = false;
 
 		private float GravityModifier { get; set; }

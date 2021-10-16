@@ -3,6 +3,7 @@
 worldgeneratorhud {
 	align-items: center;
 	justify-content: center;
+	mix-blend-mode: lighten;
 
 	.container {
 		display: flex;

@@ -172,11 +172,11 @@ namespace Facepunch.Hover
 				FlybySounds = FlybySounds,
 				IgnoreEntity = this,
 				LaunchSoundName = $"pulserifle.fire{Rand.Int(1, 2)}",
-				MoveTowardTarget = 500f,
+				MoveTowardTarget = 2000f,
 				HitSound = "barage.explode",
 				LifeTime = 10f,
 				Target = Target,
-				Gravity = 100f
+				Gravity = 0f
 			};
 
 			var muzzle = GetAttachment( "muzzle" );

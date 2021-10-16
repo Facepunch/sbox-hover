@@ -5,6 +5,7 @@ worldstationhud {
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
+	mix-blend-mode: lighten;
 
 	.label {
 		text-shadow: $blueTeamShadow;

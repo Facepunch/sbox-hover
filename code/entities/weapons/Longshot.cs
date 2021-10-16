@@ -154,7 +154,7 @@ namespace Facepunch.Hover
 		}
 
 		[Event.BuildInput]
-		protected virtual void BuildInput( InputBuilder builder )
+		protected new virtual void BuildInput( InputBuilder builder )
 		{
 			if ( IsScoped )
 			{

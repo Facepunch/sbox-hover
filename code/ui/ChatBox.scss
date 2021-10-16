@@ -9,6 +9,7 @@ chatbox {
 	width: 700px;
 	font-family: Poppins;
 	font-size: 13px;
+	z-index: 3;
 
 	textentrycontainer {
 		box-shadow: $blueTeamBackground;
