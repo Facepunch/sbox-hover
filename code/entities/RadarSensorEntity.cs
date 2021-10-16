@@ -72,6 +72,15 @@ namespace Facepunch.Hover
 
 			if ( !IsPowered || !NextSensePlayers ) return;
 
+			var disruptors = Physics.GetEntitiesInSphere( Position, Range )
+				.OfType<Disruptor>()
+				.Where( IsEnemyDisruptor );
+
+			if ( disruptors.Any() )
+			{
+				return;
+			}
+
 			var players = Physics.GetEntitiesInSphere( Position, Range )
 				.OfType<Player>()
 				.Where( IsValidTarget );
@@ -80,9 +89,9 @@ namespace Facepunch.Hover
 
 			foreach ( var player in players )
 			{
-				if ( player.HideOnRadarTime )
+				if ( player.VisibleToEnemiesUntil )
 				{
-					player.HideOnRadarTime = 3f;
+					player.VisibleToEnemiesUntil = 5f;
 					didFindPlayer = true;
 				}
 			}
@@ -117,6 +126,11 @@ namespace Facepunch.Hover
 				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
 
 			base.OnIsPoweredChanged( isPowered );
+		}
+
+		private bool IsEnemyDisruptor( Disruptor disruptor )
+		{
+			return (disruptor.Team != Team);
 		}
 
 		private bool IsValidTarget( Player player )

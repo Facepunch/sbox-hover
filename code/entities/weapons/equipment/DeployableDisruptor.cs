@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Disruptor";
 		public override string Description => "Deployable Disruptor";
-		public override string SecondaryDescription => "Reveals Stealth";
+		public override string SecondaryDescription => "Reveals Stealth and Disrupts Radar";
 		public override string Icon => "ui/equipment/deployable_disruptor.png";
 		public override string ClassName => "hv_deployable_disruptor";
 	}

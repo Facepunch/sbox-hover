@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Extensions;
+using Sandbox;
 using Sandbox.Joints;
 using System;
 using System.Collections.Generic;
@@ -101,7 +102,7 @@ namespace Facepunch.Hover
 		}
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
-		[Net] public RealTimeUntil HideOnRadarTime { get; set; }
+		[Net] public RealTimeUntil VisibleToEnemiesUntil { get; set; }
 		[Net] public float TargetAlpha { get; set; } = 1f;
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
@@ -117,6 +118,7 @@ namespace Facepunch.Hover
 		private List<AssistTracker> AssistTrackers { get; set; }
 		private Rotation LastCameraRotation { get; set; }
 		private Particles SpeedLines { get; set; }
+		private Nameplate Nameplate { get; set; }
 		private Radar RadarHud { get; set; }
 		private bool PlayLowEnergySound { get; set; }
 		private bool IsPlayingJetpackLoop { get; set; }
@@ -426,6 +428,10 @@ namespace Facepunch.Hover
 				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
 				RadarHud = Local.Hud.AddChild<Radar>();
 			}
+			else
+			{
+				Nameplate = new Nameplate( this );
+			}
 
 			base.ClientSpawn();
 		}
@@ -550,6 +556,38 @@ namespace Facepunch.Hover
 
 			if ( LifeState != LifeState.Alive )
 				return;
+
+			if ( IsServer && Input.Released( InputButton.Drop ) )
+			{
+				var spottedPlayers = 0;
+				var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 20000f )
+					.Ignore( this )
+					.Run();
+
+				foreach ( var player in All.OfType<Player>() )
+				{
+					if ( !IsEnemyPlayer( player ) )
+						continue;
+
+					if ( player.Position.DistanceToLine( trace.StartPos, trace.EndPos, out var _ ) > 200f )
+						continue;
+
+					var visibleTrace = Trace.Ray( EyePos, EyePos + (player.WorldSpaceBounds.Center - EyePos).Normal * 20000f )
+						.Ignore( this )
+						.Run();
+
+					if ( visibleTrace.Entity == player )
+					{
+						player.VisibleToEnemiesUntil = 4f;
+						spottedPlayers++;
+					}
+				}
+
+				if ( spottedPlayers > 0 )
+				{
+					Audio.Play( To.Single( this ), "hover.hoversharp" );
+				}
+			}
 
 			if ( Input.Released( InputButton.View ) )
 			{

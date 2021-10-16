@@ -50,7 +50,8 @@ namespace Facepunch.Hover
 			"Destroy the enemy Generator to disable their defences",
 			"Visit a Station to change or upgrade your loadout",
 			"Heavier loadouts will decrease your movement speed",
-			"Be careful of weapons that cause blast damage"
+			"Be careful of weapons that cause blast damage",
+			"Spot enemies by pressing [+iv_drop] while looking at them"
 		};
 
 		public TextEntryContainer TextEntry { get; private set; }

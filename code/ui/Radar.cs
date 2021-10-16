@@ -69,13 +69,13 @@ namespace Facepunch.Hover
 			if ( player.LifeState != LifeState.Alive )
 				return false;
 
-			if ( player.HideOnRadarTime )
+			if ( player.VisibleToEnemiesUntil )
 				return false;
 
 			if ( Local.Pawn is not Player localPlayer )
 				return false;
 
-			var radarRange = 2048f;
+			var radarRange = 6000f;
 
 			if ( player.Position.Distance( localPlayer.Position ) > radarRange )
 				return false;

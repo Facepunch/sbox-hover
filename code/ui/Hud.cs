@@ -56,7 +56,6 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<Tokens>();
 			RootPanel.AddChild<Speedometer>();
 			RootPanel.AddChild<VoiceList>();
-			RootPanel.AddChild<Nameplates>();
 			RootPanel.AddChild<DamageIndicator>();
 			RootPanel.AddChild<HitIndicator>();
 			RootPanel.AddChild<WeaponList>();
