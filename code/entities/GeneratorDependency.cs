@@ -61,6 +61,8 @@ namespace Facepunch.Hover
 				return true;
 			}
 
+			PlaySound( "player_use_fail" );
+
 			return false;
 		}
 

@@ -1034,6 +1034,11 @@ namespace Facepunch.Hover
 			SkiLoop = PlaySound( "ski.loop" );
 		}
 
+		protected override void UseFail()
+		{
+			
+		}
+
 		protected override Entity FindUsable()
 		{
 			var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )

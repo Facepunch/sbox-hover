@@ -61,6 +61,25 @@ namespace Facepunch.Hover
 			// TODO: Can it be killed separately to the generator?
 		}
 
+		protected override void ServerTick()
+		{
+			base.ServerTick();
+
+			var entities = Physics.GetEntitiesInSphere( Position, 100f ).OfType<Player>();
+
+			foreach ( var player in entities )
+			{
+				if ( player.LifeState == LifeState.Alive && CanPlayerUse( player ) )
+				{
+					if ( NextRestockAvailable && player.TryRestock() )
+					{
+						NextRestockAvailable = 2f;
+						ShowUseEffects();
+					}
+				}
+			}
+		}
+
 		protected override void OnIsPoweredChanged( bool isPowered )
 		{
 			if ( isPowered )
@@ -87,24 +106,6 @@ namespace Facepunch.Hover
 		{
 			IdleParticles?.Destroy();
 			IdleParticles = null;
-		}
-
-		[Event.Tick.Server]
-		private void ServerTick()
-		{
-			var entities = Physics.GetEntitiesInSphere( Position, 100f ).OfType<Player>();
-
-			foreach ( var player in entities )
-			{
-				if ( player.LifeState == LifeState.Alive && CanPlayerUse( player ) )
-				{
-					if ( NextRestockAvailable && player.TryRestock() )
-					{
-						NextRestockAvailable = 2f;
-						ShowUseEffects();
-					}
-				}
-			}
 		}
 	}
 }
