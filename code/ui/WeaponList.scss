@@ -28,7 +28,7 @@ weaponlist {
 			transform: translateY(-50%);
 			text-shadow: $blueTeamShadow;
 			margin-top: 8px;
-			font-size: 18px;
+			font-size: 16px;
 			color: rgba( 255 255 255 0.8 );
 			transition: all 0.1s ease-out;
 			font-family: $mainFont;
@@ -60,7 +60,7 @@ weaponlist {
 
 			.name {
 				transition: all 0.1s ease-out;
-				font-size: 20px;
+				font-size: 18px;
 				color: $blueTeamColor;
 			}
 		}

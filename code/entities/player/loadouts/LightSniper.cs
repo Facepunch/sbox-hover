@@ -26,9 +26,8 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
-				new EnergyBoosterConfig(),
-				new SpeedBoosterConfig(),
-				new AmmoBoosterConfig()
+				new DeployableDisruptorConfig(),
+				new EnergyBoosterConfig()
 			}
 		};
 		public override float RegenDelay => 20f;

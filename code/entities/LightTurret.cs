@@ -7,14 +7,14 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_light_turret" )]
-	public partial class LightTurret : GeneratorDependency
+	public partial class LightTurret : DeployableEntity
 	{
-		[Net] public RealTimeUntil FinishDeployTime { get; set; }
+		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
+		public override float MaxHealth => 800f;
+
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }
 		[Net] public Player Target { get; set; }
-
-		public Player Deployer { get; set; }
 
 		public List<string> FlybySounds => new()
 		{
@@ -37,59 +37,14 @@ namespace Facepunch.Hover
 		public float RotateSpeed => 10f;
 		public float AttackRadius => 1000f;
 		public float LockOnTime => 1f;
-		public float DeployTime => 2f;
 		public float BaseDamage => 15f;
 		public float FireRate => 0.2f;
-		public float MaxHealth => 800f;
 
-		private WorldHealthBar HealthBar { get; set; }
 		private Vector3 ClientDirection { get; set; }
 
 		public float GetDamageFalloff( float distance, float damage )
 		{
 			return WeaponUtil.GetDamageFalloff( distance, damage, DamageFalloffStart, DamageFalloffEnd );
-		}
-
-		public void SetTeam( Team team )
-		{
-			Team = team;
-
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else
-				RenderColor = Color.Red;
-		}
-
-		public override void Spawn()
-		{
-			SetModel( "models/deploy_turret/deploy_turret.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
-
-			FinishDeployTime = DeployTime;
-			PlaySound( "turret.deploy" );
-
-			Transmit = TransmitType.Always;
-			Name = "Light Turret";
-
-			base.Spawn();
-		}
-
-		public override void ClientSpawn()
-		{
-			HealthBar = new WorldHealthBar();
-			HealthBar.MaximumValue = MaxHealth;
-			HealthBar.SetEntity( this, "health_bar" );
-			HealthBar.RotateToFace = true;
-			HealthBar.ShowIcon = false;
-
-			base.ClientSpawn();
-		}
-
-		public override void OnKilled()
-		{
-			Particles.Create( "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf", Position );
-			Audio.Play( "barage.explode", Position );
-			Delete();
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force )
@@ -132,13 +87,6 @@ namespace Facepunch.Hover
 				damage = GetDamageFalloff( trace.Distance, damage );
 				DealDamage( trace.Entity, trace.EndPos, trace.Normal * 100f * force, damage );
 			}
-		}
-
-		protected override void OnDestroy()
-		{
-			HealthBar?.Delete();
-
-			base.OnDestroy();
 		}
 
 		public override void TakeDamage( DamageInfo info )
@@ -239,11 +187,9 @@ namespace Facepunch.Hover
 			Recoil = Recoil.LerpTo( 0f, Time.Delta * 2f );
 		}
 
-		[Event.Tick.Client]
-		private void ClientTick()
+		protected override void ClientTick()
 		{
-			HealthBar.SetValue( Health );
-			HealthBar.SetIsLow( Health < MaxHealth * 0.1f );
+			base.ClientTick();
 
 			UpdateAnimation();
 		}

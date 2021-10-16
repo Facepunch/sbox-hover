@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 		public float EnergyDrain { get; set; } = 8f;
 
 		private RealTimeUntil NextReturnToStealth { get; set; }
+		private RealTimeUntil NextDisruptorCheck { get; set; }
 		private RealTimeUntil NextJammerCheck { get; set; }
 
 		public override DamageInfo OwnerTakeDamage( DamageInfo info )
@@ -56,6 +57,28 @@ namespace Facepunch.Hover
 			}
 
 			base.OnAbilityUsed();
+		}
+
+		protected bool IsEnemyDisruptor( Disruptor jammer )
+		{
+			if ( Owner is not Player player )
+				return false;
+
+			if ( jammer.Owner is not Player other )
+				return false;
+
+			return player.Team == other.Team;
+		}
+
+		protected bool IsEnemyJammer( RadarJammer jammer )
+		{
+			if ( Owner is not Player player )
+				return false;
+
+			if ( jammer.Owner is not Player other )
+				return false;
+
+			return player.Team == other.Team;
 		}
 
 		[Event.Tick.Server]
@@ -86,15 +109,26 @@ namespace Facepunch.Hover
 
 				if ( NextJammerCheck )
 				{
-					var jammers = Physics.GetEntitiesInSphere( Position, 1000f ).OfType<RadarJammer>();
+					var jammers = Physics.GetEntitiesInSphere( Position, 1000f )
+						.OfType<RadarJammer>();
 
 					foreach ( var jammer in jammers )
 					{
-						if ( jammer.IsUsingAbility )
+						if ( IsEnemyJammer( jammer ) && jammer.IsUsingAbility )
 						{
 							DisableAbility();
 							return;
 						}
+					}
+
+					var disruptors = Physics.GetEntitiesInSphere( Position, 1000f )
+						.OfType<Disruptor>()
+						.Where( IsEnemyDisruptor );
+
+					if ( disruptors.Any() )
+					{
+						DisableAbility();
+						return;
 					}
 
 					NextJammerCheck = 1f;
