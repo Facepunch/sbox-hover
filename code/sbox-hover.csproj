@@ -23,14 +23,23 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Generator.dll"/>
-		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.System.dll"/>
-		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Engine.dll"/>
-		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Game.dll"/>
+		<Analyzer Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Generator.dll" />
+		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.System.dll" />
+		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Engine.dll" />
+		<Reference Include="H:/Facepunch/sbox/game/bin/managed/Sandbox.Game.dll" />
 	</ItemGroup>
 
   <ItemGroup>
 <ProjectReference Include="H:\Facepunch\sbox\game\Addons\base\code\base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ui\TutorialScreen.scss">
+      <DependentUpon>TutorialScreen.cs</DependentUpon>
+    </None>
+    <None Update="ui\WorldUpgradeHud.scss">
+      <DependentUpon>WorldUpgradeHud.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>

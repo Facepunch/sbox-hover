@@ -1,0 +1,91 @@
+﻿@import "Variables.scss";
+
+worldupgradehud {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		box-shadow: $blueTeamForeground;
+		background-color: $blueTeamPanelBg;
+		border: $blueTeamPanelBorder;
+		border-radius: 8px;
+		padding: 16px;
+
+		.label {
+			text-shadow: $blueTeamShadow;
+			box-shadow: $blueTeamForeground;
+			background-color: $blueTeamPanelBg;
+			border: $blueTeamPanelBorder;
+			border-radius: 8px;
+			font-family: $mainFont;
+			color: white;
+			font-size: 24px;
+			margin-bottom: 16px;
+		}
+
+		.name {
+			text-shadow: $selectedTabShadow;
+			font-family: $mainFont;
+			color: $selectedTabColor;
+			font-size: 20px;
+		}
+
+		.description {
+			text-shadow: $selectedTabShadow;
+			font-family: $mainFont;
+			color: white;
+			font-size: 16px;
+			margin-bottom: 16px;
+		}
+
+		.tokens {
+			text-shadow: $selectedTabShadow;
+			color: $selectedTabColor;
+			font-family: $mainFont;
+			font-size: 20px;
+		}
+
+		simpleiconbar {
+			box-shadow: $blueTeamForeground;
+			border-radius: 8px;
+			padding: 8px;
+
+			.innerBar {
+				background-color: rgba( 255 216 0 0.8 );
+				min-width: 8px;
+			}
+
+			.icon {
+				display: none;
+			}
+		}
+	}
+
+	&.hidden {
+		display: none;
+	}
+
+	&.team_red {
+		.container {
+			box-shadow: $redTeamForeground;
+			background-color: $redTeamPanelBg;
+			border: $redTeamPanelBorder;
+
+			.label {
+				background-color: $redTeamPanelBg;
+				text-shadow: $redTeamShadow;
+				box-shadow: $redTeamForeground;
+				border: $redTeamPanelBorder;
+			}
+
+			simpleiconbar {
+				box-shadow: $redTeamForeground;
+			}
+		}
+	}
+}

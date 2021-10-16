@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Facepunch.Hover
@@ -10,7 +11,14 @@ namespace Facepunch.Hover
 	[Hammer.Sphere( 4000, 75, 75, 255 )]
 	public partial class RadarSensorEntity : GeneratorDependency
 	{
-		public float Range { get; set; } = 4000f;
+		public override List<DependencyUpgrade> Upgrades => new()
+		{
+			new RadarRangeUpgrade(),
+			new RadarRangeUpgrade(),
+			new RadarRangeUpgrade()
+		};
+
+		public float Range { get; set; }
 
 		private RealTimeUntil NextSensePlayers { get; set; }
 		private Sound IdleSound { get; set; }
@@ -49,11 +57,42 @@ namespace Facepunch.Hover
 			base.OnGameReset();
 
 			PlayIdleSound();
+
+			Range = 4000f;
 		}
 
 		public override void OnKilled()
 		{
 			// TODO: Can it be killed separately to the generator?
+		}
+
+		protected override void ServerTick()
+		{
+			base.ServerTick();
+
+			if ( !IsPowered || !NextSensePlayers ) return;
+
+			var players = Physics.GetEntitiesInSphere( Position, Range )
+				.OfType<Player>()
+				.Where( IsValidTarget );
+
+			var didFindPlayer = false;
+
+			foreach ( var player in players )
+			{
+				if ( player.HideOnRadarTime )
+				{
+					player.HideOnRadarTime = 3f;
+					didFindPlayer = true;
+				}
+			}
+
+			if ( didFindPlayer )
+			{
+				PlaySound( "radar.beep" );
+			}
+
+			NextSensePlayers = 2f;
 		}
 
 		protected override void OnGeneratorRepaired( GeneratorEntity generator )
@@ -94,34 +133,6 @@ namespace Facepunch.Hover
 				return false;
 
 			return true;
-		}
-
-		[Event.Tick.Server]
-		private void ServerTick()
-		{
-			if ( !IsPowered || !NextSensePlayers ) return;
-
-			var players = Physics.GetEntitiesInSphere( Position, Range )
-				.OfType<Player>()
-				.Where( IsValidTarget );
-
-			var didFindPlayer = false;
-
-			foreach ( var player in players )
-			{
-				if ( player.HideOnRadarTime )
-				{
-					player.HideOnRadarTime = 3f;
-					didFindPlayer = true;
-				}
-			}
-
-			if ( didFindPlayer )
-			{
-				PlaySound( "radar.beep" );
-			}
-
-			NextSensePlayers = 2f;
 		}
 	}
 }

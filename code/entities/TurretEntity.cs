@@ -11,6 +11,13 @@ namespace Facepunch.Hover
 	[Hammer.Sphere( 3000, 75, 255, 65)]
 	public partial class TurretEntity : GeneratorDependency
 	{
+		public override List<DependencyUpgrade> Upgrades => new()
+		{
+			new TurretRangeUpgrade(),
+			new TurretDamageUpgrade(),
+			new TurretRangeUpgrade()
+		};
+
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }
 		[Net] public Player Target { get; set; }
@@ -28,12 +35,21 @@ namespace Facepunch.Hover
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
 		public float ProjectileSpeed => 4000f;
 		public float RotateSpeed => 10f;
-		public float AttackRadius => 3000f;
-		public float BlastDamage => 500f;
-		public float BlastRadius => 300f;
+		public float AttackRadius { get; set; }
+		public float BlastDamage { get; set; }
+		public float BlastRadius { get; set; }
 		public float FireRate => 3f;
 
 		private Vector3 ClientDirection { get; set; }
+
+		public override void OnGameReset()
+		{
+			AttackRadius = 3000f;
+			BlastDamage = 500f;
+			BlastRadius = 300f;
+
+			base.OnGameReset();
+		}
 
 		public override void Spawn()
 		{

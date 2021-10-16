@@ -17,6 +17,7 @@ namespace Facepunch.Hover
 		public virtual WeaponConfig[][] AvailableWeapons => new WeaponConfig[][] { };
 		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
 		public virtual int DisplayOrder => 0;
+		public virtual bool CanUpgradeDependencies => false;
 		public virtual float DownSlopeBoost => 100f;
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
