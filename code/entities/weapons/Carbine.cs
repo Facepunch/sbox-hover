@@ -63,6 +63,8 @@ namespace Facepunch.Hover
 
 			TimeSincePrimaryAttack = 0f;
 
+			Rand.SetSeed( Time.Tick );
+
 			ShootEffects();
 			PlaySound( $"generic.bullet1" );
 			ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );

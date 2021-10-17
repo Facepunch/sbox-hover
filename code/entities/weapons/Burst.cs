@@ -73,6 +73,8 @@ namespace Facepunch.Hover
 
 		private async void FireBurst( int bulletsToFire )
 		{
+			Rand.SetSeed( Time.Tick );
+
 			for ( var i = 0; i < bulletsToFire; i++ )
 			{
 				ShootEffects();

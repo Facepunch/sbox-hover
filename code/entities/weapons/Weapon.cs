@@ -270,6 +270,8 @@ namespace Facepunch.Hover
 			TimeSincePrimaryAttack = 0;
 			TimeSinceSecondaryAttack = 0;
 
+			Rand.SetSeed( Time.Tick );
+
 			ShootEffects();
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 		}
@@ -303,8 +305,6 @@ namespace Facepunch.Hover
 
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
-			Rand.SetSeed( Time.Tick );
-
 			var forward = Owner.EyeRot.Forward;
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;

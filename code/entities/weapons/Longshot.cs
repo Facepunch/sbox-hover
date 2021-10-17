@@ -113,6 +113,8 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			Rand.SetSeed( Time.Tick );
+
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );

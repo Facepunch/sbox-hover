@@ -64,6 +64,8 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			Rand.SetSeed( Time.Tick );
+
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"sideman.fire{Rand.Int(1, 2)}" );

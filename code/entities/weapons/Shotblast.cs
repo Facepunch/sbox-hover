@@ -53,6 +53,8 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			Rand.SetSeed( Time.Tick );
+
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"shotblast.fire{Rand.Int(1, 2)}" );
