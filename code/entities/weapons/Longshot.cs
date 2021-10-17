@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 25000f;
 		public override int ClipSize => 5;
 		public override float ReloadTime => 4f;
-		public override int BaseDamage => 300;
+		public override int BaseDamage => 1000;
 
 		public bool IsScoped { get; private set; }
 
@@ -118,7 +118,7 @@ namespace Facepunch.Hover
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
-			ShootBullet( 0f, 4f, BaseDamage, 20.0f );
+			ShootBullet( 0f, 4f, BaseDamage, 30.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "pulserifle.empty" );
