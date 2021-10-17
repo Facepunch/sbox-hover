@@ -67,7 +67,7 @@ namespace Facepunch.Hover
 				Container.Style.Opacity = 1f;
 			}
 
-			if ( !Player.VisibleToEnemiesUntil && distanceToCamera >= StartDotDistance )
+			if ( !Player.VisibleToEnemiesUntil && distanceToCamera >= StartDotDistance && distanceToCamera < EndDotDistance )
 			{
 				var halfDistance = StartDotDistance + (EndDotDistance - StartDotDistance) * 0.5f;
 				var overlap = (distanceToCamera - StartDotDistance);
