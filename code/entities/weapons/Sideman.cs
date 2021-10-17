@@ -30,12 +30,12 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 15;
-		public override float PrimaryRate => 15.0f;
+		public override float PrimaryRate => 12.0f;
 		public override float DamageFalloffStart => 500f;
 		public override float DamageFalloffEnd => 2000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
-		public override int BaseDamage => 50;
+		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => false;
 
 		public override void Spawn()
@@ -64,6 +64,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"sideman.fire{Rand.Int(1, 2)}" );
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );

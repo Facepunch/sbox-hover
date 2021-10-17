@@ -23,11 +23,13 @@ namespace Facepunch.Hover
 		public virtual string CrosshairClass => "automatic";
 		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
+		public virtual float AutoReloadDelay => 1.5f;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
 		public virtual float DamageFalloffStart => 0f;
 		public virtual float DamageFalloffEnd => 0f;
 		public virtual float BulletRange => 20000f;
+		public virtual bool AutoReload => true;
 		public virtual string TracerEffect => null;
 		public virtual bool ReloadAnimation => true;
 		public virtual bool UnlimitedAmmo => false;
@@ -88,6 +90,16 @@ namespace Facepunch.Hover
 			return true;
 		}
 
+		public virtual void PlayAttackAnimation()
+		{
+			AnimationOwner?.SetAnimBool( "b_attack", true );
+		}
+
+		public virtual void PlayReloadAnimation()
+		{
+			AnimationOwner?.SetAnimBool( "b_reload", true );
+		}
+
 		public virtual void OnMeleeAttack()
 		{
 			ViewModelEntity?.SetAnimBool( "melee", true );
@@ -101,6 +113,11 @@ namespace Facepunch.Hover
 			if ( CanMeleeAttack && TimeSinceMeleeAttack < (1 / MeleeRate) )
 			{
 				return false;
+			}
+
+			if ( AutoReload && TimeSincePrimaryAttack > AutoReloadDelay && AmmoClip == 0 )
+			{
+				return true;
 			}
 
 			return base.CanReload();
@@ -144,9 +161,7 @@ namespace Facepunch.Hover
 			IsReloading = true;
 
 			if ( ReloadAnimation )
-			{
-				AnimationOwner.SetAnimBool( "b_reload", true );
-			}
+				PlayReloadAnimation();
 
 			PlayReloadSound();
 			DoClientReload();
@@ -154,7 +169,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client owner )
 		{
-			if ( owner.Pawn is Player player )
+			if ( owner.Pawn is Player )
 			{
 				if ( owner.Pawn.LifeState == LifeState.Alive )
 				{
@@ -288,6 +303,8 @@ namespace Facepunch.Hover
 
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
+			Rand.SetSeed( Time.Tick );
+
 			var forward = Owner.EyeRot.Forward;
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;

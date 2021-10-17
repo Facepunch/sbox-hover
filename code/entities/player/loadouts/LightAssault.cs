@@ -21,7 +21,8 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
-				new BlasterConfig()
+				new BlasterConfig(),
+				new SidemanConfig()
 			},
 			new WeaponConfig[]
 			{

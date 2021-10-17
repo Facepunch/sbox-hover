@@ -53,6 +53,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"shotblast.fire{Rand.Int(1, 2)}" );
 
@@ -60,8 +61,6 @@ namespace Facepunch.Hover
 			{
 				ShootBullet( 0.5f, 3f, BaseDamage, 3.0f );
 			}
-
-			AnimationOwner.SetAnimBool( "b_attack", true );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );

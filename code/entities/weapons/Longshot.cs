@@ -113,23 +113,16 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
 			ShootBullet( 0f, 4f, BaseDamage, 20.0f );
 
-			AnimationOwner.SetAnimBool( "b_attack", true );
-
 			if ( AmmoClip == 0 )
 				PlaySound( "pulserifle.empty" );
 
-			TimeSincePrimaryAttack = 0;
+			TimeSincePrimaryAttack = 0f;
 		}
-
-		public override bool CanReload()
-		{
-			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
-		}
-
 
 		public override void PlayReloadSound()
 		{

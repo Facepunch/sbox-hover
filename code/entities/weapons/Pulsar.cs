@@ -60,20 +60,14 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"pulserifle.fire{Rand.Int(1, 2)}" );
-
-			AnimationOwner.SetAnimBool( "b_attack", true );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
 
 			base.AttackPrimary();
-		}
-
-		public override bool CanReload()
-		{
-			return (TimeSincePrimaryAttack > 1f && AmmoClip == 0) || base.CanReload();
 		}
 
 		public override void PlayReloadSound()
