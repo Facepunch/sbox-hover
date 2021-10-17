@@ -34,6 +34,7 @@ namespace Facepunch.Hover
 		public override float PrimaryRate => 7.5f;
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 4000f;
+		public override float InheritVelocity => 0.5f;
 		public override float Speed => 3000f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
