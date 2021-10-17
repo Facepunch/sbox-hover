@@ -9,3 +9,4 @@ sbox-pool.csproj
 tools_*_*.bin
 code/sbox-rts.csproj
 release.zip
+*.los
