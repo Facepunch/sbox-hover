@@ -36,7 +36,8 @@ namespace Facepunch.Hover
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
 		public override bool CanMeleeAttack => false;
-		public override int BaseDamage => 80;
+		public override int BaseDamage => 60;
+		public virtual int BulletsPerFire => 8;
 
 		public override void Spawn()
 		{
@@ -59,9 +60,9 @@ namespace Facepunch.Hover
 			ShootEffects();
 			PlaySound( $"shotblast.fire{Rand.Int(1, 2)}" );
 
-			for ( int i = 0; i < 6; i++ )
+			for ( int i = 0; i < BulletsPerFire; i++ )
 			{
-				ShootBullet( 0.5f, 3f, BaseDamage, 3.0f );
+				ShootBullet( 0.5f, 3f, BaseDamage, 4.0f );
 			}
 
 			if ( AmmoClip == 0 )
