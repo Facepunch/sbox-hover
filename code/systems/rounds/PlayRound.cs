@@ -138,6 +138,21 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
+				if ( BlueScore > RedScore )
+				{
+					VictoryScreen.Show( Team.Blue, 10f );
+					Audio.Play( $"blue.victory{Rand.Int( 1, 2 )}" );
+				}
+				else if ( RedScore > BlueScore )
+				{
+					VictoryScreen.Show( Team.Red, 10f );
+					Audio.Play( $"red.victory{Rand.Int( 1, 2 )}" );
+				}
+				else
+				{
+					VictoryScreen.Show( Team.None, 10f );
+				}
+
 				GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
 				GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;

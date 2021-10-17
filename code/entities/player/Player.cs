@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 	{
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
+		public List<Award> EarnedAwards { get; private set; }
 
 		[ServerCmd]
 		public static void BuyWeaponUpgrade( string weaponName, string upgradeName )
@@ -141,6 +142,7 @@ namespace Facepunch.Hover
 			LoadoutUpgrades = new();
 			WeaponUpgrades = new();
 			AssistTrackers = new();
+			EarnedAwards = new();
 			EnableTouch = true;
 			Inventory = new Inventory( this );
 			Animator = new StandardPlayerAnimator();
@@ -157,8 +159,9 @@ namespace Facepunch.Hover
 			Client.SetInt( "deaths", 0 );
 			Client.SetInt( "kills", 0 );
 
-			LoadoutUpgrades = new();
-			WeaponUpgrades = new();
+			LoadoutUpgrades.Clear();
+			WeaponUpgrades.Clear();
+			EarnedAwards.Clear();
 			LastDamageInfo = default;
 			LastKiller = null;
 			Tokens = 0;
@@ -180,8 +183,9 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void ResetClient()
 		{
-			LoadoutUpgrades = new();
-			WeaponUpgrades = new();
+			LoadoutUpgrades.Clear();
+			WeaponUpgrades.Clear();
+			EarnedAwards.Clear();
 		}
 
 		public void GiveTokens( int tokens )
@@ -323,28 +327,32 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public void GiveAward<T>() where T : Award
+		public void GiveAward( string type )
 		{
-			var award = Awards.Get<T>();
+			var award = Awards.Get( type );
+			if ( award == null ) return;
 
-			if ( award != null )
+			if ( award.TeamReward )
 			{
-				var type = typeof( T ).Name;
-
-				if ( award.TeamReward )
+				foreach ( var member in Team.GetAll() )
 				{
-					foreach ( var member in Team.GetAll() )
-					{
-						member.GiveTokens( award.Tokens );
-						member.ShowAward( To.Single( member ), type );
-					}
-				}
-				else
-				{
-					GiveTokens( award.Tokens );
-					ShowAward( To.Single( this ), type );
+					member.GiveTokens( award.Tokens );
+					member.ShowAward( To.Single( member ), type, this );
 				}
 			}
+			else
+			{
+				GiveTokens( award.Tokens );
+				ShowAward( To.Single( this ), type, this );
+			}
+
+			EarnedAwards.Add( award );
+		}
+
+
+		public void GiveAward<T>() where T : Award
+		{
+			GiveAward( typeof( T ).Name );
 		}
 
 		public void ApplyForce( Vector3 force )
@@ -356,14 +364,17 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
-		public void ShowAward( string name )
+		public void ShowAward( string name, Player awardee )
 		{
 			var award = Awards.Get( name );
+			if ( award == null ) return;
 
-			if ( award != null )
+			if ( awardee == this )
 			{
-				award.Show();
+				EarnedAwards.Add( award );
 			}
+
+			award.Show();
 		}
 
 		public bool TryRestock()

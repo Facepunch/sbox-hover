@@ -36,7 +36,12 @@ $selectedTabPanelBg: rgba( 255 255 0 0.05 );
 $selectedTabPanelFg: rgba( 255 255 0 0.1 );
 $selectedTabColor: yellow;
 $selectedTabShadow: 0px 0px 6px rgba( 255 255 0 1 );
-$blackForeground: 0px 0px 32px 0px rgba( 255 255 255 0.1 );
+
+// Black
+$blackForeground: 0px 0px 32px 0px rgba( 0 0 0 0.2 );
+$blackPanelBorder: 2px solid rgba( 0 0 0 0.2 );
+$blackPanelBg: rgba( 0 0 0 0.1 );
+$blackPanelFg: rgba( 0 0 0 0.2 );
 
 // Ability
 $abilityUsingBackground: 0px 0px 16px -2px rgba( 0 255 0 0.1 );

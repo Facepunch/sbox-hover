@@ -88,7 +88,7 @@ namespace Facepunch.Hover
 
 			if ( respawnTimeLeft > 0 )
 			{
-				RespawnTimeLabel.Text = $"Respawn in {respawnTimeLeft}";
+				RespawnTimeLabel.Text = $"Redeploy: {respawnTimeLeft}s";
 				RespawnTimeLabel.SetClass( "hidden", false );
 			}
 			else

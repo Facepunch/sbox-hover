@@ -1,0 +1,141 @@
+﻿@import "Variables.scss";
+
+victoryscreen {
+    backdrop-filter-blur: 32px;
+    transition: all 0.5s ease-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 7;
+    opacity: 1;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-color: $blackPanelFg;
+        box-shadow: $blackForeground;
+        border: $blackPanelBorder;
+        border-radius: 16px;
+        padding: 32px;
+
+        .winner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+
+            .icon {
+                width: 96px;
+                height: 96px;
+                margin-right: 16px;
+                box-shadow: $blueTeamBackground;
+                background-image-tint: $blueTeamColor;
+            }
+
+            .name {
+                text-shadow: $blueTeamShadow;
+                font-family: $mainFont;
+                font-size: 72px;
+                color: $blueTeamColor;
+            }
+        }
+
+        .next_game {
+            text-shadow: $selectedTabShadow;
+            font-family: $mainFont;
+            font-size: 32px;
+            color: white;
+        }
+
+        .awards {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            padding: 16px;
+            margin-top: 64px;
+            flex-wrap: wrap;
+            width: 600px;
+
+            victoryscreenaward {
+                transition: all 0.5s bounce-out;
+                background-color: $selectedTabPanelBg;
+                box-shadow: $blackForeground;
+                border: $selectedTabPanelBorder;
+                border-radius: 16px;
+                width: 170px;
+                margin: 4px;
+                padding: 16px;
+
+                &:intro {
+                    transform: scale( 0 0 );
+                    opacity: 0;
+                }
+
+                .icon {
+                    width: 96px;
+                    height: 96px;
+                }
+
+                .count {
+                    text-shadow: $selectedTabShadow;
+                    font-family: $mainFont;
+                    position: absolute;
+                    right: 16px;
+                    top: 16px;
+                    font-size: 32px;
+                    color: $selectedTabColor;
+                }
+
+                &:first-child {
+                    margin-left: 0px;
+                }
+            }
+        }
+
+        &.team_red {
+            .winner {
+                .icon {
+                    box-shadow: $redTeamBackground;
+                    background-image-tint: $redTeamColor;
+                }
+
+                .name {
+                    text-shadow: $redTeamShadow;
+                    color: $redTeamColor;
+                }
+            }
+        }
+
+        &.team_none {
+            .winner {
+                .icon {
+                    box-shadow: $selectedTabBackground;
+                    background-image-tint: $selectedTabColor;
+                }
+
+                .name {
+                    text-shadow: $selectedTabShadow;
+                    color: $selectedTabColor;
+                }
+            }
+        }
+    }
+
+    &.hidden {
+        transition: all 0.5s ease-out;
+        opacity: 0;
+    }
+}
+
+.team_red {
+    respawnscreen {
+        box-shadow: $redTeamBackground;
+    }
+}

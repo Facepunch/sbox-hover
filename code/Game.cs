@@ -22,6 +22,15 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
+		[ServerCmd( "giveaward" )]
+		private static void DoTheThing( string name )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				player.GiveAward( name );
+			}
+		}
+
 		[ServerCmd( "destroydat" )]
 		private static void DoTheThing()
 		{
@@ -35,6 +44,18 @@ namespace Facepunch.Hover
 					gen.OnKilled();
 				}
 			}
+		}
+
+		[ServerCmd( "windathide" )]
+		private static void WinDatThing2()
+		{
+			VictoryScreen.Hide();
+		}
+
+		[ServerCmd( "windat" )]
+		private static void WinDatThing()
+		{
+			VictoryScreen.Show( Team.Blue, 120f );
 		}
 
 		[ServerCmd( "gimmedat" )]
