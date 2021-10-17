@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A fast stealth unit with lower health and medium energy";
 		public override string Name => "Light Saboteur";
-		public override int TokenCost => 600;
+		public override int TokenCost => 250;
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSaboteurMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
@@ -34,7 +34,7 @@ namespace Facepunch.Hover
 		public override float Energy => 90f;
 		public override float EnergyRegen => 15f;
 		public override float MoveSpeed => 350f;
-		public override float MaxSpeed => 1200f;
+		public override float MaxSpeed => 1500f;
 
 		public override List<string> Clothing => new()
 		{

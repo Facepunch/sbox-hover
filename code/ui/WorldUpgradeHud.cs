@@ -32,10 +32,7 @@ namespace Facepunch.Hover
 		{
 			Entity = entity;
 			
-			if ( entity.Team == Team.None )
-				AddClass( "team_none" );
-			else
-				AddClass( entity.Team.GetHudClass() );
+			AddClass( entity.Team.GetHudClass() );
 		}
 
 		public void SetTokensLeft( int value )

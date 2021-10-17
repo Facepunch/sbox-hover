@@ -15,17 +15,32 @@ namespace Facepunch.Hover
 	{
 		public static string GetHudClass( this Team team )
 		{
-			return team == Team.Blue ? "team_blue" : "team_red";
+			if ( team == Team.Blue )
+				return "team_blue";
+			else if ( team == Team.Red )
+				return "team_red";
+			else
+				return "team_none";
 		}
 
 		public static Color GetColor( this Team team )
 		{
-			return team == Team.Blue ? Color.Cyan : new Color( 1f, 0.38f, 0.27f );
+			if ( team == Team.Blue )
+				return Color.Cyan;
+			else if ( team == Team.Red )
+				return new Color( 1f, 0.38f, 0.27f );
+			else
+				return new Color( 1f, 1f, 0f );
 		}
 
 		public static string GetName( this Team team )
 		{
-			return team == Team.Blue ? "Snakes" : "Scorpions";
+			if ( team == Team.Blue )
+				return "Snakes";
+			else if ( team == Team.Red )
+				return "Scorptions";
+			else
+				return "Neutral";
 		}
 
 		public static To GetTo( this Team team )

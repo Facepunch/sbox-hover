@@ -17,6 +17,12 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
+		public static void AddKillFeed( Entity attacker, Player victim )
+		{
+			ToastList.Instance.AddKillFeed( attacker, victim );
+		}
+
+		[ClientRpc]
 		public static void AddKillFeed( Player victim )
 		{
 			ToastList.Instance.AddKillFeed( victim );

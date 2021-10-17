@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 		public float FlatSkiFriction { get; set; } = 0f;
 		public float JetpackAimThrust { get; set; } = 20f;
 		public float JetpackBoostElevator { get; set; } = 200f;
-		public float JetpackBoost { get; set; } = 100f;
+		public float JetpackBoost { get; set; } = 50f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;

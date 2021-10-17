@@ -34,6 +34,29 @@ namespace Facepunch.Hover
 			EndTime = Time.Now + 3f;
 		}
 
+		public void Update( Entity attacker, Player victim )
+		{
+			if ( attacker is IKillFeedIcon killFeedIcon )
+			{
+				Attacker.Text = killFeedIcon.GetKillFeedName();
+				Attacker.Style.FontColor = killFeedIcon.GetKillFeedTeam().GetColor();
+				Attacker.Style.Dirty();
+
+				Icon.Texture = Texture.Load( killFeedIcon.GetKillFeedIcon() );
+			}
+			else
+			{
+				Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+				Attacker.SetClass( "hidden", true );
+			}
+
+			Victim.Text = victim.Client.Name;
+			Victim.Style.FontColor = victim.Team.GetColor();
+			Victim.Style.Dirty();
+
+			EndTime = Time.Now + 3f;
+		}
+
 		public void Update( Player attacker, Player victim, Weapon weapon )
 		{
 			Attacker.Text = attacker.Client.Name;
@@ -103,6 +126,12 @@ namespace Facepunch.Hover
 		{
 			var item = AddChild<KillFeedItem>();
 			item.Update( attacker, victim, weapon );
+		}
+
+		public void AddKillFeed( Entity attacker, Player victim )
+		{
+			var item = AddChild<KillFeedItem>();
+			item.Update( attacker, victim );
 		}
 
 		public void AddKillFeed( Player victim )

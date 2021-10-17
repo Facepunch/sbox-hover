@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public static VictoryScreen Instance { get; private set; }
 
 		[ClientRpc]
-		public static void Show( Team winner, RealTimeUntil nextGameTime )
+		public static void Show( Team winner, float nextGameTime )
 		{
 			Instance.SetClass( "hidden", false );
 			Instance.SetWinner( winner, nextGameTime );
@@ -68,7 +68,7 @@ namespace Facepunch.Hover
 			Instance = this;
 		}
 
-		public void SetWinner( Team winner, RealTimeUntil nextGameTime )
+		public void SetWinner( Team winner, float nextGameTime )
 		{
 			if ( winner == Team.Blue )
 			{
@@ -88,7 +88,7 @@ namespace Facepunch.Hover
 
 			Container.SetClass( Team.Red.GetHudClass(), Team.Red == winner );
 			Container.SetClass( Team.Blue.GetHudClass(), Team.Blue == winner );
-			Container.SetClass( "team_none", Team.None == winner );
+			Container.SetClass( Team.None.GetHudClass(), Team.None == winner );
 
 			NextGameTime = nextGameTime;
 		}

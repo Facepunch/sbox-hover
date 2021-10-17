@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
 		public virtual int DisplayOrder => 0;
 		public virtual bool CanUpgradeDependencies => false;
-		public virtual float DownSlopeBoost => 100f;
+		public virtual float DownSlopeBoost => 150f;
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;
 		public virtual float EnergyRegen => 20f;
@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public virtual float Health => 500f;
 		public virtual float Energy => 100f;
 		public virtual float MoveSpeed => 400f;
-		public virtual float MaxSpeed => 1000f;
+		public virtual float MaxSpeed => 1800f;
 		public virtual string Model => "models/citizen/citizen.vmdl";
 		public virtual string SecondaryDescription => "";
 		public virtual string Description => "";

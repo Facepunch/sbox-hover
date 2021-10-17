@@ -7,7 +7,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_light_turret" )]
-	public partial class LightTurret : DeployableEntity
+	public partial class LightTurret : DeployableEntity, IKillFeedIcon
 	{
 		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
 		public override float MaxHealth => 800f;
@@ -41,6 +41,21 @@ namespace Facepunch.Hover
 		public float FireRate => 0.2f;
 
 		private Vector3 ClientDirection { get; set; }
+
+		public string GetKillFeedIcon()
+		{
+			return "ui/killicons/light_turret.png";
+		}
+
+		public Team GetKillFeedTeam()
+		{
+			return Team;
+		}
+
+		public string GetKillFeedName()
+		{
+			return "Light Turret";
+		}
 
 		public float GetDamageFalloff( float distance, float damage )
 		{

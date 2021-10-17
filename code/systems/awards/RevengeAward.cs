@@ -8,6 +8,6 @@ namespace Facepunch.Hover
 		public override Texture Icon => Texture.Load( "ui/icons/revenge.png" );
 		public override string Name => "Revenge";
 		public override string Description => "Kill the player who last killed you";
-		public override int Tokens => 100;
+		public override int Tokens => 150;
 	}
 }

@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
-	public partial class TurretEntity : GeneratorDependency
+	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{
@@ -41,6 +41,21 @@ namespace Facepunch.Hover
 		public float FireRate => 3f;
 
 		private Vector3 ClientDirection { get; set; }
+
+		public string GetKillFeedIcon()
+		{
+			return "ui/killicons/light_turret.png";
+		}
+
+		public Team GetKillFeedTeam()
+		{
+			return Team;
+		}
+
+		public string GetKillFeedName()
+		{
+			return "Base Turret";
+		}
 
 		public override void OnGameReset()
 		{

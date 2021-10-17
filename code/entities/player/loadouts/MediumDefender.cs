@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		public override Type UpgradesTo => typeof( MediumDefenderMk2 );
 		public override bool CanUpgradeDependencies => true;
 		public override int DisplayOrder => 5;
-		public override int TokenCost => 800;
+		public override int TokenCost => 300;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 		public override float Health => 900f;
 		public override float Energy => 80f;
 		public override float MoveSpeed => 350f;
-		public override float MaxSpeed => 1000f;
+		public override float MaxSpeed => 1300f;
 
 		public override List<string> Clothing => new()
 		{

@@ -841,16 +841,15 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void DidDamage( Vector3 position, float amount, float inverseHealth )
 		{
-			Sound.FromScreen( "hitmarker" ).SetPitch( 1 + inverseHealth * 1 );
-
+			Sound.FromScreen( "hitmarker" ).SetPitch( 1f + inverseHealth * 1f );
 			HitIndicator.Current?.OnHit( position, amount );
 		}
 
 		[ClientRpc]
 		public void TookDamage( Vector3 position, DamageFlags flags )
 		{
-			if ( flags.HasFlag(DamageFlags.Fall) )
-				_ = new Sandbox.ScreenShake.Perlin(2f, 1f, 1.5f, 0.8f);
+			if ( flags.HasFlag( DamageFlags.Fall ) )
+				_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, 1.5f, 0.8f );
 
 			DamageIndicator.Current?.OnHit( position );
 		}

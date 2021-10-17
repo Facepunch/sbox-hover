@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public override string Name => "Light Assault";
 		public override Type UpgradesTo => typeof( LightAssaultMk2 );
 		public override int DisplayOrder => 1;
-		public override int TokenCost => 300;
+		public override int TokenCost => 100;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public override float Health => 800f;
 		public override float Energy => 100f;
 		public override float MoveSpeed => 400f;
-		public override float MaxSpeed => 1500f;
+		public override float MaxSpeed => 1800f;
 
 		public override List<string> Clothing => new()
 		{

@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A slow assault unit with high health and medium energy";
 		public override string Name => "Heavy Assault";
-		public override int TokenCost => 1000;
+		public override int TokenCost => 500;
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override int DisplayOrder => 7;
 		public override Type UpgradesTo => typeof( HeavyAssaultMk2 );
@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 		public override float Energy => 75f;
 		public override float RegenDelay => 20f;
 		public override float MoveSpeed => 350f;
-		public override float MaxSpeed => 1000f;
+		public override float MaxSpeed => 1300f;
 
 		public override List<string> Clothing => new()
 		{

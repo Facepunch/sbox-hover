@@ -26,10 +26,7 @@ namespace Facepunch.Hover
 			Entity = entity;
 			Attachment = attachment;
 			
-			if ( entity.Team == Team.None )
-				AddClass( "team_none" );
-			else
-				AddClass( entity.Team.GetHudClass() );
+			AddClass( entity.Team.GetHudClass() );
 		}
 
 		public void SetRestockTime( float value )

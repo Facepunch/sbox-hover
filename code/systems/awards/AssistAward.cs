@@ -8,6 +8,6 @@ namespace Facepunch.Hover
 		public override Texture Icon => Texture.Load( "ui/icons/assist.png" );
 		public override string Name => "Assist";
 		public override string Description => "Assist your team in killing an enemy player";
-		public override int Tokens => 50;
+		public override int Tokens => 100;
 	}
 }

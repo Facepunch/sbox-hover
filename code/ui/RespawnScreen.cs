@@ -29,6 +29,14 @@ namespace Facepunch.Hover
 			KillerName.Style.Dirty();
 		}
 
+		public void Update( IKillFeedIcon killer )
+		{
+			KillerAvatar.Texture = Texture.Load( killer.GetKillFeedIcon() );
+			KillerName.Text = killer.GetKillFeedName();
+			KillerName.Style.FontColor = killer.GetKillFeedTeam().GetColor();
+			KillerName.Style.Dirty();
+		}
+
 		public void Update( string killerName )
 		{
 			KillerAvatar.Texture = Texture.Load( "ui/icons/skull.png" );
@@ -49,7 +57,7 @@ namespace Facepunch.Hover
 		public RealTimeUntil RespawnTime { get; private set; }
 
 		[ClientRpc]
-		public static void Show( RealTimeUntil respawnTime, Entity attacker )
+		public static void Show( float respawnTime, Entity attacker )
 		{
 			Instance.SetClass( "hidden", false );
 
@@ -57,6 +65,8 @@ namespace Facepunch.Hover
 				Instance.KillerInfo.Update( player );
 			else if ( attacker.IsWorld )
 				Instance.KillerInfo.Update( "Unknown" );
+			else if ( attacker is IKillFeedIcon killer )
+				Instance.KillerInfo.Update( killer );
 			else
 				Instance.KillerInfo.Update( attacker.Name );
 
