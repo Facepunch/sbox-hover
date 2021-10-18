@@ -109,6 +109,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -129,6 +130,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -149,6 +151,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -169,6 +172,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -189,6 +193,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 					{
@@ -209,6 +214,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 				]
