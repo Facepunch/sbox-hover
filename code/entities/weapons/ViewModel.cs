@@ -21,6 +21,17 @@ namespace Facepunch.Hover
 		private Angles RotationOffset { get; set; }
 		private float WalkBob { get; set; }
 
+		private float SwingInfluence => 0.05f;
+		private float ReturnSpeed => 5.0f;
+		private float MaxOffsetLength => 10.0f;
+		private float BobCycleTime => 7;
+		private Vector3 BobDirection => new Vector3( 0.0f, 1.0f, 0.5f );
+
+		private Vector3 SwingOffset { get; set; }
+		private float LastPitch { get; set; }
+		private float LastYaw { get; set; }
+		private float BobAnim { get; set; }
+
 		public ViewModel() : base()
 		{
 			AimConfig = new ViewModelAimConfig
@@ -49,15 +60,6 @@ namespace Facepunch.Hover
 
 			Rotation = Local.Pawn.EyeRot;
 
-			var speed = Owner.Velocity.Length.LerpInverse( 0, 320 );
-			var left = camSetup.Rotation.Left;
-			var up = camSetup.Rotation.Up;
-
-			if ( Owner.GroundEntity != null && !controller.IsSkiing )
-			{
-				WalkBob += Time.Delta * 25.0f * speed;
-			}
-
 			if ( IsAiming )
 			{
 				PositionOffset = PositionOffset.LerpTo( AimConfig.Position, Time.Delta * AimConfig.Speed );
@@ -85,8 +87,61 @@ namespace Facepunch.Hover
 			angles += RotationOffset;
 			Rotation = angles.ToRotation();
 
-			Position += up * MathF.Sin( WalkBob ) * speed * -1;
-			Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * -0.5f;
+			if ( !IsAiming )
+			{
+				var velocity = player.Velocity;
+				var newPitch = Rotation.Pitch();
+				var newYaw = Rotation.Yaw();
+				var pitchDelta = Angles.NormalizeAngle( newPitch - LastPitch );
+				var yawDelta = Angles.NormalizeAngle( LastYaw - newYaw );
+
+				var verticalDelta = velocity.z * Time.Delta;
+				var viewDown = Rotation.FromPitch( newPitch ).Up * -1.0f;
+				verticalDelta *= (1.0f - MathF.Abs( viewDown.Cross( Vector3.Down ).y ));
+				pitchDelta -= verticalDelta * 1;
+
+				var offset = CalcSwingOffset( pitchDelta, yawDelta );
+				offset += CalcBobbingOffset( velocity );
+
+				Position += Rotation * offset;
+
+				LastPitch = newPitch;
+				LastYaw = newYaw;
+			}
+		}
+
+		private Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
+		{
+			Vector3 swingVelocity = new Vector3( 0, yawDelta, pitchDelta );
+
+			SwingOffset -= SwingOffset * ReturnSpeed * Time.Delta;
+			SwingOffset += (swingVelocity * SwingInfluence);
+
+			if ( SwingOffset.Length > MaxOffsetLength )
+			{
+				SwingOffset = SwingOffset.Normal * MaxOffsetLength;
+			}
+
+			return SwingOffset;
+		}
+
+		private Vector3 CalcBobbingOffset( Vector3 velocity )
+		{
+			BobAnim += Time.Delta * BobCycleTime;
+
+			var twoPI = MathF.PI * 2.0f;
+
+			if ( BobAnim > twoPI )
+			{
+				BobAnim -= twoPI;
+			}
+
+			var speed = new Vector2( velocity.x, velocity.y ).Length;
+			speed = speed > 10.0 ? speed : 0.0f;
+			var offset = BobDirection * (speed * 0.005f) * MathF.Cos( BobAnim );
+			offset = offset.WithZ( -MathF.Abs( offset.z ) );
+
+			return offset;
 		}
 	}
 }

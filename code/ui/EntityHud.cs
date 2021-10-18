@@ -60,7 +60,12 @@ namespace Facepunch.Hover
 		public void SetOutpost( OutpostVolume outpost )
 		{
 			Letter.Text = outpost.Letter;
-			Name.Text = string.IsNullOrEmpty( outpost.OutpostName ) ? "Outpost" : outpost.OutpostName;
+
+			if ( !string.IsNullOrEmpty( outpost.OutpostName ) )
+				Name.Text = outpost.OutpostName;
+			else
+				Name.SetClass( "hidden", true );
+
 			Outpost = outpost;
 		}
 

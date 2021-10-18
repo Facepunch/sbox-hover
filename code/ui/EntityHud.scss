@@ -163,7 +163,6 @@ outposthud {
                 border-radius: 50%;
                 background-color: $blackPanelFg;
                 box-shadow: $blackForeground;
-                margin-right: 8px;
                 opacity: 0.8;
                 width: 22px;
                 height: 22px;
@@ -181,8 +180,13 @@ outposthud {
                 transition: all 0.2s ease-out;
                 text-shadow: $blackShadow;
                 font-family: $mainFont;
+                margin-left: 8px;
                 font-size: 12px;
                 color: white;
+
+                &.hidden {
+                    display: none;
+                }
             }
         }
     }

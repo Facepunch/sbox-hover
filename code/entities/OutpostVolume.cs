@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 		public static event OutpostEvent OnOutpostCaptured;
 		public static event OutpostEvent OnOutpostLost;
 
-		public static List<string> Letters => new()
+		public static List<string> Letters { get; private set; } = new()
 		{
 			"A",
 			"B",
@@ -65,6 +65,9 @@ namespace Facepunch.Hover
 				Letter = Letters[0];
 				Letters.RemoveAt( 0 );
 			}
+
+			if ( string.IsNullOrEmpty( OutpostName ) )
+				OutpostName = $"Outpost {Letter}";
 		}
 
 		public override void ClientSpawn()
@@ -75,7 +78,6 @@ namespace Facepunch.Hover
 			{
 				var captureHud = Hud.AddChild<OutpostHud>( "outpost" );
 				captureHud.SetOutpost( this );
-
 				OutpostList.AddOutpost( this );
 			}
 
