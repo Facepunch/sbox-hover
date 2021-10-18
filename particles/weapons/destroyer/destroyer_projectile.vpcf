@@ -8,19 +8,19 @@
 			m_name = "preview"
 		},
 	]
-	m_Children = 
+	m_Operators = 
 	[
 		{
-			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_projectile_b.vpcf"
+			_class = "C_OP_PositionLock"
 		},
-		{
-			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_projectile_c.vpcf"
-		},
+	]
+	m_Children = 
+	[
 		{
 			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_projectile_a.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_projectile_d.vpcf"
+			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_projectile_b.vpcf"
 		},
 	]
 }
