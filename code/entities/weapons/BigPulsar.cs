@@ -19,11 +19,12 @@ namespace Facepunch.Hover
 	partial class BigPulsar : Pulsar
 	{
 		public override WeaponConfig Config => new BigPulsarConfig();
-		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
+		public override string ImpactEffect => "particles/weapons/big_pulsar/big_pulsar_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/big_pulsar/big_pulsar_projectile.vpcf";
 		public override int ViewModelMaterialGroup => 1;
+		public override float InheritVelocity => 0.5f;
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
-		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/big_pulsar/big_pulsar_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
@@ -46,7 +47,7 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
+			var explosion = Particles.Create( "particles/weapons/big_pulsar/big_pulsar_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
 			var position = projectile.Position;

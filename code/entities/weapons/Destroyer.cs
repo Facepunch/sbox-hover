@@ -20,9 +20,9 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new DestroyerConfig();
 		public override float ProjectileRadius => 50f;
-		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
+		public override string ImpactEffect => "particles/weapons/destroyer/destroyer_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/destroyer/destroyer_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/destroyer/destroyer_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
 		public override List<Type> Upgrades => new()
@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
 		public override int BaseDamage => 1500;
-		public override float Gravity => 15f;
+		public override float Gravity => 5f;
 		public virtual float BlastRadius => 800f;
 
 		public override void Spawn()
@@ -84,9 +84,6 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
-
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
 

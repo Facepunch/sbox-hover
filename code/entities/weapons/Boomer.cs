@@ -18,11 +18,11 @@ namespace Facepunch.Hover
 	partial class Boomer : PhysicsWeapon<BoomerProjectile>
 	{
 		public override WeaponConfig Config => new BoomerConfig();
-		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
+		public override string ImpactEffect => "particles/weapons/boomer/boomer_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/boomer/boomer_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 1;
-		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/boomer/boomer_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
@@ -80,6 +80,12 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		{
+			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
+			explosion.SetPosition( 0, projectile.Position );
 		}
 	}
 }

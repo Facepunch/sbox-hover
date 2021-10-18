@@ -18,11 +18,11 @@ namespace Facepunch.Hover
 	partial class Cluster : PhysicsWeapon<PhysicsProjectile>
 	{
 		public override WeaponConfig Config => new ClusterConfig();
-		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
+		public override string ImpactEffect => "particles/weapons/cluster/cluster_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/cluster/cluster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 2;
-		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/cluster/cluster_muzzleflash.vpcf";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
