@@ -125,6 +125,14 @@ namespace Facepunch.Hover
 		{
 			if ( !FinishDeployTime ) return;
 
+			if ( info.Attacker is Player attacker )
+			{
+				if ( attacker.Team == Team && attacker != Deployer )
+				{
+					return;
+				}
+			}
+
 			base.TakeDamage( info );
 		}
 
