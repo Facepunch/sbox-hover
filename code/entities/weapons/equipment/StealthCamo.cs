@@ -16,6 +16,8 @@ namespace Facepunch.Hover
 	[Library( "hv_stealth_camo", Title = "Stealth" )]
 	public partial class StealthCamo : Equipment
 	{
+		[Net] public RealTimeUntil NextReturnToStealth { get; set; }
+
 		public override WeaponConfig Config => new StealthCamoConfig();
 		public override InputButton? AbilityButton => InputButton.Flashlight;
 		public override string AbilityBind => "iv_flashlight";
@@ -29,9 +31,8 @@ namespace Facepunch.Hover
 
 		public float EnergyDrain { get; set; } = 8f;
 
-		private RealTimeUntil NextReturnToStealth { get; set; }
-		private RealTimeUntil NextDisruptorCheck { get; set; }
 		private RealTimeUntil NextJammerCheck { get; set; }
+		private Particles Effect { get; set; }
 
 		public override DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
@@ -151,12 +152,35 @@ namespace Facepunch.Hover
 			}
 		}
 
+		[Event.Tick.Client]
+		protected virtual void ClientTick()
+		{
+			if ( Owner is Player player && player.IsLocalPawn )
+			{
+				if ( player.TargetAlpha == 0f )
+				{
+					if ( Effect == null )
+					{
+						Effect = Particles.Create( "particles/player/cloaked.vpcf" );
+					}
+				}
+				else
+				{
+					Effect?.Destroy();
+					Effect = null;
+				}
+			}
+		}
+
 		protected override void OnDestroy()
 		{
 			if ( IsUsingAbility )
 			{
 				DisableAbility();
 			}
+
+			Effect?.Destroy();
+			Effect = null;
 
 			base.OnDestroy();
 		}
