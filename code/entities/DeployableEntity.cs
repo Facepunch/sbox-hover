@@ -51,8 +51,6 @@ namespace Facepunch.Hover
 			HealthBar.RotateToFace = true;
 			HealthBar.ShowIcon = false;
 
-			Log.Info( "Attaching to: " + HealthAttachment );
-
 			base.ClientSpawn();
 		}
 

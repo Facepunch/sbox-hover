@@ -7,10 +7,10 @@
 			"sound/weapons/barage.explode.vsnd",
 		]
 		UI = false
-		Volume = 0.9
+		Volume = 1.0
 		VolumeRandom = 0.0
 		Pitch = 1.0
-		PitchRandom = 0.2
-		DistanceMax = 2500.0
+		PitchRandom = 0.5
+		DistanceMax = 3000.0
 	}
 }
