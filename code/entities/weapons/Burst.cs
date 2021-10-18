@@ -77,6 +77,8 @@ namespace Facepunch.Hover
 
 			for ( var i = 0; i < bulletsToFire; i++ )
 			{
+				if ( !IsValid ) return;
+
 				ShootEffects();
 				PlaySound( $"generic.bullet1" );
 				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
