@@ -1,0 +1,91 @@
+﻿
+using Sandbox;
+using Sandbox.UI;
+using Sandbox.UI.Construct;
+using System.Collections.Generic;
+
+namespace Facepunch.Hover
+{
+	public class OutpostItem : Panel
+	{
+		public Label Name { get; private set; }
+		public Panel Bar { get; private set; }
+		public OutpostVolume Outpost { get; private set; }
+
+		public OutpostItem()
+		{
+			Bar = Add.Panel( "bar" );
+
+			var content = Add.Panel( "content" );
+			var circle = content.Add.Panel( "circle" );
+
+			Name = circle.Add.Label( "", "name" );
+		}
+
+		public void SetOutpost( OutpostVolume outpost )
+		{
+			Name.Text = outpost.Letter;
+			Outpost = outpost;
+		}
+
+		public override void Tick()
+		{
+			SetClass( Team.Blue.GetHudClass(), Outpost.Team == Team.Blue );
+			SetClass( Team.Red.GetHudClass(), Outpost.Team == Team.Red );
+			SetClass( Team.None.GetHudClass(), Outpost.Team == Team.None );
+
+			if ( Outpost.CaptureProgress > 0f )
+			{
+				Bar.SetClass( "hidden", false );
+				Bar.Style.Width = Length.Fraction( Outpost.CaptureProgress );
+			}
+			else
+			{
+				Bar.SetClass( "hidden", true );
+			}
+
+			base.Tick();
+		}
+	}
+
+	public class OutpostList : Panel
+	{
+		public static OutpostList Instance { get; private set; }
+		public static List<OutpostVolume> Outposts => new();
+		public List<OutpostItem> Items { get; private set; }
+		
+		public Panel Container { get; private set; }
+
+		public static void AddOutpost( OutpostVolume outpost )
+		{
+			if ( Instance != null )
+			{
+				Instance.AddItem( outpost );
+			}
+
+			Outposts.Add( outpost );
+		}
+
+		public OutpostList()
+		{
+			StyleSheet.Load( "/ui/OutpostList.scss" );
+
+			Container = Add.Panel( "container" );
+			Items = new();
+
+			foreach ( var outpost in Outposts )
+			{
+				AddOutpost( outpost );
+			}
+
+			Instance = this;
+		}
+
+		public void AddItem( OutpostVolume outpost )
+		{
+			var item = Container.AddChild<OutpostItem>( "outpost" );
+			item.SetOutpost( outpost );
+			Items.Add( item );
+		}
+	}
+}

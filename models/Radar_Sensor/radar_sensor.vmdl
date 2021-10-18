@@ -71,10 +71,26 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = 30.0
+						take = 0
 						reverse = false
 					},
 				]
 				default_root_bone_name = ""
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_prop = "default"
+						origin = [ -0.862614, 1.620251, 50.894398 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 95.612747, 86.332359, 102.788795 ]
+					},
+				]
 			},
 		]
 		model_archetype = ""

@@ -60,6 +60,7 @@ namespace Facepunch.Hover
 			leftRow.AddChild<Ammo>();
 
 			RootPanel.AddChild<Tokens>();
+			RootPanel.AddChild<OutpostList>();
 			RootPanel.AddChild<Speedometer>();
 			RootPanel.AddChild<VoiceList>();
 			RootPanel.AddChild<DamageIndicator>();

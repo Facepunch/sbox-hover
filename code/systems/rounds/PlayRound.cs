@@ -105,6 +105,8 @@ namespace Facepunch.Hover
 			{
 				GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
 				GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
+				OutpostVolume.OnOutpostCaptured += OnOutpostCaptured;
+				OutpostVolume.OnOutpostLost += OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
@@ -159,6 +161,8 @@ namespace Facepunch.Hover
 
 				GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
 				GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
+				OutpostVolume.OnOutpostCaptured -= OnOutpostCaptured;
+				OutpostVolume.OnOutpostLost -= OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
 				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
@@ -172,11 +176,34 @@ namespace Facepunch.Hover
 			}
 		}
 
+		private void OnOutpostLost( OutpostVolume outpost )
+		{
+			if ( outpost.Team == Team.Blue )
+				Hud.ToastAll( $"Blue have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+			else
+				Hud.ToastAll( $"Red have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+		}
+
+		private void OnOutpostCaptured( OutpostVolume outpost )
+		{
+			foreach ( var player in outpost.TouchingEntities.OfType<Player>() )
+			{
+				if ( player.LifeState == LifeState.Alive && player.Team == outpost.Team )
+				{
+					player.GiveAward<CaptureOutpostAward>();
+				}
+			}
+
+			if ( outpost.Team == Team.Blue )
+				Hud.ToastAll( $"Blue have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
+			else
+				Hud.ToastAll( $"Red have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
+		}
+
 		private void OnGeneratorBroken( GeneratorEntity generator )
 		{
 			Audio.Play( generator.Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
 		}
-
 
 		private void OnGeneratorRepaired( GeneratorEntity generator )
 		{

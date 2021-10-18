@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a station spawns" )]
-	public partial class StationEntity : GeneratorDependency
+	public partial class StationEntity : GeneratorDependency, IBaseAsset
 	{
 		public override string IconName => "ui/icons/loadouts.png";
 
@@ -35,15 +35,6 @@ namespace Facepunch.Hover
 
 			Transmit = TransmitType.Always;
 
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else if ( Team == Team.Red )
-				RenderColor = Color.Red;
-			else if ( Team == Team.None )
-				RenderColor = Color.Yellow;
-
-			Name = "Station";
-
 			base.Spawn();
 		}
 
@@ -62,6 +53,11 @@ namespace Facepunch.Hover
 		public override void OnKilled()
 		{
 			// TODO: Can it be killed separately to the generator?
+		}
+
+		protected override void OnTeamChanged( Team team )
+		{
+			CreateIdleParticles();
 		}
 
 		protected override void ServerTick()

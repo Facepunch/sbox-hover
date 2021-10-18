@@ -31,8 +31,6 @@ namespace Facepunch.Hover
 		public void SetEntity( GeneratorDependency entity )
 		{
 			Entity = entity;
-			
-			AddClass( entity.Team.GetHudClass() );
 		}
 
 		public void SetTokensLeft( int value )
@@ -76,6 +74,10 @@ namespace Facepunch.Hover
 				SetClass( "hidden", true );
 				return;
 			}
+
+			SetClass( Team.Red.GetHudClass(), Entity.Team == Team.Red );
+			SetClass( Team.Blue.GetHudClass(), Entity.Team == Team.Blue );
+			SetClass( Team.None.GetHudClass(), Entity.Team == Team.None );
 
 			var cameraPosition = CurrentView.Position;
 			var transform = Transform;

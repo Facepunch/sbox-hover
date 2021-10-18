@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Radar Sensor", "Hover", "Defines a point where a sensor spawns" )]
 	[Hammer.Sphere( 4000, 75, 75, 255 )]
-	public partial class RadarSensorEntity : GeneratorDependency
+	public partial class RadarSensorEntity : GeneratorDependency, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{
@@ -23,6 +23,16 @@ namespace Facepunch.Hover
 		private RealTimeUntil NextSensePlayers { get; set; }
 		private Sound IdleSound { get; set; }
 
+		public override void SetTeam( Team team )
+		{
+			base.SetTeam( team );
+
+			if ( !IsPowered || team == Team.None )
+				StopIdleSound();
+			else
+				PlayIdleSound();
+		}
+
 		public override void Spawn()
 		{
 			SetModel( "models/radar_sensor/radar_sensor.vmdl" );
@@ -30,13 +40,6 @@ namespace Facepunch.Hover
 			PlayIdleSound();
 
 			Transmit = TransmitType.Always;
-
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else if ( Team == Team.Red )
-				RenderColor = Color.Red;
-
-			Name = "Radar Sensor";
 
 			base.Spawn();
 		}
@@ -56,7 +59,10 @@ namespace Facepunch.Hover
 		{
 			base.OnGameReset();
 
-			PlayIdleSound();
+			if ( Team != Team.None )
+			{
+				PlayIdleSound();
+			}
 
 			Range = 4000f;
 		}
@@ -70,7 +76,8 @@ namespace Facepunch.Hover
 		{
 			base.ServerTick();
 
-			if ( !IsPowered || !NextSensePlayers ) return;
+			if ( Team == Team.None || !IsPowered || !NextSensePlayers )
+				return;
 
 			var disruptors = Physics.GetEntitiesInSphere( Position, Range )
 				.OfType<Disruptor>()

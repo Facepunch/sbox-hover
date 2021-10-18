@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
-	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon, ITurretComponent
+	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon, ITurretComponent, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{
@@ -83,7 +83,7 @@ namespace Facepunch.Hover
 
 		public bool IsTurretDisabled()
 		{
-			return false;
+			return Team == Team.None;
 		}
 
 		public bool IsValidVictim( Player player )
@@ -106,11 +106,6 @@ namespace Facepunch.Hover
 			SetupPhysicsFromModel( PhysicsMotionType.Static );
 
 			Components.Create<TurretComponent>();
-
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else
-				RenderColor = Color.Red;
 
 			base.Spawn();
 		}

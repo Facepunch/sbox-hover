@@ -1,6 +1,7 @@
 ﻿using Gamelib.UI;
 using Sandbox;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -18,12 +19,14 @@ namespace Facepunch.Hover
 		public EntityHudIcon NoPowerIcon { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
 
-		[Net, Property] public Team Team { get; set; }
+		[Net, Property, Change] public Team Team { get; set; }
+		[Net] public Team DefaultTeam { get; set; }
 
 		public RealTimeUntil NextStopUpgradeLoop { get; private set; }
 		public EntityHudIcon DependencyIcon { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Sound? UpgradeLoop { get; private set; }
+
 
 		public virtual bool OnUse( Entity user )
 		{
@@ -69,7 +72,7 @@ namespace Facepunch.Hover
 			return false;
 		}
 
-		public DependencyUpgrade GetNextUpgrade()
+		public virtual DependencyUpgrade GetNextUpgrade()
 		{
 			if ( Upgrades == null || Upgrades.Count == 0 )
 				return null;
@@ -80,9 +83,31 @@ namespace Facepunch.Hover
 			return Upgrades[NextUpgrade];
 		}
 
+		public virtual void SetTeam( Team team )
+		{
+			var isPowered = true;
+			var generator = All.OfType<GeneratorEntity>().Where( v => v.Team == team ).FirstOrDefault();
+
+			if ( generator.IsValid() )
+			{
+				isPowered = !generator.IsDestroyed;
+			}
+
+			IsPowered = isPowered;
+
+			if ( team == Team.Blue )
+				RenderColor = Color.Blue;
+			else if ( team == Team.Red )
+				RenderColor = Color.Red;
+			else if ( team == Team.None )
+				RenderColor = Color.Yellow;
+
+			Team = team;
+		}
+
 		public virtual bool IsUsable( Entity user )
 		{
-			if ( !IsPowered )
+			if ( !IsPowered || DefaultTeam == Team.None )
 				return false;
 
 			if ( user is Player player && player.Team == Team )
@@ -101,6 +126,7 @@ namespace Facepunch.Hover
 			UpgradeTokens = 0;
 			NextUpgrade = 0;
 			IsPowered = true;
+			SetTeam( DefaultTeam );
 		}
 
 		public virtual bool ShouldUpdateHud()
@@ -122,7 +148,7 @@ namespace Facepunch.Hover
 			{
 				distance = player.Position.Distance( Position );
 
-				DependencyIcon.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 2000f, 3000f );
+				DependencyIcon.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 1250f, 1750f );
 				DependencyIcon.SetActive( IsPowered && (Team == Team.None || player.Team == Team) );
 			}
 		}
@@ -131,6 +157,10 @@ namespace Facepunch.Hover
 		{
 			GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
 			GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
+
+			DefaultTeam = Team;
+
+			SetTeam( Team );
 
 			base.Spawn();
 		}
@@ -180,6 +210,11 @@ namespace Facepunch.Hover
 				UpgradeLoop.Value.Stop();
 				UpgradeLoop = null;
 			}
+		}
+
+		protected virtual void OnTeamChanged( Team team )
+		{
+
 		}
 
 		protected virtual void OnGeneratorRepaired( GeneratorEntity generator )

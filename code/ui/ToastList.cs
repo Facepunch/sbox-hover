@@ -102,7 +102,7 @@ namespace Facepunch.Hover
 
 			Icon.SetClass( "hidden", icon == null );
 
-			EndTime = Time.Now + 4f;
+			EndTime = Time.Now + 5f;
 		}
 
 		public override void Tick()

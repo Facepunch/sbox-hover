@@ -26,16 +26,6 @@ namespace Facepunch.Hover
 		private WorldHealthBar HealthBar { get; set; }
 		private TimeSince LastUseTime { get; set; }
 
-		public void SetTeam( Team team )
-		{
-			Team = team;
-
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else
-				RenderColor = Color.Red;
-		}
-
 		public override bool OnUse( Entity user )
 		{
 			if ( user is Player player && player == Deployer )

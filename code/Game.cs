@@ -33,6 +33,7 @@ namespace Facepunch.Hover
 			Awards.Add<ReturnFlagAward>();
 			Awards.Add<RevengeAward>();
 			Awards.Add<FirstBloodAward>();
+			Awards.Add<CaptureOutpostAward>();
 		}
 
 		public async Task StartSecondTimer()

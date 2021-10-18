@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover
 {
@@ -33,6 +34,53 @@ namespace Facepunch.Hover
 		public void SetActive( bool active )
 		{
 			SetClass( "hidden", !active );
+		}
+	}
+
+	public class OutpostHud : Panel
+	{
+		public Panel Container { get; private set; }
+		public Label Letter { get; private set; }
+		public Label Name { get; private set; }
+		public Panel Bar { get; private set; }
+		public OutpostVolume Outpost { get; private set; }
+
+		public OutpostHud()
+		{
+			Container = Add.Panel( "container" );
+			Bar = Container.Add.Panel( "bar" );
+
+			var content = Container.Add.Panel( "content" );
+			var circle = content.Add.Panel( "circle" );
+			Letter = circle.Add.Label( "", "letter" );
+
+			Name = content.Add.Label( "", "name" );
+		}
+
+		public void SetOutpost( OutpostVolume outpost )
+		{
+			Letter.Text = outpost.Letter;
+			Name.Text = string.IsNullOrEmpty( outpost.OutpostName ) ? "Outpost" : outpost.OutpostName;
+			Outpost = outpost;
+		}
+
+		public override void Tick()
+		{
+			SetClass( Team.Blue.GetHudClass(), Outpost.Team == Team.Blue );
+			SetClass( Team.Red.GetHudClass(), Outpost.Team == Team.Red );
+			SetClass( Team.None.GetHudClass(), Outpost.Team == Team.None );
+
+			if ( Outpost.CaptureProgress >= 0f )
+			{
+				Bar.SetClass( "hidden", false );
+				Bar.Style.Width = Length.Fraction( Outpost.CaptureProgress );
+			}
+			else
+			{
+				Bar.SetClass( "hidden", true );
+			}
+
+			base.Tick();
 		}
 	}
 

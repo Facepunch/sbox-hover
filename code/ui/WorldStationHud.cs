@@ -25,8 +25,6 @@ namespace Facepunch.Hover
 		{
 			Entity = entity;
 			Attachment = attachment;
-			
-			AddClass( entity.Team.GetHudClass() );
 		}
 
 		public void SetRestockTime( float value )
@@ -58,6 +56,10 @@ namespace Facepunch.Hover
 				SetClass( "hidden", true );
 				return;
 			}
+
+			SetClass( Team.Red.GetHudClass(), Entity.Team == Team.Red );
+			SetClass( Team.Blue.GetHudClass(), Entity.Team == Team.Blue );
+			SetClass( Team.None.GetHudClass(), Entity.Team == Team.None );
 
 			var attachment = Entity.GetAttachment( Attachment );
 
