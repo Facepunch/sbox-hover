@@ -7,14 +7,10 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_light_turret" )]
-	public partial class LightTurret : DeployableEntity, IKillFeedIcon
+	public partial class LightTurret : DeployableEntity, ITurretComponent, IKillFeedIcon
 	{
 		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
 		public override float MaxHealth => 800f;
-
-		[Net] public Vector3 TargetDirection { get; private set; }
-		[Net] public float Recoil { get; private set; }
-		[Net] public Player Target { get; set; }
 
 		public List<string> FlybySounds => new()
 		{
@@ -24,23 +20,20 @@ namespace Facepunch.Hover
 			"flyby.rifleclose4"
 		};
 
+		public string MuzzleAttachment => "muzzle";
+		public float RotateSpeed => 10f;
 		public float DamageFalloffStart => 1000f;
 		public float DamageFalloffEnd => 2000f;
-		public RealTimeUntil NextFindTarget { get; set; }
-		public RealTimeUntil NextFireTime { get; set; }
 		public DamageFlags DamageType => DamageFlags.Bullet;
 		public string MuzzleFlashEffect => "particles/weapons/deployable_turret/deployable_turret_muzzleflash.vpcf";
 		public string TracerEffect => "particles/weapons/deployable_turret/deployable_turret_projectile.vpcf";
 		public string ImpactEffect => "particles/weapons/deployable_turret/deployable_turret_impact.vpcf";
 		public float BulletForce => 0.2f;
 		public float BulletRange => 2000f;
-		public float RotateSpeed => 10f;
-		public float AttackRadius => 1000f;
-		public float LockOnTime => 1f;
 		public float BaseDamage => 15f;
-		public float FireRate => 0.2f;
-
-		private Vector3 ClientDirection { get; set; }
+		public float TargetingSpeed => 1f;
+		public float AttackRadius => 1000f;
+		public float FireRate => 0.1f;
 
 		public string GetKillFeedIcon()
 		{
@@ -55,6 +48,34 @@ namespace Facepunch.Hover
 		public string GetKillFeedName()
 		{
 			return "Light Turret";
+		}
+
+		public void FireProjectile( Player target, Vector3 direction )
+		{
+			ShootBullet( target, 0.3f, BulletForce, BaseDamage, 16f );
+			PlaySound( $"generic.bullet1" );
+		}
+
+		public Vector3 GetTargetPosition( Player target )
+		{
+			return target.WorldSpaceBounds.Center;
+		}
+
+		public bool IsValidVictim( Player player )
+		{
+			return (player.LifeState == LifeState.Alive && player.Team != Team);
+		}
+
+		public override void Spawn()
+		{
+			base.Spawn();
+
+			Components.Create<TurretComponent>();
+		}
+
+		public bool IsTurretDisabled()
+		{
+			return !FinishDeployTime;
 		}
 
 		public float GetDamageFalloff( float distance, float damage )
@@ -125,143 +146,15 @@ namespace Facepunch.Hover
 			target.TakeDamage( damageInfo );
 		}
 
-		private void FindClosestTarget()
-		{
-			var targets = Physics.GetEntitiesInSphere( Position, AttackRadius )
-				.OfType<Player>()
-				.Where( IsValidTarget );
-
-			var closestTarget = (Player)null;
-			var closestDistance = 0f;
-
-			foreach ( var target in targets )
-			{
-				var distance = target.Position.Distance( Position );
-
-				if ( !closestTarget.IsValid() || distance < closestDistance )
-				{
-					closestTarget = target;
-					closestDistance = distance;
-				}
-			}
-
-			if ( closestTarget != Target )
-			{
-				NextFireTime = LockOnTime;
-			}
-
-			if ( closestTarget.IsValid() )
-				Target = closestTarget;
-			else
-				Target = null;
-		}
-
 		[Event.Tick.Server]
-		private void UpdateTarget()
+		private void UpdateDeployment()
 		{
 			if ( !FinishDeployTime )
 			{
 				var timeLeft = FinishDeployTime.Relative;
 				var fraction = 1f - (timeLeft / DeployTime);
 				Health = MaxHealth * fraction;
-				return;
 			}
-
-			if ( IsPowered )
-			{
-				if ( NextFindTarget )
-				{
-					FindClosestTarget();
-					NextFindTarget = 0.1f;
-				}
-
-				if ( Target.IsValid() && IsValidTarget( Target ) )
-				{
-					TargetDirection = (Target.WorldSpaceBounds.Center - Position).Normal;
-
-					if ( NextFireTime && IsFacingTarget() )
-					{
-						FireProjectile();
-						NextFireTime = FireRate;
-					}
-				}
-				else
-				{
-					TargetDirection = Vector3.Zero;
-					Target = null;
-				}
-			}
-			else
-			{
-				var positionAhead = (Position + Rotation.Forward * 500f) + Vector3.Down * 200f;
-				TargetDirection = (positionAhead - Position).Normal;
-			}
-
-			UpdateAnimation();
-
-			Recoil = Recoil.LerpTo( 0f, Time.Delta * 2f );
-		}
-
-		protected override void ClientTick()
-		{
-			base.ClientTick();
-
-			UpdateAnimation();
-		}
-
-		private void UpdateAnimation()
-		{
-			ClientDirection = ClientDirection.LerpTo( TargetDirection, Time.Delta * RotateSpeed );
-
-			SetAnimFloat( "fire", Recoil );
-			SetAnimVector( "target", Transform.NormalToLocal( ClientDirection ) );
-			SetAnimFloat( "weight", 1f );
-		}
-
-		private void FireProjectile()
-		{
-			if ( !Target.IsValid() ) return;
-
-			if ( !string.IsNullOrEmpty( MuzzleFlashEffect ) )
-			{
-				Particles.Create( MuzzleFlashEffect, this, "muzzle" );
-			}
-
-			ShootBullet( Target, 0.3f, BulletForce, BaseDamage, 16f );
-			PlaySound( $"generic.bullet1" );
-
-			Recoil = 1f;
-		}
-
-		private bool IsValidTarget( Player player )
-		{
-			return (IsValidVictim( player ) && CanSeeTarget( player ));
-		}
-
-		private bool IsValidVictim( Player player )
-		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team);
-		}
-
-		private bool CanSeeTarget( Player player )
-		{
-			var muzzle = GetAttachment( "muzzle" );
-			var trace = Trace.Ray( muzzle.Value.Position, player.WorldSpaceBounds.Center )
-				.Ignore( this )
-				.Size( 32f )
-				.Run();
-
-			return trace.Entity == player;
-		}
-
-		private bool IsFacingTarget()
-		{
-			var goalDirection = (Target.WorldSpaceBounds.Center - Position).Normal;
-
-			if ( TargetDirection.Distance( goalDirection ) > (1f / RotateSpeed) )
-				return false;
-
-			return true;
 		}
 	}
 }

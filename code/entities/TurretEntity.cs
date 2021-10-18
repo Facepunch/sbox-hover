@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
-	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon
+	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon, ITurretComponent
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{
@@ -17,10 +17,6 @@ namespace Facepunch.Hover
 			new TurretDamageUpgrade(),
 			new TurretTargetingUpgrade()
 		};
-
-		[Net] public Vector3 TargetDirection { get; private set; }
-		[Net] public float Recoil { get; private set; }
-		[Net] public Player Target { get; set; }
 
 		public List<string> FlybySounds => new()
 		{
@@ -30,22 +26,20 @@ namespace Facepunch.Hover
 			"flyby.rifleclose4"
 		};
 
-		public RealTimeUntil NextFindTarget { get; set; }
-		public RealTimeUntil NextFireTime { get; set; }
-		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
+		public string MuzzleAttachment => "muzzle";
+		public string MuzzleFlashEffect => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
+
+		[Net] public float RotateSpeed { get; set; }
 		public float ProjectileSpeed => 2500f;
-		public float RotateSpeed => 10f;
 		public float TargetingSpeed { get; set; }
-		public float AttackRadius { get; set; }
 		public float BlastDamage { get; set; }
 		public float BlastRadius { get; set; }
-		public float FireRate => 3f;
-
-		private Vector3 ClientDirection { get; set; }
+		public float AttackRadius { get; set; }
+		public float FireRate { get; set; }
 
 		public string GetKillFeedIcon()
 		{
-			return "ui/killicons/light_turret.png";
+			return "ui/killicons/turret.png";
 		}
 
 		public Team GetKillFeedTeam()
@@ -58,129 +52,8 @@ namespace Facepunch.Hover
 			return "Base Turret";
 		}
 
-		public override void OnGameReset()
+		public void FireProjectile( Player target, Vector3 direction )
 		{
-			TargetingSpeed = 1f;
-			AttackRadius = 3000f;
-			BlastDamage = 500f;
-			BlastRadius = 300f;
-
-			base.OnGameReset();
-		}
-
-		public override void Spawn()
-		{
-			SetModel( "models/tempmodels/turret/turret.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
-
-			Transmit = TransmitType.Always;
-
-			if ( Team == Team.Blue )
-				RenderColor = Color.Blue;
-			else
-				RenderColor = Color.Red;
-
-			Name = "Turret";
-
-			base.Spawn();
-		}
-
-		public override void OnKilled()
-		{
-			// TODO: Can it be killed separately to the generator?
-		}
-
-		protected override void ServerTick()
-		{
-			base.ServerTick();
-
-			if ( IsPowered )
-			{
-				if ( NextFindTarget )
-				{
-					FindClosestTarget();
-					NextFindTarget = 0.1f;
-				}
-
-				if ( Target.IsValid() && IsValidTarget( Target ) )
-				{
-					TargetDirection = (GetProjectedPosition( Target ) - Position).Normal;
-
-					if ( NextFireTime && IsFacingTarget() )
-					{
-						FireProjectile();
-						NextFireTime = FireRate;
-					}
-				}
-				else
-				{
-					TargetDirection = Vector3.Zero;
-					Target = null;
-				}
-			}
-			else
-			{
-				var positionAhead = (Position + Rotation.Forward * 500f) + Vector3.Down * 200f;
-				TargetDirection = (positionAhead - Position).Normal;
-			}
-
-			UpdateAnimation();
-
-			Recoil = Recoil.LerpTo( 0f, Time.Delta * 2f );
-		}
-
-		private void FindClosestTarget()
-		{
-			var targets = Physics.GetEntitiesInSphere( Position, AttackRadius )
-				.OfType<Player>()
-				.Where( IsValidTarget );
-
-			var closestTarget = (Player)null;
-			var closestDistance = 0f;
-
-			foreach ( var target in targets )
-			{
-				var distance = target.Position.Distance( Position );
-
-				if ( !closestTarget.IsValid() || distance < closestDistance )
-				{
-					closestTarget = target;
-					closestDistance = distance;
-				}
-			}
-
-			if ( closestTarget != Target && NextFireTime < TargetingSpeed )
-			{
-				NextFireTime = TargetingSpeed;
-			}
-
-			if ( closestTarget.IsValid() )
-				Target = closestTarget;
-			else
-				Target = null;
-		}
-
-		[Event.Tick.Client]
-		private void ClientTick()
-		{
-			UpdateAnimation();
-		}
-
-		private void UpdateAnimation()
-		{
-			ClientDirection = ClientDirection.LerpTo( TargetDirection, Time.Delta * RotateSpeed );
-
-			SetAnimFloat( "fire", Recoil );
-			SetAnimVector( "target", Transform.NormalToLocal( ClientDirection ) );
-			SetAnimFloat( "weight", 1f );
-		}
-
-		private void FireProjectile()
-		{
-			if ( !Target.IsValid() ) return;
-
-			Particles.Create( MuzzleFlash, this, "muzzle" );
-
 			var projectile = new BulletDropProjectile()
 			{
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
@@ -188,47 +61,61 @@ namespace Facepunch.Hover
 				ExplosionEffect = "particles/weapons/projectile_plasma_impact.vpcf",
 				FlybySounds = FlybySounds,
 				IgnoreEntity = this,
-				LaunchSoundName = $"pulserifle.fire{Rand.Int(1, 2)}",
+				LaunchSoundName = $"pulserifle.fire{Rand.Int( 1, 2 )}",
 				MoveTowardTarget = 2000f,
 				HitSound = "barage.explode",
 				LifeTime = 10f,
-				Target = Target,
+				Target = target,
 				Gravity = 0f
 			};
 
 			var muzzle = GetAttachment( "muzzle" );
-			projectile.Initialize( muzzle.Value.Position, TargetDirection * ProjectileSpeed, 32f, OnProjectileHit );
-
-			Recoil = 1f;
+			projectile.Initialize( muzzle.Value.Position, direction * ProjectileSpeed, 32f, OnProjectileHit );
 		}
 
-		private bool IsValidTarget( Player player )
-		{
-			return (IsValidVictim( player ) && CanSeeTarget( player ));
-		}
-
-		private bool IsValidVictim( Player player )
-		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team);
-		}
-
-		private bool CanSeeTarget( Player player )
-		{
-			var muzzle = GetAttachment( "muzzle" );
-			var trace = Trace.Ray( muzzle.Value.Position, player.WorldSpaceBounds.Center )
-				.Ignore( this )
-				.Size( 32f )
-				.Run();
-
-			return trace.Entity == player;
-		}
-
-		private Vector3 GetProjectedPosition( Player target )
+		public Vector3 GetTargetPosition( Player target )
 		{
 			var muzzle = GetAttachment( "muzzle" );
 			var position = target.WorldSpaceBounds.Center;
 			var timeToReach = (muzzle.Value.Position.Distance( position ) / ProjectileSpeed);
 			return (position + target.Velocity * timeToReach);
+		}
+
+		public bool IsTurretDisabled()
+		{
+			return false;
+		}
+
+		public bool IsValidVictim( Player player )
+		{
+			return (player.LifeState == LifeState.Alive && player.Team != Team);
+		}
+
+		public override void Spawn()
+		{
+			SetModel( "models/tempmodels/turret/turret.vmdl" );
+			SetupPhysicsFromModel( PhysicsMotionType.Static );
+
+			Components.Create<TurretComponent>();
+
+			if ( Team == Team.Blue )
+				RenderColor = Color.Blue;
+			else
+				RenderColor = Color.Red;
+
+			base.Spawn();
+		}
+
+		public override void OnGameReset()
+		{
+			base.OnGameReset();
+
+			TargetingSpeed = 1f;
+			AttackRadius = 3000f;
+			RotateSpeed = 10f;
+			BlastDamage = 500f;
+			BlastRadius = 300f;
+			FireRate = 3f;
 		}
 
 		private void OnProjectileHit( BulletDropProjectile projectile, Entity victim )
@@ -254,16 +141,6 @@ namespace Facepunch.Hover
 
 				target.TakeDamage( damageInfo );
 			}
-		}
-
-		private bool IsFacingTarget()
-		{
-			var goalDirection = (GetProjectedPosition( Target )- Position).Normal;
-
-			if ( TargetDirection.Distance( goalDirection ) > (1f / RotateSpeed) )
-				return false;
-
-			return true;
 		}
 	}
 }
