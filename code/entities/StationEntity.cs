@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.UI;
+using Sandbox;
 using System;
 using System.Linq;
 
@@ -9,6 +10,8 @@ namespace Facepunch.Hover
 	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a station spawns" )]
 	public partial class StationEntity : GeneratorDependency
 	{
+		public override string IconName => "ui/icons/loadouts.png";
+
 		public Particles IdleParticles { get; private set; }
 
 		private RealTimeUntil NextRestockAvailable { get; set; }

@@ -1,4 +1,6 @@
-﻿entityhud {
+﻿@import "Variables.scss";
+
+entityhud {
     position: absolute;
     pointer-events: none;
     top: 0px;
@@ -74,6 +76,16 @@ entityhudicon {
 
     &.hidden {
         display: none;
+    }
+
+    &.dependency {
+        width: 40px;
+        height: 40px;
+    }
+
+    &.generator {
+        width: 40px;
+        height: 40px;
     }
 
     &.power {

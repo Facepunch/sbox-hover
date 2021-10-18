@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.UI;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace Facepunch.Hover
 	[Library( "hv_generator" )]
 	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Generator", "Hover", "Defines a point where a team's generator spawns" )]
-	public partial class GeneratorEntity : ModelEntity, IGameResettable, IUse
+	public partial class GeneratorEntity : ModelEntity, IGameResettable, IUse, IHudEntity
 	{
 		public delegate void GeneratorEvent( GeneratorEntity generator );
 		public static event GeneratorEvent OnGeneratorRepaired;
@@ -17,8 +18,12 @@ namespace Facepunch.Hover
 		[Net] public float MaxHealth { get; set; } = 6000f;
 		[Net] public bool IsDestroyed { get; set; }
 		public float RepairRate { get; set; } = 100f;
+		public Vector3 LocalCenter => CollisionBounds.Center;
 
 		[Net, Property] public Team Team { get; set; }
+
+		public EntityHudAnchor Hud { get; private set; }
+		public EntityHudIcon Icon { get; private set; }
 
 		private WorldHealthBar HealthBarLeft { get; set; }
 		private WorldHealthBar HealthBarRight { get; set; }
@@ -116,6 +121,22 @@ namespace Facepunch.Hover
 			return false;
 		}
 
+		public virtual bool ShouldUpdateHud()
+		{
+			return true;
+		}
+
+		public virtual void UpdateHudComponents()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				var distance = player.Position.Distance( Position );
+
+				Icon.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 2000f, 3000f );
+				Icon.SetActive( player.Team == Team );
+			}
+		}
+
 		public override void Spawn()
 		{
 			SetModel( "models/tempmodels/generator/generator_temp.vmdl" );
@@ -157,6 +178,11 @@ namespace Facepunch.Hover
 			GeneratorHud = new WorldGeneratorHud();
 			GeneratorHud.SetEntity( this, "repair_hud" );
 			GeneratorHud.WorldScale = 2f;
+
+			Hud = EntityHud.Instance.Create( this );
+
+			Icon = Hud.AddChild<EntityHudIcon>( "generator" );
+			Icon.SetTexture( "ui/icons/generator.png" );
 
 			base.ClientSpawn();
 		}
@@ -249,6 +275,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		private void OnClientGeneratorRepaired()
 		{
+			Icon.SetTexture( "ui/icons/generator.png" );
 			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
 			OnGeneratorRepaired?.Invoke( this );
 		}
@@ -256,6 +283,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		private void OnClientGeneratorBroken()
 		{
+			Icon.SetTexture( "ui/icons/generator_offline.png" );
 			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
 			OnGeneratorBroken?.Invoke( this );
 		}

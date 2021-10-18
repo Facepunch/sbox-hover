@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.UI;
+using Sandbox;
 using System.Collections.Generic;
 
 namespace Facepunch.Hover
@@ -7,6 +8,7 @@ namespace Facepunch.Hover
 	{
 		public virtual float UpgradeTokensPerSecond => 50f;
 		public virtual List<DependencyUpgrade> Upgrades => null;
+		public virtual string IconName => "";
 		
 		[Net, Change] public bool IsPowered { get; set; } = true;
 		[Net] public int UpgradeTokens { get; private set; }
@@ -19,6 +21,7 @@ namespace Facepunch.Hover
 		[Net, Property] public Team Team { get; set; }
 
 		public RealTimeUntil NextStopUpgradeLoop { get; private set; }
+		public EntityHudIcon DependencyIcon { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Sound? UpgradeLoop { get; private set; }
 
@@ -110,10 +113,17 @@ namespace Facepunch.Hover
 			var distance = Local.Pawn.Position.Distance( Position ) - 1000f;
 			var mapped = 1f - distance.Remap( 0f, 1000f, 0f, 1f );
 
-			if ( Hud.Style.Opacity != mapped )
+			if ( NoPowerIcon.Style.Opacity != mapped )
 			{
-				Hud.Style.Opacity = mapped;
-				Hud.Style.Dirty();
+				NoPowerIcon.Style.Opacity = mapped;
+			}
+
+			if ( DependencyIcon != null && Local.Pawn is Player player )
+			{
+				distance = player.Position.Distance( Position );
+
+				DependencyIcon.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 2000f, 3000f );
+				DependencyIcon.SetActive( IsPowered && (Team == Team.None || player.Team == Team) );
 			}
 		}
 
@@ -128,10 +138,17 @@ namespace Facepunch.Hover
 		public override void ClientSpawn()
 		{
 			Hud = EntityHud.Instance.Create( this );
-			Hud.SetActive( false );
 
 			NoPowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
 			NoPowerIcon.SetTexture( "ui/icons/no-power.png" );
+			NoPowerIcon.SetActive( !IsPowered );
+
+			if ( !string.IsNullOrEmpty( IconName ) )
+            {
+				DependencyIcon = Hud.AddChild<EntityHudIcon>( "dependency" );
+				DependencyIcon.SetTexture( IconName );
+				DependencyIcon.SetActive( IsPowered );
+			} 
 
 			if ( Upgrades != null && Upgrades.Count > 0 )
 			{
@@ -187,7 +204,7 @@ namespace Facepunch.Hover
 
 		protected virtual void OnIsPoweredChanged( bool isPowered )
 		{
-			Hud.SetActive( !isPowered );
+			NoPowerIcon.SetActive( !isPowered );
 		}
 
 		protected virtual void OnAddUpgrade( DependencyUpgrade upgrade )

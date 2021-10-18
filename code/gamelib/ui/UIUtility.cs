@@ -9,6 +9,20 @@ namespace Gamelib.UI
 {
 	public static class UIUtility
 	{
+		public static float GetMinMaxDistanceAlpha( float distance, float fadeInStart, float fadeInEnd, float fadeOutStart, float fadeOutEnd )
+        {
+			distance -= fadeInStart;
+
+			var mapped = distance.Remap( fadeInEnd, fadeInStart, 0f, 1f );
+
+			if ( distance >= fadeOutStart)
+			{
+				mapped = 1f - distance.Remap( fadeOutStart, fadeOutEnd, 0f, 1f );
+			}
+
+			return mapped;
+		}
+
 		public static Panel GetHoveredPanel( Panel root = null )
 		{
 			root ??= Local.Hud;
