@@ -21,6 +21,8 @@ namespace Facepunch.Hover
 
 		public virtual void OnAbilityUsed() { }
 
+		public virtual void OnDeployablePickedUp( DeployableEntity entity ) { }
+
 		public override void OnCarryStart( Entity carrier )
 		{
 			if ( carrier is Player player )

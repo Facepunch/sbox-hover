@@ -859,6 +859,14 @@ namespace Facepunch.Hover
 			return other.Team != Team;
 		}
 
+		public virtual void OnDeployablePickedUp( DeployableEntity entity )
+		{
+			foreach ( var equipment in Children.OfType<Equipment>() )
+			{
+				equipment.OnDeployablePickedUp( entity );
+			}
+		}
+
 		public virtual void OnCaptureFlag( FlagEntity flag )
 		{
 			Client.SetInt( "captures", Client.GetInt( "captures", 0 ) + 1 );

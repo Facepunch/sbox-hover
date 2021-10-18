@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override bool IsMelee => true;
 		public virtual string Model => "";
 		public virtual float DeployScale => 1f;
-		public virtual float MinDistanceFromOthers => 2000f;
+		public virtual float MinDistanceFromOthers => 1000f;
 		public virtual int MaxDeployables => 3;
 
 		[Net] public int Deployables { get; set; }
@@ -21,6 +21,14 @@ namespace Facepunch.Hover
 		public override bool IsAvailable()
 		{
 			return Deployables > 0;
+		}
+
+		public override void OnDeployablePickedUp( DeployableEntity entity )
+		{
+			if ( entity is T )
+			{
+				Deployables = Math.Min( Deployables + 1, MaxDeployables );
+			}
 		}
 
 		public override void Restock()

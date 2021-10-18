@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Sound? UpgradeLoop { get; private set; }
 
-		public bool OnUse( Entity user )
+		public virtual bool OnUse( Entity user )
 		{
 			if ( user is not Player player )
 				return false;
@@ -80,7 +80,7 @@ namespace Facepunch.Hover
 			return Upgrades[NextUpgrade];
 		}
 
-		public bool IsUsable( Entity user )
+		public virtual bool IsUsable( Entity user )
 		{
 			if ( !IsPowered )
 				return false;

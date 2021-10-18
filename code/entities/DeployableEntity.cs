@@ -15,12 +15,16 @@ namespace Facepunch.Hover
 		public virtual string HealthAttachment => "health_bar";
 		public virtual float MaxHealth => 100f;
 		public virtual string DeploySound => "turret.deploy";
+		public virtual bool CanPickup => true;
 		public virtual float DeployTime => 2f;
 		public virtual string Model => "";
 
+		[Net] public float PickupProgress { get; set; }
 		[Net] public Player Deployer { get; set; }
 
+		private WorldDeployableHud DeployableHud { get; set; }
 		private WorldHealthBar HealthBar { get; set; }
+		private TimeSince LastUseTime { get; set; }
 
 		public void SetTeam( Team team )
 		{
@@ -30,6 +34,38 @@ namespace Facepunch.Hover
 				RenderColor = Color.Blue;
 			else
 				RenderColor = Color.Red;
+		}
+
+		public override bool OnUse( Entity user )
+		{
+			if ( user is Player player && player == Deployer )
+			{
+				PickupProgress = Math.Min( PickupProgress + Time.Delta, 1f );
+				LastUseTime = 0f;
+
+				if ( PickupProgress == 1f )
+				{
+					player.OnDeployablePickedUp( this );
+					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+					Delete();
+
+					return false;
+				}
+
+				return true;
+			}
+
+			return base.OnUse( user );
+		}
+
+		public override bool IsUsable( Entity user )
+		{
+			if ( user is Player player && player == Deployer )
+            {
+				return true;
+            }
+
+			return base.IsUsable( user );
 		}
 
 		public override void Spawn()
@@ -51,6 +87,13 @@ namespace Facepunch.Hover
 			HealthBar.RotateToFace = true;
 			HealthBar.ShowIcon = false;
 
+			if ( Local.Pawn == Deployer && CanPickup
+				)
+			{
+				DeployableHud = new WorldDeployableHud();
+				DeployableHud.SetEntity( this );
+			}
+
 			base.ClientSpawn();
 		}
 
@@ -59,6 +102,16 @@ namespace Facepunch.Hover
 			Particles.Create( ExplosionEffect, Position );
 			Audio.Play( ExplosionSound, Position );
 			Delete();
+		}
+
+		protected override void ServerTick()
+		{
+			if ( LastUseTime > 0.1f )
+			{
+				PickupProgress = Math.Max( PickupProgress - Time.Delta * 2f, 0f );
+			}
+
+			base.ServerTick();
 		}
 
 		protected override void OnDestroy()
