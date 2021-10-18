@@ -3,7 +3,7 @@
 	_class = "CParticleSystemDefinition"
 	m_nBehaviorVersion = 10
 	m_nInitialParticles = 10
-	m_flConstantRadius = 32.0
+	m_flConstantRadius = 48.0
 	m_controlPointConfigurations = 
 	[
 		{
