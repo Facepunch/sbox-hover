@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Damage +15%";
 		public override string Description => "Upgrade the attack damage";
-		public override int TokenCost => 300;
+		public override int TokenCost => 1500;
 
 		public override void Apply( GeneratorDependency dependency )
 		{

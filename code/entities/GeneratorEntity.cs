@@ -14,7 +14,7 @@ namespace Facepunch.Hover
 		public static event GeneratorEvent OnGeneratorBroken;
 
 		[Net] public RealTimeUntil StartRegenTime { get; set; }
-		[Net] public float MaxHealth { get; set; } = 4000f;
+		[Net] public float MaxHealth { get; set; } = 6000f;
 		[Net] public bool IsDestroyed { get; set; }
 		public float RepairRate { get; set; } = 100f;
 
