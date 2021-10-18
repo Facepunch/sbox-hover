@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 		{
 			new TurretRangeUpgrade(),
 			new TurretDamageUpgrade(),
-			new TurretRangeUpgrade()
+			new TurretTargetingUpgrade()
 		};
 
 		[Net] public Vector3 TargetDirection { get; private set; }
@@ -35,6 +35,7 @@ namespace Facepunch.Hover
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
 		public float ProjectileSpeed => 2500f;
 		public float RotateSpeed => 10f;
+		public float TargetingSpeed { get; set; }
 		public float AttackRadius { get; set; }
 		public float BlastDamage { get; set; }
 		public float BlastRadius { get; set; }
@@ -59,6 +60,7 @@ namespace Facepunch.Hover
 
 		public override void OnGameReset()
 		{
+			TargetingSpeed = 1f;
 			AttackRadius = 3000f;
 			BlastDamage = 500f;
 			BlastRadius = 300f;
@@ -147,9 +149,9 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( closestTarget != Target )
+			if ( closestTarget != Target && NextFireTime < TargetingSpeed )
 			{
-				NextFireTime = 1f;
+				NextFireTime = TargetingSpeed;
 			}
 
 			if ( closestTarget.IsValid() )
