@@ -13,13 +13,14 @@ namespace Facepunch.Hover
 		public virtual string HitSound => null;
 		public virtual float LifeTime => 5f;
 
-		protected bool FireNextTick { get; set; }
-
 		public override void AttackPrimary()
 		{
 			if ( IsServer )
 			{
-				FireNextTick = true;
+				using ( Prediction.Off() )
+                {
+					FireProjectile();
+				}
 			}
 		}
 
@@ -40,7 +41,12 @@ namespace Facepunch.Hover
 			var position = muzzle.Value.Position;
 			var forward = Owner.EyeRot.Forward.Normal;
 
-			projectile.Position = position + forward * 50f;
+			var trace = Trace.Ray( position, position + forward * 80f )
+				.Ignore( this )
+				.Ignore( Owner )
+				.Run();
+
+			projectile.Position = trace.EndPos - trace.Direction * 40f;
 			projectile.Rotation = Rotation.LookAt( forward );
 			projectile.Initialize( OnProjectileHit );
 
@@ -51,16 +57,6 @@ namespace Facepunch.Hover
 		protected virtual float ModifyDamage( Entity victim, float damage )
 		{
 			return damage;
-		}
-
-		[Event.Tick.Server]
-		protected virtual void ServerTick()
-		{
-			if ( FireNextTick )
-			{
-				FireProjectile();
-				FireNextTick = false;
-			}
 		}
 
 		protected virtual void DamageInRadius( Vector3 position, float radius, float baseDamage )

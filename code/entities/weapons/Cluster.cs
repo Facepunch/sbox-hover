@@ -39,9 +39,10 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;
+		public override float DamageRadius => 350f;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 2f;
-		public override int BaseDamage => 150;
+		public override int BaseDamage => 250;
 
 		public override void Spawn()
 		{
@@ -88,7 +89,7 @@ namespace Facepunch.Hover
 				ExplosionEffect = ImpactEffect,
 				TrailEffect = TrailEffect,
 				HitSound = HitSound,
-				LifeTime = Rand.Float( 1f, 2f ),
+				LifeTime = Rand.Float( 1f, 2.5f ),
 				Owner = Owner
 			};
 			

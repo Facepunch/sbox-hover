@@ -16,13 +16,13 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
-	partial class Destroyer : BulletDropWeapon
+	partial class Destroyer : PhysicsWeapon<DestroyerProjectile>
 	{
 		public override WeaponConfig Config => new DestroyerConfig();
-		public override float ProjectileRadius => 50f;
 		public override string ImpactEffect => "particles/weapons/destroyer/destroyer_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/destroyer/destroyer_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/destroyer/destroyer_muzzleflash.vpcf";
+		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
 		public override List<Type> Upgrades => new()
@@ -37,12 +37,13 @@ namespace Facepunch.Hover
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
-		public override float Speed => 600f;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
+		public override float LifeTime => 10f;
 		public override int BaseDamage => 1500;
-		public override float Gravity => 5f;
 		public virtual float BlastRadius => 800f;
+		public override float ProjectileForce => 500f;
+		public override float ImpactForce => 2000f;
 
 		public override void Spawn()
 		{
@@ -82,7 +83,7 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( PhysicsProjectile projectile )
 		{
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
