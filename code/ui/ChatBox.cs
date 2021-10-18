@@ -51,7 +51,8 @@ namespace Facepunch.Hover
 			"Visit a Station to change or upgrade your loadout",
 			"Heavier loadouts will decrease your movement speed",
 			"Be careful of weapons that cause blast damage",
-			"Spot enemies by pressing [+iv_drop] while looking at them"
+			"Spot enemies by pressing [+iv_drop] while looking at them",
+			"Some maps have Outposts you can hold to earn passive income"
 		};
 
 		public TextEntryContainer TextEntry { get; private set; }

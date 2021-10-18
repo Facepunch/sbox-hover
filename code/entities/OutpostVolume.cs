@@ -94,15 +94,10 @@ namespace Facepunch.Hover
 
 		protected void UpdateBaseAssets()
 		{
-			Log.Info( "Upgrading Base Assets" );
-			foreach ( var dependency in Physics.GetEntitiesInSphere( WorldSpaceBounds.Center, WorldSpaceBounds.Size.Length * 2f ) )
+			foreach ( var dependency in Physics.GetEntitiesInBox( WorldSpaceBounds ) )
 			{
-				Log.Info( "Found: " + dependency );
-
 				if ( dependency is IBaseAsset asset )
 				{
-					Log.Info( "Going to Upgrade: " + asset );
-
 					asset.SetTeam( Team );
 				}
 			}
