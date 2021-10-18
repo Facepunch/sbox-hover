@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
-	partial class Cluster : PhysicsWeapon<PhysicsProjectile>
+	partial class Cluster : PhysicsWeapon<BoomerProjectile>
 	{
 		public override WeaponConfig Config => new ClusterConfig();
 		public override string ImpactEffect => "particles/weapons/cluster/cluster_impact.vpcf";
@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
-		public override float InheritVelocity => 0.5f;
+		public override float InheritVelocity => 0.3f;
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
 		public override float ProjectileForce => 60f;
@@ -91,13 +91,15 @@ namespace Facepunch.Hover
 				LifeTime = Rand.Float( 1f, 2f ),
 				Owner = Owner
 			};
-
+			
 			bomb.SetModel( ProjectileModel );
+
+			var random = new Vector3( Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ) );
 
 			bomb.Position = position;
 			bomb.Rotation = Rotation.From( Angles.Random );
 			bomb.Initialize( OnBombHit );
-			bomb.PhysicsBody.ApplyForce( (Vector3.Up * ProjectileForce * 100f) + (Vector3.Random * ProjectileForce * 250f) );
+			bomb.PhysicsBody.ApplyForce( (Vector3.Up * ProjectileForce * Rand.Float( 60f, 100f )) + (random * ProjectileForce * Rand.Float( 100f, 150f )) );
 		}
 
 		protected virtual void OnBombHit( PhysicsProjectile bomb )
