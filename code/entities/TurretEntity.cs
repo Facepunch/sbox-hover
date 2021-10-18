@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
 		public string MuzzleFlash => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
-		public float ProjectileSpeed => 4000f;
+		public float ProjectileSpeed => 2500f;
 		public float RotateSpeed => 10f;
 		public float AttackRadius { get; set; }
 		public float BlastDamage { get; set; }

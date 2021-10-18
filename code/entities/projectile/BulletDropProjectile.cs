@@ -128,7 +128,7 @@ namespace Facepunch.Hover
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = trace.EndPos + Velocity.Normal * Radius;
+			Position = trace.EndPos + trace.Direction.Normal * Radius;
 
 			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
 			{
