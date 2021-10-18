@@ -63,7 +63,16 @@ namespace Facepunch.Hover
 
 		public bool IsValidVictim( Player player )
 		{
-			return (player.LifeState == LifeState.Alive && player.Team != Team);
+			if ( player.LifeState == LifeState.Dead )
+				return false;
+
+			if ( player.Team == Team )
+				return false;
+
+			if ( player.TargetAlpha == 0f )
+				return false;
+
+			return true;
 		}
 
 		public override void Spawn()
