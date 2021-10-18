@@ -23,14 +23,14 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="H:/Steam/steamapps/common/Sandbox Game/bin/managed/Sandbox.Generator.dll"/>
-		<Reference Include="H:/Steam/steamapps/common/Sandbox Game/bin/managed/Sandbox.System.dll"/>
-		<Reference Include="H:/Steam/steamapps/common/Sandbox Game/bin/managed/Sandbox.Engine.dll"/>
-		<Reference Include="H:/Steam/steamapps/common/Sandbox Game/bin/managed/Sandbox.Game.dll"/>
+		<Analyzer Include="F:/SteamLibrary/steamapps/common/sbox/bin/managed/Sandbox.Generator.dll"/>
+		<Reference Include="F:/SteamLibrary/steamapps/common/sbox/bin/managed/Sandbox.System.dll"/>
+		<Reference Include="F:/SteamLibrary/steamapps/common/sbox/bin/managed/Sandbox.Engine.dll"/>
+		<Reference Include="F:/SteamLibrary/steamapps/common/sbox/bin/managed/Sandbox.Game.dll"/>
 	</ItemGroup>
 
   <ItemGroup>
-<ProjectReference Include="H:\Steam\steamapps\common\Sandbox Game\Addons\base\code\base.csproj" />
+<ProjectReference Include="F:\SteamLibrary\steamapps\common\sbox\Addons\base\code\base.csproj" />
   </ItemGroup>
 
 </Project>
