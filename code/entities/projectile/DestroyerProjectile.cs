@@ -8,6 +8,8 @@ namespace Facepunch.Hover
 	{
 		public TimeSince TimeSinceCreated { get; private set; }
 
+		private bool PlayedLandingSound { get; set; }
+
 		public DestroyerProjectile()
         {
 			TimeSinceCreated = 0f;
@@ -21,6 +23,24 @@ namespace Facepunch.Hover
 			}
 
 			base.OnPhysicsCollision( eventData );
+		}
+
+		protected override void ServerTick()
+		{
+			if ( !PlayedLandingSound && DestroyTime > 0f )
+            {
+				var trace = Trace.Ray(Position, Position + Velocity.Normal * 1500f )
+					.Ignore(this)
+					.Run();
+
+				if ( trace.Hit )
+                {
+					PlaySound( "destroyer.landing" );
+					PlayedLandingSound = true;
+				}
+			}
+
+			base.ServerTick();
 		}
 	}
 }

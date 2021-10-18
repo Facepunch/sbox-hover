@@ -63,7 +63,7 @@ namespace Facepunch.Hover
 
 			PlayAttackAnimation();
 			ShootEffects();
-			PlaySound( $"pulserifle.fire{Rand.Int( 1, 2 )}" );
+			PlaySound( "destroyer.fire" );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
@@ -85,6 +85,8 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( PhysicsProjectile projectile )
 		{
+			Audio.Play( "explosion.far", projectile.Position );
+
 			var position = projectile.Position;
 			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
 
