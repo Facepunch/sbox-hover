@@ -399,5 +399,8 @@
 		{
 			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_muzzleflash_c.vpcf"
 		},
+		{
+			m_ChildRef = resource:"particles/weapons/destroyer/destroyer_muzzleflash_d.vpcf"
+		},
 	]
 }
