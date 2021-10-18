@@ -2,15 +2,15 @@
 {
 	data = 
 	{
-		volume = 1.0
 		sounds = 
 		[
-			"sounds/impact/flesh-3.vsnd",
+			"sound/hitmarker.vsnd",
 		]
-		VolumeRandom = 0.0
+		UI = true
+		Volume = 1.0
+		VolumeRandom = 0.2
 		Pitch = 1.0
 		PitchRandom = 0.0
 		DistanceMax = 1000.0
-		UI = true
 	}
 }

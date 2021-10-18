@@ -812,7 +812,7 @@ namespace Facepunch.Hover
 
 			var panel = new FloatingDamage();
 
-			panel.SetLifeTime( Rand.Float( 1f, 3f ) );
+			panel.SetLifeTime( Rand.Float( 2f, 3f ) );
 			panel.SetDamage( damage );
 			panel.Velocity = Vector3.Random * Rand.Float( 100f, 300f );
 			panel.Position = position;
