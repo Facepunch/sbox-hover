@@ -7,7 +7,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_force_shield" )]
-	public partial class ForceShield : DeployableEntity
+	public partial class ForceShield : DeployableEntity, IKillFeedIcon
 	{
 		public override string Model => "models/force_field/force_field.vmdl";
 
@@ -16,6 +16,21 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil NextDamageTime { get; set; }
 		private RealTimeUntil NextPassSound { get; set; }
+
+		public string GetKillFeedIcon()
+		{
+			return "ui/equipment/force_shield.png";
+		}
+
+		public Team GetKillFeedTeam()
+		{
+			return Team;
+		}
+
+		public string GetKillFeedName()
+		{
+			return "Force Field";
+		}
 
 		public override void Spawn()
 		{

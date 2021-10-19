@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 		public override string Name => "Force Shield";
 		public override string Description => "Deployable Force Shield";
 		public override string SecondaryDescription => "Blocks Projectiles and Damages Moving Enemies";
-		public override string Icon => "ui/equipment/deployable_disruptor.png";
+		public override string Icon => "ui/equipment/force_shield.png";
 		public override string ClassName => "hv_deployable_force_shield";
 	}
 
