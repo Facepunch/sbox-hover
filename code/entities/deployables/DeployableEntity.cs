@@ -15,12 +15,12 @@ namespace Facepunch.Hover
 		public virtual bool StartFrozen => false;
 		public virtual string ExplosionSound => "barage.explode";
 		public virtual string HealthAttachment => "health_bar";
-		public virtual float MaxHealth { get; set; } = 100f;
 		public virtual string DeploySound => "turret.deploy";
 		public virtual bool CanPickup => true;
 		public virtual float DeployTime => 2f;
 		public virtual string Model => "";
 
+		[Net] public float MaxHealth { get; set; } = 100f;
 		[Net] public bool IsDeployed { get; set; }
 		[Net] public float PickupProgress { get; set; }
 		[Net] public Player Deployer { get; set; }
@@ -85,8 +85,7 @@ namespace Facepunch.Hover
 			HealthBar.RotateToFace = true;
 			HealthBar.ShowIcon = false;
 
-			if ( Local.Pawn == Deployer && CanPickup
-				)
+			if ( Local.Pawn == Deployer && CanPickup )
 			{
 				DeployableHud = new WorldDeployableHud();
 				DeployableHud.SetEntity( this );

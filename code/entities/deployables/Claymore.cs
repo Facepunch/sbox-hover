@@ -7,12 +7,18 @@ namespace Facepunch.Hover
 	{
 		public override string Model => "models/claymore_mines/claymore_mines.vmdl";
 		public override bool RequiresPower => false;
-		public override float MaxHealth { get; set; } = 80f;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float DamageVsHeavy { get; set; } = 1f;
 		public float BaseDamage { get; set; } = 700f;
 		public float Force { get; set; } = 2f;
 		public float Radius { get; set; } = 100f;
+
+		public override void Spawn()
+		{
+			MaxHealth = 80f;
+
+			base.Spawn();
+		}
 
 		public string GetKillFeedIcon()
 		{

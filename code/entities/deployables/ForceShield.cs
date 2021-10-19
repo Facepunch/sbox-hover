@@ -61,7 +61,6 @@ namespace Facepunch.Hover
 				var players = Physics.GetEntitiesInBox( WorldSpaceBounds )
 					.OfType<Player>();
 
-				var didPlayPassSound = false;
 				var didDamagePlayer = false;
 
 				foreach ( var player in players )
@@ -78,16 +77,11 @@ namespace Facepunch.Hover
 
 						DealDamage( player, Position, 2f, FullDamage );
 					}
-					else if ( !didPlayPassSound )
+					else if ( NextPassSound )
 					{
-						didPlayPassSound = true;
+						NextPassSound = 1f;
 						PlaySound( "forceshield.pass" );
 					}
-				}
-
-				if ( didPlayPassSound )
-				{
-					NextPassSound = 1f;
 				}
 
 				if ( didDamagePlayer )

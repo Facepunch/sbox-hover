@@ -10,7 +10,6 @@ namespace Facepunch.Hover
 	public partial class MotionAlarm : DeployableEntity
 	{
 		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
-		public override float MaxHealth { get; set; } = 300f;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float BaseDamage { get; set; } = 20f;
 		public float Radius { get; set; } = 300f;
@@ -30,6 +29,13 @@ namespace Facepunch.Hover
 		public string GetKillFeedName()
 		{
 			return "Motion Alarm";
+		}
+
+		public override void Spawn()
+		{
+			MaxHealth = 400f;
+
+			base.Spawn();
 		}
 
 		protected virtual void DealDamage( Player target, Vector3 position, Vector3 force, float damage )

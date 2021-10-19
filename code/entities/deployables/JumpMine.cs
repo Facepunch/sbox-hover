@@ -13,7 +13,6 @@ namespace Facepunch.Hover
 		public override bool RequiresPower => false;
 		public override bool StartFrozen => true;
 		public override string Model => "models/mines/mines.vmdl";
-		public override float MaxHealth { get; set; } = 80f;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float BaseDamage { get; set; } = 700f;
 		public float DamageVsHeavy { get; set; } = 1f;
@@ -21,6 +20,13 @@ namespace Facepunch.Hover
 		
 		private RealTimeUntil ExplodeTime { get; set; }
 		private bool IsExploding { get; set; }
+
+		public override void Spawn()
+		{
+			MaxHealth = 80f;
+
+			base.Spawn();
+		}
 
 		public string GetKillFeedIcon()
 		{
