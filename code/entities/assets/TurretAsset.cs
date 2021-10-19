@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
@@ -126,8 +127,7 @@ namespace Facepunch.Hover
 		{
 			var blastPosition = projectile.Position;
 
-			var proximity = Physics.GetEntitiesInSphere( blastPosition, BlastRadius )
-				.OfType<Player>()
+			var proximity = WeaponUtil.GetBlastEntities<Player>( blastPosition, BlastRadius )
 				.Where( IsValidVictim );
 
 			foreach ( var target in proximity )

@@ -6,12 +6,19 @@ namespace Facepunch.Hover
 	public partial class Claymore : DeployableEntity, IKillFeedIcon
 	{
 		public override string Model => "models/claymore_mines/claymore_mines.vmdl";
-		public override float MaxHealth => 80f;
+		public override bool RequiresPower => false;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float DamageVsHeavy { get; set; } = 1f;
 		public float BaseDamage { get; set; } = 700f;
 		public float Force { get; set; } = 2f;
 		public float Radius { get; set; } = 100f;
+
+		public override void Spawn()
+		{
+			MaxHealth = 80f;
+
+			base.Spawn();
+		}
 
 		public string GetKillFeedIcon()
 		{

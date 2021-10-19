@@ -27,8 +27,12 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
-				new DeployableJumpMineConfig()
+				new DeployableForceShieldConfig()
 			},
+			new WeaponConfig[]
+			{
+				new DeployableJumpMineConfig()
+			}
 		};
 		public override float JetpackScale => 0.7f;
 		public override float EnergyRegen => 15f;

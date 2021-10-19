@@ -123,6 +123,7 @@ namespace Facepunch.Hover
 			}
 
 			var trace = Trace.Ray( Position, newPosition )
+				.HitLayer( CollisionLayer.Water, true )
 				.Size( Radius )
 				.Ignore( this )
 				.Ignore( IgnoreEntity )

@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
@@ -88,7 +89,7 @@ namespace Facepunch.Hover
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
 			var position = projectile.Position;
-			var entities = Physics.GetEntitiesInSphere( position, BlastRadius );
+			var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
 			
 			foreach ( var entity in entities )
 			{
