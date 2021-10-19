@@ -55,7 +55,7 @@ namespace Facepunch.Hover
 			transform.Rotation = targetRotation;
 
 			var distanceToCamera = localPlayer.Position.Distance( Player.Position );
-			transform.Scale = distanceToCamera.Remap( 0f, EndFadeDistance, 1f, 2f );
+			transform.Scale = distanceToCamera.Remap( 0f, EndFadeDistance, 1f, 3f );
 
 			if ( distanceToCamera >= StartFadeDistance )
 			{
@@ -68,25 +68,32 @@ namespace Facepunch.Hover
 				Container.Style.Opacity = 1f;
 			}
 
-			if ( !Player.VisibleToEnemiesUntil && distanceToCamera >= StartDotDistance && distanceToCamera < EndDotDistance )
+			if ( Player.Team != localPlayer.Team )
 			{
-				var halfDistance = StartDotDistance + (EndDotDistance - StartDotDistance) * 0.5f;
-				var overlap = (distanceToCamera - StartDotDistance);
-
-				if ( distanceToCamera >= halfDistance )
+				if ( !Player.VisibleToEnemiesUntil && distanceToCamera >= StartDotDistance && distanceToCamera < EndDotDistance )
 				{
-					var opacity = overlap.Remap( 0f, halfDistance, 0f, 1f );
-					Dot.Style.Opacity = Math.Clamp( opacity, 0f, 1f );
+					var halfDistance = StartDotDistance + (EndDotDistance - StartDotDistance) * 0.5f;
+					var overlap = (distanceToCamera - StartDotDistance);
+
+					if ( distanceToCamera >= halfDistance )
+					{
+						var opacity = overlap.Remap( 0f, halfDistance, 0f, 1f );
+						Dot.Style.Opacity = Math.Clamp( opacity, 0f, 1f );
+					}
+					else
+					{
+						var opacity = overlap.Remap( 0f, halfDistance, 0f, 1f );
+						Dot.Style.Opacity = Math.Clamp( 1f - opacity, 0f, 1f );
+					}
 				}
 				else
 				{
-					var opacity = overlap.Remap( 0f, halfDistance, 0f, 1f );
-					Dot.Style.Opacity = Math.Clamp( 1f - opacity, 0f, 1f );
+					Dot.Style.Opacity = 0f;
 				}
 			}
 			else
 			{
-				Dot.Style.Opacity = 0f;
+				Dot.Style.Opacity = 1f;
 			}
 
 			NameLabel.Text = Player.Client.Name;

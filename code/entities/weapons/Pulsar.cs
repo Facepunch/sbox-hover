@@ -96,7 +96,13 @@ namespace Facepunch.Hover
 				var direction = (entity.Position - position).Normal;
 				var distance = entity.Position.Distance( position );
 				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.25f, damage );
+
+				if ( entity == Owner )
+				{
+					damage *= 1.25f;
+				}
+
+				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.1f, damage );
 			}
 		}
 	}

@@ -27,7 +27,8 @@ nameplate {
 
 	.dot {
 		background-color: $blueTeamColor;
-		box-shadow: $blueTeamBackground;
+		box-shadow: $blueTeamForeground;
+		border: $blueTeamPanelBorder;
 		position: absolute;
 		border-radius: 50%;
 		width: 64px;
@@ -41,7 +42,8 @@ nameplate {
 	&.team_red {
 		.dot {
 			background-color: $redTeamColor;
-			box-shadow: $redTeamBackground;
+			box-shadow: $redTeamForeground;
+			border: $redTeamPanelBorder;
 		}
 
 		.container {

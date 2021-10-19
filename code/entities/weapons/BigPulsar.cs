@@ -63,12 +63,12 @@ namespace Facepunch.Hover
 
 				if ( entity is GeneratorAsset )
 				{
-					damage *= 1.5f;
+					damage *= 1.25f;
 				}
 
 				damage = GetDamageFalloff( fullDistance, damage );
 
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.25f, damage );
+				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.1f, damage );
 			}
 		}
 	}
