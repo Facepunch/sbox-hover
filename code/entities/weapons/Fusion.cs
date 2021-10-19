@@ -42,8 +42,10 @@ namespace Facepunch.Hover
 
 		[Net] public float SpinUpTime { get; set; } = 1.4f;
 
+		private Particles ChargeParticles { get; set; }
 		private TimeSince SpinUpStarted { get; set; }
 		private bool IsSpinningUp { get; set; }
+		private Sound ChargeSound { get; set; }
 
 		public override void Spawn()
 		{
@@ -65,11 +67,17 @@ namespace Facepunch.Hover
 			{
 				if ( !IsSpinningUp )
 				{
+					ShowChargeParticles();
+					PlayChargeSound();
 					IsSpinningUp = true;
 					SpinUpStarted = 0f;
 				}
 
 				return;
+			}
+			else
+			{
+				StopChargeSound();
 			}
 
 			if ( !TakeAmmo( 1 ) )
@@ -94,10 +102,54 @@ namespace Facepunch.Hover
 		{
 			if ( IsSpinningUp && !Input.Down( InputButton.Attack1 ) )
 			{
+				HideChargeParticles();
+				StopChargeSound();
 				IsSpinningUp = false;
 			}
 
 			base.Simulate( owner );
+		}
+
+		public override void ActiveEnd( Entity owner, bool dropped )
+		{
+			HideChargeParticles();
+			StopChargeSound();
+
+			IsSpinningUp = false;
+
+			base.ActiveEnd( owner, dropped );
+		}
+
+		protected override void OnDestroy()
+		{
+			HideChargeParticles();
+			StopChargeSound();
+
+			base.OnDestroy();
+		}
+
+		private void PlayChargeSound()
+		{
+			StopChargeSound();
+			ChargeSound = PlaySound( "fusion.charge" );
+		}
+
+		private void StopChargeSound()
+		{
+			ChargeSound.Stop();
+		}
+
+		private void HideChargeParticles()
+		{
+			ChargeParticles?.Destroy();
+			ChargeParticles = null;
+		}
+
+		private void ShowChargeParticles()
+		{
+			HideChargeParticles();
+
+			ChargeParticles = Particles.Create( "particles/weapons/fusion/fusion_charge.vpcf", EffectEntity, "muzzle" );
 		}
 	}
 }
