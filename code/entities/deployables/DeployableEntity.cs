@@ -15,12 +15,13 @@ namespace Facepunch.Hover
 		public virtual bool StartFrozen => false;
 		public virtual string ExplosionSound => "barage.explode";
 		public virtual string HealthAttachment => "health_bar";
-		public virtual float MaxHealth => 100f;
+		public virtual float MaxHealth { get; set; } = 100f;
 		public virtual string DeploySound => "turret.deploy";
 		public virtual bool CanPickup => true;
 		public virtual float DeployTime => 2f;
 		public virtual string Model => "";
 
+		[Net] public bool IsDeployed { get; set; }
 		[Net] public float PickupProgress { get; set; }
 		[Net] public Player Deployer { get; set; }
 
@@ -149,6 +150,16 @@ namespace Facepunch.Hover
 				var fraction = 1f - (timeLeft / DeployTime);
 				Health = MaxHealth * fraction;
 			}
+			else if ( !IsDeployed )
+			{
+				IsDeployed = true;
+				OnDeploymentCompleted();
+			}
+		}
+
+		protected virtual void OnDeploymentCompleted()
+		{
+
 		}
 	}
 }

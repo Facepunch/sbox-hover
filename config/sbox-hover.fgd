@@ -314,6 +314,22 @@ metadata
 ]
 
 //
+// Facepunch.Hover.ForceShield
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_force_shield : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.JumpMine
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_jump_mine : ""
@@ -678,6 +694,16 @@ metadata
 // Facepunch.Hover.DeployableDisruptor
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_deployable_disruptor : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.DeployableForceShield
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_deployable_force_shield : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

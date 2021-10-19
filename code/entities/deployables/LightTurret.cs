@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	public partial class LightTurret : DeployableEntity, ITurretComponent, IKillFeedIcon
 	{
 		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
-		public override float MaxHealth => 800f;
+		public override float MaxHealth { get; set; } = 800f;
 
 		public List<string> FlybySounds => new()
 		{

@@ -9,6 +9,7 @@ namespace Facepunch.Hover
 	{
 		public virtual float UpgradeTokensPerSecond => 50f;
 		public virtual List<DependencyUpgrade> Upgrades => null;
+		public virtual bool RequiresPower => true;
 		public virtual string IconName => "";
 		
 		[Net, Change] public bool IsPowered { get; set; } = true;
@@ -26,7 +27,6 @@ namespace Facepunch.Hover
 		public EntityHudIcon DependencyIcon { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Sound? UpgradeLoop { get; private set; }
-
 
 		public virtual bool OnUse( Entity user )
 		{
@@ -155,8 +155,11 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
-			GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
+			if ( RequiresPower )
+			{
+				GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
+				GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
+			}
 
 			DefaultTeam = Team;
 
@@ -191,8 +194,11 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
-			GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
-			GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
+			if ( RequiresPower )
+			{
+				GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
+				GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
+			}
 
 			if ( UpgradeLoop.HasValue )
 			{

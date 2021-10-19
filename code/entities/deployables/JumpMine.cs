@@ -10,9 +10,10 @@ namespace Facepunch.Hover
 	public partial class JumpMine : DeployableEntity, IKillFeedIcon
 	{
 		public override PhysicsMotionType MotionType => PhysicsMotionType.Dynamic;
+		public override bool RequiresPower => false;
 		public override bool StartFrozen => true;
 		public override string Model => "models/mines/mines.vmdl";
-		public override float MaxHealth => 80f;
+		public override float MaxHealth { get; set; } = 80f;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float BaseDamage { get; set; } = 700f;
 		public float DamageVsHeavy { get; set; } = 1f;
@@ -38,8 +39,7 @@ namespace Facepunch.Hover
 
 		protected virtual void DealDamage( Vector3 position, float damage )
 		{
-			var players = Physics.GetEntitiesInSphere( Position, Radius * 1.25f )
-				.OfType<Player>()
+			var players = WeaponUtil.GetBlastEntities<Player>( Position, Radius * 1.25f )
 				.Where( IsValidVictim );
 
 			foreach ( var player in players )
@@ -96,8 +96,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			var players = Physics.GetEntitiesInSphere( Position, Radius )
-				.OfType<Player>()
+			var players = WeaponUtil.GetBlastEntities<Player>( Position, Radius )
 				.Where( IsValidTarget );
 
 			if ( players.Any() )

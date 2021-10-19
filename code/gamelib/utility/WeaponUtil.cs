@@ -14,6 +14,48 @@ namespace Gamelib.Utility
 			Sound.FromScreen( sound );
 		}
 
+		public static IEnumerable<T> GetBlastEntities<T>( Vector3 position, float radius ) where T : Entity
+		{
+			var proximity = Physics.GetEntitiesInSphere( position, radius )
+				.OfType<T>()
+				.Where( v =>
+				{
+					/*
+					var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )
+					 .WorldAndEntities()
+					 .Ignore( v )
+					 .WithTag( "blastproof" )
+					 .Run();
+
+					return trace.Fraction >= 0.95f;
+					*/
+					return true;
+				} );
+
+			return proximity;
+		}
+
+		public static IEnumerable<Entity> GetBlastEntities( Vector3 position, float radius )
+		{
+			var proximity = Physics.GetEntitiesInSphere( position, radius )
+				.Where( v =>
+			   {
+				   return true;
+				   /*
+				   var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )
+					.WorldAndEntities()
+					.HitLayer( CollisionLayer.Water, true )
+					.Ignore( v )
+					.WithTag( "blastproof" )
+					.Run();
+
+				   return trace.Fraction >= 0.95f;
+				   */
+				} );
+
+			return proximity;
+		}
+
 		public static float GetDamageFalloff( float distance, float damage, float start, float end )
 		{
 			if ( end > 0f )

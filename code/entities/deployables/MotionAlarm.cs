@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	public partial class MotionAlarm : DeployableEntity
 	{
 		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
-		public override float MaxHealth => 300f;
+		public override float MaxHealth { get; set; } = 300f;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float BaseDamage { get; set; } = 20f;
 		public float Radius { get; set; } = 300f;

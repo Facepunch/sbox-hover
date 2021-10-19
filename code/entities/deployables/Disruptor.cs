@@ -10,6 +10,6 @@ namespace Facepunch.Hover
 	public partial class Disruptor : DeployableEntity
 	{
 		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
-		public override float MaxHealth => 600f;
+		public override float MaxHealth { get; set; } = 600f;
 	}
 }
