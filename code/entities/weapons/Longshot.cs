@@ -29,14 +29,14 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
-		public override float PrimaryRate => 0.5f;
+		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => false;
 		public override float DamageFalloffStart => 15000f;
 		public override float DamageFalloffEnd => 25000f;
-		public override int ClipSize => 5;
+		public override int ClipSize => 3;
 		public override float ReloadTime => 4f;
-		public override int BaseDamage => 1000;
+		public override int BaseDamage => 700;
 
 		public bool IsScoped { get; private set; }
 
@@ -153,7 +153,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsScoped )
 			{
-				builder.AnalogLook *= 0.3f;
+				builder.AnalogLook *= 0.2f;
 			}
 		}
 	}
