@@ -3,6 +3,7 @@ using Gamelib.UI;
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using Gamelib.Extensions;
 
 namespace Facepunch.Hover
 {
@@ -70,7 +71,8 @@ namespace Facepunch.Hover
 			var position = Entity.WorldSpaceBounds.Center;
 			var direction = (cameraPosition - position).Normal;
 
-			transform.Position = position + direction * (Entity.WorldSpaceBounds.Size.Length * 0.5f);
+			var pushDistance = Entity.WorldSpaceBounds.NearestPoint( cameraPosition ).Distance( position );
+			transform.Position = position + direction * (pushDistance + 10f);
 
 			var targetRotation = Rotation.LookAt( cameraPosition - Position );
 			transform.Rotation = Rotation.Lerp( transform.Rotation, targetRotation, 0.4f );

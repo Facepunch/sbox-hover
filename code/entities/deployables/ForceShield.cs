@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_force_shield" )]
 	public partial class ForceShield : DeployableEntity
 	{
-		public override string Model => "models/force_shield/force_shield.vmdl";
+		public override string Model => "models/force_field/force_field.vmdl";
 
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float FullDamage { get; set; } = 700f;

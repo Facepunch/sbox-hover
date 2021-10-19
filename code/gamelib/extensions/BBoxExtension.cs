@@ -5,6 +5,15 @@ namespace Gamelib.Extensions
 {
 	public static class BBoxExtension
 	{
+		public static Vector3 NearestPoint( this BBox self, Vector3 point )
+		{
+			return new Vector3(
+				Math.Clamp( point.x, self.Mins.x, self.Maxs.x ),
+				Math.Clamp( point.y, self.Mins.y, self.Maxs.y ),
+				Math.Clamp( point.z, self.Mins.z, self.Maxs.z )
+			);
+		}
+
 		public static bool ContainsXY( this BBox a, BBox b )
 		{
 			return (

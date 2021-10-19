@@ -1098,12 +1098,14 @@ namespace Facepunch.Hover
 		protected override Entity FindUsable()
 		{
 			var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+				.HitLayer( CollisionLayer.Water, true )
 				.Ignore( this )
 				.Run();
 
 			if ( !IsValidUseEntity( trace.Entity ) )
 			{
 				trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+				.HitLayer( CollisionLayer.Water, true )
 				.Radius( 2 )
 				.Ignore( this )
 				.Run();
