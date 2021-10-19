@@ -391,6 +391,11 @@ namespace Facepunch.Hover
 
 				return;
 			}
+			else if ( Energy < 5f )
+			{
+				// You can't jump at all if you're super low on energy.
+				return;
+			}
 
 			ClearGroundEntity();
 
