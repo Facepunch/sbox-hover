@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using Gamelib.UI;
 
 namespace Facepunch.Hover
 {
@@ -78,6 +79,9 @@ namespace Facepunch.Hover
 			SetClass( Team.Red.GetHudClass(), Entity.Team == Team.Red );
 			SetClass( Team.Blue.GetHudClass(), Entity.Team == Team.Blue );
 			SetClass( Team.None.GetHudClass(), Entity.Team == Team.None );
+
+			var distance = player.Position.Distance( Entity.Position );
+			Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 1500f );
 
 			var cameraPosition = CurrentView.Position;
 			var transform = Transform;

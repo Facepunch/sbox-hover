@@ -1,4 +1,5 @@
 ﻿
+using Gamelib.UI;
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
@@ -60,6 +61,9 @@ namespace Facepunch.Hover
 				SetClass( "hidden", true );
 				return;
 			}
+
+			var distance = player.Position.Distance( Entity.Position );
+			Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 100f, 500f );
 
 			var cameraPosition = CurrentView.Position;
 			var transform = Transform;
