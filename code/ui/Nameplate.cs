@@ -24,6 +24,7 @@ namespace Facepunch.Hover
 			Container = Add.Panel( "container" );
 			Dot = Add.Panel( "dot" );
 			NameLabel = Container.Add.Label( "", "name" );
+			PanelBounds = new Rect( -1000, -1000, 2000, 2000 );
 			Player = player;
 		}
 
@@ -88,9 +89,9 @@ namespace Facepunch.Hover
 				Dot.Style.Opacity = 0f;
 			}
 
-			Transform = transform;
-
 			NameLabel.Text = Player.Client.Name;
+
+			Transform = transform;
 
 			SetClass( Team.Blue.GetHudClass(), Player.Team == Team.Blue );
 			SetClass( Team.Red.GetHudClass(), Player.Team == Team.Red );
