@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 
 			if ( assister.IsValid() )
 			{
-				if ( player != attacker )=
+				if ( player != attacker )
 					assister.GiveAward<AssistAward>();
 				else
 					attacker = assister;
