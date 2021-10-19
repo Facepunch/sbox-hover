@@ -93,7 +93,9 @@ namespace Facepunch.Hover
 			}
 			else
 			{
-				Dot.Style.Opacity = 1f;
+				var fadeStart = StartFadeDistance + (EndFadeDistance - StartFadeDistance) * 0.8f;
+				var opacity = distanceToCamera.Remap( fadeStart, EndFadeDistance, 0f, 1f );
+				Dot.Style.Opacity = Math.Clamp( opacity, 0f, 1f );
 			}
 
 			NameLabel.Text = Player.Client.Name;
