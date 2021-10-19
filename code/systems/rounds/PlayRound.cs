@@ -32,6 +32,16 @@ namespace Facepunch.Hover
 
 		public override void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo )
 		{
+			var assister = player.GetBestAssist( attacker );
+
+			if ( assister.IsValid() )
+			{
+				if ( player != attacker )=
+					assister.GiveAward<AssistAward>();
+				else
+					attacker = assister;
+			}
+
 			if ( attacker.IsValid() && attacker is Player killer )
 			{
 				if ( player.IsEnemyPlayer( killer ) )
@@ -68,13 +78,6 @@ namespace Facepunch.Hover
 			else
 			{
 				Hud.AddKillFeed( To.Everyone, player );
-			}
-
-			var assister = player.GetBestAssist( attacker );
-
-			if ( assister.IsValid() )
-			{
-				assister.GiveAward<AssistAward>();
 			}
 
 			RespawnScreen.Show( To.Single( player ), 5f, attacker );
