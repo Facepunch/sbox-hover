@@ -56,6 +56,17 @@
 							},
 						]
 					},
+					{
+						_class = "MaterialGroup"
+						name = "fusion"
+						remaps = 
+						[
+							{
+								from = "models/weapons/blaster/blaster.vmat"
+								to = "models/weapons/blaster/fusion.vmat"
+							},
+						]
+					},
 				]
 			},
 			{

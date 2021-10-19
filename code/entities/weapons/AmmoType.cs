@@ -7,6 +7,7 @@
 		Rifle,
 		Sniper,
 		Shotgun,
-		Grenade
+		Grenade,
+		LMG
 	}
 }
