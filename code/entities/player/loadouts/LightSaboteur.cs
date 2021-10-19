@@ -10,7 +10,6 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A fast stealth unit with lower health and medium energy";
 		public override string Name => "Light Saboteur";
-		public override int TokenCost => 250;
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSaboteurMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]

@@ -12,7 +12,6 @@ namespace Facepunch.Hover
 		public override string Name => "Light Assault";
 		public override Type UpgradesTo => typeof( LightAssaultMk2 );
 		public override int DisplayOrder => 1;
-		public override int TokenCost => 100;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]

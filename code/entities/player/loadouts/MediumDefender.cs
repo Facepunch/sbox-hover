@@ -13,7 +13,6 @@ namespace Facepunch.Hover
 		public override Type UpgradesTo => typeof( MediumDefenderMk2 );
 		public override bool CanUpgradeDependencies => true;
 		public override int DisplayOrder => 5;
-		public override int TokenCost => 300;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
