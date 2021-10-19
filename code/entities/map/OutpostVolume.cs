@@ -7,7 +7,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_outpost_volume" )]
-	[Hammer.AutoApplyMaterial( "materials/editor/hv_jetpack_elevator.vmat" )]
+	[Hammer.AutoApplyMaterial("materials/editor/hv_outpost_volume.vmat")]
 	[Hammer.Solid]
 	public partial class OutpostVolume : BaseTrigger, IGameResettable, IHudEntity
 	{
