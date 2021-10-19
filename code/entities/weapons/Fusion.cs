@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_fusion";
 		public override string Icon => "ui/weapons/fusion.png";
 		public override AmmoType AmmoType => AmmoType.LMG;
-		public override int Ammo => 150;
+		public override int Ammo => 0;
 	}
 
 	[Library( "hv_fusion", Title = "Fusion" )]

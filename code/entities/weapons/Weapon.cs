@@ -82,7 +82,7 @@ namespace Facepunch.Hover
 
 		public virtual void Restock()
 		{
-
+			AmmoClip = ClipSize;
 		}
 
 		public virtual bool IsAvailable()
