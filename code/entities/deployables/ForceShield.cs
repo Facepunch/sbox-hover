@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 		private RealTimeUntil NextDamageTime { get; set; }
 		private RealTimeUntil NextPassSound { get; set; }
 		private Particles Effect { get; set; }
+		private Sound IdleSound { get; set; }
 
 		public string GetKillFeedIcon()
 		{
@@ -127,26 +128,47 @@ namespace Facepunch.Hover
 		protected override void OnDestroy()
 		{
 			DestroyParticleEffect();
+			StopIdleSound();
 
 			base.OnDestroy();
 		}
 
 		protected override void OnDeploymentCompleted()
 		{
-			PlaySound( "forceshield.pass" );
-			CreateParticleEffect();
+			if ( IsPowered )
+			{
+				PlaySound( "forceshield.pass" );
+				CreateParticleEffect();
+				StartIdleSound();
+			}
 		}
 
 		protected override void OnGeneratorRepaired( GeneratorAsset generator )
 		{
-			// TODO: Show shield particles.
+			CreateParticleEffect();
+			StartIdleSound();
+
 			base.OnGeneratorRepaired( generator );
 		}
 
 		protected override void OnGeneratorBroken( GeneratorAsset generator )
 		{
-			// TODO: Hide shield particles.
+			DestroyParticleEffect();
+			StopIdleSound();
+
 			base.OnGeneratorBroken( generator );
+		}
+
+		private void StartIdleSound()
+		{
+			StopIdleSound();
+
+			IdleSound = PlaySound( "forceshield.idle" );
+		}
+
+		private void StopIdleSound()
+		{
+			IdleSound.Stop();
 		}
 
 		private void DestroyParticleEffect()

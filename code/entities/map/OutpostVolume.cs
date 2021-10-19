@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 			{
 				var boundsSize = CollisionBounds.Size.Length;
 				var distance = player.Position.Distance( Position );
-				Hud.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, boundsSize, 0f, boundsSize + 2000f, boundsSize + 5000f );
+				Hud.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, boundsSize, 0f, boundsSize + 1500f, boundsSize + 3000f );
 			}
 		}
 
@@ -124,7 +124,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsClient && other is Player player && player.IsLocalPawn )
 			{
-				if ( IsBeingCaptured && CapturingTeam == player.Team )
+				if ( IsBeingCaptured && CapturingTeam == player.Team && ( Team != player.Team || !IsCaptured ) )
 				{
 					if ( !IsPlayingCaptureSound )
 					{
