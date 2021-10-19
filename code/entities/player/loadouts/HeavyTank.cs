@@ -34,7 +34,6 @@ namespace Facepunch.Hover
 		public override float HealthRegen => 100f;
 		public override float RegenDelay => 15f;
 		public override float EnergyRegen => 10f;
-		public override int TokenCost => 0;
 		public override float Health => 1500f;
 		public override float Energy => 60f;
 		public override float MoveSpeed => 300f;

@@ -374,6 +374,7 @@ namespace Facepunch.Hover
 		public BaseLoadout Loadout { get; private set; }
 		public WeaponConfig[] Configs { get; private set; }
 		public StationScreenWeapon[] Holders { get; private set; }
+		public int Cost { get; private set; }
 
 		public StationScreenLoadout()
 		{
@@ -469,6 +470,8 @@ namespace Facepunch.Hover
 			else
 				BuyButton.SetAmount( cost );
 
+			Cost = cost;
+
 			using ( SceneWorld.SetCurrent( SceneWorld ) )
 			{
 				var model = Model.Load( "models/citizen/citizen.vmdl" );
@@ -530,7 +533,7 @@ namespace Facepunch.Hover
 			{
 				var currentLoadout = player.Loadout;
 				SetClass( "selected", currentLoadout != null && currentLoadout.GetType() == Loadout.GetType() );
-				BuyButton.SetClass( "affordable", player.HasTokens( Loadout.TokenCost ) );
+				BuyButton.SetClass( "affordable", player.HasTokens( Cost ) );
 			}
 
 			base.Tick();

@@ -6,7 +6,7 @@ namespace Facepunch.Hover
 	{
 		public static void Play( Team team, string yourSound, string enemySound = null )
 		{
-			Play( team.GetTo(), $"your.{yourSound}" );
+			Play( team.GetTo(), $"{yourSound}" );
 
 			if ( !string.IsNullOrEmpty( enemySound ) )
 			{

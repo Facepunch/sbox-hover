@@ -183,10 +183,12 @@ namespace Facepunch.Hover
 
 		private void OnOutpostLost( OutpostVolume outpost )
 		{
+			Audio.Play( outpost.Team, "you.lostoutpost", "lostoutpost" );
+
 			if ( outpost.Team == Team.Blue )
-				Hud.ToastAll( $"Blue have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+				Hud.ToastAll( $"The blue team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
 			else
-				Hud.ToastAll( $"Red have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+				Hud.ToastAll( $"The red team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
 		}
 
 		private void OnOutpostCaptured( OutpostVolume outpost )
@@ -199,25 +201,27 @@ namespace Facepunch.Hover
 				}
 			}
 
+			Audio.Play( outpost.Team, "you.takenoutpost", "takenoutpost" );
+
 			if ( outpost.Team == Team.Blue )
-				Hud.ToastAll( $"Blue have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
+				Hud.ToastAll( $"The blue team have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
 			else
-				Hud.ToastAll( $"Red have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
+				Hud.ToastAll( $"The red teamhave captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
 		}
 
 		private void OnGeneratorBroken( GeneratorAsset generator )
 		{
-			Audio.Play( generator.Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
+			Audio.Play( generator.Team, $"your.generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
 		}
 
 		private void OnGeneratorRepaired( GeneratorAsset generator )
 		{
-			Audio.Play( generator.Team, $"generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
+			Audio.Play( generator.Team, $"your.generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
 		}
 
 		private void OnFlagDropped( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
@@ -227,7 +231,7 @@ namespace Facepunch.Hover
 
 		private void OnFlagPickedUp( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
@@ -237,7 +241,7 @@ namespace Facepunch.Hover
 
 		private void OnFlagReturned( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"flagreturned{Rand.Int( 1, 2 )}", $"flagreturned{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagreturned{Rand.Int( 1, 2 )}", $"flagreturned{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
@@ -247,7 +251,7 @@ namespace Facepunch.Hover
 
 		private void OnFlagCaptured( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
