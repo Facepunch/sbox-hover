@@ -20,7 +20,6 @@ namespace Gamelib.Utility
 				.OfType<T>()
 				.Where( v =>
 				{
-					/*
 					var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )
 					 .WorldAndEntities()
 					 .Ignore( v )
@@ -28,8 +27,6 @@ namespace Gamelib.Utility
 					 .Run();
 
 					return trace.Fraction >= 0.95f;
-					*/
-					return true;
 				} );
 
 			return proximity;
@@ -40,8 +37,6 @@ namespace Gamelib.Utility
 			var proximity = Physics.GetEntitiesInSphere( position, radius )
 				.Where( v =>
 			   {
-				   return true;
-				   /*
 				   var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )
 					.WorldAndEntities()
 					.HitLayer( CollisionLayer.Water, true )
@@ -50,7 +45,6 @@ namespace Gamelib.Utility
 					.Run();
 
 				   return trace.Fraction >= 0.95f;
-				   */
 				} );
 
 			return proximity;
