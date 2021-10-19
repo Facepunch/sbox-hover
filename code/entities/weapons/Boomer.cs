@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 2.3f;
-		public override float LifeTime => 1.2f;
+		public override float LifeTime => 1.5f;
 		public override int BaseDamage => 500;
 		public override float DamageRadius => 300f;
 
@@ -86,6 +86,8 @@ namespace Facepunch.Hover
 		{
 			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position );
+
+			base.OnProjectileHit( projectile );
 		}
 	}
 }
