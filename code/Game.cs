@@ -70,6 +70,21 @@ namespace Facepunch.Hover
 			base.MoveToSpawnpoint( pawn );
 		}
 
+		public override bool CanHearPlayerVoice( Client sourceClient, Client destinationClient )
+		{
+			Host.AssertServer();
+
+			var sourcePlayer = sourceClient.Pawn as Player;
+			var destinationPlayer = destinationClient.Pawn as Player;
+
+			if ( sourcePlayer != null && destinationPlayer != null )
+			{
+				return sourcePlayer.Team == destinationPlayer.Team;
+			}
+
+			return false;
+		}
+
 		public override void DoPlayerNoclip( Client client )
 		{
 			// Do nothing. The player can't noclip in this mode.
