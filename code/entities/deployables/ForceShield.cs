@@ -111,7 +111,7 @@ namespace Facepunch.Hover
 					else if ( NextPassSound )
 					{
 						NextPassSound = 1f;
-						PlaySound( "forceshield.pass" );
+						PlaySound( "forceshield.move" );
 					}
 				}
 
@@ -133,6 +133,7 @@ namespace Facepunch.Hover
 
 		protected override void OnDeploymentCompleted()
 		{
+			PlaySound( "forceshield.pass" );
 			CreateParticleEffect();
 		}
 
