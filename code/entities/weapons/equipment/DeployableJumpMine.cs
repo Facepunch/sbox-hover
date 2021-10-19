@@ -14,9 +14,25 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_deployable_jump_mine", Title = "Jump Mine" )]
-	public partial class DeployableJumpMine : DeployableEquipment<JumpMine>
+	public partial class DeployableJumpMine : DeployableEquipment<JumpMine>, IDeployableDamageVsHeavy
 	{
 		public override WeaponConfig Config => new DeployableJumpMineConfig();
 		public override string Model => "models/mines/mines.vmdl";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( MaxDeployableUpgrade ),
+			typeof( JumpMineRangeUpgrade ),
+			typeof( DeployableDamageVsHeavy ),
+		};
+
+		public float DamageVsHeavy { get; set; } = 1f;
+		public float Radius { get; set; } = 150f;
+
+		protected override void OnDeploy( JumpMine deployable )
+		{
+			deployable.Radius = Radius;
+
+			base.OnDeploy( deployable );
+		}
 	}
 }

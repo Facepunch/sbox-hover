@@ -20,6 +20,10 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new DeployableDisruptorConfig();
 		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
 		public override float DeployScale => 0.1f;
-		public override int MaxDeployables => 2;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( MaxDeployableUpgrade ),
+			typeof( MaxDeployableUpgrade )
+		};
 	}
 }

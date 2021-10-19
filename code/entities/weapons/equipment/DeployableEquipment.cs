@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	public abstract partial class DeployableEquipment<T> : Equipment where T : DeployableEntity, new()
+	public abstract partial class DeployableEquipment<T> : Equipment, IDeployableEquipment where T : DeployableEntity, new()
 	{
 		public override string ViewModelPath => null;
 		public override bool IsMelee => true;
 		public virtual string Model => "";
 		public virtual float DeployScale => 1f;
 		public virtual float MinDistanceFromOthers => 1000f;
-		public virtual int MaxDeployables => 3;
+		public virtual int MaxDeployables { get; set; } = 1;
 
 		[Net] public int Deployables { get; set; }
 
@@ -64,6 +64,8 @@ namespace Facepunch.Hover
 						turret.SetTeam( player.Team );
 						turret.Position = position;
 						turret.Rotation = rotation;
+
+						OnDeploy( turret );
 
 						Deployables--;
 
@@ -121,6 +123,8 @@ namespace Facepunch.Hover
 
 			base.OnDestroy();
 		}
+
+		protected virtual void OnDeploy( T deployable ) { }
 
 		[Event.Tick.Client]
 		protected virtual void ClientTick()

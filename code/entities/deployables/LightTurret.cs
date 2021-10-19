@@ -31,7 +31,8 @@ namespace Facepunch.Hover
 		public float BulletForce => 0.2f;
 		public float BulletRange => 2000f;
 		public float BaseDamage => 15f;
-		public float TargetingSpeed => 1f;
+		public float DamageVsHeavy { get; set; } = 1f;
+		public float TargetingSpeed { get; set; } = 1f;
 		public float AttackRadius => 1000f;
 		public float FireRate => 0.1f;
 
@@ -143,8 +144,13 @@ namespace Facepunch.Hover
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damage )
 		{
+			if ( target is Player player && player.Loadout.ArmorType == LoadoutArmorType.Heavy )
+			{
+				damage *= DamageVsHeavy;
+			}
+
 			var damageInfo = new DamageInfo()
-				.WithAttacker( Owner )
+				.WithAttacker( Deployer )
 				.WithWeapon( this )
 				.WithPosition( position )
 				.WithForce( force )

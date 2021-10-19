@@ -10,7 +10,9 @@ namespace Facepunch.Hover
 	{
 		[Net] public RealTimeUntil FinishDeployTime { get; set; }
 
+		public virtual PhysicsMotionType MotionType => PhysicsMotionType.Static;
 		public virtual string ExplosionEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
+		public virtual bool StartFrozen => false;
 		public virtual string ExplosionSound => "barage.explode";
 		public virtual string HealthAttachment => "health_bar";
 		public virtual float MaxHealth => 100f;
@@ -61,7 +63,12 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( Model );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( MotionType );
+
+			if ( StartFrozen )
+			{
+				PhysicsEnabled = false;
+			}
 
 			FinishDeployTime = DeployTime;
 			PlaySound( DeploySound );

@@ -19,5 +19,20 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new DeployableMotionAlarmConfig();
 		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( MaxDeployableUpgrade ),
+			typeof( MotionAlarmRangeUpgrade ),
+			typeof( MaxDeployableUpgrade ),
+		};
+
+		public float Radius { get; set; } = 300f;
+
+		protected override void OnDeploy( MotionAlarm deployable )
+		{
+			deployable.Radius = Radius;
+
+			base.OnDeploy( deployable );
+		}
 	}
 }

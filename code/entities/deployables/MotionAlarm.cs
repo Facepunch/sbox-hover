@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 	{
 		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
 		public override float MaxHealth => 300f;
+		public float Radius { get; set; } = 300f;
 
 		public string GetKillFeedIcon()
 		{

@@ -79,7 +79,7 @@
 						name = "laser1"
 						parent_bone = ""
 						relative_origin = [ 4.164693, 3.935895, 8.255463 ]
-						relative_angles = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 20.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
@@ -88,7 +88,7 @@
 						name = "laser2"
 						parent_bone = ""
 						relative_origin = [ 3.77433, -4.696903, 8.255463 ]
-						relative_angles = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, -20.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},

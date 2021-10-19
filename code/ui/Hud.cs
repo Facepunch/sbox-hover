@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 	public partial class Hud : HudEntity<RootPanel>
 	{
 		[ClientRpc]
-		public static void AddKillFeed( Player attacker, Player victim, Weapon weapon )
+		public static void AddKillFeed( Player attacker, Player victim, Entity weapon )
 		{
 			ToastList.Instance.AddKillFeed( attacker, victim, weapon );
 		}

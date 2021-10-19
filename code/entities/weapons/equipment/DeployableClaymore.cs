@@ -14,9 +14,25 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_deployable_claymore", Title = "Claymore" )]
-	public partial class DeployableClaymore : DeployableEquipment<Claymore>
+	public partial class DeployableClaymore : DeployableEquipment<Claymore>, IDeployableDamageVsHeavy
 	{
 		public override WeaponConfig Config => new DeployableClaymoreConfig();
 		public override string Model => "models/claymore_mines/claymore_mines.vmdl";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( MaxDeployableUpgrade ),
+			typeof( ClaymoreRangeUpgrade ),
+			typeof( DeployableDamageVsHeavy ),
+		};
+
+		public float DamageVsHeavy { get; set; } = 1f;
+		public float Radius { get; set; } = 100f;
+
+		protected override void OnDeploy( Claymore deployable )
+		{
+			deployable.Radius = Radius;
+
+			base.OnDeploy( deployable );
+		}
 	}
 }

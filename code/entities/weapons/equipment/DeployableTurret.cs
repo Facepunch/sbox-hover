@@ -14,9 +14,26 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_deployable_turret", Title = "Turret" )]
-	public partial class DeployableTurret : DeployableEquipment<LightTurret>
+	public partial class DeployableTurret : DeployableEquipment<LightTurret>, IDeployableDamageVsHeavy
 	{
 		public override WeaponConfig Config => new DeployableTurretConfig();
 		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
+		public override int MaxDeployables { get; set; } = 1;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( LightTurretTargetingUpgrade ),
+			typeof( MaxDeployableUpgrade ),
+			typeof( DeployableDamageVsHeavy ),
+		};
+
+		public float TargetingSpeed { get; set; } = 1f;
+		public float DamageVsHeavy { get; set; } = 1f;
+
+		protected override void OnDeploy( LightTurret deployable )
+		{
+			deployable.TargetingSpeed = TargetingSpeed;
+
+			base.OnDeploy( deployable );
+		}
 	}
 }
