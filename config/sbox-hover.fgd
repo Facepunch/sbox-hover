@@ -463,7 +463,7 @@ metadata
 @SolidClass base(BaseProperties_sbox_hover) 
 metadata
 {
-	auto_apply_material = "materials/editor/hv_jetpack_elevator.vmat"
+	auto_apply_material = "materials/editor/hv_outpost_volume.vmat"
 }
 = hv_outpost_volume : ""
 [

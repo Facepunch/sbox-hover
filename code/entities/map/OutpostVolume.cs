@@ -39,6 +39,10 @@ namespace Facepunch.Hover
 		public int TokenInterval => 2;
 		public int TokenAmount => 1;
 
+		private TimeSince LastPlayCaptureSound { get; set; }
+		private bool IsPlayingCaptureSound { get; set; }
+		private Sound CaptureSound { get; set; }
+
 		public virtual void OnGameReset()
 		{
 			IsBeingCaptured = false;
@@ -57,6 +61,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
+			EnableTouchPersists = true;
 			EnableDrawing = false;
 			Transmit = TransmitType.Always;
 
@@ -113,6 +118,34 @@ namespace Facepunch.Hover
 				CaptureProgress = 1f;
 			else if ( CaptureProgress < 0f )
 				CaptureProgress = 0f;
+		}
+
+		public override void Touch( Entity other )
+		{
+			if ( IsClient && other is Player player && player.IsLocalPawn )
+			{
+				if ( IsBeingCaptured && CapturingTeam == player.Team )
+				{
+					if ( !IsPlayingCaptureSound )
+					{
+						IsPlayingCaptureSound = true;
+						CaptureSound.Stop();
+						CaptureSound = Sound.FromScreen( "outpost.captureloop" );
+					}
+
+					LastPlayCaptureSound = 0;
+				}
+			}
+		}
+
+		[Event.Tick.Client]
+		protected virtual void ClientTick()
+		{
+			if ( IsPlayingCaptureSound && LastPlayCaptureSound >= 0.5f )
+			{
+				IsPlayingCaptureSound = false;
+				CaptureSound.Stop();
+			}
 		}
 
 		[Event.Tick.Server]
