@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public virtual string Description => "";
 		public virtual string Name => "Loadout";
 		public virtual int UpgradeCost => 0;
-		public virtual int TokenCost => 1000;
+		public virtual int TokenCost => 0;
 		public virtual List<string> Clothing => new();
 
 		public WeaponConfig[] Weapons { get; set; }
