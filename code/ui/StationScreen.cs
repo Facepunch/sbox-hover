@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		{
 			if ( Local.Pawn is Player player )
 			{
-				if ( player.HasTokens( Loadout.TokenCost ) )
+				if ( player.HasTokens( Loadout.UpgradeCost ) )
 				{
 					var weapons = new string[Holders.Length];
 
@@ -140,7 +140,7 @@ namespace Facepunch.Hover
 				if ( type == loadoutUpgradeType )
 				{
 					LoadoutUpgrade = AddChild<StationScreenLoadoutUpgrade>();
-					LoadoutUpgrade.SetLoadout( loadout );
+					LoadoutUpgrade.SetLoadout( loadout, loadout.UpgradeCost );
 					HasUpgrades = true;
 				}
 
@@ -229,6 +229,11 @@ namespace Facepunch.Hover
 		public void SetAmount( int amount )
 		{
 			Amount.Text = $"{amount:C0}";
+		}
+
+		public void SetText( string text )
+		{
+			Amount.Text = text;
 		}
 
 		protected override void OnClick( MousePanelEvent e )
@@ -397,7 +402,7 @@ namespace Facepunch.Hover
 			UpdateBar( SpeedBar, Loadout.MaxSpeed, maxSpeed );
 		}
 
-		public void SetLoadout( BaseLoadout loadout )
+		public void SetLoadout( BaseLoadout loadout, int cost )
 		{
 			if ( Local.Pawn is not Player player )
 				return;
@@ -459,7 +464,10 @@ namespace Facepunch.Hover
 			else
 				SecondaryDescription.SetClass( "hidden", false );
 
-			BuyButton.SetAmount( loadout.TokenCost );
+			if ( cost == 0 )
+				BuyButton.SetText( "Select" );
+			else
+				BuyButton.SetAmount( cost );
 
 			using ( SceneWorld.SetCurrent( SceneWorld ) )
 			{
@@ -603,7 +611,7 @@ namespace Facepunch.Hover
 					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( type ) )
 					{
 						var child = Container.AddChild<StationScreenLoadout>();
-						child.SetLoadout( loadout );
+						child.SetLoadout( loadout, loadout.TokenCost );
 						child.SetClass( "hidden", true );
 						Loadouts.Add( child );
 					}
