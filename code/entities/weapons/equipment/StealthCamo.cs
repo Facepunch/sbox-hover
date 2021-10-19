@@ -38,7 +38,10 @@ namespace Facepunch.Hover
 		{
 			if ( IsUsingAbility )
 			{
-				NextReturnToStealth = 1f;
+				if ( info.Flags.HasFlag( DamageFlags.Shock ) )
+					DisableAbility();
+				else
+					NextReturnToStealth = 1f;
 			}
 
 			return base.OwnerTakeDamage( info );
