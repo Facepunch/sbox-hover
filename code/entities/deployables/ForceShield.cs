@@ -14,8 +14,10 @@ namespace Facepunch.Hover
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float FullDamage { get; set; } = 700f;
 
+		private RealTimeUntil LastDamageSound { get; set; }
 		private RealTimeUntil NextDamageTime { get; set; }
 		private RealTimeUntil NextPassSound { get; set; }
+		private Particles Effect { get; set; }
 
 		public string GetKillFeedIcon()
 		{
@@ -45,6 +47,20 @@ namespace Facepunch.Hover
 			Scale = 0.2f;
 		}
 
+		public override void TakeDamage( DamageInfo info )
+		{
+			if ( IsDeployed && LastDamageSound )
+			{
+				PlaySound( "forceshield.impact" )
+					.SetRandomPitch( 0.5f, 1f )
+					.SetVolume( Rand.Float( 0.8f, 1f ) );
+
+				LastDamageSound = 0.2f;
+			}
+
+			base.TakeDamage( info );
+		}
+
 		protected virtual void DealDamage( Player target, Vector3 position, float force, float damage )
 		{
 			damage = target.Velocity.Length.Remap( 0f, 2000f, 0f, damage );
@@ -71,7 +87,7 @@ namespace Facepunch.Hover
 
 		protected override void ServerTick()
 		{
-			if ( IsDeployed && NextDamageTime )
+			if ( IsPowered && IsDeployed && NextDamageTime )
 			{
 				var players = Physics.GetEntitiesInBox( WorldSpaceBounds )
 					.OfType<Player>();
@@ -108,6 +124,18 @@ namespace Facepunch.Hover
 			base.ServerTick();
 		}
 
+		protected override void OnDestroy()
+		{
+			DestroyParticleEffect();
+
+			base.OnDestroy();
+		}
+
+		protected override void OnDeploymentCompleted()
+		{
+			CreateParticleEffect();
+		}
+
 		protected override void OnGeneratorRepaired( GeneratorAsset generator )
 		{
 			// TODO: Show shield particles.
@@ -118,6 +146,21 @@ namespace Facepunch.Hover
 		{
 			// TODO: Hide shield particles.
 			base.OnGeneratorBroken( generator );
+		}
+
+		private void DestroyParticleEffect()
+		{
+			Effect?.Destroy();
+			Effect = null;
+		}
+
+		private void CreateParticleEffect()
+		{
+			DestroyParticleEffect();
+
+			Effect = Particles.Create( "particles/force_field/force_field.vpcf", this );
+			Effect.SetEntity( 0, this );
+			Effect.SetPosition( 1, Team.GetColor() * 255f );
 		}
 	}
 }
