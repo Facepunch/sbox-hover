@@ -330,8 +330,8 @@ namespace Facepunch.Hover
 				{
 					var muzzle = EffectEntity?.GetAttachment( MuzzleAttachment );
 					var tracer = Particles.Create( TracerEffect );
-					tracer.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
-					tracer.SetPosition( 1, fullEndPos );
+					tracer?.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
+					tracer?.SetPosition( 1, fullEndPos );
 				}
 
 				if ( !string.IsNullOrEmpty( ImpactEffect ) )
