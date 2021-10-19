@@ -190,9 +190,165 @@ metadata
 ]
 
 //
+// Facepunch.Hover.GeneratorAsset
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/generator/generator_temp.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Generator"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a team's generator spawns"
+}
+= hv_generator : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.RadarSensorAsset
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/radar_sensor/radar_sensor.vmdl", fixedbounds ) sphere( "4000", 75, 75, 255 ) 
+metadata
+{
+	entity_tool_name = "Radar Sensor"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a sensor spawns"
+}
+= hv_radar_sensor : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.StationAsset
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/upgrade_station/upgrade_station.vmdl", fixedbounds ) 
+metadata
+{
+	entity_tool_name = "Station"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a station spawns"
+}
+= hv_station : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.TurretAsset
+//
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) sphere( "3000", 75, 255, 65 ) 
+metadata
+{
+	entity_tool_name = "Turret"
+	entity_tool_group = "Hover"
+	entity_tool_tip = "Defines a point where a turret spawns"
+}
+= hv_turret : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.Claymore
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_claymore : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Disruptor
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_disruptor : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.JumpMine
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_jump_mine : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.LightTurret
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_light_turret : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.MotionAlarm
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_motion_alarm : ""
 [
 	team(choices) : "Team" : 0 : "" =
 	[
@@ -216,29 +372,6 @@ metadata
 	entity_tool_tip = "Defines a point where a team's flag spawns"
 }
 = hv_flag_spawnpoint : ""
-[
-	team(choices) : "Team" : 0 : "" =
-	[
-		0 : "None"
-		1 : "Red"
-		2 : "Blue"
-	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
-// Facepunch.Hover.GeneratorEntity
-//
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/generator/generator_temp.vmdl", fixedbounds ) 
-metadata
-{
-	entity_tool_name = "Generator"
-	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a team's generator spawns"
-}
-= hv_generator : ""
 [
 	team(choices) : "Team" : 0 : "" =
 	[
@@ -309,22 +442,6 @@ metadata
 ]
 
 //
-// Facepunch.Hover.LightTurret
-//
-@PointClass base(BaseProperties_sbox_hover) = hv_light_turret : ""
-[
-	team(choices) : "Team" : 0 : "" =
-	[
-		0 : "None"
-		1 : "Red"
-		2 : "Blue"
-	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
 // Facepunch.Hover.OutpostVolume
 //
 @SolidClass base(BaseProperties_sbox_hover) 
@@ -380,75 +497,6 @@ metadata
 		2 : "Blue"
 	]
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-]
-
-//
-// Facepunch.Hover.RadarSensorEntity
-//
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/radar_sensor/radar_sensor.vmdl", fixedbounds ) sphere( "4000", 75, 75, 255 ) 
-metadata
-{
-	entity_tool_name = "Radar Sensor"
-	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a sensor spawns"
-}
-= hv_radar_sensor : ""
-[
-	team(choices) : "Team" : 0 : "" =
-	[
-		0 : "None"
-		1 : "Red"
-		2 : "Blue"
-	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
-// Facepunch.Hover.StationEntity
-//
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/upgrade_station/upgrade_station.vmdl", fixedbounds ) 
-metadata
-{
-	entity_tool_name = "Station"
-	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a station spawns"
-}
-= hv_station : ""
-[
-	team(choices) : "Team" : 0 : "" =
-	[
-		0 : "None"
-		1 : "Red"
-		2 : "Blue"
-	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
-// Facepunch.Hover.TurretEntity
-//
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/tempmodels/turret/turret.vmdl", fixedbounds ) sphere( "3000", 75, 255, 65 ) 
-metadata
-{
-	entity_tool_name = "Turret"
-	entity_tool_group = "Hover"
-	entity_tool_tip = "Defines a point where a turret spawns"
-}
-= hv_turret : ""
-[
-	team(choices) : "Team" : 0 : "" =
-	[
-		0 : "None"
-		1 : "Red"
-		2 : "Blue"
-	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
 
 //
@@ -607,9 +655,39 @@ metadata
 ]
 
 //
+// Facepunch.Hover.DeployableClaymore
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_deployable_claymore : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.DeployableDisruptor
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_deployable_disruptor : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.DeployableJumpMine
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_deployable_jump_mine : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// Facepunch.Hover.DeployableMotionAlarm
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_deployable_motion_alarm : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

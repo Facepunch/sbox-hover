@@ -91,7 +91,7 @@ namespace Facepunch.Hover
 
 			foreach ( var child in weapons )
 			{
-				if ( child.Slot < Weapons.Length )
+				if ( currentIndex < Weapons.Length )
 				{
 					var weapon = Weapons[currentIndex];
 

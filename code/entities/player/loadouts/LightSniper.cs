@@ -26,6 +26,10 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
+				new DeployableClaymoreConfig()
+			},
+			new WeaponConfig[]
+			{
 				new DeployableDisruptorConfig(),
 				new EnergyBoosterConfig()
 			}

@@ -86,7 +86,7 @@ namespace Facepunch.Hover
 		public virtual void SetTeam( Team team )
 		{
 			var isPowered = true;
-			var generator = All.OfType<GeneratorEntity>().Where( v => v.Team == team ).FirstOrDefault();
+			var generator = All.OfType<GeneratorAsset>().Where( v => v.Team == team ).FirstOrDefault();
 
 			if ( generator.IsValid() )
 			{
@@ -155,8 +155,8 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
-			GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
+			GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
+			GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
 
 			DefaultTeam = Team;
 
@@ -191,8 +191,8 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
-			GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
-			GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
+			GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
+			GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
 
 			if ( UpgradeLoop.HasValue )
 			{
@@ -217,7 +217,7 @@ namespace Facepunch.Hover
 
 		}
 
-		protected virtual void OnGeneratorRepaired( GeneratorEntity generator )
+		protected virtual void OnGeneratorRepaired( GeneratorAsset generator )
 		{
 			if ( generator.Team == Team )
 			{
@@ -226,7 +226,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected virtual void OnGeneratorBroken( GeneratorEntity generator )
+		protected virtual void OnGeneratorBroken( GeneratorAsset generator )
 		{
 			if ( generator.Team == Team )
 			{

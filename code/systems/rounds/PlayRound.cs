@@ -103,8 +103,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
-				GeneratorEntity.OnGeneratorRepaired += OnGeneratorRepaired;
-				GeneratorEntity.OnGeneratorBroken += OnGeneratorBroken;
+				GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
+				GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
 				OutpostVolume.OnOutpostCaptured += OnOutpostCaptured;
 				OutpostVolume.OnOutpostLost += OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
@@ -159,8 +159,8 @@ namespace Facepunch.Hover
 					VictoryScreen.Show( Team.None, 10f );
 				}
 
-				GeneratorEntity.OnGeneratorRepaired -= OnGeneratorRepaired;
-				GeneratorEntity.OnGeneratorBroken -= OnGeneratorBroken;
+				GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
+				GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
 				OutpostVolume.OnOutpostCaptured -= OnOutpostCaptured;
 				OutpostVolume.OnOutpostLost -= OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
@@ -200,12 +200,12 @@ namespace Facepunch.Hover
 				Hud.ToastAll( $"Red have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
 		}
 
-		private void OnGeneratorBroken( GeneratorEntity generator )
+		private void OnGeneratorBroken( GeneratorAsset generator )
 		{
 			Audio.Play( generator.Team, $"generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
 		}
 
-		private void OnGeneratorRepaired( GeneratorEntity generator )
+		private void OnGeneratorRepaired( GeneratorAsset generator )
 		{
 			Audio.Play( generator.Team, $"generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
 		}

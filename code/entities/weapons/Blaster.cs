@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 	partial class Blaster : BulletDropWeapon
 	{
 		public override WeaponConfig Config => new BlasterConfig();
-		public override float ProjectileRadius => 30f;
+		public override float ProjectileRadius => 15f;
 		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";

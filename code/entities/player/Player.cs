@@ -622,7 +622,7 @@ namespace Facepunch.Hover
 			if ( IsServer && Input.Released( InputButton.Use ) )
 			{
 				var station = Physics.GetEntitiesInSphere( Position, 50f )
-					.OfType<StationEntity>()
+					.OfType<StationAsset>()
 					.FirstOrDefault();
 
 				if ( station != null && station.CanPlayerUse( this ) )

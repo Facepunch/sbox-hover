@@ -154,16 +154,5 @@ namespace Facepunch.Hover
 
 			target.TakeDamage( damageInfo );
 		}
-
-		[Event.Tick.Server]
-		private void UpdateDeployment()
-		{
-			if ( !FinishDeployTime )
-			{
-				var timeLeft = FinishDeployTime.Relative;
-				var fraction = 1f - (timeLeft / DeployTime);
-				Health = MaxHealth * fraction;
-			}
-		}
 	}
 }

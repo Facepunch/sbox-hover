@@ -28,6 +28,10 @@ namespace Facepunch.Hover
 			new WeaponConfig[]
 			{
 				new DeployableTurretConfig()
+			},
+			new WeaponConfig[]
+			{
+				new DeployableMotionAlarmConfig()
 			}
 		};
 		public override float JetpackScale => 0.8f;

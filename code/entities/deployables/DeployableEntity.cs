@@ -132,5 +132,16 @@ namespace Facepunch.Hover
 			HealthBar.SetValue( Health );
 			HealthBar.SetIsLow( Health < MaxHealth * 0.1f );
 		}
+
+		[Event.Tick.Server]
+		protected virtual void UpdateDeployment()
+		{
+			if ( !FinishDeployTime )
+			{
+				var timeLeft = FinishDeployTime.Relative;
+				var fraction = 1f - (timeLeft / DeployTime);
+				Health = MaxHealth * fraction;
+			}
+		}
 	}
 }

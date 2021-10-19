@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 {
 	public class WorldGeneratorHud : WorldPanel
 	{
-		public GeneratorEntity Entity { get; private set; }
+		public GeneratorAsset Entity { get; private set; }
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
 		public Panel Container { get; set; }
@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 			RegenLabel = Container.Add.Label( "", "regen" );
 		}
 
-		public void SetEntity( GeneratorEntity entity, string attachment )
+		public void SetEntity( GeneratorAsset entity, string attachment )
 		{
 			Entity = entity;
 			Attachment = attachment;

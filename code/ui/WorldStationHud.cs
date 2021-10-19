@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 {
 	public class WorldStationHud : WorldPanel
 	{
-		public StationEntity Entity { get; private set; }
+		public StationAsset Entity { get; private set; }
 		public SimpleIconBar IconBar { get; private set; }
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 			IconBar = AddChild<SimpleIconBar>( "restock" );
 		}
 
-		public void SetEntity( StationEntity entity, string attachment )
+		public void SetEntity( StationAsset entity, string attachment )
 		{
 			Entity = entity;
 			Attachment = attachment;

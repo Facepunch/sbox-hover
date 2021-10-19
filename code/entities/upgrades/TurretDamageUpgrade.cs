@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 
 		public override void Apply( GeneratorDependency dependency )
 		{
-			if ( dependency is TurretEntity turret )
+			if ( dependency is TurretAsset turret )
 			{
 				turret.BlastDamage *= 1.15f;
 			}

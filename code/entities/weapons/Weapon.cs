@@ -211,6 +211,9 @@ namespace Facepunch.Hover
 			if ( ChargeAttackEndTime > 0f && Time.Now < ChargeAttackEndTime )
 				return false;
 
+			if ( TimeSinceDeployed < 0.3f )
+				return false;
+
 			return base.CanPrimaryAttack();
 		}
 

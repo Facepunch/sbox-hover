@@ -60,7 +60,7 @@ namespace Facepunch.Hover
 				var distance = entity.Position.Distance( position );
 				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
 
-				if ( entity is GeneratorEntity )
+				if ( entity is GeneratorAsset )
 				{
 					damage *= 1.5f;
 				}

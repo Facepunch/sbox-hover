@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 		public Entity IgnoreEntity { get; set; }
 		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 10f;
-		public float Radius { get; set; } = 16f;
+		public float Radius { get; set; } = 8f;
 		public bool FaceDirection { get; set; } = false;
 		public Vector3 StartPosition { get; private set; }
 		public bool Debug { get; set; } = false;

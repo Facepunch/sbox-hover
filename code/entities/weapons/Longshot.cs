@@ -118,7 +118,7 @@ namespace Facepunch.Hover
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
-			ShootBullet( 0f, 5f, BaseDamage, 30.0f );
+			ShootBullet( 0f, 5f, BaseDamage, 10.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "pulserifle.empty" );

@@ -13,7 +13,7 @@
 						_class = "RenderMeshFile"
 						filename = "models\\claymore_mines\\dmx\\mesh\\claymore_mines.dmx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, -90.0, 0.0 ]
 						import_scale = 1.0
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
@@ -64,9 +64,42 @@
 						parent_bone = ""
 						surface_prop = "default"
 						collision_prop = "default"
-						origin = [ 0.012813, 0.0, 6.664562 ]
+						origin = [ 0.012813, -0.356483, 6.664562 ]
 						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 15.982295, 10.0, 13.396084 ]
+						dimensions = [ 17.806026, 22.043032, 14.735681 ]
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "laser1"
+						parent_bone = ""
+						relative_origin = [ 4.164693, 3.935895, 8.255463 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "laser2"
+						parent_bone = ""
+						relative_origin = [ 3.77433, -4.696903, 8.255463 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "health_bar"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 17.845112 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
 					},
 				]
 			},

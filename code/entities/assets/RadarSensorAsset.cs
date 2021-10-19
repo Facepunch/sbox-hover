@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Radar Sensor", "Hover", "Defines a point where a sensor spawns" )]
 	[Hammer.Sphere( 4000, 75, 75, 255 )]
-	public partial class RadarSensorEntity : GeneratorDependency, IBaseAsset
+	public partial class RadarSensorAsset : GeneratorDependency, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{
@@ -111,14 +111,14 @@ namespace Facepunch.Hover
 			NextSensePlayers = 2f;
 		}
 
-		protected override void OnGeneratorRepaired( GeneratorEntity generator )
+		protected override void OnGeneratorRepaired( GeneratorAsset generator )
 		{
 			base.OnGeneratorRepaired( generator );
 
 			PlayIdleSound();
 		}
 
-		protected override void OnGeneratorBroken( GeneratorEntity generator )
+		protected override void OnGeneratorBroken( GeneratorAsset generator )
 		{
 			base.OnGeneratorBroken( generator );
 

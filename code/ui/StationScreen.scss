@@ -215,7 +215,7 @@ stationscreenweaponinfo {
     border-radius: 8px;
     padding: 8px;
     width: 300px;
-    height: 400px;
+    height: 370px;
 
     .name {
         text-shadow: $blueTeamShadow;
@@ -302,7 +302,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
     border: $blueTeamPanelBorder;
     padding: 8px;
     border-radius: 8px;
-    width: 300px;
+    width: 350px;
     height: 90%;
 
     .title {
@@ -318,7 +318,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
         font-family: $mainFont;
         margin-top: 8px;
         font-size: 16px;
-        width: 80%;
+        width: 90%;
         color: white;
     }
 
@@ -327,7 +327,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
         font-family: $mainFont;
         margin-top: 8px;
         font-size: 14px;
-        width: 80%;
+        width: 90%;
         color: $blueTeamColor;
     }
 
@@ -337,7 +337,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
         align-items: center;
         position: absolute;
         top: 50%;
-        width: 80%;
+        width: 90%;
 
         simpleiconbar {
             width: 100%;

@@ -8,9 +8,9 @@ namespace Facepunch.Hover
 	[Library( "hv_generator" )]
 	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Generator", "Hover", "Defines a point where a team's generator spawns" )]
-	public partial class GeneratorEntity : ModelEntity, IGameResettable, IUse, IHudEntity
+	public partial class GeneratorAsset : ModelEntity, IGameResettable, IUse, IHudEntity
 	{
-		public delegate void GeneratorEvent( GeneratorEntity generator );
+		public delegate void GeneratorEvent( GeneratorAsset generator );
 		public static event GeneratorEvent OnGeneratorRepaired;
 		public static event GeneratorEvent OnGeneratorBroken;
 

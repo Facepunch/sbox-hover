@@ -53,9 +53,24 @@
 						parent_bone = ""
 						surface_prop = "default"
 						collision_prop = "default"
-						origin = [ 0.041999, -0.011219, -0.0 ]
+						origin = [ 0.041999, -0.011219, 1.77133 ]
 						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 15.964094, 15.986528, 4.181818 ]
+						dimensions = [ 19.156914, 19.183834, 7.330527 ]
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "health_bar"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 7.032887 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
 					},
 				]
 			},

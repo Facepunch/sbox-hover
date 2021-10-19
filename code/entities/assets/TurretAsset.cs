@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Hammer.EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Turret", "Hover", "Defines a point where a turret spawns" )]
 	[Hammer.Sphere( 3000, 75, 255, 65)]
-	public partial class TurretEntity : GeneratorDependency, IKillFeedIcon, ITurretComponent, IBaseAsset
+	public partial class TurretAsset : GeneratorDependency, IKillFeedIcon, ITurretComponent, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
 		{

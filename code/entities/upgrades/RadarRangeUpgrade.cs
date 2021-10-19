@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 
 		public override void Apply( GeneratorDependency dependency )
 		{
-			if ( dependency is RadarSensorEntity sensor)
+			if ( dependency is RadarSensorAsset sensor)
 			{
 				sensor.Range *= 1.1f;
 			}

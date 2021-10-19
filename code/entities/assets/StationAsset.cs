@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a station spawns" )]
-	public partial class StationEntity : GeneratorDependency, IBaseAsset
+	public partial class StationAsset : GeneratorDependency, IBaseAsset
 	{
 		public override string IconName => "ui/icons/loadouts.png";
 

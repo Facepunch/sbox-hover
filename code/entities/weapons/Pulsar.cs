@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 	partial class Pulsar : BulletDropWeapon
 	{
 		public override WeaponConfig Config => new PulsarConfig();
-		public override float ProjectileRadius => 40f;
+		public override float ProjectileRadius => 20f;
 		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
