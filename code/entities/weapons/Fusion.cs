@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "automatic";
 		public override int ClipSize => 150;
-		public override float PrimaryRate => 15f;
+		public override float PrimaryRate => 12f;
 		public override float DamageFalloffStart => 2000f;
 		public override float DamageFalloffEnd => 8000f;
 		public override float SecondaryRate => 1.0f;
