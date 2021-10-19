@@ -595,6 +595,16 @@ metadata
 ]
 
 //
+// Facepunch.Hover.Fusion
+//
+@PointClass base(BaseProperties_sbox_hover) = hv_fusion : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // Facepunch.Hover.Longshot
 //
 @PointClass base(BaseProperties_sbox_hover) = hv_longshot : ""

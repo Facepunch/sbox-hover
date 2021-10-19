@@ -6,39 +6,37 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class HeavyTank : BaseLoadout
+	public partial class HeavyGunner : BaseLoadout
 	{
-		public override string Description => "A slow tank unit with high health, low energy and fast regen";
-		public override string Name => "Heavy Tank";
+		public override string Description => "A slow heavy support unit with high health and medium energy";
+		public override string Name => "Heavy Gunner";
+		public override int TokenCost => 500;
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
-		public override int DisplayOrder => 9;
-		public override Type UpgradesTo => typeof( HeavyTankMk2 );
+		public override int DisplayOrder => 8;
+		public override Type UpgradesTo => typeof( HeavyAssaultMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
 			{
-				new DestroyerConfig(),
-				new ClusterConfig()
+				new FusionConfig(),
 			},
 			new WeaponConfig[]
 			{
-				new PulsarConfig()
+				new ClusterConfig(),
+				new ShotblastConfig()
 			},
 			new WeaponConfig[]
 			{
-				new HeavyShieldBoosterConfig(),
-				new HeavyEnergyBoosterConfig()
-			}
+				new DeployableJumpMineConfig()
+			},
 		};
 		public override float JetpackScale => 0.7f;
-		public override float HealthRegen => 100f;
-		public override float RegenDelay => 15f;
-		public override float EnergyRegen => 10f;
-		public override int TokenCost => 600;
-		public override float Health => 1500f;
-		public override float Energy => 60f;
-		public override float MoveSpeed => 300f;
-		public override float MaxSpeed => 1100f;
+		public override float EnergyRegen => 15f;
+		public override float Health => 1100f;
+		public override float Energy => 75f;
+		public override float RegenDelay => 20f;
+		public override float MoveSpeed => 350f;
+		public override float MaxSpeed => 1300f;
 
 		public override List<string> Clothing => new()
 		{

@@ -27,10 +27,6 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
-				new DeployableJumpMineConfig()
-			},
-			new WeaponConfig[]
-			{
 				new ShieldBoosterConfig(),
 				new AmmoBoosterConfig(),
 				new SpeedBoosterConfig()

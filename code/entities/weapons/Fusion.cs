@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 		public override string ImpactEffect => "particles/weapons/carbine/carbine_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/carbine/carbine_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/carbine/carbine_muzzleflash.vpcf";
-		public override int ViewModelMaterialGroup => 2;
+		public override int ViewModelMaterialGroup => 3;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override List<Type> Upgrades => new()
 		{
@@ -50,7 +50,7 @@ namespace Facepunch.Hover
 			base.Spawn();
 
 			SetModel( "models/weapons/w_blaster.vmdl" );
-			SetMaterialGroup( 2 );
+			SetMaterialGroup( 3 );
 		}
 
 		public override void PlayReloadSound()
@@ -88,6 +88,16 @@ namespace Facepunch.Hover
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
+		}
+
+		public override void Simulate( Client owner )
+		{
+			if ( IsSpinningUp && !Input.Down( InputButton.Attack1 ) )
+			{
+				IsSpinningUp = false;
+			}
+
+			base.Simulate( owner );
 		}
 	}
 }
