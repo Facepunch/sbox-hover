@@ -302,7 +302,7 @@ stationscreenloadout, stationscreenloadoutupgrade {
     border: $blueTeamPanelBorder;
     padding: 8px;
     border-radius: 8px;
-    width: 350px;
+    width: 380px;
     height: 90%;
 
     .title {
@@ -424,11 +424,11 @@ stationscreenloadout, stationscreenloadoutupgrade {
             border-radius: 8px;
             flex-shrink: 0;
             flex-grow: 0;
-            padding: 8px;
+            padding: 4px;
 
             .icon {
-                width: 48px;
-                height: 48px;
+                width: 64px;
+                height: 64px;
             }
 
             &:hover {
