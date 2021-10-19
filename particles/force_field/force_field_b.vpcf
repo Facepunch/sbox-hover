@@ -144,6 +144,7 @@
 		},
 		{
 			_class = "C_OP_PositionLock"
+			m_bLockRot = true
 		},
 		{
 			_class = "C_OP_SetCPtoVector"
@@ -174,6 +175,10 @@
 			m_nFieldOutput = "6"
 			m_vInputMax = [ 255.0, 255.0, 255.0 ]
 			m_vOutputMax = [ 1.0, 1.0, 1.0 ]
+		},
+		{
+			_class = "C_OP_SetCPtoVector"
+			m_nFieldOutput = "17"
 		},
 	]
 	m_Renderers = 
