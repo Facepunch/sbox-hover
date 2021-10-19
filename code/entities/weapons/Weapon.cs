@@ -82,7 +82,12 @@ namespace Facepunch.Hover
 
 		public virtual void Restock()
 		{
-			AmmoClip = ClipSize;
+			var remainingAmmo = (ClipSize - AmmoClip);
+
+			if ( remainingAmmo > 0 && Owner is Player player )
+			{
+				player.GiveAmmo( Config.AmmoType, remainingAmmo );
+			}
 		}
 
 		public virtual bool IsAvailable()
