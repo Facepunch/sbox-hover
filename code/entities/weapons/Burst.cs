@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 4000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3.0f;
-		public override int BaseDamage => 100;
+		public override int BaseDamage => 120;
 		public override bool CanMeleeAttack => false;
 		public virtual int BulletsPerBurst => 3;
 
