@@ -18,9 +18,9 @@ namespace Facepunch.Hover
 	partial class Fusion : Weapon
 	{
 		public override WeaponConfig Config => new FusionConfig();
-		public override string ImpactEffect => "particles/weapons/carbine/carbine_impact.vpcf";
-		public override string TracerEffect => "particles/weapons/carbine/carbine_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/carbine/carbine_muzzleflash.vpcf";
+		public override string ImpactEffect => "particles/weapons/fusion/fusion_impact.vpcf";
+		public override string TracerEffect => "particles/weapons/fusion/fusion_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/fusion/fusion_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 3;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override List<Type> Upgrades => new()
