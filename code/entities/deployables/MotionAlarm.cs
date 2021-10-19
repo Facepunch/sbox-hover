@@ -55,7 +55,7 @@ namespace Facepunch.Hover
 		{
 			if ( target.Controller is MoveController controller )
 			{
-				controller.Energy = Math.Max( controller.Energy * 0.8f, 0f );
+				controller.Energy = Math.Max( controller.Energy - 50, 0f );
 			}
 
 			var force = (target.Position - Position).Normal * 100f * 1f;
@@ -72,15 +72,18 @@ namespace Facepunch.Hover
 				.OfType<Player>()
 				.Where( IsValidVictim );
 
+			var didSensePlayer = false;
+
 			foreach ( var player in players )
 			{
-				if ( !NextSense )
+				if ( !didSensePlayer )
 				{
 					Particles.Create( "particles/generator/generator_attacked/generator_attacked.vpcf", this );
 					PlaySound( "motion.alarm" );
 					NextSense = 10f;
 				}
 
+				didSensePlayer = true;
 				Sense( player );
 			}
 
