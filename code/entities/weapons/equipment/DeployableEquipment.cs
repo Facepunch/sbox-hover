@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 
 		public override void Restock()
 		{
-			var existing = All.OfType<LightTurret>().Where( v => v.Deployer == Owner );
+			var existing = All.OfType<T>().Where( v => v.Deployer == Owner );
 
 			Deployables = Math.Max( MaxDeployables - existing.Count(), 0 );
 

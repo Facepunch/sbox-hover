@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 	public partial class DeployableForceShield : DeployableEquipment<ForceShield>
 	{
 		public override WeaponConfig Config => new DeployableForceShieldConfig();
-		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
+		public override string Model => "models/force_shield/force_shield.vmdl";
 		public override List<Type> Upgrades => new()
 		{
 			typeof( ForceShieldHealthUpgrade ),
