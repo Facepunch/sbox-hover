@@ -8,23 +8,10 @@
 			m_name = "preview"
 		},
 	]
-	m_Operators = 
-	[
-		{
-			_class = "C_OP_RemapCPtoVector"
-			m_nCPInput = 1
-			m_nFieldOutput = "6"
-			m_vInputMax = [ 255.0, 255.0, 255.0 ]
-			m_vOutputMax = [ 255.0, 255.0, 255.0 ]
-		},
-	]
 	m_Children = 
 	[
 		{
 			m_ChildRef = resource:"particles/claymore_mines/claymore_mines_a.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/claymore_mines/claymore_mines_b.vpcf"
 		},
 	]
 }
