@@ -49,26 +49,24 @@ namespace Facepunch.Hover
 			var halfScreenX = screenSize.x * 0.5f;
 			var halfScreenY = screenSize.y * 0.5f;
 
-			Inner.SetTexture( "ui/scope_inner.png" );
-
 			Inner.Style.Width = scopeSize;
 			Inner.Style.Height = scopeSize;
 			Inner.Style.Left = halfScreenX - halfScopeSize;
 			Inner.Style.Top = halfScreenY - halfScopeSize;
 
 			Left.Style.Width = halfScreenX - halfScopeSize;
-			Left.Style.Top = halfScopeSize;
+			Left.Style.Top = Inner.Style.Top;
 			Left.Style.Left = 0f;
-			Left.Style.Height = screenSize.y - scopeSize;
+			Left.Style.Height = Inner.Style.Height;
 
 			Right.Style.Width = Length.Percent( 100f );
 			Right.Style.Left = halfScreenX + halfScopeSize;
-			Right.Style.Top = halfScopeSize;
-			Right.Style.Height = screenSize.y - scopeSize;
+			Right.Style.Top = Inner.Style.Top;
+			Right.Style.Height = Inner.Style.Height;
 
 			Top.Style.Top = 0f;
 			Top.Style.Width = screenSize.x;
-			Top.Style.Height = halfScopeSize;
+			Top.Style.Height = Inner.Style.Top;
 			Top.Style.Left = 0f;
 
 			Bottom.Style.Top = halfScreenY + halfScopeSize;
