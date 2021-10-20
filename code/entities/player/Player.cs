@@ -768,6 +768,16 @@ namespace Facepunch.Hover
 					}
 				}
 
+				if ( info.Flags.HasFlag( DamageFlags.Blunt ) )
+				{
+					var dotDirection = EyeRot.Forward.Dot( attacker.EyeRot.Forward );
+
+					if ( dotDirection >= 0.5f )
+					{
+						info.Damage *= 4f;
+					}
+				}
+
 				AddAssistDamage( attacker, info );
 				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 			}

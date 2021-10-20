@@ -35,7 +35,9 @@ namespace Facepunch.Hover
 		public virtual bool UnlimitedAmmo => false;
 		public virtual bool CanMeleeAttack => false;
 		public virtual bool IsPassive => false;
-		public virtual float MeleeDamage => 100f;
+		public virtual float MeleeDuration => 0.4f;
+		public virtual float MeleeDamage => 80f;
+		public virtual float MeleeForce => 2f;
 		public virtual float MeleeRange => 200f;
 		public virtual float MeleeRate => 1f;
 		public virtual float ChargeAttackDuration => 2f;
@@ -109,7 +111,7 @@ namespace Facepunch.Hover
 		{
 			ViewModelEntity?.SetAnimBool( "melee", true );
 			TimeSinceMeleeAttack = 0f;
-			MeleeStrike( MeleeDamage, 2f );
+			MeleeStrike( MeleeDamage, MeleeForce );
 			PlaySound( "player.melee" );
 		}
 
@@ -190,7 +192,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( Input.Down( InputButton.Flashlight ) )
+			if ( Input.Down( InputButton.Zoom ) )
 			{
 				if ( CanMeleeAttack && TimeSinceMeleeAttack > (1 / MeleeRate) )
 				{
@@ -214,6 +216,9 @@ namespace Facepunch.Hover
 		public override bool CanPrimaryAttack()
 		{
 			if ( ChargeAttackEndTime > 0f && Time.Now < ChargeAttackEndTime )
+				return false;
+
+			if ( TimeSinceMeleeAttack < MeleeDuration )
 				return false;
 
 			if ( TimeSinceDeployed < 0.3f )
@@ -289,24 +294,30 @@ namespace Facepunch.Hover
 			var forward = Owner.EyeRot.Forward;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * MeleeRange, 40f ) )
+			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * MeleeRange, 10f ) )
 			{
-				if ( !trace.Entity.IsValid() ) continue;
-				if ( !IsServer ) continue;
+				if ( !trace.Entity.IsValid() )
+					continue;
 
-				using ( Prediction.Off() )
+				if ( !IsValidMeleeTarget( trace.Entity ) )
+					continue;
+
+				if ( IsServer )
 				{
-					var damageInfo = new DamageInfo()
-						.WithPosition( trace.EndPos )
-						.WithFlag( DamageFlags.Blunt )
-						.WithForce( forward * 100f * force )
-						.UsingTraceResult( trace )
-						.WithAttacker( Owner )
-						.WithWeapon( this );
+					using ( Prediction.Off() )
+					{
+						var damageInfo = new DamageInfo()
+							.WithPosition( trace.EndPos )
+							.WithFlag( DamageFlags.Blunt )
+							.WithForce( forward * 100f * force )
+							.UsingTraceResult( trace )
+							.WithAttacker( Owner )
+							.WithWeapon( this );
 
-					damageInfo.Damage = damage;
+						damageInfo.Damage = damage;
 
-					trace.Entity.TakeDamage( damageInfo );
+						trace.Entity.TakeDamage( damageInfo );
+					}
 				}
 			}
 		}
@@ -427,6 +438,11 @@ namespace Facepunch.Hover
 
 			ViewModelEntity?.SetAnimBool( "fire", true );
 			CrosshairPanel?.CreateEvent( "fire" );
+		}
+
+		protected virtual bool IsValidMeleeTarget( Entity target )
+		{
+			return target is Player;
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force )

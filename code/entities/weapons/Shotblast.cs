@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1;
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
-		public override bool CanMeleeAttack => false;
+		public override bool CanMeleeAttack => true;
 		public override int BaseDamage => 50;
 		public virtual int BulletsPerFire => 8;
 

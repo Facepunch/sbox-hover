@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
 		public override float ProjectileForce => 60f;
-		public override bool CanMeleeAttack => false;
+		public override bool CanMeleeAttack => true;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;

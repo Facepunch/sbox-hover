@@ -52,7 +52,9 @@ namespace Facepunch.Hover
 			"Heavier loadouts will decrease your movement speed",
 			"Be careful of weapons that cause blast damage",
 			"Spot enemies by pressing [+iv_drop] while looking at them",
-			"Some maps have Outposts you can hold to earn passive income"
+			"Some maps have Outposts you can hold to earn passive income",
+			"You can melee attack with [+iv_zoom] for close quarters combat",
+			"Melee attack an enemy from behind to deal twice the damage"
 		};
 
 		public TextEntryContainer TextEntry { get; private set; }

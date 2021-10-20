@@ -37,7 +37,7 @@ namespace Facepunch.Hover
 		public override float InheritVelocity => 0.2f;
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override bool CanMeleeAttack => false;
+		public override bool CanMeleeAttack => true;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 10f;

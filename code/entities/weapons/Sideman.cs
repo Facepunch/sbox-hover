@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
 		public override int BaseDamage => 60;
-		public override bool CanMeleeAttack => false;
+		public override bool CanMeleeAttack => true;
 
 		public override void Spawn()
 		{

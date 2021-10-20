@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3.0f;
 		public override int BaseDamage => 40;
-		public override bool CanMeleeAttack => false;
+		public override bool CanMeleeAttack => true;
 
 		[Net] public float SpinUpTime { get; set; } = 1.4f;
 
