@@ -140,13 +140,6 @@ namespace Facepunch.Hover
 
 		protected override void OnTimeUp()
 		{
-			Finish();
-
-			base.OnTimeUp();
-		}
-
-		protected override void OnFinish()
-		{
 			if ( Host.IsServer )
 			{
 				if ( BlueScore > RedScore )
@@ -179,6 +172,13 @@ namespace Facepunch.Hover
 			{
 				ScoreHud?.Delete();
 			}
+
+			base.OnTimeUp();
+		}
+
+		protected override void OnFinish()
+		{
+
 		}
 
 		private void OnOutpostLost( OutpostVolume outpost )

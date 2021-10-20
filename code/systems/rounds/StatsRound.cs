@@ -19,15 +19,20 @@ namespace Facepunch.Hover
 
 		protected override void OnFinish()
 		{
-			if ( Host.IsServer )
+			if ( Host.IsClient )
 			{
-				Rounds.Change( new PlayRound() );
+				VictoryScreen.Hide();
 			}
+
+			base.OnFinish();
 		}
 
 		protected override void OnTimeUp()
 		{
-			Finish();
+			if ( Host.IsServer )
+			{
+				Rounds.Change( new PlayRound() );
+			}
 
 			base.OnTimeUp();
 		}

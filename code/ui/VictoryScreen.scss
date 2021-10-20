@@ -22,7 +22,7 @@ victoryscreen {
         box-shadow: $blackForeground;
         border: $blackPanelBorder;
         border-radius: 16px;
-        padding: 32px;
+        padding: 64px;
 
         .winner {
             display: flex;
@@ -34,7 +34,6 @@ victoryscreen {
                 width: 96px;
                 height: 96px;
                 margin-right: 16px;
-                box-shadow: $blueTeamBackground;
                 background-image-tint: $blueTeamColor;
             }
 
@@ -49,6 +48,7 @@ victoryscreen {
         .next_game {
             text-shadow: $selectedTabShadow;
             font-family: $mainFont;
+            margin-top: 16px;
             font-size: 32px;
             color: white;
         }
@@ -97,12 +97,15 @@ victoryscreen {
                     margin-left: 0px;
                 }
             }
+
+            &.hidden {
+                display: none;
+            }
         }
 
         &.team_red {
             .winner {
                 .icon {
-                    box-shadow: $redTeamBackground;
                     background-image-tint: $redTeamColor;
                 }
 
@@ -116,7 +119,6 @@ victoryscreen {
         &.team_none {
             .winner {
                 .icon {
-                    box-shadow: $selectedTabBackground;
                     background-image-tint: $selectedTabColor;
                 }
 
@@ -131,11 +133,5 @@ victoryscreen {
     &.hidden {
         transition: all 0.5s ease-out;
         opacity: 0;
-    }
-}
-
-.team_red {
-    respawnscreen {
-        box-shadow: $redTeamBackground;
     }
 }

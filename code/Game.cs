@@ -129,12 +129,6 @@ namespace Facepunch.Hover
 			CheckMinimumPlayers();
 		}
 
-		[Event.Tick]
-		private void OnTick()
-		{
-			Rounds.Current?.OnTick();
-		}
-
 		[Event.Entity.PostSpawn]
 		private void OnEntityPostSpawn()
 		{

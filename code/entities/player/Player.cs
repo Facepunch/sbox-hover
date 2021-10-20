@@ -779,7 +779,7 @@ namespace Facepunch.Hover
 				}
 
 				AddAssistDamage( attacker, info );
-				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
+				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100f, 0f ) );
 			}
 
 			foreach ( var equipment in Children.OfType<Equipment>() )

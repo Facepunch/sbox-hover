@@ -117,6 +117,7 @@ namespace Facepunch.Hover
 			}
 
 			AwardContainer.SortChildren<VictoryScreenAward>( ( a ) => a.Award.Tokens );
+			AwardContainer.SetClass( "hidden", AwardContainer.ChildrenCount == 0 );
 		}
 
 		public override void Tick()

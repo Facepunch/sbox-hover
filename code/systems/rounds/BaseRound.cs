@@ -75,7 +75,7 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
-				if ( RoundEndTime > 0 && Time.Now >= RoundEndTime )
+				if ( RoundEndTime > 0f && Time.Now >= RoundEndTime )
 				{
 					RoundEndTime = 0f;
 					OnTimeUp();
