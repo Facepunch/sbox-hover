@@ -1199,6 +1199,9 @@
 		{
 			_class = "C_OP_Decay"
 		},
+		{
+			_class = "C_OP_PositionLock"
+		},
 	]
 	m_Renderers = 
 	[
