@@ -33,7 +33,7 @@ metadata
 //
 // Gamelib.FlowFields.Entities.FlowFieldGround
 //
-@SolidClass base(BaseProperties_sbox_hover) 
+@SolidClass base(BaseProperties_sbox_hover) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/rts/hammer/flowfield_ground.vmat"
@@ -157,7 +157,7 @@ metadata
 //
 // Gamelib.DayNight.DayNightWindow
 //
-@SolidClass base(BaseProperties_sbox_hover) 
+@SolidClass base(BaseProperties_sbox_hover) tags( Dynamic ) 
 metadata
 {
 	entity_tool_name = "Window Brush"
@@ -403,7 +403,7 @@ metadata
 //
 // Facepunch.Hover.JetpackElevator
 //
-@SolidClass base(BaseProperties_sbox_hover) 
+@SolidClass base(BaseProperties_sbox_hover) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/editor/hv_jetpack_elevator.vmat"
@@ -460,7 +460,7 @@ metadata
 //
 // Facepunch.Hover.OutpostVolume
 //
-@SolidClass base(BaseProperties_sbox_hover) 
+@SolidClass base(BaseProperties_sbox_hover) tags( Trigger ) 
 metadata
 {
 	auto_apply_material = "materials/editor/hv_outpost_volume.vmat"
