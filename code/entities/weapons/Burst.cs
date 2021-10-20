@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_burst";
 		public override string Icon => "ui/weapons/burst.png";
 		public override AmmoType AmmoType => AmmoType.SMG;
-		public override int Ammo => 60;
+		public override int Ammo => 72;
 	}
 
 	[Library( "hv_burst", Title = "Burst" )]
@@ -30,8 +30,8 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
-		public override int ClipSize => 15;
-		public override float PrimaryRate => 1.0f;
+		public override int ClipSize => 24;
+		public override float PrimaryRate => 2.0f;
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 4000f;
 		public override float SecondaryRate => 1.0f;
@@ -83,7 +83,7 @@ namespace Facepunch.Hover
 				PlaySound( $"generic.bullet1" );
 				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
 
-				await GameTask.Delay( 75 );
+				await GameTask.Delay( Rand.Int( 30, 50 ) );
 			}
 		} 
 	}
