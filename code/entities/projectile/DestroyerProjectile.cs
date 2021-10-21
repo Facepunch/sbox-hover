@@ -15,9 +15,16 @@ namespace Facepunch.Hover
 			TimeSinceCreated = 0f;
 		}
 
+		protected override void OnInitialize()
+		{
+			PhysicsBody.LinearDrag = 0.5f;
+
+			base.OnInitialize();
+		}
+
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
-			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 0.8f )
+			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 1f )
 			{
 				DestroyTime = 0f;
 			}

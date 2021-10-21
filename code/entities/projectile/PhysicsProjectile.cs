@@ -34,6 +34,8 @@ namespace Facepunch.Hover
 				LaunchSound = PlaySound( LaunchSoundName );
 
 			SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
+
+			OnInitialize();
 		}
 
 		public void Kill()
@@ -51,6 +53,8 @@ namespace Facepunch.Hover
 			RemoveEffects();
 			Delete();
 		}
+
+		protected virtual void OnInitialize() { }
 
 		protected override void OnDestroy()
 		{
