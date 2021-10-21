@@ -91,7 +91,9 @@ namespace Facepunch.Hover
 			if ( controller.Energy < 10f )
 				return;
 
+			player.ShouldHideOnRadar = 0f;
 			player.PlaySound( "stealth.on" );
+
 			IsUsingAbility = true;
 		}
 	}

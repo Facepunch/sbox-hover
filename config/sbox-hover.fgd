@@ -215,7 +215,7 @@ metadata
 //
 // Facepunch.Hover.RadarSensorAsset
 //
-@PointClass base(BaseProperties_sbox_hover) editormodel( "models/radar_sensor/radar_sensor.vmdl", fixedbounds ) sphere( "4000", 75, 75, 255 ) 
+@PointClass base(BaseProperties_sbox_hover) editormodel( "models/radar_sensor/radar_sensor.vmdl", fixedbounds ) sphere( "8000", 75, 75, 255 ) 
 metadata
 {
 	entity_tool_name = "Radar Sensor"
@@ -224,6 +224,7 @@ metadata
 }
 = hv_radar_sensor : ""
 [
+	rangescale(float) : "Range Scale" : 1 : ""
 	team(choices) : "Team" : 0 : "" =
 	[
 		0 : "None"

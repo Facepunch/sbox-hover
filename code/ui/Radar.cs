@@ -75,7 +75,10 @@ namespace Facepunch.Hover
 			if ( Local.Pawn is not Player localPlayer )
 				return false;
 
-			var radarRange = 6000f;
+			if ( player.Team == localPlayer.Team )
+				return false;
+
+			var radarRange = 8000f;
 
 			if ( player.Position.Distance( localPlayer.Position ) > radarRange )
 				return false;
@@ -87,7 +90,6 @@ namespace Facepunch.Hover
 			}
 
 			// This is probably fucking awful maths but it works.
-
 			var difference = player.Position - localPlayer.Position;
 			var radarSize = 256f;
 

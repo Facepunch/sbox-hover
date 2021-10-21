@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	[Library( "hv_radar_sensor" )]
 	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
 	[Hammer.EntityTool( "Radar Sensor", "Hover", "Defines a point where a sensor spawns" )]
-	[Hammer.Sphere( 4000, 75, 75, 255 )]
+	[Hammer.Sphere( 8000, 75, 75, 255 )]
 	public partial class RadarSensorAsset : GeneratorDependency, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
@@ -17,6 +17,8 @@ namespace Facepunch.Hover
 			new RadarRangeUpgrade(),
 			new RadarRangeUpgrade()
 		};
+
+		[Property] public float RangeScale { get; set; } = 1f;
 
 		public float Range { get; set; }
 
@@ -41,6 +43,11 @@ namespace Facepunch.Hover
 
 			Transmit = TransmitType.Always;
 
+			if ( RangeScale == 0f )
+			{
+				RangeScale = 1f;
+			}
+
 			base.Spawn();
 		}
 
@@ -64,7 +71,7 @@ namespace Facepunch.Hover
 				PlayIdleSound();
 			}
 
-			Range = 4000f;
+			Range = 8000f * RangeScale;
 		}
 
 		public override void OnKilled()
