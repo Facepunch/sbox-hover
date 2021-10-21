@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Extensions;
+using Sandbox;
 using System.Linq;
 
 namespace Facepunch.Hover
@@ -278,9 +279,22 @@ namespace Facepunch.Hover
 			if ( player.Loadout == null )
 				player.GiveLoadout<LightAssault>();
 
-			StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
+			if ( player.Client.IsBot == false )
+			{
+				var spawnpoint = Entity.All.OfType<PlayerSpawnpoint>()
+					.Where( e => e.Team == player.Team )
+					.ToList()
+					.Shuffle()
+					.FirstOrDefault();
 
-			player.MakeSpectator( player.Position );
+				StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
+
+				player.MakeSpectator( spawnpoint.Position );
+			}
+			else
+			{
+				player.Respawn();
+			}
 		}
 	}
 }
