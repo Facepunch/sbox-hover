@@ -279,6 +279,8 @@ namespace Facepunch.Hover
 				player.GiveLoadout<LightAssault>();
 
 			StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
+
+			player.MakeSpectator( player.Position );
 		}
 	}
 }

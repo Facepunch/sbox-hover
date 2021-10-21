@@ -119,7 +119,7 @@ namespace Facepunch.Hover
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
-		public RealTimeUntil RespawnTime { get; set; }
+		public RealTimeUntil? RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
 
@@ -424,12 +424,16 @@ namespace Facepunch.Hover
 			return assister;
 		}
 
-		public void MakeSpectator( Vector3 position, float respawnTime )
+		public void MakeSpectator( Vector3 position, float? respawnTime = null )
 		{
-			// TODO: For some reason setting this to false on the server does nothing.
+			if ( respawnTime.HasValue )
+				RespawnTime = respawnTime;
+			else
+				RespawnTime = null;
+
 			EnableAllCollisions = false;
 			EnableDrawing = false;
-			RespawnTime = respawnTime;
+			LifeState = LifeState.Dead;
 			Controller = null;
 			Camera = new SpectateCamera();
 		}
@@ -924,7 +928,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
-			if ( LifeState != LifeState.Alive && RespawnTime )
+			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )
 			{
 				Respawn();
 			}

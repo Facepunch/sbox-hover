@@ -138,6 +138,11 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
+		protected override ModelEntity GeEffectEntity()
+		{
+			return IsScoped ? this : EffectEntity;
+		}
+
 		protected override void OnDestroy()
 		{
 			if ( IsScoped )

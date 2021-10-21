@@ -339,7 +339,7 @@ namespace Facepunch.Hover
 
 				if ( !string.IsNullOrEmpty( TracerEffect ) )
 				{
-					var muzzle = EffectEntity?.GetAttachment( MuzzleAttachment );
+					var muzzle = GeEffectEntity()?.GetAttachment( MuzzleAttachment );
 					var tracer = Particles.Create( TracerEffect );
 					tracer?.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
 					tracer?.SetPosition( 1, fullEndPos );
@@ -428,7 +428,7 @@ namespace Facepunch.Hover
 
 			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
 			{
-				Particles.Create( MuzzleFlashEffect, EffectEntity, "muzzle" );
+				Particles.Create( MuzzleFlashEffect, GeEffectEntity(), "muzzle" );
 			}
 
 			if ( IsLocalPawn )
@@ -438,6 +438,11 @@ namespace Facepunch.Hover
 
 			ViewModelEntity?.SetAnimBool( "fire", true );
 			CrosshairPanel?.CreateEvent( "fire" );
+		}
+
+		protected virtual ModelEntity GeEffectEntity()
+		{
+			return EffectEntity;
 		}
 
 		protected virtual bool IsValidMeleeTarget( Entity target )
