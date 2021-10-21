@@ -348,7 +348,7 @@ namespace Facepunch.Hover
 				if ( !string.IsNullOrEmpty( ImpactEffect ) )
 				{
 					var impact = Particles.Create( ImpactEffect, fullEndPos );
-					impact.SetForward( 0, trace.Normal );
+					impact?.SetForward( 0, trace.Normal );
 				}
 
 				if ( !IsServer )

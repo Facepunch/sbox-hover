@@ -245,7 +245,7 @@ namespace Facepunch.Hover
 
 		protected virtual void OnIsPoweredChanged( bool isPowered )
 		{
-			NoPowerIcon.SetActive( !isPowered );
+			NoPowerIcon?.SetActive( !isPowered );
 		}
 
 		protected virtual void OnAddUpgrade( DependencyUpgrade upgrade )

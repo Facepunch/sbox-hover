@@ -30,13 +30,13 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "shotgun";
 		public override float DamageFalloffStart => 0f;
-		public override float DamageFalloffEnd => 1000f;
+		public override float DamageFalloffEnd => 1200f;
 		public override float PrimaryRate => 1;
 		public override float SecondaryRate => 1;
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
 		public override bool CanMeleeAttack => true;
-		public override int BaseDamage => 50;
+		public override int BaseDamage => 80;
 		public virtual int BulletsPerFire => 8;
 
 		public override void Spawn()
@@ -62,7 +62,7 @@ namespace Facepunch.Hover
 
 			for ( int i = 0; i < BulletsPerFire; i++ )
 			{
-				ShootBullet( 0.25f, 3f, BaseDamage, 4.0f );
+				ShootBullet( 0.2f, 3f, BaseDamage, 4.0f );
 			}
 
 			if ( AmmoClip == 0 )
