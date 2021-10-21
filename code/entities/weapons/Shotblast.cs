@@ -29,8 +29,8 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "shotgun";
-		public override float DamageFalloffStart => 0f;
-		public override float DamageFalloffEnd => 1200f;
+		public override float DamageFalloffStart => 600f;
+		public override float DamageFalloffEnd => 1600f;
 		public override float PrimaryRate => 1;
 		public override float SecondaryRate => 1;
 		public override int ClipSize => 4;
