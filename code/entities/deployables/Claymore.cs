@@ -1,5 +1,7 @@
-﻿using Sandbox;
+﻿using Gamelib.Utility;
+using Sandbox;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -69,6 +71,13 @@ namespace Facepunch.Hover
 			return "Claymore";
 		}
 
+		public override void Explode()
+		{
+			DealDamage( Position, Rotation.Forward * 100f * Force, BaseDamage );
+
+			base.Explode();
+		}
+
 		protected virtual void CreateLasers()
 		{
 			var lasers = new string[] { "laser1", "laser2" };
@@ -81,36 +90,44 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected virtual void DealDamage( Player target, Vector3 position, Vector3 force, float damage )
+		protected virtual void DealDamage( Vector3 position, Vector3 force, float damage )
 		{
-			if ( target is Player player && player.Loadout.ArmorType == LoadoutArmorType.Heavy )
+			var players = WeaponUtil.GetBlastEntities<Player>( position, Radius * 1.25f )
+				.Where( IsValidVictim );
+
+			foreach ( var player in players )
 			{
-				damage *= DamageVsHeavy;
+				var direction = (player.Position - position).Normal;
+
+				if ( direction.Dot( Rotation.Forward ) < 0.7f )
+					continue;
+
+				var damageInfo = new DamageInfo()
+					.WithAttacker( Deployer )
+					.WithWeapon( this )
+					.WithPosition( position )
+					.WithForce( force )
+					.WithFlag( DamageType );
+
+				damageInfo.Damage = damage;
+
+				if ( player.Loadout.ArmorType == LoadoutArmorType.Heavy )
+				{
+					damageInfo.Damage *= DamageVsHeavy;
+				}
+
+				player.TakeDamage( damageInfo );
 			}
-
-			var damageInfo = new DamageInfo()
-				.WithAttacker( Deployer )
-				.WithWeapon( this )
-				.WithPosition( position )
-				.WithForce( force )
-				.WithFlag( DamageType );
-
-			damageInfo.Damage = damage;
-
-			target.TakeDamage( damageInfo );
 		}
 
-		protected virtual bool IsValidVictim( Player victim )
+		protected virtual bool IsValidTarget( Player victim )
 		{
 			return (victim.LifeState == LifeState.Alive && victim.Team != Team);
 		}
 
-		protected override void Explode()
+		protected virtual bool IsValidVictim( Player victim )
 		{
-			var force = (target.Position - Position).Normal * 100f * Force;
-			DealDamage( target, Position, force, BaseDamage );
-
-			base.Explode();
+			return (victim.LifeState == LifeState.Alive && (victim == Deployer || victim.Team != Team));
 		}
 
 		protected override void OnDestroy()
@@ -144,7 +161,7 @@ namespace Facepunch.Hover
 					.Size( 2f )
 					.Run();
 
-				if ( trace.Entity is Player player && IsValidVictim( player ) )
+				if ( trace.Entity is Player player && IsValidTarget( player ) )
 				{
 					Explode();
 					return;

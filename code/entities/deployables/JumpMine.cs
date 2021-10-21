@@ -43,6 +43,13 @@ namespace Facepunch.Hover
 			return "Jump Mine";
 		}
 
+		public override void Explode()
+		{
+			DealDamage( Position, BaseDamage );
+
+			base.Explode();
+		}
+
 		protected virtual void DealDamage( Vector3 position, float damage )
 		{
 			var players = WeaponUtil.GetBlastEntities<Player>( Position, Radius * 1.25f )
@@ -87,13 +94,6 @@ namespace Facepunch.Hover
 			PlaySound( "sticky.warning" );
 			IsExploding = true;
 			ExplodeTime = 0.3f;
-		}
-
-		protected override void Explode()
-		{
-			DealDamage( Position, BaseDamage );
-
-			base.Explode();
 		}
 
 		protected override void ServerTick()

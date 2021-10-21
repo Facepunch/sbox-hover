@@ -180,7 +180,10 @@ namespace Facepunch.Hover
 
 		protected virtual void OnIsDeployedChanged()
 		{
-			HealthBar?.OnlyShowWhenDamaged = true;
+			if ( HealthBar != null )
+			{
+				HealthBar.OnlyShowWhenDamaged = true;
+			}
 		}
 	}
 }
