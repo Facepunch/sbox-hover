@@ -66,7 +66,6 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<DamageIndicator>();
 			RootPanel.AddChild<HitIndicator>();
 			RootPanel.AddChild<WeaponList>();
-			RootPanel.AddChild<ChatBox>();
 			RootPanel.AddChild<Scoreboard>();
 			RootPanel.AddChild<StationScreen>();
 			RootPanel.AddChild<RespawnScreen>();
@@ -74,6 +73,7 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<ToastList>();
 			RootPanel.AddChild<TutorialScreen>();
 			RootPanel.AddChild<VictoryScreen>();
+			RootPanel.AddChild<ChatBox>();
 		}
 
 		[Event.Tick.Client]
