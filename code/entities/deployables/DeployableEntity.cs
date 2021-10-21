@@ -29,6 +29,14 @@ namespace Facepunch.Hover
 		private WorldHealthBar HealthBar { get; set; }
 		private TimeSince LastUseTime { get; set; }
 
+		public override void OnGameReset()
+		{
+			base.OnGameReset();
+
+			// Delete it. Deployables don't persist across rounds.
+			Delete();
+		}
+
 		public override bool OnUse( Entity user )
 		{
 			if ( user is Player player && player == Deployer )
@@ -113,6 +121,7 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
+			DeployableHud?.Delete();
 			HealthBar?.Delete();
 
 			base.OnDestroy();
@@ -136,6 +145,8 @@ namespace Facepunch.Hover
 		[Event.Tick.Client]
 		protected virtual void ClientTick()
 		{
+			if ( HealthBar == null ) return;
+
 			HealthBar.SetValue( Health );
 			HealthBar.SetIsLow( Health < MaxHealth * 0.1f );
 		}

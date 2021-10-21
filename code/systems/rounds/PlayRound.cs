@@ -117,7 +117,9 @@ namespace Facepunch.Hover
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
 				FlagEntity.OnFlagDropped += OnFlagDropped;
 
-				foreach ( var resettable in Entity.All.OfType<IGameResettable>() )
+				var resettable = Entity.All.OfType<IGameResettable>().ToList();
+
+				foreach ( var resettable in resettable )
 				{
 					resettable.OnGameReset();
 				}
