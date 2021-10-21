@@ -1,0 +1,40 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf27:version{36c3961f-02a4-4c52-bf8f-6e3147d7d142} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_nBehaviorVersion = 10
+	m_hSnapshot = resource:"particles/particles/flag/flag_body_vsnap/flag_body_vsnap.vsnap"
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+		},
+	]
+	m_PreEmissionOperators = 
+	[
+		{
+			_class = "C_OP_SetRandomControlPointPosition"
+			m_bUseWorldLocation = true
+			m_bOrient = true
+			m_vecCPMinPos = [ 0.0, 165.0, 255.0 ]
+			m_vecCPMaxPos = [ 0.0, 165.0, 255.0 ]
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/map/flag_base_a.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/map/flag_base_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/map/flag_base_cb.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/map/flag_base_d.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/map/flag_base_e.vpcf"
+		},
+	]
+}

@@ -45,7 +45,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/buildings/radar_jammer/dmx/mesh/anims/spin.dmx"
+						source_filename = "models/radar_jammer/dmx/mesh/anims/spin.dmx"
 						start_frame = -1
 						end_frame = 29
 						framerate = -1.0
