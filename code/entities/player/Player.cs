@@ -911,7 +911,7 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState == LifeState.Alive && IsEnemyPlayer( victim ) )
 			{
-				if ( LastKillTime < 3f )
+				if ( LastKillTime < 5f )
 				{
 					SuccessiveKills++;
 				}
@@ -958,7 +958,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( SuccessiveKills > 0 && LastKillTime > 3f )
+			if ( SuccessiveKills > 0 && LastKillTime > 5f )
 			{
 				SuccessiveKills = 0;
 			}
