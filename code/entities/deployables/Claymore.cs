@@ -17,6 +17,7 @@ namespace Facepunch.Hover
 				Attachment = attachment;
 				Claymore = claymore;
 				Effect = Particles.Create( "particles/claymore_mines/claymore_mines.vpcf", claymore, attachment );
+				Effect.SetPosition( 2, Color.Orange * 255f );
 			}
 
 			public void Update()

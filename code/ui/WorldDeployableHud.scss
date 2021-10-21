@@ -26,12 +26,12 @@ worlddeployablehud {
 			font-family: $mainFont;
 			color: white;
 			font-size: 24px;
-			margin-bottom: 16px;
 		}
 
 		simpleiconbar {
 			box-shadow: $blueTeamForeground;
 			border-radius: 8px;
+			margin-top: 16px;
 			padding: 8px;
 
 			.innerBar {
