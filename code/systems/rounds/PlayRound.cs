@@ -14,6 +14,7 @@ namespace Facepunch.Hover
 		[Net] public int BlueScore { get; set; }
 		[Net] public int RedScore { get; set; }
 		
+		private RealTimeUntil NextFlagAnnouncement { get; set; }
 		private RoundScore ScoreHud { get; set; }
 		private bool HasFirstBlood { get; set; }
 
@@ -239,7 +240,11 @@ namespace Facepunch.Hover
 
 		private void OnFlagDropped( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"your.flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
+			if ( NextFlagAnnouncement )
+			{
+				Audio.Play( flag.Team, $"your.flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
+				NextFlagAnnouncement = 5f;
+			}
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
@@ -249,7 +254,11 @@ namespace Facepunch.Hover
 
 		private void OnFlagPickedUp( Player player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"your.flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
+			if ( NextFlagAnnouncement )
+			{
+				Audio.Play( flag.Team, $"your.flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
+				NextFlagAnnouncement = 5f;
+			}
 
 			if ( flag.Team == Team.Blue )
 				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
