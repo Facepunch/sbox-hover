@@ -281,15 +281,9 @@ namespace Facepunch.Hover
 
 			if ( player.Client.IsBot == false )
 			{
-				var spawnpoint = Entity.All.OfType<PlayerSpawnpoint>()
-					.Where( e => e.Team == player.Team )
-					.ToList()
-					.Shuffle()
-					.FirstOrDefault();
-
 				StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
-
-				player.MakeSpectator( spawnpoint.Position );
+				Game.Instance.MoveToSpawnpoint( player );
+				player.MakeSpectator( player.Position );
 			}
 			else
 			{
