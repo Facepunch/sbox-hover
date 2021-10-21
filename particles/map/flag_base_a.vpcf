@@ -72,7 +72,11 @@
 		},
 		{
 			_class = "C_INIT_NormalAlignToCP"
-			m_nControlPointNumber = 3
+		},
+		{
+			_class = "C_INIT_RemapInitialCPDirectionToRotation"
+			m_nFieldOutput = "4"
+			m_nComponent = 2
 		},
 	]
 	m_Operators = 
