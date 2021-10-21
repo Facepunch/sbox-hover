@@ -51,7 +51,6 @@ namespace Facepunch.Hover
 
 			RootPanel.StyleSheet.Load( "/ui/Hud.scss" );
 
-			RootPanel.AddChild<EntityHud>();
 			RootPanel.AddChild<LongshotScope>();
 			RootPanel.AddChild<RoundInfo>();
 

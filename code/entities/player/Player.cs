@@ -37,6 +37,8 @@ namespace Facepunch.Hover
 								player.TakeTokens( upgrade.TokenCost );
 
 								upgrade.Apply( player, weapon );
+
+								player.Restock();
 							}
 
 							return;
@@ -112,7 +114,7 @@ namespace Facepunch.Hover
 		}
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
-		[Net] public RealTimeUntil VisibleToEnemiesUntil { get; set; }
+		[Net] public RealTimeUntil ShouldHideOnRadar { get; set; }
 		[Net] public TimeSince TimeSinceSpawn { get; private set; }
 		[Net] public float TargetAlpha { get; set; } = 1f;
 		[Net, Local] public int Tokens { get; set; }
@@ -392,6 +394,13 @@ namespace Facepunch.Hover
 			if ( !NextStationRestock )
 				return false;
 
+			Restock();
+
+			return true;
+		}
+
+		public void Restock()
+		{
 			var loadout = Loadout;
 
 			if ( loadout != null )
@@ -402,8 +411,6 @@ namespace Facepunch.Hover
 
 			NextStationRestock = 30f;
 			NextRegenTime = 0f;
-
-			return true;
 		}
 
 		public Player GetBestAssist( Entity attacker )
@@ -610,7 +617,7 @@ namespace Facepunch.Hover
 
 					if ( visibleTrace.Entity == player )
 					{
-						player.VisibleToEnemiesUntil = 4f;
+						player.ShouldHideOnRadar = 4f;
 						spottedPlayers++;
 					}
 				}

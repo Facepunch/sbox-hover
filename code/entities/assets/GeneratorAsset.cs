@@ -179,7 +179,7 @@ namespace Facepunch.Hover
 			GeneratorHud.SetEntity( this, "repair_hud" );
 			GeneratorHud.WorldScale = 2f;
 
-			Hud = EntityHud.Instance.Create( this );
+			Hud = EntityHud.Create( this );
 
 			Icon = Hud.AddChild<EntityHudIcon>( "generator" );
 			Icon.SetTexture( "ui/icons/generator.png" );

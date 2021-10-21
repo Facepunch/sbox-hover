@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 		[Net] public string Letter { get; set; }
 		[Net] public bool IsCaptured { get; set; }
 		[Net] public Team CapturingTeam { get; set; }
+		[Net] public Team LastCapturer { get; set; }
 		[Net] public Team Team { get; set; }
 
 		public EntityHudAnchor Hud { get; private set; }
@@ -49,6 +50,7 @@ namespace Facepunch.Hover
 			CaptureProgress = 0f;
 			IsCaptured = false;
 			CapturingTeam = Team.None;
+			LastCapturer = Team.None;
 			Team = Team.None;
 		}
 
@@ -77,7 +79,7 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Instance.Create( this );
+			Hud = EntityHud.Create( this );
 
 			if ( !string.IsNullOrEmpty( Letter ) )
 			{
@@ -203,6 +205,7 @@ namespace Facepunch.Hover
 					if ( CaptureProgress == 1f )
 					{
 						IsBeingCaptured = false;
+						LastCapturer = CapturingTeam;
 						IsCaptured = true;
 						OnOutpostCaptured?.Invoke( this );
 						UpdateBaseAssets();
@@ -221,8 +224,12 @@ namespace Facepunch.Hover
 
 					if ( Team != Team.None && CaptureProgress == 0f )
 					{
-						OnOutpostLost?.Invoke( this );
+						if ( LastCapturer != Team.None )
+							OnOutpostLost?.Invoke( this );
+
+						LastCapturer = Team.None;
 						Team = Team.None;
+
 						UpdateBaseAssets();
 					}
 				}

@@ -41,8 +41,9 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Instance.Create( this );
-			
+			Hud = EntityHud.Create( this );
+			Hud.UpOffset = 40f;
+
 			Indicator = Hud.AddChild<FlagIndicator>( "flag" );
 			Indicator.SetTeam( Team );
 
@@ -246,7 +247,7 @@ namespace Facepunch.Hover
 		public void UpdateHudComponents()
 		{
 			var distance = Local.Pawn.Position.Distance( Position ) - 1500f;
-			var mapped = distance.Remap( 0f, 1000f, 0f, 1f );
+			var mapped = distance.Remap( 0f, 1000f, 0f, 1f ).Clamp( 0f, 1f );
 
 			if ( Hud.Style.Opacity != mapped )
 			{

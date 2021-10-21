@@ -47,6 +47,11 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			if ( !Player.ShouldHideOnRadar || Player.Team == localPlayer.Team )
+				SceneObject.ZBufferMode = ZBufferMode.None;
+			else
+				SceneObject.ZBufferMode = ZBufferMode.TestAndWrite;
+
 			var transform = Transform;
 
 			transform.Position = Player.WorldSpaceBounds.Center + Vector3.Up * 60f;
@@ -70,7 +75,7 @@ namespace Facepunch.Hover
 
 			if ( Player.Team != localPlayer.Team )
 			{
-				if ( !Player.VisibleToEnemiesUntil && distanceToCamera >= StartDotDistance && distanceToCamera < EndDotDistance )
+				if ( !Player.ShouldHideOnRadar && distanceToCamera >= StartDotDistance && distanceToCamera < EndDotDistance )
 				{
 					var halfDistance = StartDotDistance + (EndDotDistance - StartDotDistance) * 0.5f;
 					var overlap = (distanceToCamera - StartDotDistance);

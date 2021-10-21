@@ -124,11 +124,20 @@ namespace Facepunch.Hover
 		}
 	}
 
-	public class EntityHudAnchor : Panel
+	public class EntityHudAnchor : WorldPanel
 	{
 		public IHudEntity Entity { get; private set; }
 		public float UpOffset { get; set; } = 80f;
 		public bool IsActive { get; private set; } = true;
+
+		public EntityHudAnchor()
+		{
+			StyleSheet.Load( "/ui/EntityHud.scss" );
+
+			SceneObject.ZBufferMode = ZBufferMode.None;
+
+			PanelBounds = new Rect( -1000, -1000, 2000, 2000 );
+		}
 
 		public void SetEntity( IHudEntity entity )
 		{
@@ -141,25 +150,7 @@ namespace Facepunch.Hover
 			{
 				IsActive = active;
 				SetClass( "hidden", !active );
-				if ( active ) UpdatePosition();
 			}
-		}
-
-		public void UpdatePosition()
-		{
-			var position = (Entity.Position + Entity.LocalCenter + Vector3.Up * UpOffset).ToScreen();
-
-			if ( position.z < 0 )
-			{
-				SetClass( "hidden", true );
-				return;
-			}
-
-			Style.Left = Length.Fraction( position.x );
-			Style.Top = Length.Fraction( position.y );
-			Style.Dirty();
-
-			SetClass( "hidden", !IsActive );
 		}
 
 		public override void Tick()
@@ -169,28 +160,36 @@ namespace Facepunch.Hover
 				if ( Entity.ShouldUpdateHud() )
 				{
 					Entity.UpdateHudComponents();
-					UpdatePosition();
+
+					var cameraPosition = CurrentView.Position;
+					var transform = Transform;
+					var position = (Entity.Position + Entity.LocalCenter) + Vector3.Up * UpOffset;
+
+					transform.Position = position;
+					transform.Rotation = Rotation.LookAt( cameraPosition - Position );
+
+					var distanceToCamera = position.Distance( cameraPosition );
+					transform.Scale = distanceToCamera.Remap( 0f, 20000f, 10f, 40f );
+
+					Transform = transform;
 				}
+
+				SetClass( "hidden", !IsActive );
+			}
+			else if ( !IsDeleting )
+			{
+				Delete();
 			}
 
 			base.Tick();
 		}
 	}
 
-	public class EntityHud : Panel
+	public static class EntityHud
 	{
-		public static EntityHud Instance { get; private set; }
-
-		public EntityHud()
+		public static EntityHudAnchor Create( IHudEntity entity )
 		{
-			StyleSheet.Load( "/ui/EntityHud.scss" );
-
-			Instance = this;
-		}
-
-		public EntityHudAnchor Create( IHudEntity entity )
-		{
-			var container = AddChild<EntityHudAnchor>();
+			var container = new EntityHudAnchor();
 			container.SetEntity( entity );
 			return container;
 		}

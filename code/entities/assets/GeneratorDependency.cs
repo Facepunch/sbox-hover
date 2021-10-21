@@ -170,7 +170,7 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Instance.Create( this );
+			Hud = EntityHud.Create( this );
 
 			NoPowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
 			NoPowerIcon.SetTexture( "ui/icons/no-power.png" );
@@ -204,6 +204,8 @@ namespace Facepunch.Hover
 			{
 				UpgradeLoop.Value.Stop();
 			}
+
+			Hud?.Delete();
 
 			base.OnDestroy();
 		}

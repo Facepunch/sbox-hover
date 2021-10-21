@@ -69,7 +69,7 @@ namespace Facepunch.Hover
 			if ( player.LifeState != LifeState.Alive )
 				return false;
 
-			if ( player.VisibleToEnemiesUntil )
+			if ( player.ShouldHideOnRadar )
 				return false;
 
 			if ( Local.Pawn is not Player localPlayer )

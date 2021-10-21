@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
-	partial class Cluster : PhysicsWeapon<BoomerProjectile>
+	partial class Cluster : PhysicsWeapon<ClusterProjectile>
 	{
 		public override WeaponConfig Config => new ClusterConfig();
 		public override string ImpactEffect => "particles/weapons/cluster/cluster_impact.vpcf";
@@ -89,8 +89,7 @@ namespace Facepunch.Hover
 				ExplosionEffect = ImpactEffect,
 				TrailEffect = TrailEffect,
 				HitSound = HitSound,
-				LifeTime = Rand.Float( 1f, 2.5f ),
-				Owner = Owner
+				LifeTime = Rand.Float( 0.5f, 1.5f )
 			};
 			
 			bomb.SetModel( ProjectileModel );
@@ -112,11 +111,13 @@ namespace Facepunch.Hover
 		{
 			base.OnProjectileHit( projectile );
 
-			PlaySound( $"barage.launch" );
+			var position = projectile.Position;
+
+			Audio.Play( "barage.launch", position );
 
 			for ( var i = 0; i < 5; i++ )
 			{
-				CreateBomb( projectile.Position );
+				CreateBomb( position );
 			}
 		}
 	}

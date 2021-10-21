@@ -1,96 +1,87 @@
 ﻿@import "Variables.scss";
 
-entityhud {
-    position: absolute;
-    pointer-events: none;
-    top: 0px;
-    right: 0px;
-    width: 100%;
-    height: 100%;
 
-    entityhudanchor {
-        position: absolute;
-        transform: translateX(-50%) translateY(-100%);
-        display: flex;
-        flex-direction: column;
+entityhudanchor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &.hidden {
+        display: none;
+    }
+
+    entityhudiconbar {
+        margin-bottom: 4px;
+        flex-direction: row;
         align-items: center;
+        justify-content: center;
+        background-color: rgba(0 0 0 0.6);
+        border-radius: 2px;
+        padding: 2px;
+
+        entityhudicon {
+            margin-right: 4px;
+            margin-bottom: 0px;
+            height: 20px;
+            width: 20px;
+        }
+
+        entityhudbar {
+            margin-bottom: 0px;
+        }
 
         &.hidden {
             display: none;
         }
+    }
 
-        entityhudiconbar {
-            margin-bottom: 4px;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(0 0 0 0.6);
+    entityhudiconlist {
+        margin-bottom: 4px;
+        flex-direction: row;
+        align-items: center;
+        display: flex;
+
+        entityhudicon {
+            margin-right: 4px;
+            margin-bottom: 0px;
             border-radius: 2px;
-            padding: 2px;
-
-            entityhudicon {
-                margin-right: 4px;
-                margin-bottom: 0px;
-                height: 20px;
-                width: 20px;
-            }
-
-            entityhudbar {
-                margin-bottom: 0px;
-            }
+            height: 20px;
+            width: 20px;
 
             &.hidden {
                 display: none;
             }
         }
 
-        entityhudiconlist {
-            margin-bottom: 4px;
-            flex-direction: row;
-            align-items: center;
-            display: flex;
-
-            entityhudicon {
-                margin-right: 4px;
-                margin-bottom: 0px;
-                border-radius: 2px;
-                height: 20px;
-                width: 20px;
-
-                &.hidden {
-                    display: none;
-                }
-            }
-
-            &.hidden {
-                display: none;
-            }
+        &.hidden {
+            display: none;
         }
     }
 }
 
 entityhudicon {
     margin-bottom: 4px;
-    height: 20px;
-    width: 20px;
+    height: 64px;
+    width: 64px;
 
     &.hidden {
         display: none;
     }
 
     &.dependency {
-        width: 40px;
-        height: 40px;
+        width: 64px;
+        height: 64px;
     }
 
     &.generator {
-        width: 40px;
-        height: 40px;
+        width: 64px;
+        height: 64px;
     }
 
     &.power {
-        width: 32px;
-        height: 32px;
+        width: 48px;
+        height: 48px;
     }
 }
 
@@ -159,19 +150,19 @@ outposthud {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                border: 2px solid white;
+                border: 8px solid white;
                 border-radius: 50%;
                 background-color: $blackPanelFg;
                 box-shadow: $blackForeground;
                 opacity: 0.8;
-                width: 22px;
-                height: 22px;
+                width: 128px;
+                height: 128px;
 
                 .letter {
                     transition: all 0.2s ease-out;
                     text-shadow: $blackShadow;
                     font-family: $mainFont;
-                    font-size: 14px;
+                    font-size: 64px;
                     color: white;
                 }
             }
@@ -181,7 +172,7 @@ outposthud {
                 text-shadow: $blackShadow;
                 font-family: $mainFont;
                 margin-left: 8px;
-                font-size: 12px;
+                font-size: 56px;
                 color: white;
 
                 &.hidden {

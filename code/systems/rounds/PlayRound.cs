@@ -194,9 +194,9 @@ namespace Facepunch.Hover
 
 		private void OnOutpostLost( OutpostVolume outpost )
 		{
-			Audio.Play( outpost.Team, "you.lostoutpost", "lostoutpost" );
+			Audio.Play( outpost.LastCapturer, "you.lostoutpost", "lostoutpost" );
 
-			if ( outpost.Team == Team.Blue )
+			if ( outpost.LastCapturer == Team.Blue )
 				Hud.ToastAll( $"The blue team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
 			else
 				Hud.ToastAll( $"The red team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );

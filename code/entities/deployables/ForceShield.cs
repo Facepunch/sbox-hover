@@ -78,7 +78,7 @@ namespace Facepunch.Hover
 
 			target.TakeDamage( damageInfo );
 
-			target.VisibleToEnemiesUntil = 2f;
+			target.ShouldHideOnRadar = 2f;
 		}
 
 		protected virtual bool IsValidVictim( Player player )

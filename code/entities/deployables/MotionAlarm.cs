@@ -67,7 +67,7 @@ namespace Facepunch.Hover
 			var force = (target.Position - Position).Normal * 100f * 1f;
 			DealDamage( target, Position, force, BaseDamage );
 
-			target.VisibleToEnemiesUntil = 5f;
+			target.ShouldHideOnRadar = 5f;
 		}
 
 		protected override void ServerTick()

@@ -96,9 +96,9 @@ namespace Facepunch.Hover
 
 			foreach ( var player in players )
 			{
-				if ( player.VisibleToEnemiesUntil )
+				if ( player.ShouldHideOnRadar )
 				{
-					player.VisibleToEnemiesUntil = 5f;
+					player.ShouldHideOnRadar = 5f;
 					didFindPlayer = true;
 				}
 			}
