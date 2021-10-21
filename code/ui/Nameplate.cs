@@ -100,6 +100,13 @@ namespace Facepunch.Hover
 			{
 				var fadeStart = StartFadeDistance + (EndFadeDistance - StartFadeDistance) * 0.9f;
 				var opacity = distanceToCamera.Remap( fadeStart, EndFadeDistance, 0f, 1f );
+				var fadeOutStart = EndDotDistance * 1.5f;
+
+				if ( distanceToCamera >= fadeOutStart )
+				{
+					opacity = 1f - distanceToCamera.Remap( fadeOutStart, fadeOutStart + 1000f, 0f, 1f );
+				}
+
 				Dot.Style.Opacity = Math.Clamp( opacity, 0f, 1f );
 			}
 

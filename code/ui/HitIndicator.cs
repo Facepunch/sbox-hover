@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 {
 	public partial class HitIndicator : Panel
 	{
-		public static HitIndicator Current;
+		public static HitIndicator Current { get; private set; }
 
 		public HitIndicator()
 		{
@@ -21,14 +21,14 @@ namespace Facepunch.Hover
 			base.Tick();
 		}
 
-		public void OnHit( Vector3 pos, float amount )
+		public void OnHit( Vector3 position, float amount )
 		{
-			_ = new HitPoint( amount, pos, this );
+			_ = new HitPoint( amount, position, this );
 		}
 
 		public class HitPoint : Panel
 		{
-			public HitPoint( float amount, Vector3 pos, Panel parent )
+			public HitPoint( float amount, Vector3 position, Panel parent )
 			{
 				Parent = parent;
 				_ = Lifetime();

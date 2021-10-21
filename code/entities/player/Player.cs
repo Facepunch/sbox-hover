@@ -814,8 +814,11 @@ namespace Facepunch.Hover
 					}
 				}
 
-				AddAssistDamage( attacker, info );
-				attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100f, 0f ) );
+				if ( info.Damage > 0 )
+				{
+					AddAssistDamage( attacker, info );
+					attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, ((float)Health).LerpInverse( 100f, 0f ) );
+				}
 			}
 
 			foreach ( var equipment in Children.OfType<Equipment>() )
@@ -823,7 +826,10 @@ namespace Facepunch.Hover
 				info = equipment.OwnerTakeDamage( info );
 			}
 
-			ShowFloatingDamage( info.Damage, info.Position );
+			if ( info.Damage > 0 )
+			{
+				ShowFloatingDamage( info.Damage, info.Position );
+			}
 
 			var fromPosition = info.Position;
 
@@ -860,7 +866,7 @@ namespace Facepunch.Hover
 
 			panel.SetLifeTime( Rand.Float( 2f, 3f ) );
 			panel.SetDamage( damage );
-			panel.Velocity = Vector3.Random * Rand.Float( 100f, 300f );
+			panel.Velocity = Vector3.Up * Rand.Float( 30f, 50f ) + Vector3.Random * Rand.Float( 50f, 125f );
 			panel.Position = position;
 		}
 

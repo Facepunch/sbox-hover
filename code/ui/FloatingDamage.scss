@@ -1,6 +1,9 @@
 ﻿@import "Variables.scss";
 
 floatingdamage {
+	justify-content: center;
+	align-items: center;
+
 	.damage {
 		transition: all 0.7s ease-out;
 
@@ -9,7 +12,7 @@ floatingdamage {
 		}
 
 		font-family: $mainFont;
-		font-size: 100px;
+		font-size: 92px;
 		font-weight: bold;
 		text-shadow: 0px 0px 8px rgba(255 0 0 1);
 		color: red;
