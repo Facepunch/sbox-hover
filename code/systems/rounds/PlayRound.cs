@@ -273,8 +273,12 @@ namespace Facepunch.Hover
 
 			player.Reset();
 			player.SetTeam( Team.Red.GetCount() > Team.Blue.GetCount() ? Team.Blue : Team.Red );
-			player.GiveLoadout<LightAssault>();
-			player.Respawn();
+
+			// Keep any previously selected loadout.
+			if ( player.Loadout == null )
+				player.GiveLoadout<LightAssault>();
+
+			StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
 		}
 	}
 }

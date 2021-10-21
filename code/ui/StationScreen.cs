@@ -100,6 +100,9 @@ namespace Facepunch.Hover
 
 		public override bool IsAvailable()
 		{
+			if ( StationScreen.Instance.Mode == StationScreenMode.Deployment )
+				return false;
+
 			return HasUpgrades;
 		}
 
@@ -819,6 +822,12 @@ namespace Facepunch.Hover
 		}
 	}
 
+	public enum StationScreenMode
+	{
+		Deployment,
+		Station
+	}
+
 	public partial class StationScreen : Panel
 	{
 		public static StationScreen Instance { get; private set; }
@@ -839,8 +848,9 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
-		public static void Show()
+		public static void Show( StationScreenMode mode )
 		{
+			Instance.SetMode( mode );
 			Instance.SetOpen( true );
 		}
 
@@ -852,9 +862,13 @@ namespace Facepunch.Hover
 
 		public StationScreenWeaponSelector WeaponSelector { get; private set; }
 		public StationScreenTabList TabList { get; private set; }
+		public StationScreenTab LoadoutsTab { get; private set; }
+		public StationScreenTab UpgradesTab { get; private set; }
 		public Panel ContentContainer { get; private set; }
-		public Label CloseTip { get; private set; }
-
+		public StationScreenMode Mode { get; private set; }
+		public Panel TipContainer { get; private set; }
+		public Label SecondaryTip { get; private set; }
+		public Label PrimaryTip { get; private set; }
 		public bool IsOpen { get; private set; }
 
 		public void SetOpen( bool isOpen )
@@ -864,12 +878,32 @@ namespace Facepunch.Hover
 			IsOpen = isOpen;
 		}
 
+		public void SetMode( StationScreenMode mode )
+		{
+			PrimaryTip.Text = "Change Your Loadout";
+
+			if ( mode == StationScreenMode.Station )
+				SecondaryTip.Text = $"Press [{Input.GetKeyWithBinding( "iv_use" )}] to Exit Station";
+			else
+				SecondaryTip.Text = "Visit a Station to Change Loadout in Future";
+
+			if ( mode == StationScreenMode.Deployment )
+			{
+				TabList.Select( LoadoutsTab );
+			}
+
+			Mode = mode;
+		}
+
 		public StationScreen()
 		{
 			StyleSheet.Load( "/ui/StationScreen.scss" );
 
 			TabList = AddChild<StationScreenTabList>( "tabs" );
-			CloseTip = Add.Label( $"Press [{Input.GetKeyWithBinding( "iv_use" )}] to Exit Station", "close" );
+
+			TipContainer = Add.Panel( "tips" );
+			PrimaryTip = TipContainer.Add.Label( "", "primary" );
+			SecondaryTip = TipContainer.Add.Label( "", "secondary" );
 			ContentContainer = Add.Panel( "content" );
 
 			var loadoutsContent = ContentContainer.AddChild<StationScreenLoadouts>( "loadouts" );
@@ -878,14 +912,14 @@ namespace Facepunch.Hover
 			var upgradesContent = ContentContainer.AddChild<StationScreenUpgrades>( "upgrades" );
 			upgradesContent.Initialize();
 
-			var loadoutsTab = new StationScreenTab();
-			loadoutsTab.Setup( "Loadouts", "ui/icons/loadouts.png", loadoutsContent );
+			LoadoutsTab = new StationScreenTab();
+			LoadoutsTab.Setup( "Loadouts", "ui/icons/loadouts.png", loadoutsContent );
 
-			var upgradesTab = new StationScreenTab();
-			upgradesTab.Setup( "Upgrades", "ui/icons/upgrades.png", upgradesContent );
+			UpgradesTab = new StationScreenTab();
+			UpgradesTab.Setup( "Upgrades", "ui/icons/upgrades.png", upgradesContent );
 
-			TabList.AddTab( "loadouts", loadoutsTab );
-			TabList.AddTab( "upgrades", upgradesTab );
+			TabList.AddTab( "loadouts", LoadoutsTab );
+			TabList.AddTab( "upgrades", UpgradesTab );
 
 			WeaponSelector = AddChild<StationScreenWeaponSelector>( "selector" );
 			WeaponSelector.Show( false );

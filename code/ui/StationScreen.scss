@@ -13,7 +13,7 @@ stationscreen {
     pointer-events: all;
     z-index: 4;
 
-    .close {
+    .tips {
         position: absolute;
         top: 220px;
         box-shadow: $selectedTabBackground;
@@ -21,10 +21,23 @@ stationscreen {
         border: $selectedTabPanelBorder;
         border-radius: 16px;
         padding: 16px;
-        font-size: 18px;
-        text-shadow: $selectedTabShadow;
-        font-family: $mainFont;
-        color: yellow;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .primary {
+            text-shadow: $selectedTabShadow;
+            font-family: $mainFont;
+            font-size: 20px;
+            color: white;
+        }
+
+        .secondary {
+            text-shadow: $selectedTabShadow;
+            font-family: $mainFont;
+            font-size: 16px;
+            color: yellow;
+        }
     }
 
     .content {

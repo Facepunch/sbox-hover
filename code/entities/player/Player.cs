@@ -87,9 +87,16 @@ namespace Facepunch.Hover
 						player.TakeTokens( loadout.TokenCost );
 						player.GiveLoadout( loadout );
 
-						loadout.UpdateWeapons( weapons.Split( ',' ) );
-						loadout.Setup( player );
-						loadout.SupplyLoadout( player );
+						if ( player.LifeState == LifeState.Alive )
+						{
+							loadout.UpdateWeapons( weapons.Split( ',' ) );
+							loadout.Setup( player );
+							loadout.SupplyLoadout( player );
+						}
+						else
+						{
+							player.Respawn();
+						}
 					}
 				}
 			}
@@ -523,9 +530,11 @@ namespace Facepunch.Hover
 
 		public override void BuildInput( InputBuilder input )
 		{
-			if ( StationScreen.Instance.IsOpen )
+			var stationScreen = StationScreen.Instance;
+
+			if ( stationScreen.IsOpen )
 			{
-				if ( input.Released( InputButton.Use ) )
+				if ( stationScreen.Mode == StationScreenMode.Station && input.Released( InputButton.Use ) )
 				{
 					StationScreen.Hide();
 				}
@@ -630,7 +639,7 @@ namespace Facepunch.Hover
 					using ( Prediction.Off() )
 					{
 						station.ShowUseEffects();
-						StationScreen.Show( To.Single( this ) );
+						StationScreen.Show( To.Single( this ), StationScreenMode.Station );
 					}
 				}
 			}
