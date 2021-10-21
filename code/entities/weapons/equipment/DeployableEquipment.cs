@@ -167,7 +167,15 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( !isNearOthers && trace.Hit && trace.Entity.IsWorld && trace.Normal.Dot( Vector3.Up ) >= 0.8f && trace.EndPos.Distance( Owner.Position ) >= 60f )
+			var inDeploymentBlocker = false;
+
+			if ( Owner is Player player && player.InDeployableBlocker )
+			{
+				inDeploymentBlocker = true;
+			}
+
+			if ( !inDeploymentBlocker && !isNearOthers && trace.Hit && trace.Entity.IsWorld
+				&& trace.Normal.Dot( Vector3.Up ) >= 0.8f && trace.EndPos.Distance( Owner.Position ) >= 60f )
 			{
 				var lookAt = Vector3.Cross( trace.Normal, Owner.EyeRot.Right );
 				position = trace.EndPos;
@@ -175,11 +183,19 @@ namespace Facepunch.Hover
 
 				return true;
 			}
-			else
+			else if ( trace.Normal.Dot( Vector3.Up ) >= 0.8f )
 			{
 				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRot.Right );
 				position = trace.EndPos;
 				rotation = Rotation.LookAt( lookAt, trace.Normal );
+
+				return false;
+			}
+			else
+			{
+				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRot.Right );
+				position = trace.EndPos;
+				rotation = Rotation.LookAt( lookAt, Vector3.Up );
 
 				return false;
 			}

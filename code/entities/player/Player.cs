@@ -116,6 +116,7 @@ namespace Facepunch.Hover
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
 		[Net] public RealTimeUntil ShouldHideOnRadar { get; set; }
 		[Net] public TimeSince TimeSinceSpawn { get; private set; }
+		[Net] public bool InDeployableBlocker { get; set; }
 		[Net] public float TargetAlpha { get; set; } = 1f;
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }

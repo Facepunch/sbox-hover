@@ -379,6 +379,48 @@ metadata
 ]
 
 //
+// Facepunch.Hover.DeployableBlocker
+//
+@SolidClass base(BaseProperties_sbox_hover) tags( Trigger ) 
+metadata
+{
+	auto_apply_material = "materials/editor/hv_outpost_volume.vmat"
+}
+= hv_deployable_blocker : ""
+[
+	team(choices) : "Team" : 0 : "" =
+	[
+		0 : "None"
+		1 : "Red"
+		2 : "Blue"
+	]
+	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	spawnflags(flags) = [
+		1 : "Clients" : 1
+		2 : "Npcs" : 0
+		4 : "Pushables" : 0
+		8 : "Physics Objects" : 0
+		16 : "Allied Npcs" : 0
+		32 : "Client In Vehicle" : 0
+		64 : "Everything" : 0
+		512 : "Client Not In Vehicle" : 0
+		1024 : "Physics Debris" : 0
+	]
+
+	input Enable(void) : "Enables this trigger"
+	input Disable(void) : "Disables this trigger"
+	input Toggle(void) : "Toggles this trigger between enabled and disabled states"
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+
+	output OnStartTouch(void) : "Fired when an entity starts touching this trigger. The touching entity must pass this trigger's filters to cause this output to fire."
+	output OnEndTouch(void) : "Fired when an entity stops touching this trigger. Only entities that passed this trigger's filters will cause this output to fire."
+	output OnStartTouchAll(void) : "Fired when an entity starts touching this trigger while no other passing entities are touching it."
+	output OnEndTouchAll(void) : "Fired when all entities touching this trigger have stopped touching it."
+]
+
+//
 // Facepunch.Hover.FlagSpawnpoint
 //
 @PointClass base(BaseProperties_sbox_hover) editormodel( "models/flag/temp_flag_base.vmdl", fixedbounds ) 
