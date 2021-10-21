@@ -28,6 +28,10 @@ namespace Facepunch.Hover
 
 			Awards.Add<KillAward>();
 			Awards.Add<AssistAward>();
+			Awards.Add<DoubleKillAward>();
+			Awards.Add<TripleKillAward>();
+			Awards.Add<KillingSpreeAward>();
+			Awards.Add<DemolitionManAward>();
 			Awards.Add<BuzzkillAward>();
 			Awards.Add<CaptureFlagAward>();
 			Awards.Add<ReturnFlagAward>();

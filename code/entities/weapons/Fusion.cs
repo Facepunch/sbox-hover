@@ -63,6 +63,18 @@ namespace Facepunch.Hover
 
 		public override void AttackPrimary()
 		{
+			if ( AmmoClip == 0 )
+			{
+				if ( IsSpinningUp )
+				{
+					HideChargeParticles();
+					StopChargeSound();
+					IsSpinningUp = false;
+				}
+
+				return;
+			}
+
 			if ( !IsSpinningUp || SpinUpStarted < SpinUpTime )
 			{
 				if ( !IsSpinningUp )
@@ -95,7 +107,9 @@ namespace Facepunch.Hover
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 4.0f );
 
 			if ( AmmoClip == 0 )
+			{
 				PlaySound( "blaster.empty" );
+			}
 		}
 
 		public override void Simulate( Client owner )

@@ -62,9 +62,15 @@ namespace Facepunch.Hover
 					killer.GiveAward<KillAward>();
 
 					if ( player.KillStreak > 2 )
-					{
 						killer.GiveAward<BuzzkillAward>();
-					}
+
+					if ( killer.KillStreak == 4 )
+						killer.GiveAward<KillingSpreeAward>();
+
+					if ( killer.SuccessiveKills == 1 )
+						killer.GiveAward<DoubleKillAward>();
+					else if ( killer.SuccessiveKills == 2 )
+						killer.GiveAward<TripleKillAward>();
 				}
 
 				if ( player == killer && damageInfo.Flags.HasFlag( DamageFlags.Fall ) )
@@ -100,8 +106,8 @@ namespace Facepunch.Hover
 
 			if ( loadout != null )
 			{
-				loadout.Setup( player );
-				loadout.SupplyLoadout( player );
+				loadout.Respawn( player );
+				loadout.Supply( player );
 			}
 		}
 
@@ -160,6 +166,8 @@ namespace Facepunch.Hover
 					VictoryScreen.Show( Team.None, 10f );
 				}
 
+				StationScreen.Hide();
+
 				GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
 				GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
 				OutpostVolume.OnOutpostCaptured -= OnOutpostCaptured;
@@ -215,6 +223,13 @@ namespace Facepunch.Hover
 		private void OnGeneratorBroken( GeneratorAsset generator )
 		{
 			Audio.Play( generator.Team, $"your.generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
+
+			var attacker = generator.LastAttacker as Player;
+
+			if ( attacker.IsValid() )
+			{
+				attacker.GiveAward<DemolitionManAward>();
+			}
 		}
 
 		private void OnGeneratorRepaired( GeneratorAsset generator )

@@ -12,6 +12,8 @@ namespace Facepunch.Hover
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
 		public List<Award> EarnedAwards { get; private set; }
+		public TimeSince LastKillTime { get; private set; }
+		public int SuccessiveKills { get; private set; }
 
 		[ServerCmd]
 		public static void BuyWeaponUpgrade( string weaponName, string upgradeName )
@@ -63,8 +65,8 @@ namespace Facepunch.Hover
 						player.GiveLoadout( loadout );
 
 						loadout.UpdateWeapons( weapons.Split( ',' ) );
-						loadout.Setup( player );
-						loadout.SupplyLoadout( player );
+						loadout.Respawn( player );
+						loadout.Supply( player );
 					}
 				}
 			}
@@ -90,8 +92,8 @@ namespace Facepunch.Hover
 						if ( player.LifeState == LifeState.Alive )
 						{
 							loadout.UpdateWeapons( weapons.Split( ',' ) );
-							loadout.Setup( player );
-							loadout.SupplyLoadout( player );
+							loadout.Respawn( player );
+							loadout.Supply( player );
 						}
 						else
 						{
@@ -487,6 +489,9 @@ namespace Facepunch.Hover
 			StopJetpackLoop();
 			StopSkiLoop();
 
+			SuccessiveKills = 0;
+			KillStreak = 0;
+
 			Rounds.Current?.OnPlayerSpawn( this );
 		}
 
@@ -529,6 +534,7 @@ namespace Facepunch.Hover
 			StopJetpackLoop();
 			StopSkiLoop();
 
+			SuccessiveKills = 0;
 			KillStreak = 0;
 		}
 
@@ -904,7 +910,16 @@ namespace Facepunch.Hover
 		public virtual void OnKillPlayer( Player victim, DamageInfo damageInfo )
 		{
 			if ( LifeState == LifeState.Alive && IsEnemyPlayer( victim ) )
+			{
+				if ( LastKillTime < 3f )
+				{
+					SuccessiveKills++;
+				}
+
 				KillStreak++;
+			}
+
+			LastKillTime = 0f;
 		}
 
 		[Event.Tick.Client]
@@ -941,6 +956,11 @@ namespace Facepunch.Hover
 				{
 					AssistTrackers.RemoveAt( i );
 				}
+			}
+
+			if ( SuccessiveKills > 0 && LastKillTime > 3f )
+			{
+				SuccessiveKills = 0;
 			}
 
 			CheckLowEnergy();

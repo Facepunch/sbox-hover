@@ -105,11 +105,12 @@ namespace Facepunch.Hover
 			return (victim.LifeState == LifeState.Alive && victim.Team != Team);
 		}
 
-		protected virtual void Explode( Player target )
+		protected override void Explode()
 		{
 			var force = (target.Position - Position).Normal * 100f * Force;
 			DealDamage( target, Position, force, BaseDamage );
-			OnKilled();
+
+			base.Explode();
 		}
 
 		protected override void OnDestroy()
@@ -145,7 +146,7 @@ namespace Facepunch.Hover
 
 				if ( trace.Entity is Player player && IsValidVictim( player ) )
 				{
-					Explode( player );
+					Explode();
 					return;
 				}
 			}

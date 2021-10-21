@@ -46,9 +46,9 @@ namespace Facepunch.Hover
 			CitizenClothing.Hat.SecurityHelmet.Normal
 		};
 
-		public override void Setup( Player player )
+		public override void Respawn( Player player )
 		{
-			base.Setup( player );
+			base.Respawn( player );
 
 			player.AttachClothing<Jetpack>();
 		}

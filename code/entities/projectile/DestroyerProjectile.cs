@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
-			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 0.4f )
+			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 0.8f )
 			{
 				DestroyTime = 0f;
 			}
@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		{
 			if ( !PlayedLandingSound && DestroyTime > 0f )
             {
-				var trace = Trace.Ray(Position, Position + Velocity.Normal * 1500f )
+				var trace = Trace.Ray( Position, Position + Velocity.Normal * 1500f )
 					.Ignore(this)
 					.Run();
 

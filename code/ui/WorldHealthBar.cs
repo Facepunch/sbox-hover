@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
+		public bool OnlyShowWhenDamaged { get; set; } = false;
 		public bool RotateToFace { get; set; }
 		public bool ShowIcon { get; set; } = true;
 
@@ -30,12 +31,12 @@ namespace Facepunch.Hover
 		public void SetValue( float value )
 		{
 			var fraction = Length.Fraction( value / MaximumValue );
+			IconBar.InnerBar.Style.Width = fraction;
+			IconBar.InnerBar.SetClass( "hidden", value == 0f );
 
-			if ( IconBar.InnerBar.Style.Width != fraction )
+			if ( OnlyShowWhenDamaged )
 			{
-				IconBar.InnerBar.Style.Width = fraction;
-				IconBar.InnerBar.Style.Dirty();
-				IconBar.InnerBar.SetClass( "hidden", value == 0f );
+				SetClass( "hidden", value >= MaximumValue );
 			}
 		}
 

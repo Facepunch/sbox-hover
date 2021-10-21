@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 
 		public override void OnPlayerSpawn( Player player )
 		{
-			player.Loadout?.Setup( player );
+			player.Loadout?.Respawn( player );
 
 			base.OnPlayerSpawn( player );
 		}

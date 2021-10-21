@@ -85,7 +85,7 @@ namespace Facepunch.Hover
 			player.RestockWeaponUpgrades();
 		}
 
-		public virtual void SupplyLoadout( Player player )
+		public virtual void Supply( Player player )
 		{
 			player.Inventory.DeleteContents();
 
@@ -113,7 +113,18 @@ namespace Facepunch.Hover
 			Restock( player );
 		}
 
-		public virtual void Setup( Player player )
+		public virtual void Initialize( Player player )
+		{
+			var deployables = Entity.All.OfType<DeployableEntity>()
+				.Where( v => v.Deployer == player );
+
+			foreach ( var deployable in deployables )
+			{
+				deployable.Explode();
+			}
+		}
+
+		public virtual void Respawn( Player player )
 		{
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();

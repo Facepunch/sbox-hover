@@ -80,7 +80,7 @@ namespace Facepunch.Hover
 			return (victim.LifeState == LifeState.Alive && (victim == Deployer || victim.Team != Team));
 		}
 
-		protected virtual void Explode()
+		protected virtual void TriggerMine()
 		{
 			PhysicsEnabled = true;
 			PhysicsBody.ApplyImpulse( Vector3.Up * 10f * 3000f );
@@ -89,14 +89,20 @@ namespace Facepunch.Hover
 			ExplodeTime = 0.3f;
 		}
 
+		protected override void Explode()
+		{
+			DealDamage( Position, BaseDamage );
+
+			base.Explode();
+		}
+
 		protected override void ServerTick()
 		{
 			if ( IsExploding )
 			{
 				if ( ExplodeTime )
 				{
-					DealDamage( Position, BaseDamage );
-					OnKilled();
+					Explode();
 				}
 
 				return;
@@ -107,7 +113,7 @@ namespace Facepunch.Hover
 
 			if ( players.Any() )
 			{
-				Explode();
+				TriggerMine();
 			}
 
 			base.ServerTick();

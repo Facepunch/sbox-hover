@@ -54,7 +54,8 @@ namespace Facepunch.Hover
 			"Spot enemies by pressing [+iv_drop] while looking at them",
 			"Some maps have Outposts you can hold to earn passive income",
 			"You can melee attack with [+iv_zoom] for close quarters combat",
-			"Melee attack an enemy from behind to deal twice the damage"
+			"Melee attack an enemy from behind to deal twice the damage",
+			"Your deployables will explode if you change your loadout"
 		};
 
 		public TextEntryContainer TextEntry { get; private set; }

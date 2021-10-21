@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/destroyer.png";
 		public override string ClassName => "hv_destroyer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
-		public override int Ammo => 20;
+		public override int Ammo => 12;
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
@@ -34,16 +34,16 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
-		public override float InheritVelocity => 0.2f;
-		public override float PrimaryRate => 0.5f;
+		public override float InheritVelocity => 0.5f;
+		public override float PrimaryRate => 0.25f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => true;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 10f;
-		public override int BaseDamage => 1500;
+		public override float LifeTime => 20f;
+		public override int BaseDamage => 1300;
 		public virtual float BlastRadius => 800f;
-		public override float ProjectileForce => 500f;
+		public override float ProjectileForce => 400f;
 		public override float ImpactForce => 2000f;
 
 		public override void Spawn()

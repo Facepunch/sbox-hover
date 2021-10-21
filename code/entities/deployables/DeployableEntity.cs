@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 		public virtual string Model => "";
 
 		[Net] public float MaxHealth { get; set; } = 100f;
-		[Net] public bool IsDeployed { get; set; }
+		[Net, Change] public bool IsDeployed { get; set; }
 		[Net] public float PickupProgress { get; set; }
 		[Net] public Player Deployer { get; set; }
 
@@ -34,6 +34,13 @@ namespace Facepunch.Hover
 			base.OnGameReset();
 
 			// Delete it. Deployables don't persist across rounds.
+			Delete();
+		}
+
+		public virtual void Explode()
+		{
+			Particles.Create( ExplosionEffect, Position );
+			Audio.Play( ExplosionSound, Position );
 			Delete();
 		}
 
@@ -104,9 +111,7 @@ namespace Facepunch.Hover
 
 		public override void OnKilled()
 		{
-			Particles.Create( ExplosionEffect, Position );
-			Audio.Play( ExplosionSound, Position );
-			Delete();
+			Explode();
 		}
 
 		protected override void ServerTick()
@@ -162,6 +167,7 @@ namespace Facepunch.Hover
 			}
 			else if ( !IsDeployed )
 			{
+				Health = MaxHealth;
 				IsDeployed = true;
 				OnDeploymentCompleted();
 			}
@@ -170,6 +176,11 @@ namespace Facepunch.Hover
 		protected virtual void OnDeploymentCompleted()
 		{
 
+		}
+
+		protected virtual void OnIsDeployedChanged()
+		{
+			HealthBar?.OnlyShowWhenDamaged = true;
 		}
 	}
 }
