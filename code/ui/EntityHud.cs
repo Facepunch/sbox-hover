@@ -61,10 +61,14 @@ namespace Facepunch.Hover
 		{
 			Letter.Text = outpost.Letter;
 
+			/*
 			if ( !string.IsNullOrEmpty( outpost.OutpostName ) )
 				Name.Text = outpost.OutpostName;
 			else
 				Name.SetClass( "hidden", true );
+			*/
+
+			Name.SetClass( "hidden", true );
 
 			Outpost = outpost;
 		}
