@@ -113,6 +113,7 @@ namespace Facepunch.Hover
 
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
 		[Net] public RealTimeUntil VisibleToEnemiesUntil { get; set; }
+		[Net] public TimeSince TimeSinceSpawn { get; private set; }
 		[Net] public float TargetAlpha { get; set; } = 1f;
 		[Net, Local] public int Tokens { get; set; }
 		[Net] public float HealthRegen { get; set; }
@@ -490,6 +491,7 @@ namespace Facepunch.Hover
 			StopSkiLoop();
 
 			SuccessiveKills = 0;
+			TimeSinceSpawn = 0f;
 			KillStreak = 0;
 
 			Rounds.Current?.OnPlayerSpawn( this );
@@ -769,7 +771,14 @@ namespace Facepunch.Hover
 
 			if ( info.Attacker is Player attacker && attacker != this )
 			{
+				// We can't take damage from our own team.
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
+				{
+					return;
+				}
+
+				// We can't take damage from others during the spawn protection period.
+				if ( TimeSinceSpawn < 3f )
 				{
 					return;
 				}

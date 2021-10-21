@@ -176,8 +176,14 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client owner )
 		{
-			if ( owner.Pawn is Player )
+			if ( owner.Pawn is Player player )
 			{
+				// We can't use our weapons at all during the spawn protection period.
+				if ( player.TimeSinceSpawn < 3f )
+				{
+					return;
+				}
+
 				if ( owner.Pawn.LifeState == LifeState.Alive )
 				{
 					if ( ChargeAttackEndTime > 0f && Time.Now >= ChargeAttackEndTime )
