@@ -27,6 +27,7 @@ namespace Facepunch.Hover
 		public float SkiStrafeControl { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
 		public float FlatSkiFriction { get; set; } = 0f;
+		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
 		public float JetpackBoostElevator { get; set; } = 50f;
@@ -211,7 +212,7 @@ namespace Facepunch.Hover
 
 		private float GetWishSpeed( Player player )
 		{
-			var speed = Scale( MoveSpeed );
+			var speed = Scale( MoveSpeed * MoveSpeedScale );
 
 			if ( IsSkiing )
 				return speed * SkiStrafeControl;
