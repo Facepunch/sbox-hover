@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		{
 			StyleSheet.Load( "/ui/WorldGeneratorHud.scss" );
 			Container = Add.Panel( "container" );
-			RepairLabel = Container.Add.Label( $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Repair", "label" );
+			RepairLabel = Container.Add.Label( "", "label" );
 			RegenLabel = Container.Add.Label( "", "regen" );
 		}
 
@@ -54,6 +54,12 @@ namespace Facepunch.Hover
 			{
 				Transform = attachment.Value.WithScale( WorldScale );
 			}
+
+
+			if ( !player.Loadout.CanRepairGenerator )
+				RepairLabel.Text = $"Change Loadout to Manually Repair";
+			else
+				RepairLabel.Text = $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Repair";
 
 			if ( Entity.StartRegenTime )
 			{

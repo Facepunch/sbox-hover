@@ -126,7 +126,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsClient && other is Player player && player.IsLocalPawn )
 			{
-				if ( IsBeingCaptured && CapturingTeam == player.Team && ( Team != player.Team || !IsCaptured ) )
+				if ( IsBeingCaptured && CapturingTeam == player.Team && ( LastCapturer != player.Team || Team != player.Team ) )
 				{
 					if ( !IsPlayingCaptureSound )
 					{
@@ -135,7 +135,7 @@ namespace Facepunch.Hover
 						CaptureSound = Sound.FromScreen( "outpost.captureloop" );
 					}
 
-					LastPlayCaptureSound = 0;
+					LastPlayCaptureSound = 0f;
 				}
 			}
 		}

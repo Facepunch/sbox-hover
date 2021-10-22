@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
 		public virtual int DisplayOrder => 0;
 		public virtual bool CanUpgradeDependencies => false;
+		public virtual bool CanRepairGenerator => false;
 		public virtual float DownSlopeBoost => 150f;
 		public virtual float UpSlopeFriction => 0.3f;
 		public virtual float HealthRegen => 50f;

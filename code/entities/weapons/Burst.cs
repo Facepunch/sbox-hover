@@ -30,10 +30,10 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
-		public override int ClipSize => 24;
-		public override float PrimaryRate => 2.0f;
-		public override float DamageFalloffStart => 1500f;
-		public override float DamageFalloffEnd => 4000f;
+		public override int ClipSize => 30;
+		public override float PrimaryRate => 1.2f;
+		public override float DamageFalloffStart => 2500f;
+		public override float DamageFalloffEnd => 6000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3.0f;
 		public override int BaseDamage => 80;
@@ -83,7 +83,7 @@ namespace Facepunch.Hover
 				PlaySound( $"generic.bullet1" );
 				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
 
-				await GameTask.Delay( Rand.Int( 30, 50 ) );
+				await GameTask.Delay( Rand.Int( 15, 30 ) );
 			}
 		} 
 	}

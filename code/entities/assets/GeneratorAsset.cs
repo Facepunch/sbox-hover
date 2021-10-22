@@ -113,7 +113,7 @@ namespace Facepunch.Hover
 
 		public bool IsUsable( Entity user )
 		{
-			if ( user is Player player )
+			if ( user is Player player && player.Loadout.CanRepairGenerator )
 			{
 				return CanPlayerRepair( player );
 			}
@@ -193,6 +193,11 @@ namespace Facepunch.Hover
 			{
 				// Players cannot destroy their own team's generator.
 				return;
+			}
+
+			if ( !info.Flags.HasFlag( DamageFlags.Blast ) )
+			{
+				info.Damage *= 0.4f;
 			}
 
 			if ( !IsDestroyed && NextAttackedEffect )
