@@ -347,6 +347,7 @@ namespace Facepunch.Hover
 				{
 					var tracer = Particles.Create( TracerEffect, GetEffectEntity(), MuzzleAttachment );
 					tracer?.SetPosition( 1, fullEndPos );
+					tracer?.SetPosition( 2, trace.Distance );
 				}
 
 				if ( !string.IsNullOrEmpty( ImpactEffect ) )
