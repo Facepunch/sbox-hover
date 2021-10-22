@@ -7,6 +7,26 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	public struct StatRange
+	{
+		public float Minimum { get; set; }
+		public float Maximum { get; set; }
+
+		private bool HasMinimum { get; set; }
+
+		public void Update( float value )
+		{
+			if ( !HasMinimum || value < Minimum )
+			{
+				HasMinimum = true;
+				Minimum = value;
+			}
+
+			if ( value > Maximum )
+				Maximum = value;
+		}
+	}
+
 	public partial class StationScreenLoadoutUpgrade : StationScreenLoadout
 	{
 		protected override void OnBuyClicked()
@@ -129,9 +149,10 @@ namespace Facepunch.Hover
 
 			var loadoutUpgradeType = player.Loadout.UpgradesTo;
 			var loadouts = Library.GetAll<BaseLoadout>();
-			var maxHealth = 0f;
-			var maxEnergy = 0f;
-			var maxSpeed = 0f;
+
+			var health = new StatRange();
+			var energy = new StatRange();
+			var speed = new StatRange();
 
 			foreach ( var type in loadouts )
 			{
@@ -147,14 +168,14 @@ namespace Facepunch.Hover
 					HasUpgrades = true;
 				}
 
-				if ( loadout.Health > maxHealth ) maxHealth = loadout.Health;
-				if ( loadout.Energy > maxEnergy ) maxEnergy = loadout.Energy;
-				if ( loadout.MaxSpeed > maxSpeed ) maxSpeed = loadout.MaxSpeed;
+				health.Update( loadout.Health );
+				energy.Update( loadout.Energy );
+				speed.Update( loadout.MaxSpeed );
 			}
 
 			if ( LoadoutUpgrade != null )
 			{
-				LoadoutUpgrade.UpdateBars( maxHealth, maxEnergy, maxSpeed );
+				LoadoutUpgrade.UpdateBars( health, energy, speed);
 			}
 
 			WeaponContainer = Add.Panel( "weapons" );
@@ -399,11 +420,11 @@ namespace Facepunch.Hover
 			BuyButton.OnClicked = OnBuyClicked;
 		}
 
-		public void UpdateBars( float maxHealth, float maxEnergy, float maxSpeed )
+		public void UpdateBars( StatRange health, StatRange energy, StatRange speed )
 		{
-			UpdateBar( HealthBar, Loadout.Health, maxHealth );
-			UpdateBar( EnergyBar, Loadout.Energy, maxEnergy );
-			UpdateBar( SpeedBar, Loadout.MaxSpeed, maxSpeed );
+			UpdateBar( HealthBar, Loadout.Health, health );
+			UpdateBar( EnergyBar, Loadout.Energy, energy );
+			UpdateBar( SpeedBar, Loadout.MaxSpeed, speed );
 		}
 
 		public void SetLoadout( BaseLoadout loadout, int cost )
@@ -514,9 +535,15 @@ namespace Facepunch.Hover
 			}
 		}
 
-		private void UpdateBar( SimpleIconBar bar, float value, float maximum )
+		private void UpdateBar( SimpleIconBar bar, float value, StatRange range )
 		{
-			var fraction = Length.Fraction( value / maximum );
+			/*
+			var output = (value - (range.Minimum * 0.6f)) / range.Maximum;
+			var fraction = Length.Fraction( output * 1.5f );
+			*/
+
+			var output = value.Remap( range.Minimum, range.Maximum, 0.15f, 1f );
+			var fraction = Length.Fraction( output );
 
 			if ( bar.InnerBar.Style.Width != fraction )
 			{
@@ -601,9 +628,10 @@ namespace Facepunch.Hover
 			Loadouts.Clear();
 
 			var loadouts = Library.GetAll<BaseLoadout>();
-			var maxHealth = 0f;
-			var maxEnergy = 0f;
-			var maxSpeed = 0f;
+
+			var health = new StatRange();
+			var energy = new StatRange();
+			var speed = new StatRange();
 
 			foreach ( var type in loadouts )
 			{
@@ -623,9 +651,9 @@ namespace Facepunch.Hover
 					}
 				}
 
-				if ( loadout.Health > maxHealth ) maxHealth = loadout.Health;
-				if ( loadout.Energy > maxEnergy ) maxEnergy = loadout.Energy;
-				if ( loadout.MaxSpeed > maxSpeed ) maxSpeed = loadout.MaxSpeed;
+				health.Update( loadout.Health );
+				energy.Update( loadout.Energy );
+				speed.Update( loadout.MaxSpeed );
 			}
 
 			Container.SortChildren<StationScreenLoadout>( ( panel ) =>
@@ -637,7 +665,7 @@ namespace Facepunch.Hover
 
 			foreach ( var loadout in Loadouts )
 			{
-				loadout.UpdateBars( maxHealth, maxEnergy, maxSpeed );
+				loadout.UpdateBars( health, energy, speed );
 			}
 
 			UpdatePageItems();
