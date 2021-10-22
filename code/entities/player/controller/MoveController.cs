@@ -30,8 +30,7 @@ namespace Facepunch.Hover
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
-		public float JetpackBoostElevator { get; set; } = 50f;
-		public float JetpackBoost { get; set; } = 40f;
+		public float JetpackBoost { get; set; } = 1200f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
@@ -385,9 +384,9 @@ namespace Facepunch.Hover
 				{
 					IsJetpacking = true;
 
-					var boost = Scale( InEnergyElevator ? JetpackBoostElevator : JetpackBoost ) * JetpackScale;
+					var boost = Scale( JetpackBoost ) * JetpackScale;
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
-					Velocity += Vector3.Up * boost;
+					Velocity += Vector3.Up * boost * Time.Delta;
 
 					if ( Velocity.z > MaxJetpackVelocity )
 					{
