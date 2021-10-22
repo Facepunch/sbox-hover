@@ -40,6 +40,14 @@
 								from = "flux_m200 ravager.vmat"
 								to = "models/weapons/blaster/blaster.vmat"
 							},
+							{
+								from = "pistol.vmat"
+								to = "models/weapons/sideman/sideman.vmat"
+							},
+							{
+								from = "pistol_collimator.vmat"
+								to = "models/weapons/sideman/sideman_scope.vmat"
+							},
 						]
 						use_global_default = false
 						global_default_material = ""
