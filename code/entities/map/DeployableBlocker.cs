@@ -7,7 +7,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library( "hv_deployable_blocker" )]
-	[Hammer.AutoApplyMaterial("materials/editor/hv_outpost_volume.vmat")]
+	[Hammer.AutoApplyMaterial("materials/editor/hv_deployable_blocker.vmat")]
 	[Hammer.Solid]
 	public partial class DeployableBlocker : BaseTrigger
 	{
