@@ -25,17 +25,18 @@ namespace Facepunch.Hover
 		public bool AlwaysForwardWhenSkiing { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float SkiStrafeControl { get; set; } = 0.5f;
-		public float FallDamageThreshold { get; set; } = 500f;
+		public float FallDamageThreshold { get; set; } = 600f;
 		public float FlatSkiFriction { get; set; } = 0f;
-		public float JetpackAimThrust { get; set; } = 20f;
-		public float JetpackBoostElevator { get; set; } = 200f;
-		public float JetpackBoost { get; set; } = 50f;
+		public float MaxJetpackVelocity { get; set; } = 400f;
+		public float JetpackAimThrust { get; set; } = 30f;
+		public float JetpackBoostElevator { get; set; } = 50f;
+		public float JetpackBoost { get; set; } = 40f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
 		public float StopSpeed { get; set; } = 100f;
-		public float FallDamageMin { get; set; } = 100f;
-		public float FallDamageMax { get; set; } = 500f;
+		public float FallDamageMin { get; set; } = 0f;
+		public float FallDamageMax { get; set; } = 400f;
 		public float GroundAngle { get; set; } = 120f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
@@ -43,7 +44,7 @@ namespace Facepunch.Hover
 		public float BodyHeight { get; set; } = 72f;
 		public float EyeHeight { get; set; } = 64f;
 		public float Gravity { get; set; } = 800f;
-		public float AirControl { get; set; } = 25f;
+		public float AirControl { get; set; } = 30f;
 		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
@@ -383,12 +384,14 @@ namespace Facepunch.Hover
 				{
 					IsJetpacking = true;
 
-					if ( InEnergyElevator )
-						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoostElevator * JetpackScale ) * Time.Delta );
-					else
-						Velocity = Velocity.WithZ( startZ + Scale( JetpackBoost * JetpackScale ) * Time.Delta );
-
+					var boost = Scale( InEnergyElevator ? JetpackBoostElevator : JetpackBoost ) * JetpackScale;
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
+					Velocity += Vector3.Up * boost;
+
+					if ( Velocity.z > MaxJetpackVelocity )
+					{
+						Velocity = Velocity.WithZ( MaxJetpackVelocity );
+					}
 				}
 
 				if ( !InEnergyElevator )
