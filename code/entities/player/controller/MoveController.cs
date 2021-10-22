@@ -24,6 +24,7 @@ namespace Facepunch.Hover
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
 		public bool AlwaysForwardWhenSkiing { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
+		public float SkiStrafeControl { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 500f;
 		public float FlatSkiFriction { get; set; } = 0f;
 		public float JetpackAimThrust { get; set; } = 20f;
@@ -42,7 +43,7 @@ namespace Facepunch.Hover
 		public float BodyHeight { get; set; } = 72f;
 		public float EyeHeight { get; set; } = 64f;
 		public float Gravity { get; set; } = 800f;
-		public float AirControl { get; set; } = 50f;
+		public float AirControl { get; set; } = 25f;
 		public bool Swimming { get; set; } = false;
 
 		protected Unstuck Unstuck { get; private set; }
@@ -161,15 +162,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			// If we're skiing, we're always moving forward but we can strafe.
-			var forwardInput = Input.Forward;
-			
-			if ( AlwaysForwardWhenSkiing && ( IsSkiing || IsJetpacking ) )
-			{
-				forwardInput = Math.Max( forwardInput, 0.5f );
-			}
-
-			WishVelocity = new Vector3( forwardInput, Input.Left, 0 );
+			WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
 			WishVelocity *= Input.Rotation;
 
@@ -217,7 +210,12 @@ namespace Facepunch.Hover
 
 		private float GetWishSpeed( Player player )
 		{
-			return Scale( MoveSpeed ); 
+			var speed = Scale( MoveSpeed );
+
+			if ( IsSkiing )
+				return speed * SkiStrafeControl;
+			else
+				return speed;
 		}
 
 		private void WalkMove()
