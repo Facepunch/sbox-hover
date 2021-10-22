@@ -102,7 +102,7 @@ namespace Facepunch.Hover
 					damage *= 1.25f;
 				}
 
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.1f, damage );
+				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
 			}
 		}
 	}

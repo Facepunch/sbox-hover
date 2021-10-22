@@ -68,7 +68,7 @@ namespace Facepunch.Hover
 
 				damage = GetDamageFalloff( fullDistance, damage );
 
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.1f, damage );
+				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
 			}
 		}
 	}
