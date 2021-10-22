@@ -22,6 +22,7 @@ namespace Facepunch.Hover
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
+		public bool AlwaysForwardWhenSkiing { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float FallDamageThreshold { get; set; } = 500f;
 		public float FlatSkiFriction { get; set; } = 0f;
@@ -160,7 +161,15 @@ namespace Facepunch.Hover
 				}
 			}
 
-			WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
+			// If we're skiing, we're always moving forward but we can strafe.
+			var forwardInput = Input.Forward;
+			
+			if ( AlwaysForwardWhenSkiing && ( IsSkiing || IsJetpacking ) )
+			{
+				forwardInput = Math.Max( forwardInput, 0.5f );
+			}
+
+			WishVelocity = new Vector3( forwardInput, Input.Left, 0 );
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
 			WishVelocity *= Input.Rotation;
 
