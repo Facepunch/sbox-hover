@@ -18,6 +18,28 @@ rootpanel {
 	left: 64px;
 }
 
+voicelist {
+	font-family: $mainFont;
+
+	voiceentry {
+		background-color: $blueTeamPanelBg;
+		box-shadow: $blueTeamBackground;
+		border: $blueTeamPanelBorder;
+		background-color: rgba( black, 0.8 );
+	}
+}
+
+.team_red {
+	voicelist {
+		voiceentry {
+			background-color: $redTeamPanelBg;
+			box-shadow: $redTeamBackground;
+			border: $redTeamPanelBorder;
+			background-color: rgba( black, 0.8 );
+		}
+	}
+}
+
 vitals {
 	color: #fff;
 	padding-left: 20px;
