@@ -345,9 +345,7 @@ namespace Facepunch.Hover
 
 				if ( !string.IsNullOrEmpty( TracerEffect ) )
 				{
-					var muzzle = GeEffectEntity()?.GetAttachment( MuzzleAttachment );
-					var tracer = Particles.Create( TracerEffect );
-					tracer?.SetPosition( 0, muzzle.HasValue ? muzzle.Value.Position : trace.StartPos );
+					var tracer = Particles.Create( TracerEffect, GetEffectEntity(), MuzzleAttachment );
 					tracer?.SetPosition( 1, fullEndPos );
 				}
 
@@ -434,7 +432,7 @@ namespace Facepunch.Hover
 
 			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
 			{
-				Particles.Create( MuzzleFlashEffect, GeEffectEntity(), "muzzle" );
+				Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
 			}
 
 			if ( IsLocalPawn )
@@ -446,7 +444,7 @@ namespace Facepunch.Hover
 			CrosshairPanel?.CreateEvent( "fire" );
 		}
 
-		protected virtual ModelEntity GeEffectEntity()
+		protected virtual ModelEntity GetEffectEntity()
 		{
 			return EffectEntity;
 		}

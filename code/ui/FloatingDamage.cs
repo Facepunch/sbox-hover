@@ -2,17 +2,46 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
 	public class FloatingDamage : WorldPanel
 	{
+		private static Queue<FloatingDamage> Pool { get; set; } = new();
+
+		public static FloatingDamage Rent()
+		{
+			if ( Pool.Count == 0 )
+			{
+				return new FloatingDamage();
+			}
+
+			var panel = Pool.Dequeue();
+
+			panel.SceneObject.RenderingEnabled = true;
+			panel.Style.Opacity = 1f;
+			panel.SetClass( "hidden", false );
+			panel.IsPooled = false;
+
+			return panel;
+		}
+
+		public static void Return( FloatingDamage panel )
+		{
+			panel.SceneObject.RenderingEnabled = false;
+			panel.SetClass( "hidden", true );
+			panel.IsPooled = true;
+
+			Pool.Enqueue( panel );
+		}
+
 		public Label DamageLabel { get; private set; }
 		public Vector3 Velocity { get; set; }
+		public bool IsPooled { get; private set; }
 
 		private RealTimeUntil KillTime { get; set; }
 		private float FadeTime { get; set; }
-		private float LifeTime { get; set; }
 
 		public FloatingDamage()
 		{
@@ -29,20 +58,18 @@ namespace Facepunch.Hover
 		public void SetLifeTime( float time )
 		{
 			FadeTime = 0.5f;
-			LifeTime = time + FadeTime;
 			KillTime = time + FadeTime;
 		}
 
 		public override void Tick()
 		{
-			if ( IsDeleting ) return;
+			if ( IsPooled ) return;
 
 			if ( KillTime )
 			{
-				Delete();
+				Return( this );
 				return;
 			}
-
 
 			if ( KillTime < FadeTime )
 			{

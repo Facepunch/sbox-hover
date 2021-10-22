@@ -2,6 +2,7 @@
 
 respawnscreen {
     box-shadow: $blueTeamBackground;
+    transition: all 4s ease-in;
     backdrop-filter-blur: 32px;
     position: absolute;
     width: 100%;
@@ -11,6 +12,7 @@ respawnscreen {
     justify-content: center;
     flex-direction: column;
     z-index: 5;
+    opacity: 1;
 
     .respawn {
         text-shadow: $blueTeamShadow;
@@ -57,6 +59,7 @@ respawnscreen {
 
     &.hidden {
         display: none;
+        opacity: 0;
     }
 }
 

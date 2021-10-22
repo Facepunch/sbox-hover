@@ -138,7 +138,7 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override ModelEntity GeEffectEntity()
+		protected override ModelEntity GetEffectEntity()
 		{
 			return IsScoped ? this : EffectEntity;
 		}

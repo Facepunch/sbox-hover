@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 			typeof( FusionSpinUpUpgrade )
 		};
 		public override string CrosshairClass => "automatic";
-		public override int ClipSize => 150;
+		public override int ClipSize => 250;
 		public override float PrimaryRate => 12f;
 		public override float DamageFalloffStart => 2000f;
 		public override float DamageFalloffEnd => 8000f;

@@ -454,6 +454,13 @@ namespace Facepunch.Hover
 			return !weapon.IsPassive && weapon.IsAvailable();
 		}
 
+		[ClientRpc]
+		public virtual void ClientRespawn()
+		{
+			StopJetpackLoop();
+			StopSkiLoop();
+		}
+
 		public override void ClientSpawn()
 		{
 			if ( IsLocalPawn )
@@ -495,14 +502,14 @@ namespace Facepunch.Hover
 
 			RemoveRagdollEntity();
 			ClearAssistTrackers();
-			StopJetpackLoop();
-			StopSkiLoop();
 
 			SuccessiveKills = 0;
 			TimeSinceSpawn = 0f;
 			KillStreak = 0;
 
 			Rounds.Current?.OnPlayerSpawn( this );
+
+			ClientRespawn();
 		}
 
 		public override void OnKilled()
@@ -541,11 +548,10 @@ namespace Facepunch.Hover
 
 			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
 
-			StopJetpackLoop();
-			StopSkiLoop();
-
 			SuccessiveKills = 0;
 			KillStreak = 0;
+
+			OnClientKilled();
 		}
 
 		public override void BuildInput( InputBuilder input )
@@ -838,7 +844,7 @@ namespace Facepunch.Hover
 			else if ( info.Attacker.IsValid() )
 				fromPosition = info.Attacker.Position;
 
-			TookDamage( To.Single( this ), fromPosition, info.Flags );
+			TookDamage( To.Single( this ), fromPosition, info.Damage, info.Flags );
 
 			var bloodSplat = Particles.Create( "particles/blood/large_blood/large_blood.vpcf", info.Position );
 			bloodSplat.SetForward( 0, info.Force.Normal );
@@ -862,7 +868,7 @@ namespace Facepunch.Hover
 			// Don't show damage that happened to us.
 			if ( IsLocalPawn ) return;
 
-			var panel = new FloatingDamage();
+			var panel = FloatingDamage.Rent();
 
 			panel.SetLifeTime( Rand.Float( 2f, 3f ) );
 			panel.SetDamage( damage );
@@ -898,10 +904,12 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
-		public void TookDamage( Vector3 position, DamageFlags flags )
+		public void TookDamage( Vector3 position, float amount, DamageFlags flags )
 		{
 			if ( flags.HasFlag( DamageFlags.Fall ) )
-				_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, 1.5f, 0.8f );
+			{
+				_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, amount.Remap( 0f, MaxHealth, 0f, 10f ), 0.8f );
+			}
 
 			DamageIndicator.Current?.OnHit( position );
 		}
@@ -945,6 +953,13 @@ namespace Facepunch.Hover
 			LastKillTime = 0f;
 		}
 
+		[ClientRpc]
+		protected virtual void OnClientKilled()
+		{
+			StopJetpackLoop();
+			StopSkiLoop();
+		}
+
 		[Event.Tick.Client]
 		protected virtual void ClientTick()
 		{
@@ -959,6 +974,10 @@ namespace Facepunch.Hover
 			{
 				UpdateWindLoop();
 			}
+
+			UpdateJetpackLoop();
+			UpdateSkiLoop();
+			UpdateTargetAlpha();
 
 			EnableDrawing = (LifeState == LifeState.Alive);
 		}
@@ -988,9 +1007,6 @@ namespace Facepunch.Hover
 
 			CheckLowEnergy();
 			UpdateHealthRegen();
-			UpdateJetpackLoop();
-			UpdateSkiLoop();
-			UpdateTargetAlpha();
 		}
 
 		protected virtual void UpdateTargetAlpha()
@@ -1115,7 +1131,7 @@ namespace Facepunch.Hover
 					}
 					else
 					{
-						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.7f ) );
+						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed * 0.8f, 0f, 0.8f ) );
 					}
 				}
 				else if ( controller.IsSkiing && Velocity.Length > controller.MaxSpeed * 0.1f )
