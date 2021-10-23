@@ -22,7 +22,6 @@ namespace Facepunch.Hover
 		public TimeSince LastSkiTime { get; set; }
 
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
-		public bool AlwaysForwardWhenSkiing { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float SkiStrafeControl { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
@@ -30,14 +29,15 @@ namespace Facepunch.Hover
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
-		public float JetpackBoost { get; set; } = 1200f;
+		public float JetpackBoost { get; set; } = 500f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
 		public float StopSpeed { get; set; } = 100f;
 		public float FallDamageMin { get; set; } = 0f;
 		public float FallDamageMax { get; set; } = 400f;
-		public float GroundAngle { get; set; } = 120f;
+		public float SkiGroundAngle { get; set; } = 120.0f;
+		public float GroundAngle { get; set; } = 46.0f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
 		public float BodyGirth { get; set; } = 32f;
@@ -269,7 +269,6 @@ namespace Facepunch.Hover
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
 			mover.MaxStandableAngle = GroundAngle;
-
 			mover.TryMoveWithStep( Time.Delta, StepSize );
 
 			Position = mover.Position;
@@ -528,7 +527,7 @@ namespace Facepunch.Hover
 
 			var pm = TraceBBox( bumpOrigin, point, 4.0f );
 
-			if ( pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GroundAngle )
+			if ( pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GetGroundAngle() )
 			{
 				ClearGroundEntity();
 				moveToEndPos = false;
@@ -545,6 +544,11 @@ namespace Facepunch.Hover
 			{
 				Position = pm.EndPos;
 			}
+		}
+
+		private float GetGroundAngle()
+		{
+			return IsSkiing ? SkiGroundAngle : GroundAngle;
 		}
 
 		private void UpdateGroundEntity( TraceResult trace )
