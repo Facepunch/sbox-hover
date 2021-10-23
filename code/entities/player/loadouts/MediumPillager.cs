@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A menacing unit with a deadly grenade launcher";
 		public override string Name => "Medium Pillager";
-		public override Type UpgradesTo => typeof( MediumInfantryMk2 );
+		public override Type UpgradesTo => typeof( MediumPillagerMk2 );
 		public override int DisplayOrder => 6;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

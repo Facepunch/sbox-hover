@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public override string Name => "Heavy Gunner";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override int DisplayOrder => 8;
-		public override Type UpgradesTo => typeof( HeavyAssaultMk2 );
+		public override Type UpgradesTo => typeof( HeavyGunnerMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
 			new WeaponConfig[]
