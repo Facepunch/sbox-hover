@@ -26,6 +26,8 @@ namespace Facepunch.Hover
 		public float SkiStrafeControl { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
 		public float FlatSkiFriction { get; set; } = 0f;
+		public float MinUpSlopeAngle { get; set; } = 100f;
+		public float SkiBoostAngle { get; set; } = 85f;
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
@@ -143,14 +145,21 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 
+				var slopeAngle = GetSlopeAngle();
+
 				if ( Input.Down( InputButton.Jump ) )
 				{
-					HandleSki( player );
+					HandleSki( slopeAngle );
 				}
 				else
 				{
 					var skiFriction = MathF.Min( (LastSkiTime / PostSkiFrictionTime), 1f );
 					ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
+				}
+
+				if ( slopeAngle >= MinUpSlopeAngle )
+				{
+					Velocity -= Velocity * Time.Delta * UpSlopeFriction;
 				}
 			}
 
@@ -302,7 +311,7 @@ namespace Facepunch.Hover
 			if ( accelSpeed > addSpeed )
 				accelSpeed = addSpeed;
 
-			if ( IsSkiing )
+			if ( IsSkiing || LastSkiTime < 0.5f )
 			{
 				var previousLength = Math.Max( Velocity.Length, wishSpeed );
 				Velocity += wishDir * accelSpeed;
@@ -330,20 +339,14 @@ namespace Facepunch.Hover
 			Velocity += (pushDir * canPush * Time.Delta);
 		}
 
-		private void HandleSki( Player player )
+		private void HandleSki( float groundAngle )
 		{
-			var groundAngle = GetSlopeAngle();
-
-			if ( groundAngle < 100f )
+			if ( groundAngle < MinUpSlopeAngle )
 			{
-				if ( groundAngle < 85f && Velocity.Length < MaxSpeed )
+				if ( groundAngle < SkiBoostAngle && Velocity.Length < MaxSpeed )
 					Velocity += (Velocity.Normal * Time.Delta * DownSlopeBoost);
 				else
 					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
-			}
-			else
-			{
-				Velocity -= Velocity * Time.Delta * UpSlopeFriction;
 			}
 
 			LastSkiTime = 0f;
