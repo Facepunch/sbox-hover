@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
-		public float JetpackBoost { get; set; } = 500f;
+		public float JetpackBoost { get; set; } = 700f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
 		public float GroundFriction { get; set; } = 4f;
@@ -268,7 +268,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
-			mover.MaxStandableAngle = GroundAngle;
+			mover.MaxStandableAngle = GetGroundAngle();
 			mover.TryMoveWithStep( Time.Delta, StepSize );
 
 			Position = mover.Position;
@@ -279,7 +279,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
-			mover.MaxStandableAngle = GroundAngle;
+			mover.MaxStandableAngle = GetGroundAngle();
 			mover.TryMove( Time.Delta );
 
 			Position = mover.Position;
@@ -387,12 +387,7 @@ namespace Facepunch.Hover
 
 					var boost = Scale( JetpackBoost ) * JetpackScale;
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
-					Velocity += Vector3.Up * boost * Time.Delta;
-
-					if ( Velocity.z > MaxJetpackVelocity )
-					{
-						Velocity = Velocity.WithZ( MaxJetpackVelocity );
-					}
+					Velocity = Velocity.AddClamped( Vector3.Up * boost * Time.Delta, MaxJetpackVelocity );
 				}
 
 				if ( !InEnergyElevator )
