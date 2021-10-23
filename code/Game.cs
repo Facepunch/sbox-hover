@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 
 			if ( IsServer )
 			{
-				Global.TickRate = 30f;
+				Global.TickRate = 30;
 			}
 		}
 
