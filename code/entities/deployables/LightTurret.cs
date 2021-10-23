@@ -53,7 +53,7 @@ namespace Facepunch.Hover
 		public void FireProjectile( Player target, Vector3 direction )
 		{
 			ShootBullet( target, 0.3f, BulletForce, BaseDamage, 16f );
-			PlaySound( $"generic.bullet1" );
+			PlaySound( $"generic.energy.fire3" );
 		}
 
 		public Vector3 GetTargetPosition( Player target )

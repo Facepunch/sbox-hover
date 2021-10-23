@@ -80,7 +80,7 @@ namespace Facepunch.Hover
 				if ( !IsValid ) return;
 
 				ShootEffects();
-				PlaySound( $"generic.bullet1" );
+				PlaySound( $"generic.energy.fire3" );
 				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
 
 				await GameTask.Delay( Rand.Int( 15, 30 ) );

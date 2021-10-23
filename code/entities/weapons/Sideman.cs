@@ -68,7 +68,7 @@ namespace Facepunch.Hover
 
 			PlayAttackAnimation();
 			ShootEffects();
-			PlaySound( $"sideman.fire{Rand.Int(1, 2)}" );
+			PlaySound( $"generic.energy.fire2" );
 			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 
 			TimeSincePrimaryAttack = 0f;

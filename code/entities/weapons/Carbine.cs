@@ -66,7 +66,7 @@ namespace Facepunch.Hover
 			Rand.SetSeed( Time.Tick );
 
 			ShootEffects();
-			PlaySound( $"generic.bullet1" );
+			PlaySound( $"generic.energy.fire3" );
 			ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
 
 			if ( AmmoClip == 0 )
