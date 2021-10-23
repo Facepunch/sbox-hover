@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System;
 using Gamelib.Utility;
 
 namespace Facepunch.Hover
@@ -62,13 +63,13 @@ namespace Facepunch.Hover
 
 		protected virtual void DamageInRadius( Vector3 position, float radius, float baseDamage )
 		{
-			var entities = WeaponUtil.GetBlastEntities( position, DamageRadius );
+			var entities = WeaponUtil.GetBlastEntities( position, radius );
 
 			foreach ( var entity in entities )
 			{
 				var direction = (entity.Position - position).Normal;
 				var distance = entity.Position.Distance( position );
-				var damage = baseDamage - ((baseDamage / radius) * distance);
+				var damage = Math.Max( baseDamage - ((baseDamage / radius) * distance), 0f );
 
 				damage = ModifyDamage( entity, damage );
 
