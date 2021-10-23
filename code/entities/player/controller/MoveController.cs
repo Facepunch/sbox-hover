@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 		public float StopSpeed { get; set; } = 100f;
 		public float FallDamageMin { get; set; } = 0f;
 		public float FallDamageMax { get; set; } = 400f;
-		public float SkiGroundAngle { get; set; } = 120.0f;
+		public float SkiGroundAngle { get; set; } = 140.0f;
 		public float GroundAngle { get; set; } = 46.0f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
@@ -268,7 +268,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
-			mover.MaxStandableAngle = GetGroundAngle();
+			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMoveWithStep( Time.Delta, StepSize );
 
 			Position = mover.Position;
@@ -279,7 +279,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
-			mover.MaxStandableAngle = GetGroundAngle();
+			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMove( Time.Delta );
 
 			Position = mover.Position;
@@ -514,7 +514,7 @@ namespace Facepunch.Hover
 				point.z -= StepSize;
 			}
 
-			if ( (!IsSkiing && Velocity.z > MaxNonJumpVelocity) || Swimming )
+			if ( Velocity.z > MaxNonJumpVelocity || Swimming )
 			{
 				ClearGroundEntity();
 				return;

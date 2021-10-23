@@ -38,11 +38,6 @@ namespace Facepunch.Hover
 			Awards.Add<RevengeAward>();
 			Awards.Add<FirstBloodAward>();
 			Awards.Add<CaptureOutpostAward>();
-
-			if ( IsServer )
-			{
-				Global.TickRate = 30;
-			}
 		}
 
 		public async Task StartSecondTimer()
