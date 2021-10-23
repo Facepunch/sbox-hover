@@ -115,6 +115,14 @@ namespace Facepunch.Hover
 		{
 			Rounds.Current?.OnPlayerLeave( client.Pawn as Player );
 
+			foreach ( var flag in All.OfType<FlagEntity>() )
+			{
+				if ( flag.Carrier == client.Pawn )
+				{
+					flag.Drop( true );
+				}
+			} 
+
 			base.ClientDisconnect( client, reason );
 		}
 
