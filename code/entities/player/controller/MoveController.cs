@@ -514,7 +514,7 @@ namespace Facepunch.Hover
 				point.z -= StepSize;
 			}
 
-			if ( (!IsSkiing && Velocity.z > MaxNonJumpVelocity) || Swimming || IsJetpacking )
+			if ( (!IsSkiing && Velocity.z > MaxNonJumpVelocity) || Swimming )
 			{
 				ClearGroundEntity();
 				return;
