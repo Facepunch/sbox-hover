@@ -384,7 +384,7 @@ metadata
 @SolidClass base(BaseProperties_sbox_hover) tags( Trigger ) 
 metadata
 {
-	auto_apply_material = "materials/editor/hv_outpost_volume.vmat"
+	auto_apply_material = "materials/editor/hv_deployable_blocker.vmat"
 }
 = hv_deployable_blocker : ""
 [

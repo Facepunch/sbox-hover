@@ -207,6 +207,8 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 			}
+
+			if ( IsSkiing ) SetTag( "skiing" );
 		}
 
 		private float GetWishSpeed( Player player )
@@ -505,7 +507,6 @@ namespace Facepunch.Hover
 
 			var point = Position - Vector3.Up * 2;
 			var bumpOrigin = Position;
-			var movingUpRapidly = Velocity.z > MaxNonJumpVelocity;
 			var moveToEndPos = false;
 
 			if ( GroundEntity != null )
@@ -519,7 +520,7 @@ namespace Facepunch.Hover
 				point.z -= StepSize;
 			}
 
-			if ( movingUpRapidly || Swimming )
+			if ( Velocity.z > MaxNonJumpVelocity || Swimming || IsJetpacking )
 			{
 				ClearGroundEntity();
 				return;

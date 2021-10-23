@@ -158,7 +158,7 @@ namespace Facepunch.Hover
 			EarnedAwards = new();
 			EnableTouch = true;
 			Inventory = new Inventory( this );
-			Animator = new StandardPlayerAnimator();
+			Animator = new PlayerAnimator();
 		}
 
 		public bool IsSpectator
