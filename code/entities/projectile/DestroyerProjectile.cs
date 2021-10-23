@@ -17,7 +17,8 @@ namespace Facepunch.Hover
 
 		protected override void OnInitialize()
 		{
-			PhysicsBody.LinearDrag = 0.5f;
+			PhysicsBody.GravityScale = 0.6f;
+			PhysicsBody.LinearDrag = 0f;
 
 			base.OnInitialize();
 		}

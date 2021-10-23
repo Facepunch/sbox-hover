@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -40,6 +41,10 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => true;
 		public virtual int BulletsPerBurst => 3;
 
+		private TimeSince LastBulletTime { get; set; }
+		private bool FireBulletNow { get; set; }
+		private int BulletsToFire { get; set; }
+
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -63,28 +68,31 @@ namespace Facepunch.Hover
 			}
 
 			TimeSincePrimaryAttack = 0f;
-
-			FireBurst( Math.Min( AmmoClip, BulletsPerBurst ) );
+			BulletsToFire += 3;
+			FireBulletNow = true;
 			AmmoClip = Math.Max( AmmoClip - BulletsPerBurst, 0 );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
 		}
 
-		private async void FireBurst( int bulletsToFire )
+		public override void Simulate( Client owner )
 		{
-			Rand.SetSeed( Time.Tick );
+			base.Simulate( owner );
 
-			for ( var i = 0; i < bulletsToFire; i++ )
+			if ( BulletsToFire > 0 && (LastBulletTime > 0.075f || FireBulletNow) )
 			{
-				if ( !IsValid ) return;
+				FireBulletNow = false;
+				BulletsToFire--;
+
+				Rand.SetSeed( Time.Tick );
 
 				ShootEffects();
 				PlaySound( $"generic.energy.fire3" );
 				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
 
-				await GameTask.Delay( Rand.Int( 15, 30 ) );
+				LastBulletTime = 0;
 			}
-		} 
+		}
 	}
 }

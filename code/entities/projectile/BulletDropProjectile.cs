@@ -113,8 +113,8 @@ namespace Facepunch.Hover
 			var newPosition = Position;
 			newPosition += Velocity * Time.Delta;
 
-			GravityModifier += Gravity * Time.Delta;
-			newPosition -= new Vector3( 0f, 0f, GravityModifier );
+			GravityModifier += Gravity;
+			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
 
 			if ( Target.IsValid() && MoveTowardTarget > 0f )
 			{
