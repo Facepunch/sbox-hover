@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"blaster.fire1" );
-			ShootBullet( 0.05f, 1.5f, BaseDamage, 4.0f );
+			ShootBullet( 0.05f, 1.5f, BaseDamage, 8.0f );
 
 			if ( AmmoClip == 0 )
 			{

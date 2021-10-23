@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 
 				ShootEffects();
 				PlaySound( $"generic.energy.fire3" );
-				ShootBullet( 0.025f, 1.5f, BaseDamage, 4.0f );
+				ShootBullet( 0.015f, 1.5f, BaseDamage, 8.0f );
 
 				LastBulletTime = 0;
 			}
