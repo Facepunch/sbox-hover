@@ -67,7 +67,11 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"generic.energy.fire3" );
-			ShootBullet( 0.01f, 1.5f, BaseDamage, 8.0f );
+
+			using ( Owner.Client.CompensateLag( LagCompensationType.Hitboxes ) )
+			{
+				ShootBullet( 0.01f, 1.5f, BaseDamage, 8.0f );
+			}
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
