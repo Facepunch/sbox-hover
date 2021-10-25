@@ -68,7 +68,7 @@ namespace Facepunch.Hover
 			ShootEffects();
 			PlaySound( $"generic.energy.fire3" );
 
-			using ( Owner.Client.CompensateLag( LagCompensationType.Hitboxes ) )
+			using ( Owner.Client.CompensateLag( LagCompensationType.Bounds ) )
 			{
 				ShootBullet( 0.01f, 1.5f, BaseDamage, 8.0f );
 			}
