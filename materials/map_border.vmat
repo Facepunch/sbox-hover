@@ -4,9 +4,12 @@ Layer0
 {
 	shader "matrix_grid.vfx"
 
-	BeginFadeDistance "256.000"
+	//---- Translucent ----
+	F_TRANSLUCENT 1
+
+	BeginFadeDistance "1000.000"
 	Boost "1.000"
-	CellCount "64"
+	CellCount "10"
 	CellWiggleAmount "0.040"
 	CellWiggleTimeMultiplier "1.000"
 	FullVisiblityDistance "64.000"
@@ -14,7 +17,7 @@ Layer0
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
+	g_vColorTint "[0.486275 0.988235 0.000000 1.000000]"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
