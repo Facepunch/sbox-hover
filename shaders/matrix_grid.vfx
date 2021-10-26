@@ -14,13 +14,15 @@ HEADER
 FEATURES
 {
     #include "common/features.hlsl"
+    Feature( F_TRANSLUCENT, 0..1, "Translucent" );
 }
 
 MODES
 {
     VrForward();
-	ToolsVis( S_MODE_TOOLS_VIS );
-	ToolsWireframe( "vr_tools_wireframe.vfx" );
+    ToolsVis( S_MODE_TOOLS_VIS );
+    ToolsWireframe( "vr_tools_wireframe.vfx" );
+    Depth( "vr_depth_only.vfx" ); 
 }
 
 //=========================================================================================================================

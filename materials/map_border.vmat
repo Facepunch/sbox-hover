@@ -4,6 +4,12 @@ Layer0
 {
 	shader "matrix_grid.vfx"
 
+	//---- Rendering ----
+	F_RENDER_BACKFACES 1
+
+	//---- Translucent ----
+	F_TRANSLUCENT 1
+
 	BeginFadeDistance "512.000"
 	Boost "2.000"
 	CellCount "8"
