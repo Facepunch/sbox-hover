@@ -953,12 +953,6 @@ namespace Facepunch.Hover
 			LastKillTime = 0f;
 		}
 
-		protected override bool ShouldLagCompensateForClient( Client client )
-		{
-			Log.Info( "Trying to compensate for client: " + client.Name );
-			return base.ShouldLagCompensateForClient( client );
-		}
-
 		[ClientRpc]
 		protected virtual void OnClientKilled()
 		{
