@@ -121,7 +121,7 @@ namespace Facepunch.Hover
 				OutpostVolume.OnOutpostCaptured += OnOutpostCaptured;
 				OutpostVolume.OnOutpostLost += OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured += OnFlagCaptured;
-				FlagSpawnpoint.OnFlagReturned += OnFlagReturned;
+				FlagEntity.OnFlagReturned += OnFlagReturned;
 				FlagEntity.OnFlagPickedUp += OnFlagPickedUp;
 				FlagEntity.OnFlagDropped += OnFlagDropped;
 
@@ -174,7 +174,7 @@ namespace Facepunch.Hover
 				OutpostVolume.OnOutpostCaptured -= OnOutpostCaptured;
 				OutpostVolume.OnOutpostLost -= OnOutpostLost;
 				FlagSpawnpoint.OnFlagCaptured -= OnFlagCaptured;
-				FlagSpawnpoint.OnFlagReturned -= OnFlagReturned;
+				FlagEntity.OnFlagReturned -= OnFlagReturned;
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
 				FlagEntity.OnFlagDropped -= OnFlagDropped;
 

@@ -5,6 +5,7 @@ namespace Facepunch.Hover
 	public partial class FlagEntity : ModelEntity, IHudEntity, IGameResettable
 	{
 		public delegate void FlagEvent( Player player, FlagEntity flag );
+		public static event FlagEvent OnFlagReturned;
 		public static event FlagEvent OnFlagPickedUp;
 		public static event FlagEvent OnFlagDropped;
 
@@ -134,8 +135,10 @@ namespace Facepunch.Hover
 				{
 					if ( !IsAtHome && !Carrier.IsValid() )
 					{
-						PlaySound( "flag.pickup" );
-						GiveToPlayer( player );
+						PlaySound( "flag.capture" );
+						OnFlagReturned?.Invoke( player, this );
+						player.OnReturnFlag( this );
+						Respawn();
 					}
 				}
 				else
