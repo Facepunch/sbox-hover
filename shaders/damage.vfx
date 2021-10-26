@@ -5,6 +5,7 @@ HEADER
 {
 	CompileTargets = ( IS_SM_50 && ( PC || VULKAN ) );
 	Description = "Damage blendable";
+	DevShader = true;
 }
 
 //=========================================================================================================================

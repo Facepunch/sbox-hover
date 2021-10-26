@@ -5,7 +5,7 @@ HEADER
 {
 	CompileTargets = ( IS_SM_50 && ( PC || VULKAN ) );
 	Description = "Matrix Grid";
-    DevShadter = true;
+    DevShader = true;
 }
 
 //=========================================================================================================================

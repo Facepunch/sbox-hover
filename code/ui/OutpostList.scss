@@ -119,4 +119,8 @@ outpostlist {
 			}
 		}
 	}
+
+	&.hidden {
+		display: none;
+	}
 }

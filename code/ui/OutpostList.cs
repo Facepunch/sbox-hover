@@ -78,6 +78,8 @@ namespace Facepunch.Hover
 				AddOutpost( outpost );
 			}
 
+			BindClass( "hidden", ShouldHidePanel );
+
 			Instance = this;
 		}
 
@@ -86,6 +88,11 @@ namespace Facepunch.Hover
 			var item = Container.AddChild<OutpostItem>( "outpost" );
 			item.SetOutpost( outpost );
 			Items.Add( item );
+		}
+
+		private bool ShouldHidePanel()
+		{
+			return (Rounds.Current is not PlayRound);
 		}
 	}
 }
