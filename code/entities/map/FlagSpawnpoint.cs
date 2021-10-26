@@ -46,12 +46,13 @@ namespace Facepunch.Hover
 
 		public bool CanCaptureFlag( Player player, FlagEntity flag )
 		{
-			if ( flag.Team == player.Team || player.Team == Team )
-			{
+			if ( flag.Team == Team)
 				return false;
-			}
 
 			var homeSpawnpoint = GetForTeam( player.Team );
+
+			if ( homeSpawnpoint == null )
+				return false;
 
 			return homeSpawnpoint.Flag.IsAtHome;
 		}
