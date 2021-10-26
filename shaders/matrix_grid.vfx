@@ -14,6 +14,7 @@ HEADER
 FEATURES
 {
     #include "common/features.hlsl"
+    Feature( F_TRANSLUCENT, 0..1, "Translucent" );
 }
 
 MODES
