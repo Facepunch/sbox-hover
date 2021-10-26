@@ -29,6 +29,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;
@@ -41,7 +42,7 @@ namespace Facepunch.Hover
 		public override int ClipSize => 2;
 		public override float ReloadTime => 3f;
 		public override float LifeTime => 10f;
-		public override float DamageRadius => 200;
+		public override float DamageRadius => 200f;
 		public override int BaseDamage => 800;
 
 		public override void Spawn()

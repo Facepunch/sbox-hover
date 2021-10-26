@@ -196,9 +196,9 @@ namespace Facepunch.Hover
 			}
 
 			if ( !info.Flags.HasFlag( DamageFlags.Blast ) )
-			{
 				info.Damage *= 0.4f;
-			}
+			else
+				info.Damage *= 1.2f;
 
 			if ( !IsDestroyed && NextAttackedEffect )
 			{

@@ -30,6 +30,7 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
+		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override float InheritVelocity => 0.5f;
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
