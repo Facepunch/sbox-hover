@@ -7,11 +7,9 @@ namespace Facepunch.Hover
 	{
 		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public Vector3 Impulse { get; set; }
+		[Net, Predicted] public float Energy { get; set; }
 		[Net, Predicted] public bool IsRegeneratingEnergy { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
-		[Net, Predicted] public float DownSlopeBoost { get; set; } = 100f;
-		[Net, Predicted] public float UpSlopeFriction { get; set; } = 0.3f;
-		[Net, Predicted] public float Energy { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
 		[Net] public float EnergyRegen { get; set; } = 20f;
 		[Net] public float EnergyDrain { get; set; } = 20f;
@@ -25,9 +23,8 @@ namespace Facepunch.Hover
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float SkiStrafeControl { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
-		public float FlatSkiFriction { get; set; } = 0f;
+		public float GroundSlideScale { get; set; } = 0.85f;
 		public float MinUpSlopeAngle { get; set; } = 100f;
-		public float SkiBoostAngle { get; set; } = 85f;
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
 		public float JetpackAimThrust { get; set; } = 30f;
@@ -38,7 +35,7 @@ namespace Facepunch.Hover
 		public float StopSpeed { get; set; } = 100f;
 		public float FallDamageMin { get; set; } = 0f;
 		public float FallDamageMax { get; set; } = 400f;
-		public float SkiGroundAngle { get; set; } = 140.0f;
+		public float StayOnGroundAngle { get; set; } = 270.0f;
 		public float GroundAngle { get; set; } = 46.0f;
 		public float StepSize { get; set; } = 18.0f;
 		public float MaxNonJumpVelocity { get; set; } = 140f;
@@ -109,7 +106,17 @@ namespace Facepunch.Hover
 			EyeRot = Input.Rotation;
 
 			if ( Unstuck.TestAndFix() )
+			{
+				// I hope this never really happens.
 				return;
+			}
+
+			var tr = TraceBBox( Position, Position + Vector3.Down * 8f, 16f );
+
+			if ( tr.Hit )
+			{
+				UpdateGroundEntity( tr );
+			}
 
 			if ( Impulse.Length > 0 )
 			{
@@ -145,21 +152,14 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 
-				var slopeAngle = GetSlopeAngle();
-
 				if ( Input.Down( InputButton.Jump ) )
 				{
-					HandleSki( slopeAngle );
+					HandleSki();
 				}
 				else
 				{
 					var skiFriction = MathF.Min( (LastSkiTime / PostSkiFrictionTime), 1f );
 					ApplyFriction( GroundFriction * SurfaceFriction * skiFriction );
-				}
-
-				if ( slopeAngle >= MinUpSlopeAngle )
-				{
-					Velocity -= Velocity * Time.Delta * UpSlopeFriction;
 				}
 			}
 
@@ -188,7 +188,7 @@ namespace Facepunch.Hover
 
 			if ( Swimming )
 			{
-				ApplyFriction( 1 );
+				ApplyFriction( 1f );
 				WaterMove();
 			}
 			else if ( IsTouchingLadder )
@@ -202,10 +202,14 @@ namespace Facepunch.Hover
 			}
 			else
 			{
+				Velocity -= Velocity * 0.05f * Time.Delta;
 				AirMove();
 			}
 
-			CategorizePosition( stayOnGround );
+			if ( !IsJetpacking )
+				CategorizePosition( stayOnGround );
+			else
+				ClearGroundEntity();
 
 			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
@@ -241,6 +245,16 @@ namespace Facepunch.Hover
 			Velocity = Velocity.WithZ( 0 );
 
 			Accelerate( wishDir, wishSpeed, 0f, Acceleration );
+
+			if ( IsSkiing && !IsJetpacking )
+			{
+				var trace = Trace.Ray( Position, Position + Vector3.Down * 100f )
+					.Ignore( Pawn )
+					.Run();
+
+				Velocity += trace.Normal.WithZ( 0f ) * Velocity.Length * GroundSlideScale * Time.Delta;
+				Velocity = Velocity.ClampLength( MaxSpeed );
+			}
 
 			Velocity = Velocity.WithZ( 0 );
 			Velocity += BaseVelocity;
@@ -339,16 +353,8 @@ namespace Facepunch.Hover
 			Velocity += (pushDir * canPush * Time.Delta);
 		}
 
-		private void HandleSki( float groundAngle )
+		private void HandleSki()
 		{
-			if ( groundAngle < MinUpSlopeAngle )
-			{
-				if ( groundAngle < SkiBoostAngle && Velocity.Length < MaxSpeed )
-					Velocity += (Velocity.Normal * Time.Delta * DownSlopeBoost);
-				else
-					Velocity -= Velocity * Time.Delta * FlatSkiFriction;
-			}
-
 			LastSkiTime = 0f;
 			IsSkiing = true;
 		}
@@ -389,7 +395,7 @@ namespace Facepunch.Hover
 					IsJetpacking = true;
 
 					var boost = Scale( JetpackBoost ) * JetpackScale;
-					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
+					//Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
 					Velocity = Velocity.AddClamped( Vector3.Up * boost * Time.Delta, MaxJetpackVelocity );
 				}
 
@@ -463,7 +469,6 @@ namespace Facepunch.Hover
 			{
 				Velocity = LadderNormal * 100.0f;
 				IsTouchingLadder = false;
-
 				return;
 			}
 
@@ -502,7 +507,7 @@ namespace Facepunch.Hover
 		{
 			SurfaceFriction = 1.0f;
 
-			var point = Position - Vector3.Up * 2;
+			var point = Position - Vector3.Up * 2f;
 			var bumpOrigin = Position;
 			var moveToEndPos = false;
 
@@ -523,9 +528,9 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			var pm = TraceBBox( bumpOrigin, point, 4.0f );
+			var pm = TraceBBox( bumpOrigin, point, 16f );
 
-			if ( pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GetGroundAngle() )
+			if ( pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > StayOnGroundAngle )
 			{
 				ClearGroundEntity();
 				moveToEndPos = false;
@@ -544,11 +549,6 @@ namespace Facepunch.Hover
 			}
 		}
 
-		private float GetGroundAngle()
-		{
-			return IsSkiing ? SkiGroundAngle : GroundAngle;
-		}
-
 		private void UpdateGroundEntity( TraceResult trace )
 		{
 			var wasOnGround = (GroundEntity != null);
@@ -557,8 +557,8 @@ namespace Facepunch.Hover
 			GroundEntity = trace.Entity;
 			SurfaceFriction = trace.Surface.Friction * 1.25f;
 
-			if ( SurfaceFriction > 1 )
-				SurfaceFriction = 1;
+			if ( SurfaceFriction > 1f )
+				SurfaceFriction = 1f;
 
 			if ( GroundEntity != null )
 			{
@@ -623,22 +623,9 @@ namespace Facepunch.Hover
 			if ( trace.Fraction <= 0 ) return;
 			if ( trace.Fraction >= 1 ) return;
 			if ( trace.StartedSolid ) return;
-			if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > GroundAngle ) return;
+			if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > StayOnGroundAngle ) return;
 
 			Position = trace.EndPos;
-		}
-
-		private float GetSlopeAngle()
-		{
-			var trace = Trace.Ray( Position, Position + Vector3.Down * StepSize )
-				.HitLayer( CollisionLayer.All, false )
-				.HitLayer( CollisionLayer.Solid, true )
-				.HitLayer( CollisionLayer.GRATE, true )
-				.HitLayer( CollisionLayer.PLAYER_CLIP, true )
-				.Ignore( Pawn )
-				.Run();
-
-			return Vector3.GetAngle( Velocity.Normal, trace.Normal );
 		}
 	}
 }
