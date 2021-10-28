@@ -43,7 +43,7 @@ namespace Facepunch.Hover
 		public override float Gravity => 0f;
 		public override bool ReloadAnimation => true;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 100;
+		public override int BaseDamage => 120;
 
 		public override void Spawn()
 		{

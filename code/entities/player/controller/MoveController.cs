@@ -22,12 +22,15 @@ namespace Facepunch.Hover
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float SkiStrafeControl { get; set; } = 0.5f;
+		public float SkiWallBounce { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
 		public float GroundSlideScale { get; set; } = 0.85f;
+		public float SlideUphillScale { get; set; } = 1.5f;
+		public float SlideDownhillScale { get; set; } = 1.1f;
 		public float MinUpSlopeAngle { get; set; } = 100f;
 		public float MoveSpeedScale { get; set; } = 1f;
 		public float MaxJetpackVelocity { get; set; } = 400f;
-		public float JetpackAimThrust { get; set; } = 30f;
+		public float JetpackAimThrust { get; set; } = 20f;
 		public float JetpackBoost { get; set; } = 700f;
 		public float Acceleration { get; set; } = 10f;
 		public float AirAcceleration { get; set; } = 50f;
@@ -252,7 +255,22 @@ namespace Facepunch.Hover
 					.Ignore( Pawn )
 					.Run();
 
-				Velocity += trace.Normal.WithZ( 0f ) * Velocity.Length * GroundSlideScale * Time.Delta;
+				var direction = Velocity.WithZ( 0f ).Normal;
+				var angle = trace.Normal.Angle( direction );
+				var scale = GroundSlideScale;
+
+				if ( angle > 90f )
+				{
+					// We're going uphill.
+					scale = angle.Remap( 90f, 120f, scale, SlideUphillScale );
+				}
+				else
+				{
+					// We're going downhill.
+					scale = angle.Remap( 60f, 90f, SlideDownhillScale, scale );
+				}
+
+				Velocity += trace.Normal.WithZ( 0f ) * Velocity.Length * scale * Time.Delta;
 				Velocity = Velocity.ClampLength( MaxSpeed );
 			}
 
@@ -291,6 +309,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
+			mover.WallBounce = IsSkiing ? SkiWallBounce : 0f;
 			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMoveWithStep( Time.Delta, StepSize );
 
@@ -395,8 +414,13 @@ namespace Facepunch.Hover
 					IsJetpacking = true;
 
 					var boost = Scale( JetpackBoost ) * JetpackScale;
-					//Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
-					Velocity = Velocity.AddClamped( Vector3.Up * boost * Time.Delta, MaxJetpackVelocity );
+
+					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
+
+					if ( Velocity.z < MaxJetpackVelocity )
+					{
+						Velocity += Vector3.Up * boost * Time.Delta;
+					}
 				}
 
 				if ( !InEnergyElevator )

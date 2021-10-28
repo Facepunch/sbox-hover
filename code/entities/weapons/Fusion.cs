@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => true;
 
-		[Net] public float SpinUpTime { get; set; } = 1.4f;
+		[Net] public float SpinUpTime { get; set; } = 1.2f;
 
 		private Particles ChargeParticles { get; set; }
 		private TimeSince SpinUpStarted { get; set; }
@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"blaster.fire1" );
-			ShootBullet( 0.05f, 1.5f, BaseDamage, 8.0f );
+			ShootBullet( 0.03f, 1.5f, BaseDamage, 8.0f );
 
 			if ( AmmoClip == 0 )
 			{

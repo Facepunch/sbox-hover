@@ -7,7 +7,8 @@ namespace Facepunch.Hover
 	public class HeavyEnergyBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Energy++";
-		public override string Description => "+30 Max Energy, Converts Incoming Damage to Energy";
+		public override string Description => "+30 Max Energy";
+		public override string SecondaryDescription => "Converts Incoming Damage to Energy";
 		public override string Icon => "ui/equipment/heavy_energy_booster.png";
 		public override string ClassName => "hv_heavy_energy_booster";
 	}

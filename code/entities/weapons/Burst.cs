@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 30;
-		public override float PrimaryRate => 1f;
+		public override float PrimaryRate => 1.5f;
 		public override float DamageFalloffStart => 2000f;
 		public override float DamageFalloffEnd => 6000f;
 		public override float SecondaryRate => 1.0f;
@@ -79,6 +79,8 @@ namespace Facepunch.Hover
 		public override void Simulate( Client owner )
 		{
 			base.Simulate( owner );
+
+			if ( !Prediction.FirstTime ) return;
 
 			if ( BulletsToFire > 0 && (LastBulletTime > 0.075f || FireBulletNow) )
 			{

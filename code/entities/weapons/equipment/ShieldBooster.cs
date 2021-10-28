@@ -7,7 +7,8 @@ namespace Facepunch.Hover
 	public class ShieldBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Shield+";
-		public override string Description => "-20% Energy Regen and Energy Absorbs Damage";
+		public override string Description => "-20% Energy Regen";
+		public override string SecondaryDescription => "Energy Absorbs Damage";
 		public override string Icon => "ui/equipment/shield_booster.png";
 		public override string ClassName => "hv_shield_booster";
 	}

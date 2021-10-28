@@ -98,8 +98,11 @@ namespace Facepunch.Hover
 		{
 			if ( IsClient && Input.Pressed( InputButton.Run ) )
 			{
-				SetScoped( !IsScoped );
-				PlaySound( "longshot.scope" );
+				if ( Prediction.FirstTime )
+				{
+					SetScoped( !IsScoped );
+					PlaySound( "longshot.scope" );
+				}
 			}
 
 			base.Simulate( owner );
