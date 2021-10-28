@@ -2,6 +2,7 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_nBehaviorVersion = 10
+	m_nMaxParticles = 50
 	m_controlPointConfigurations = 
 	[
 		{
@@ -266,7 +267,7 @@
 			m_LocalCoordinateSystemSpeedMin = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, -200000.0 ]
+				m_vLiteralValue = [ 0.0, 0.0, -2000000.0 ]
 				m_LiteralColor = [ 0, 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
@@ -466,7 +467,7 @@
 			m_LocalCoordinateSystemSpeedMax = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, -500000.0 ]
+				m_vLiteralValue = [ 0.0, 0.0, -5000000.0 ]
 				m_LiteralColor = [ 0, 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
@@ -716,7 +717,7 @@
 	m_Operators = 
 	[
 		{
-			_class = "C_OP_EndCapDecay"
+			_class = "C_OP_Decay"
 		},
 	]
 	m_Renderers = 
