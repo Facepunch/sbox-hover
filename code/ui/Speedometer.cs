@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 
 			SetClass( "hidden", player.LifeState != LifeState.Alive );
 
-			var velocity = (player.Velocity.Length / 100f).CeilToInt();
+			var velocity = (player.Velocity.Length * 0.0254f).CeilToInt();
 			Amount.Text = $"{velocity}m/s";
 		}
 	}
