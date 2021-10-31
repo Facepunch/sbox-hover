@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		public override Type UpgradesTo => null;
 		public override int UpgradeCost => 750;
 		public override float RegenDelay => 15f;
-		public override float Health => 1200f;
+		public override float Health => 2100f;
 		public override float Energy => 80f;
 	}
 }

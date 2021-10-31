@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 		};
 		public override float JetpackScale => 0.6f;
 		public override float EnergyRegen => 15f;
-		public override float Health => 1100f;
+		public override float Health => 2000f;
 		public override float Energy => 75f;
 		public override float RegenDelay => 20f;
 		public override float MoveSpeed => 425f;
