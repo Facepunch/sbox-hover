@@ -20,20 +20,14 @@ namespace Facepunch.Hover
 
 		protected override void OnEquipmentGiven( Player player )
 		{
-			if ( player.Controller is MoveController controller )
-			{
-				controller.EnergyRegen *= 1.1f;
-				controller.MaxEnergy += 20f;
-			}
+			player.EnergyRegen *= 1.1f;
+			player.MaxEnergy += 20f;
 		}
 
 		protected override void OnEquipmentTaken( Player player )
 		{
-			if ( player.Controller is MoveController controller )
-			{
-				controller.EnergyRegen *= 1f / 1.1f;
-				controller.MaxEnergy -= 20f;
-			}
+			player.EnergyRegen *= 1f / 1.1f;
+			player.MaxEnergy -= 20f;
 		}
 	}
 }

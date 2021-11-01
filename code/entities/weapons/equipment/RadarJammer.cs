@@ -45,19 +45,16 @@ namespace Facepunch.Hover
 			if ( Owner is not Player player )
 				return;
 
-			if ( player.Controller is not MoveController controller )
-				return;
-
 			if ( IsUsingAbility )
 			{
 				var energyDrain = EnergyDrain * Time.Delta;
 
-				if ( controller.IsRegeneratingEnergy )
+				if ( player.IsRegeneratingEnergy )
 				{
-					energyDrain = (controller.EnergyRegen + EnergyDrain) * Time.Delta;
+					energyDrain = (player.EnergyRegen + EnergyDrain) * Time.Delta;
 				}
 
-				controller.Energy = Math.Max( controller.Energy - energyDrain, 0f );
+				player.Energy = Math.Max( player.Energy - energyDrain, 0f );
 			}
 		}
 
@@ -85,10 +82,7 @@ namespace Facepunch.Hover
 			if ( Owner is not Player player )
 				return;
 
-			if ( player.Controller is not MoveController controller )
-				return;
-
-			if ( controller.Energy < 10f )
+			if ( player.Energy < 10f )
 				return;
 
 			player.ShouldHideOnRadar = 0f;

@@ -125,6 +125,13 @@ namespace Facepunch.Hover
 		[Net] public int KillStreak { get; set; }
 		[Net] public float MaxHealth { get; set; }
 
+		[Net] public bool InEnergyElevator { get; set; }
+		[Net] public bool IsRegeneratingEnergy { get; set; }
+		[Net] public float MaxEnergy { get; set; }
+		[Net] public float Energy { get; set; }
+		[Net] public float EnergyRegen { get; set; } = 20f;
+		[Net] public float EnergyDrain { get; set; } = 20f;
+
 		public RealTimeUntil? RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
@@ -478,9 +485,9 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( other is JetpackElevator && Controller is MoveController controller )
+			if ( other is JetpackElevator )
 			{
-				controller.InEnergyElevator = true;
+				InEnergyElevator = true;
 			}
 
 			base.StartTouch( other );
@@ -488,9 +495,9 @@ namespace Facepunch.Hover
 
 		public override void EndTouch( Entity other )
 		{
-			if ( other is JetpackElevator && Controller is MoveController controller )
+			if ( other is JetpackElevator )
 			{
-				controller.InEnergyElevator = false;
+				InEnergyElevator = false;
 			}
 
 			base.EndTouch( other );
@@ -1064,17 +1071,14 @@ namespace Facepunch.Hover
 
 		protected virtual void CheckLowEnergy()
 		{
-			if ( Controller is MoveController controller )
+			if ( Energy < 5f && PlayLowEnergySound )
 			{
-				if ( controller.Energy < 5f && PlayLowEnergySound )
-				{
-					PlaySound( "regen.energylow" );
-					PlayLowEnergySound = false;
-				}
-				else if ( controller.Energy > controller.MaxEnergy * 0.5f && !PlayLowEnergySound )
-				{
-					PlayLowEnergySound = true;
-				}
+				PlaySound( "regen.energylow" );
+				PlayLowEnergySound = false;
+			}
+			else if ( Energy > MaxEnergy * 0.5f && !PlayLowEnergySound )
+			{
+				PlayLowEnergySound = true;
 			}
 		}
 

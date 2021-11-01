@@ -140,15 +140,16 @@ namespace Facepunch.Hover
 			player.Controller = new MoveController
 			{
 				JetpackScale = JetpackScale,
-				EnergyRegen = EnergyRegen,
-				EnergyDrain = EnergyDrain,
 				MoveSpeed = MoveSpeed,
-				MaxSpeed = MaxSpeed,
-				MaxEnergy = Energy,
-				Energy = Energy
+				MaxSpeed = MaxSpeed
 			};
 
 			player.Camera = new FirstPersonCamera();
+
+			player.EnergyRegen = EnergyRegen;
+			player.EnergyDrain = EnergyDrain;
+			player.MaxEnergy = Energy;
+			player.Energy = Energy;
 
 			player.HealthRegen = HealthRegen;
 			player.RegenDelay = RegenDelay;

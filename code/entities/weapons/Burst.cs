@@ -41,9 +41,9 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => true;
 		public virtual int BulletsPerBurst => 3;
 
-		private TimeSince LastBulletTime { get; set; }
-		private bool FireBulletNow { get; set; }
-		private int BulletsToFire { get; set; }
+		[Net, Predicted] private TimeSince LastBulletTime { get; set; }
+		[Net, Predicted] private bool FireBulletNow { get; set; }
+		[Net, Predicted] private int BulletsToFire { get; set; }
 
 		public override void Spawn()
 		{
@@ -79,8 +79,6 @@ namespace Facepunch.Hover
 		public override void Simulate( Client owner )
 		{
 			base.Simulate( owner );
-
-			if ( !Prediction.FirstTime ) return;
 
 			if ( BulletsToFire > 0 && (LastBulletTime > 0.075f || FireBulletNow) )
 			{

@@ -59,10 +59,7 @@ namespace Facepunch.Hover
 
 		protected virtual void Sense( Player target )
 		{
-			if ( target.Controller is MoveController controller )
-			{
-				controller.Energy = Math.Max( controller.Energy - 50, 0f );
-			}
+			target.Energy = Math.Max( target.Energy - target.MaxEnergy * 0.4f, 0f );
 
 			var force = (target.Position - Position).Normal * 100f * 1f;
 			DealDamage( target, Position, force, BaseDamage );

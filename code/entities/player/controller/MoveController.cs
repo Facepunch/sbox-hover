@@ -5,16 +5,10 @@ namespace Facepunch.Hover
 {
 	public partial class MoveController : BasePlayerController
 	{
-		[Net, Predicted] public bool InEnergyElevator { get; set; }
 		[Net, Predicted] public Vector3 Impulse { get; set; }
-		[Net, Predicted] public float Energy { get; set; }
-		[Net, Predicted] public bool IsRegeneratingEnergy { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
 		[Net, Predicted] public bool IsSkiing { get; set; }
-		[Net] public float EnergyRegen { get; set; } = 20f;
-		[Net] public float EnergyDrain { get; set; } = 20f;
 		[Net] public float JetpackScale { get; set; }
-		[Net] public float MaxEnergy { get; set; }
 		[Net] public float MaxSpeed { get; set; }
 		[Net] public float MoveSpeed { get; set; }
 		public TimeSince LastSkiTime { get; set; }
@@ -57,6 +51,7 @@ namespace Facepunch.Hover
 		protected Vector3 Maxs { get; set; }
 		protected bool IsTouchingLadder { get; set; }
 		protected Vector3 LadderNormal { get; set; }
+		protected Player Player { get; set; }
 
 		public MoveController()
 		{
@@ -107,6 +102,7 @@ namespace Facepunch.Hover
 
 			EyePosLocal += TraceOffset;
 			EyeRot = Input.Rotation;
+			Player = player;
 
 			if ( Unstuck.TestAndFix() )
 			{
@@ -140,13 +136,12 @@ namespace Facepunch.Hover
 				BaseVelocity = BaseVelocity.WithZ( 0 );
 			}
 
-			IsRegeneratingEnergy = false;
 			IsJetpacking = false;
 			IsSkiing = false;
 
 			if ( Input.Down( InputButton.Attack2 ) )
 			{
-				DoJetpackMovement( player );
+				DoJetpackMovement();
 			}
 
 			var startOnGround = GroundEntity != null;
@@ -166,12 +161,16 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( startOnGround || !OnlyRegenJetpackOnGround )
+			if ( Host.IsServer )
 			{
-				if ( !IsJetpacking )
+				if ( !IsJetpacking && (startOnGround || !OnlyRegenJetpackOnGround) )
 				{
-					IsRegeneratingEnergy = true;
-					Energy = (Energy + EnergyRegen * Time.Delta).Clamp( 0f, MaxEnergy );
+					Player.IsRegeneratingEnergy = true;
+					Player.Energy = (Player.Energy + Player.EnergyRegen * Time.Delta).Clamp( 0f, Player.MaxEnergy );
+				}
+				else
+				{
+					Player.IsRegeneratingEnergy = false;
 				}
 			}
 
@@ -185,7 +184,7 @@ namespace Facepunch.Hover
 			}
 
 			WishVelocity = WishVelocity.Normal * inSpeed;
-			WishVelocity *= GetWishSpeed( player );
+			WishVelocity *= GetWishSpeed();
 
 			var stayOnGround = false;
 
@@ -227,7 +226,7 @@ namespace Facepunch.Hover
 			if ( IsSkiing ) SetTag( "skiing" );
 		}
 
-		private float GetWishSpeed( Player player )
+		private float GetWishSpeed()
 		{
 			var speed = Scale( MoveSpeed * MoveSpeedScale );
 
@@ -396,7 +395,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		private void DoJetpackMovement( Player player )
+		private void DoJetpackMovement()
 		{
 			if ( Swimming )
 			{
@@ -409,7 +408,7 @@ namespace Facepunch.Hover
 
 			if ( GroundEntity == null )
 			{
-				if ( Energy >= 5f )
+				if ( Player.Energy >= 5f )
 				{
 					IsJetpacking = true;
 
@@ -423,28 +422,23 @@ namespace Facepunch.Hover
 					}
 				}
 
-				if ( !InEnergyElevator )
+				if ( Host.IsServer && !Player.InEnergyElevator )
 				{
-					Energy = (Energy - EnergyDrain * Time.Delta).Clamp( 0f, MaxEnergy );
+					Player.Energy = (Player.Energy - Player.EnergyDrain * Time.Delta).Clamp( 0f, Player.MaxEnergy );
 				}
-
-				return;
 			}
-			else if ( Energy < 5f )
+			else if ( Player.Energy >= 5 )
 			{
-				// You can't jump at all if you're super low on energy.
-				return;
+				ClearGroundEntity();
+
+				var groundFactor = 1.0f;
+				var multiplier = Scale( 268.3281572999747f * 1.2f );
+
+				Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
+				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+
+				AddEvent( "jump" );
 			}
-
-			ClearGroundEntity();
-
-			var groundFactor = 1.0f;
-			var multiplier = Scale( 268.3281572999747f * 1.2f );
-
-			Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
-			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-
-			AddEvent( "jump" );
 		}
 
 		private float Scale( float speed )
@@ -593,7 +587,7 @@ namespace Facepunch.Hover
 					var fallVelocity = PreVelocity.z + Gravity;
 					var threshold = -FallDamageThreshold;
 
-					if ( fallVelocity < threshold && ( !IsJetpacking || Energy < MaxEnergy * 0.1f ) )
+					if ( fallVelocity < threshold && ( !IsJetpacking || Player.Energy < Player.MaxEnergy * 0.1f ) )
 					{
 						var overstep = threshold - fallVelocity;
 						var fraction = overstep.Remap( 0f, FallDamageThreshold, 0f, 1f ).Clamp( 0f, 1f );

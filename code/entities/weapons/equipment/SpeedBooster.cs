@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 			if ( player.Controller is MoveController controller )
 			{
 				controller.MoveSpeed *= 1f / 1.1f;
-				controller.MaxEnergy *= 1f / 1.2f;
+				controller.MaxSpeed *= 1f / 1.2f;
 			}
 		}
 	}
