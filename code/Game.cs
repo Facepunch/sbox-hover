@@ -24,7 +24,11 @@ namespace Facepunch.Hover
 
 		public Game()
 		{
-			if ( IsServer ) Hud = new();
+			if ( IsServer )
+			{
+				PrecacheAssets();
+				Hud = new();
+			}
 
 			Awards.Add<KillAward>();
 			Awards.Add<AssistAward>();
@@ -134,6 +138,17 @@ namespace Facepunch.Hover
 			Rounds.Current?.OnPlayerJoin( player );
 
 			base.ClientJoined( client );
+		}
+
+		private void PrecacheAssets()
+		{
+			var assets = FileSystem.Mounted.ReadJsonOrDefault<List<string>>( "hover.assets.json" );
+
+			foreach ( var asset in assets )
+			{
+				Log.Info( $"Precaching: {asset}" );
+				Precache.Add( asset );
+			}
 		}
 
 		private void OnSecond()
