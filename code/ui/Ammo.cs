@@ -5,21 +5,20 @@ using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate] 
 	public class Ammo : Panel
 	{
-		public Panel TextContainer;
-		public Label Weapon;
-		public Label Inventory;
+		public Panel TextContainer { get; set; }
+		public Label Weapon { get; set; }
+		public Label Inventory { get; set; }
 
-		public Panel Icon;
+		public Panel Icon { get; set; }
 
 		public Ammo()
 		{
+
 			
-			TextContainer = Add.Panel( "textContainer" );
-			Weapon = TextContainer.Add.Label( "100", "weapon" );
-			Inventory = TextContainer.Add.Label( "100", "inventory" );
-			Icon = Add.Panel( "icon" );
+			
 		}
 
 		public override void Tick()

@@ -1,146 +1,146 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 toastlist {
-	flex-direction: column;
-	flex-grow: 0;
-	position: absolute;
-	right: 5%;
-	bottom: 15%;
-	z-index: 5;
+  flex-direction: column;
+  flex-grow: 0;
+  position: absolute;
+  right: 5%;
+  bottom: 15%;
+  z-index: 5;
 
-	killfeeditem {
-		align-self: flex-start;
-		align-items: center;
-		box-shadow: $blueTeamBackground;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
-		border-radius: 8px;
-		flex-direction: row;
-		margin-top: 8px;
-		height: 64px;
-		padding: 8px;
-		transition: all 1s ease-out;
-		opacity: 1;
-		bottom: 0;
+  killfeeditem {
+    align-self: flex-start;
+    align-items: center;
+    box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    flex-direction: row;
+    margin-top: 8px;
+    height: 64px;
+    padding: 8px;
+    transition: all 1s ease-out;
+    opacity: 1;
+    bottom: 0;
 
-		&:intro {
-			opacity: 0;
-			bottom: -20px;
-		}
+    &:intro {
+      opacity: 0;
+      bottom: -20px;
+    }
 
-		&:outro {
-			opacity: 0;
-			bottom: 20px;
-			transition: all 1s ease-out;
-		}
+    &:outro {
+      opacity: 0;
+      bottom: 20px;
+      transition: all 1s ease-out;
+    }
 
-		.attacker {
-			color: white;
-			font-size: 24px;
-			font-family: $mainFont;
-			margin-left: 8px;
-			flex-grow: 1;
-			margin-right: 8px;
-			text-shadow: $blueTeamShadow;
+    .attacker {
+      color: white;
+      font-size: 24px;
+      font-family: $mainFont;
+      margin-left: 8px;
+      flex-grow: 1;
+      margin-right: 8px;
+      text-shadow: $blueTeamShadow;
 
-			&.hidden {
-				display: none;
-			}
-		}
+      &.hidden {
+        display: none;
+      }
+    }
 
-		.victim {
-			color: white;
-			font-size: 24px;
-			font-family: $mainFont;
-			margin-left: 8px;
-			flex-grow: 1;
-			margin-right: 8px;
-			text-shadow: $blueTeamShadow;
-		}
+    .victim {
+      color: white;
+      font-size: 24px;
+      font-family: $mainFont;
+      margin-left: 8px;
+      flex-grow: 1;
+      margin-right: 8px;
+      text-shadow: $blueTeamShadow;
+    }
 
-		.icon {
-			width: 48px;
-			height: 48px;
-		}
-	}
+    .icon {
+      width: 48px;
+      height: 48px;
+    }
+  }
 
-	toastitem {
-		align-self: flex-start;
-		align-items: center;
-		box-shadow: $blueTeamBackground;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
-		border-radius: 8px;
-		flex-direction: row;
-		margin-top: 8px;
-		height: 64px;
-		padding: 8px;
-		transition: all 1s ease-out;
-		opacity: 1;
-		bottom: 0;
+  toastitem {
+    align-self: flex-start;
+    align-items: center;
+    box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    flex-direction: row;
+    margin-top: 8px;
+    height: 64px;
+    padding: 8px;
+    transition: all 1s ease-out;
+    opacity: 1;
+    bottom: 0;
 
-		&:intro {
-			opacity: 0;
-			bottom: -20px;
-		}
+    &:intro {
+      opacity: 0;
+      bottom: -20px;
+    }
 
-		&:outro {
-			opacity: 0;
-			bottom: 20px;
-			transition: all 1s ease-out;
-		}
+    &:outro {
+      opacity: 0;
+      bottom: 20px;
+      transition: all 1s ease-out;
+    }
 
-		.text {
-			color: white;
-			font-size: 18px;
-			font-family: $mainFont;
-			margin-left: 8px;
-			flex-grow: 1;
-			margin-right: 16px;
-			text-shadow: $blueTeamShadow;
-		}
+    .text {
+      color: white;
+      font-size: 18px;
+      font-family: $mainFont;
+      margin-left: 8px;
+      flex-grow: 1;
+      margin-right: 16px;
+      text-shadow: $blueTeamShadow;
+    }
 
-		.icon {
-			width: 44px;
-			height: 44px;
-			text-shadow: $blueTeamShadow;
+    .icon {
+      width: 44px;
+      height: 44px;
+      text-shadow: $blueTeamShadow;
 
-			&.hidden {
-				display: none;
-			}
-		}
-	}
+      &.hidden {
+        display: none;
+      }
+    }
+  }
 }
 
 .team_red {
-	toastlist {
-		killfeeditem {
-			box-shadow: $redTeamBackground;
-			background-color: $redTeamPanelBg;
-			border: $redTeamPanelBorder;
+  toastlist {
+    killfeeditem {
+      box-shadow: $redTeamBackground;
+      background-color: $redTeamPanelBg;
+      border: $redTeamPanelBorder;
 
-			.attacker, .victim {
-				text-shadow: $redTeamShadow;
-			}
+      .attacker,
+      .victim {
+        text-shadow: $redTeamShadow;
+      }
 
-			.icon {
-				text-shadow: $redTeamShadow;
-			}
-		}
+      .icon {
+        text-shadow: $redTeamShadow;
+      }
+    }
 
-		toastitem {
-			box-shadow: $redTeamBackground;
-			background-color: $redTeamPanelBg;
-			border: $redTeamPanelBorder;
+    toastitem {
+      box-shadow: $redTeamBackground;
+      background-color: $redTeamPanelBg;
+      border: $redTeamPanelBorder;
 
+      .text {
+        text-shadow: $redTeamShadow;
+      }
 
-			.text {
-				text-shadow: $redTeamShadow;
-			}
-
-			.icon {
-				text-shadow: $redTeamShadow;
-			}
-		}
-	}
+      .icon {
+        text-shadow: $redTeamShadow;
+      }
+    }
+  }
 }

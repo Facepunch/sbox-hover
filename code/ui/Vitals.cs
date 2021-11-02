@@ -10,10 +10,12 @@ namespace Facepunch.Hover
 	{
 		public HudIconBar Energy;
 		public HudIconBar Health;
+		public Panel Divider;
 
 		public Vitals()
 		{
 			Health = AddChild<HudIconBar>( "health" );
+			Divider = Add.Panel( "divider" );
 			Energy = AddChild<HudIconBar>( "energy" );
 		}
 

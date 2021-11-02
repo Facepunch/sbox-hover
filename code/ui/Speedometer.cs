@@ -5,15 +5,15 @@ using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate] 
 	public class Speedometer : Panel
 	{
-		public Panel Icon;
-		public Label Amount;
+		public Panel Icon { get; set; }
+		public Label Amount { get; set; }
 
 		public Speedometer()
 		{
-			Icon = Add.Panel( "icon" );
-			Amount = Add.Label( "0", "speed" );
+
 		}
 
 		public override void Tick()

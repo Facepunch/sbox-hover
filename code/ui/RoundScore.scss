@@ -1,78 +1,78 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 roundscore {
-    position: absolute;
-    align-items: center;
+  position: absolute;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  width: 100%;
+
+  .container {
+    box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    padding: 8px;
+    font-family: Roboto;
     display: flex;
+    flex-direction: row;
+    position: absolute;
     justify-content: center;
-    padding: 0;
-    width: 100%;
+    align-items: center;
+    top: 120px;
+    width: 410px;
+    height: 44px;
 
-    .container {
-        box-shadow: $blueTeamBackground;
-        background-color: $blueTeamPanelBg;
-        border: $blueTeamPanelBorder;
-        border-radius: 8px;
-        padding: 8px;
-        font-family: Roboto;
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        justify-content: center;
-        align-items: center;
-        top: 120px;
-        width: 410px;
-        height: 44px;
+    roundscoreitem {
+      justify-items: center;
+      align-items: center;
 
-        roundscoreitem {
-            justify-items: center;
-            align-items: center;
+      .icon {
+        background-size: 100%;
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+      }
 
-            .icon {
-                background-size: 100%;
-                margin-right: 8px;
-                width: 40px;
-                height: 40px;
-            }
-
-            .score {
-                text-shadow: $blueTeamShadow;
-                font-family: $mainFont;
-                font-size: 28px;
-                color: white;
-            }
-        }
-
-        .blue {
-            margin-right: 32px;
-
-            .icon {
-                background-image-tint: $blueTeamTint;
-                background-image: $blueTeamIcon;
-            }
-        }
-
-        .red {
-            .icon {
-                background-image-tint: $redTeamTint;
-                background-image: $redTeamIcon;
-            }
-        }
+      .score {
+        text-shadow: $blueTeamShadow;
+        font-family: $mainFont;
+        font-size: 28px;
+        color: white;
+      }
     }
+
+    .blue {
+      margin-right: 32px;
+
+      .icon {
+        background-image-tint: $blueTeamTint;
+        background-image: $blueTeamIcon;
+      }
+    }
+
+    .red {
+      .icon {
+        background-image-tint: $redTeamTint;
+        background-image: $redTeamIcon;
+      }
+    }
+  }
 }
 
 .team_red {
-    roundscore {
-        .container {
-            background-color: $redTeamPanelBg;
-            box-shadow: $redTeamBackground;
-            border: $redTeamPanelBorder;
+  roundscore {
+    .container {
+      background-color: $redTeamPanelBg;
+      box-shadow: $redTeamBackground;
+      border: $redTeamPanelBorder;
 
-            roundscoreitem {
-                .score {
-                    text-shadow: $redTeamShadow;
-                }
-            }
+      roundscoreitem {
+        .score {
+          text-shadow: $redTeamShadow;
         }
+      }
     }
+  }
 }

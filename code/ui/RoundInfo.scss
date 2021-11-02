@@ -1,97 +1,97 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 roundInfo {
-    align-items: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+  width: 100%;
+
+  .container {
+    box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    padding: 8px;
+    font-family: $mainFont;
     display: flex;
-    justify-content: center;
-    margin: 0;
-    min-height: 100%;
-    padding: 0;
-    width: 100%;
+    flex-direction: row;
+    position: absolute;
+    top: 48px;
+    width: 410px;
+    height: 44px;
 
-    .container {
-        box-shadow: $blueTeamBackground;
-        background-color: $blueTeamPanelBg;
-        border: $blueTeamPanelBorder;
-        border-radius: 8px;
-        padding: 8px;
-        font-family: $mainFont;
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        top: 48px;
-        width: 410px;
-        height: 44px;
+    label {
+      align-items: center;
+      color: #ececec;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: $blueTeamShadow;
 
-        label {
-            align-items: center;
-            color: #ECECEC;
-            font-size: 24px;
-            font-weight: bold;
-            text-shadow: $blueTeamShadow;
+      &.name {
+        width: 50%;
+        padding-right: 50px;
+        text-align: right;
+        left: 0;
+      }
 
-            &.name {
-                width: 50%;
-                padding-right: 50px;
-                text-align: right;
-                left: 0;
-            }
-
-            &.timeLeft {
-                padding-left: 50px;
-                right: 0;
-                text-align: left;
-                width: 50%;
-            }
-        }
-
-        &.roundNameOnly {
-            .name {
-                text-align: center;
-                margin-right: 0px;
-                left: auto;
-                padding: 0;
-                width: 100%;
-            }
-
-            .timeLeft {
-                display: none;
-            }
-
-            .icon {
-                display: none;
-            }
-        }
-
-        .icon {
-            position: absolute;
-            background-image-tint: $blueTeamTint;
-            background-image: $blueTeamIcon;
-            background-size: 100%;
-            width: 80px;
-            height: 80px;
-            left: 50%;
-            top: 50%;
-            transform: translateX(-35%) translateY(-50%);
-        }
+      &.timeLeft {
+        padding-left: 50px;
+        right: 0;
+        text-align: left;
+        width: 50%;
+      }
     }
+
+    &.roundNameOnly {
+      .name {
+        text-align: center;
+        margin-right: 0px;
+        left: auto;
+        padding: 0;
+        width: 100%;
+      }
+
+      .timeLeft {
+        display: none;
+      }
+
+      .icon {
+        display: none;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      background-image-tint: $blueTeamTint;
+      background-image: $blueTeamIcon;
+      background-size: 100%;
+      width: 80px;
+      height: 80px;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-35%) translateY(-50%);
+    }
+  }
 }
 
 .team_red {
-    roundInfo {
-        .container {
-            background-color: $redTeamPanelBg;
-            box-shadow: $redTeamBackground;
-            border: $redTeamPanelBorder;
+  roundInfo {
+    .container {
+      background-color: $redTeamPanelBg;
+      box-shadow: $redTeamBackground;
+      border: $redTeamPanelBorder;
 
-            label {
-                text-shadow: $redTeamShadow;
-            }
+      label {
+        text-shadow: $redTeamShadow;
+      }
 
-            .icon {
-                background-image-tint: $redTeamTint;
-                background-image: $redTeamIcon;
-            }
-        }
+      .icon {
+        background-image-tint: $redTeamTint;
+        background-image: $redTeamIcon;
+      }
     }
+  }
 }

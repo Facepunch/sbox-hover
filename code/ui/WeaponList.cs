@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate] 
 	public class WeaponIcon : Panel
 	{
 		public bool IsUsingAbility { get; set; }
@@ -20,9 +21,9 @@ namespace Facepunch.Hover
 
 		public WeaponIcon()
 		{
-			Icon = Add.Image( "", "icon" );
-			Name = Add.Label( "", "name" );
-			Ability = Add.Label( "", "ability" );
+			// Icon = Add.Image( "", "icon" );
+			// Name = Add.Label( "", "name" );
+			// Ability = Add.Label( "", "ability" );
 		}
 
 		public void Update( Weapon weapon )

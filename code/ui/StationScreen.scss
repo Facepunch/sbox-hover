@@ -1,624 +1,628 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 stationscreen {
-    background-color: rgba( 0 0 0 0.9 );
-    backdrop-filter-blur: 64px;
+  background-color: rgba(0 0 0 0.9);
+  backdrop-filter-blur: 64px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  pointer-events: all;
+  z-index: 9;
+
+  .tips {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 220px;
+    box-shadow: $selectedTabBackground;
+    background-color: $selectedTabPanelBg;
+    border: $selectedTabPanelBorder;
+    border-radius: 16px;
+    padding: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    pointer-events: all;
-    z-index: 9;
 
-    .tips {
-        position: absolute;
-        top: 220px;
-        box-shadow: $selectedTabBackground;
-        background-color: $selectedTabPanelBg;
-        border: $selectedTabPanelBorder;
-        border-radius: 16px;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .primary {
-            text-shadow: $selectedTabShadow;
-            font-family: $mainFont;
-            font-size: 20px;
-            color: white;
-        }
-
-        .secondary {
-            text-shadow: $selectedTabShadow;
-            font-family: $mainFont;
-            font-size: 16px;
-            color: yellow;
-        }
+    .primary {
+      text-shadow: $selectedTabShadow;
+      font-family: $mainFont;
+      font-size: 20px;
+      color: white;
     }
 
-    .content {
-        position: absolute;
-        top: 300px;
-        width: 80%;
-        height: 70%;
+    .secondary {
+      text-shadow: $selectedTabShadow;
+      font-family: $mainFont;
+      font-size: 16px;
+      color: yellow;
+    }
+  }
 
-        .upgrades, .loadouts {
-            transform: scale( 1 1 );
-            transition: all 0.1s ease-out;
-            opacity: 1;
+  .content {
+    position: absolute;
+    top: 300px;
+    width: 80%;
+    height: 70%;
 
-            &.hidden {
-                transform: scale( 0.9 0.9 );
-                opacity: 0;
-            }
-        }
+    .upgrades,
+    .loadouts {
+      transform: scale(1 1);
+      transition: all 0.1s ease-out;
+      opacity: 1;
 
-        .upgrades {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            padding: 32px;
-        }
-
-        .loadouts {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            padding: 32px;
-
-            .container {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                height: 100%;
-            }
-
-            .previous, .next {
-                width: 128px;
-                height: 64px;
-                position: relative;
-                bottom: unset;
-
-                .label {
-                    font-size: 64px;
-                }
-            }
-
-            .previous {
-                margin-right: 64px;
-            }
-
-            .next {
-                margin-left: 64px;
-            }
-        }
+      &.hidden {
+        transform: scale(0.9 0.9);
+        opacity: 0;
+      }
     }
 
-    .selector {
-        backdrop-filter-blur: 64px;
-        background-color: rgba ( 0 0 0 0.7 );
-        transition: all 0.3s ease-out;
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-
-        .container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 32px;
-        }
-
-        &.hidden {
-            backdrop-filter-blur: 0px;
-            transition: all 0.3s ease-out;
-            opacity: 0;
-        }
+    .upgrades {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 32px;
     }
 
-    .tabs {
-        position: absolute;
-        top: 64px;
+    .loadouts {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 32px;
+
+      .container {
         display: flex;
         flex-direction: row;
-        box-shadow: $selectedTabBackground;
-        border-radius: 8px;
-        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
 
-        stationscreentab {
-            background-color: $selectedTabPanelBg;
-            border: $selectedTabPanelBorder;
-            transition: all 0.1s ease-out;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 24px;
-            padding: 16px;
-            border-radius: 8px;
-            min-width: 200px;
-            height: 110px;
-            cursor: pointer;
+      .previous,
+      .next {
+        width: 128px;
+        height: 64px;
+        position: relative;
+        bottom: unset;
 
-            .icon {
-                width: 48px;
-                height: 48px;
-            }
-
-            .title {
-                text-shadow: $selectedTabShadow;
-                font-family: $mainFont;
-                position: absolute;
-                margin-top: 24px;
-                font-size: 24px;
-                color: rgba( 255 255 255 0.8 );
-                top: 50px;
-            }
-
-            &:hover {
-                &:not(.selected) {
-                    &:not(.hidden) {
-                        transition: all 0.1s ease-out;
-                        transform: scale( 1.05 1.05 );
-                        box-shadow: $selectedTabBackground;
-                        background-color: $selectedTabPanelFg;
-                        sound-in: hover.hoversharp;
-                    }
-                }
-            }
-
-            &.selected {
-                background-color: $selectedTabPanelFg;
-                box-shadow: $selectedTabForeground;
-
-                .title {
-                    transition: all 0.1s ease-out;
-                    font-size: 26px;
-                    color: $selectedTabColor;
-                }
-            }
-
-            &.hidden {
-                opacity: 0.2;
-            }
-
-            &:last-child {
-                margin-right: 0px;
-            }
+        .label {
+          font-size: 64px;
         }
+      }
 
-        .loadouts {
-        }
+      .previous {
+        margin-right: 64px;
+      }
 
-        .upgrades {
-        }
+      .next {
+        margin-left: 64px;
+      }
+    }
+  }
+
+  .selector {
+    backdrop-filter-blur: 64px;
+    background-color: rgba (0 0 0 0.7);
+    transition: all 0.3s ease-out;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 32px;
     }
 
     &.hidden {
-        pointer-events: none;
-        display: none;
+      backdrop-filter-blur: 0px;
+      transition: all 0.3s ease-out;
+      opacity: 0;
     }
+  }
+
+  .tabs {
+    position: absolute;
+    top: 64px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: $selectedTabBackground;
+    border-radius: 8px;
+    padding: 8px;
+
+    stationscreentab {
+      background-color: $selectedTabPanelBg;
+      border: $selectedTabPanelBorder;
+      transition: all 0.1s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 24px;
+      padding: 16px;
+      border-radius: 8px;
+      min-width: 200px;
+      height: 110px;
+      cursor: pointer;
+
+      .icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .title {
+        text-shadow: $selectedTabShadow;
+        font-family: $mainFont;
+        position: absolute;
+        margin-top: 24px;
+        font-size: 24px;
+        color: rgba(255 255 255 0.8);
+        top: 50px;
+      }
+
+      &:hover {
+        &:not(.selected) {
+          &:not(.hidden) {
+            transition: all 0.1s ease-out;
+            transform: scale(1.05 1.05);
+            box-shadow: $selectedTabBackground;
+            background-color: $selectedTabPanelFg;
+            sound-in: hover.hoversharp;
+          }
+        }
+      }
+
+      &.selected {
+        background-color: $selectedTabPanelFg;
+        box-shadow: $selectedTabForeground;
+
+        .title {
+          transition: all 0.1s ease-out;
+          font-size: 26px;
+          color: $selectedTabColor;
+        }
+      }
+
+      &.hidden {
+        opacity: 0.2;
+      }
+
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+
+    .loadouts {
+    }
+
+    .upgrades {
+    }
+  }
+
+  &.hidden {
+    pointer-events: none;
+    display: none;
+  }
 }
 
 stationscreenweaponinfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 32px;
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
-    padding: 8px;
-    width: 300px;
-    height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 32px;
+  box-shadow: $blueTeamBackground;
+  background-color: $blueTeamPanelBg;
+  border: $blueTeamPanelBorder;
+  border-radius: 8px;
+  padding: 8px;
+  width: 300px;
+  height: 370px;
 
-    .name {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 24px;
-        font-size: 20px;
-        color: $blueTeamColor;
+  .name {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 24px;
+    font-size: 20px;
+    color: $blueTeamColor;
+  }
+
+  .description {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 8px;
+    font-size: 16px;
+    color: white;
+  }
+
+  .secondary_description {
+    text-shadow: $selectedTabShadow;
+    font-family: $mainFont;
+    margin-top: 8px;
+    font-size: 15px;
+    color: $selectedTabColor;
+
+    &.hidden {
+      display: none;
     }
+  }
 
-    .description {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 8px;
-        font-size: 16px;
-        color: white;
-    }
-
-    .secondary_description {
-        text-shadow: $selectedTabShadow;
-        font-family: $mainFont;
-        margin-top: 8px;
-        font-size: 15px;
-        color: $selectedTabColor;
-
-        &.hidden {
-            display: none;
-        }
-    }
-
-    .icon {
-        width: 150px;
-        height: 150px;
-        position: absolute;
-        bottom: 40%;
-        z-index: -1;
-    }
+  .icon {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    bottom: 40%;
+    z-index: -1;
+  }
 }
 
 stationscreenweaponupgrade {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 32px;
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
-    padding: 8px;
-    width: 300px;
-    height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 32px;
+  box-shadow: $blueTeamBackground;
+  background-color: $blueTeamPanelBg;
+  border: $blueTeamPanelBorder;
+  border-radius: 8px;
+  padding: 8px;
+  width: 300px;
+  height: 350px;
 
-    .title {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 24px;
-        font-size: 20px;
-        color: $blueTeamColor;
-    }
+  .title {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 24px;
+    font-size: 20px;
+    color: $blueTeamColor;
+  }
 
-    .description {
-        text-shadow: $selectedTabShadow;
-        font-family: $mainFont;
-        margin-top: 8px;
-        font-size: 16px;
-        color: $selectedTabColor;
-    }
+  .description {
+    text-shadow: $selectedTabShadow;
+    font-family: $mainFont;
+    margin-top: 8px;
+    font-size: 16px;
+    color: $selectedTabColor;
+  }
 
-    .weapon {
-        width: 150px;
-        height: 150px;
-        position: absolute;
-        bottom: 40%;
-        z-index: -1;
-    }
+  .weapon {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    bottom: 40%;
+    z-index: -1;
+  }
 }
 
-stationscreenloadout, stationscreenloadoutupgrade {
+stationscreenloadout,
+stationscreenloadoutupgrade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 32px;
+  box-shadow: $blueTeamBackground;
+  background-color: $blueTeamPanelBg;
+  border: $blueTeamPanelBorder;
+  padding: 8px;
+  border-radius: 8px;
+  width: 380px;
+  height: 90%;
+
+  .title {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 24px;
+    font-size: 20px;
+    color: $blueTeamColor;
+  }
+
+  .description {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 8px;
+    font-size: 16px;
+    width: 90%;
+    color: white;
+  }
+
+  .secondary_description {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    margin-top: 8px;
+    font-size: 14px;
+    width: 90%;
+    color: $blueTeamColor;
+  }
+
+  .stats {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 32px;
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    padding: 8px;
-    border-radius: 8px;
-    width: 380px;
-    height: 90%;
+    position: absolute;
+    top: 50%;
+    width: 90%;
 
-    .title {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 24px;
-        font-size: 20px;
-        color: $blueTeamColor;
+    simpleiconbar {
+      width: 100%;
+      height: 26px;
+      margin-bottom: 8px;
+
+      .outerBar {
+        border-radius: 4px;
+        height: 26px;
+      }
+
+      .innerBar {
+        border-radius: 4px;
+      }
+
+      .icon {
+        width: 26px;
+        height: 26px;
+      }
     }
 
-    .description {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 8px;
-        font-size: 16px;
-        width: 90%;
-        color: white;
+    .speed {
+      .outerbar {
+        background-color: rgba(200 255 0 0.2);
+      }
+
+      .innerBar {
+        background-color: rgba(200 255 0 0.6);
+      }
+
+      .icon {
+        background-image: url(/ui/icons/speed.png);
+        background-image-tint: rgba(255 255 0 1);
+      }
     }
 
-    .secondary_description {
-        text-shadow: $blueTeamShadow;
-        font-family: $mainFont;
-        margin-top: 8px;
-        font-size: 14px;
-        width: 90%;
-        color: $blueTeamColor;
+    .energy {
+      .outerbar {
+        background-color: rgba(0 170 255 0.2);
+      }
+
+      .innerBar {
+        background-color: rgba(0 170 255 0.6);
+      }
+
+      .icon {
+        background-image: url(/ui/icons/energy.png);
+        background-image-tint: rgba(0 170 255 1);
+      }
     }
 
-    .stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        top: 50%;
-        width: 90%;
+    .health {
+      .outerbar {
+        background-color: rgba(0 255 0 0.2);
+      }
 
-        simpleiconbar {
-            width: 100%;
-            height: 26px;
-            margin-bottom: 8px;
+      .innerBar {
+        background-color: rgba(0 255 0 0.6);
+      }
 
-            .outerBar {
-                border-radius: 4px;
-                height: 26px;
-            }
-
-            .innerBar {
-                border-radius: 4px;
-            }
-
-            .icon {
-                width: 26px;
-                height: 26px;
-            }
-        }
-
-        .speed {
-            .outerbar {
-                background-color: rgba( 200 255 0 0.2 );
-            }
-
-            .innerBar {
-                background-color: rgba( 200 255 0 0.6 );
-            }
-
-            .icon {
-                background-image: url( /ui/icons/speed.png );
-                background-image-tint: rgba( 255 255 0 1 );
-            }
-        }
-
-        .energy {
-            .outerbar {
-                background-color: rgba( 0 170 255 0.2 );
-            }
-
-            .innerBar {
-                background-color: rgba( 0 170 255 0.6 );
-            }
-
-            .icon {
-                background-image: url( /ui/icons/energy.png );
-                background-image-tint: rgba( 0 170 255 1 );
-            }
-        }
-
-        .health {
-            .outerbar {
-                background-color: rgba( 0 255 0 0.2 );
-            }
-
-            .innerBar {
-                background-color: rgba( 0 255 0 0.6 );
-            }
-
-            .icon {
-                background-image: url( /ui/icons/health.png );
-                background-image-tint: rgba( 0 255 0 1 );
-            }
-        }
+      .icon {
+        background-image: url(/ui/icons/health.png);
+        background-image-tint: rgba(0 255 0 1);
+      }
     }
+  }
 
-    .weapons {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 68%;
-        width: 80%;
+  .weapons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 68%;
+    width: 80%;
 
-        .weapon {
-            background-color: $selectedTabPanelBg;
-            border: $selectedTabPanelBorder;
-            box-shadow: $selectedTabBackground;
-            transition: all 0.1s ease-out;
-            backdrop-filter-blur: 16px;
-            margin-right: 8px;
-            border-radius: 8px;
-            flex-shrink: 0;
-            flex-grow: 0;
-            padding: 4px;
+    .weapon {
+      background-color: $selectedTabPanelBg;
+      border: $selectedTabPanelBorder;
+      box-shadow: $selectedTabBackground;
+      transition: all 0.1s ease-out;
+      backdrop-filter-blur: 16px;
+      margin-right: 8px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      flex-grow: 0;
+      padding: 4px;
 
-            .icon {
-                width: 64px;
-                height: 64px;
-            }
+      .icon {
+        width: 64px;
+        height: 64px;
+      }
 
-            &:hover {
-                transition: all 0.2s ease-out;
-                transform: scale( 1.05 1.05 );
-                background-color: $selectedTabPanelFg;
-                box-shadow: $selectedTabForeground;
-                sound-in: hover.hoversharp;
-            }
+      &:hover {
+        transition: all 0.2s ease-out;
+        transform: scale(1.05 1.05);
+        background-color: $selectedTabPanelFg;
+        box-shadow: $selectedTabForeground;
+        sound-in: hover.hoversharp;
+      }
 
-            &:last-child {
-                margin-right: 0px;
-            }
-        }
+      &:last-child {
+        margin-right: 0px;
+      }
     }
+  }
 
-    .scene {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
+  .scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 
-    &.hidden {
-        display: none;
-    }
+  &.hidden {
+    display: none;
+  }
 
-    &.selected {
-        box-shadow: $blueTeamForeground;
-        background-color: $blueTeamPanelFg;
-    }
+  &.selected {
+    box-shadow: $blueTeamForeground;
+    background-color: $blueTeamPanelFg;
+  }
 }
 
 stationscreentextbutton {
-    width: 80%;
-    border-radius: 16px;
-    cursor: pointer;
-    padding: 8px;
-    position: absolute;
-    bottom: 32px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255 216 0 0.2);
-    border: 2px solid rgba(255 216 0 0.4);
-    box-shadow: $tokenBackground;
-    transition: all 0.1s ease-out;
+  width: 80%;
+  border-radius: 16px;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  bottom: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255 216 0 0.2);
+  border: 2px solid rgba(255 216 0 0.4);
+  box-shadow: $tokenBackground;
+  transition: all 0.1s ease-out;
 
-    .icon {
-        width: 40px;
-        height: 40px;
-        margin-right: 8px;
-    }
+  .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
 
-    .label {
-        color: $tokenColor;
-        text-shadow: $tokenShadow;
-        font-size: 24px;
-        font-family: $mainFont;
-    }
+  .label {
+    color: $tokenColor;
+    text-shadow: $tokenShadow;
+    font-size: 24px;
+    font-family: $mainFont;
+  }
 
-    &:hover {
-        &:not(.disabled) {
-            sound-in: hover.hoversharp;
-            transform: scale( 1.02 1.04 );
-            background-color: rgba(255 216 0 0.4);
-            border: 2px solid rgba(255 216 0 0.6);
-        }
+  &:hover {
+    &:not(.disabled) {
+      sound-in: hover.hoversharp;
+      transform: scale(1.02 1.04);
+      background-color: rgba(255 216 0 0.4);
+      border: 2px solid rgba(255 216 0 0.6);
     }
+  }
 
-    &.disabled {
-        opacity: 0.1;
-    }
+  &.disabled {
+    opacity: 0.1;
+  }
 }
 
 stationscreenbuybutton {
-    width: 80%;
-    border-radius: 16px;
-    cursor: pointer;
-    padding: 8px;
-    position: absolute;
-    bottom: 32px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 32px -2px rgba(255 0 0 0.1 );
-    background-color: rgba(50 50 50 0.6);
-    border: 2px solid rgba(255 50 50 0.1);
-    transition: all 0.1s ease-out;
+  width: 80%;
+  border-radius: 16px;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  bottom: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 32px -2px rgba(255 0 0 0.1);
+  background-color: rgba(50 50 50 0.6);
+  border: 2px solid rgba(255 50 50 0.1);
+  transition: all 0.1s ease-out;
 
-    .icon {
-        width: 40px;
-        height: 40px;
-        margin-right: 8px;
+  .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .amount {
+    color: tomato;
+    font-size: 30px;
+    font-family: $mainFont;
+  }
+
+  &:hover {
+    &.affordable {
+      sound-in: hover.hoversharp;
+      transform: scale(1.02 1.04);
+      background-color: rgba(255 216 0 0.4);
+      border: 2px solid rgba(255 216 0 0.6);
     }
+  }
+
+  &.affordable {
+    background-color: rgba(255 216 0 0.2);
+    border: 2px solid rgba(255 216 0 0.4);
+    box-shadow: $tokenBackground;
 
     .amount {
-        color: tomato;
-        font-size: 30px;
-        font-family: $mainFont;
+      color: $tokenColor;
+      text-shadow: $tokenShadow;
     }
-
-    &:hover {
-        &.affordable {
-            sound-in: hover.hoversharp;
-            transform: scale( 1.02 1.04 );
-            background-color: rgba(255 216 0 0.4);
-            border: 2px solid rgba(255 216 0 0.6);
-        }
-    }
-
-    &.affordable {
-        background-color: rgba(255 216 0 0.2);
-        border: 2px solid rgba(255 216 0 0.4);
-        box-shadow: $tokenBackground;
-
-        .amount {
-            color: $tokenColor;
-            text-shadow: $tokenShadow;
-        }
-    }
+  }
 }
 
 .team_red {
-    stationscreenloadout, stationscreenloadoutupgrade {
-        background-color: $redTeamPanelBg;
-        box-shadow: $redTeamBackground;
-        border: $redTeamPanelBorder;
+  stationscreenloadout,
+  stationscreenloadoutupgrade {
+    background-color: $redTeamPanelBg;
+    box-shadow: $redTeamBackground;
+    border: $redTeamPanelBorder;
 
-        .title {
-            text-shadow: $redTeamShadow;
-            color: $redTeamColor;
-        }
-
-        .description {
-            text-shadow: $redTeamShadow;
-        }
-
-        .secondary_description {
-            text-shadow: $redTeamShadow;
-            color: $redTeamColor;
-        }
-
-        &.selected {
-            background-color: $redTeamPanelFg;
-            box-shadow: $redTeamForeground;
-        }
+    .title {
+      text-shadow: $redTeamShadow;
+      color: $redTeamColor;
     }
 
-    stationscreenweaponinfo {
-        box-shadow: $redTeamBackground;
-        background-color: $redTeamPanelBg;
-        border: $redTeamPanelBorder;
-
-        .name {
-            text-shadow: $redTeamShadow;
-            color: $redTeamColor;
-        }
-
-        .description {
-            text-shadow: $redTeamShadow;
-        }
+    .description {
+      text-shadow: $redTeamShadow;
     }
 
-    stationscreenweaponupgrade {
-        background-color: $redTeamPanelBg;
-        box-shadow: $redTeamBackground;
-        border: $redTeamPanelBorder;
-
-        .title {
-            text-shadow: $redTeamShadow;
-            color: $redTeamColor;
-        }
-
-        .description {
-            text-shadow: $redTeamShadow;
-        }
+    .secondary_description {
+      text-shadow: $redTeamShadow;
+      color: $redTeamColor;
     }
+
+    &.selected {
+      background-color: $redTeamPanelFg;
+      box-shadow: $redTeamForeground;
+    }
+  }
+
+  stationscreenweaponinfo {
+    box-shadow: $redTeamBackground;
+    background-color: $redTeamPanelBg;
+    border: $redTeamPanelBorder;
+
+    .name {
+      text-shadow: $redTeamShadow;
+      color: $redTeamColor;
+    }
+
+    .description {
+      text-shadow: $redTeamShadow;
+    }
+  }
+
+  stationscreenweaponupgrade {
+    background-color: $redTeamPanelBg;
+    box-shadow: $redTeamBackground;
+    border: $redTeamPanelBorder;
+
+    .title {
+      text-shadow: $redTeamShadow;
+      color: $redTeamColor;
+    }
+
+    .description {
+      text-shadow: $redTeamShadow;
+    }
+  }
 }

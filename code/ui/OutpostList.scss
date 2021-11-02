@@ -1,126 +1,126 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 outpostlist {
-	position: absolute;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	width: 100%;
-	top: 192px;
-	left: 0px;
-	z-index: 2;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  top: 192px;
+  left: 0px;
+  z-index: 2;
 
-	outpostitem {
-		transition: all 0.2s ease-out;
-		margin-right: 32px;
-		align-items: center;
-		border-radius: 4px;
-		border: $blackPanelBorder;
-		box-shadow: $blackForeground;
-		background-color: $blackPanelBg;
-		width: 50px;
-		height: 50px;
-		padding: 2px;
+  outpostitem {
+    transition: all 0.2s ease-out;
+    margin-right: 32px;
+    align-items: center;
+    border-radius: 4px;
+    border: $blackPanelBorder;
+    box-shadow: $blackForeground;
+    background-color: $blackPanelBg;
+    width: 50px;
+    height: 50px;
+    padding: 2px;
 
-		&:last-child {
-			margin-right: 0px;
-		}
+    &:last-child {
+      margin-right: 0px;
+    }
 
-		.bar {
-			transition: all 0.2s ease-out;
-			position: absolute;
-			border-radius: 2px;
-			min-width: 5%;
-			opacity: 0.2;
-			height: 100%;
-			top: 2px;
-			left: 2px;
+    .bar {
+      transition: all 0.2s ease-out;
+      position: absolute;
+      border-radius: 2px;
+      min-width: 5%;
+      opacity: 0.2;
+      height: 100%;
+      top: 2px;
+      left: 2px;
 
-			&.hidden {
-				display: none;
-			}
-		}
+      &.hidden {
+        display: none;
+      }
+    }
 
-		.content {
-			width: 100%;
-			height: 100%;
-			display: flex;
-			position: absolute;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			opacity: 0.6;
-			left: 2px;
-			padding: 2px;
+    .content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.6;
+      left: 2px;
+      padding: 2px;
 
-			.circle {
-				transition: all 0.2s ease-out;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				border: 2px solid white;
-				border-radius: 50%;
-				width: 90%;
-				height: 90%;
+      .circle {
+        transition: all 0.2s ease-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
 
-				.name {
-					transition: all 0.2s ease-out;
-					box-shadow: $blackForeground;
-					text-shadow: $blackShadow;
-					font-family: $mainFont;
-					font-size: 18px;
-					color: white;
-				}
-			}
-		}
+        .name {
+          transition: all 0.2s ease-out;
+          box-shadow: $blackForeground;
+          text-shadow: $blackShadow;
+          font-family: $mainFont;
+          font-size: 18px;
+          color: white;
+        }
+      }
+    }
 
-		&.team_red {
-			border: $redTeamPanelBorder;
-			box-shadow: $redTeamBackground;
-			background-color: $redTeamPanelBg;
+    &.team_red {
+      border: $redTeamPanelBorder;
+      box-shadow: $redTeamBackground;
+      background-color: $redTeamPanelBg;
 
-			.bar {
-				background-color: $redTeamColor;
-				box-shadow: $redTeamBackground;
-			}
+      .bar {
+        background-color: $redTeamColor;
+        box-shadow: $redTeamBackground;
+      }
 
-			.content {
-				.circle {
-					border: 2px solid $redTeamColor;
+      .content {
+        .circle {
+          border: 2px solid $redTeamColor;
 
-					.name {
-						text-shadow: $redTeamShadow;
-						color: $redTeamColor;
-					}
-				}
-			}
-		}
+          .name {
+            text-shadow: $redTeamShadow;
+            color: $redTeamColor;
+          }
+        }
+      }
+    }
 
-		&.team_blue {
-			border: $blueTeamPanelBorder;
-			box-shadow: $blueTeamBackground;
-			background-color: $blueTeamPanelBg;
+    &.team_blue {
+      border: $blueTeamPanelBorder;
+      box-shadow: $blueTeamBackground;
+      background-color: $blueTeamPanelBg;
 
-			.bar {
-				box-shadow: $blueTeamBackground;
-				background-color: $blueTeamColor;
-			}
+      .bar {
+        box-shadow: $blueTeamBackground;
+        background-color: $blueTeamColor;
+      }
 
-			.content {
-				.circle {
-					border: 2px solid $blueTeamColor;
+      .content {
+        .circle {
+          border: 2px solid $blueTeamColor;
 
-					.name {
-						text-shadow: $blueTeamShadow;
-						color: $blueTeamColor;
-					}
-				}
-			}
-		}
-	}
+          .name {
+            text-shadow: $blueTeamShadow;
+            color: $blueTeamColor;
+          }
+        }
+      }
+    }
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 }

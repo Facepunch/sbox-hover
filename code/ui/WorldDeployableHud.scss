@@ -1,74 +1,74 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 worlddeployablehud {
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-	mix-blend-mode: lighten;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  mix-blend-mode: lighten;
 
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		box-shadow: $blueTeamForeground;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
-		border-radius: 8px;
-		padding: 16px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $blueTeamForeground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    padding: 16px;
 
-		.label {
-			text-shadow: $blueTeamShadow;
-			box-shadow: $blueTeamForeground;
-			background-color: $blueTeamPanelBg;
-			border: $blueTeamPanelBorder;
-			border-radius: 8px;
-			font-family: $mainFont;
-			color: white;
-			font-size: 24px;
-		}
+    .label {
+      text-shadow: $blueTeamShadow;
+      box-shadow: $blueTeamForeground;
+      background-color: $blueTeamPanelBg;
+      border: $blueTeamPanelBorder;
+      border-radius: 8px;
+      font-family: $mainFont;
+      color: white;
+      font-size: 24px;
+    }
 
-		simpleiconbar {
-			box-shadow: $blueTeamForeground;
-			border-radius: 8px;
-			margin-top: 16px;
-			padding: 8px;
+    simpleiconbar {
+      box-shadow: $blueTeamForeground;
+      border-radius: 8px;
+      margin-top: 16px;
+      padding: 8px;
 
-			.innerBar {
-				background-color: rgba( 255 216 0 0.8 );
-				min-width: 8px;
-			}
+      .innerBar {
+        background-color: rgba(255 216 0 0.8);
+        min-width: 8px;
+      }
 
-			.icon {
-				display: none;
-			}
+      .icon {
+        display: none;
+      }
 
-			&.hidden {
-				display: none;
-			}
-		}
-	}
+      &.hidden {
+        display: none;
+      }
+    }
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 
-	&.team_red {
-		.container {
-			box-shadow: $redTeamForeground;
-			background-color: $redTeamPanelBg;
-			border: $redTeamPanelBorder;
+  &.team_red {
+    .container {
+      box-shadow: $redTeamForeground;
+      background-color: $redTeamPanelBg;
+      border: $redTeamPanelBorder;
 
-			.label {
-				background-color: $redTeamPanelBg;
-				text-shadow: $redTeamShadow;
-				box-shadow: $redTeamForeground;
-				border: $redTeamPanelBorder;
-			}
+      .label {
+        background-color: $redTeamPanelBg;
+        text-shadow: $redTeamShadow;
+        box-shadow: $redTeamForeground;
+        border: $redTeamPanelBorder;
+      }
 
-			simpleiconbar {
-				box-shadow: $redTeamForeground;
-			}
-		}
-	}
+      simpleiconbar {
+        box-shadow: $redTeamForeground;
+      }
+    }
+  }
 }

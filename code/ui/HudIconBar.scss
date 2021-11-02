@@ -1,66 +1,66 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 hudiconbar {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	color: #fff;
-	height: 36px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  height: 36px;
 
-	.outerBar {
-		background-color: rgba( 255 255 255 0.05 );
-		box-shadow: 0px 0px 2px 2px rgba( 0 0 0 0.1 );
-		width: 300px;
-		border-radius: 2px;
-		height: 24px;
-	}
+  .outerBar {
+    background-color: rgba(255 255 255 0.05);
+    box-shadow: 0px 0px 2px 2px rgba(0 0 0 0.1);
+    width: 300px;
+    border-radius: 2px;
+    height: 24px;
+  }
 
-	.innerBar {
-		background-color: rgba( 0 255 0 0.2 );
-		border-radius: 2px;
-		width: 300px;
-		height: 100%;
-		min-width: 1px;
-	}
+  .innerBar {
+    background-color: rgba(0 255 0 0.2);
+    border-radius: 2px;
+    width: 300px;
+    height: 100%;
+    min-width: 1px;
+  }
 
-	.text {
-		color: #ECECEC;
-		font-size: 20px;
-		font-family: $mainFont;
-		text-shadow: 0px 0px 4px rgba(0, 255, 255, 1);
-		font-weight: 500;
-		text-shadow: 0 1px 1px rgba(#000,0.2);
-		margin-left: 8px;
-	}
+  .text {
+    color: #ececec;
+    font-size: 20px;
+    font-family: $mainFont;
+    text-shadow: 0px 0px 4px rgba(0, 255, 255, 1);
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(#000, 0.2);
+    margin-left: 8px;
+  }
 
-	.icon {
-		background-image: url( /ui/icons/health.png );
-		background-size: 100%;
-		margin-left: 16px;
-		text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
-		width: 28px;
-		height: 28px;
-	}
+  .icon {
+    background-image: url(/ui/icons/health.png);
+    background-size: 100%;
+    margin-left: 16px;
+    text-shadow: 0px 0px 6px rgba(0, 255, 255, 1);
+    width: 28px;
+    height: 28px;
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 
-	&.low {
-		.text {
-			color: #ff9f9f;
-		}
+  &.low {
+    .text {
+      color: #ff9f9f;
+    }
 
-		.innerBar {
-			background-color: rgba( 255 0 0 0.2 );
-		}
-	}
+    .innerBar {
+      background-color: rgba(255 0 0 0.2);
+    }
+  }
 }
 
 .team_red {
-	hudiconbar {
-		.icon {
-			text-shadow: 0px 0px 6px rgba(255, 0, 0, 1);
-		}
-	}
+  hudiconbar {
+    .icon {
+      text-shadow: 0px 0px 6px rgba(255, 0, 0, 1);
+    }
+  }
 }

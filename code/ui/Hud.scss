@@ -1,308 +1,217 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 rootpanel {
-	background-color: rgba( #333, 0 );
-	transition: background-color 0.2s ease-in;
-	transform-origin: 50% 50%;
+  background-color: rgba(#333, 0);
+  transition: background-color 0.2s ease-in;
+  transform-origin: 50% 50%;
 
-	&.devcamera {
-		display: none;
-	}
+  &.devcamera {
+    display: none;
+  }
 }
 
 .hud_left {
-	display: flex;
-	flex-direction: row;
-	position: absolute;
-	bottom: 32px;
-	left: 64px;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 32px;
+  left: 64px;
+}
+
+.hud_center {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hud_right {
+  //background-color: red;
+  position: absolute;
+  bottom: 32px;
+  right: 64px;
 }
 
 voicelist {
-	font-family: $mainFont;
+  font-family: $mainFont;
 
-	voiceentry {
-		background-color: $blueTeamPanelBg;
-		box-shadow: $blueTeamBackground;
-		border: $blueTeamPanelBorder;
-		background-color: rgba( black, 0.8 );
-	}
+  voiceentry {
+    background-color: $blueTeamPanelBg;
+    box-shadow: $blueTeamBackground;
+    border: $blueTeamPanelBorder;
+    background-color: rgba(black, 0.8);
+  }
 }
 
 .team_red {
-	voicelist {
-		voiceentry {
-			background-color: $redTeamPanelBg;
-			box-shadow: $redTeamBackground;
-			border: $redTeamPanelBorder;
-		}
-	}
+  voicelist {
+    voiceentry {
+      background-color: $redTeamPanelBg;
+      box-shadow: $redTeamBackground;
+      border: $redTeamPanelBorder;
+    }
+  }
 }
 
 vitals {
-	color: #fff;
-	padding-left: 20px;
-	padding-right: 24px;
-	box-shadow: $blueTeamBackground;
-	background-color: $blueTeamPanelBg;
-	border: $blueTeamPanelBorder;
-	border-radius: 8px;
-	font-family: $mainFont;
-	flex-direction: column;
-	justify-content: center;
-	padding: 8px;
-	font-size: 40px;
-	height: 80px;
+  color: #fff;
+  font-family: $mainFont;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 40px;
+  position: relative;
 
-	.energy {
-		.outerBar {
-			background-color: rgba( 0 170 255 0.1 );
-		}
+  hudiconbar {
+    width: 80px;
+    position: relative;
+  }
 
-		.innerBar {
-			background-color: rgba( 0 170 255 0.5 );
-		}
+  .icon {
+    margin-left: 0;
+  }
 
-		.text {
-			transition: all 0.25s ease-out;
-			text-shadow: $blueTeamShadow;
-		}
+  .outerbar {
+    background-color: $panel-bg;
+    position: absolute;
+    border-radius: 0;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 4px;
 
-		.icon {
-			background-image: url( /ui/icons/energy.png );
-			background-image-tint: rgba( 0 170 255 1 );
-		}
+    .innerBar {
+      border-radius: 0;
+    }
+  }
 
-		&.grow {
-			transition: all 0.25s ease-out;
+  .divider {
+    width: 2px;
+    background-color: rgba(#fff, 0.2);
+    height: 130%;
+    margin: 0 16px;
+  }
 
-			.text {
-				text-shadow: $selectedTabShadow;
-				transform: scale( 1.1 1.1 );
-			}
-		}
-	}
+  .energy {
+    .innerBar {
+      background-color: rgba(0 170 255 0.5);
+    }
 
-	.health {
-		.outerBar {
-			background-color: rgba( 0 255 0 0.15 );
-		}
+    .text {
+      transition: all 0.25s ease-out;
+      text-shadow: $blueTeamShadow;
+    }
 
-		.innerBar {
-			background-color: rgba( 0 255 0 0.5 );
-		}
+    .icon {
+      background-image: url(/ui/icons/energy.png);
+      background-image-tint: rgba(0 170 255 1);
+    }
 
-		.text {
-			transition: all 0.25s ease-out;
-			text-shadow: $blueTeamShadow;
-		}
+    &.grow {
+      transition: all 0.25s ease-out;
 
-		.icon {
-			background-image: url( /ui/icons/health.png );
-			background-image-tint: rgba( 0 255 0 1 );
-		}
+      .text {
+        text-shadow: $selectedTabShadow;
+        right: 4px;
+      }
+    }
+  }
 
-		&.grow {
-			transition: all 0.25s ease-out;
+  .health {
+    .innerBar {
+      background-color: rgba(0 255 0 0.5);
+    }
 
-			.text {
-				text-shadow: $selectedTabShadow;
-				transform: scale( 1.1 1.1 );
-			}
-		}
-	}
+    .text {
+      transition: all 0.25s ease-out;
+      text-shadow: $blueTeamShadow;
+    }
 
-	&.hidden {
-		display: none;
-	}
-}
+    .icon {
+      background-image: url(/ui/icons/health.png);
+      background-image-tint: rgba(0 255 0 1);
+    }
 
-speedometer {
-	box-shadow: $blueTeamBackground;
-	background-color: $blueTeamPanelBg;
-	border-radius: 8px;
-	padding: 8px;
-	justify-content: center;
-	justify-items: center;
-	align-items: center;
-	font-family: $mainFont;
-	flex-direction: row;
-	position: absolute;
-	height: 50px;
-	color: #fff;
-	min-width: 256px;
-	top: 320px;
-	left: 64px;
+    &.grow {
+      transition: all 0.25s ease-out;
 
-	.icon {
-		background-image: url( /ui/icons/speed.png );
-		background-image-tint: rgba( 255 255 0 1 );
-		background-size: 100%;
-		text-shadow: $blueTeamShadow;
-		margin-right: 16px;
-		width: 24px;
-		height: 24px;
-	}
+      .text {
+        text-shadow: $selectedTabShadow;
+        right: 4px;
+      }
+    }
+  }
 
-	.speed {
-		text-shadow: $blueTeamShadow;
-		font-size: 20px;
-		color: white;
-	}
-}
-
-.team_red {
-	speedometer {
-		background-color: $redTeamPanelBg;
-		box-shadow: $redTeamBackground;
-
-		.icon {
-			text-shadow: $redTeamShadow;
-		}
-
-		.speed {
-			text-shadow: $redTeamShadow;
-		}
-	}
+  &.hidden {
+    display: none;
+  }
 }
 
 tokens {
-	box-shadow: $blueTeamBackground;
-	background-color: $blueTeamPanelBg;
-	border-radius: 8px;
-	border: $blueTeamPanelBorder;
-	padding: 8px;
-	justify-content: center;
-	justify-items: center;
-	align-items: center;
-	font-family: $mainFont;
-	flex-direction: row;
-	position: absolute;
-	min-width: 200px;
-	height: 72px;
-	color: #fff;
-	right: 64px;
-	top: 32px;
+  box-shadow: $blueTeamBackground;
+  background-color: $blueTeamPanelBg;
+  border-radius: 8px;
+  border: $blueTeamPanelBorder;
+  padding: 8px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  font-family: $mainFont;
+  flex-direction: row;
+  position: absolute;
+  min-width: 200px;
+  height: 72px;
+  color: #fff;
+  right: 64px;
+  top: 32px;
 
-	.icon {
-		background-image: url( /ui/icons/tokens.png );
-		background-size: 100%;
-		text-shadow: $tokenShadow;
-		margin-right: 8px;
-		width: 40px;
-		height: 40px;
-	}
+  .icon {
+    background-image: url(/ui/icons/tokens.png);
+    background-size: 100%;
+    text-shadow: $tokenShadow;
+    margin-right: 8px;
+    width: 40px;
+    height: 40px;
+  }
 
-	.amount {
-		text-shadow: $tokenShadow;
-		font-size: 32px;
-		color: $tokenColor;
-	}
+  .amount {
+    text-shadow: $tokenShadow;
+    font-size: 32px;
+    color: $tokenColor;
+  }
 }
 
 .team_red {
-	tokens {
-		border: $redTeamPanelBorder;
-		background-color: $redTeamPanelBg;
-		box-shadow: $redTeamBackground;
+  tokens {
+    border: $redTeamPanelBorder;
+    background-color: $redTeamPanelBg;
+    box-shadow: $redTeamBackground;
 
-		.icon {
-			text-shadow: $redTeamShadow;
-		}
+    .icon {
+      text-shadow: $redTeamShadow;
+    }
 
-		.amount {
-			text-shadow: $redTeamShadow;
-		}
-	}
+    .amount {
+      text-shadow: $redTeamShadow;
+    }
+  }
 }
 
 .team_red {
-	vitals {
-		border: $redTeamPanelBorder;
-		box-shadow: $redTeamBackground;
-		background-color: $redTeamPanelBg;
+  vitals {
+    .health {
+      .text {
+        text-shadow: $redTeamShadow;
+      }
+    }
 
-		.health {
-			.text {
-				text-shadow: $redTeamShadow;
-			}
-		}
-
-		.energy {
-			.text {
-				text-shadow: $redTeamShadow;
-			}
-		}
-	}
-}
-
-ammo {
-	display: none;
-	align-items: center;
-	font-family: $mainFont;
-	justify-content: center;
-	height: 80px;
-	box-shadow: $blueTeamBackground;
-	background-color: $blueTeamPanelBg;
-	border: $blueTeamPanelBorder;
-	margin-left: 32px;
-	border-radius: 8px;
-	padding: 16px;
-
-	label {
-		text-shadow: $blueTeamShadow;
-	}
-
-	.icon {
-		width: 32px;
-		height: 32px;
-		background-image: url( /ui/icons/ammo.png );
-		background-size: 100%;
-		margin-left: 16px;
-		text-shadow: $blueTeamShadow;
-	}
-
-	.textContainer {
-		align-items: center;
-		justify-content: center;
-	}
-
-	.weapon {
-		font-size: 34px;
-		color: #ECECEC;
-		transition: color 0.2s ease;
-	}
-
-	.inventory {
-		color: #ECECEC;
-		font-size: 28px;
-		margin-left: 8px opacity: 0.5;
-	}
-
-	&.active {
-		display: flex;
-	}
-
-
-	&.low {
-		.weapon {
-			color: #ff9f9f;
-		}
-	}
-}
-
-.team_red {
-	ammo {
-		background-color: $redTeamPanelBg;
-		box-shadow: $redTeamBackground;
-		border: $redTeamPanelBorder;
-
-		.icon {
-			text-shadow: $redTeamShadow;
-		}
-
-		label {
-			text-shadow: $redTeamShadow;
-		}
-	}
+    .energy {
+      .text {
+        text-shadow: $redTeamShadow;
+      }
+    }
+  }
 }
