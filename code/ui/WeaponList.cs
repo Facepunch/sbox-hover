@@ -6,70 +6,29 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	[UseTemplate] 
-	public class WeaponIcon : Panel
-	{
-		public bool IsUsingAbility { get; set; }
-		public bool IsAvailable { get; set; }
-		public bool IsPassive { get; set; }
-		public bool IsActive { get; set; }
-		public bool IsHidden { get; set; }
-		public Weapon Weapon { get; private set; }
-		public Label Ability { get; private set; }
-		public Image Icon { get; private set; }
-		public Label Name { get; private set; }
-
-		public WeaponIcon()
-		{
-			// Icon = Add.Image( "", "icon" );
-			// Name = Add.Label( "", "name" );
-			// Ability = Add.Label( "", "ability" );
-		}
-
-		public void Update( Weapon weapon )
-		{
-			Weapon = weapon;
-			Icon.Texture = Texture.Load( weapon.Config.Icon );
-			Name.Text = weapon.Config.Name;
-
-			if ( weapon is Equipment equipment && !string.IsNullOrEmpty( equipment.AbilityBind ) )
-			{
-				Ability.SetClass( "hidden", false );
-				Ability.Text = $"[{Input.GetKeyWithBinding( equipment.AbilityBind )}]";
-			}
-			else
-			{
-				Ability.SetClass( "hidden", true );
-			}
-		}
-
-		public override void Tick()
-		{
-			SetClass( "using_ability", IsUsingAbility );
-			SetClass( "unavailable", !IsAvailable );
-			SetClass( "passive", IsPassive );
-			SetClass( "hidden", IsHidden );
-			SetClass( "active", IsActive );
-
-			base.Tick();
-		}
-	}
-
+	[UseTemplate]
 	public class WeaponList : Panel
 	{
-		public WeaponIcon[] Weapons { get; set; } = new WeaponIcon[6];
+		public WeaponListItem[] Weapons { get; set; } = new WeaponListItem[6];
+
+		private RealTimeUntil RemainOpenUntil { get; set; }
 
 		public WeaponList()
 		{
-			StyleSheet.Load( "/ui/WeaponList.scss" );
-
 			for ( int i = 0; i < 6; i++ )
 			{
-				var weapon = AddChild<WeaponIcon>( "weapon" );
+				var weapon = AddChild<WeaponListItem>( "weapon" );
 				weapon.IsHidden = true;
 				weapon.IsActive = false;
 				Weapons[i] = weapon;
 			}
+
+			BindClass( "closed", IsCollapsed );
+		}
+
+		public bool IsCollapsed()
+        {
+			return RemainOpenUntil;
 		}
 
 		public override void Tick()
@@ -124,7 +83,7 @@ namespace Facepunch.Hover
 			return -1;
 		}
 
-		private bool CanSelectWeapon( WeaponIcon weapon )
+		private bool CanSelectWeapon( WeaponListItem weapon )
 		{
 			if ( !weapon.IsHidden && weapon.Weapon.IsValid()
 				&& !weapon.Weapon.IsPassive && weapon.Weapon.IsAvailable() )
@@ -247,6 +206,7 @@ namespace Facepunch.Hover
 			if ( CanSelectWeapon( weapon ) && player.ActiveChild != weapon.Weapon )
 			{
 				input.ActiveChild = weapon.Weapon;
+				RemainOpenUntil = 3f;
 			}
 		}
 
@@ -276,7 +236,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			WeaponIcon activeWeapon = null;
+			WeaponListItem activeWeapon = null;
 
 			for ( int i = 0; i < Weapons.Length; i++ )
 			{
