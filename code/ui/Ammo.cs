@@ -8,18 +8,9 @@ namespace Facepunch.Hover
 	[UseTemplate] 
 	public class Ammo : Panel
 	{
-		public Panel TextContainer { get; set; }
 		public Label Weapon { get; set; }
 		public Label Inventory { get; set; }
-
 		public Panel Icon { get; set; }
-
-		public Ammo()
-		{
-
-			
-			
-		}
 
 		public override void Tick()
 		{
