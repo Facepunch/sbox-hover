@@ -55,21 +55,42 @@ namespace Facepunch.Hover
 				{
 					var weapon = Weapons[currentIndex];
 
-					weapon.Update( child );
 					weapon.IsActive = (player.ActiveChild == child);
 					weapon.IsHidden = false;
 					weapon.IsPassive = child.IsPassive;
 					weapon.IsAvailable = child.IsAvailable();
 
+					var keyBind = string.Empty;
+
+					if ( weapon.IsAvailable && !weapon.IsPassive )
+                    {
+						keyBind = IndexToSlotKey( currentIndex );
+                    }
+
 					if ( child is Equipment equipment )
+                    {
 						weapon.IsUsingAbility = equipment.IsUsingAbility;
+
+						if ( !string.IsNullOrEmpty( equipment.AbilityBind ) )
+							keyBind = equipment.AbilityBind;
+                    }
 					else
+                    {
 						weapon.IsUsingAbility = false;
+                    }
+
+					weapon.KeyBind = keyBind;
+					weapon.Update( child );
 
 					currentIndex++;
 				}
 			}
 		}
+
+		private string IndexToSlotKey( int index )
+        {
+			return $"iv_slot{index + 1}";
+        }
 
 		private int SlotPressInput( InputBuilder input )
 		{

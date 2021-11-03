@@ -49,23 +49,6 @@ weaponlistitem {
         }
     }
 
-    .ability {
-        position: absolute;
-        padding: 8px;
-        text-align: center;
-        border-radius: 8px;
-        color: white;
-        font-size: 20px;
-        border: $blueTeamPanelBorder;
-        color: $blueTeamColor;
-        font-family: $mainFont;
-        top: -56px;
-
-        &.hidden {
-            display: none;
-        }
-    }
-
     &.active {
         background-color: $blue;
         box-shadow: 0 2px 30px rgba($blue, 0.05);

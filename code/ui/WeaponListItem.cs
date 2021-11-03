@@ -14,8 +14,9 @@ namespace Facepunch.Hover
 		public bool IsPassive { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsHidden { get; set; }
+		public string KeyBind { get; set; }
 		public Weapon Weapon { get; private set; }
-		public Label Ability { get; private set; }
+		public Label Slot { get; private set; }
 		public Image Icon { get; private set; }
 		public Label Name { get; private set; }
 
@@ -25,15 +26,16 @@ namespace Facepunch.Hover
 			Icon.Texture = Texture.Load( weapon.Config.Icon );
 			Name.Text = weapon.Config.Name;
 
-			if ( weapon is Equipment equipment && !string.IsNullOrEmpty( equipment.AbilityBind ) )
-			{
-				Ability.SetClass( "hidden", false );
-				Ability.Text = $"[{Input.GetKeyWithBinding( equipment.AbilityBind )}]";
-			}
+			if ( !string.IsNullOrEmpty( KeyBind ) )
+            {
+				Slot.SetClass( "hidden", false );
+				Slot.Text = Input.GetKeyWithBinding( KeyBind ).ToUpper();
+            }
 			else
-			{
-				Ability.SetClass( "hidden", true );
-			}
+            {
+				Slot.SetClass( "hidden", true );
+				Slot.Text = string.Empty;
+            }
 		}
 
 		public override void Tick()
