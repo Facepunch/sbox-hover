@@ -73,6 +73,22 @@ weaponlistitem {
   }
 
   &.passive {
+    background-color: rgba(#000, 0.2);
+
+    .weapon-info {
+      background-color: rgba(#000, 0.2);
+      .weapon-number {
+        display: none;
+      }
+    }
+
+    &.ability {
+      .weapon-info {
+        .weapon-number {
+          display: flex;
+        }
+      }
+    }
   }
 
   &.using_ability {
@@ -93,26 +109,5 @@ weaponlistitem {
 
   &.hidden {
     display: none;
-  }
-
-  &:last-child {
-    margin-right: 0px;
-  }
-}
-
-.team_red {
-  weaponlistitem {
-    &:not(.passive) {
-      .name {
-      }
-
-      .ability {
-      }
-
-      &.active {
-        .name {
-        }
-      }
-    }
   }
 }
