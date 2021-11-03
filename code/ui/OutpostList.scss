@@ -24,12 +24,13 @@ outpostlist {
 
     .bar {
       transition: all 0.2s ease-out;
-      min-width: 5%;
+      min-height: 5%;
       opacity: 1;
-      height: 100%;
+      width: 100%;
       position: absolute;
-      top: 0;
       left: 0;
+      right: 0;
+      bottom: 0;
 
       &.hidden {
         display: none;
@@ -80,7 +81,7 @@ outpostlist {
     }
 
     &.team_blue {
-      background-color: $blue;
+      background-color: rgba($blue, 0.3);
       .bar {
         background-color: $blue;
       }

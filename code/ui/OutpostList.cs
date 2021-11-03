@@ -37,7 +37,7 @@ namespace Facepunch.Hover
 			if ( Outpost.CaptureProgress > 0f )
 			{
 				Bar.SetClass( "hidden", false );
-				Bar.Style.Width = Length.Fraction( Outpost.CaptureProgress );
+				Bar.Style.Height = Length.Fraction( Outpost.CaptureProgress );
 			}
 			else
 			{
