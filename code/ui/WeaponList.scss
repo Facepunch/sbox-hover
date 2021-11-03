@@ -9,9 +9,23 @@ weaponlist {
   width: 300px;
 
   &.closed {
-      weaponlistitem {
-          
+    opacity: 0.8;
+
+    weaponlistitem {
+      .icon-container {
+        overflow: hidden;
+        height: 0;
+        opacity: 0;
       }
+
+      &.active {
+        .weapon-name {
+          .name {
+            margin-left: 0;
+          }
+        }
+      }
+    }
   }
 
   &.hidden {
