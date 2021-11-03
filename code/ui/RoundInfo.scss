@@ -9,88 +9,35 @@ roundInfo {
   padding: 0;
   width: 100%;
 
-  .container {
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
-    padding: 8px;
-    font-family: $mainFont;
-    display: flex;
-    flex-direction: row;
+  .round-info {
+    background-color: $panel-bg;
+    backdrop-filter: $default-blur;
+    flex-direction: column;
+    width: 300px;
     position: absolute;
-    top: 48px;
-    width: 410px;
-    height: 44px;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
 
-    label {
-      align-items: center;
-      color: #ececec;
-      font-size: 24px;
-      font-weight: bold;
-      text-shadow: $blueTeamShadow;
-
-      &.name {
-        width: 50%;
-        padding-right: 50px;
-        text-align: right;
-        left: 0;
-      }
-
-      &.timeLeft {
-        padding-left: 50px;
-        right: 0;
-        text-align: left;
-        width: 50%;
-      }
+    .round-name {
+      color: $light-blue;
+      text-align: center;
+      font-family: $mainFont;
+      font-size: 16px;
+      letter-spacing: 2px;
+    }
+    .round-time {
+      background-color: rgba(#000, 0.3);
+      color: #fff;
+      font-family: $fontBold;
+      font-size: 18px;
+      text-align: center;
+      text-shadow: $text-shadow;
     }
 
     &.roundNameOnly {
-      .name {
-        text-align: center;
-        margin-right: 0px;
-        left: auto;
-        padding: 0;
-        width: 100%;
-      }
-
-      .timeLeft {
+      .round-time {
         display: none;
-      }
-
-      .icon {
-        display: none;
-      }
-    }
-
-    .icon {
-      position: absolute;
-      background-image-tint: $blueTeamTint;
-      background-image: $blueTeamIcon;
-      background-size: 100%;
-      width: 80px;
-      height: 80px;
-      left: 50%;
-      top: 50%;
-      transform: translateX(-35%) translateY(-50%);
-    }
-  }
-}
-
-.team_red {
-  roundInfo {
-    .container {
-      background-color: $redTeamPanelBg;
-      box-shadow: $redTeamBackground;
-      border: $redTeamPanelBorder;
-
-      label {
-        text-shadow: $redTeamShadow;
-      }
-
-      .icon {
-        background-image-tint: $redTeamTint;
-        background-image: $redTeamIcon;
       }
     }
   }
