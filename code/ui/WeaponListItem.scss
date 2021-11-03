@@ -107,3 +107,21 @@ weaponlistitem {
     display: none;
   }
 }
+
+.team_red {
+  weaponlistitem {
+    .weapon-info {
+      .weapon-number {
+        color: $light-red;
+      }
+      .weapon-name {
+        .name {
+          color: #fff;
+        }
+      }
+    }
+    &.active {
+      background-color: $red;
+    }
+  }
+}
