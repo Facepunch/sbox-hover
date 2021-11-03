@@ -32,3 +32,11 @@ speedometer {
     text-shadow: $text-shadow;
   }
 }
+
+.team_red {
+  speedometer {
+    .amount {
+      color: $light-red;
+    }
+  }
+}
