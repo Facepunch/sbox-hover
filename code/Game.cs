@@ -22,10 +22,34 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
+		[ServerVar( "hv_toast_duration", Help = "The time that toasts take to disappear." )]
+		public static float ToastDuration { get; set; } = 5f;
+
+		[ServerVar( "hv_award_duration", Help = "The time that awards take to disappear." )]
+		public static float AwardDuration { get; set; } = 3f;
+
+		[ServerCmd( "hv_toast" )]
+		public static void DebugToast()
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				Hud.ToastAll( $"The blue team have captured Crashed Ship", "ui/icons/blue_outpost.png" );
+			}
+		}
+
+		[ServerCmd( "hv_award" )]
+		public static void GiveAward()
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				player.GiveAward<KillAward>();
+			}
+		}
+
 		[ServerCmd( "hv_switch_teams" )]
 		public static void SwitchTeams()
         {
-			if ( ConsoleSystem.Caller is Player player )
+			if ( ConsoleSystem.Caller.Pawn is Player player )
             {
 				if ( player.Team == Team.Red )
 					player.SetTeam( Team.Blue );
