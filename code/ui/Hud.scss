@@ -71,6 +71,8 @@ vitals {
 
   .icon {
     margin-left: 0;
+    width: 24px;
+    height: 24px;
   }
 
   .outerbar {
@@ -102,12 +104,10 @@ vitals {
 
     .text {
       transition: all 0.25s ease-out;
-      text-shadow: $blueTeamShadow;
     }
 
     .icon {
-      background-image: url(/ui/icons/energy.png);
-      background-image-tint: rgba(0 170 255 1);
+      background-image: url(/ui/icons/icon_energy_white.png);
     }
 
     &.grow {
@@ -127,12 +127,10 @@ vitals {
 
     .text {
       transition: all 0.25s ease-out;
-      text-shadow: $blueTeamShadow;
     }
 
     .icon {
-      background-image: url(/ui/icons/health.png);
-      background-image-tint: rgba(0 255 0 1);
+      background-image: url(/ui/icons/icon_health_white.png);
     }
 
     &.grow {
@@ -147,21 +145,5 @@ vitals {
 
   &.hidden {
     display: none;
-  }
-}
-
-.team_red {
-  vitals {
-    .health {
-      .text {
-        text-shadow: $redTeamShadow;
-      }
-    }
-
-    .energy {
-      .text {
-        text-shadow: $redTeamShadow;
-      }
-    }
   }
 }
