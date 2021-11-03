@@ -1,0 +1,31 @@
+@import "_variables.scss";
+
+tokens {
+  background-color: $panel-bg;
+  backdrop-filter: $default-blur;
+  justify-content: center;
+  align-items: center;
+  font-family: $mainFont;
+  flex-direction: row;
+  position: absolute;
+  min-width: 150px;
+  padding: 4px 8px;
+  color: #fff;
+  right: 64px;
+  top: 32px;
+
+  .icon {
+    background-image: url(/ui/icons/icon_token_lightblue.png);
+    background-size: 100%;
+    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .amount {
+    color: $light-blue;
+    letter-spacing: 2px;
+    font-size: 16px;
+    font-family: $fontBold;
+  }
+}
