@@ -42,3 +42,13 @@ roundInfo {
     }
   }
 }
+
+.team_red {
+  roundInfo {
+    .round-info {
+      .round-name {
+        color: $light-red;
+      }
+    }
+  }
+}

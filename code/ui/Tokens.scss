@@ -1,7 +1,7 @@
 @import "_variables.scss";
 
 tokens {
-  background-color: $panel-bg;
+  background-color: $panel-bg-light;
   backdrop-filter: $default-blur;
   justify-content: center;
   align-items: center;
@@ -27,5 +27,16 @@ tokens {
     letter-spacing: 2px;
     font-size: 16px;
     font-family: $fontBold;
+  }
+}
+
+.team_red {
+  tokens {
+    .icon {
+      background-image: url(/ui/icons/icon_token_lightred.png);
+    }
+    .amount {
+      color: $light-red;
+    }
   }
 }

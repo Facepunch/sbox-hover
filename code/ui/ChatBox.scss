@@ -15,7 +15,6 @@ chatbox {
   textentrycontainer {
     background-color: $panel-bg;
     backdrop-filter: $blur-medium;
-    padding: 8px;
     align-items: center;
     opacity: 0;
     width: 100%;
@@ -36,15 +35,14 @@ chatbox {
       flex-grow: 0;
       color: white;
       font-family: $fontBold;
-      padding: 4px;
+      padding: 8px;
 
       &.team {
         color: #fff;
       }
 
       &.all {
-        //text-shadow: $chatInfoShadow;
-        color: $chatInfoColor;
+        color: $green;
       }
     }
   }
@@ -94,16 +92,15 @@ chatentry {
   transition: all 0.1s ease-out;
   opacity: 1;
   max-height: 200px;
+  min-height: 40px;
   flex-shrink: 0;
   flex-grow: 0;
-  padding: 12px;
-  min-height: 47px;
+  padding: 0 8px 0 0;
   max-width: 100%;
   transform: scale(1);
   backdrop-filter: $blur-medium;
   margin-bottom: 2px;
   flex-direction: row;
-  align-items: center;
 
   &:intro {
     max-height: 0px;
@@ -120,23 +117,22 @@ chatentry {
   }
 
   image {
-    box-shadow: 0px 0px 12px 4px rgba(0 0 0 0.2);
-    width: 32px;
-    height: 32px;
-    min-height: 32px;
-    border-radius: 50%;
-    margin-right: 8px;
+    width: 42px;
+    height: 42px;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
   }
 
   .channel {
-    padding-right: 8px;
     font-weight: 600;
     font-size: 14px;
     color: #c0fb2e;
     flex-shrink: 0;
     text-shadow: $text-shadow;
-    padding: 4px;
-    margin: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
 
     &.hidden {
       display: none;
@@ -144,7 +140,7 @@ chatentry {
   }
 
   .name {
-    padding-right: 8px;
+    padding: 10px 0;
     font-weight: 600;
     font-size: 14px;
     color: #c0fb2e;
@@ -158,6 +154,8 @@ chatentry {
     text-shadow: $text-shadow;
     font-size: 14px;
     flex-grow: 1;
+    margin-left: 8px;
+    padding: 10px 0;
   }
 
   &.noname .name {
