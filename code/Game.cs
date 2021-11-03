@@ -22,6 +22,20 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
+		[ServerCmd( "hv_switch_teams" )]
+		public static void SwitchTeams()
+        {
+			if ( ConsoleSystem.Caller is Player player )
+            {
+				if ( player.Team == Team.Red )
+					player.SetTeam( Team.Blue );
+				else
+					player.SetTeam( Team.Red );
+
+				player.Respawn();
+			}
+        }
+
 		public Game()
 		{
 			if ( IsServer )
