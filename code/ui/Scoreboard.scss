@@ -1,4 +1,4 @@
-﻿.scoreboard {
+﻿scoreboard {
 	align-items: center;
 	background-color: rgba(#000,0.8);
 	font-family: Roboto;
@@ -39,7 +39,7 @@
 			&.team_blue {
 				background-image: url( /ui/hover/blue-bg.png );
 
-				.teamIcon {
+				.team_icon {
 					background-image: url( /ui/icons/blue.png );
 				}
 			}
@@ -47,12 +47,12 @@
 			&.team_red {
 				background-image: url( /ui/hover/red-bg.png );
 
-				.teamIcon {
+				.team_icon {
 					background-image: url( /ui/icons/red.png );
 				}
 			}
 
-			.teamIcon {
+			.team_icon {
 				background-size: 100%;
 				width: 60px;
 				height: 60px;

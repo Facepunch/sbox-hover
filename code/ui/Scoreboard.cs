@@ -7,30 +7,19 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class Scoreboard : Panel
 	{
-		public struct TeamSection
-		{
-			public Label TeamName;
-			public Panel TeamIcon;
-			public Panel TeamContainer;
-			public Panel Header;
-			public Panel TeamHeader;
-			public Panel Canvas;
-		}
-
 		public Dictionary<Client, ScoreboardEntry> Rows = new();
-		public Dictionary<int, TeamSection> TeamSections = new();
 
-		public Scoreboard()
-		{
-			StyleSheet.Load( "/ui/Scoreboard.scss" );
+		public Panel BlueSection { get; set; }
+		public Panel RedSection { get; set; }
 
-			AddClass( "scoreboard" );
+		public string BlueCaptures => GetFlagCaptures( Team.Blue ).ToString();
+		public string RedCaptures => GetFlagCaptures( Team.Red ).ToString();
 
-			AddTeamHeader( Team.Red );
-			AddTeamHeader( Team.Blue );
-		}
+		public string BlueMembers => Team.Blue.GetCount().ToString();
+		public string RedMembers => Team.Red.GetCount().ToString();
 
 		public override void Tick()
 		{
@@ -62,71 +51,45 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected void AddTeamHeader( Team team )
-		{
-			var section = new TeamSection
-			{
-				
-			};
-
-			section.TeamContainer = Add.Panel( "team-container" );
-			section.TeamHeader = section.TeamContainer.Add.Panel( "team-header" );
-			section.Header = section.TeamContainer.Add.Panel( "table-header" );
-			section.Canvas = section.TeamContainer.Add.Panel( "canvas" );
-
-			section.TeamIcon = section.TeamHeader.Add.Panel( "teamIcon" );
-			section.TeamName = section.TeamHeader.Add.Label( team.GetName(), "teamName" );
-
-			var hudClass = team.GetHudClass();
-
-			section.TeamIcon.AddClass( hudClass );
-
-			section.Header.Add.Label( "NAME", "name" );
-			section.Header.Add.Label( "CAPTURES", "captures" );
-			section.Header.Add.Label( "KILLS", "kills" );
-			section.Header.Add.Label( "DEATHS", "deaths" );
-			section.Header.Add.Label( "PING", "ping" );
-
-			section.Canvas.AddClass( hudClass );
-			section.Header.AddClass( hudClass );
-			section.TeamHeader.AddClass( hudClass );
-
-			var index = (int)team;
-
-			TeamSections[index] = section;
-		}
-
 		protected virtual ScoreboardEntry AddClient( Client entry )
 		{
-			var teamIndex = entry.GetInt( "team" );
+			var team = (Team)entry.GetInt( "team" );
+			var section = BlueSection;
 
-			if ( !TeamSections.TryGetValue( teamIndex, out var section ) )
-			{
-				section = TeamSections[0];
-			}
+			if ( team == Team.Red )
+            {
+				section = RedSection;
+            }
 
-			var p = section.Canvas.AddChild<ScoreboardEntry>();
+			var p = section.AddChild<ScoreboardEntry>();
 			p.Client = entry;
 			return p;
 		}
 
+		private int GetFlagCaptures( Team team )
+        {
+			if ( Rounds.Current is PlayRound round )
+            {
+				return team == Team.Blue ? round.BlueScore : round.RedScore;
+            }
+
+			return 0;
+        }
+
+		private Panel GetTeamSection( Team team )
+        {
+			return team == Team.Blue ? BlueSection : RedSection;
+        }
+
 		private void CheckTeamIndex( ScoreboardEntry entry )
 		{
-			var currentTeamIndex = 0;
-			var newTeamIndex = entry.Client.GetInt( "team" );
+			var team = (Team)entry.Client.GetInt( "team" );
+			var section = GetTeamSection( team );
 
-			foreach ( var kv in TeamSections )
-			{
-				if ( kv.Value.Canvas == entry.Parent )
-				{
-					currentTeamIndex = kv.Key;
-				}
-			}
-
-			if ( currentTeamIndex != newTeamIndex )
-			{
-				entry.Parent = TeamSections[newTeamIndex].Canvas;
-			}
+			if ( entry.Parent != section )
+            {
+				entry.Parent = section;
+            }
 		}
 	}
 
