@@ -16,6 +16,7 @@ namespace Facepunch.Hover
 		public bool OnlyRegenJetpackOnGround { get; set; } = true;
 		public float PostSkiFrictionTime { get; set; } = 1.5f;
 		public float SkiStrafeControl { get; set; } = 0.5f;
+		public float JetpackSurfaceBounce { get; set; } = 0.3f;
 		public float SkiWallBounce { get; set; } = 0.5f;
 		public float FallDamageThreshold { get; set; } = 600f;
 		public float GroundSlideScale { get; set; } = 0.85f;
@@ -320,6 +321,7 @@ namespace Facepunch.Hover
 		{
 			var mover = new MoveHelper( Position, Velocity );
 			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
+			mover.WallBounce = IsJetpacking ? JetpackSurfaceBounce : 0f;
 			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMove( Time.Delta );
 
@@ -418,7 +420,14 @@ namespace Facepunch.Hover
 
 					if ( Velocity.z < MaxJetpackVelocity )
 					{
-						Velocity += Vector3.Up * boost * Time.Delta;
+						var trace = Trace.Ray( Position, Vector3.Up * boost * 0.25f )
+							.Ignore( Pawn )
+							.Run();
+
+						if ( !trace.Hit )
+                        {
+							Velocity += Vector3.Up * boost * Time.Delta;
+						}
 					}
 				}
 

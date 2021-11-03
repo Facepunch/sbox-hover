@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 
 		public TextEntryContainer()
 		{
-			Channel = Add.Label( "[All]", "channel" );
+			Channel = Add.Label( "All", "channel" );
 			Input = AddChild<TabTextEntry>( "" );
 		}
 
