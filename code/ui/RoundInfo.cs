@@ -6,21 +6,16 @@ using System;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate] 
 	public class RoundInfo : Panel
 	{
-		public Panel Container;
-		public Label RoundName;
-		public Label TimeLeft;
-		public Panel Icon;
+		public Panel Container { get; set; }
+		public Label RoundName { get; set; }
+		public Label TimeLeft { get; set; }
+		public Panel Icon { get; set; }
 
 		public RoundInfo()
 		{
-			StyleSheet.Load( "/ui/RoundInfo.scss" );
-
-			Container = Add.Panel( "container" );
-			RoundName = Container.Add.Label( "Round", "name" );
-			Icon = Container.Add.Panel( "icon" );
-			TimeLeft = Container.Add.Label( "00:00", "timeLeft" );
 		}
 
 		public override void Tick()
