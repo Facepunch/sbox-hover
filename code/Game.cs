@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 		[ServerCmd( "hv_toast" )]
 		public static void DebugToast()
 		{
-			if ( ConsoleSystem.Caller is Player player )
+			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
 				Hud.ToastAll( $"The blue team have captured Crashed Ship", "ui/icons/blue_outpost.png" );
 			}
@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		[ServerCmd( "hv_award" )]
 		public static void GiveAward()
 		{
-			if ( ConsoleSystem.Caller is Player player )
+			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
 				player.GiveAward<KillAward>();
 			}
@@ -49,7 +49,7 @@ namespace Facepunch.Hover
 		[ServerCmd( "hv_switch_teams" )]
 		public static void SwitchTeams()
         {
-			if ( ConsoleSystem.Caller is Player player )
+			if ( ConsoleSystem.Caller.Pawn is Player player )
             {
 				if ( player.Team == Team.Red )
 					player.SetTeam( Team.Blue );
