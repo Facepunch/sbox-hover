@@ -85,10 +85,6 @@ weaponlistitem {
   &.unavailable {
     transition: all 0.5s ease-out;
     opacity: 0.2;
-
-    .ability {
-      display: none;
-    }
   }
 
   &.hidden {
