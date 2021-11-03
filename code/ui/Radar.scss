@@ -1,9 +1,8 @@
 ﻿@import "_variables.scss";
 
 radar {
-  box-shadow: $blueTeamBackground;
-  background-color: $blueTeamPanelBg;
-  border: $blueTeamPanelBorder;
+  background-color: $panel-bg-light;
+  backdrop-filter: $blur-medium;
   padding: 8px;
   position: absolute;
   top: 40px;
@@ -38,13 +37,5 @@ radar {
 
   &.hidden {
     display: none;
-  }
-}
-
-.team_red {
-  radar {
-    box-shadow: $redTeamBackground;
-    background-color: $redTeamPanelBg;
-    border: $redTeamPanelBorder;
   }
 }

@@ -7,26 +7,33 @@ roundscore {
   justify-content: center;
   padding: 0;
   width: 100%;
+  z-index: 5;
 
   .container {
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
-    padding: 8px;
     font-family: Roboto;
     display: flex;
     flex-direction: row;
     position: absolute;
     justify-content: center;
     align-items: center;
-    top: 120px;
-    width: 410px;
-    height: 44px;
+    top: 84px;
 
     roundscoreitem {
       justify-items: center;
       align-items: center;
+      width: 150px;
+
+      .score-container {
+        text-align: center;
+
+        .score-value {
+          color: $dark-grey;
+          font-family: $fontBold;
+          font-size: 20px;
+          text-align: center;
+          width: 100%;
+        }
+      }
 
       .icon {
         background-size: 100%;
@@ -36,43 +43,19 @@ roundscore {
       }
 
       .score {
-        text-shadow: $blueTeamShadow;
         font-family: $mainFont;
         font-size: 28px;
         color: white;
+        text-align: center;
       }
     }
 
     .blue {
-      margin-right: 32px;
-
-      .icon {
-        background-image-tint: $blueTeamTint;
-        background-image: $blueTeamIcon;
-      }
+      background-color: $blue;
     }
 
     .red {
-      .icon {
-        background-image-tint: $redTeamTint;
-        background-image: $redTeamIcon;
-      }
-    }
-  }
-}
-
-.team_red {
-  roundscore {
-    .container {
-      background-color: $redTeamPanelBg;
-      box-shadow: $redTeamBackground;
-      border: $redTeamPanelBorder;
-
-      roundscoreitem {
-        .score {
-          text-shadow: $redTeamShadow;
-        }
-      }
+      background-color: $red;
     }
   }
 }
