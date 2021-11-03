@@ -12,9 +12,11 @@ namespace Facepunch.Hover
 		public bool IsUsingAbility { get; set; }
 		public bool IsAvailable { get; set; }
 		public bool IsPassive { get; set; }
+		public bool IsAbility { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsHidden { get; set; }
 		public string KeyBind { get; set; }
+		public Panel SlotContainer { get; private set; }
 		public Weapon Weapon { get; private set; }
 		public Label Slot { get; private set; }
 		public Image Icon { get; private set; }
@@ -28,12 +30,12 @@ namespace Facepunch.Hover
 
 			if ( !string.IsNullOrEmpty( KeyBind ) )
             {
-				Slot.SetClass( "hidden", false );
+				SlotContainer.SetClass( "hidden", false );
 				Slot.Text = Input.GetKeyWithBinding( KeyBind ).ToUpper();
             }
 			else
             {
-				Slot.SetClass( "hidden", true );
+				SlotContainer.SetClass( "hidden", true );
 				Slot.Text = string.Empty;
             }
 		}
@@ -42,6 +44,7 @@ namespace Facepunch.Hover
 		{
 			SetClass( "using_ability", IsUsingAbility );
 			SetClass( "unavailable", !IsAvailable );
+			SetClass( "ability", IsAbility );
 			SetClass( "passive", IsPassive );
 			SetClass( "hidden", IsHidden );
 			SetClass( "active", IsActive );

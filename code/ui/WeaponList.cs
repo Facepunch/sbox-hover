@@ -58,6 +58,7 @@ namespace Facepunch.Hover
 					weapon.IsActive = (player.ActiveChild == child);
 					weapon.IsHidden = false;
 					weapon.IsPassive = child.IsPassive;
+					weapon.IsAbility = false;
 					weapon.IsAvailable = child.IsAvailable();
 
 					var keyBind = string.Empty;
@@ -72,7 +73,10 @@ namespace Facepunch.Hover
 						weapon.IsUsingAbility = equipment.IsUsingAbility;
 
 						if ( !string.IsNullOrEmpty( equipment.AbilityBind ) )
+                        {
 							keyBind = equipment.AbilityBind;
+							weapon.IsAbility = true;
+                        }
                     }
 					else
                     {
