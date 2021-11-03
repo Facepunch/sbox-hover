@@ -1,0 +1,45 @@
+﻿<link rel="stylesheet" href="./Scoreboard.scss" />
+
+<div>
+    <div class="team-container">
+        <div class="team-header team_blue">
+            <div class="team_icon team_blue"></div>
+            <label>BLUE TEAM</label>
+            <label @text="BlueCaptures"></label>
+            <label @text="BlueMembers"></label>
+        </div>
+
+        <div class="table-header team_blue">
+            <label class="name">NAME</label>
+            <label class="captures">CAPTURES</label>
+            <label class="kills">KILLS</label>
+            <label class="deaths">DEATHS</label>
+            <label class="ping">PING</label>
+        </div>
+
+        <div class="canvas team_blue" @ref="BlueSection">
+
+        </div>
+    </div>
+
+    <div class="team-container">
+        <div class="team-header team_red">
+            <div class="team_icon team_red"></div>
+            <label>RED TEAM</label>
+            <label @text="RedCaptures"></label>
+            <label @text="RedMembers"></label>
+        </div>
+
+        <div class="table-header team_red">
+            <label class="name">NAME</label>
+            <label class="captures">CAPTURES</label>
+            <label class="kills">KILLS</label>
+            <label class="deaths">DEATHS</label>
+            <label class="ping">PING</label>
+        </div>
+
+        <div class="canvas team_red" @ref="RedSection">
+
+        </div>
+    </div>
+</div>
