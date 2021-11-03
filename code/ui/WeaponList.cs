@@ -7,11 +7,22 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[UseTemplate]
-	public class WeaponList : Panel
+	public partial class WeaponList : Panel
 	{
+		public static WeaponList Instance { get; private set; }
+
 		public WeaponListItem[] Weapons { get; set; } = new WeaponListItem[6];
 
 		private RealTimeUntil RemainOpenUntil { get; set; }
+
+		[ClientRpc]
+		public static void Expand( float duration )
+        {
+			if ( Instance != null )
+            {
+				Instance.RemainOpenUntil = duration;
+			}
+		}
 
 		public WeaponList()
 		{
@@ -24,6 +35,8 @@ namespace Facepunch.Hover
 			}
 
 			BindClass( "closed", IsCollapsed );
+
+			Instance = this;
 		}
 
 		public bool IsCollapsed()

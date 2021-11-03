@@ -96,6 +96,8 @@ namespace Facepunch.Hover
 							loadout.UpdateWeapons( weapons.Split( ',' ) );
 							loadout.Respawn( player );
 							loadout.Supply( player );
+
+							WeaponList.Expand( To.Single( player ), 4f );
 						}
 						else
 						{
@@ -515,6 +517,8 @@ namespace Facepunch.Hover
 			KillStreak = 0;
 
 			Rounds.Current?.OnPlayerSpawn( this );
+
+			WeaponList.Expand( To.Single( this ), 4f );
 
 			ClientRespawn();
 		}
