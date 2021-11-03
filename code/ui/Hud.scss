@@ -150,56 +150,6 @@ vitals {
   }
 }
 
-tokens {
-  box-shadow: $blueTeamBackground;
-  background-color: $blueTeamPanelBg;
-  border-radius: 8px;
-  border: $blueTeamPanelBorder;
-  padding: 8px;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  font-family: $mainFont;
-  flex-direction: row;
-  position: absolute;
-  min-width: 200px;
-  height: 72px;
-  color: #fff;
-  right: 64px;
-  top: 32px;
-
-  .icon {
-    background-image: url(/ui/icons/tokens.png);
-    background-size: 100%;
-    text-shadow: $tokenShadow;
-    margin-right: 8px;
-    width: 40px;
-    height: 40px;
-  }
-
-  .amount {
-    text-shadow: $tokenShadow;
-    font-size: 32px;
-    color: $tokenColor;
-  }
-}
-
-.team_red {
-  tokens {
-    border: $redTeamPanelBorder;
-    background-color: $redTeamPanelBg;
-    box-shadow: $redTeamBackground;
-
-    .icon {
-      text-shadow: $redTeamShadow;
-    }
-
-    .amount {
-      text-shadow: $redTeamShadow;
-    }
-  }
-}
-
 .team_red {
   vitals {
     .health {
