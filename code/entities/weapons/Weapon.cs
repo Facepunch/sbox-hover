@@ -426,6 +426,19 @@ namespace Facepunch.Hover
 			return AvailableAmmo() > 0;
 		}
 
+		public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
+		{
+			bool inWater = Physics.TestPointContents( start, CollisionLayer.Water );
+
+			yield return Trace.Ray( start, end )
+				.UseHitboxes()
+				.HitLayer( CollisionLayer.Water, !inWater )
+				.Ignore( Owner )
+				.Ignore( this )
+				.Size( radius )
+				.Run();
+		}
+
 		[ClientRpc]
 		protected virtual void ShootEffects()
 		{
