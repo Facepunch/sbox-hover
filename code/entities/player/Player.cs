@@ -468,6 +468,13 @@ namespace Facepunch.Hover
 			StopSkiLoop();
 		}
 
+		public override void Spawn()
+		{
+			LagCompensation = true;
+
+			base.Spawn();
+		}
+
 		public override void ClientSpawn()
 		{
 			if ( IsLocalPawn )
