@@ -20,6 +20,7 @@ namespace Facepunch.Hover
 		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
 		public Entity Attacker { get; set; } = null;
+		public bool UseSimulate { get; set; } = true;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
 		public Entity IgnoreEntity { get; set; }
@@ -114,8 +115,18 @@ namespace Facepunch.Hover
             base.ClientSpawn();
         }
 
+        public override void Simulate( Client client )
+        {
+			if ( Prediction.FirstTime )
+            {
+				Update();
+			}
+
+			base.Simulate( client );
+        }
+
 		[Event.Tick.Client]
-		private void HideServerEntity()
+		protected virtual void ClientTick()
 		{
 			if ( !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn )
 			{
@@ -125,10 +136,17 @@ namespace Facepunch.Hover
 			}
 		}
 
-        public override void Simulate( Client client )
-        {
-			if ( !Prediction.FirstTime ) return;
+		[Event.Tick.Server]
+		protected virtual void ServerTick()
+		{
+			if ( !UseSimulate )
+			{
+				Update();
+			}
+		}
 
+		protected virtual void Update()
+        {
 			if ( FaceDirection )
 				Rotation = Rotation.LookAt( Velocity.Normal );
 
@@ -170,7 +188,7 @@ namespace Facepunch.Hover
 					var explosion = Particles.Create( ExplosionEffect );
 
 					if ( explosion != null )
-                    {
+					{
 						explosion.SetPosition( 0, Position );
 						explosion.SetForward( 0, trace.Normal );
 					}
@@ -191,9 +209,7 @@ namespace Facepunch.Hover
 					NextFlyby = Time.Delta * 2f;
 				}
 			}
-
-			base.Simulate( client );
-        }
+		}
 
         protected override void OnDestroy()
 		{

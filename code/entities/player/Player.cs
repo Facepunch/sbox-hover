@@ -607,18 +607,18 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client client )
 		{
-            for ( int i = Projectiles.Count - 1; i >= 0; i-- )
-            {
-                var projectile = Projectiles[i];
+			for ( int i = Projectiles.Count - 1; i >= 0; i-- )
+			{
+				var projectile = Projectiles[i];
 
 				if ( !projectile.IsValid() )
-                {
+				{
 					Projectiles.RemoveAt( i );
 					continue;
-                }
+				}
 
 				projectile.Simulate( client );
-            }
+			}
 
 			SimulateActiveChild( client, ActiveChild );
 

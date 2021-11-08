@@ -65,6 +65,7 @@ namespace Facepunch.Hover
 				LaunchSoundName = $"pulserifle.fire{Rand.Int( 1, 2 )}",
 				MoveTowardTarget = 2000f,
 				HitSound = "barage.explode",
+				UseSimulate = false,
 				LifeTime = 10f,
 				Target = target,
 				Gravity = 0f
