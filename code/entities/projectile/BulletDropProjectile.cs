@@ -19,7 +19,7 @@ namespace Facepunch.Hover
 		public string TrailEffect { get; set; } = "";
 		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
-		public Entity Attacker{ get; set; } = null;
+		public Entity Attacker { get; set; } = null;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
 		public Entity IgnoreEntity { get; set; }
@@ -30,6 +30,8 @@ namespace Facepunch.Hover
 		public Vector3 StartPosition { get; private set; }
 		public bool Debug { get; set; } = false;
 
+		[Net, Predicted] public int ProjectileIndex { get; set; }
+
 		private float GravityModifier { get; set; }
 		private RealTimeUntil NextFlyby { get; set; }
 		private RealTimeUntil DestroyTime { get; set; }
@@ -37,7 +39,7 @@ namespace Facepunch.Hover
 		private Particles Follower { get; set; }
 		private Particles Trail { get; set; }
 
-		public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
+        public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
 		{
 			Initialize( start, velocity, callback );
 			Radius = radius;
@@ -50,13 +52,20 @@ namespace Facepunch.Hover
 				DestroyTime = LifeTime.Value;
 			}
 
+			if ( Attacker.IsValid() && Attacker is Player owner )
+            {
+				ProjectileIndex = owner.CurrentProjectileIndex;
+				owner.CurrentProjectileIndex++;
+				owner.Projectiles.Add( this );
+				Owner = owner;
+			}
+
 			PhysicsEnabled = false;
 			StartPosition = start;
 			Velocity = velocity;
 			Callback = callback;
 			NextFlyby = 0.2f;
 			Position = start;
-			Transmit = TransmitType.Always;
 
 			using ( Prediction.Off() )
 			{
@@ -80,24 +89,46 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected override void OnDestroy()
+		public override void Spawn()
 		{
-			RemoveEffects();
+			Predictable = true;
 
-			base.OnDestroy();
+			base.Spawn();
 		}
 
-		private void RemoveEffects()
+        public override void ClientSpawn()
+        {
+			if ( !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn && Owner is Player owner )
+			{
+				if ( Local.Pawn is Player player )
+				{
+					var clientEntity = player.Projectiles.Find( v => v.ProjectileIndex == ProjectileIndex && v.IsClientOnly );
+
+					if ( clientEntity.IsValid() )
+					{
+						// We have reconciled the entities. This is temporary.
+					}
+				}
+			}
+
+            base.ClientSpawn();
+        }
+
+		[Event.Tick.Client]
+		private void HideServerEntity()
 		{
-			LaunchSound.Stop();
-			Follower?.Destroy();
-			Trail?.Destroy();
-			Trail = null;
+			if ( !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn )
+			{
+				// This is a super hack for now. What we'll do is have the server and client entities merge together
+				// or we'll simply not transmit it to the owner.
+				Position = Vector3.Zero;
+			}
 		}
 
-		[Event.Tick.Server]
-		private void ServerTick()
-		{
+        public override void Simulate( Client client )
+        {
+			if ( !Prediction.FirstTime ) return;
+
 			if ( FaceDirection )
 				Rotation = Rotation.LookAt( Velocity.Normal );
 
@@ -123,6 +154,7 @@ namespace Facepunch.Hover
 			}
 
 			var trace = Trace.Ray( Position, newPosition )
+				.UseLagCompensation()
 				.HitLayer( CollisionLayer.Water, true )
 				.Size( Radius )
 				.Ignore( this )
@@ -136,8 +168,12 @@ namespace Facepunch.Hover
 				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
 				{
 					var explosion = Particles.Create( ExplosionEffect );
-					explosion.SetPosition( 0, Position );
-					explosion.SetForward( 0, trace.Normal );
+
+					if ( explosion != null )
+                    {
+						explosion.SetPosition( 0, Position );
+						explosion.SetForward( 0, trace.Normal );
+					}
 				}
 
 				if ( !string.IsNullOrEmpty( HitSound ) )
@@ -155,6 +191,28 @@ namespace Facepunch.Hover
 					NextFlyby = Time.Delta * 2f;
 				}
 			}
+
+			base.Simulate( client );
+        }
+
+        protected override void OnDestroy()
+		{
+			RemoveEffects();
+
+			if ( Owner is Player owner )
+            {
+				owner.Projectiles.Remove( this );
+            }
+
+			base.OnDestroy();
+		}
+
+		private void RemoveEffects()
+		{
+			LaunchSound.Stop();
+			Follower?.Destroy();
+			Trail?.Destroy();
+			Trail = null;
 		}
 	}
 }

@@ -15,10 +15,10 @@ namespace Facepunch.Hover
 
 		public override void AttackPrimary()
 		{
-			if ( IsServer )
-			{
+			if ( Prediction.FirstTime )
+            {
 				FireProjectile();
-			}
+            }
 		}
 
 		public virtual void FireProjectile()
