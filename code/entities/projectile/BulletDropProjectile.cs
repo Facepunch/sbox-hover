@@ -9,29 +9,29 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class BulletDropProjectile : ModelEntity
 	{
+		// TODO: Find a better way to achieve this without networking all these strings. Use a projectile data class?
+		[Net, Predicted] public string ExplosionEffect { get; set; } = "";
+		[Net, Predicted] public string LaunchSoundName { get; set; } = null;
+		[Net, Predicted] public string FollowEffect { get; set; } = "";
+		[Net, Predicted] public string TrailEffect { get; set; } = "";
+		[Net, Predicted] public string HitSound { get; set; } = "";
+
 		public Action<BulletDropProjectile, Entity> Callback { get; private set; }
 		public List<string> FlybySounds { get; set; }
 		public bool PlayFlybySounds { get; set; } = false;
-		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
+		public ProjectileSimulator Simulator { get; set; }
 		public float? LifeTime { get; set; }
-		public string FollowEffect { get; set; } = "";
-		public string TrailEffect { get; set; } = "";
-		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
 		public Entity Attacker { get; set; } = null;
-		public bool UseSimulate { get; set; } = true;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
 		public Entity IgnoreEntity { get; set; }
-		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 10f;
 		public float Radius { get; set; } = 8f;
 		public bool FaceDirection { get; set; } = false;
 		public Vector3 StartPosition { get; private set; }
 		public bool Debug { get; set; } = false;
-
-		[Net, Predicted] public int ProjectileIndex { get; set; }
 
 		private float GravityModifier { get; set; }
 		private RealTimeUntil NextFlyby { get; set; }
@@ -53,12 +53,10 @@ namespace Facepunch.Hover
 				DestroyTime = LifeTime.Value;
 			}
 
-			if ( Attacker.IsValid() && Attacker is Player owner )
+			if ( Simulator != null && Simulator.IsValid() )
             {
-				ProjectileIndex = owner.CurrentProjectileIndex;
-				owner.CurrentProjectileIndex++;
-				owner.Projectiles.Add( this );
-				Owner = owner;
+				Simulator?.Add( this );
+				Owner = Simulator.Owner;
 			}
 
 			PhysicsEnabled = false;
@@ -68,25 +66,12 @@ namespace Facepunch.Hover
 			NextFlyby = 0.2f;
 			Position = start;
 
-			using ( Prediction.Off() )
+			if ( IsClientOnly )
 			{
-				if ( !string.IsNullOrEmpty( TrailEffect ) )
+				using ( Prediction.Off() )
 				{
-					Trail = Particles.Create( TrailEffect );
-
-					if ( !string.IsNullOrEmpty( Attachment ) )
-						Trail.SetEntityAttachment( 0, this, Attachment );
-					else
-						Trail.SetEntity( 0, this );
+					CreateEffects();
 				}
-
-				if ( !string.IsNullOrEmpty( FollowEffect ) )
-				{
-					Follower = Particles.Create( FollowEffect, this );
-				}
-
-				if ( !string.IsNullOrEmpty( LaunchSoundName ) )
-					LaunchSound = PlaySound( LaunchSoundName );
 			}
 		}
 
@@ -99,53 +84,39 @@ namespace Facepunch.Hover
 
         public override void ClientSpawn()
         {
-			if ( !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn && Owner is Player owner )
-			{
-				if ( Local.Pawn is Player player )
-				{
-					var clientEntity = player.Projectiles.Find( v => v.ProjectileIndex == ProjectileIndex && v.IsClientOnly );
+			if ( HasClientProxy() )
+            {
+				EnableDrawing = false;
+				return;
+            }
 
-					if ( clientEntity.IsValid() )
-					{
-						// We have reconciled the entities. This is temporary.
-					}
-				}
-			}
+			CreateEffects();
 
             base.ClientSpawn();
         }
 
-        public override void Simulate( Client client )
+		public virtual void CreateEffects()
         {
-			if ( Prediction.FirstTime )
-            {
-				Update();
-			}
-
-			base.Simulate( client );
-        }
-
-		[Event.Tick.Client]
-		protected virtual void ClientTick()
-		{
-			if ( !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn )
+			if ( !string.IsNullOrEmpty( TrailEffect ) )
 			{
-				// This is a super hack for now. What we'll do is have the server and client entities merge together
-				// or we'll simply not transmit it to the owner.
-				Position = Vector3.Zero;
+				Trail = Particles.Create( TrailEffect );
+
+				if ( !string.IsNullOrEmpty( Attachment ) )
+					Trail.SetEntityAttachment( 0, this, Attachment );
+				else
+					Trail.SetEntity( 0, this );
 			}
+
+			if ( !string.IsNullOrEmpty( FollowEffect ) )
+			{
+				Follower = Particles.Create( FollowEffect, this );
+			}
+
+			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
+				LaunchSound = PlaySound( LaunchSoundName );
 		}
 
-		[Event.Tick.Server]
-		protected virtual void ServerTick()
-		{
-			if ( !UseSimulate )
-			{
-				Update();
-			}
-		}
-
-		protected virtual void Update()
+        public virtual void Simulate()
         {
 			if ( FaceDirection )
 				Rotation = Rotation.LookAt( Velocity.Normal );
@@ -183,22 +154,8 @@ namespace Facepunch.Hover
 
 			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
 			{
-				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
-				{
-					var explosion = Particles.Create( ExplosionEffect );
-
-					if ( explosion != null )
-					{
-						explosion.SetPosition( 0, Position );
-						explosion.SetForward( 0, trace.Normal );
-					}
-				}
-
-				if ( !string.IsNullOrEmpty( HitSound ) )
-					Audio.Play( HitSound, Position );
-
+				PlayHitEffects( trace.Normal );
 				Callback?.Invoke( this, trace.Entity );
-				RemoveEffects();
 				Delete();
 			}
 			else
@@ -211,14 +168,49 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public bool HasClientProxy()
+        {
+			return !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn;
+
+		}
+
+		[ClientRpc]
+		protected virtual void PlayHitEffects( Vector3 normal )
+        {
+			if ( HasClientProxy() )
+            {
+				return;
+            }
+
+			if ( !string.IsNullOrEmpty( ExplosionEffect ) )
+			{
+				var explosion = Particles.Create( ExplosionEffect );
+
+				if ( explosion != null )
+				{
+					explosion.SetPosition( 0, Position );
+					explosion.SetForward( 0, normal );
+				}
+			}
+
+			if ( !string.IsNullOrEmpty( HitSound ) )
+				Audio.Play( HitSound, Position );
+		}
+
+		[Event.Tick.Server]
+		protected virtual void ServerTick()
+		{
+			if ( !Simulator.IsValid() )
+			{
+				Simulate();
+			}
+		}
+
         protected override void OnDestroy()
 		{
-			RemoveEffects();
+			Simulator?.Remove( this );
 
-			if ( Owner is Player owner )
-            {
-				owner.Projectiles.Remove( this );
-            }
+			RemoveEffects();
 
 			base.OnDestroy();
 		}

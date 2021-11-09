@@ -10,13 +10,11 @@ namespace Facepunch.Hover
 	public partial class Player : Sandbox.Player
 	{
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
-		public List<BulletDropProjectile> Projectiles { get; private set; }
+		public ProjectileSimulator Projectiles { get; private set; }
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
 		public List<Award> EarnedAwards { get; private set; }
 		public TimeSince LastKillTime { get; private set; }
 		public int SuccessiveKills { get; private set; }
-
-		public int CurrentProjectileIndex { get; set; }
 
 		[ServerCmd]
 		public static void BuyWeaponUpgrade( string weaponName, string upgradeName )
@@ -166,7 +164,7 @@ namespace Facepunch.Hover
 			WeaponUpgrades = new();
 			AssistTrackers = new();
 			EarnedAwards = new();
-			Projectiles = new();
+			Projectiles = new( this );
 			EnableTouch = true;
 			Inventory = new Inventory( this );
 			Animator = new PlayerAnimator();
@@ -182,11 +180,6 @@ namespace Facepunch.Hover
 			Client.SetInt( "captures", 0 );
 			Client.SetInt( "deaths", 0 );
 			Client.SetInt( "kills", 0 );
-
-			foreach ( var projectile in Projectiles )
-            {
-				projectile.Delete();
-            }
 
 			LoadoutUpgrades.Clear();
 			WeaponUpgrades.Clear();
@@ -213,11 +206,6 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void ResetClient()
 		{
-			foreach ( var projectile in Projectiles )
-			{
-				projectile.Delete();
-			}
-
 			LoadoutUpgrades.Clear();
 			WeaponUpgrades.Clear();
 			EarnedAwards.Clear();
@@ -607,18 +595,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client client )
 		{
-			for ( int i = Projectiles.Count - 1; i >= 0; i-- )
-			{
-				var projectile = Projectiles[i];
-
-				if ( !projectile.IsValid() )
-				{
-					Projectiles.RemoveAt( i );
-					continue;
-				}
-
-				projectile.Simulate( client );
-			}
+			Projectiles.Simulate();
 
 			SimulateActiveChild( client, ActiveChild );
 
