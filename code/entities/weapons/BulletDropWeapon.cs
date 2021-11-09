@@ -4,6 +4,7 @@ namespace Facepunch.Hover
 {
 	public abstract partial class BulletDropWeapon : Weapon
 	{
+		public virtual string ProjectileModel => "";
 		public virtual float ProjectileRadius => 10f;
 		public virtual float ProjectileLifeTime => 10f;
 		public virtual string TrailEffect => null;
@@ -29,6 +30,7 @@ namespace Facepunch.Hover
 			var projectile = new BulletDropProjectile()
 			{
 				ExplosionEffect = ImpactEffect,
+				FaceDirection = true,
 				IgnoreEntity = this,
 				FlybySounds = FlybySounds,
 				TrailEffect = TrailEffect,
@@ -38,6 +40,11 @@ namespace Facepunch.Hover
 				LifeTime = ProjectileLifeTime,
 				Gravity = Gravity
 			};
+
+			if ( !string.IsNullOrEmpty( ProjectileModel ) )
+            {
+				projectile.SetModel( ProjectileModel );
+            }
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;

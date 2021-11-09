@@ -26,6 +26,7 @@ namespace Facepunch.Hover
 		public Entity Attacker { get; set; } = null;
 		public ModelEntity Target { get; set; } = null;
 		public float MoveTowardTarget { get; set; } = 0f;
+		public bool ExplodeOnDestroy { get; set; } = true;
 		public Entity IgnoreEntity { get; set; }
 		public float Gravity { get; set; } = 10f;
 		public float Radius { get; set; } = 8f;
@@ -119,16 +120,14 @@ namespace Facepunch.Hover
         public virtual void Simulate()
         {
 			if ( FaceDirection )
+            {
 				Rotation = Rotation.LookAt( Velocity.Normal );
+            }
 
 			if ( Debug )
-				DebugOverlay.Sphere( Position, Radius, Color.Red );
-
-			if ( LifeTime.HasValue && DestroyTime )
-			{
-				Delete();
-				return;
-			}
+            {
+				DebugOverlay.Sphere( Position, Radius, IsClient ? Color.Blue : Color.Red );
+            }
 
 			var newPosition = Position;
 			newPosition += Velocity * Time.Delta;
@@ -151,6 +150,19 @@ namespace Facepunch.Hover
 				.Run();
 
 			Position = trace.EndPos + trace.Direction.Normal * Radius;
+
+			if ( LifeTime.HasValue && DestroyTime )
+			{
+				if ( ExplodeOnDestroy )
+				{
+					PlayHitEffects( Vector3.Zero );
+					Callback?.Invoke( this, trace.Entity );
+				}
+
+				Delete();
+
+				return;
+			}
 
 			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
 			{
