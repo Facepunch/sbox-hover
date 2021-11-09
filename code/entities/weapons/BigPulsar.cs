@@ -51,22 +51,25 @@ namespace Facepunch.Hover
 			var explosion = Particles.Create( "particles/weapons/big_pulsar/big_pulsar_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			var position = projectile.Position;
-			var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
-			var fullDistance = position.Distance( projectile.StartPosition );
-			
-			foreach ( var entity in entities )
-			{
-				var direction = (entity.Position - position).Normal;
-				var distance = entity.Position.Distance( position );
-				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+			if ( IsServer )
+            {
+				var position = projectile.Position;
+				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
+				var fullDistance = position.Distance( projectile.StartPosition );
 
-				if ( entity == Owner || entity is GeneratorAsset )
-					damage *= 1.25f;
+				foreach ( var entity in entities )
+				{
+					var direction = (entity.Position - position).Normal;
+					var distance = entity.Position.Distance( position );
+					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
 
-				damage = GetDamageFalloff( fullDistance, damage );
+					if ( entity == Owner || entity is GeneratorAsset )
+						damage *= 1.25f;
 
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
+					damage = GetDamageFalloff( fullDistance, damage );
+
+					DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
+				}
 			}
 		}
 	}

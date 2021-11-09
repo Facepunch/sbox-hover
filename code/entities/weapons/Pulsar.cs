@@ -85,31 +85,27 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( projectile == null || !projectile.IsValid() )
-				return;
-
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-
-			if ( explosion == null )
-				return;
-
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			var position = projectile.Position;
-			var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
-			
-			foreach ( var entity in entities )
-			{
-				var direction = (entity.Position - position).Normal;
-				var distance = entity.Position.Distance( position );
-				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+			if ( IsServer )
+            {
+				var position = projectile.Position;
+				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
 
-				if ( entity == Owner )
+				foreach ( var entity in entities )
 				{
-					damage *= 1.25f;
-				}
+					var direction = (entity.Position - position).Normal;
+					var distance = entity.Position.Distance( position );
+					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
 
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
+					if ( entity == Owner )
+					{
+						damage *= 1.25f;
+					}
+
+					DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
+				}
 			}
 		}
 	}
