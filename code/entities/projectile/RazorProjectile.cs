@@ -13,17 +13,9 @@ namespace Facepunch.Hover
 		public Vector3 UpVelocity { get; set; }
 		public float SeekRadius { get; set; }
 
-		public RazorProjectile()
-		{
-			UpVelocity = Vector3.Up * 200f;
-		}
-
 		protected override Vector3 GetTargetPosition()
 		{
 			var newPosition = base.GetTargetPosition();
-
-			newPosition += UpVelocity * Time.Delta;
-			UpVelocity -= UpVelocity * 0.75f * Time.Delta;
 
 			var targets = Physics.GetEntitiesInSphere( Position, SeekRadius )
 				.OfType<Player>()
@@ -33,8 +25,16 @@ namespace Facepunch.Hover
 
 			if ( target.IsValid() )
 			{
+				// Remove some of the velocity we added before and chase the target.
 				var targetDirection = (target.WorldSpaceBounds.Center - newPosition).Normal;
-				newPosition += targetDirection * Velocity.Length * 1.5f * Time.Delta;
+				newPosition -= Velocity * 0.75f * Time.Delta;
+				newPosition += targetDirection * Velocity.Length * 0.5f * Time.Delta;
+			}
+			else
+			{
+				// We have no target so move the projectile up if we should.
+				newPosition += UpVelocity * Time.Delta;
+				UpVelocity -= UpVelocity * 0.75f * Time.Delta;
 			}
 
 			return newPosition;

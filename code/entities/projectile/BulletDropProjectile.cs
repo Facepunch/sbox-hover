@@ -100,7 +100,7 @@ namespace Facepunch.Hover
         {
 			if ( !string.IsNullOrEmpty( TrailEffect ) )
 			{
-				Trail = Particles.Create( TrailEffect );
+				Trail = Particles.Create( TrailEffect, this );
 
 				if ( !string.IsNullOrEmpty( Attachment ) )
 					Trail.SetEntityAttachment( 0, this, Attachment );

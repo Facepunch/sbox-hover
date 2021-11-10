@@ -89,12 +89,13 @@ namespace Facepunch.Hover
 
 					if ( player.HasTokens( loadout.TokenCost ) )
 					{
+						loadout.UpdateWeapons( weapons.Split( ',' ) );
+
 						player.TakeTokens( loadout.TokenCost );
 						player.GiveLoadout( loadout );
 
 						if ( player.LifeState == LifeState.Alive )
 						{
-							loadout.UpdateWeapons( weapons.Split( ',' ) );
 							loadout.Respawn( player );
 							loadout.Supply( player );
 						}

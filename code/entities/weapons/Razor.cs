@@ -32,16 +32,16 @@ namespace Facepunch.Hover
 		public override int ClipSize => 8;
 		public override float PrimaryRate => 12.0f;
 		public override float ProjectileLifeTime => 3f;
-		public override float DamageFalloffStart => 500f;
-		public override float DamageFalloffEnd => 3000f;
+		public override float DamageFalloffStart => 1000f;
+		public override float DamageFalloffEnd => 4000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
-		public override int BaseDamage => 30;
+		public override int BaseDamage => 40;
 		public override bool CanMeleeAttack => true;
 		public override int ViewModelMaterialGroup => 2;
 		public override float Gravity => 0f;
-		public override float Speed => 1000f;
-		public override float Spread => 0.02f;
+		public override float Speed => 2000f;
+		public override float Spread => 0.025f;
 
 		public override void Spawn()
 		{
