@@ -38,6 +38,26 @@
 						use_global_default = false
 						global_default_material = ""
 					},
+					{
+						_class = "MaterialGroup"
+						name = "sideman"
+						remaps = [  ]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "razor"
+						remaps = 
+						[
+							{
+								from = "models/weapons/sideman/sideman.vmat"
+								to = "models/weapons/sideman/razor.vmat"
+							},
+							{
+								from = "models/weapons/sideman/sideman_scope.vmat"
+								to = "models/weapons/sideman/razor_scope.vmat"
+							},
+						]
+					},
 				]
 			},
 			{

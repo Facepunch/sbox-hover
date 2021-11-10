@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_blaster", Title = "Blaster" )]
-	partial class Blaster : BulletDropWeapon
+	partial class Blaster : BulletDropWeapon<BulletDropProjectile>
 	{
 		public override WeaponConfig Config => new BlasterConfig();
 		public override float ProjectileRadius => 15f;

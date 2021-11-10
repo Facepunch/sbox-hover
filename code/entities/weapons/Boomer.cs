@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
-	partial class Boomer : BulletDropWeapon
+	partial class Boomer : BulletDropWeapon<BulletDropProjectile>
 	{
 		public override WeaponConfig Config => new BoomerConfig();
 		public override string ImpactEffect => "particles/weapons/boomer/boomer_impact.vpcf";

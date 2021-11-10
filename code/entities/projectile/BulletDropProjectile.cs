@@ -129,17 +129,7 @@ namespace Facepunch.Hover
 				DebugOverlay.Sphere( Position, Radius, IsClient ? Color.Blue : Color.Red );
             }
 
-			var newPosition = Position;
-			newPosition += Velocity * Time.Delta;
-
-			GravityModifier += Gravity;
-			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
-
-			if ( Target.IsValid() && MoveTowardTarget > 0f )
-			{
-				var targetDirection = (Target.WorldSpaceBounds.Center - newPosition).Normal;
-				newPosition += targetDirection * MoveTowardTarget * Time.Delta;
-			}
+			var newPosition = GetTargetPosition();
 
 			var trace = Trace.Ray( Position, newPosition )
 				.UseLagCompensation()
@@ -185,6 +175,23 @@ namespace Facepunch.Hover
 			return !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn;
 
 		}
+
+		protected virtual Vector3 GetTargetPosition()
+		{
+			var newPosition = Position;
+			newPosition += Velocity * Time.Delta;
+
+			GravityModifier += Gravity;
+			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
+
+			if ( Target.IsValid() && MoveTowardTarget > 0f )
+			{
+				var targetDirection = (Target.WorldSpaceBounds.Center - newPosition).Normal;
+				newPosition += targetDirection * MoveTowardTarget * Time.Delta;
+			}
+
+			return newPosition;
+		} 
 
 		[ClientRpc]
 		protected virtual void PlayHitEffects( Vector3 normal )

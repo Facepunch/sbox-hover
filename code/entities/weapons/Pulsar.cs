@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_pulsar", Title = "Pulsar" )]
-	partial class Pulsar : BulletDropWeapon
+	partial class Pulsar : BulletDropWeapon<BulletDropProjectile>
 	{
 		public override WeaponConfig Config => new PulsarConfig();
 		public override float ProjectileRadius => 20f;

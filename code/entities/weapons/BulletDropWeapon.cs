@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public abstract partial class BulletDropWeapon : Weapon
+	public abstract partial class BulletDropWeapon<T> : Weapon where T : BulletDropProjectile, new()
 	{
 		public virtual string ProjectileModel => "";
 		public virtual float ProjectileRadius => 10f;
@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 			if ( Owner is not Player player )
 				return;
 
-			var projectile = new BulletDropProjectile()
+			var projectile = new T()
 			{
 				ExplosionEffect = ImpactEffect,
 				FaceDirection = true,
@@ -46,6 +46,8 @@ namespace Facepunch.Hover
 				projectile.SetModel( ProjectileModel );
             }
 
+			OnCreateProjectile( projectile );
+
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
 			var forward = player.EyeRot.Forward;
@@ -61,6 +63,11 @@ namespace Facepunch.Hover
 
 			var velocity = (direction * Speed) + (player.Velocity * InheritVelocity);
 			projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+		}
+
+		protected virtual void OnCreateProjectile( T projectile )
+		{
+
 		}
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )

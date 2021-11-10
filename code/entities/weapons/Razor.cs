@@ -4,23 +4,23 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
-	public class SidemanConfig : WeaponConfig
+	public class RazorConfig : WeaponConfig
 	{
-		public override string Name => "Sideman";
-		public override string Description => "Short-range hitscan pistol";
-		public override string ClassName => "hv_sideman";
-		public override string Icon => "ui/weapons/sideman.png";
+		public override string Name => "Razor";
+		public override string Description => "Short-range heat-seeking projectile weapon";
+		public override string ClassName => "hv_razor";
+		public override string Icon => "ui/weapons/razor.png";
 		public override AmmoType AmmoType => AmmoType.Pistol;
 		public override int Ammo => 60;
 	}
 
-	[Library( "hv_sideman", Title = "Sideman" )]
-	partial class Sideman : Weapon
+	[Library( "hv_razor", Title = "Razor" )]
+	partial class Razor : BulletDropWeapon<RazorProjectile>
 	{
-		public override WeaponConfig Config => new SidemanConfig();
-		public override string ImpactEffect => "particles/weapons/sideman/sideman_impact.vpcf";
-		public override string TracerEffect => "particles/weapons/sideman/sideman_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/sideman/sideman_muzzleflash.vpcf";
+		public override WeaponConfig Config => new RazorConfig();
+		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override List<Type> Upgrades => new()
 		{
@@ -29,20 +29,25 @@ namespace Facepunch.Hover
 			typeof( AmmoPackUpgrade )
 		};
 		public override string CrosshairClass => "semiautomatic";
-		public override int ClipSize => 15;
+		public override int ClipSize => 8;
 		public override float PrimaryRate => 12.0f;
 		public override float DamageFalloffStart => 500f;
-		public override float DamageFalloffEnd => 2000f;
+		public override float DamageFalloffEnd => 3000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
-		public override int BaseDamage => 60;
+		public override int BaseDamage => 30;
 		public override bool CanMeleeAttack => true;
+		public override int ViewModelMaterialGroup => 2;
+		public override float Gravity => 0f;
+		public override float Speed => 1000f;
+		public override float Spread => 0.02f;
 
 		public override void Spawn()
 		{
 			base.Spawn();
 
 			SetModel( "models/weapons/w_sideman.vmdl" );
+			SetMaterialGroup( 2 );
 		}
 
 		public override bool CanPrimaryAttack()
@@ -64,17 +69,24 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			Rand.SetSeed( Time.Tick );
-
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"generic.energy.fire2" );
-			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
 
 			TimeSincePrimaryAttack = 0f;
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
+
+			base.AttackPrimary();
+		}
+
+		protected override void OnCreateProjectile( RazorProjectile projectile )
+		{
+			projectile.UpVelocity = Vector3.Up * 150f;
+			projectile.SeekRadius = 300f;
+
+			base.OnCreateProjectile( projectile );
 		}
 	}
 }
