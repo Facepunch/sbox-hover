@@ -31,6 +31,7 @@ namespace Facepunch.Hover
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 8;
 		public override float PrimaryRate => 12.0f;
+		public override float ProjectileLifeTime => 3f;
 		public override float DamageFalloffStart => 500f;
 		public override float DamageFalloffEnd => 3000f;
 		public override float SecondaryRate => 1.0f;
@@ -83,7 +84,7 @@ namespace Facepunch.Hover
 
 		protected override void OnCreateProjectile( RazorProjectile projectile )
 		{
-			projectile.UpVelocity = Vector3.Up * 150f;
+			projectile.UpVelocity = Vector3.Up * 50f;
 			projectile.SeekRadius = 300f;
 
 			base.OnCreateProjectile( projectile );
