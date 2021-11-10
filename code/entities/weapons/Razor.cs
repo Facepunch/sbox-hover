@@ -18,9 +18,9 @@ namespace Facepunch.Hover
 	partial class Razor : BulletDropWeapon<RazorProjectile>
 	{
 		public override WeaponConfig Config => new RazorConfig();
-		public override string ImpactEffect => "particles/weapons/blaster/blaster_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
-		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
+		public override string ImpactEffect => "particles/weapons/razor/razor_impact.vpcf";
+		public override string TrailEffect => "particles/weapons/razor/razor_projectile.vpcf";
+		public override string MuzzleFlashEffect => "particles/weapons/razor/razor_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
 		public override List<Type> Upgrades => new()
 		{
@@ -80,6 +80,15 @@ namespace Facepunch.Hover
 				PlaySound( "blaster.empty" );
 
 			base.AttackPrimary();
+		}
+
+		protected override void CreateMuzzleFlash()
+		{
+			if ( !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			{
+				var effect = Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
+				effect.SetPosition( 1, Color.Green * 255f );
+			}
 		}
 
 		protected override void OnCreateProjectile( RazorProjectile projectile )

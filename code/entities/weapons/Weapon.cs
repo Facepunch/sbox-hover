@@ -440,14 +440,22 @@ namespace Facepunch.Hover
 				.Run();
 		}
 
+		protected virtual void CreateMuzzleFlash()
+		{
+			if ( !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			{
+				Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
+			}
+		}
+
 		[ClientRpc]
 		protected virtual void ShootEffects()
 		{
 			Host.AssertClient();
 
-			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			if ( !IsMelee )
 			{
-				Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
+				CreateMuzzleFlash();
 			}
 
 			if ( IsLocalPawn )

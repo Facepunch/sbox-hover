@@ -24,8 +24,6 @@ namespace Facepunch.Hover
 		public float? LifeTime { get; set; }
 		public string Attachment { get; set; } = null;
 		public Entity Attacker { get; set; } = null;
-		public ModelEntity Target { get; set; } = null;
-		public float MoveTowardTarget { get; set; } = 0f;
 		public bool ExplodeOnDestroy { get; set; } = true;
 		public Entity IgnoreEntity { get; set; }
 		public float Gravity { get; set; } = 10f;
@@ -34,12 +32,12 @@ namespace Facepunch.Hover
 		public Vector3 StartPosition { get; private set; }
 		public bool Debug { get; set; } = false;
 
-		private float GravityModifier { get; set; }
-		private RealTimeUntil NextFlyby { get; set; }
-		private RealTimeUntil DestroyTime { get; set; }
-		private Sound LaunchSound { get; set; }
-		private Particles Follower { get; set; }
-		private Particles Trail { get; set; }
+		protected float GravityModifier { get; set; }
+		protected RealTimeUntil NextFlyby { get; set; }
+		protected RealTimeUntil DestroyTime { get; set; }
+		protected Sound LaunchSound { get; set; }
+		protected Particles Follower { get; set; }
+		protected Particles Trail { get; set; }
 
         public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
 		{
@@ -139,7 +137,7 @@ namespace Facepunch.Hover
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = trace.EndPos + trace.Direction.Normal * Radius;
+			Position = trace.EndPos;
 
 			if ( LifeTime.HasValue && DestroyTime )
 			{
@@ -154,7 +152,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
+			if ( HasHitTarget( trace ) )
 			{
 				PlayHitEffects( trace.Normal );
 				Callback?.Invoke( this, trace.Entity );
@@ -176,6 +174,11 @@ namespace Facepunch.Hover
 
 		}
 
+		protected virtual bool HasHitTarget( TraceResult trace )
+		{
+			return (trace.Hit && CanHitTime) || trace.StartedSolid;
+		}
+
 		protected virtual Vector3 GetTargetPosition()
 		{
 			var newPosition = Position;
@@ -183,12 +186,6 @@ namespace Facepunch.Hover
 
 			GravityModifier += Gravity;
 			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
-
-			if ( Target.IsValid() && MoveTowardTarget > 0f )
-			{
-				var targetDirection = (Target.WorldSpaceBounds.Center - newPosition).Normal;
-				newPosition += targetDirection * MoveTowardTarget * Time.Delta;
-			}
 
 			return newPosition;
 		} 
