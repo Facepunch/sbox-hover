@@ -39,13 +39,9 @@ namespace Facepunch.Hover
 				Attacker = player,
 				HitSound = HitSound,
 				LifeTime = ProjectileLifeTime,
-				Gravity = Gravity
+				Gravity = Gravity,
+				Model = ProjectileModel
 			};
-
-			if ( !string.IsNullOrEmpty( ProjectileModel ) )
-            {
-				projectile.SetModel( ProjectileModel );
-            }
 
 			OnCreateProjectile( projectile );
 

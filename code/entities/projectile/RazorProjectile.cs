@@ -44,8 +44,7 @@ namespace Facepunch.Hover
 				LaunchSound = PlaySound( LaunchSoundName );
 		}
 
-		[Event.Tick.Client]
-		protected virtual void ClientTick()
+		protected override void ClientTick()
 		{
 			if ( Target.IsValid() )
 				TrailColor = Color.Lerp( TrailColor, Color.Red, Time.Delta * 10f );
@@ -53,6 +52,8 @@ namespace Facepunch.Hover
 				TrailColor = Color.Lerp( TrailColor, Color.Green, Time.Delta * 10f );
 
 			Trail?.SetPosition( 1, TrailColor * 255f );
+
+			base.ClientTick();
 		}
 
 		protected override Vector3 GetTargetPosition()

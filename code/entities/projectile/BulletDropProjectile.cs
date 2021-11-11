@@ -15,6 +15,7 @@ namespace Facepunch.Hover
 		[Net, Predicted] public string FollowEffect { get; set; } = "";
 		[Net, Predicted] public string TrailEffect { get; set; } = "";
 		[Net, Predicted] public string HitSound { get; set; } = "";
+		[Net, Predicted] public string Model { get; set; } = "";
 
 		public Action<BulletDropProjectile, Entity> Callback { get; private set; }
 		public List<string> FlybySounds { get; set; }
@@ -35,11 +36,12 @@ namespace Facepunch.Hover
 		protected float GravityModifier { get; set; }
 		protected RealTimeUntil NextFlyby { get; set; }
 		protected RealTimeUntil DestroyTime { get; set; }
+		protected SceneObject ModelEntity { get; set; }
 		protected Sound LaunchSound { get; set; }
 		protected Particles Follower { get; set; }
 		protected Particles Trail { get; set; }
 
-        public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
+		public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
 		{
 			Initialize( start, velocity, callback );
 			Radius = radius;
@@ -53,13 +55,13 @@ namespace Facepunch.Hover
 			}
 
 			if ( Simulator != null && Simulator.IsValid() )
-            {
+			{
 				Simulator?.Add( this );
 				Owner = Simulator.Owner;
 			}
 
-			PhysicsEnabled = false;
 			StartPosition = start;
+			EnableDrawing = false;
 			Velocity = velocity;
 			Callback = callback;
 			NextFlyby = 0.2f;
@@ -111,6 +113,9 @@ namespace Facepunch.Hover
 
 			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
 				LaunchSound = PlaySound( LaunchSoundName );
+
+			if ( !string.IsNullOrEmpty( Model ) )
+				ModelEntity = SceneObject.CreateModel( Model );
 		}
 
         public virtual void Simulate()
@@ -212,22 +217,21 @@ namespace Facepunch.Hover
 				Audio.Play( HitSound, Position );
 		}
 
+		[Event.Tick.Client]
+		protected virtual void ClientTick()
+		{
+			if ( ModelEntity.IsValid() )
+			{
+				ModelEntity.Transform = Transform;
+			}
+		}
+
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( !Simulator.IsValid() )
 			{
 				Simulate();
-			}
-		}
-		
-		[Event.Frame]
-		protected virtual void ClientFrame()
-		{
-			if ( HasClientProxy() )
-			{
-				// Why do I have to set this every frame?
-				EnableDrawing = false;
 			}
 		}
 
@@ -242,6 +246,7 @@ namespace Facepunch.Hover
 
 		private void RemoveEffects()
 		{
+			ModelEntity?.Delete();
 			LaunchSound.Stop();
 			Follower?.Destroy();
 			Trail?.Destroy();
