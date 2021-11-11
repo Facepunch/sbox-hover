@@ -83,13 +83,11 @@ namespace Facepunch.Hover
 
         public override void ClientSpawn()
         {
-			if ( HasClientProxy() )
+			// We only want to create effects if we don't have a client proxy.
+			if ( !HasClientProxy() )
             {
-				EnableDrawing = false;
-				return;
-            }
-
-			CreateEffects();
+				CreateEffects();
+			}
 
             base.ClientSpawn();
         }
@@ -195,6 +193,7 @@ namespace Facepunch.Hover
         {
 			if ( HasClientProxy() )
             {
+				// We don't want to play hit effects if we have a client proxy.
 				return;
             }
 
@@ -219,6 +218,16 @@ namespace Facepunch.Hover
 			if ( !Simulator.IsValid() )
 			{
 				Simulate();
+			}
+		}
+		
+		[Event.Frame]
+		protected virtual void ClientFrame()
+		{
+			if ( HasClientProxy() )
+			{
+				// Why do I have to set this every frame?
+				EnableDrawing = false;
 			}
 		}
 

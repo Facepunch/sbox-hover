@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 		{
 			if ( Prediction.FirstTime )
             {
+				Rand.SetSeed( Time.Tick );
 				FireProjectile();
             }
 		}
@@ -56,8 +57,8 @@ namespace Facepunch.Hover
 				.Ignore( player )
 				.Ignore( this )
 				.Run();
-			var direction = (trace.EndPos - position).Normal;
 
+			var direction = (trace.EndPos - position).Normal;
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
 
