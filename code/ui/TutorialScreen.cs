@@ -5,15 +5,17 @@ using System;
 
 namespace Facepunch.Hover
 {
-	
 	public partial class TutorialScreenButton : Panel
 	{
 		public Label Label { get; private set; }
 		public Action OnClicked { get; set; }
+		public bool IsDisabled { get; private set; }
 
 		public TutorialScreenButton()
 		{
-			Label = Add.Label( "", "label" );
+			Label = Add.Label( "" );
+
+			BindClass( "disabled", () => IsDisabled );
 		}
 
 		public void SetText( string text )
@@ -21,8 +23,14 @@ namespace Facepunch.Hover
 			Label.Text = text;
 		}
 
+		public void SetDisabled( bool isDisabled )
+		{
+			IsDisabled = isDisabled;
+		}
+
 		protected override void OnClick( MousePanelEvent e )
 		{
+			if ( IsDisabled ) return;
 			OnClicked?.Invoke();
 			base.OnClick( e );
 		}
@@ -33,6 +41,9 @@ namespace Facepunch.Hover
 	{
 		public static TutorialScreen Instance { get; private set; }
 
+		[ServerVar( "hv_always_show_tutorial" )]
+		public static bool AlwaysShowTutorial { get; set; }
+
 		public Panel Container { get; private set; }
 		public Panel StepsContainer { get; private set; }
 		public Panel ButtonContainer { get; private set; }
@@ -40,28 +51,31 @@ namespace Facepunch.Hover
 		public Label StepOne { get; private set; }
 		public Label StepTwo { get; private set; }
 		public Label StepThree { get; private set; }
-		public TutorialScreenButton PlayedBefore { get; private set; }
 		public TutorialScreenButton OkayButton { get; private set; }
+		public RealTimeUntil HideTime { get; private set; }
 
 		[ClientRpc]
 		public static void Show()
 		{
+			if ( !AlwaysShowTutorial && Cookie.Get( "tutorial", false ) )
+			{
+				// Don't show them the screen again.
+				return;
+			}
+
 			Instance.SetClass( "hidden", false );
+			Instance.HideTime = 5f;
 		}
 
 		[ClientRpc]
 		public static void Hide()
 		{
 			Instance.SetClass( "hidden", true );
+			Cookie.Set( "tutorial", true );
 		}
 
 		public TutorialScreen()
 		{
-			PlayedBefore.OnClicked = () =>
-			{
-				Audio.Play( "hover.clickbeep" );
-				Hide();
-			};
 			OkayButton.OnClicked = () =>
 			{
 				Audio.Play( "hover.clickbeep" );
@@ -78,16 +92,26 @@ namespace Facepunch.Hover
 			StepOne.Text = StepOneText();
 			StepTwo.Text = StepTwoText();
 			StepThree.Text = StepThreeText();
+
+			OkayButton.SetDisabled( !HideTime );
+
+			if ( HideTime )
+				OkayButton.SetText( $"Continue" );
+			else
+				OkayButton.SetText( $"Continue ({ HideTime.Relative.CeilToInt() })" );
 		}
 
-		private string StepOneText() {
+		private string StepOneText()
+		{
 			return $@"Hold [{Input.GetKeyWithBinding( "iv_jump" )}] to Ski. When you are skiing you maintain your velocity as long as you are not going uphill.";
 		}
 
-		private string StepTwoText() {
+		private string StepTwoText()
+		{
 			return $@"You should ski down slopes to gain velocity, and Jetpack by holding [{Input.GetKeyWithBinding( "iv_attack2" )}] to travel over hills without losing velocity while you ski.";
 		}
-		private string StepThreeText() {
+		private string StepThreeText()
+		{
 			return "Capture the enemy flag, or defend your own, and lead your team to victory.";
 		}
 	}
