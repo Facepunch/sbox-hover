@@ -16,12 +16,12 @@ namespace Facepunch.Hover
 		{
 			new WeaponConfig[]
 			{
-				new BurstConfig(),
-				new PulsarConfig()
+				new BurstConfig()
 			},
 			new WeaponConfig[]
 			{
-				new StickyConfig()
+				new StickyConfig(),
+				new RazorConfig()
 			},
 			new WeaponConfig[]
 			{

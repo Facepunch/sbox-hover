@@ -16,13 +16,12 @@ namespace Facepunch.Hover
 		{
 			new WeaponConfig[]
 			{
-				new CarbineConfig(),
-				new PulsarConfig()
+				new CarbineConfig()
 			},
 			new WeaponConfig[]
 			{
 				new BoomerConfig(),
-				new SidemanConfig()
+				new RazorConfig()
 			},
 			new WeaponConfig[]
 			{

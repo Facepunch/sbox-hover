@@ -55,7 +55,7 @@ namespace Facepunch.Hover
 
 		public void FireProjectile( Player target, Vector3 direction )
 		{
-			var projectile = new BulletDropProjectile()
+			var projectile = new TurretProjectile()
 			{
 				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
 				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",

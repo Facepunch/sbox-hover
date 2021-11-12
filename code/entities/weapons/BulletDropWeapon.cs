@@ -2,8 +2,9 @@
 
 namespace Facepunch.Hover
 {
-	public abstract partial class BulletDropWeapon : Weapon
+	public abstract partial class BulletDropWeapon<T> : Weapon where T : BulletDropProjectile, new()
 	{
+		public virtual string ProjectileModel => "";
 		public virtual float ProjectileRadius => 10f;
 		public virtual float ProjectileLifeTime => 10f;
 		public virtual string TrailEffect => null;
@@ -15,46 +16,60 @@ namespace Facepunch.Hover
 
 		public override void AttackPrimary()
 		{
-			if ( IsServer )
-			{
+			if ( Prediction.FirstTime )
+            {
+				Rand.SetSeed( Time.Tick );
 				FireProjectile();
-			}
+            }
 		}
 
 		public virtual void FireProjectile()
 		{
-			var projectile = new BulletDropProjectile()
+			if ( Owner is not Player player )
+				return;
+
+			var projectile = new T()
 			{
 				ExplosionEffect = ImpactEffect,
+				FaceDirection = true,
 				IgnoreEntity = this,
 				FlybySounds = FlybySounds,
 				TrailEffect = TrailEffect,
-				Attacker = Owner,
+				Simulator = player.Projectiles,
+				Attacker = player,
 				HitSound = HitSound,
 				LifeTime = ProjectileLifeTime,
-				Gravity = Gravity
+				Gravity = Gravity,
+				Model = ProjectileModel
 			};
+
+			OnCreateProjectile( projectile );
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
-			var forward = Owner.EyeRot.Forward;
-			var endPosition = Owner.EyePos + forward * BulletRange;
-			var trace = Trace.Ray( Owner.EyePos, endPosition )
-				.Ignore( Owner )
+			var forward = player.EyeRot.Forward;
+			var endPosition = player.EyePos + forward * BulletRange;
+			var trace = Trace.Ray( player.EyePos, endPosition )
+				.Ignore( player )
 				.Ignore( this )
 				.Run();
-			var direction = (trace.EndPos - position).Normal;
 
+			var direction = (trace.EndPos - position).Normal;
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
 
-			var velocity = (direction * Speed) + (Owner.Velocity * InheritVelocity);
+			var velocity = (direction * Speed) + (player.Velocity * InheritVelocity);
 			projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+		}
+
+		protected virtual void OnCreateProjectile( T projectile )
+		{
+
 		}
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( target.IsValid() )
+			if ( IsServer && target.IsValid() )
 			{
 				var distance = target.Position.Distance( projectile.StartPosition );
 				var damage = GetDamageFalloff( distance, BaseDamage );

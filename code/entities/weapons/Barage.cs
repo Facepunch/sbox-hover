@@ -79,10 +79,5 @@ namespace Facepunch.Hover
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
-
-		protected override void OnProjectileHit( PhysicsProjectile projectile )
-		{
-			base.OnProjectileHit( projectile );
-		}
 	}
 }

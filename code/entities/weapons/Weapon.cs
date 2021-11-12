@@ -426,14 +426,36 @@ namespace Facepunch.Hover
 			return AvailableAmmo() > 0;
 		}
 
+		public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
+		{
+			bool inWater = Physics.TestPointContents( start, CollisionLayer.Water );
+
+			yield return Trace.Ray( start, end )
+				.UseLagCompensation()
+				.UseHitboxes()
+				.HitLayer( CollisionLayer.Water, !inWater )
+				.Ignore( Owner )
+				.Ignore( this )
+				.Size( radius )
+				.Run();
+		}
+
+		protected virtual void CreateMuzzleFlash()
+		{
+			if ( !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			{
+				Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
+			}
+		}
+
 		[ClientRpc]
 		protected virtual void ShootEffects()
 		{
 			Host.AssertClient();
 
-			if ( !IsMelee && !string.IsNullOrEmpty( MuzzleFlashEffect ) )
+			if ( !IsMelee )
 			{
-				Particles.Create( MuzzleFlashEffect, GetEffectEntity(), "muzzle" );
+				CreateMuzzleFlash();
 			}
 
 			if ( IsLocalPawn )

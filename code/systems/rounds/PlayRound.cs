@@ -218,7 +218,7 @@ namespace Facepunch.Hover
 			if ( outpost.Team == Team.Blue )
 				Hud.ToastAll( $"The blue team have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
 			else
-				Hud.ToastAll( $"The red teamhave captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
+				Hud.ToastAll( $"The red team have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
 		}
 
 		private void OnGeneratorBroken( GeneratorAsset generator )

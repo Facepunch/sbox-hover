@@ -9,33 +9,37 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class BulletDropProjectile : ModelEntity
 	{
+		// TODO: Find a better way to achieve this without networking all these strings. Use a projectile data class?
+		[Net, Predicted] public string ExplosionEffect { get; set; } = "";
+		[Net, Predicted] public string LaunchSoundName { get; set; } = null;
+		[Net, Predicted] public string FollowEffect { get; set; } = "";
+		[Net, Predicted] public string TrailEffect { get; set; } = "";
+		[Net, Predicted] public string HitSound { get; set; } = "";
+		[Net, Predicted] public string Model { get; set; } = "";
+
 		public Action<BulletDropProjectile, Entity> Callback { get; private set; }
 		public List<string> FlybySounds { get; set; }
 		public bool PlayFlybySounds { get; set; } = false;
-		public string ExplosionEffect { get; set; } = "";
 		public RealTimeUntil CanHitTime { get; set; } = 0.1f;
+		public ProjectileSimulator Simulator { get; set; }
 		public float? LifeTime { get; set; }
-		public string FollowEffect { get; set; } = "";
-		public string TrailEffect { get; set; } = "";
-		public string LaunchSoundName { get; set; } = null;
 		public string Attachment { get; set; } = null;
-		public Entity Attacker{ get; set; } = null;
-		public ModelEntity Target { get; set; } = null;
-		public float MoveTowardTarget { get; set; } = 0f;
+		public Entity Attacker { get; set; } = null;
+		public bool ExplodeOnDestroy { get; set; } = true;
 		public Entity IgnoreEntity { get; set; }
-		public string HitSound { get; set; } = "";
 		public float Gravity { get; set; } = 10f;
 		public float Radius { get; set; } = 8f;
 		public bool FaceDirection { get; set; } = false;
 		public Vector3 StartPosition { get; private set; }
 		public bool Debug { get; set; } = false;
 
-		private float GravityModifier { get; set; }
-		private RealTimeUntil NextFlyby { get; set; }
-		private RealTimeUntil DestroyTime { get; set; }
-		private Sound LaunchSound { get; set; }
-		private Particles Follower { get; set; }
-		private Particles Trail { get; set; }
+		protected float GravityModifier { get; set; }
+		protected RealTimeUntil NextFlyby { get; set; }
+		protected RealTimeUntil DestroyTime { get; set; }
+		protected SceneObject ModelEntity { get; set; }
+		protected Sound LaunchSound { get; set; }
+		protected Particles Follower { get; set; }
+		protected Particles Trail { get; set; }
 
 		public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<BulletDropProjectile, Entity> callback = null )
 		{
@@ -50,101 +54,111 @@ namespace Facepunch.Hover
 				DestroyTime = LifeTime.Value;
 			}
 
-			PhysicsEnabled = false;
+			if ( Simulator != null && Simulator.IsValid() )
+			{
+				Simulator?.Add( this );
+				Owner = Simulator.Owner;
+			}
+
 			StartPosition = start;
+			EnableDrawing = false;
 			Velocity = velocity;
 			Callback = callback;
 			NextFlyby = 0.2f;
 			Position = start;
-			Transmit = TransmitType.Always;
 
-			using ( Prediction.Off() )
+			if ( IsClientOnly )
 			{
-				if ( !string.IsNullOrEmpty( TrailEffect ) )
+				using ( Prediction.Off() )
 				{
-					Trail = Particles.Create( TrailEffect );
-
-					if ( !string.IsNullOrEmpty( Attachment ) )
-						Trail.SetEntityAttachment( 0, this, Attachment );
-					else
-						Trail.SetEntity( 0, this );
+					CreateEffects();
 				}
-
-				if ( !string.IsNullOrEmpty( FollowEffect ) )
-				{
-					Follower = Particles.Create( FollowEffect, this );
-				}
-
-				if ( !string.IsNullOrEmpty( LaunchSoundName ) )
-					LaunchSound = PlaySound( LaunchSoundName );
 			}
 		}
 
-		protected override void OnDestroy()
+		public override void Spawn()
 		{
-			RemoveEffects();
+			Predictable = true;
 
-			base.OnDestroy();
+			base.Spawn();
 		}
 
-		private void RemoveEffects()
-		{
-			LaunchSound.Stop();
-			Follower?.Destroy();
-			Trail?.Destroy();
-			Trail = null;
+        public override void ClientSpawn()
+        {
+			// We only want to create effects if we don't have a client proxy.
+			if ( !HasClientProxy() )
+            {
+				CreateEffects();
+			}
+
+            base.ClientSpawn();
+        }
+
+		public virtual void CreateEffects()
+        {
+			if ( !string.IsNullOrEmpty( TrailEffect ) )
+			{
+				Trail = Particles.Create( TrailEffect, this );
+
+				if ( !string.IsNullOrEmpty( Attachment ) )
+					Trail.SetEntityAttachment( 0, this, Attachment );
+				else
+					Trail.SetEntity( 0, this );
+			}
+
+			if ( !string.IsNullOrEmpty( FollowEffect ) )
+			{
+				Follower = Particles.Create( FollowEffect, this );
+			}
+
+			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
+				LaunchSound = PlaySound( LaunchSoundName );
+
+			if ( !string.IsNullOrEmpty( Model ) )
+				ModelEntity = SceneObject.CreateModel( Model );
 		}
 
-		[Event.Tick.Server]
-		private void ServerTick()
-		{
+        public virtual void Simulate()
+        {
 			if ( FaceDirection )
+            {
 				Rotation = Rotation.LookAt( Velocity.Normal );
+            }
 
 			if ( Debug )
-				DebugOverlay.Sphere( Position, Radius, Color.Red );
+            {
+				DebugOverlay.Sphere( Position, Radius, IsClient ? Color.Blue : Color.Red );
+            }
 
-			if ( LifeTime.HasValue && DestroyTime )
-			{
-				Delete();
-				return;
-			}
-
-			var newPosition = Position;
-			newPosition += Velocity * Time.Delta;
-
-			GravityModifier += Gravity;
-			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
-
-			if ( Target.IsValid() && MoveTowardTarget > 0f )
-			{
-				var targetDirection = (Target.WorldSpaceBounds.Center - newPosition).Normal;
-				newPosition += targetDirection * MoveTowardTarget * Time.Delta;
-			}
+			var newPosition = GetTargetPosition();
 
 			var trace = Trace.Ray( Position, newPosition )
+				.UseLagCompensation()
 				.HitLayer( CollisionLayer.Water, true )
 				.Size( Radius )
 				.Ignore( this )
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = trace.EndPos + trace.Direction.Normal * Radius;
+			Position = trace.EndPos;
 
-			if ( (trace.Hit && CanHitTime) || trace.StartedSolid )
+			if ( LifeTime.HasValue && DestroyTime )
 			{
-				if ( !string.IsNullOrEmpty( ExplosionEffect ) )
+				if ( ExplodeOnDestroy )
 				{
-					var explosion = Particles.Create( ExplosionEffect );
-					explosion.SetPosition( 0, Position );
-					explosion.SetForward( 0, trace.Normal );
+					PlayHitEffects( Vector3.Zero );
+					Callback?.Invoke( this, trace.Entity );
 				}
 
-				if ( !string.IsNullOrEmpty( HitSound ) )
-					Audio.Play( HitSound, Position );
+				Delete();
 
+				return;
+			}
+
+			if ( HasHitTarget( trace ) )
+			{
+				PlayHitEffects( trace.Normal );
 				Callback?.Invoke( this, trace.Entity );
-				RemoveEffects();
 				Delete();
 			}
 			else
@@ -155,6 +169,88 @@ namespace Facepunch.Hover
 					NextFlyby = Time.Delta * 2f;
 				}
 			}
+		}
+
+		public bool HasClientProxy()
+        {
+			return !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn;
+
+		}
+
+		protected virtual bool HasHitTarget( TraceResult trace )
+		{
+			return (trace.Hit && CanHitTime) || trace.StartedSolid;
+		}
+
+		protected virtual Vector3 GetTargetPosition()
+		{
+			var newPosition = Position;
+			newPosition += Velocity * Time.Delta;
+
+			GravityModifier += Gravity;
+			newPosition -= new Vector3( 0f, 0f, GravityModifier * Time.Delta );
+
+			return newPosition;
+		} 
+
+		[ClientRpc]
+		protected virtual void PlayHitEffects( Vector3 normal )
+        {
+			if ( HasClientProxy() )
+            {
+				// We don't want to play hit effects if we have a client proxy.
+				return;
+            }
+
+			if ( !string.IsNullOrEmpty( ExplosionEffect ) )
+			{
+				var explosion = Particles.Create( ExplosionEffect );
+
+				if ( explosion != null )
+				{
+					explosion.SetPosition( 0, Position );
+					explosion.SetForward( 0, normal );
+				}
+			}
+
+			if ( !string.IsNullOrEmpty( HitSound ) )
+				Audio.Play( HitSound, Position );
+		}
+
+		[Event.Tick.Client]
+		protected virtual void ClientTick()
+		{
+			if ( ModelEntity.IsValid() )
+			{
+				ModelEntity.Transform = Transform;
+			}
+		}
+
+		[Event.Tick.Server]
+		protected virtual void ServerTick()
+		{
+			if ( !Simulator.IsValid() )
+			{
+				Simulate();
+			}
+		}
+
+        protected override void OnDestroy()
+		{
+			Simulator?.Remove( this );
+
+			RemoveEffects();
+
+			base.OnDestroy();
+		}
+
+		private void RemoveEffects()
+		{
+			ModelEntity?.Delete();
+			LaunchSound.Stop();
+			Follower?.Destroy();
+			Trail?.Destroy();
+			Trail = null;
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace Facepunch.Hover
 	public partial class Player : Sandbox.Player
 	{
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
+		public ProjectileSimulator Projectiles { get; private set; }
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
 		public List<Award> EarnedAwards { get; private set; }
 		public TimeSince LastKillTime { get; private set; }
@@ -88,12 +89,13 @@ namespace Facepunch.Hover
 
 					if ( player.HasTokens( loadout.TokenCost ) )
 					{
+						loadout.UpdateWeapons( weapons.Split( ',' ) );
+
 						player.TakeTokens( loadout.TokenCost );
 						player.GiveLoadout( loadout );
 
 						if ( player.LifeState == LifeState.Alive )
 						{
-							loadout.UpdateWeapons( weapons.Split( ',' ) );
 							loadout.Respawn( player );
 							loadout.Supply( player );
 
@@ -165,6 +167,7 @@ namespace Facepunch.Hover
 			WeaponUpgrades = new();
 			AssistTrackers = new();
 			EarnedAwards = new();
+			Projectiles = new( this );
 			EnableTouch = true;
 			Inventory = new Inventory( this );
 			Animator = new PlayerAnimator();
@@ -183,6 +186,7 @@ namespace Facepunch.Hover
 
 			LoadoutUpgrades.Clear();
 			WeaponUpgrades.Clear();
+			Projectiles.Clear();
 			EarnedAwards.Clear();
 			LastDamageInfo = default;
 			LastKiller = null;
@@ -208,6 +212,7 @@ namespace Facepunch.Hover
 			LoadoutUpgrades.Clear();
 			WeaponUpgrades.Clear();
 			EarnedAwards.Clear();
+			Projectiles.Clear();
 		}
 
 		public void GiveTokens( int tokens )
@@ -470,6 +475,13 @@ namespace Facepunch.Hover
 			StopSkiLoop();
 		}
 
+		public override void Spawn()
+		{
+			LagCompensation = true;
+
+			base.Spawn();
+		}
+
 		public override void ClientSpawn()
 		{
 			if ( IsLocalPawn )
@@ -588,6 +600,8 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client client )
 		{
+			Projectiles.Simulate();
+
 			SimulateActiveChild( client, ActiveChild );
 
 			var targetWeapon = Input.ActiveChild as Weapon;

@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Utility;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
-	partial class Boomer : PhysicsWeapon<BoomerProjectile>
+	partial class Boomer : BulletDropWeapon<BulletDropProjectile>
 	{
 		public override WeaponConfig Config => new BoomerConfig();
 		public override string ImpactEffect => "particles/weapons/boomer/boomer_impact.vpcf";
@@ -34,16 +35,16 @@ namespace Facepunch.Hover
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 175f;
+		public override float Speed => 1300f;
+		public override float Gravity => 10f;
 		public override float InheritVelocity => 0.5f;
 		public override bool CanMeleeAttack => true;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
-		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 2.3f;
-		public override float LifeTime => 1.5f;
+		public override float ProjectileLifeTime => 1.5f;
 		public override int BaseDamage => 500;
-		public override float DamageRadius => 300f;
+		public virtual float BlastRadius => 300f;
 
 		public override void Spawn()
 		{
@@ -83,12 +84,30 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position );
+			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			base.OnProjectileHit( projectile );
+			if ( IsServer )
+            {
+				var position = projectile.Position;
+				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
+
+				foreach ( var entity in entities )
+				{
+					var direction = (entity.Position - position).Normal;
+					var distance = entity.Position.Distance( position );
+					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+
+					if ( entity == Owner )
+					{
+						damage *= 1.25f;
+					}
+
+					DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
+				}
+			}
 		}
 	}
 }

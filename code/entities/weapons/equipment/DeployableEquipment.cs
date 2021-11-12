@@ -40,6 +40,28 @@ namespace Facepunch.Hover
 			base.Restock();
 		}
 
+		public override void Simulate( Client client )
+		{
+			if ( Ghost.IsValid() && Owner is Player player )
+			{
+				var canDeploy = GetPlacePosition( out var position, out var rotation );
+
+				if ( canDeploy )
+				{
+					Ghost.RenderColor = player.Team.GetColor().WithAlpha( 0.9f );
+				}
+				else
+				{
+					Ghost.RenderColor = player.Team.GetColor().WithAlpha( 0.5f );
+				}
+
+				Ghost.Position = position;
+				Ghost.Rotation = rotation;
+			}
+
+			base.Simulate( client );
+		}
+
 		public override void AttackPrimary()
 		{
 			if ( Owner is not Player player ) return;
@@ -125,28 +147,6 @@ namespace Facepunch.Hover
 		}
 
 		protected virtual void OnDeploy( T deployable ) { }
-
-		[Event.Tick.Client]
-		protected virtual void ClientTick()
-		{
-			if ( !Ghost.IsValid() ) return;
-
-			if ( Owner is not Player player ) return;
-
-			var canDeploy = GetPlacePosition( out var position, out var rotation );
-
-			if ( canDeploy )
-			{
-				Ghost.RenderColor = player.Team.GetColor().WithAlpha( 0.9f );
-			}
-			else
-			{
-				Ghost.RenderColor = player.Team.GetColor().WithAlpha( 0.5f );
-			}
-
-			Ghost.Position = position;
-			Ghost.Rotation = rotation;
-		}
 
 		protected bool GetPlacePosition( out Vector3 position, out Rotation rotation )
 		{

@@ -35,7 +35,7 @@ Layer0
 	TextureNormal "models/weapons/sideman/textures/sideman_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "models/weapons/longshot/textures/longshot_rough.png"
+	TextureRoughness "models/weapons/sideman/textures/sideman_rough.png"
 
 	//---- Self Illum ----
 	g_flSelfIllumAlbedoFactor "1.000"

@@ -16,12 +16,12 @@ namespace Facepunch.Hover
 		{
 			new WeaponConfig[]
 			{
-				new BarageConfig(),
+				new BarageConfig()
 			},
 			new WeaponConfig[]
 			{
-				new BlasterConfig(),
-				new ShotblastConfig()
+				new ShotblastConfig(),
+				new RazorConfig()
 			},
 			new WeaponConfig[]
 			{

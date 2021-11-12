@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 			},
 			new WeaponConfig[]
 			{
-				new SidemanConfig()
+				new RazorConfig()
 			},
 			new WeaponConfig[]
 			{
