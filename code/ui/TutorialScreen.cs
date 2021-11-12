@@ -34,8 +34,10 @@ namespace Facepunch.Hover
 		public static TutorialScreen Instance { get; private set; }
 
 		public Panel Container { get; private set; }
-		public Label Title { get; set; }
-		public Label Help { get; set; }
+		public Panel StepsContainer { get; private set; }
+		public Panel ButtonContainer { get; private set; }
+		public Label Title { get; private set; }
+		public Label Help { get; private set; }
 		public TutorialScreenButton OkayButton { get; private set; }
 
 		[ClientRpc]

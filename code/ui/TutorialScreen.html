@@ -2,10 +2,33 @@
 
 <div>
   <div class="container">
-    <label @ref="Title" class="title">Title</label>
-    <label @ref="Help" class="help">Help</label>
-    <TutorialScreenButton @ref="OkayButton">
-      <label>I've Played Before</label>
-    </TutorialScreenButton>
+    <div class="steps-container" @ref="StepsContainer">
+      <label class="game-name">Hover</label>
+      <label @ref="Title" class="title">Title</label>
+      <!-- <label @ref="Help" class="help">Help</label> -->
+
+      <div class="step">
+        <label class="step-number">Step 1</label>
+        <label class="step-body">Body</label>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 2</label>
+        <label class="step-body">Body</label>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 3</label>
+        <label class="step-body">Body</label>
+      </div>
+    </div>
+    <div class="buttons-container" @ref="ButtonsContainer">
+      <div class="buttons">
+        <TutorialScreenButton @ref="OkayButton" class="secondary-button">
+          <label>I've Played Before</label>
+        </TutorialScreenButton>
+        <TutorialScreenButton @ref="OkayButton">
+          <label>Continue</label>
+        </TutorialScreenButton>
+      </div>
+    </div>
   </div>
 </div>
