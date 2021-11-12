@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 	{
 		public static TutorialScreen Instance { get; private set; }
 
-		[ServerVar( "hv_always_show_tutorial" )]
+		[ClientVar( "hv_always_show_tutorial" )]
 		public static bool AlwaysShowTutorial { get; set; }
 
 		public Panel Container { get; private set; }
