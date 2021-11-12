@@ -14,10 +14,8 @@ tutorialscreen {
   z-index: 7;
 
   .container {
-    box-shadow: $selectedTabBackground;
-    background-color: $selectedTabPanelBg;
-    border: $selectedTabPanelBorder;
-    border-radius: 8px;
+    background-color: $panel-bg;
+    backdrop-filter: $blur-medium;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,15 +27,16 @@ tutorialscreen {
 
     .title {
       font-size: 48px;
-      text-shadow: $selectedTabShadow;
-      color: $selectedTabColor;
+      font-family: $fontBold;
+      color: #fff;
+      text-transform: uppercase;
     }
 
     .help {
-      text-shadow: $selectedTabShadow;
+      color: $light-blue;
+      font-family: $mainFont;
       font-size: 24px;
       margin-top: 32px;
-      color: white;
     }
   }
 
@@ -48,7 +47,6 @@ tutorialscreen {
 
 tutorialscreenbutton {
   width: 250px;
-  border-radius: 16px;
   cursor: pointer;
   padding: 16px;
   margin-top: 32px;
@@ -56,22 +54,18 @@ tutorialscreenbutton {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255 216 0 0.2);
-  border: 2px solid rgba(255 216 0 0.4);
-  box-shadow: $tokenBackground;
+  background-color: $blue;
   transition: all 0.1s ease-out;
 
   .label {
-    color: $tokenColor;
-    text-shadow: $tokenShadow;
+    color: $dark-grey;
     font-size: 24px;
-    font-family: $mainFont;
+    font-family: $fontBold;
   }
 
   &:hover {
     sound-in: hover.hoversharp;
-    transform: scale(1.02 1.04);
-    background-color: rgba(255 216 0 0.4);
-    border: 2px solid rgba(255 216 0 0.6);
+    box-shadow: 0 10px 30px rgba(#000, 0.5);
+    bottom: 5px;
   }
 }

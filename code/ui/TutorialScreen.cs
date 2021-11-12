@@ -5,6 +5,7 @@ using System;
 
 namespace Facepunch.Hover
 {
+	
 	public partial class TutorialScreenButton : Panel
 	{
 		public Label Label { get; private set; }
@@ -27,11 +28,14 @@ namespace Facepunch.Hover
 		}
 	}
 
+	[UseTemplate]
 	public partial class TutorialScreen : Panel
 	{
 		public static TutorialScreen Instance { get; private set; }
 
 		public Panel Container { get; private set; }
+		public Label Title { get; set; }
+		public Label Help { get; set; }
 		public TutorialScreenButton OkayButton { get; private set; }
 
 		[ClientRpc]
@@ -48,22 +52,20 @@ namespace Facepunch.Hover
 
 		public TutorialScreen()
 		{
-			StyleSheet.Load( "/ui/TutorialScreen.scss" );
-
-			Container = Add.Panel( "container" );
-			Container.Add.Label( "How to Play", "title" );
-			Container.Add.Label( GetHelpText(), "help" );
-			OkayButton = AddChild<TutorialScreenButton>( "button" );
-			OkayButton.SetText( "Okay" );
 			OkayButton.OnClicked = () =>
 			{
 				Audio.Play( "hover.clickbeep" );
 				Hide();
 			};
-
+			
 			SetClass( "hidden", true );
-
 			Instance = this;
+		}
+
+		public override void Tick()
+		{
+			Title.Text = "How to Play";
+			Help.Text = GetHelpText();
 		}
 
 		private string GetHelpText()
