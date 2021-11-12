@@ -40,6 +40,7 @@ namespace Facepunch.Hover
 		public Label StepOne { get; private set; }
 		public Label StepTwo { get; private set; }
 		public Label StepThree { get; private set; }
+		public TutorialScreenButton PlayedBefore { get; private set; }
 		public TutorialScreenButton OkayButton { get; private set; }
 
 		[ClientRpc]
@@ -56,6 +57,11 @@ namespace Facepunch.Hover
 
 		public TutorialScreen()
 		{
+			PlayedBefore.OnClicked = () =>
+			{
+				Audio.Play( "hover.clickbeep" );
+				Hide();
+			};
 			OkayButton.OnClicked = () =>
 			{
 				Audio.Play( "hover.clickbeep" );
