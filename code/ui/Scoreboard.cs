@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,8 @@ namespace Facepunch.Hover
 
 		public Panel BlueSection { get; set; }
 		public Panel RedSection { get; set; }
+
+		public string TimeLeft => GetTimeLeftFormatted();
 
 		public string BlueCaptures => GetFlagCaptures( Team.Blue ).ToString();
 		public string RedCaptures => GetFlagCaptures( Team.Red ).ToString();
@@ -64,6 +67,14 @@ namespace Facepunch.Hover
 			var p = section.AddChild<ScoreboardEntry>();
 			p.Client = entry;
 			return p;
+		}
+
+		private string GetTimeLeftFormatted()
+		{
+			if ( Rounds.Current is PlayRound round )
+				return TimeSpan.FromSeconds( round.TimeLeftSeconds ).ToString( @"mm\:ss" );
+			else
+				return "00:00";
 		}
 
 		private int GetFlagCaptures( Team team )
