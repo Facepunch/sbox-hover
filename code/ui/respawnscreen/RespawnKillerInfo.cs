@@ -54,6 +54,8 @@ namespace Facepunch.Hover
 
 				if ( weapon is IKillFeedIcon icon )
 					WeaponName.Text = icon.GetKillFeedName();
+				else if ( weapon is Weapon castWeapon )
+					WeaponName.Text = castWeapon.Config.Name;
 				else
 					WeaponName.Text = weapon.Name;
 			}
