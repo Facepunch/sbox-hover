@@ -52,10 +52,10 @@ namespace Facepunch.Hover
 			{
 				SetClass( "has-weapon", true );
 
-				if ( weapon is IKillFeedIcon icon )
-					WeaponName.Text = icon.GetKillFeedName();
-				else if ( weapon is Weapon castWeapon )
-					WeaponName.Text = castWeapon.Config.Name;
+				if ( weapon is IKillFeedIcon feedInfo )
+					WeaponName.Text = feedInfo.GetKillFeedName();
+				else if ( weapon is Weapon typed )
+					WeaponName.Text = typed.Config.Name;
 				else
 					WeaponName.Text = weapon.Name;
 			}

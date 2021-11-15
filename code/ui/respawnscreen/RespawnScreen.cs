@@ -16,7 +16,14 @@ namespace Facepunch.Hover
 
 		public RealTimeUntil RespawnTime { get; private set; }
 
-		public string RespawnTimeLeft => $"{Math.Max( RespawnTime.Relative.CeilToInt(), 0 )}s";
+		public string RespawnTimeLeft => GetRespawnTimeLeft();
+
+		public RespawnScreen()
+		{
+			SetClass( "hidden", true );
+
+			Instance = this;
+		}
 
 		[ClientRpc]
 		public static void Show( float respawnTime, Entity attacker, Entity weapon = null )
@@ -43,11 +50,10 @@ namespace Facepunch.Hover
 			Instance.SetClass( "hidden", true );
 		}
 
-		public RespawnScreen()
+		private string GetRespawnTimeLeft()
 		{
-			SetClass( "hidden", true );
-
-			Instance = this;
+			var timeLeftWithMax = Math.Max( RespawnTime.Relative.CeilToInt(), 0 );
+			return $"{TimeSpan.FromSeconds( timeLeftWithMax ).ToString( @"mm\:ss" )}";
 		}
 	}
 }
