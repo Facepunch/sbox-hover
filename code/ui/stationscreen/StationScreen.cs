@@ -913,7 +913,7 @@ namespace Facepunch.Hover
 
 		public StationScreen()
 		{
-			SetOpen( false );
+			SetClass( "hidden", true );
 
 			Instance?.Delete();
 			Instance = this;
