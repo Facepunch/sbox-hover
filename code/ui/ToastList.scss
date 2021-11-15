@@ -67,10 +67,9 @@ toastlist {
   toastitem {
     align-self: flex-start;
     align-items: center;
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
+    background: linear-gradient(to left, rgba($blue, 0.5), $panel-bg-light);
+    backdrop-filter-blur: 8px;
+    border-bottom: 2px solid $blue;
     flex-direction: row;
     margin-top: 8px;
     height: 64px;
@@ -97,7 +96,7 @@ toastlist {
       margin-left: 8px;
       flex-grow: 1;
       margin-right: 16px;
-      text-shadow: $blueTeamShadow;
+      text-shadow: $text-shadow;
     }
 
     .icon {
@@ -130,17 +129,7 @@ toastlist {
     }
 
     toastitem {
-      box-shadow: $redTeamBackground;
-      background-color: $redTeamPanelBg;
-      border: $redTeamPanelBorder;
-
-      .text {
-        text-shadow: $redTeamShadow;
-      }
-
-      .icon {
-        text-shadow: $redTeamShadow;
-      }
+      background: linear-gradient(to left, rgba($red, 0.5), $panel-bg-light);
     }
   }
 }

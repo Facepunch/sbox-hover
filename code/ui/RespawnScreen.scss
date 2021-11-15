@@ -1,7 +1,7 @@
 ﻿@import "_variables.scss";
 
 respawnscreen {
-  box-shadow: $blueTeamBackground;
+  background: linear-gradient(to bottom, rgba($red, 0.1), rgba(#000, 0));
   transition: all 4s ease-in;
   backdrop-filter-blur: 32px;
   position: absolute;
@@ -13,6 +13,58 @@ respawnscreen {
   flex-direction: column;
   z-index: 5;
   opacity: 1;
+
+  .respawn-feed {
+    flex-direction: row;
+  }
+
+  .respawn-box {
+    display: flex;
+    flex-direction: column;
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: 16px;
+    }
+
+    label {
+      font-family: $fontBold;
+    }
+
+    .respawn-header {
+      background-color: $panel-bg;
+      letter-spacing: 2px;
+      padding: 2px 16px;
+      text-transform: uppercase;
+
+      label {
+        color: $light-blue;
+        font-size: 12px;
+        text-shadow: $text-shadow;
+      }
+    }
+    .respawn-body {
+      background-color: $panel-bg-light;
+      padding: 2px 16px;
+
+      label {
+        color: $light-blue;
+        font-size: 42px;
+        text-shadow: $text-shadow;
+      }
+    }
+
+    &.team-box {
+      .respawn-body {
+        background-color: $red;
+        label {
+          color: $dark-grey;
+          text-shadow: none;
+        }
+      }
+    }
+  }
 
   .respawn {
     text-shadow: $blueTeamShadow;
@@ -27,16 +79,14 @@ respawnscreen {
 
   .killedby {
     margin-top: 24px;
-    text-shadow: $blueTeamShadow;
+    text-shadow: $text-shadow;
     font-family: $mainFont;
     font-size: 32px;
     color: white;
   }
 
   .killer {
-    box-shadow: $blueTeamForeground;
-    background-color: $blueTeamPanelBg;
-    border-radius: 8px;
+    background-color: $panel-bg;
     justify-content: center;
     justify-items: center;
     align-items: center;
@@ -51,7 +101,7 @@ respawnscreen {
     }
 
     .name {
-      text-shadow: $blueTeamShadow;
+      color: $blue;
       font-family: $mainFont;
       font-size: 24px;
     }
@@ -72,7 +122,7 @@ respawnscreen {
     }
 
     .killer {
-      background-color: $redTeamPanelBg;
+      //background-color: $redTeamPanelBg;
       box-shadow: $redTeamForeground;
 
       .name {

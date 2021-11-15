@@ -65,6 +65,7 @@ namespace Facepunch.Hover
 		}
 	}
 
+	[UseTemplate] 
 	public partial class RespawnScreen : Panel
 	{
 		public static RespawnScreen Instance { get; private set; }
@@ -104,9 +105,9 @@ namespace Facepunch.Hover
 		{
 			StyleSheet.Load( "/ui/RespawnScreen.scss" );
 
-			RespawnTimeLabel = Add.Label( "", "respawn" );
-			KilledByLabel = Add.Label( "You were killed by", "killedby" );
-			KillerInfo = AddChild<RespawnKillerInfo>( "killer" );
+			//RespawnTimeLabel = Add.Label( "", "respawn" );
+			//KilledByLabel = Add.Label( "You were killed by", "killedby" );
+			//KillerInfo = AddChild<RespawnKillerInfo>( "killer" );
 
 			SetClass( "hidden", true );
 
@@ -119,7 +120,7 @@ namespace Facepunch.Hover
 
 			if ( respawnTimeLeft > 0 )
 			{
-				RespawnTimeLabel.Text = $"Redeploy: {respawnTimeLeft}s";
+				RespawnTimeLabel.Text = $"{respawnTimeLeft}s";
 				RespawnTimeLabel.SetClass( "hidden", false );
 			}
 			else
