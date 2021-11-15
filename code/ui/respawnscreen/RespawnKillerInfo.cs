@@ -11,6 +11,8 @@ namespace Facepunch.Hover
 		public Label KillerName { get; private set; }
 		public Label WeaponName { get; private set; }
 
+		private Team CurrentTeam { get; set; }
+
 		public void SetVisible( bool isVisible )
 		{
 			SetClass( "hidden", !isVisible );
@@ -20,19 +22,28 @@ namespace Facepunch.Hover
 		{
 			KillerAvatar.SetTexture( $"avatar:{player.Client.PlayerId}" );
 			KillerName.Text = player.Client.Name;
-
+			SetTeam( player.Team );
 		}
 
 		public void Update( IKillFeedIcon killer )
 		{
 			KillerAvatar.Texture = Texture.Load( killer.GetKillFeedIcon() );
 			KillerName.Text = killer.GetKillFeedName();
+			SetTeam( killer.GetKillFeedTeam() );
 		}
 
 		public void Update( string killerName )
 		{
 			KillerAvatar.Texture = Texture.Load( "ui/icons/skull.png" );
 			KillerName.Text = killerName;
+			SetTeam( Team.None );
+		}
+
+		public void SetTeam( Team team )
+		{
+			SetClass( CurrentTeam.GetHudClass(), false );
+			SetClass( team.GetHudClass(), true );
+			CurrentTeam = team;
 		}
 
 		public void SetWeapon( Entity weapon )
