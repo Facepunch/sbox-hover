@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 
 		public RealTimeUntil RespawnTime { get; private set; }
 
-		public string RespawnTimeLeft => $"{RespawnTime.Relative.CeilToInt()}s";
+		public string RespawnTimeLeft => $"{Math.Max( RespawnTime.Relative.CeilToInt(), 0 )}s";
 
 		[ClientRpc]
 		public static void Show( float respawnTime, Entity attacker, Entity weapon = null )
@@ -48,13 +48,6 @@ namespace Facepunch.Hover
 			SetClass( "hidden", true );
 
 			Instance = this;
-		}
-
-		protected override void PostTemplateApplied()
-		{
-			RespawnTimeLabel.BindClass( "hidden", () => RespawnTime.Relative > 0f );
-
-			base.PostTemplateApplied();
 		}
 	}
 }
