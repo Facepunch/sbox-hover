@@ -42,7 +42,7 @@ namespace Facepunch.Hover
 
 		public void SetWeapon( Entity weapon )
 		{
-			if ( weapon.IsValid() )
+			if ( weapon.IsValid() && !weapon.IsWorld )
 			{
 				SetClass( "has-weapon", true );
 
