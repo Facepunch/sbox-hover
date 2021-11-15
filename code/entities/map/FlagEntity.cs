@@ -242,6 +242,18 @@ namespace Facepunch.Hover
 			}
 		}
 
+		[Event.Tick.Client]
+		private void ClientTick()
+		{
+			// Hide the flag if we're the current carrier. It can be annoying.
+			if ( Carrier.IsValid() && Carrier.IsLocalPawn )
+				EnableHideInFirstPerson = true;
+			else
+				EnableHideInFirstPerson = false;
+
+			EnableShadowInFirstPerson = true;
+		}
+
 		public bool ShouldUpdateHud()
 		{
 			return true;
