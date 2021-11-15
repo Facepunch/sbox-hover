@@ -5,6 +5,7 @@ using System;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate] 
 	public class RespawnKillerInfo : Panel
 	{
 		public Image KillerAvatar { get; private set; }
@@ -13,9 +14,9 @@ namespace Facepunch.Hover
 
 		public RespawnKillerInfo()
 		{
-			KillerAvatar = Add.Image( "", "avatar" );
-			KillerName = Add.Label( "", "name" );
-			WeaponName = Add.Label( "", "weapon" );
+			// KillerAvatar = Add.Image( "", "avatar" );
+			// KillerName = Add.Label( "", "name" );
+			// WeaponName = Add.Label( "", "weapon" );
 		}
 
 		public void SetVisible( bool isVisible )
