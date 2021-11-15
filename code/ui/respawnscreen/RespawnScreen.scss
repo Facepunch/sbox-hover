@@ -1,6 +1,6 @@
 ﻿@import "../_variables.scss";
 
-respawnscreen {
+RespawnScreen {
   background: linear-gradient(to bottom, rgba($red, 0.1), rgba(#000, 0));
   transition: all 4s ease-in;
   backdrop-filter-blur: 32px;
@@ -114,7 +114,7 @@ respawnscreen {
 }
 
 .team_red {
-  respawnscreen {
+  RespawnScreen {
     box-shadow: $redTeamBackground;
 
     .killedby {
