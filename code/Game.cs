@@ -28,6 +28,32 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_award_duration", Help = "The time that awards take to disappear." )]
 		public static float AwardDuration { get; set; } = 3f;
 
+		[ServerCmd( "hv_respawn_screen" )]
+		public static void DebugRespawnScreen( string type )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				if ( type == "turret" )
+				{
+					var turret = All.OfType<TurretAsset>().FirstOrDefault();
+					RespawnScreen.Show( 30f, turret );
+				}
+				else if ( type == "suicide" )
+				{
+					RespawnScreen.Show( 30f, player );
+				}
+				else if ( type == "deployable" )
+				{
+					var mine = new JumpMine();
+					RespawnScreen.Show( 30f, player, mine );
+				}
+				else
+				{
+					RespawnScreen.Show( 30f, player, player.ActiveChild );
+				}
+			}
+		}
+
 		[ServerCmd( "hv_killfeed" )]
 		public static void DebugKillFeed( string type )
 		{
@@ -35,7 +61,7 @@ namespace Facepunch.Hover
 			{
 				if ( type == "turret" )
 				{
-					var turret = Entity.All.OfType<TurretAsset>().FirstOrDefault();
+					var turret = All.OfType<TurretAsset>().FirstOrDefault();
 					Hud.AddKillFeed( turret, player );
 				}
 				else if ( type == "suicide" )

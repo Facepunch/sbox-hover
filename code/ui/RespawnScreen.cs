@@ -9,11 +9,13 @@ namespace Facepunch.Hover
 	{
 		public Image KillerAvatar { get; private set; }
 		public Label KillerName { get; private set; }
+		public Label WeaponName { get; private set; }
 
 		public RespawnKillerInfo()
 		{
 			KillerAvatar = Add.Image( "", "avatar" );
 			KillerName = Add.Label( "", "name" );
+			WeaponName = Add.Label( "", "weapon" );
 		}
 
 		public void SetVisible( bool isVisible )
@@ -23,7 +25,7 @@ namespace Facepunch.Hover
 
 		public void Update( Player player )
 		{
-			KillerAvatar.SetTexture( $"avatar:{player.Client.SteamId}" );
+			KillerAvatar.SetTexture( $"avatar:{player.Client.PlayerId}" );
 			KillerName.Text = player.Client.Name;
 			KillerName.Style.FontColor = player.Team.GetColor();
 			KillerName.Style.Dirty();
@@ -44,6 +46,23 @@ namespace Facepunch.Hover
 			KillerName.Style.FontColor = Color.White;
 			KillerName.Style.Dirty();
 		}
+
+		public void SetWeapon( Entity weapon )
+		{
+			if ( weapon.IsValid() )
+			{
+				SetClass( "has-weapon", true );
+
+				if ( weapon is IKillFeedIcon icon )
+					WeaponName.Text = icon.GetKillFeedName();
+				else
+					WeaponName.Text = weapon.Name;
+			}
+			else
+			{
+				SetClass( "has-weapon", false );
+			}
+		}
 	}
 
 	public partial class RespawnScreen : Panel
@@ -57,7 +76,7 @@ namespace Facepunch.Hover
 		public RealTimeUntil RespawnTime { get; private set; }
 
 		[ClientRpc]
-		public static void Show( float respawnTime, Entity attacker )
+		public static void Show( float respawnTime, Entity attacker, Entity weapon = null )
 		{
 			Instance.SetClass( "hidden", false );
 
@@ -69,6 +88,8 @@ namespace Facepunch.Hover
 				Instance.KillerInfo.Update( killer );
 			else
 				Instance.KillerInfo.Update( attacker.Name );
+
+			Instance.KillerInfo.SetWeapon( weapon );
 
 			Instance.RespawnTime = respawnTime;
 		}
