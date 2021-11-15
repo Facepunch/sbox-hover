@@ -39,11 +39,19 @@ namespace Facepunch.Hover
 
 			projectile.SetModel( ProjectileModel );
 
+			// First trace to the muzzle position (we might be sticking in a wall.)
 			var muzzle = GetAttachment( MuzzleAttachment );
-			var position = muzzle.Value.Position;
+			var trace = Trace.Ray( Owner.EyePos, muzzle.Value.Position )
+				.Ignore( this )
+				.Ignore( Owner )
+				.Run();
+
+			// Trace back a little bit so we don't go through any walls.
+			var position = trace.EndPos - trace.Direction * 4f;
 			var forward = Owner.EyeRot.Forward.Normal;
 
-			var trace = Trace.Ray( position, position + forward * 80f )
+			// Next trace a little bit ahead from the muzzle and see if we hit anything.
+			trace = Trace.Ray( position, position + forward * 80f )
 				.Ignore( this )
 				.Ignore( Owner )
 				.Run();
