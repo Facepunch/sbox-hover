@@ -16,4 +16,20 @@ RespawnKillerInfo {
       }
     }
   }
+
+  &.team_red {
+    .respawn-box .respawn-body {
+      background-color: $red;
+    }
+  }
+  &.team_blue {
+    .respawn-box .respawn-body {
+      background-color: $blue;
+    }
+  }
+  &.team_none {
+    .respawn-box .respawn-body {
+      background-color: $panel-bg;
+    }
+  }
 }

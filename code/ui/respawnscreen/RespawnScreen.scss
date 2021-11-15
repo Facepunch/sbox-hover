@@ -1,7 +1,7 @@
 ﻿@import "../_variables.scss";
 
 RespawnScreen {
-  background: linear-gradient(to bottom, rgba($red, 0.1), rgba(#000, 0));
+  background: linear-gradient(to bottom, rgba($blue, 0.5), rgba(#000, 0.4));
   transition: all 4s ease-in;
   backdrop-filter-blur: 32px;
   position: absolute;
@@ -11,7 +11,7 @@ RespawnScreen {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  z-index: 5;
+  z-index: 10;
   opacity: 1;
 
   .respawn-feed {
@@ -32,10 +32,12 @@ RespawnScreen {
     }
 
     .respawn-header {
+      align-items: center;
       background-color: $panel-bg;
       letter-spacing: 2px;
-      padding: 2px 8px;
+      padding: 0 8px;
       text-transform: uppercase;
+      height: 22px;
 
       label {
         color: $light-blue;
@@ -62,8 +64,6 @@ RespawnScreen {
 
     &.team-box {
       .respawn-body {
-        background-color: $red;
-
         label {
           color: $dark-grey;
           text-shadow: none;
@@ -116,5 +116,11 @@ RespawnScreen {
   &.hidden {
     display: none;
     opacity: 0;
+  }
+}
+
+.team_red {
+  RespawnScreen {
+    background: linear-gradient(to bottom, rgba($red, 0.5), rgba(#000, 0.4));
   }
 }
