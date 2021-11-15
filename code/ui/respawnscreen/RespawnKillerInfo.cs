@@ -20,24 +20,19 @@ namespace Facepunch.Hover
 		{
 			KillerAvatar.SetTexture( $"avatar:{player.Client.PlayerId}" );
 			KillerName.Text = player.Client.Name;
-			KillerName.Style.FontColor = player.Team.GetColor();
-			KillerName.Style.Dirty();
+
 		}
 
 		public void Update( IKillFeedIcon killer )
 		{
 			KillerAvatar.Texture = Texture.Load( killer.GetKillFeedIcon() );
 			KillerName.Text = killer.GetKillFeedName();
-			KillerName.Style.FontColor = killer.GetKillFeedTeam().GetColor();
-			KillerName.Style.Dirty();
 		}
 
 		public void Update( string killerName )
 		{
 			KillerAvatar.Texture = Texture.Load( "ui/icons/skull.png" );
 			KillerName.Text = killerName;
-			KillerName.Style.FontColor = Color.White;
-			KillerName.Style.Dirty();
 		}
 
 		public void SetWeapon( Entity weapon )

@@ -1,5 +1,19 @@
 ﻿@import "../_variables.scss";
 
 RespawnKillerInfo {
-    
+  .respawn-box {
+    &.weapon {
+      display: none;
+    }
+  }
+
+  &.has-weapon {
+    display: flex;
+
+    .respawn-box {
+      &.weapon {
+        display: flex;
+      }
+    }
+  }
 }

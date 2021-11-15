@@ -1,7 +1,22 @@
 <link rel="stylesheet" href="./RespawnKillerInfo.scss" />
 
 <div>
-  <img @ref="KillerAvatar"/>
-  <label @ref="KillerName">Username</label>
-  <label @ref="WeaponName">Weapon</label>
+  <div class="respawn-box team-box player-name">
+    <div class="respawn-header">
+      <label>Killed By</label>
+    </div>
+    <div class="respawn-body">
+      <img @ref="KillerAvatar" class="avatar" />
+      <label @ref="KillerName">Username</label>
+    </div>
+  </div>
+
+  <div class="respawn-box team-box weapon">
+    <div class="respawn-header">
+      <label>Using</label>
+    </div>
+    <div class="respawn-body">
+      <label @ref="WeaponName">Weapon</label>
+    </div>
+  </div>
 </div>
