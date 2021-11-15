@@ -1,0 +1,13 @@
+﻿<link rel="stylesheet" href="./StationScreen.scss" />
+
+<div>
+    <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
+
+    <StationScreenButton @ref="CancelButton" onpressed="OnCancelPressed()">
+        CANCEL
+    </StationScreenButton>
+
+    <StationScreenButton @ref="DeployButton" onpressed="OnDeployPressed()">
+        DEPLOY
+    </StationScreenButton>
+</div>

@@ -474,8 +474,8 @@ namespace Facepunch.Hover
 				holder.SetConfig( config );
 				holder.OnClicked = () =>
 				{
-					stationScreen.WeaponSelector.SetWeapons( holder, loadout.AvailableWeapons[index] );
-					stationScreen.WeaponSelector.Show( true );
+					//stationScreen.WeaponSelector.SetWeapons( holder, loadout.AvailableWeapons[index] );
+					//stationScreen.WeaponSelector.Show( true );
 				};
 				Holders[i] = holder;
 			}
@@ -573,20 +573,17 @@ namespace Facepunch.Hover
 		{
 			if ( Local.Pawn is Player player )
 			{
-				if ( player.HasTokens( Loadout.TokenCost ) )
+				var weapons = new string[Holders.Length];
+
+				for ( int i = 0; i < Holders.Length; i++ )
 				{
-					var weapons = new string[Holders.Length];
-
-					for ( int i = 0; i < Holders.Length; i++ )
-					{
-						var holder = Holders[i];
-						weapons[i] = holder.Config.Name;
-					}
-
-					StationScreen.Hide();
-					Player.BuyLoadout( Loadout.GetType().Name, string.Join( ',', weapons ) );
-					Audio.Play( "hover.clickbeep" );
+					var holder = Holders[i];
+					weapons[i] = holder.Config.Name;
 				}
+
+				StationScreen.Hide();
+				Player.ChangeLoadout( Loadout.GetType().Name, string.Join( ',', weapons ) );
+				Audio.Play( "hover.clickbeep" );
 			}
 		}
 	}
@@ -645,7 +642,7 @@ namespace Facepunch.Hover
 					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( type ) )
 					{
 						var child = Container.AddChild<StationScreenLoadout>();
-						child.SetLoadout( loadout, loadout.TokenCost );
+						child.SetLoadout( loadout, 0 );
 						child.SetClass( "hidden", true );
 						Loadouts.Add( child );
 					}
@@ -856,6 +853,7 @@ namespace Facepunch.Hover
 		Station
 	}
 
+	[UseTemplate]
 	public partial class StationScreen : Panel
 	{
 		public static StationScreen Instance { get; private set; }
@@ -865,7 +863,7 @@ namespace Facepunch.Hover
 		{
 			if ( Instance.IsOpen )
 			{
-				Instance.InitializeContent();
+				
 			}
 		}
 
@@ -888,86 +886,59 @@ namespace Facepunch.Hover
 			Instance.SetOpen( false );
 		}
 
-		public StationScreenWeaponSelector WeaponSelector { get; private set; }
-		public StationScreenTabList TabList { get; private set; }
-		public StationScreenTab LoadoutsTab { get; private set; }
-		public StationScreenTab UpgradesTab { get; private set; }
-		public Panel ContentContainer { get; private set; }
+		public StationScreenButton CancelButton { get; private set; }
+		public StationScreenButton DeployButton { get; private set; }
+		public LoadoutSelectList LoadoutList { get; private set; }
 		public StationScreenMode Mode { get; private set; }
-		public Panel TipContainer { get; private set; }
-		public Label SecondaryTip { get; private set; }
-		public Label PrimaryTip { get; private set; }
 		public bool IsOpen { get; private set; }
 
 		public void SetOpen( bool isOpen )
 		{
-			if ( isOpen ) InitializeContent();
-			SetClass( "hidden", !isOpen );
-			IsOpen = isOpen;
+			if ( Local.Pawn is Player player )
+			{
+				SetClass( "hidden", !isOpen );
+				IsOpen = isOpen;
+
+				if ( isOpen )
+				{
+					LoadoutList.Populate( player );
+				}
+			}
 		}
 
 		public void SetMode( StationScreenMode mode )
 		{
-			PrimaryTip.Text = "Change Your Loadout";
-
-			if ( mode == StationScreenMode.Station )
-				SecondaryTip.Text = $"Press [{Input.GetKeyWithBinding( "iv_use" )}] to Exit Station";
-			else
-				SecondaryTip.Text = "Visit a Station to Change Loadout in Future";
-
-			if ( mode == StationScreenMode.Deployment )
-			{
-				TabList.Select( LoadoutsTab );
-			}
-
 			Mode = mode;
 		}
 
 		public StationScreen()
 		{
-			StyleSheet.Load( "/ui/StationScreen.scss" );
-
-			TabList = AddChild<StationScreenTabList>( "tabs" );
-
-			TipContainer = Add.Panel( "tips" );
-			PrimaryTip = TipContainer.Add.Label( "", "primary" );
-			SecondaryTip = TipContainer.Add.Label( "", "secondary" );
-			ContentContainer = Add.Panel( "content" );
-
-			var loadoutsContent = ContentContainer.AddChild<StationScreenLoadouts>( "loadouts" );
-			loadoutsContent.Initialize();
-
-			var upgradesContent = ContentContainer.AddChild<StationScreenUpgrades>( "upgrades" );
-			upgradesContent.Initialize();
-
-			LoadoutsTab = new StationScreenTab();
-			LoadoutsTab.Setup( "Loadouts", "ui/icons/loadouts.png", loadoutsContent );
-
-			UpgradesTab = new StationScreenTab();
-			UpgradesTab.Setup( "Upgrades", "ui/icons/upgrades.png", upgradesContent );
-
-			TabList.AddTab( "loadouts", LoadoutsTab );
-			TabList.AddTab( "upgrades", UpgradesTab );
-
-			WeaponSelector = AddChild<StationScreenWeaponSelector>( "selector" );
-			WeaponSelector.Show( false );
-
 			SetOpen( false );
 
+			Instance?.Delete();
 			Instance = this;
 		}
 
-		public override void Tick()
+		public virtual void OnCancelPressed()
 		{
-			base.Tick();
+			Hide();
 		}
 
-		private void InitializeContent()
+		public virtual void OnDeployPressed()
 		{
-			foreach ( var tab in TabList.Tabs )
-			{
-				tab.Content?.Initialize();
-			}
+			Hide();
+
+			var loadout = LoadoutList.Selected.Loadout;
+			var loadoutName = loadout.GetType().Name;
+			var weapons = ""; // TODO
+
+			Player.ChangeLoadout( loadoutName, weapons );
+		}
+
+		protected override void PostTemplateApplied()
+		{
+
+			base.PostTemplateApplied();
 		}
 	}
 }

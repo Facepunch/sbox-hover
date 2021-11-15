@@ -1,0 +1,18 @@
+﻿@import "../_variables.scss";
+
+LoadoutSelectItem {
+    width: 100px;
+    height: 150px;
+
+    &.is-upgrade {
+
+    }
+
+    &.is-selected {
+        background-color: green;
+    }
+
+    &:hover {
+        background-color: red;
+    }
+}

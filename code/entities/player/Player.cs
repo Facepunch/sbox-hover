@@ -76,7 +76,7 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd]
-		public static void BuyLoadout( string loadoutName, string weapons )
+		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
@@ -87,24 +87,19 @@ namespace Facepunch.Hover
 					var loadout = Library.Create<BaseLoadout>( loadoutType );
 					if ( loadout == null ) return;
 
-					if ( player.HasTokens( loadout.TokenCost ) )
+					loadout.UpdateWeapons( weapons.Split( ',' ) );
+					player.GiveLoadout( loadout );
+
+					if ( player.LifeState == LifeState.Alive )
 					{
-						loadout.UpdateWeapons( weapons.Split( ',' ) );
+						loadout.Respawn( player );
+						loadout.Supply( player );
 
-						player.TakeTokens( loadout.TokenCost );
-						player.GiveLoadout( loadout );
-
-						if ( player.LifeState == LifeState.Alive )
-						{
-							loadout.Respawn( player );
-							loadout.Supply( player );
-
-							WeaponList.Expand( To.Single( player ), 4f );
-						}
-						else
-						{
-							player.Respawn();
-						}
+						WeaponList.Expand( To.Single( player ), 4f );
+					}
+					else
+					{
+						player.Respawn();
 					}
 				}
 			}
