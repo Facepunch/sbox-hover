@@ -1,10 +1,16 @@
 ﻿<link rel="stylesheet" href="./LoadoutSelectItem.scss" />
 
 <div>
-    <img @ref="Icon"/>
-    <img @ref="SmallIcon"/>
-    <div>
-        <label @ref="Level">0</label>
+  <div class="loadout">
+    <div class="loadout-icon-container">
+      <div class="loadout-icon">
+        <img @ref="Icon" />
+        <img @ref="SmallIcon" />
+      </div>
     </div>
-    <label @ref="Name"></label>
+    <div class="loadout-name">
+      <label @ref="Level">0</label>
+      <label @ref="Name"></label>
+    </div>
+  </div>
 </div>
