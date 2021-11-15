@@ -28,6 +28,32 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_award_duration", Help = "The time that awards take to disappear." )]
 		public static float AwardDuration { get; set; } = 3f;
 
+		[ServerCmd( "hv_killfeed" )]
+		public static void DebugKillFeed( string type )
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				if ( type == "turret" )
+				{
+					var turret = Entity.All.OfType<TurretAsset>().FirstOrDefault();
+					Hud.AddKillFeed( turret, player );
+				}
+				else if ( type == "suicide" )
+				{
+					Hud.AddKillFeed( player );
+				}
+				else if ( type == "deployable" )
+				{
+					var mine = new JumpMine();
+					Hud.AddKillFeed( player, player, mine );
+				}
+				else
+				{
+					Hud.AddKillFeed( player, player, player.ActiveChild );
+				}
+			}
+		}
+
 		[ServerCmd( "hv_toast" )]
 		public static void DebugToast()
 		{
