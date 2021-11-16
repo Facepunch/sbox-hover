@@ -1,4 +1,6 @@
-﻿using Sandbox;
+﻿using Gamelib.Utility;
+using Sandbox;
+using System;
 
 namespace Facepunch.Hover
 {
@@ -60,6 +62,27 @@ namespace Facepunch.Hover
 
 			var velocity = (direction * Speed) + (player.Velocity * InheritVelocity);
 			projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+		}
+
+		protected virtual float ModifyDamage( Entity victim, float damage )
+		{
+			return damage;
+		}
+
+		protected virtual void DamageInRadius( Vector3 position, float radius, float baseDamage, float force = 1f )
+		{
+			var entities = WeaponUtil.GetBlastEntities( position, radius );
+
+			foreach ( var entity in entities )
+			{
+				var direction = (entity.Position - position).Normal;
+				var distance = entity.Position.Distance( position );
+				var damage = Math.Max( baseDamage - ((baseDamage / radius) * distance), 0f );
+
+				damage = ModifyDamage( entity, damage );
+
+				DealDamage( entity, position, direction * 100f * force, damage );
+			}
 		}
 
 		protected virtual void OnCreateProjectile( T projectile )

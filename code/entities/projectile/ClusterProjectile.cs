@@ -4,18 +4,18 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class ClusterProjectile : PhysicsProjectile
+	public partial class ClusterProjectile : BulletDropProjectile
 	{
 		public TimeSince TimeSinceCreated { get; private set; }
 
-		protected override void OnPhysicsCollision( CollisionEventData eventData )
+		protected override bool HasHitTarget( TraceResult trace )
 		{
-			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 0.2f )
+			if ( TimeSinceCreated < 0.2f )
 			{
-				DestroyTime = 0f;
+				return false;
 			}
 
-			base.OnPhysicsCollision( eventData );
+			return base.HasHitTarget( trace );
 		}
 	}
 }

@@ -4,24 +4,12 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class StickyGrenade : PhysicsProjectile
+	public partial class StickyGrenade : BulletDropProjectile
 	{
 		private bool IsPrimedToExplode { get; set; }
+		private Entity AttachedTo { get; set; }
 
-		protected override void OnPhysicsCollision( CollisionEventData eventData )
-		{
-			if ( IsServer && eventData.Entity.IsValid() )
-			{
-				PhysicsEnabled = false;
-				SetParent( eventData.Entity );
-				PlaySound( "sticky.attach" );
-				DestroyTime = 3f;
-			}
-
-			base.OnPhysicsCollision( eventData );
-		}
-
-		protected override void ServerTick()
+		public override void Simulate()
 		{
 			if ( !IsPrimedToExplode && DestroyTime < 1f )
 			{
@@ -29,7 +17,32 @@ namespace Facepunch.Hover
 				PlaySound( "sticky.warning" );
 			}
 
-			base.ServerTick();
+			if ( AttachedTo.IsValid() )
+			{
+				if ( DestroyTime )
+				{
+					PlayHitEffects( Vector3.Zero );
+					Callback?.Invoke( this, AttachedTo );
+					Delete();
+				}
+			}
+			else
+			{
+				base.Simulate();
+			}
+		}
+
+		protected override bool HasHitTarget( TraceResult trace )
+		{
+			if ( trace.Entity.IsValid() )
+			{
+				AttachedTo = trace.Entity;
+				SetParent( trace.Entity );
+				PlaySound( "sticky.attach" );
+				DestroyTime = 3f;
+			}
+
+			return false;
 		}
 	}
 }

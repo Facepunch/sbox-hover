@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
-	partial class Destroyer : PhysicsWeapon<DestroyerProjectile>
+	partial class Destroyer : BulletDropWeapon<DestroyerProjectile>
 	{
 		public override WeaponConfig Config => new DestroyerConfig();
 		public override string ImpactEffect => "particles/weapons/destroyer/destroyer_impact.vpcf";
@@ -34,17 +34,17 @@ namespace Facepunch.Hover
 		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
+		public override float ProjectileLifeTime => 20f;
 		public override float InheritVelocity => 0.5f;
 		public override float PrimaryRate => 0.2f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => true;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 4f;
-		public override float LifeTime => 20f;
-		public override int BaseDamage => 1000;
+		public override int BaseDamage => 1200;
+		public override float Gravity => 5f;
+		public override float Speed => 1500f;
 		public virtual float BlastRadius => 800f;
-		public override float ProjectileForce => 400f;
-		public override float ImpactForce => 2000f;
 
 		public override void Spawn()
 		{
@@ -84,19 +84,27 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		protected override float ModifyDamage( Entity victim, float damage )
 		{
-			Audio.Play( "explosion.far", projectile.Position );
+			if ( victim == Owner ) return damage * 1.25f;
 
-			var position = projectile.Position;
-			var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
+			return base.ModifyDamage( victim, damage );
+		}
 
-			foreach ( var entity in entities )
+		protected override void OnCreateProjectile( DestroyerProjectile projectile )
+		{
+			projectile.Bounciness = 1f;
+
+			base.OnCreateProjectile( projectile );
+		}
+
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		{
+			if ( IsServer )
 			{
-				var direction = (entity.Position - position).Normal;
-				var distance = entity.Position.Distance( position );
-				var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
-				DealDamage( entity, position, direction * projectile.Velocity.Length * 0.15f, damage );
+				Audio.Play( "explosion.far", projectile.Position );
+
+				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
 			}
 		}
 	}
