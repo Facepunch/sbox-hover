@@ -928,6 +928,11 @@
 			m_flEndScale = 0.0
 			m_flStartScale = 2.0
 		},
+		{
+			_class = "C_OP_PositionLock"
+			m_bLockRot = true
+			m_nOpEndCapState = 0
+		},
 	]
 	m_ForceGenerators = 
 	[
