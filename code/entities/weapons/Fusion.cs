@@ -40,12 +40,12 @@ namespace Facepunch.Hover
 		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => true;
 
-		[Net, Predicted] private bool IsSpinningUp { get; set; }
-		[Net, Predicted] TimeSince SpinUpStarted { get; set; }
 		[Net] public float SpinUpTime { get; set; } = 1.2f;
 
 		private Particles ChargeParticles { get; set; }
+		private TimeSince SpinUpStarted { get; set; }
 		private Sound ChargeSound { get; set; }
+		private bool IsSpinningUp { get; set; }
 
 		public override void Spawn()
 		{
@@ -58,6 +58,7 @@ namespace Facepunch.Hover
 		public override void PlayReloadSound()
 		{
 			PlaySound( "blaster.reload" );
+
 			base.PlayReloadSound();
 		}
 
@@ -65,7 +66,7 @@ namespace Facepunch.Hover
 		{
 			if ( AmmoClip == 0 )
 			{
-				if ( IsSpinningUp )
+				if ( IsSpinningUp && Prediction.FirstTime )
 				{
 					HideChargeParticles();
 					StopChargeSound();
@@ -77,7 +78,7 @@ namespace Facepunch.Hover
 
 			if ( !IsSpinningUp || SpinUpStarted < SpinUpTime )
 			{
-				if ( !IsSpinningUp )
+				if ( !IsSpinningUp && Prediction.FirstTime )
 				{
 					ShowChargeParticles();
 					PlayChargeSound();
@@ -87,7 +88,7 @@ namespace Facepunch.Hover
 
 				return;
 			}
-			else
+			else if ( Prediction.FirstTime )
 			{
 				HideChargeParticles();
 				StopChargeSound();
@@ -115,7 +116,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client owner )
 		{
-			if ( IsSpinningUp && !Input.Down( InputButton.Attack1 ) )
+			if ( IsSpinningUp && !Input.Down( InputButton.Attack1 ) && Prediction.FirstTime )
 			{
 				HideChargeParticles();
 				StopChargeSound();
@@ -146,11 +147,7 @@ namespace Facepunch.Hover
 		private void PlayChargeSound()
 		{
 			StopChargeSound();
-
-			using ( Prediction.Off() )
-			{
-				ChargeSound = PlaySound( "fusion.charge" );
-			}
+			ChargeSound = PlaySound( "fusion.charge" );
 		}
 
 		private void StopChargeSound()
@@ -167,11 +164,7 @@ namespace Facepunch.Hover
 		private void ShowChargeParticles()
 		{
 			HideChargeParticles();
-
-			using ( Prediction.Off() )
-			{
-				ChargeParticles = Particles.Create( "particles/weapons/fusion/fusion_charge.vpcf", EffectEntity, "muzzle" );
-			}
+			ChargeParticles = Particles.Create( "particles/weapons/fusion/fusion_charge.vpcf", EffectEntity, "muzzle" );
 		}
 	}
 }
