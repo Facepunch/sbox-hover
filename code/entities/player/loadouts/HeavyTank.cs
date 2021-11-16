@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 				new HeavyEnergyBoosterConfig()
 			}
 		};
-		public override float JetpackScale => 0.5f;
+		public override float JetpackScale => 0.6f;
 		public override float HealthRegen => 100f;
 		public override float RegenDelay => 15f;
 		public override float EnergyRegen => 10f;

@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 				new SpeedBoosterConfig()
 			}
 		};
-		public override float JetpackScale => 0.6f;
+		public override float JetpackScale => 0.75f;
 		public override float EnergyRegen => 15f;
 		public override float Health => 2000f;
 		public override float Energy => 75f;

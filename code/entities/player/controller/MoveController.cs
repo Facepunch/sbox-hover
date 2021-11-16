@@ -414,13 +414,14 @@ namespace Facepunch.Hover
 				{
 					IsJetpacking = true;
 
-					var boost = Scale( JetpackBoost ) * JetpackScale;
-
 					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
 
-					if ( Velocity.z < MaxJetpackVelocity )
+					if ( Velocity.z <= MaxJetpackVelocity )
 					{
-						var trace = Trace.Ray( Position, Vector3.Up * boost * 0.25f )
+						Velocity += Vector3.Up * Gravity * Time.Delta;
+
+						var boost = Scale( JetpackBoost ) * JetpackScale * 8f;
+						var trace = Trace.Ray( Position, Vector3.Up * boost * Time.Delta * 8f )
 							.Ignore( Pawn )
 							.Run();
 

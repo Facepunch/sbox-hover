@@ -34,7 +34,7 @@ namespace Facepunch.Hover
 				new DeployableMotionAlarmConfig()
 			}
 		};
-		public override float JetpackScale => 0.8f;
+		public override float JetpackScale => 0.85f;
 		public override float EnergyRegen => 10f;
 		public override float RegenDelay => 20f;
 		public override float Health => 1200f;
