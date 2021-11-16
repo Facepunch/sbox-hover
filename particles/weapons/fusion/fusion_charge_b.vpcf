@@ -553,6 +553,7 @@
 					m_Stops = [  ]
 				}
 			}
+			m_bLocalCoords = true
 		},
 		{
 			_class = "C_INIT_InitFloatCollection"
@@ -831,6 +832,10 @@
 			_class = "C_OP_Decay"
 		},
 		{
+			_class = "C_OP_PositionLock"
+			m_bLockRot = true
+		},
+		{
 			_class = "C_OP_BasicMovement"
 		},
 		{
@@ -848,11 +853,6 @@
 		{
 			_class = "C_OP_FadeInSimple"
 			m_flFadeInTime = 0.8
-		},
-		{
-			_class = "C_OP_PositionLock"
-			m_bLockRot = true
-			m_nOpEndCapState = 0
 		},
 	]
 	m_ForceGenerators = 
@@ -905,11 +905,13 @@
 				}
 			}
 			m_fFalloffPower = 0.0
+			m_bScaleLocal = true
 		},
 		{
 			_class = "C_OP_TwistAroundAxis"
 			m_fForceAmount = 100.0
 			m_TwistAxis = [ 1.0, 0.0, 0.0 ]
+			m_bLocalSpace = true
 		},
 	]
 	m_Renderers = 

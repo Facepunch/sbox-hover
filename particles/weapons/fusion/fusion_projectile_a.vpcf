@@ -727,6 +727,10 @@
 			m_flOpEndFadeInTime = 0.1
 			m_bDisableOperator = true
 		},
+		{
+			_class = "C_OP_FadeInSimple"
+			m_flFadeInTime = 1.0
+		},
 	]
 	m_ForceGenerators = 
 	[
@@ -891,7 +895,7 @@
 		},
 		{
 			_class = "C_OP_RenderTrails"
-			m_flMaxLength = 500.0
+			m_flMaxLength = 200.0
 			m_flSelfIllumAmount = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
@@ -986,10 +990,11 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_flMinLength = 50.0
 		},
 		{
 			_class = "C_OP_RenderTrails"
-			m_flMaxLength = 500.0
+			m_flMaxLength = 200.0
 			m_flSelfIllumAmount = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
@@ -1085,6 +1090,7 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_flMinLength = 50.0
 		},
 	]
 }
