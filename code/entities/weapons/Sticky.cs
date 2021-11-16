@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Utility;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_sticky", Title = "Sticky" )]
-	partial class Sticky : PhysicsWeapon<StickyGrenade>
+	partial class Sticky : BulletDropWeapon<StickyGrenade>
 	{
 		public override WeaponConfig Config => new StickyConfig();
 		public override string ImpactEffect => "particles/weapons/sticky/sticky_impact.vpcf";
@@ -34,16 +35,15 @@ namespace Facepunch.Hover
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 150f;
+		public override float ProjectileLifeTime => 10f;
 		public override float InheritVelocity => 0.5f;
 		public override bool CanMeleeAttack => true;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
-		public override float ImpactForce => 1000f;
 		public override int ClipSize => 2;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 10f;
-		public override float DamageRadius => 200f;
 		public override int BaseDamage => 800;
+		public override float Gravity => 35f;
+		public virtual float BlastRadius => 200f;
 
 		public override void Spawn()
 		{
@@ -83,9 +83,12 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
-		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			base.OnProjectileHit( projectile );
+			if ( IsServer )
+			{
+				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+			}
 		}
 	}
 }

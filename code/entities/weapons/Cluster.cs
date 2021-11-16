@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
-	partial class Cluster : PhysicsWeapon<ClusterProjectile>
+	partial class Cluster : BulletDropWeapon<ClusterProjectile>
 	{
 		public override WeaponConfig Config => new ClusterConfig();
 		public override string ImpactEffect => "particles/weapons/cluster/cluster_impact.vpcf";
@@ -35,15 +35,15 @@ namespace Facepunch.Hover
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 125f;
+		public override float ProjectileLifeTime => 2f;
+		public override float Gravity => 35f;
+		public override float Speed => 2000f;
 		public override bool CanMeleeAttack => true;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
-		public override float ImpactForce => 1000f;
 		public override int ClipSize => 1;
-		public override float DamageRadius => 350f;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 2f;
 		public override int BaseDamage => 250;
+		public virtual float BlastRadius => 500f;
 
 		public override void Spawn()
 		{
@@ -85,40 +85,50 @@ namespace Facepunch.Hover
 
 		protected virtual void CreateBomb( Vector3 position )
 		{
-			var bomb = new PhysicsProjectile()
+			var bomb = new BouncingProjectile()
 			{
 				ExplosionEffect = ImpactEffect,
 				TrailEffect = TrailEffect,
+				Bounciness = 0.5f,
 				HitSound = HitSound,
-				LifeTime = Rand.Float( 0.5f, 1.5f )
+				LifeTime = Rand.Float( 0.5f, 1.5f ),
+				Gravity = 50f
 			};
 			
 			bomb.SetModel( ProjectileModel );
 
-			var random = new Vector3( Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ) );
+			var random = new Vector3( Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ), Rand.Float( 0.5f, 1f ) );
+			var direction = (Vector3.Up * Rand.Float( 0.6f, 1f )) + (random * Rand.Float( 1f, 1.5f ));
 
-			bomb.Position = position;
-			bomb.Rotation = Rotation.From( Angles.Random );
-			bomb.Initialize( OnBombHit );
-			bomb.PhysicsBody.ApplyForce( (Vector3.Up * ProjectileForce * Rand.Float( 60f, 100f )) + (random * ProjectileForce * Rand.Float( 100f, 150f )) );
+			bomb.Initialize( position, direction * 400f, 8f, OnBombHit );
 		}
 
-		protected virtual void OnBombHit( PhysicsProjectile bomb )
+		protected virtual void OnBombHit( BulletDropProjectile bomb, Entity target )
 		{
-			DamageInRadius( bomb.Position, DamageRadius * 0.7f, BaseDamage * 4f );
+			DamageInRadius( bomb.Position, BlastRadius * 0.6f, BaseDamage * 4f );
 		}
 
-		protected override void OnProjectileHit( PhysicsProjectile projectile )
+		protected override float ModifyDamage( Entity victim, float damage )
 		{
-			base.OnProjectileHit( projectile );
+			if ( victim == Owner ) return damage * 1.25f;
 
-			var position = projectile.Position;
+			return base.ModifyDamage( victim, damage );
+		}
 
-			Audio.Play( "barage.launch", position );
-
-			for ( var i = 0; i < 5; i++ )
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		{
+			if ( IsServer )
 			{
-				CreateBomb( position );
+				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+
+				var position = projectile.Position;
+
+				Audio.Play( "barage.launch", position );
+
+				for ( var i = 0; i < 5; i++ )
+				{
+					CreateBomb( position );
+				}
 			}
 		}
 	}

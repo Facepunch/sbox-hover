@@ -37,6 +37,7 @@ namespace Facepunch.Hover
 		protected RealTimeUntil NextFlyby { get; set; }
 		protected RealTimeUntil DestroyTime { get; set; }
 		protected SceneObject ModelEntity { get; set; }
+		protected Vector3 InitialVelocity { get; set; }
 		protected Sound LaunchSound { get; set; }
 		protected Particles Follower { get; set; }
 		protected Particles Trail { get; set; }
@@ -60,6 +61,7 @@ namespace Facepunch.Hover
 				Owner = Simulator.Owner;
 			}
 
+			InitialVelocity = velocity;
 			StartPosition = start;
 			EnableDrawing = false;
 			Velocity = velocity;

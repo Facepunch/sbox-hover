@@ -40,11 +40,11 @@ namespace Facepunch.Hover
 		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => true;
 
+		[Net, Predicted] private bool IsSpinningUp { get; set; }
+		[Net, Predicted] TimeSince SpinUpStarted { get; set; }
 		[Net] public float SpinUpTime { get; set; } = 1.2f;
 
 		private Particles ChargeParticles { get; set; }
-		private TimeSince SpinUpStarted { get; set; }
-		private bool IsSpinningUp { get; set; }
 		private Sound ChargeSound { get; set; }
 
 		public override void Spawn()
@@ -89,6 +89,7 @@ namespace Facepunch.Hover
 			}
 			else
 			{
+				HideChargeParticles();
 				StopChargeSound();
 			}
 
@@ -145,7 +146,11 @@ namespace Facepunch.Hover
 		private void PlayChargeSound()
 		{
 			StopChargeSound();
-			ChargeSound = PlaySound( "fusion.charge" );
+
+			using ( Prediction.Off() )
+			{
+				ChargeSound = PlaySound( "fusion.charge" );
+			}
 		}
 
 		private void StopChargeSound()
@@ -163,7 +168,10 @@ namespace Facepunch.Hover
 		{
 			HideChargeParticles();
 
-			ChargeParticles = Particles.Create( "particles/weapons/fusion/fusion_charge.vpcf", EffectEntity, "muzzle" );
+			using ( Prediction.Off() )
+			{
+				ChargeParticles = Particles.Create( "particles/weapons/fusion/fusion_charge.vpcf", EffectEntity, "muzzle" );
+			}
 		}
 	}
 }

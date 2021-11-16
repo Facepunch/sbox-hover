@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Utility;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_barage", Title = "Barage" )]
-	partial class Barage : PhysicsWeapon<PhysicsProjectile>
+	partial class Barage : BulletDropWeapon<BouncingProjectile>
 	{
 		public override WeaponConfig Config => new BarageConfig();
 		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
@@ -31,17 +32,17 @@ namespace Facepunch.Hover
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override DamageFlags DamageType => DamageFlags.Blast;
+		public override float ProjectileLifeTime => 2f;
 		public override float InheritVelocity => 0.5f;
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileForce => 100f;
 		public override bool CanMeleeAttack => true;
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
-		public override float ImpactForce => 1000f;
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
-		public override float LifeTime => 2f;
 		public override int BaseDamage => 400;
+		public override float Gravity => 35f;
+		public virtual float BlastRadius => 500f;
 
 		public override void Spawn()
 		{
@@ -78,6 +79,28 @@ namespace Facepunch.Hover
 		{
 			anim.SetParam( "holdtype", 2 );
 			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		protected override void OnCreateProjectile( BouncingProjectile projectile )
+		{
+			projectile.Bounciness = 0.5f;
+
+			base.OnCreateProjectile( projectile );
+		}
+
+		protected override float ModifyDamage( Entity victim, float damage )
+		{
+			if ( victim == Owner ) return damage * 1.25f;
+
+			return base.ModifyDamage( victim, damage );
+		}
+
+		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		{
+			if ( IsServer )
+			{
+				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+			}
 		}
 	}
 }

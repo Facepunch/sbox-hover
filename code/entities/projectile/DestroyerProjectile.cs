@@ -4,7 +4,7 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class DestroyerProjectile : PhysicsProjectile
+	public partial class DestroyerProjectile : BouncingProjectile
 	{
 		public TimeSince TimeSinceCreated { get; private set; }
 
@@ -15,29 +15,21 @@ namespace Facepunch.Hover
 			TimeSinceCreated = 0f;
 		}
 
-		protected override void OnInitialize()
+		protected override bool HasHitTarget( TraceResult trace )
 		{
-			PhysicsBody.GravityScale = 0.6f;
-			PhysicsBody.LinearDrag = 0f;
-
-			base.OnInitialize();
-		}
-
-		protected override void OnPhysicsCollision( CollisionEventData eventData )
-		{
-			if ( IsServer && eventData.Entity.IsValid() && TimeSinceCreated > 1f )
+			if ( TimeSinceCreated > 1f && trace.Hit )
 			{
-				DestroyTime = 0f;
+				return true;
 			}
 
-			base.OnPhysicsCollision( eventData );
+			return base.HasHitTarget( trace );
 		}
 
 		protected override void ServerTick()
 		{
 			if ( !PlayedLandingSound && DestroyTime > 0f )
             {
-				var trace = Trace.Ray( Position, Position + Velocity.Normal * 1500f )
+				var trace = Trace.Ray( Position, Position + Velocity.Normal * 1500f + Vector3.Down * GravityModifier )
 					.Ignore(this)
 					.Run();
 

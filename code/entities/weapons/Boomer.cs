@@ -84,6 +84,13 @@ namespace Facepunch.Hover
 			anim.SetParam( "aimat_weight", 1.0f );
 		}
 
+		protected override float ModifyDamage( Entity victim, float damage )
+		{
+			if ( victim == Owner ) return damage * 1.25f;
+
+			return base.ModifyDamage( victim, damage );
+		}
+
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
@@ -91,22 +98,7 @@ namespace Facepunch.Hover
 
 			if ( IsServer )
             {
-				var position = projectile.Position;
-				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );
-
-				foreach ( var entity in entities )
-				{
-					var direction = (entity.Position - position).Normal;
-					var distance = entity.Position.Distance( position );
-					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
-
-					if ( entity == Owner )
-					{
-						damage *= 1.25f;
-					}
-
-					DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );
-				}
+				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
 			}
 		}
 	}
