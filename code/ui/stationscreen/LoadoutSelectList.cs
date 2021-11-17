@@ -76,5 +76,12 @@ namespace Facepunch.Hover
 
 			OnLoadoutSelected?.Invoke( item.Loadout );
 		}
+
+		protected override void PostTemplateApplied()
+		{
+			Populate( Local.Pawn as Player );
+
+			base.PostTemplateApplied();
+		}
 	}
 }

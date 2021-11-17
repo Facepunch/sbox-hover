@@ -930,15 +930,9 @@ namespace Facepunch.Hover
 
 			var loadout = LoadoutList.Selected.Loadout;
 			var loadoutName = loadout.GetType().Name;
-			var weapons = ""; // TODO
+			var weapons = "";
 
 			Player.ChangeLoadout( loadoutName, weapons );
-		}
-
-		protected override void PostTemplateApplied()
-		{
-
-			base.PostTemplateApplied();
 		}
 	}
 }
