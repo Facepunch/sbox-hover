@@ -1,9 +1,31 @@
 ﻿@import "../_variables.scss";
 
 LoadoutSelectList {
+  background-color: $panel-bg;
   display: flex;
   flex-direction: row;
-  padding: 16px;
+  padding: 32px;
+
+  .loadout-category {
+    flex-direction: column;
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .loadout-header {
+      border-bottom: 2px solid $blue;
+      padding-bottom: 4px;
+      margin-bottom: 40px;
+      margin-right: 16px;
+      .loadout-title {
+        color: #fff;
+        font-family: $fontBold;
+        text-transform: uppercase;
+      }
+    }
+  }
 
   // .light {
   //     background-color: green;
