@@ -12,6 +12,12 @@ namespace Facepunch.Hover
 		public Image SmallIcon { get; private set; }
 		public Label Name { get; private set; }
 		public BaseLoadout Loadout { get; private set; }
+		public LoadoutSelectList List { get; private set; }
+
+		public void SetList( LoadoutSelectList list )
+		{
+			List = list;
+		}
 
 		public void SetLoadout( BaseLoadout loadout )
 		{
@@ -31,12 +37,19 @@ namespace Facepunch.Hover
 			}
 		}
 
+		protected override void PostTemplateApplied()
+		{
+			if ( Loadout != null )
+			{
+				SetLoadout( Loadout );
+			}
+
+			base.PostTemplateApplied();
+		}
+
 		protected override void OnClick( MousePanelEvent e )
 		{
-			if ( Parent is LoadoutSelectList list )
-			{
-				list.SetSelectedItem( this );
-			}
+			List?.SetSelectedItem( this );
 
 			base.OnClick( e );
 		}

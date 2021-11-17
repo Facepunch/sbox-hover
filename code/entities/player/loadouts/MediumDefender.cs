@@ -10,6 +10,7 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A unit that can deploy light turrets and upgrade base defences";
 		public override string Name => "Medium Defender";
+		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
 		public override Type UpgradesTo => typeof( MediumDefenderMk2 );
 		public override bool CanUpgradeDependencies => true;
 		public override bool CanRepairGenerator => true;

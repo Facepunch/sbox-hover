@@ -1,8 +1,19 @@
 ﻿@import "../_variables.scss";
 
 LoadoutSelectList {
-  background-color: $panel-bg;
-  display: flex;
-  flex-direction: row;
-  padding: 16px;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+
+    .light {
+        background-color: green;
+    }
+
+    .medium {
+        background-color: orange;
+    }
+
+    .heavy {
+        background-color: purple;
+    }
 }
