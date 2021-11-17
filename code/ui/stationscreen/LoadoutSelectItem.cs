@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 		{
 			Loadout = loadout;
 			Name.Text = loadout.Name;
-			Icon.Texture = Texture.Load( "ui/icons/red.png" );
+			Icon.Texture = Texture.Load( "ui/icons/player-icon-highlighted.png" );
 			SmallIcon.Texture = Texture.Load( "ui/icons/icon_energy_white.png" );
 
 			if ( Rand.Int( 1, 2 ) == 2 )

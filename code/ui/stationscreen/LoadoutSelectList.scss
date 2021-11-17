@@ -1,19 +1,19 @@
 ﻿@import "../_variables.scss";
 
 LoadoutSelectList {
-    display: flex;
-    flex-direction: row;
-    padding: 16px;
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
 
-    .light {
-        background-color: green;
-    }
+  // .light {
+  //     background-color: green;
+  // }
 
-    .medium {
-        background-color: orange;
-    }
+  // .medium {
+  //     background-color: orange;
+  // }
 
-    .heavy {
-        background-color: purple;
-    }
+  // .heavy {
+  //     background-color: purple;
+  // }
 }
