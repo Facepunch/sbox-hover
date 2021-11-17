@@ -4,11 +4,17 @@ LoadoutSelectItem {
   margin-right: 8px;
   cursor: pointer;
 
-  &:last-child {
-    margin-right: 0;
+  &.is-upgrade {
   }
 
-  &.is-upgrade {
+  &:hover {
+    .loadout {
+      opacity: 1;
+
+      .loadout-icon-container {
+        border: 2px solid rgba($dull-blue, 0.2);
+      }
+    }
   }
 
   &.is-selected {
@@ -87,7 +93,6 @@ LoadoutSelectItem {
           bottom: 0;
           left: 50%;
           transform: translateX(-50%);
-          transition: all 1s ease;
         }
       }
 
@@ -119,16 +124,6 @@ LoadoutSelectItem {
         font-size: 12px;
         font-family: $fontBold;
         text-transform: uppercase;
-      }
-    }
-  }
-
-  &:hover {
-    .loadout {
-      opacity: 1;
-
-      .loadout-icon-container {
-        border: 2px solid rgba($dull-blue, 0.2);
       }
     }
   }
