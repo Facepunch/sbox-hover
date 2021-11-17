@@ -9,13 +9,14 @@ StationScreen {
   z-index: 9;
 
   LoadoutSelectList {
-      position: absolute;
-      bottom: 64px;
-      left: 32px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   &.hidden {
-      pointer-events: none;
-      display: none;
+    pointer-events: none;
+    display: none;
   }
 }

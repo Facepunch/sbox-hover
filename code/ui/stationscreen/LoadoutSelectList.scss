@@ -1,7 +1,8 @@
 ﻿@import "../_variables.scss";
 
 LoadoutSelectList {
-    display: flex;
-    flex-direction: row;
-    padding: 16px;
+  background-color: $panel-bg;
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
 }

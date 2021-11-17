@@ -2,6 +2,7 @@
 
 LoadoutSelectItem {
   margin-right: 4px;
+  cursor: pointer;
 
   &:last-child {
     margin-right: 0;
@@ -51,6 +52,21 @@ LoadoutSelectItem {
       width: 100%;
       height: 140px;
       padding: 8px;
+
+      .loadout-level {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        background-color: $blue;
+        width: 30px;
+        height: 30px;
+        z-index: 1;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: $fontBold;
+        color: $dark-grey;
+      }
 
       .loadout-icon {
         background: linear-gradient(
