@@ -897,6 +897,7 @@ namespace Facepunch.Hover
 		}
 
 		public LoadoutSelectList LoadoutList { get; private set; }
+		public StationScreenView CurrentView { get; private set; }
 		public StationScreenMode Mode { get; private set; }
 		public LoadoutData Loadout { get; set; }
 		public bool IsOpen { get; private set; }
@@ -933,6 +934,22 @@ namespace Facepunch.Hover
 			Mode = mode;
 		}
 
+		public void SetView( string name )
+		{
+			foreach ( var view in ChildrenOfType<StationScreenView>() )
+			{
+				if ( view.Name == name )
+				{
+					CurrentView = view;
+					view.SetActive( true );
+				}
+				else
+				{
+					view.SetActive( false );
+				}
+			}
+		}
+
 		public StationScreen()
 		{
 			SetClass( "hidden", true );
@@ -965,6 +982,16 @@ namespace Facepunch.Hover
 		protected override void PostTemplateApplied()
 		{
 			LoadoutList.OnLoadoutSelected += OnLoadoutSelected;
+
+			var view = ChildrenOfType<StationScreenView>()
+				.Where( v => v.IsDefault )
+				.FirstOrDefault();
+
+			if ( view != null )
+			{
+				CurrentView = view;
+				CurrentView.SetActive( true );
+			}
 
 			base.PostTemplateApplied();
 		}
