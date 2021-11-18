@@ -18,6 +18,7 @@ LoadoutSelectItem {
   }
 
   &.is-selected {
+    box-shadow: 0 4px 12px rgba($blue, 0.05);
     .loadout {
       opacity: 1;
       .loadout-icon-container {
