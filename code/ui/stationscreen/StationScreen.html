@@ -1,24 +1,31 @@
 ﻿<link rel="stylesheet" href="./StationScreen.scss" />
 
 <div>
-  <label @text="Loadout.Weight"></label>
-  <label @text="Loadout.Name"></label>
-  <label @text="Loadout.Description"></label>
-  <label @text="Loadout.Energy"></label>
-  <label @text="Loadout.Health"></label>
-  <label @text="Loadout.Speed"></label>
+    <StationScreenView class="loadout-view" default name="loadout">
+        <label @text="Loadout.Weight"></label>
+        <label @text="Loadout.Name"></label>
+        <label @text="Loadout.Description"></label>
+        <label @text="Loadout.Energy"></label>
+        <label @text="Loadout.Health"></label>
+        <label @text="Loadout.Speed"></label>
 
-  <div class="loadout-container">
-    <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
-    <div class="loadout-buttons">
-      <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
-        <text>Cancel</text>
-      </StationScreenButton>
+        <div class="loadout-container">
+            <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
+            <div class="loadout-buttons">
+                <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
+                    <text>Cancel</text>
+                </StationScreenButton>
 
-      <StationScreenButton onpressed="DoDeploy()" class="btn is-primary">
-        <div class="button-inside"></div>
-        <text>Deploy</text>
-      </StationScreenButton>
-    </div>
-  </div>
+                <StationScreenButton onpressed="DoDeploy()" class="btn is-primary">
+                    <div class="button-inside"></div>
+                    <text>Deploy</text>
+                </StationScreenButton>
+            </div>
+        </div>
+    </StationScreenView>
+
+    <StationScreenView class="weapon-view" name="weapon">
+        <label>TEST THIS IS THE WEAPON VIEW</label>
+        <!-- Weapon Stuff Goes Here -->
+    </StationScreenView>
 </div>
