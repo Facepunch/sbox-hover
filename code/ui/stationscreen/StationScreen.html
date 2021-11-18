@@ -1,5 +1,25 @@
 ﻿<link rel="stylesheet" href="./StationScreen.scss" />
 
 <div>
-  <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
+  <div class="loadout-container">
+    <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
+    <div class="loadout-buttons">
+      <StationScreenButton
+        @ref="CancelButton"
+        onpressed="OnCancelPressed()"
+        class="ld-button secondary"
+      >
+        <text>Cancel</text>
+      </StationScreenButton>
+
+      <StationScreenButton
+        @ref="DeployButton"
+        onpressed="OnDeployPressed()"
+        class="ld-button primary"
+      >
+        <div class="button-inside"></div>
+        <text>Deploy</text>
+      </StationScreenButton>
+    </div>
+  </div>
 </div>

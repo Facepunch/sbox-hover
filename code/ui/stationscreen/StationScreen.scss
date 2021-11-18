@@ -8,13 +8,99 @@ StationScreen {
   pointer-events: all;
   z-index: 9;
 
-  LoadoutSelectList {
+  .loadout-container {
+    background-color: $panel-bg;
+    backdrop-filter: $default-blur;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     align-items: center;
     justify-content: center;
+
+    .loadout-buttons {
+      flex-direction: column;
+      width: 248px;
+      margin-left: 64px;
+
+      StationScreenButton {
+        &.ld-button {
+          align-items: center;
+          justify-content: center;
+          border-width: 2px;
+          border-style: solid;
+          width: 100%;
+          height: 80px;
+          padding: 0;
+          margin: 0;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.1s ease;
+
+          text {
+            font-family: $fontBold;
+            text-transform: uppercase;
+            font-size: 16px;
+            padding: 0;
+            margin: 0;
+          }
+          &.secondary {
+            background-color: rgba($dull-blue, 0);
+            border-color: rgba($blue, 0.2);
+
+            text {
+              color: $blue;
+            }
+
+            &:hover {
+              text {
+                color: $dark-grey;
+              }
+              border-color: rgba($blue, 0.4);
+              background-color: rgba($blue, 0.4);
+            }
+          }
+          &.primary {
+            background-color: transparent;
+            border-color: $blue;
+            padding: 0;
+
+            .button-inside {
+              align-items: center;
+              justify-content: center;
+              background-color: $blue;
+              position: absolute;
+              top: 5px;
+              left: 5px;
+              bottom: 5px;
+              right: 5px;
+              transition: all 0.1s ease;
+            }
+
+            &:hover {
+              .button-inside {
+                top: -1px;
+                bottom: -1px;
+                left: -1px;
+                right: -1px;
+              }
+            }
+
+            text {
+              color: $dark-grey;
+            }
+          }
+
+          &:last-child {
+            margin-top: 8px;
+          }
+        }
+      }
+    }
   }
 
   &.hidden {
