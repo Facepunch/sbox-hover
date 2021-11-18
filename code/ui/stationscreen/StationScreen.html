@@ -1,27 +1,21 @@
 ﻿<link rel="stylesheet" href="./StationScreen.scss" />
 
 <div>
-    <label @text="Loadout.Weight"></label>
-    <label @text="Loadout.Name"></label>
-    <label @text="Loadout.Description"></label>
-    <label @text="Loadout.Energy"></label>
-    <label @text="Loadout.Health"></label>
-    <label @text="Loadout.Speed"></label>
+  <label @text="Loadout.Weight"></label>
+  <label @text="Loadout.Name"></label>
+  <label @text="Loadout.Description"></label>
+  <label @text="Loadout.Energy"></label>
+  <label @text="Loadout.Health"></label>
+  <label @text="Loadout.Speed"></label>
 
   <div class="loadout-container">
     <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
     <div class="loadout-buttons">
-      <StationScreenButton
-        onpressed="DoCancel()"
-        class="ld-button secondary"
-      >
+      <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
         <text>Cancel</text>
       </StationScreenButton>
 
-      <StationScreenButton
-        onpressed="DoDeploy()"
-        class="ld-button primary"
-      >
+      <StationScreenButton onpressed="DoDeploy()" class="btn is-primary">
         <div class="button-inside"></div>
         <text>Deploy</text>
       </StationScreenButton>

@@ -83,18 +83,6 @@ tutorialscreen {
         width: 100%;
 
         tutorialscreenbutton {
-          width: 100%;
-          cursor: pointer;
-          padding: 24px 8px;
-          margin-top: 32px;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          background-color: $blue;
-          transition: all 0.1s ease-out;
-          text-transform: uppercase;
-
           &.disabled {
             cursor: not-allowed;
             background-color: transparent;
@@ -103,30 +91,6 @@ tutorialscreen {
             label {
               color: $blue;
             }
-
-            &:hover {
-              bottom: 0;
-              box-shadow: none;
-              opacity: 0.7;
-            }
-          }
-
-          &:first-child {
-            margin-top: 0;
-          }
-
-          label {
-            padding: 0;
-            margin: 0;
-            color: $dark-grey;
-            font-size: 16px;
-            font-family: $fontBold;
-          }
-
-          &:hover {
-            sound-in: hover.hoversharp;
-            box-shadow: 0 10px 30px rgba(#000, 0.5);
-            bottom: 5px;
           }
         }
       }
