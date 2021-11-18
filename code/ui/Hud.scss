@@ -170,6 +170,15 @@ vitals {
     margin: 0;
   }
 
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
   &:hover {
     sound-in: hover.hoversharp;
   }
@@ -207,6 +216,18 @@ vitals {
       bottom: 5px;
       right: 5px;
       transition: all 0.1s ease;
+    }
+
+    &.disabled {
+      &:hover {
+        opacity: 0.5;
+        .button-inside {
+          top: 5px;
+          bottom: 5px;
+          right: 5px;
+          left: 5px;
+        }
+      }
     }
 
     &:hover {

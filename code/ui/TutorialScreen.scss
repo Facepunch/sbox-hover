@@ -81,18 +81,6 @@ tutorialscreen {
       .buttons {
         flex-direction: column;
         width: 100%;
-
-        tutorialscreenbutton {
-          &.disabled {
-            cursor: not-allowed;
-            background-color: transparent;
-            border: 2px solid rgba($blue, 0.2);
-
-            label {
-              color: $blue;
-            }
-          }
-        }
       }
     }
 
