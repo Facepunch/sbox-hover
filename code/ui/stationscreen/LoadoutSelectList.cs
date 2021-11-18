@@ -79,7 +79,10 @@ namespace Facepunch.Hover
 
 		protected override void PostTemplateApplied()
 		{
-			Populate( Local.Pawn as Player );
+			if ( Local.Pawn is Player player )
+			{
+				Populate( player );
+			}
 
 			base.PostTemplateApplied();
 		}
