@@ -858,6 +858,16 @@ namespace Facepunch.Hover
 	{
 		public static StationScreen Instance { get; private set; }
 
+		public struct LoadoutData
+		{
+			public string Name { get; set; }
+			public string Weight { get; set; }
+			public string Description { get; set; }
+			public string Health { get; set; }
+			public string Speed { get; set; }
+			public string Energy { get; set; }
+		}
+
 		[ClientRpc]
 		public static void Refresh()
 		{
@@ -886,11 +896,23 @@ namespace Facepunch.Hover
 			Instance.SetOpen( false );
 		}
 
-		public StationScreenButton CancelButton { get; private set; }
-		public StationScreenButton DeployButton { get; private set; }
 		public LoadoutSelectList LoadoutList { get; private set; }
 		public StationScreenMode Mode { get; private set; }
+		public LoadoutData Loadout { get; set; }
 		public bool IsOpen { get; private set; }
+
+		public void SetLoadout( BaseLoadout loadout )
+		{
+			Loadout = new LoadoutData
+			{
+				Name = loadout.Name,
+				Description = loadout.Description,
+				Energy = $"{loadout.Energy.CeilToInt()}",
+				Health = $"{loadout.Health.CeilToInt()}",
+				Speed = $"{loadout.MaxSpeed}m/s",
+				Weight = loadout.ArmorType.ToString()
+			};
+		}
 
 		public void SetOpen( bool isOpen )
 		{
@@ -919,12 +941,12 @@ namespace Facepunch.Hover
 			Instance = this;
 		}
 
-		public virtual void OnCancelPressed()
+		public virtual void DoCancel()
 		{
 			Hide();
 		}
 
-		public virtual void OnDeployPressed()
+		public virtual void DoDeploy()
 		{
 			Hide();
 
@@ -933,6 +955,18 @@ namespace Facepunch.Hover
 			var weapons = "";
 
 			Player.ChangeLoadout( loadoutName, weapons );
+		}
+
+		protected virtual void OnLoadoutSelected( BaseLoadout loadout )
+		{
+			SetLoadout( loadout );
+		}
+
+		protected override void PostTemplateApplied()
+		{
+			LoadoutList.OnLoadoutSelected += OnLoadoutSelected;
+
+			base.PostTemplateApplied();
 		}
 	}
 }
