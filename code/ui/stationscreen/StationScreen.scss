@@ -1,7 +1,8 @@
 ﻿@import "../_variables.scss";
 
 StationScreen {
-  background-color: rgba(0 0 0 0.9);
+  background: linear-gradient(rgba(#000, 0.98), rgba($dull-blue, 1));
+  backdrop-filter: $default-blur;
   position: absolute;
   width: 100%;
   height: 100%;
