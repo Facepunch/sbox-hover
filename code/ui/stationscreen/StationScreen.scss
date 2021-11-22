@@ -44,7 +44,7 @@ StationScreen {
 
   .panel-left {
     flex-direction: column;
-    width: 50%;
+    width: 55%;
     margin-bottom: 240px;
     padding: 64px;
   }
@@ -52,8 +52,8 @@ StationScreen {
   .panel-right {
     background: linear-gradient(rgba($blue, 0.1), rgba($blue, 0));
     flex-direction: column;
-    width: 50%;
-    margin: 0 64px 300px 64px;
+    width: 45%;
+    margin: 0 64px 300px 0;
   }
 
   .character-stats {
