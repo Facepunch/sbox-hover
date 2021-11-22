@@ -183,6 +183,16 @@ vitals {
     sound-in: hover.hoversharp;
   }
 
+  &.is-disabled {
+    background-color: rgba($dull-blue, 0.2);
+    border-color: rgba($blue, 0);
+
+    text,
+    label {
+      color: $blue;
+    }
+  }
+
   &.is-secondary {
     background-color: rgba($dull-blue, 0);
     border-color: rgba($blue, 0.2);
@@ -243,6 +253,24 @@ vitals {
     label {
       color: $dark-grey;
       z-index: 1;
+    }
+  }
+
+  &.is-small {
+    height: 40px;
+    width: auto;
+    padding: 0 16px;
+
+    .button-inside {
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+    }
+
+    text,
+    label {
+      font-size: 12px;
     }
   }
 
