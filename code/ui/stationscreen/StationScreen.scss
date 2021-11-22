@@ -153,6 +153,17 @@ StationScreen {
     margin-right: 64px;
   }
 
+  .weapon-view-buttons {
+    position: absolute;
+    flex-direction: column;
+    bottom: 64px;
+    right: 64px;
+
+    .btn {
+      width: 260px;
+    }
+  }
+
   .weapon-body {
     flex-direction: column;
     width: 100%;
