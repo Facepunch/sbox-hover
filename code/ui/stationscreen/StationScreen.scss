@@ -2,6 +2,7 @@
 
 StationScreen {
   background: linear-gradient(rgba(#17181a, 0.95), rgba(#0f2b2b, 0.9));
+  backdrop-filter: $default-blur;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -34,5 +35,140 @@ StationScreen {
   &.hidden {
     pointer-events: none;
     display: none;
+  }
+}
+
+.character-panel {
+  width: 100%;
+  //padding: 64px;
+
+  .panel-left {
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 240px;
+    padding: 64px;
+  }
+
+  .panel-right {
+    background: linear-gradient(rgba($blue, 0.1), rgba($blue, 0));
+    flex-direction: column;
+    width: 50%;
+    margin: 0 64px 300px 64px;
+  }
+
+  .character-stats {
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+
+    .stat-row {
+      font-family: $fontBold;
+      background-color: $panel-bg-light;
+      margin-bottom: 2px;
+      padding: 8px;
+      .stat-name {
+        color: #fff;
+        min-width: 100px;
+      }
+      .stat-value {
+        color: $blue;
+      }
+    }
+  }
+
+  .character-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    label {
+      text-shadow: $text-shadow;
+    }
+
+    .loadout-weight {
+      background-color: $panel-bg;
+      backdrop-filter: $default-blur;
+      color: $blue;
+      font-family: $fontBold;
+      font-size: 12px;
+      letter-spacing: 2px;
+      padding: 8px;
+      text-transform: uppercase;
+    }
+    .loadout-name {
+      color: #fff;
+      font-size: 48px;
+      font-family: $fontBold;
+      text-transform: uppercase;
+    }
+    .loadout-description {
+      color: $light-blue;
+      font-family: $mainFont;
+    }
+  }
+
+  .character-weapons {
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+
+    .weapon-row {
+      flex-direction: row;
+    }
+
+    .weapon {
+      background-color: $panel-bg;
+      background-filter: $default-blur;
+      cursor: pointer;
+      flex-direction: column;
+      margin-bottom: 8px;
+      margin-right: 8px;
+      padding: 16px;
+      width: 100%;
+      height: 180px;
+      transition: all 0.1s ease;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        background-color: $blue;
+      }
+
+      .weapon-name {
+        color: #fff;
+        font-family: $fontBold;
+        height: 40px;
+        padding-right: 48px;
+        margin-bottom: 8px;
+      }
+
+      .weapon-level {
+        color: $blue;
+        font-family: $fontBold;
+        border: 2px solid $blue;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+      }
+
+      .weapon-icon {
+        background-color: rgba(#fff, 0.05);
+        min-height: 60px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .character-body {
   }
 }

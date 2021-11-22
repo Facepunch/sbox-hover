@@ -1,31 +1,87 @@
 ﻿<link rel="stylesheet" href="./StationScreen.scss" />
 
 <div>
-    <StationScreenView class="loadout-view" default name="loadout">
-        <label @text="Loadout.Weight"></label>
-        <label @text="Loadout.Name"></label>
-        <label @text="Loadout.Description"></label>
-        <label @text="Loadout.Energy"></label>
-        <label @text="Loadout.Health"></label>
-        <label @text="Loadout.Speed"></label>
-
-        <div class="loadout-container">
-            <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
-            <div class="loadout-buttons">
-                <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
-                    <text>Cancel</text>
-                </StationScreenButton>
-
-                <StationScreenButton onpressed="DoDeploy()" class="btn is-primary">
-                    <div class="button-inside"></div>
-                    <text>Deploy</text>
-                </StationScreenButton>
-            </div>
+  <StationScreenView class="loadout-view" default name="loadout">
+    <div class="character-panel">
+      <div class="panel-left">
+        <div class="character-header">
+          <label @text="Loadout.Weight" class="loadout-weight"></label>
+          <label @text="Loadout.Name" class="loadout-name"></label>
+          <label
+            @text="Loadout.Description"
+            class="loadout-description"
+          ></label>
         </div>
-    </StationScreenView>
 
-    <StationScreenView class="weapon-view" name="weapon">
-        <label>TEST THIS IS THE WEAPON VIEW</label>
-        <!-- Weapon Stuff Goes Here -->
-    </StationScreenView>
+        <div class="character-weapons">
+          <div class="weapon-row">
+            <div class="weapon">
+              <label class="weapon-level">3</label>
+              <label class="weapon-name">Shotgun</label>
+              <div class="weapon-icon"></div>
+            </div>
+            <div class="weapon">
+              <label class="weapon-level">1</label>
+              <label class="weapon-name">Baseball Bat</label>
+              <div class="weapon-icon"></div>
+            </div>
+          </div>
+          <div class="weapon-row">
+            <div class="weapon">
+              <label class="weapon-level">1</label>
+              <label class="weapon-name">Baseball Bat</label>
+              <div class="weapon-icon"></div>
+            </div>
+            <div class="weapon">
+              <label class="weapon-level">1</label>
+              <label class="weapon-name">Baseball Bat</label>
+              <div class="weapon-icon"></div>
+            </div>
+            <div class="weapon">
+              <label class="weapon-level">1</label>
+              <label class="weapon-name">Baseball Bat</label>
+              <div class="weapon-icon"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-right">
+        <div class="character-stats">
+          <div class="stat-row">
+            <label class="stat-name">Health</label>
+            <label @text="Loadout.Health" class="stat-value"></label>
+          </div>
+
+          <div class="stat-row">
+            <label class="stat-name">Energy</label>
+            <label @text="Loadout.Energy" class="stat-value"></label>
+          </div>
+
+          <div class="stat-row">
+            <label class="stat-name">Speed</label>
+            <label @text="Loadout.Speed" class="stat-value"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loadout-container">
+      <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
+      <div class="loadout-buttons">
+        <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
+          <text>Cancel</text>
+        </StationScreenButton>
+
+        <StationScreenButton onpressed="DoDeploy()" class="btn is-primary">
+          <div class="button-inside"></div>
+          <text>Deploy</text>
+        </StationScreenButton>
+      </div>
+    </div>
+  </StationScreenView>
+
+  <StationScreenView class="weapon-view" name="weapon">
+    <label>TEST THIS IS THE WEAPON VIEW</label>
+    <!-- Weapon Stuff Goes Here -->
+  </StationScreenView>
 </div>
