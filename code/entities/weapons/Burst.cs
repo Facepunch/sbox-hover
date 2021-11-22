@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BurstConfig : WeaponConfig
 	{
 		public override string Name => "Burst";
@@ -13,6 +14,12 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/burst.png";
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override int Ammo => 72;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_burst", Title = "Burst" )]
@@ -24,12 +31,6 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/burst/burst_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 1;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 30;
 		public override float PrimaryRate => 1.5f;

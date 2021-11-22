@@ -5,12 +5,19 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class StealthCamoConfig : WeaponConfig
 	{
 		public override string Name => "Stealth";
 		public override string Description => "Stealth Camouflage Ability";
 		public override string Icon => "ui/equipment/stealth_camo.png";
 		public override string ClassName => "hv_stealth_camo";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( StealthCamoUpgrade ),
+			typeof( StealthCamoUpgrade ),
+			typeof( StealthCamoUpgrade )
+		};
 	}
 
 	[Library( "hv_stealth_camo", Title = "Stealth" )]
@@ -22,12 +29,6 @@ namespace Facepunch.Hover
 		public override InputButton? AbilityButton => InputButton.Flashlight;
 		public override string AbilityBind => "iv_flashlight";
 		public override bool IsPassive => true;
-		public override List<Type> Upgrades => new()
-		{
-			typeof( StealthCamoUpgrade ),
-			typeof( StealthCamoUpgrade ),
-			typeof( StealthCamoUpgrade )
-		};
 
 		public float EnergyDrain { get; set; } = 8f;
 

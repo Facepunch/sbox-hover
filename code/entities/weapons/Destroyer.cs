@@ -5,6 +5,7 @@ using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class DestroyerConfig : WeaponConfig
 	{
 		public override string Name => "Destroyer";
@@ -14,6 +15,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_destroyer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 10;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
@@ -26,12 +33,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override float ProjectileLifeTime => 20f;

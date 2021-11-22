@@ -54,6 +54,16 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public virtual string GetSlotName( int slot )
+		{
+			return slot switch
+			{
+				0 => "Primary",
+				1 => "Secondary",
+				_ => "Equipment",
+			};
+		}
+
 		public virtual void UpdateWeapons( params string[] weapons )
 		{
 			for ( int i = 0; i < weapons.Length; i++ )

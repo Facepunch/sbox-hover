@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public virtual string SecondaryDescription => "";
 		public virtual string Icon => "";
 		public virtual AmmoType AmmoType => AmmoType.Pistol;
+		public virtual List<Type> Upgrades => null;
 		public virtual int Ammo => 0;
 	}
 }

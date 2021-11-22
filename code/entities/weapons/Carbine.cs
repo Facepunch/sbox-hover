@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class CarbineConfig : WeaponConfig
 	{
 		public override string Name => "Carbine";
@@ -12,6 +13,12 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/carbine.png";
 		public override AmmoType AmmoType => AmmoType.Rifle;
 		public override int Ammo => 90;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_carbine", Title = "Carbine" )]
@@ -23,12 +30,6 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/carbine/carbine_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 2;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 30;
 		public override float PrimaryRate => 12f;

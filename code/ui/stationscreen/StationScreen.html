@@ -64,49 +64,20 @@
   </StationScreenView>
 
   <StationScreenView class="weapon-view" name="weapon">
-    <div class="back-button"></div>
+    <StationScreenButton class="back-button" onpressed="SetView( 'loadout' )"></StationScreenButton>
     <div class="weapon-body">
       <div class="weapon-view-header">
-        <label class="weapon-name">Primary</label>
+        <label @text="SlotName" class="weapon-name"></label>
       </div>
 
       <div class="weapon-sub-body">
-        <div class="weapon-list">
-          <div class="weapon-list-item active">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-          <div class="weapon-list-item">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-          <div class="weapon-list-item">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-          <div class="weapon-list-item">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-          <div class="weapon-list-item">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-          <div class="weapon-list-item">
-            <label>Weapon Name</label>
-            <div class="weapon-list-icon"></div>
-          </div>
-        </div>
+        <div @ref="WeaponList" class="weapon-list"></div>
         <div class="weapon-info">
           <div class="weapon-info-icon"></div>
           <div class="box weapon-info-body">
-            <label class="weapon-info-title">Weapon Name</label>
-            <label class="weapon-info-subtitle"
-              >Primary Description goes here.</label
-            >
-            <label class="weapon-info-description"
-              >Secondary Description goes here.</label
-            >
+            <label @text="CurrentWeapon.Name" class="weapon-info-title"></label>
+            <label @text="CurrentWeapon.Description" class="weapon-info-subtitle"></label>
+            <label @text="CurrentWeapon.SecondaryDescription" class="weapon-info-description"></label>
           </div>
 
           <div class="box weapon-stats">
@@ -114,51 +85,20 @@
           </div>
         </div>
         <div class="weapon-upgrades">
-          <div class="box weapon-stats">
+          <div @ref="UpgradesList" class="box weapon-stats">
             <label class="box-title">Enhancements</label>
-            <div class="upgrade-row">
-              <div class="upgrade-icon"></div>
-              <div class="upgrade-body">
-                <label class="title">Upgrade Name</label>
-                <label class="subtitle">+100 ammo capacity</label>
-              </div>
-              <div class="btn is-primary is-small">
-                <div class="button-inside"></div>
-                <label>500</label>
-              </div>
-            </div>
-            <div class="upgrade-row owned">
-              <div class="upgrade-icon"></div>
-              <div class="upgrade-body">
-                <label class="title">Upgrade Name</label>
-                <label class="subtitle">+100 ammo capacity</label>
-              </div>
-              <div class="btn is-secondary is-small">
-                <label>Owned</label>
-              </div>
-            </div>
-            <div class="upgrade-row locked">
-              <div class="upgrade-icon"></div>
-              <div class="upgrade-body">
-                <label class="title">Upgrade Name</label>
-                <label class="subtitle">+100 ammo capacity</label>
-              </div>
-              <div class="btn is-disabled is-small">
-                <label>Locked</label>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="weapon-view-buttons">
-      <div class="btn is-secondary">
+      <StationScreenButton class="btn is-secondary" onpressed="SetView( 'loadout' )">
         <text>Cancel</text>
-      </div>
-      <div class="btn is-primary">
+      </StationScreenButton>
+      <StationScreenButton class="btn is-primary" onpressed="DoSelectWeapon()">
         <div class="button-inside"></div>
         <text>Select Weapon</text>
-      </div>
+      </StationScreenButton>
     </div>
   </StationScreenView>
 </div>

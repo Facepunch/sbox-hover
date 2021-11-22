@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class StickyConfig : WeaponConfig
 	{
 		public override string Name => "Sticky";
@@ -13,6 +14,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_sticky";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 9;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_sticky", Title = "Sticky" )]
@@ -24,12 +31,6 @@ namespace Facepunch.Hover
 		public override int ViewModelMaterialGroup => 1;
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/sticky/sticky_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override DamageFlags DamageType => DamageFlags.Blast;
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";

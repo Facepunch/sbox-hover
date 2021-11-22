@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class ClusterConfig : WeaponConfig
 	{
 		public override string Name => "Cluster";
@@ -12,6 +13,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_cluster";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 15;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
@@ -23,12 +30,6 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 2;
 		public override string MuzzleFlashEffect => "particles/weapons/cluster/cluster_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override float InheritVelocity => 0.3f;

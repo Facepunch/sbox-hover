@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BlasterConfig : WeaponConfig
 	{
 		public override string Name => "Blaster";
@@ -12,6 +13,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_blaster";
 		public override AmmoType AmmoType => AmmoType.SMG;
 		public override int Ammo => 90;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_blaster", Title = "Blaster" )]
@@ -23,12 +30,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "automatic";
 		public override float ProjectileLifeTime => 2f;
 		public override float PrimaryRate => 7.5f;

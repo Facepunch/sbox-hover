@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BarageConfig : WeaponConfig
 	{
 		public override string Name => "Barage";
@@ -13,6 +14,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_barage";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 20;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_barage", Title = "Barage" )]
@@ -23,12 +30,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override DamageFlags DamageType => DamageFlags.Blast;

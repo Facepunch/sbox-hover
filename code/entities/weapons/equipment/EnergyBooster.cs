@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class EnergyBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Energy+";

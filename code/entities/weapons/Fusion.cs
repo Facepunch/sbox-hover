@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class FusionConfig : WeaponConfig
 	{
 		public override string Name => "Fusion";
@@ -12,6 +13,13 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/fusion.png";
 		public override AmmoType AmmoType => AmmoType.LMG;
 		public override int Ammo => 0;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( FusionAmmoUpgrade ),
+			typeof( FusionSpinUpUpgrade ),
+			typeof( FusionAmmoUpgrade ),
+			typeof( FusionSpinUpUpgrade )
+		};
 	}
 
 	[Library( "hv_fusion", Title = "Fusion" )]
@@ -23,13 +31,6 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/fusion/fusion_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 3;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( FusionAmmoUpgrade ),
-			typeof( FusionSpinUpUpgrade ),
-			typeof( FusionAmmoUpgrade ),
-			typeof( FusionSpinUpUpgrade )
-		};
 		public override string CrosshairClass => "automatic";
 		public override int ClipSize => 250;
 		public override float PrimaryRate => 12f;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BoomerConfig : WeaponConfig
 	{
 		public override string Name => "Boomer";
@@ -13,6 +14,12 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_boomer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 10;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
@@ -24,12 +31,6 @@ namespace Facepunch.Hover
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 1;
 		public override string MuzzleFlashEffect => "particles/weapons/boomer/boomer_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override DamageFlags DamageType => DamageFlags.Blast;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class RazorConfig : WeaponConfig
 	{
 		public override string Name => "Razor";
@@ -12,6 +13,12 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/razor.png";
 		public override AmmoType AmmoType => AmmoType.Pistol;
 		public override int Ammo => 60;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
 	}
 
 	[Library( "hv_razor", Title = "Razor" )]
@@ -22,12 +29,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/razor/razor_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/razor/razor_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 8;
 		public override float PrimaryRate => 12.0f;

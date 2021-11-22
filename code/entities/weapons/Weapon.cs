@@ -19,7 +19,6 @@ namespace Facepunch.Hover
 			"flyby.rifleclose3",
 			"flyby.rifleclose4"
 		};
-		public virtual List<Type> Upgrades => null;
 		public virtual string CrosshairClass => "automatic";
 		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
