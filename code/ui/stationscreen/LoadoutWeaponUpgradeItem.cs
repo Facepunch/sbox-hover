@@ -25,11 +25,8 @@ namespace Facepunch.Hover
 			if ( Local.Pawn is not Player player )
 				return true;
 
-			if ( Index == 0 )
-				return false;
-
 			var ownedUpgrades = player.GetWeaponUpgrades( Weapon );
-			return (ownedUpgrades != null && ownedUpgrades.Count >= Index);
+			return (ownedUpgrades != null && ownedUpgrades.Count > Index);
 		}
 
 		public bool IsLocked()
