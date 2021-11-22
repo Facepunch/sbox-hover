@@ -5,43 +5,23 @@
     <div class="character-panel">
       <div class="panel-left">
         <div class="character-header">
-          <label @text="Loadout.Weight" class="loadout-weight"></label>
-          <label @text="Loadout.Name" class="loadout-name"></label>
+          <label @text="LoadoutInfo.Weight" class="loadout-weight"></label>
+          <label @text="LoadoutInfo.Name" class="loadout-name"></label>
           <label
-            @text="Loadout.Description"
+            @text="LoadoutInfo.Description"
             class="loadout-description"
           ></label>
         </div>
 
         <div class="character-weapons">
           <div class="weapon-row">
-            <div class="weapon">
-              <label class="weapon-level">3</label>
-              <label class="weapon-name">Shotgun</label>
-              <div class="weapon-icon"></div>
-            </div>
-            <div class="weapon">
-              <label class="weapon-level">1</label>
-              <label class="weapon-name">Baseball Bat</label>
-              <div class="weapon-icon"></div>
-            </div>
+            <LoadoutWeaponItem index="0"/>
+            <LoadoutWeaponItem index="1"/>
           </div>
           <div class="weapon-row">
-            <div class="weapon">
-              <label class="weapon-level">1</label>
-              <label class="weapon-name">Baseball Bat</label>
-              <div class="weapon-icon"></div>
-            </div>
-            <div class="weapon">
-              <label class="weapon-level">1</label>
-              <label class="weapon-name">Baseball Bat</label>
-              <div class="weapon-icon"></div>
-            </div>
-            <div class="weapon">
-              <label class="weapon-level">1</label>
-              <label class="weapon-name">Baseball Bat</label>
-              <div class="weapon-icon"></div>
-            </div>
+            <LoadoutWeaponItem index="2"/>
+            <LoadoutWeaponItem index="3"/>
+            <LoadoutWeaponItem index="4"/>
           </div>
         </div>
       </div>
@@ -49,17 +29,17 @@
         <div class="character-stats">
           <div class="stat-row">
             <label class="stat-name">Health</label>
-            <label @text="Loadout.Health" class="stat-value"></label>
+            <label @text="LoadoutInfo.Health" class="stat-value"></label>
           </div>
 
           <div class="stat-row">
             <label class="stat-name">Energy</label>
-            <label @text="Loadout.Energy" class="stat-value"></label>
+            <label @text="LoadoutInfo.Energy" class="stat-value"></label>
           </div>
 
           <div class="stat-row">
             <label class="stat-name">Speed</label>
-            <label @text="Loadout.Speed" class="stat-value"></label>
+            <label @text="LoadoutInfo.Speed" class="stat-value"></label>
           </div>
         </div>
       </div>

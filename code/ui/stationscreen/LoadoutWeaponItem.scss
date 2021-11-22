@@ -1,0 +1,7 @@
+﻿@import "../_variables.scss";
+
+LoadoutWeaponItem {
+    &.hidden {
+        display: none;
+    }   
+}

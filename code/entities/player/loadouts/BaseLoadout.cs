@@ -41,6 +41,17 @@ namespace Facepunch.Hover
 		public BaseLoadout()
 		{
 			Weapons = new WeaponConfig[AvailableWeapons.Length];
+
+			for ( int i = Weapons.Length - 1; i >= 0; i-- )
+			{
+				var weapon = Weapons[i];
+
+				if ( weapon == null )
+				{
+					weapon = AvailableWeapons[i].FirstOrDefault();
+					Weapons[i] = weapon;
+				}
+			}
 		}
 
 		public virtual void UpdateWeapons( params string[] weapons )
@@ -90,12 +101,6 @@ namespace Facepunch.Hover
 			for ( int i = Weapons.Length - 1; i >= 0; i-- )
 			{
 				var weapon = Weapons[i];
-
-				if ( weapon == null )
-				{
-					weapon = AvailableWeapons[i].FirstOrDefault();
-					Weapons[i] = weapon;
-				}
 
 				if ( weapon != null )
 				{

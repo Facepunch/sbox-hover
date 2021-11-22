@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Gamelib.Extensions;
+using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
@@ -899,12 +900,26 @@ namespace Facepunch.Hover
 		public LoadoutSelectList LoadoutList { get; private set; }
 		public StationScreenView CurrentView { get; private set; }
 		public StationScreenMode Mode { get; private set; }
-		public LoadoutData Loadout { get; set; }
+		public LoadoutData LoadoutInfo { get; set; }
+		public BaseLoadout Loadout { get; private set; }
 		public bool IsOpen { get; private set; }
+
+		public StationScreen()
+		{
+			SetClass( "hidden", true );
+
+			Instance?.Delete();
+			Instance = this;
+		}
 
 		public void SetLoadout( BaseLoadout loadout )
 		{
-			Loadout = new LoadoutData
+			if ( Local.Pawn is not Player player )
+			{
+				return;
+			}
+
+			LoadoutInfo = new LoadoutData
 			{
 				Name = loadout.Name,
 				Description = loadout.Description,
@@ -913,6 +928,50 @@ namespace Facepunch.Hover
 				Speed = $"{loadout.MaxSpeed}m/s",
 				Weight = loadout.ArmorType.ToString()
 			};
+
+			var configs = new WeaponConfig[loadout.AvailableWeapons.Length];
+
+			// If we are this loadout, default to the weapons we have equipped.
+			if ( player.Loadout.GetType() == loadout.GetType() )
+			{
+				foreach ( var weapon in player.Children.OfType<Weapon>() )
+				{
+					var slotToIndex = weapon.Slot - 1;
+
+					if ( slotToIndex < configs.Length )
+					{
+						foreach ( var valid in loadout.AvailableWeapons[slotToIndex] )
+						{
+							if ( weapon.Config.Name == valid.Name )
+							{
+								configs[slotToIndex] = weapon.Config;
+							}
+						}
+					}
+				}
+			}
+
+			for ( var i = 0; i < configs.Length; i++ )
+			{
+				if ( configs[i] == null )
+				{
+					configs[i] = loadout.AvailableWeapons[i].FirstOrDefault();
+				}
+			}
+
+			var weaponsList = this.GetAllChildrenOfType<LoadoutWeaponItem>();
+
+			foreach ( var weapon in weaponsList )
+			{
+				var slot = weapon.Index;
+
+				if ( configs.Length > slot )
+					weapon.SetWeapon( loadout, configs[slot] );
+				else
+					weapon.SetWeapon( loadout, null );
+			}
+
+			Loadout = loadout;
 		}
 
 		public void SetOpen( bool isOpen )
@@ -950,20 +1009,17 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public StationScreen()
+		public void OpenWeapons( int slot )
 		{
-			SetClass( "hidden", true );
-
-			Instance?.Delete();
-			Instance = this;
+			SetView( "weapon" );
 		}
 
-		public virtual void DoCancel()
+		public void DoCancel()
 		{
 			Hide();
 		}
 
-		public virtual void DoDeploy()
+		public void DoDeploy()
 		{
 			Hide();
 
@@ -974,7 +1030,7 @@ namespace Facepunch.Hover
 			Player.ChangeLoadout( loadoutName, weapons );
 		}
 
-		protected virtual void OnLoadoutSelected( BaseLoadout loadout )
+		protected void OnLoadoutSelected( BaseLoadout loadout )
 		{
 			SetLoadout( loadout );
 		}
