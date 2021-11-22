@@ -32,7 +32,7 @@ StationScreen {
     }
 
     &.hidden {
-        display: none;
+      display: none;
     }
   }
 
@@ -44,7 +44,6 @@ StationScreen {
 
 .character-panel {
   width: 100%;
-  //padding: 64px;
 
   .panel-left {
     flex-direction: column;
@@ -55,9 +54,27 @@ StationScreen {
 
   .panel-right {
     background: linear-gradient(rgba($blue, 0.1), rgba($blue, 0));
+    justify-content: flex-end;
+    align-items: center;
     flex-direction: column;
     width: 45%;
     margin: 0 64px 300px 0;
+
+    .character-icon-container {
+      width: 100%;
+      height: 100%;
+      padding: 64px 64px 0 64px;
+      align-items: center;
+      justify-content: center;
+
+      .character-icon {
+        align-self: flex-end;
+        background-color: $panel-bg;
+        background-size: 100%;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 
   .character-stats {
@@ -121,66 +138,5 @@ StationScreen {
     .weapon-row {
       flex-direction: row;
     }
-
-    .weapon {
-      background-color: $panel-bg;
-      background-filter: $default-blur;
-      cursor: pointer;
-      flex-direction: column;
-      margin-bottom: 8px;
-      margin-right: 8px;
-      padding: 16px;
-      width: 100%;
-      height: 180px;
-      transition: all 0.1s ease;
-
-      &:last-child {
-        margin-right: 0;
-      }
-
-      &:hover {
-        background-color: $blue;
-      }
-
-      .weapon-name {
-        color: #fff;
-        font-family: $fontBold;
-        height: 40px;
-        padding-right: 48px;
-        margin-bottom: 8px;
-      }
-
-      .weapon-level {
-        color: $blue;
-        font-family: $fontBold;
-        border: 2px solid $blue;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 40px;
-        text-align: center;
-      }
-
-      .weapon-icon {
-        background-color: rgba(#fff, 0.05);
-        min-height: 60px;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-
-        .weapon-image {
-            background-repeat: no-repeat;
-            width: 100px;
-            height: 100px;
-        }
-      }
-    }
-  }
-
-  .character-body {
   }
 }

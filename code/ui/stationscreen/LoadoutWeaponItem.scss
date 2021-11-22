@@ -1,7 +1,72 @@
 ﻿@import "../_variables.scss";
 
 LoadoutWeaponItem {
-    &.hidden {
-        display: none;
-    }   
+  &.hidden {
+    display: none;
+  }
+  &:hover {
+    sound-in: hover.hoversharp;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.weapon {
+    background-color: $panel-bg;
+    background-filter: $default-blur;
+    cursor: pointer;
+    flex-direction: column;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    padding: 16px;
+    width: 100%;
+    height: 180px;
+    transition: all 0.1s ease;
+
+    &:hover {
+      background-color: $blue;
+
+      .weapon-level {
+        background-color: $dark-grey;
+      }
+    }
+
+    .weapon-name {
+      color: #fff;
+      font-family: $fontBold;
+      height: 40px;
+      padding-right: 48px;
+      margin-bottom: 8px;
+    }
+
+    .weapon-level {
+      color: $blue;
+      font-family: $fontBold;
+      border: 2px solid $blue;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      transition: all 0.1s ease;
+    }
+
+    .weapon-icon {
+      min-height: 60px;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+
+      .weapon-image {
+        background-repeat: no-repeat;
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
 }
