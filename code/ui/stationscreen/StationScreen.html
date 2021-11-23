@@ -64,35 +64,68 @@
   </StationScreenView>
 
   <StationScreenView class="weapon-view" name="weapon">
-    <StationScreenButton class="back-button" onpressed="SetView( 'loadout' )"></StationScreenButton>
+    <StationScreenButton
+      class="back-button"
+      onpressed="SetView( 'loadout' )"
+    ></StationScreenButton>
     <div class="weapon-body">
       <div class="weapon-view-header">
         <label @text="SlotName" class="weapon-name"></label>
+        <div class="player-currency">
+          <img src="../../../ui/icons/icon_currency_dark.png" class="icon" />
+          <label @text="PlayerTokens">000</label>
+        </div>
       </div>
 
       <div class="weapon-sub-body">
         <div @ref="WeaponList" class="weapon-list"></div>
         <div class="weapon-info">
-          <div class="weapon-info-icon"></div>
+          <div class="weapon-info-icon">
+            <img @ref="WeaponIcon" />
+          </div>
           <div class="box weapon-info-body">
             <label @text="CurrentWeapon.Name" class="weapon-info-title"></label>
-            <label @text="CurrentWeapon.Description" class="weapon-info-subtitle"></label>
-            <label @text="CurrentWeapon.SecondaryDescription" class="weapon-info-description"></label>
+            <label
+              @text="CurrentWeapon.Description"
+              class="weapon-info-subtitle"
+            ></label>
+            <label
+              @text="CurrentWeapon.SecondaryDescription"
+              class="weapon-info-description"
+            ></label>
           </div>
 
           <div class="box weapon-stats">
             <label class="box-title">Weapon Stats</label>
+            <div class="stats-row">
+              <label class="title">Damage</label>
+              <label class="description">500</label>
+            </div>
+            <div class="stats-row">
+              <label class="title">Rate of Fire</label>
+              <label class="description">30</label>
+            </div>
+            <div class="stats-row">
+              <label class="title">Ammunition</label>
+              <label class="description">5/30</label>
+            </div>
+            <div class="stats-row">
+              <label class="title">Ammo</label>
+              <label class="description">Projectile</label>
+            </div>
           </div>
         </div>
-        <div class="weapon-upgrades">
-          <div @ref="UpgradesList" class="box weapon-stats">
-            <label class="box-title">Enhancements</label>
-          </div>
+        <div class="box weapon-upgrades">
+          <label class="box-title">Enhancements</label>
+          <div @ref="UpgradesList" class="weapon-upgrades"></div>
         </div>
       </div>
     </div>
     <div class="weapon-view-buttons">
-      <StationScreenButton class="btn is-secondary" onpressed="SetView( 'loadout' )">
+      <StationScreenButton
+        class="btn is-secondary"
+        onpressed="SetView( 'loadout' )"
+      >
         <text>Cancel</text>
       </StationScreenButton>
       <StationScreenButton class="btn is-primary" onpressed="DoSelectWeapon()">
