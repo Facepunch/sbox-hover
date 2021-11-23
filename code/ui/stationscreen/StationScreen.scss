@@ -373,6 +373,10 @@ StationScreen {
           .weapon-info-description {
             font-family: $mainFont;
             color: $dull-blue;
+
+            &.hidden {
+                display: none;
+            }
           }
         }
       }
@@ -380,6 +384,10 @@ StationScreen {
       .weapon-upgrades {
         flex-direction: column;
         max-width: 440px;
+
+        &.hidden {
+            display: none;
+        }
 
         .upgrade-row {
           flex-direction: row;

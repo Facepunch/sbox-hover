@@ -89,6 +89,7 @@
               class="weapon-info-subtitle"
             ></label>
             <label
+              @ref="SecondaryDescription"
               @text="CurrentWeapon.SecondaryDescription"
               class="weapon-info-description"
             ></label>
@@ -98,7 +99,7 @@
             <label class="box-title">Weapon Stats</label>
           </div>
         </div>
-        <div class="box weapon-upgrades">
+        <div @ref="UpgradesBox" class="box weapon-upgrades">
           <label class="box-title">Enhancements</label>
           <div @ref="UpgradesList" class="weapon-upgrades"></div>
         </div>
