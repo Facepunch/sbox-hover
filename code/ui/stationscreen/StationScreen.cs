@@ -293,6 +293,8 @@ namespace Facepunch.Hover
 					view.SetActive( false );
 				}
 			}
+
+			Audio.Play( "hover.clickbeep" );
 		}
 
 		public void DoSelectWeapon()
@@ -334,11 +336,15 @@ namespace Facepunch.Hover
 		public void DoCancel()
 		{
 			Hide();
+
+			Audio.Play( "hover.clickbeep" );
 		}
 
 		public void DoDeploy()
 		{
 			Hide();
+
+			Audio.Play( "hover.clickbeep" );
 
 			var loadout = LoadoutList.Selected.Loadout;
 			var loadoutName = loadout.GetType().Name;

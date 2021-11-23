@@ -36,7 +36,6 @@ namespace Facepunch.Hover
 			if ( !IsDisabled )
 			{
 				CreateEvent( "onpressed" );
-				Audio.Play( "hover.clickbeep" );
 			}
 
 			base.OnClick( e );

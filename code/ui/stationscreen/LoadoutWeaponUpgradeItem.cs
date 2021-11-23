@@ -51,9 +51,22 @@ namespace Facepunch.Hover
 
 		public void DoBuyUpgrade()
 		{
+			if ( Local.Pawn is not Player player )
+				return;
+
 			if ( !IsLocked() && !IsOwned() )
 			{
-				Player.BuyWeaponUpgrade( Weapon.GetType().Name, Upgrade.GetType().Name );
+				if ( player.HasTokens( Upgrade.TokenCost ) )
+				{
+					Player.BuyWeaponUpgrade( Weapon.GetType().Name, Upgrade.GetType().Name );
+				}
+				else
+				{
+					var tokensNeeded = Upgrade.TokenCost - player.Tokens;
+					Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
+				}
+
+				Audio.Play( "hover.clickbeep" );
 			}
 		}
 
