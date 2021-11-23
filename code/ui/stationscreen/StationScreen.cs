@@ -34,7 +34,7 @@ namespace Facepunch.Hover
 		{
 			if ( Instance.IsOpen )
 			{
-				
+
 			}
 		}
 
@@ -64,6 +64,7 @@ namespace Facepunch.Hover
 		public WeaponConfig[] Weapons { get; private set; }
 		public LoadoutData LoadoutInfo { get; set; }
 		public Panel UpgradesList { get; private set; }
+		public string PlayerTokens => GetPlayerTokens();
 		public BaseLoadout Loadout { get; private set; }
 		public Panel WeaponList { get; private set; }
 		public int CurrentSlot { get; private set; }
@@ -250,6 +251,14 @@ namespace Facepunch.Hover
 			var weapons = "";
 
 			Player.ChangeLoadout( loadoutName, weapons );
+		}
+
+		protected string GetPlayerTokens()
+		{
+			if ( Local.Pawn is Player player )
+				return player.Tokens.ToString();
+			else
+				return "0";
 		}
 
 		protected void OnLoadoutSelected( BaseLoadout loadout )
