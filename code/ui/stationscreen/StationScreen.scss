@@ -407,6 +407,15 @@ StationScreen {
             height: 40px;
             margin-right: 14px;
 
+            .locked-icon {
+              width: 24px;
+              height: 24px;
+              background-image: url(/ui/icons/icon_lock_blue.png);
+              background-size: 100%;
+              position: absolute;
+              opacity: 0;
+            }
+
             img {
               width: 32px;
               height: 32px;
@@ -417,7 +426,7 @@ StationScreen {
           .upgrade-body {
             flex-direction: column;
             flex-grow: 1;
-            padding-right: 8px;
+            padding-right: 20px;
 
             .title {
               color: $blue;
@@ -427,6 +436,7 @@ StationScreen {
             .subtitle {
               color: $dull-blue;
               font-family: $mainFont;
+              font-size: 12px;
             }
           }
 
@@ -437,6 +447,13 @@ StationScreen {
 
             &:hover {
               background-color: transparent;
+            }
+
+            .upgrade-icon {
+              background-color: rgba($dull-blue, 0.5);
+              .locked-icon {
+                opacity: 1;
+              }
             }
 
             .upgrade-body,
