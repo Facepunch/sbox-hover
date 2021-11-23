@@ -60,6 +60,7 @@ namespace Facepunch.Hover
 		public List<AnimSceneObject> SceneObjects { get; private set; } = new();
 		public LoadoutSelectList LoadoutList { get; private set; }
 		public StationScreenView CurrentView { get; private set; }
+		public StationScreenButton CancelButton { get; private set; }
 		public StationScreenMode Mode { get; private set; }
 		public WeaponConfig CurrentWeapon { get; private set; }
 		public WeaponConfig[] Weapons { get; private set; }
@@ -276,6 +277,7 @@ namespace Facepunch.Hover
 
 		public void SetMode( StationScreenMode mode )
 		{
+			CancelButton.SetClass( "hidden", mode == StationScreenMode.Deployment );
 			Mode = mode;
 		}
 
@@ -405,6 +407,8 @@ namespace Facepunch.Hover
 				CurrentView = view;
 				CurrentView.SetActive( true );
 			}
+
+			CancelButton.SetClass( "hidden", Mode == StationScreenMode.Deployment );
 
 			base.PostTemplateApplied();
 		}
