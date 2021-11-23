@@ -64,6 +64,7 @@ namespace Facepunch.Hover
 		public WeaponConfig[] Weapons { get; private set; }
 		public LoadoutData LoadoutInfo { get; set; }
 		public Panel UpgradesList { get; private set; }
+		public Image WeaponIcon { get; private set; }
 		public string PlayerTokens => GetPlayerTokens();
 		public BaseLoadout Loadout { get; private set; }
 		public Panel WeaponList { get; private set; }
