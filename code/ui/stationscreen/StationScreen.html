@@ -26,9 +26,22 @@
         </div>
       </div>
       <div class="panel-right">
-        <div @ref="AvatarRoot" class="character-icon-container">
-
+        <div class="character-level">
+          <div class="level-box">
+            <label>2</label>
+          </div>
+          <div class="upgrade-available">
+            <label>Upgrade Available</label>
+          </div>
+          <div class="btn is-primary is-small level-button">
+            <div class="button-inside"></div>
+            <label>Level 3</label>
+            <div class="icon"></div>
+            <label>500</label>
+          </div>
         </div>
+
+        <div @ref="AvatarRoot" class="character-icon-container"></div>
         <div class="character-stats">
           <div class="stat-row">
             <label class="stat-name">Health</label>
