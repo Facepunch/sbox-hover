@@ -335,12 +335,33 @@ namespace Facepunch.Hover
 			Player.ChangeLoadout( loadoutName, weapons );
 		}
 
+		public Vector3 AvatarHeadPos { get; private set; }
+		public Vector3 AvatarAimPos { get; private set; }
+
 		public override void Tick()
 		{
 			foreach ( var sceneObject in SceneObjects )
 			{
 				sceneObject.Update( RealTime.Delta );
 			}
+
+			var mousePosition = Mouse.Position;
+
+			mousePosition.x -= AvatarPanel.Box.Rect.width * 1f;
+			mousePosition.y -= AvatarPanel.Box.Rect.height * 0.5f;
+			mousePosition /= AvatarPanel.ScaleToScreen;
+
+			var worldPos = new Vector3( 200f, mousePosition.x, -mousePosition.y );
+			var lookPos = Avatar.Transform.PointToLocal( worldPos );
+
+			AvatarHeadPos = Vector3.Lerp( AvatarHeadPos, Avatar.Transform.PointToLocal( worldPos ), Time.Delta * 20.0f );
+			AvatarAimPos = Vector3.Lerp( AvatarAimPos, Avatar.Transform.PointToLocal( worldPos ), Time.Delta * 5.0f );
+
+			Avatar.SetAnimBool( "b_grounded", true );
+			Avatar.SetAnimVector( "aim_eyes", lookPos );
+			Avatar.SetAnimVector( "aim_head", AvatarHeadPos );
+			Avatar.SetAnimVector( "aim_body", AvatarAimPos );
+			Avatar.SetAnimFloat( "aim_body_weight", 1.0f );
 		}
 
 		protected string GetPlayerTokens()
