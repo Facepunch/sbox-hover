@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Increased Range";
 		public override string Description => "+15% Range";
-		public override string Icon => "ui/icons/upgrade.png";
+		public override string Icon => "ui/icons/icon_upgrade.png";
 		public override int TokenCost => 300;
 
 		public override void Restock( Player player, Weapon weapon )

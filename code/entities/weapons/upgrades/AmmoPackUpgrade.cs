@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Ammo Pack";
 		public override string Description => "+1 Ammo Clip";
-		public override string Icon => "ui/icons/upgrade.png";
+		public override string Icon => "ui/icons/icon_upgrade.png";
 		public override int TokenCost => 500;
 
 		public override void Restock( Player player, Weapon weapon )

@@ -5,7 +5,7 @@ namespace Facepunch.Hover
 {
     public abstract partial class WeaponUpgrade
 	{
-		public virtual string Icon => "ui/icons/upgrade.png";
+		public virtual string Icon => "ui/icons/icon_upgrade.png";
 		public virtual string Name => "";
 		public virtual string Description => "";
 		public virtual int TokenCost => 50;
