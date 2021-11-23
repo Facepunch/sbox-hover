@@ -43,6 +43,7 @@ namespace Facepunch.Hover
 
 		public void SetUpgrade( int index, WeaponConfig weapon, WeaponUpgrade upgrade )
 		{
+			Icon.Style.SetBackgroundImage( upgrade.Icon );
 			Weapon = weapon;
 			Upgrade = upgrade;
 			Index = index;

@@ -101,6 +101,8 @@ namespace Facepunch.Hover
 				}
 			}
 
+			WeaponIcon.SetTexture( config.Icon );
+
 			CurrentWeapon = config;
 		}
 
