@@ -109,6 +109,7 @@ namespace Facepunch.Hover
 		public Client Client { get; set; }
 		public Label PlayerName { get; set; }
 		public Label Captures { get; set; }
+		public Label Tokens { get; set; }
 		public Label Kills { get; set; }
 		public Label Deaths { get; set; }
 		public Label Ping { get; set; }
@@ -120,6 +121,7 @@ namespace Facepunch.Hover
 			AddClass( "entry" );
 
 			PlayerName = Add.Label( "PlayerName", "name" );
+			Tokens = Add.Label( "", "tokens" );
 			Captures = Add.Label( "", "captures" );
 			Kills = Add.Label( "", "kills" );
 			Deaths = Add.Label( "", "deaths" );
@@ -147,6 +149,7 @@ namespace Facepunch.Hover
 		{
 			PlayerName.Text = Client.Name;
 			Captures.Text = Client.GetInt( "captures" ).ToString();
+			Tokens.Text = $"{Client.GetInt( "tokens" ):C0}";
 			Kills.Text = Client.GetInt( "kills" ).ToString();
 			Deaths.Text = Client.GetInt( "deaths" ).ToString();
 			Ping.Text = Client.Ping.ToString();
