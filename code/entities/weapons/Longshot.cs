@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/longshot.png";
 		public override string ClassName => "hv_longshot";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 20;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 700;
 	}
 
 	[Library( "hv_longshot", Title = "Longshot" )]
@@ -37,7 +39,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 25000f;
 		public override int ClipSize => 3;
 		public override float ReloadTime => 4f;
-		public override int BaseDamage => 700;
 
 		public bool IsScoped { get; private set; }
 
@@ -122,7 +123,7 @@ namespace Facepunch.Hover
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
-			ShootBullet( 0f, 5f, BaseDamage, 16.0f );
+			ShootBullet( 0f, 5f, Config.Damage, 16.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "pulserifle.empty" );

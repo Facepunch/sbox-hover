@@ -41,7 +41,6 @@ namespace Facepunch.Hover
 		public virtual float MeleeRate => 1f;
 		public virtual float ChargeAttackDuration => 2f;
 		public virtual DamageFlags DamageType => DamageFlags.Bullet;
-		public virtual int BaseDamage => 10;
 		public virtual int HoldType => 1;
 		public virtual int ViewModelMaterialGroup => 0;
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -291,7 +290,7 @@ namespace Facepunch.Hover
 			Rand.SetSeed( Time.Tick );
 
 			ShootEffects();
-			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
+			ShootBullet( 0.05f, 1.5f, Config.Damage, 3.0f );
 		}
 
 		public virtual void MeleeStrike( float damage, float force )
@@ -478,7 +477,7 @@ namespace Facepunch.Hover
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force )
 		{
-			DealDamage( target, position, force, BaseDamage );
+			DealDamage( target, position, force, Config.Damage );
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damage )

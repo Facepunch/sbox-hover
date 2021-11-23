@@ -13,6 +13,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/boomer.png";
 		public override string ClassName => "hv_boomer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 10;
 		public override List<Type> Upgrades => new()
 		{
@@ -20,6 +21,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 500;
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
@@ -44,7 +46,6 @@ namespace Facepunch.Hover
 		public override int ClipSize => 1;
 		public override float ReloadTime => 2.3f;
 		public override float ProjectileLifeTime => 1.5f;
-		public override int BaseDamage => 500;
 		public virtual float BlastRadius => 300f;
 
 		public override void Spawn()
@@ -99,7 +100,7 @@ namespace Facepunch.Hover
 
 			if ( IsServer )
             {
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}
 		}
 	}

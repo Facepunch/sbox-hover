@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_fusion";
 		public override string Icon => "ui/weapons/fusion.png";
 		public override AmmoType AmmoType => AmmoType.LMG;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 0;
 		public override List<Type> Upgrades => new()
 		{
@@ -20,6 +21,7 @@ namespace Facepunch.Hover
 			typeof( FusionAmmoUpgrade ),
 			typeof( FusionSpinUpUpgrade )
 		};
+		public override int Damage => 60;
 	}
 
 	[Library( "hv_fusion", Title = "Fusion" )]
@@ -38,7 +40,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 8000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3.0f;
-		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => true;
 
 		[Net] public float SpinUpTime { get; set; } = 1.2f;
@@ -107,7 +108,7 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"blaster.fire1" );
-			ShootBullet( 0.03f, 1.5f, BaseDamage, 8.0f );
+			ShootBullet( 0.03f, 1.5f, Config.Damage, 8.0f );
 
 			if ( AmmoClip == 0 )
 			{

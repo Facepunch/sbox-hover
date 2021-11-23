@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 			typeof( JumpMineRangeUpgrade ),
 			typeof( DeployableDamageVsHeavy ),
 		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_jump_mine", Title = "Jump Mine" )]

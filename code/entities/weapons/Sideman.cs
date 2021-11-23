@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_sideman";
 		public override string Icon => "ui/weapons/sideman.png";
 		public override AmmoType AmmoType => AmmoType.Pistol;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 60;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 60;
 	}
 
 	[Library( "hv_sideman", Title = "Sideman" )]
@@ -36,7 +38,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 2000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
-		public override int BaseDamage => 60;
 		public override bool CanMeleeAttack => true;
 
 		public override void Spawn()
@@ -70,7 +71,7 @@ namespace Facepunch.Hover
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"generic.energy.fire2" );
-			ShootBullet( 0.05f, 1.5f, BaseDamage, 3.0f );
+			ShootBullet( 0.05f, 1.5f, Config.Damage, 3.0f );
 
 			TimeSincePrimaryAttack = 0f;
 

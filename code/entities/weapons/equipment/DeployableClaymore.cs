@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 			typeof( ClaymoreRangeUpgrade ),
 			typeof( DeployableDamageVsHeavy ),
 		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_claymore", Title = "Claymore" )]

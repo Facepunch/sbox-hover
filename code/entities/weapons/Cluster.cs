@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/cluster.png";
 		public override string ClassName => "hv_cluster";
 		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 15;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 250;
 	}
 
 	[Library( "hv_cluster", Title = "Cluster" )]
@@ -43,7 +45,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 1;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 250;
 		public virtual float BlastRadius => 500f;
 
 		public override void Spawn()
@@ -106,7 +107,7 @@ namespace Facepunch.Hover
 
 		protected virtual void OnBombHit( BulletDropProjectile bomb, Entity target )
 		{
-			DamageInRadius( bomb.Position, BlastRadius * 0.6f, BaseDamage * 4f );
+			DamageInRadius( bomb.Position, BlastRadius * 0.6f, Config.Damage * 4f );
 		}
 
 		protected override float ModifyDamage( Entity victim, float damage )
@@ -120,7 +121,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsServer )
 			{
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 
 				var position = projectile.Position;
 

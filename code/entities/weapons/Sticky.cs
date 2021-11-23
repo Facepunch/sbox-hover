@@ -14,12 +14,14 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_sticky";
 		public override AmmoType AmmoType => AmmoType.Grenade;
 		public override int Ammo => 9;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override List<Type> Upgrades => new()
 		{
 			typeof( AmmoPackUpgrade ),
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 800;
 	}
 
 	[Library( "hv_sticky", Title = "Sticky" )]
@@ -42,7 +44,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 2;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 800;
 		public override float Gravity => 35f;
 		public virtual float BlastRadius => 200f;
 
@@ -88,7 +89,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsServer )
 			{
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}
 		}
 	}

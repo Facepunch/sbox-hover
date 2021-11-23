@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 			typeof( MaxDeployableUpgrade ),
 			typeof( ForceShieldHealthUpgrade )
 		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_force_shield", Title = "Force Shield" )]

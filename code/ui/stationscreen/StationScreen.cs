@@ -68,6 +68,7 @@ namespace Facepunch.Hover
 		public string PlayerTokens => GetPlayerTokens();
 		public BaseLoadout Loadout { get; private set; }
 		public Panel WeaponList { get; private set; }
+		public Panel StatsList { get; private set; }
 		public int CurrentSlot { get; private set; }
 		public bool IsOpen { get; private set; }
 		public string SlotName => Loadout.GetSlotName( CurrentSlot );
@@ -102,6 +103,16 @@ namespace Facepunch.Hover
 			}
 
 			WeaponIcon.SetTexture( config.Icon );
+
+			StatsList.DeleteChildren();
+
+			var stats = config.GetStats();
+
+			for ( int i = 0; i < stats.Count; i++ )
+			{
+				var item = StatsList.AddChild<WeaponStatItem>();
+				item.SetStat( stats[i] );
+			}
 
 			CurrentWeapon = config;
 		}

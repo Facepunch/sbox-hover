@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 			typeof( MotionAlarmRangeUpgrade ),
 			typeof( MaxDeployableUpgrade ),
 		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_motion_alarm", Title = "Motion Alarm" )]

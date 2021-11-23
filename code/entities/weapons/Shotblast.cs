@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/shotblast.png";
 		public override string ClassName => "hv_shotblast";
 		public override AmmoType AmmoType => AmmoType.Shotgun;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 30;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 100;
 	}
 
 	[Library( "hv_shotblast", Title = "Shotblast" )]
@@ -37,7 +39,6 @@ namespace Facepunch.Hover
 		public override int ClipSize => 4;
 		public override float ReloadTime => 2f;
 		public override bool CanMeleeAttack => true;
-		public override int BaseDamage => 100;
 		public virtual int BulletsPerFire => 8;
 
 		public override void Spawn()
@@ -63,7 +64,7 @@ namespace Facepunch.Hover
 
 			for ( int i = 0; i < BulletsPerFire; i++ )
 			{
-				ShootBullet( 0.15f, 3f, BaseDamage, 4.0f );
+				ShootBullet( 0.15f, 3f, Config.Damage, 4.0f );
 			}
 
 			if ( AmmoClip == 0 )

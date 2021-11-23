@@ -13,6 +13,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/barage.png";
 		public override string ClassName => "hv_barage";
 		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 20;
 		public override List<Type> Upgrades => new()
 		{
@@ -20,6 +21,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 400;
 	}
 
 	[Library( "hv_barage", Title = "Barage" )]
@@ -41,7 +43,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 400;
 		public override float Gravity => 35f;
 		public virtual float BlastRadius => 500f;
 
@@ -100,7 +101,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsServer )
 			{
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}
 		}
 	}

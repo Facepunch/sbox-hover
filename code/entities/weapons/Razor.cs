@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_razor";
 		public override string Icon => "ui/weapons/razor.png";
 		public override AmmoType AmmoType => AmmoType.Pistol;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 60;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 40;
 	}
 
 	[Library( "hv_razor", Title = "Razor" )]
@@ -37,7 +39,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 4000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
-		public override int BaseDamage => 40;
 		public override bool CanMeleeAttack => true;
 		public override int ViewModelMaterialGroup => 2;
 		public override float Gravity => 0f;

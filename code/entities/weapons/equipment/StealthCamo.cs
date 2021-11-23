@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 			typeof( StealthCamoUpgrade ),
 			typeof( StealthCamoUpgrade )
 		};
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_stealth_camo", Title = "Stealth" )]

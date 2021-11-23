@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 			typeof( MaxDeployableUpgrade ),
 			typeof( DeployableDamageVsHeavy ),
 		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_turret", Title = "Turret" )]

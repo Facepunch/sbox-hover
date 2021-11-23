@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/blaster.png";
 		public override string ClassName => "hv_blaster";
 		public override AmmoType AmmoType => AmmoType.SMG;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 90;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 120;
 	}
 
 	[Library( "hv_blaster", Title = "Blaster" )]
@@ -44,7 +46,6 @@ namespace Facepunch.Hover
 		public override float Gravity => 0f;
 		public override bool ReloadAnimation => true;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 120;
 
 		public override void Spawn()
 		{

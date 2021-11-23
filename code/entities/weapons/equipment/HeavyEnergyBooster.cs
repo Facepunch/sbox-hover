@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string SecondaryDescription => "Converts Incoming Damage to Energy";
 		public override string Icon => "ui/equipment/heavy_energy_booster.png";
 		public override string ClassName => "hv_heavy_energy_booster";
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_heavy_energy_booster", Title = "Energy++" )]

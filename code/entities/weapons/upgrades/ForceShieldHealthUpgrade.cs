@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Increased Health";
 		public override string Description => "+300 Health";
+		public override string Icon => "ui/icons/upgrade.png";
 		public override int TokenCost => 500;
 
 		public override void Apply( Player player, Weapon weapon )

@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_carbine";
 		public override string Icon => "ui/weapons/carbine.png";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 90;
 		public override List<Type> Upgrades => new()
 		{
@@ -19,6 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
+		public override int Damage => 100;
 	}
 
 	[Library( "hv_carbine", Title = "Carbine" )]
@@ -37,7 +39,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 6000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 100;
 		public override bool CanMeleeAttack => true;
 
 		public override void Spawn()
@@ -68,11 +69,7 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"generic.energy.fire3" );
-
-			//using ( Owner.Client.CompensateLag( LagCompensationType.Bounds ) )
-			//{
-				ShootBullet( 0.01f, 1.5f, BaseDamage, 8.0f );
-			//}
+			ShootBullet( 0.01f, 1.5f, Config.Damage, 8.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );

@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Armor Piercing";
 		public override string Description => "+15% Damage vs Heavy";
+		public override string Icon => "ui/icons/upgrade.png";
 		public override int TokenCost => 700;
 
 		public override DamageInfo DealDamage( Player player, Player victim, Weapon weapon, DamageInfo info )
