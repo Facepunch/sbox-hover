@@ -64,15 +64,14 @@
   </StationScreenView>
 
   <StationScreenView class="weapon-view" name="weapon">
-    <StationScreenButton
-      class="back-button"
-      onpressed="SetView( 'loadout' )"
-    ></StationScreenButton>
+    <StationScreenButton class="back-button" onpressed="SetView( 'loadout' )">
+      <div class="icon"></div>
+    </StationScreenButton>
     <div class="weapon-body">
       <div class="weapon-view-header">
         <label @text="SlotName" class="weapon-name"></label>
         <div class="player-currency">
-          <img src="../../../ui/icons/icon_currency_dark.png" class="icon" />
+          <div class="currency-icon"></div>
           <label @text="PlayerTokens">000</label>
         </div>
       </div>
@@ -81,7 +80,7 @@
         <div @ref="WeaponList" class="weapon-list"></div>
         <div class="weapon-info">
           <div class="weapon-info-icon">
-            <img @ref="WeaponIcon" />
+            <img @ref="WeaponIcon" class="actual-icon" />
           </div>
           <div class="box weapon-info-body">
             <label @text="CurrentWeapon.Name" class="weapon-info-title"></label>
