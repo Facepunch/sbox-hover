@@ -71,6 +71,10 @@ namespace Facepunch.Hover
 		public SceneWorld AvatarWorld { get; private set; }
 		public ScenePanel AvatarPanel { get; private set; }
 		public AnimSceneObject Avatar { get; private set; }
+		public Vector3 AvatarHeadPos { get; private set; }
+		public Label SecondaryDescription { get; private set; }
+		public Vector3 AvatarAimPos { get; private set; }
+		public Panel UpgradesBox { get; private set; }
 		public Panel AvatarRoot { get; private set; }
 		public Panel WeaponList { get; private set; }
 		public Panel StatsList { get; private set; }
@@ -134,6 +138,12 @@ namespace Facepunch.Hover
 					var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
 					item.SetUpgrade( i, config, upgrade );
 				}
+
+				UpgradesBox.SetClass( "hidden", false );
+			}
+			else
+			{
+				UpgradesBox.SetClass( "hidden", true );
 			}
 
 			WeaponIcon.SetTexture( config.Icon );
@@ -147,6 +157,8 @@ namespace Facepunch.Hover
 				var item = StatsList.AddChild<WeaponStatItem>();
 				item.SetStat( stats[i] );
 			}
+
+			SecondaryDescription.SetClass( "hidden", string.IsNullOrEmpty( config.SecondaryDescription ) );
 
 			CurrentWeapon = config;
 		}
@@ -281,6 +293,8 @@ namespace Facepunch.Hover
 					view.SetActive( false );
 				}
 			}
+
+			Audio.Play( "hover.clickbeep" );
 		}
 
 		public void DoSelectWeapon()
@@ -322,11 +336,15 @@ namespace Facepunch.Hover
 		public void DoCancel()
 		{
 			Hide();
+
+			Audio.Play( "hover.clickbeep" );
 		}
 
 		public void DoDeploy()
 		{
 			Hide();
+
+			Audio.Play( "hover.clickbeep" );
 
 			var loadout = LoadoutList.Selected.Loadout;
 			var loadoutName = loadout.GetType().Name;
@@ -334,9 +352,6 @@ namespace Facepunch.Hover
 
 			Player.ChangeLoadout( loadoutName, weapons );
 		}
-
-		public Vector3 AvatarHeadPos { get; private set; }
-		public Vector3 AvatarAimPos { get; private set; }
 
 		public override void Tick()
 		{
