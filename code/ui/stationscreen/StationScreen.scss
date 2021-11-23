@@ -536,6 +536,10 @@ StationScreen {
             .btn {
               cursor: default;
 
+              .currency-icon {
+                display: none;
+              }
+
               label {
                 color: $blue;
               }
@@ -549,6 +553,14 @@ StationScreen {
             width: 100px;
             margin: 0;
             padding: 0;
+
+            .currency-icon {
+              background-image: url(/ui/icons/icon_currency_dark.png);
+              background-size: 100%;
+              width: 24px;
+              height: 24px;
+              margin-right: 4px;
+            }
           }
         }
       }
