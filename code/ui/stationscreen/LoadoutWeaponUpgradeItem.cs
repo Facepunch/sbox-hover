@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public StationScreenButton BuyButton { get; private set; }
 		public WeaponUpgrade Upgrade { get; private set; }
 		public WeaponConfig Weapon { get; private set; }
-		public Panel Icon { get; private set; }
+		public Image Icon { get; private set; }
 		public int Index { get; private set; }
 
 		public LoadoutWeaponUpgradeItem()
@@ -43,7 +43,7 @@ namespace Facepunch.Hover
 
 		public void SetUpgrade( int index, WeaponConfig weapon, WeaponUpgrade upgrade )
 		{
-			Icon.Style.SetBackgroundImage( upgrade.Icon );
+			Icon.SetTexture( upgrade.Icon );
 			Weapon = weapon;
 			Upgrade = upgrade;
 			Index = index;

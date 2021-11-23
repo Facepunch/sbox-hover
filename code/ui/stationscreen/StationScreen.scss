@@ -67,10 +67,8 @@ StationScreen {
       align-items: center;
       justify-content: center;
 
-      .character-icon {
+      ScenePanel {
         align-self: flex-end;
-        background-color: $panel-bg;
-        background-size: 100%;
         width: 100%;
         height: 100%;
       }

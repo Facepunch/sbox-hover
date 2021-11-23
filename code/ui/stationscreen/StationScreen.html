@@ -26,8 +26,8 @@
         </div>
       </div>
       <div class="panel-right">
-        <div class="character-icon-container">
-          <img @ref="Icon" class="character-icon" />
+        <div @ref="AvatarRoot" class="character-icon-container">
+
         </div>
         <div class="character-stats">
           <div class="stat-row">
@@ -94,24 +94,8 @@
             ></label>
           </div>
 
-          <div class="box weapon-stats">
+          <div @ref="StatsList" class="box weapon-stats">
             <label class="box-title">Weapon Stats</label>
-            <div class="stats-row">
-              <label class="title">Damage</label>
-              <label class="description">500</label>
-            </div>
-            <div class="stats-row">
-              <label class="title">Rate of Fire</label>
-              <label class="description">30</label>
-            </div>
-            <div class="stats-row">
-              <label class="title">Ammunition</label>
-              <label class="description">5/30</label>
-            </div>
-            <div class="stats-row">
-              <label class="title">Ammo</label>
-              <label class="description">Projectile</label>
-            </div>
           </div>
         </div>
         <div class="box weapon-upgrades">

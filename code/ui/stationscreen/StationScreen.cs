@@ -57,6 +57,7 @@ namespace Facepunch.Hover
 			Instance.SetOpen( false );
 		}
 
+		public List<AnimSceneObject> SceneObjects { get; private set; } = new();
 		public LoadoutSelectList LoadoutList { get; private set; }
 		public StationScreenView CurrentView { get; private set; }
 		public StationScreenMode Mode { get; private set; }
@@ -67,6 +68,10 @@ namespace Facepunch.Hover
 		public Image WeaponIcon { get; private set; }
 		public string PlayerTokens => GetPlayerTokens();
 		public BaseLoadout Loadout { get; private set; }
+		public SceneWorld AvatarWorld { get; private set; }
+		public ScenePanel AvatarPanel { get; private set; }
+		public AnimSceneObject Avatar { get; private set; }
+		public Panel AvatarRoot { get; private set; }
 		public Panel WeaponList { get; private set; }
 		public Panel StatsList { get; private set; }
 		public int CurrentSlot { get; private set; }
@@ -76,6 +81,35 @@ namespace Facepunch.Hover
 		public StationScreen()
 		{
 			SetClass( "hidden", true );
+
+			AvatarWorld = new SceneWorld();
+			AvatarPanel = new ScenePanel();
+
+			using ( SceneWorld.SetCurrent( AvatarWorld ) )
+			{
+				var model = Model.Load( "models/citizen/citizen.vmdl" );
+
+				Avatar = new AnimSceneObject( model, Transform.Zero );
+
+				var angles = new Angles( 0f, 180f, 0f );
+				var position = Vector3.Up * 55f + angles.Direction * -100f;
+
+				AvatarPanel.World = AvatarWorld;
+				AvatarPanel.CameraPosition = position;
+				AvatarPanel.CameraRotation = Rotation.From( angles );
+				AvatarPanel.FieldOfView = 25f;
+				AvatarPanel.AmbientColor = Color.Gray * 0.2f;
+
+				SceneObjects.Add( Avatar );
+
+				var lightWarm = new SpotLight( Vector3.Up * 100f + Vector3.Forward * 100f + Vector3.Right * -200f, new Color( 1f, 0.95f, 0.8f ) * 60f );
+				lightWarm.Rotation = Rotation.LookAt( -lightWarm.Position );
+				lightWarm.SpotCone = new SpotLightCone { Inner = 90, Outer = 90 };
+
+				var lightBlue = new SpotLight( Vector3.Up * 100f + Vector3.Forward * -100f + Vector3.Right * 100f, new Color( 0f, 0.4f, 1f ) * 100f );
+				lightBlue.Rotation = Rotation.LookAt( -lightBlue.Position );
+				lightBlue.SpotCone = new SpotLightCone { Inner = 90f, Outer = 90f };
+			}
 
 			Instance?.Delete();
 			Instance = this;
@@ -115,6 +149,38 @@ namespace Facepunch.Hover
 			}
 
 			CurrentWeapon = config;
+		}
+
+		public void CreateAvatar()
+		{
+			foreach ( var sceneObject in SceneObjects )
+			{
+				if ( sceneObject.Parent.IsValid() )
+				{
+					sceneObject.Delete();
+				}
+			}
+
+			SceneObjects.Clear();
+
+			using ( SceneWorld.SetCurrent( AvatarWorld ) )
+			{
+				foreach ( var clothing in Loadout.Clothing )
+				{
+					var clothes = new AnimSceneObject( Model.Load( clothing ), Avatar.Transform );
+					Avatar.AddChild( "clothing", clothes );
+					SceneObjects.Add( clothes );
+				}
+
+				SceneObjects.Add( Avatar );
+			}
+
+			foreach ( var sceneObject in SceneObjects )
+			{
+				sceneObject.Update( RealTime.Delta );
+			}
+
+			AvatarPanel.Parent = AvatarRoot;
 		}
 
 		public void SetLoadout( BaseLoadout loadout )
@@ -178,6 +244,8 @@ namespace Facepunch.Hover
 
 			Weapons = configs;
 			Loadout = loadout;
+
+			CreateAvatar();
 		}
 
 		public void SetOpen( bool isOpen )
@@ -265,6 +333,14 @@ namespace Facepunch.Hover
 			var weapons = "";
 
 			Player.ChangeLoadout( loadoutName, weapons );
+		}
+
+		public override void Tick()
+		{
+			foreach ( var sceneObject in SceneObjects )
+			{
+				sceneObject.Update( RealTime.Delta );
+			}
 		}
 
 		protected string GetPlayerTokens()

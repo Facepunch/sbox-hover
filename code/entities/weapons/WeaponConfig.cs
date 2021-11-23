@@ -59,7 +59,7 @@ namespace Facepunch.Hover
 				stats.Add( new WeaponStat
 				{
 					Key = "Ammo",
-					Value = $"x{Ammo}"
+					Value = $"{Ammo} ({AmmoType})"
 				} );
 			}
 
