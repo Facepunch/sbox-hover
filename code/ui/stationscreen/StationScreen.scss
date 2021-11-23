@@ -30,9 +30,9 @@ StationScreen {
         margin-left: 64px;
 
         .cancel-button {
-            &.hidden {
-                display: none;
-            }
+          &.hidden {
+            display: none;
+          }
         }
       }
     }
@@ -310,6 +310,10 @@ StationScreen {
       .weapon-stats {
         .stats-row {
           margin-bottom: 8px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
           label {
             font-family: $mainFont;
             text-transform: uppercase;
@@ -413,7 +417,6 @@ StationScreen {
 
         .weapon-info-body {
           margin-bottom: 32px;
-          padding-bottom: 0;
 
           label {
             font-family: $fontBold;
