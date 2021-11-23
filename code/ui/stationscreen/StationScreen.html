@@ -11,6 +11,12 @@
             @text="LoadoutInfo.Description"
             class="loadout-description"
           ></label>
+          <div class="tags-list">
+            <label class="tag">Name</label>
+            <label class="tag type-1">Name</label>
+            <label class="tag type-2">Name</label>
+            <label class="tag type-3">Name</label>
+          </div>
         </div>
 
         <div class="character-weapons">
@@ -64,7 +70,11 @@
     <div class="loadout-container">
       <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
       <div class="loadout-buttons">
-        <StationScreenButton @ref="CancelButton" onpressed="DoCancel()" class="btn is-secondary cancel-button">
+        <StationScreenButton
+          @ref="CancelButton"
+          onpressed="DoCancel()"
+          class="btn is-secondary cancel-button"
+        >
           <text>Cancel</text>
         </StationScreenButton>
 
