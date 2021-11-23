@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class HeavyGunnerMk2 : HeavyGunner
 	{
 		public override string SecondaryDescription => "Has more health and energy and regenerates faster";
-		public override string Name => "Heavy Gunner Mk. II";
+		public override string Name => "Gunner Mk. II";
 		public override Type UpgradesTo => null;
 		public override int UpgradeCost => 750;
 		public override float RegenDelay => 15f;

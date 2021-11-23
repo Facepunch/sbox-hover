@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class LightAssault : BaseLoadout
 	{
 		public override string Description => "A fast assault unit with medium health and high energy";
-		public override string Name => "Light Assault";
+		public override string Name => "Assault";
 		public override Type UpgradesTo => typeof( LightAssaultMk2 );
 		public override int DisplayOrder => 1;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]

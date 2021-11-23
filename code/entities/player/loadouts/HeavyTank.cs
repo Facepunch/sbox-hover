@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class HeavyTank : BaseLoadout
 	{
 		public override string Description => "A slow tank unit with high health, low energy and fast regen";
-		public override string Name => "Heavy Tank";
+		public override string Name => "Tank";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override int DisplayOrder => 9;
 		public override Type UpgradesTo => typeof( HeavyTankMk2 );

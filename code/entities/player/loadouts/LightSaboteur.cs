@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class LightSaboteur : BaseLoadout
 	{
 		public override string Description => "A fast stealth unit with lower health and medium energy";
-		public override string Name => "Light Saboteur";
+		public override string Name => "Saboteur";
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSaboteurMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]

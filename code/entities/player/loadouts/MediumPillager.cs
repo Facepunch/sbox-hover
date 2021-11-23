@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class MediumPillager : BaseLoadout
 	{
 		public override string Description => "A menacing unit with a deadly grenade launcher";
-		public override string Name => "Medium Pillager";
+		public override string Name => "Pillager";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
 		public override Type UpgradesTo => typeof( MediumPillagerMk2 );
 		public override int DisplayOrder => 6;

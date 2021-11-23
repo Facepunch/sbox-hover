@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class LightSaboteurMk2 : LightSaboteur
 	{
 		public override string SecondaryDescription => "Has more health and energy and regenerates faster";
-		public override string Name => "Light Saboteur Mk. II";
+		public override string Name => "Saboteur Mk. II";
 		public override Type UpgradesTo => null;
 		public override int UpgradeCost => 500;
 		public override float RegenDelay => 15f;

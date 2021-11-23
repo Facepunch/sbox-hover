@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class MediumInfantry : BaseLoadout
 	{
 		public override string Description => "A balanced soldier unit with medium-high health and lower energy";
-		public override string Name => "Medium Infantry";
+		public override string Name => "Infantry";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
 		public override Type UpgradesTo => typeof( MediumInfantryMk2 );
 		public override int DisplayOrder => 4;

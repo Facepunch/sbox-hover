@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class MediumDefender : BaseLoadout
 	{
 		public override string Description => "A unit that can deploy light turrets and upgrade base defences";
-		public override string Name => "Medium Defender";
+		public override string Name => "Defender";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
 		public override Type UpgradesTo => typeof( MediumDefenderMk2 );
 		public override bool CanUpgradeDependencies => true;

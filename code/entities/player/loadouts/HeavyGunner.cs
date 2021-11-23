@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	public partial class HeavyGunner : BaseLoadout
 	{
 		public override string Description => "A slow heavy support unit with high health and medium energy";
-		public override string Name => "Heavy Gunner";
+		public override string Name => "Gunner";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override int DisplayOrder => 8;
 		public override Type UpgradesTo => typeof( HeavyGunnerMk2 );
