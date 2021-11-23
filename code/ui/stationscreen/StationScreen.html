@@ -64,7 +64,7 @@
     <div class="loadout-container">
       <LoadoutSelectList @ref="LoadoutList"></LoadoutSelectList>
       <div class="loadout-buttons">
-        <StationScreenButton onpressed="DoCancel()" class="btn is-secondary">
+        <StationScreenButton @ref="CancelButton" onpressed="DoCancel()" class="btn is-secondary cancel-button">
           <text>Cancel</text>
         </StationScreenButton>
 

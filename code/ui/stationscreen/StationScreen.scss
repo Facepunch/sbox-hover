@@ -28,6 +28,12 @@ StationScreen {
         flex-direction: column;
         width: 248px;
         margin-left: 64px;
+
+        .cancel-button {
+            &.hidden {
+                display: none;
+            }
+        }
       }
     }
 
