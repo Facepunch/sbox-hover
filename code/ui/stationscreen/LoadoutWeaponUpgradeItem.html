@@ -1,7 +1,9 @@
 ﻿<link rel="stylesheet" href="./LoadoutWeaponUpgradeItem.scss" />
 
 <div class="upgrade-row">
-  <div @ref="Icon" class="upgrade-icon"></div>
+  <div class="upgrade-icon">
+    <img @ref="Icon" />
+  </div>
   <div class="upgrade-body">
     <label @text="Upgrade.Name" class="title"></label>
     <label @text="Upgrade.Description" class="subtitle"></label>
