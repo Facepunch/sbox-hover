@@ -32,3 +32,15 @@ LoadoutSelectList {
     }
   }
 }
+
+.team_red {
+  LoadoutSelectList {
+    .loadout-category {
+      .loadout-header {
+        .divider {
+          background-color: $red;
+        }
+      }
+    }
+  }
+}

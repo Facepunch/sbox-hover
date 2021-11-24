@@ -34,10 +34,7 @@ namespace Facepunch.Hover
 				else if ( loadout.RoleType == LoadoutRoleType.Support )
 					roleName = "icon_class_support";
 
-				if ( player.Team == Team.Red )
-					roleName += "_red";
-				else
-					roleName += "_blue";
+				
 
 				SmallIcon.Texture = Texture.Load( $"ui/icons/{roleName}.png" );
 			}

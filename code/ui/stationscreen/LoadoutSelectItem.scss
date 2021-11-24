@@ -28,8 +28,6 @@ LoadoutSelectItem {
     .loadout {
       opacity: 1;
       .loadout-icon-container {
-        border: 2px solid $blue;
-
         .loadout-level {
         }
         .loadout-icon {
@@ -70,8 +68,8 @@ LoadoutSelectItem {
 
       .loadout-level {
         position: absolute;
-        top: -2px;
-        right: -2px;
+        top: -3px;
+        right: -3px;
         background-color: $blue;
         width: 30px;
         height: 30px;
@@ -117,6 +115,7 @@ LoadoutSelectItem {
         .loadout-type-icon {
           width: 24px;
           height: 24px;
+          background-image-tint: $blue;
         }
       }
     }
@@ -132,6 +131,78 @@ LoadoutSelectItem {
         font-size: 12px;
         font-family: $fontBold;
         text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.team_red {
+  LoadoutSelectItem {
+    &:hover {
+      .loadout {
+        border: 2px solid rgba($red, 0.05);
+
+        .loadout-icon-container {
+          .loadout-icon {
+            background-color: rgba($red, 1);
+          }
+        }
+      }
+    }
+    &.is-selected {
+      box-shadow: 0 4px 12px rgba($red, 0.05);
+
+      .loadout {
+        border: 2px solid $red;
+        .loadout-icon-container {
+          //border: 2px solid $red;
+
+          .loadout-level {
+          }
+          .loadout-icon {
+            background-color: $red;
+
+            .loadout-player {
+            }
+          }
+        }
+        .loadout-name {
+          background-color: $red;
+
+          label {
+            color: $dark-grey;
+          }
+        }
+      }
+    }
+
+    .loadout {
+      border: 2px solid rgba($red, 0);
+
+      .loadout-icon-container {
+        .loadout-level {
+          background-color: $red;
+        }
+
+        .loadout-icon {
+          background: linear-gradient(
+            to bottom,
+            rgba($dull-red, 0.4),
+            rgba($dull-red, 0.7)
+          );
+        }
+      }
+
+      .loadout-type {
+        .loadout-type-icon {
+          background-image-tint: $red;
+        }
+      }
+
+      .loadout-name {
+        label {
+          color: $red;
+        }
       }
     }
   }

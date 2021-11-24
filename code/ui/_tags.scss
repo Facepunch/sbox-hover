@@ -1,0 +1,46 @@
+﻿@import "_variables.scss";
+
+.tags-list {
+  flex-direction: row;
+
+  .tag {
+    align-items: center;
+    justify-content: center;
+    background-color: $blue;
+    color: $dark-grey;
+    font-family: $fontBold;
+    text-shadow: none;
+    margin-right: 4px;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    text-shadow: none;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.type-1 {
+      background-color: rgba(#cdc6ae, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+
+    &.type-2 {
+      background-color: rgba(#aebecd, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+
+    &.type-3 {
+      background-color: rgba(#cdaeae, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+  }
+}
+
+// Red Team Tags
+.team_red {
+  .tags-list {
+    .tag {
+      background-color: $red;
+    }
+  }
+}

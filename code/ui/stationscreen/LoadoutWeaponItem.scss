@@ -95,3 +95,16 @@ LoadoutWeaponItem {
     }
   }
 }
+
+.team_red {
+  LoadoutWeaponItem {
+    &.weapon {
+      .weapon-fill {
+        background-color: $red;
+      }
+      .weapon-level {
+        color: $red;
+      }
+    }
+  }
+}

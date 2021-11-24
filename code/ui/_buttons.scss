@@ -1,0 +1,164 @@
+﻿@import "_variables.scss";
+
+// Buttons
+.btn {
+  align-items: center;
+  justify-content: center;
+  border-width: 2px solid transparent;
+  width: 100%;
+  height: 80px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+
+  text,
+  label {
+    font-family: $fontBold;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &:hover {
+    sound-in: hover.hoversharp;
+  }
+
+  &.is-disabled {
+    background-color: rgba($dull-blue, 0.2);
+    border-color: rgba($blue, 0);
+
+    text,
+    label {
+      color: $blue;
+    }
+  }
+
+  &.is-secondary {
+    background-color: rgba($dull-blue, 0);
+    border-color: rgba($blue, 0.2);
+
+    text,
+    label {
+      color: $blue;
+    }
+
+    &:hover {
+      text,
+      label {
+        color: $dark-grey;
+      }
+      border-color: rgba($blue, 0.4);
+      background-color: rgba($blue, 0.4);
+    }
+  }
+  &.is-primary {
+    background-color: transparent;
+    border-color: $blue;
+    padding: 0;
+
+    .button-inside {
+      align-items: center;
+      justify-content: center;
+      background-color: $blue;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      bottom: 5px;
+      right: 5px;
+      transition: all 0.1s ease;
+    }
+
+    &.disabled {
+      &:hover {
+        opacity: 0.5;
+        .button-inside {
+          top: 5px;
+          bottom: 5px;
+          right: 5px;
+          left: 5px;
+        }
+      }
+    }
+
+    &:hover {
+      .button-inside {
+        top: -1px;
+        bottom: -1px;
+        left: -1px;
+        right: -1px;
+      }
+    }
+
+    text,
+    label {
+      color: $dark-grey;
+      z-index: 1;
+    }
+  }
+
+  &.is-small {
+    height: 40px;
+    width: auto;
+    padding: 0 16px;
+
+    .button-inside {
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+    }
+
+    text,
+    label {
+      font-size: 12px;
+    }
+  }
+
+  &:last-child {
+    margin-top: 8px;
+  }
+}
+
+// RED TEAM
+.team_red {
+  .btn {
+    &.is-primary {
+      border-color: $red;
+
+      .button-inside {
+        background-color: $red;
+      }
+    }
+
+    &.is-secondary {
+      background-color: rgba($red, 0);
+      border-color: rgba($red, 0.2);
+
+      text,
+      label {
+        color: $red;
+      }
+
+      &:hover {
+        text,
+        label {
+          color: $dark-grey;
+        }
+        border-color: rgba($red, 0.4);
+        background-color: rgba($red, 0.4);
+      }
+    }
+  }
+}
