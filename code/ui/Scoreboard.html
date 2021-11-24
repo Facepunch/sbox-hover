@@ -20,58 +20,67 @@
     </div>
   </div>
 
-  <div class="scoreboard-container blue-team">
-    <div class="team-container">
-      <div class="team-header">
-        <div class="team-icon"></div>
-        <label class="team-name">BLUE TEAM</label>
-        <div class="team-stat">
-          <div class="stat-icon captures"></div>
-          <label @text="BlueCaptures">0</label>
+  <div class="scoreboard-body">
+    <div class="scoreboard-container blue-team">
+      <div class="team-container">
+        <div class="team-header">
+          <div class="team-icon"></div>
+          <label class="team-name">BLUE TEAM</label>
+          <div class="team-stat">
+            <div class="stat-icon captures"></div>
+            <label @text="BlueCaptures">0</label>
+          </div>
+          <div class="team-stat">
+            <div class="stat-icon players"></div>
+            <label @text="BlueMembers">0</label>
+          </div>
         </div>
-        <div class="team-stat">
-          <div class="stat-icon players"></div>
-          <label @text="BlueMembers">0</label>
+
+        <div class="table-header">
+          <label class="name">NAME</label>
+          <label class="tokens">TOKENS</label>
+          <label class="captures">CAPTURES</label>
+          <label class="kills">KILLS</label>
+          <label class="deaths">DEATHS</label>
+          <label class="ping">PING</label>
         </div>
-      </div>
 
-      <div class="table-header">
-        <label class="name">NAME</label>
-        <label class="tokens">TOKENS</label>
-        <label class="captures">CAPTURES</label>
-        <label class="kills">KILLS</label>
-        <label class="deaths">DEATHS</label>
-        <label class="ping">PING</label>
+        <div class="canvas" @ref="BlueSection"></div>
       </div>
+    </div>
+    <div class="scoreboard-container red-team">
+      <div class="team-container">
+        <div class="team-header">
+          <div class="team-icon"></div>
+          <label class="team-name">RED TEAM</label>
+          <div class="team-stat">
+            <div class="stat-icon captures"></div>
+            <label @text="RedCaptures">0</label>
+          </div>
+          <div class="team-stat">
+            <div class="stat-icon players"></div>
+            <label @text="RedMembers">0</label>
+          </div>
+        </div>
 
-      <div class="canvas" @ref="BlueSection"></div>
+        <div class="table-header">
+          <label class="name">NAME</label>
+          <label class="tokens">TOKENS</label>
+          <label class="captures">CAPTURES</label>
+          <label class="kills">KILLS</label>
+          <label class="deaths">DEATHS</label>
+          <label class="ping">PING</label>
+        </div>
+
+        <div class="canvas" @ref="RedSection"></div>
+      </div>
     </div>
   </div>
-  <div class="scoreboard-container red-team">
-    <div class="team-container">
-      <div class="team-header">
-        <div class="team-icon"></div>
-        <label class="team-name">RED TEAM</label>
-        <div class="team-stat">
-          <div class="stat-icon captures"></div>
-          <label @text="RedCaptures">0</label>
-        </div>
-        <div class="team-stat">
-          <div class="stat-icon players"></div>
-          <label @text="RedMembers">0</label>
-        </div>
-      </div>
 
-      <div class="table-header">
-        <label class="name">NAME</label>
-        <label class="tokens">TOKENS</label>
-        <label class="captures">CAPTURES</label>
-        <label class="kills">KILLS</label>
-        <label class="deaths">DEATHS</label>
-        <label class="ping">PING</label>
-      </div>
-
-      <div class="canvas" @ref="RedSection"></div>
+  <div class="scoreboard-footer">
+    <div class="btn is-primary">
+      <div class="button-inside"></div>
+      <text>Switch Team</text>
     </div>
   </div>
 </div>
