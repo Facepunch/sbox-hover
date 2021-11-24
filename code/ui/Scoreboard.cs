@@ -54,6 +54,11 @@ namespace Facepunch.Hover
 			}
 		}
 
+		public void DoSwitchTeam()
+		{
+			Player.SwitchTeam();
+		}
+
 		protected virtual ScoreboardEntry AddClient( Client entry )
 		{
 			var team = (Team)entry.GetInt( "team" );

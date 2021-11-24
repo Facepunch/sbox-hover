@@ -84,6 +84,45 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd]
+		public static void SwitchTeam()
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				if ( player.LastTeamSwitchTime > 10f )
+				{
+					var targetTeam = Team.Red;
+					var currentTeam = player.Team;
+
+					if ( currentTeam == Team.Red )
+						targetTeam = Team.Blue;
+
+					var targetPlayers = targetTeam.GetCount();
+					var currentPlayers = currentTeam.GetCount();
+
+					if ( targetPlayers == currentPlayers )
+					{
+						Hud.Toast( player, "The teams are already balanced!" );
+						return;
+					}
+
+					if ( targetPlayers > currentPlayers )
+					{
+						Hud.Toast( player, "There are too many players on that team!" );
+						return;
+					}
+
+					player.LastTeamSwitchTime = 0f;
+					player.SetTeam( targetTeam );
+					player.Respawn();
+				}
+				else
+				{
+					Hud.Toast( player, "You cannot change teams yet!" );
+				}
+			}
+		}
+
+		[ServerCmd]
 		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -139,6 +178,7 @@ namespace Facepunch.Hover
 		[Net] public float EnergyRegen { get; set; } = 20f;
 		[Net] public float EnergyDrain { get; set; } = 20f;
 
+		public TimeSince LastTeamSwitchTime { get; set; }
 		public RealTimeUntil? RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
