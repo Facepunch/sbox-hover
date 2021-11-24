@@ -12,6 +12,7 @@ namespace Facepunch.Hover
 		public override string Name => "Pillager Mk. II";
 		public override Type UpgradesTo => null;
 		public override int UpgradeCost => 600;
+		public override int Level => 2;
 		public override float RegenDelay => 15f;
 		public override float Health => 1000f;
 		public override float Energy => 90f;

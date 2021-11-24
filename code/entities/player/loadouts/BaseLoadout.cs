@@ -12,13 +12,43 @@ namespace Facepunch.Hover
 		Heavy
 	}
 
+	public enum LoadoutRoleType
+	{
+		Attacker,
+		Defender,
+		Support
+	}
+
+	public enum LoadoutTagType
+	{
+		Primary,
+		Secondary,
+		Tertiary,
+		Quaternary
+	}
+
+	public struct LoadoutTag
+	{
+		public LoadoutTagType Type { get; set; }
+		public string Name { get; set; }
+
+		public LoadoutTag( LoadoutTagType type, string name )
+		{
+			Type = type;
+			Name = name;
+		}
+	}
+
 	public partial class BaseLoadout : BaseNetworkable
 	{
 		public virtual WeaponConfig[][] AvailableWeapons => new WeaponConfig[][] { };
 		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
+		public virtual LoadoutRoleType RoleType => LoadoutRoleType.Attacker;
+		public virtual List<LoadoutTag> Tags => new();
 		public virtual int DisplayOrder => 0;
 		public virtual bool CanUpgradeDependencies => false;
 		public virtual bool CanRepairGenerator => false;
+		public virtual int Level => 1;
 		public virtual float HealthRegen => 50f;
 		public virtual float EnergyRegen => 20f;
 		public virtual float EnergyDrain => 20f;

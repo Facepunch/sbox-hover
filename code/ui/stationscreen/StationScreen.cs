@@ -32,9 +32,10 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public static void Refresh()
 		{
-			if ( Instance.IsOpen )
+			if ( Instance.IsOpen && Local.Pawn is Player player )
 			{
-
+				Instance.LoadoutList.Populate( player );
+				Log.Info( "Refreshed" );
 			}
 		}
 
@@ -73,11 +74,18 @@ namespace Facepunch.Hover
 		public ScenePanel AvatarPanel { get; private set; }
 		public AnimSceneObject Avatar { get; private set; }
 		public Vector3 AvatarHeadPos { get; private set; }
+		public string UpgradeText => GetUpgradeText();
+		public string UpgradeLevel => GetUpgradeLevel();
+		public string NextUpgradeLevel => GetNextUpgradeLevel();
+		public string UpgradeCost => GetUpgradeCost();
+		public Panel UpgradeButton { get; private set; }
 		public Label SecondaryDescription { get; private set; }
+		public BaseLoadout NextUpgrade { get; private set; }
 		public Vector3 AvatarAimPos { get; private set; }
 		public Panel UpgradesBox { get; private set; }
 		public Panel AvatarRoot { get; private set; }
 		public Panel WeaponList { get; private set; }
+		public Panel TagsList { get; private set; }
 		public Panel StatsList { get; private set; }
 		public int CurrentSlot { get; private set; }
 		public bool IsOpen { get; private set; }
@@ -255,6 +263,27 @@ namespace Facepunch.Hover
 					weapon.SetWeapon( loadout, null );
 			}
 
+			TagsList.DeleteChildren();
+
+			foreach ( var tag in loadout.Tags )
+			{
+				var item = TagsList.Add.Label( tag.Name, "tag" );
+
+				if ( tag.Type == LoadoutTagType.Secondary )
+					item.AddClass( "type-1" );
+				else if ( tag.Type == LoadoutTagType.Tertiary )
+					item.AddClass( "type-2" );
+				else if ( tag.Type == LoadoutTagType.Quaternary )
+					item.AddClass( "type-3" );
+			}
+
+			UpgradeButton.BindClass( "hidden", IsUpgradeButtonHidden );
+
+			if ( loadout.UpgradesTo != null )
+				NextUpgrade = Library.Create<BaseLoadout>( loadout.UpgradesTo );
+			else
+				NextUpgrade = null;
+
 			Weapons = configs;
 			Loadout = loadout;
 
@@ -297,6 +326,24 @@ namespace Facepunch.Hover
 			}
 
 			Audio.Play( "hover.clickbeep" );
+		}
+
+		public void DoLoadoutUpgrade()
+		{
+			if ( Local.Pawn is Player player )
+			{
+				if ( player.HasTokens( NextUpgrade.UpgradeCost ) )
+				{
+					Player.BuyLoadoutUpgrade( NextUpgrade.GetType().Name, string.Join( ",", Weapons.Select( v => v.Name ) ) );
+				}
+				else
+				{
+					var tokensNeeded = NextUpgrade.UpgradeCost - player.Tokens;
+					Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
+				}
+
+				Audio.Play( "hover.clickbeep" );
+			}
 		}
 
 		public void DoSelectWeapon()
@@ -350,9 +397,8 @@ namespace Facepunch.Hover
 
 			var loadout = LoadoutList.Selected.Loadout;
 			var loadoutName = loadout.GetType().Name;
-			var weapons = "";
 
-			Player.ChangeLoadout( loadoutName, weapons );
+			Player.ChangeLoadout( loadoutName, string.Join( ",", Weapons.Select( v => v.Name ) ) );
 		}
 
 		public override void Tick()
@@ -364,7 +410,7 @@ namespace Facepunch.Hover
 
 			var mousePosition = Mouse.Position;
 
-			mousePosition.x -= AvatarPanel.Box.Rect.width * 1f;
+			mousePosition.x -= AvatarPanel.Box.Rect.width * 2f;
 			mousePosition.y -= AvatarPanel.Box.Rect.height * 0.5f;
 			mousePosition /= AvatarPanel.ScaleToScreen;
 
@@ -379,6 +425,40 @@ namespace Facepunch.Hover
 			Avatar.SetAnimVector( "aim_head", AvatarHeadPos );
 			Avatar.SetAnimVector( "aim_body", AvatarAimPos );
 			Avatar.SetAnimFloat( "aim_body_weight", 1.0f );
+		}
+
+		protected string GetUpgradeText()
+		{
+			if ( NextUpgrade != null )
+				return $"Upgrade Available";
+			else
+				return "Max Level";
+		}
+
+		protected string GetUpgradeLevel()
+		{
+			return $"{Loadout.Level}";
+		}
+
+		protected string GetNextUpgradeLevel()
+		{
+			if ( NextUpgrade != null )
+				return $"Level {NextUpgrade.Level}";
+			else
+				return "";
+		}
+
+		protected string GetUpgradeCost()
+		{
+			if ( NextUpgrade != null )
+				return NextUpgrade.UpgradeCost.ToString();
+			else
+				return "";
+		}
+
+		protected bool IsUpgradeButtonHidden()
+		{
+			return (NextUpgrade == null);
 		}
 
 		protected string GetPlayerTokens()

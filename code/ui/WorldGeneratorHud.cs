@@ -57,7 +57,7 @@ namespace Facepunch.Hover
 
 
 			if ( !player.Loadout.CanRepairGenerator )
-				RepairLabel.Text = $"Change Loadout to Manually Repair";
+				RepairLabel.Text = $"Must be Engineer to Repair";
 			else
 				RepairLabel.Text = $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Repair";
 

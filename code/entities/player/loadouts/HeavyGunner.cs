@@ -11,7 +11,14 @@ namespace Facepunch.Hover
 		public override string Description => "A slow heavy support unit with high health and medium energy";
 		public override string Name => "Gunner";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
 		public override int DisplayOrder => 8;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Support" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Suppression" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Traps" )
+		};
 		public override Type UpgradesTo => typeof( HeavyGunnerMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

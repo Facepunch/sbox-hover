@@ -119,6 +119,10 @@ StationScreen {
           height: 24px;
           margin-left: 8px;
         }
+
+        &.hidden {
+            display: none;
+        }
       }
     }
 
@@ -602,4 +606,18 @@ StationScreen {
       }
     }
   }
+}
+
+.team_red {
+    StationScreen {
+        .loadout-view {
+            .loadout-container {
+                .loadout-buttons {
+                    .btn {
+                        background-color: red;
+                    }
+                }
+            }
+        }
+    }
 }

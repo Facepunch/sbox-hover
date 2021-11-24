@@ -11,7 +11,14 @@ namespace Facepunch.Hover
 		public override string Description => "A slow assault unit with high health and medium energy";
 		public override string Name => "Assault";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Attacker;
 		public override int DisplayOrder => 7;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Attacker" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Splash Damage" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Hard-Hitter" )
+		};
 		public override Type UpgradesTo => typeof( HeavyAssaultMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

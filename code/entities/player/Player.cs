@@ -66,11 +66,18 @@ namespace Facepunch.Hover
 					{
 						player.GiveLoadoutUpgrade( loadoutType );
 						player.TakeTokens( loadout.UpgradeCost );
-						player.GiveLoadout( loadout );
 
-						loadout.UpdateWeapons( weapons.Split( ',' ) );
-						loadout.Respawn( player );
-						loadout.Supply( player );
+						if ( player.Loadout.UpgradesTo == loadoutType )
+						{
+							// This is a direct upgrade to what we have already.
+							player.GiveLoadout( loadout );
+
+							loadout.UpdateWeapons( weapons.Split( ',' ) );
+							loadout.Respawn( player );
+							loadout.Supply( player );
+						}
+
+						StationScreen.Refresh( To.Single( player ) );
 					}
 				}
 			}
@@ -1021,7 +1028,9 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )
 			{
-				Respawn();
+				RespawnScreen.Hide( To.Single( this ) );
+				StationScreen.Show( To.Single( this ), StationScreenMode.Deployment );
+				RespawnTime = null;
 			}
 
 			for ( int i = AssistTrackers.Count - 1; i >= 0; i-- )

@@ -11,7 +11,14 @@ namespace Facepunch.Hover
 		public override string Description => "A menacing unit with a deadly grenade launcher";
 		public override string Name => "Pillager";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
 		public override Type UpgradesTo => typeof( MediumPillagerMk2 );
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Splash Damage" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Support" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Disruption" )
+		};
 		public override int DisplayOrder => 6;
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

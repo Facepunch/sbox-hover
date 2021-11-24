@@ -10,6 +10,14 @@ namespace Facepunch.Hover
 	{
 		public override string Description => "A fast stealth unit with lower health and medium energy";
 		public override string Name => "Saboteur";
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Flag Chaser" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Support" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Fast" ),
+			new LoadoutTag( LoadoutTagType.Quaternary, "Stealth" )
+		};
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSaboteurMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]

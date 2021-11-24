@@ -11,6 +11,13 @@ namespace Facepunch.Hover
 		public override string Description => "A fast sniper unit with lower health and medium energy";
 		public override string Name => "Sniper";
 		public override int DisplayOrder => 3;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Defender;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Long Range" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Support" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Traps" )
+		};
 		public override Type UpgradesTo => typeof( LightSniperMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{

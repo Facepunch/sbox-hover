@@ -11,11 +11,7 @@
             @text="LoadoutInfo.Description"
             class="loadout-description"
           ></label>
-          <div class="tags-list">
-            <label class="tag">Name</label>
-            <label class="tag type-1">Name</label>
-            <label class="tag type-2">Name</label>
-            <label class="tag type-3">Name</label>
+          <div @ref="TagsList" class="tags-list">
           </div>
         </div>
 
@@ -34,17 +30,17 @@
       <div class="panel-right">
         <div class="character-level">
           <div class="level-box">
-            <label>2</label>
+            <label @text="UpgradeLevel"></label>
           </div>
           <div class="upgrade-available">
-            <label>Upgrade Available</label>
+            <label @text="UpgradeText"></label>
           </div>
-          <div class="btn is-primary is-small level-button">
+          <StationScreenButton @ref="UpgradeButton" onpressed="DoLoadoutUpgrade()" class="btn is-primary is-small level-button">
             <div class="button-inside"></div>
-            <label>Level 3</label>
+            <label @text="NextUpgradeLevel"></label>
             <div class="icon"></div>
-            <label>500</label>
-          </div>
+            <label @text="UpgradeCost"></label>
+          </StationScreenButton>
         </div>
 
         <div @ref="AvatarRoot" class="character-icon-container"></div>

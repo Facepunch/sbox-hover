@@ -24,7 +24,23 @@ namespace Facepunch.Hover
 			Loadout = loadout;
 			Name.Text = loadout.Name;
 			Icon.Texture = Texture.Load( "ui/icons/player-icon-highlighted.png" );
-			SmallIcon.Texture = Texture.Load( "ui/icons/icon_energy_white.png" );
+
+			if ( Local.Pawn is Player player )
+			{
+				var roleName = "icon_class_attacker";
+
+				if ( loadout.RoleType == LoadoutRoleType.Defender )
+					roleName = "icon_class_defender";
+				else if ( loadout.RoleType == LoadoutRoleType.Support )
+					roleName = "icon_class_support";
+
+				if ( player.Team == Team.Red )
+					roleName += "_red";
+				else
+					roleName += "_blue";
+
+				SmallIcon.Texture = Texture.Load( $"ui/icons/{roleName}.png" );
+			}
 
 			if ( Rand.Int( 1, 2 ) == 2 )
 			{
