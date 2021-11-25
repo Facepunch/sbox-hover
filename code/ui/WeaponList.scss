@@ -1,159 +1,34 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 weaponlist {
-	position: absolute;
-	display: flex;
-	flex-direction: row;
-	box-shadow: $blueTeamBackground;
-	bottom: 32px;
-	right: 64px;
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
+  bottom: 100px;
+  right: 0;
+  width: 300px;
 
-	.weapon {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-right: 16px;
-		min-width: 100px;
-		border-radius: 8px;
-		transition: all 0.2s ease-out;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
+  &.closed {
+    opacity: 0.8;
 
-		.icon {
-			width: 72px;
-			height: 72px;
-		}
+    weaponlistitem {
+      .icon-container {
+        overflow: hidden;
+        height: 0;
+        opacity: 0;
+      }
 
-		.name {
-			transform: translateY(-50%);
-			text-shadow: $blueTeamShadow;
-			margin-top: 8px;
-			font-size: 16px;
-			color: rgba( 255 255 255 0.8 );
-			transition: all 0.1s ease-out;
-			margin-left: 8px;
-			margin-right: 8px;
-			font-family: $mainFont;
-		}
+      &.active {
+        .weapon-name {
+          .name {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
 
-		.ability {
-			position: absolute;
-			box-shadow: $blueTeamForeground;
-			text-shadow: $blueTeamShadow;
-			background-color: $blueTeamPanelFg;
-			padding: 8px;
-			text-align: center;
-			border-radius: 8px;
-			color: white;
-			font-size: 20px;
-			border: $blueTeamPanelBorder;
-			color: $blueTeamColor;
-			font-family: $mainFont;
-			top: -56px;
-
-			&.hidden {
-				display: none;
-			}
-		}
-
-		&.active {
-			box-shadow: $blueTeamForeground;
-			background-color: $blueTeamPanelFg;
-
-			.name {
-				transition: all 0.1s ease-out;
-				font-size: 18px;
-				color: $blueTeamColor;
-			}
-		}
-
-		&.passive {
-			box-shadow: $selectedTabBackground;
-			background-color: $selectedTabPanelBg;
-			border: $selectedTabPanelBorder;
-
-			.name {
-				text-shadow: $selectedTabShadow;
-			}
-
-			.ability {
-				box-shadow: $selectedTabForeground;
-				text-shadow: $selectedTabShadow;
-				background-color: $selectedTabPanelBg;
-				border: $selectedTabPanelBorder;
-				color: $selectedTabColor;
-			}
-		}
-
-		&.using_ability {
-			transition: all 0.2s ease-out;
-			transform: scale( 0.9 0.9 );
-			background-color: $abilityUsingPanelBg;
-			box-shadow: $abilityUsingBackground;
-			border: $abilityUsingBorder;
-
-			.ability {
-				box-shadow: $abilityUsingBackground;
-				text-shadow: $abilityUsingShadow;
-				background-color: $abilityUsingPanelBg;
-				border: $abilityUsingBorder;
-				color: $abilityUsingColor;
-			}
-		}
-
-		&.unavailable {
-			transition: all 0.5s ease-out;
-			opacity: 0.2;
-
-			.ability {
-				display: none;
-			}
-		}
-
-		&.hidden {
-			display: none;
-		}
-
-		&:last-child {
-			margin-right: 0px;
-		}
-	}
-
-	&.hidden {
-		display: none;
-	}
-}
-
-.team_red {
-	weaponlist {
-		box-shadow: $redTeamBackground;
-
-		.weapon {
-			&:not(.passive) {
-				background-color: $redTeamPanelBg;
-				border: $redTeamPanelBorder;
-
-				.name {
-					text-shadow: $redTeamShadow;
-				}
-
-				.ability {
-					box-shadow: $redTeamForeground;
-					text-shadow: $redTeamShadow;
-					background-color: $redTeamPanelFg;
-					border: $redTeamPanelBorder;
-					color: $redTeamColor;
-				}
-
-				&.active {
-					box-shadow: $redTeamForeground;
-					background-color: $redTeamPanelFg;
-
-					.name {
-						color: $redTeamColor;
-					}
-				}
-			}
-		}
-	}
+  &.hidden {
+    display: none;
+  }
 }

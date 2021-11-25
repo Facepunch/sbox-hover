@@ -1,0 +1,46 @@
+﻿@import "../_variables.scss";
+
+LoadoutSelectList {
+  .loadout-category {
+    flex-direction: column;
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .loadout-header {
+      padding-bottom: 4px;
+      margin-bottom: 40px;
+      margin-right: 16px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .loadout-title {
+        color: #fff;
+        font-family: $fontBold;
+        text-transform: uppercase;
+        margin-right: 16px;
+      }
+
+      .divider {
+        height: 2px;
+        background-color: $blue;
+        flex-grow: 1;
+      }
+    }
+  }
+}
+
+.team_red {
+  LoadoutSelectList {
+    .loadout-category {
+      .loadout-header {
+        .divider {
+          background-color: $red;
+        }
+      }
+    }
+  }
+}

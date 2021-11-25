@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class RadarJammerConfig : WeaponConfig
 	{
 		public override string Name => "Jammer";
@@ -11,6 +12,7 @@ namespace Facepunch.Hover
 		public override string SecondaryDescription => "Reveals Stealth";
 		public override string Icon => "ui/equipment/radar_jammer.png";
 		public override string ClassName => "hv_radar_jammer";
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_radar_jammer", Title = "Jammer" )]

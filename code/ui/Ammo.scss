@@ -1,0 +1,65 @@
+@import "_variables.scss";
+
+ammo {
+  display: none;
+  font-family: $mainFont;
+  flex-direction: row;
+  height: 80px;
+  margin-left: 32px;
+  border-radius: 8px;
+  padding-left: 50px;
+
+  // Active Weapon Bar
+  .active-weapon {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: relative;
+    padding-right: 64px;
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      background-image: url(/ui/icons/ammo.png);
+      background-size: 100%;
+      margin-left: 16px;
+      text-shadow: $blueTeamShadow;
+      position: absolute;
+      right: 16px;
+    }
+
+    .weapon {
+      font-size: 64px;
+      color: #ececec;
+      transition: color 0.2s ease;
+      text-align: right;
+    }
+
+    .inventory {
+      color: #ececec;
+      font-size: 28px;
+      margin-left: 8px opacity 0.5;
+    }
+  }
+
+  .grenade-count {
+    background-color: $panel-bg;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    margin-left: 16px;
+    display: none;
+  }
+
+  &.active {
+    display: flex;
+  }
+
+  &.low {
+    .weapon {
+      color: #ff9f9f;
+    }
+  }
+}

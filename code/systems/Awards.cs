@@ -10,13 +10,12 @@ namespace Facepunch.Hover
 
 		public static void Add<T>() where T : Award, new()
 		{
-			var award = new T();
 			var type = typeof( T ).Name;
 
 			if ( !Lookup.ContainsKey( type ) )
             {
-				Lookup.Add( type, award );
-            }
+				Lookup.Add( type, new T() );
+			}
 		}
 
 		public static Award Get( string name )

@@ -1,51 +1,41 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 radar {
-	box-shadow: $blueTeamBackground;
-	background-color: $blueTeamPanelBg;
-	border: $blueTeamPanelBorder;
-	padding: 8px;
-	border-radius: 256px;
-	position: absolute;
-	top: 40px;
-	left: 64px;
-	color: #fff;
-	width: 256px;
-	height: 256px;
+  background-color: $panel-bg-light;
+  backdrop-filter: $blur-medium;
+  padding: 8px;
+  position: absolute;
+  top: 40px;
+  left: 64px;
+  color: #fff;
+  width: 256px;
+  height: 256px;
 
-	radardot {
-		background-color: #70CFAB;
-		border: 2px solid #277B5B;
-		box-shadow: 0 0px 15px rgba(#70CFAB,0.1);
-		position: absolute;
-		border-radius: 50%;
-		height: 12px;
-		width: 12px;
+  radardot {
+    background-color: #70cfab;
+    border: 2px solid #277b5b;
+    box-shadow: 0 0px 15px rgba(#70cfab, 0.1);
+    position: absolute;
+    border-radius: 50%;
+    height: 12px;
+    width: 12px;
 
-		&.enemy {
-			background-color: #CF7070;
-			border: 2px solid #7B2727;
-			box-shadow: 0 0px 15px rgba(#CF7070,0.1);
-		}
-	}
+    &.enemy {
+      background-color: #cf7070;
+      border: 2px solid #7b2727;
+      box-shadow: 0 0px 15px rgba(#cf7070, 0.1);
+    }
+  }
 
-	.anchor {
-		background-image: url( /ui/hover/map-lines.png );
-		background-size: 100%;
-		width: 100%;
-		height: 100%;
-		opacity: 0.1;
-	}
+  .anchor {
+    background-image: url(/ui/hover/map-lines.png);
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+  }
 
-	&.hidden {
-		display: none;
-	}
-}
-
-.team_red {
-	radar {
-		box-shadow: $redTeamBackground;
-		background-color: $redTeamPanelBg;
-		border: $redTeamPanelBorder;
-	}
+  &.hidden {
+    display: none;
+  }
 }

@@ -1,58 +1,58 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 worldgeneratorhud {
-	align-items: center;
-	justify-content: center;
-	mix-blend-mode: lighten;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: lighten;
 
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		box-shadow: $blueTeamForeground;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
-		border-radius: 8px;
-		padding: 16px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $blueTeamForeground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    border-radius: 8px;
+    padding: 16px;
 
-		.label {
-			text-shadow: $blueTeamShadow;
-			color: $blueTeamColor;
-			font-family: $mainFont;
-			font-size: 30px;
-		}
+    .label {
+      text-shadow: $blueTeamShadow;
+      color: $blueTeamColor;
+      font-family: $mainFont;
+      font-size: 30px;
+    }
 
-		.regen {
-			text-shadow: $blueTeamShadow;
-			color: white;
-			font-family: $mainFont;
-			font-size: 20px;
-			margin-top: 16px;
+    .regen {
+      text-shadow: $blueTeamShadow;
+      color: white;
+      font-family: $mainFont;
+      font-size: 20px;
+      margin-top: 16px;
 
-			&.hidden {
-				display: none;
-			}
-		}
-	}
+      &.hidden {
+        display: none;
+      }
+    }
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 
-	&.team_red {
-		.container {
-			background-color: $redTeamPanelBg;
-			box-shadow: $redTeamForeground;
-			border: $redTeamPanelBorder;
+  &.team_red {
+    .container {
+      background-color: $redTeamPanelBg;
+      box-shadow: $redTeamForeground;
+      border: $redTeamPanelBorder;
 
-			.label {
-				text-shadow: $redTeamShadow;
-				color: $redTeamColor;
-			}
+      .label {
+        text-shadow: $redTeamShadow;
+        color: $redTeamColor;
+      }
 
-			.regen {
-				text-shadow: $redTeamShadow;
-			}
-		}
-	}
+      .regen {
+        text-shadow: $redTeamShadow;
+      }
+    }
+  }
 }

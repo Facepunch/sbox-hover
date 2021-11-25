@@ -28,7 +28,7 @@ namespace Gamelib.FlowFields
 				var halfExtents = pathfinder.NodeExtents * chunk.Definition.Columns;
 
 				position += halfExtents;
-
+				
 				DebugOverlay.Box( 10f, position - halfExtents, position + halfExtents, Color.White );
 			}
 		}

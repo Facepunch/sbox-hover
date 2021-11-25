@@ -9,8 +9,15 @@ namespace Facepunch.Hover
 	public partial class HeavyTank : BaseLoadout
 	{
 		public override string Description => "A slow tank unit with high health, low energy and fast regen";
-		public override string Name => "Heavy Tank";
+		public override string Name => "Tank";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Defender;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Destruction" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Tank" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Splash Damage" )
+		};
 		public override int DisplayOrder => 9;
 		public override Type UpgradesTo => typeof( HeavyTankMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
@@ -30,7 +37,7 @@ namespace Facepunch.Hover
 				new HeavyEnergyBoosterConfig()
 			}
 		};
-		public override float JetpackScale => 0.5f;
+		public override float JetpackScale => 0.6f;
 		public override float HealthRegen => 100f;
 		public override float RegenDelay => 15f;
 		public override float EnergyRegen => 10f;

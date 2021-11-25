@@ -1,60 +1,60 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 nameplate {
-	align-items: center;
-	justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-	.container {
-		font-weight: bold;
-		color: $blueTeamColor;
-		font-size: 80px;
-		border-radius: 8px;
-		align-items: center;
-		justify-content: center;
-		box-shadow: $blueTeamBackground;
-		background-color: $blueTeamPanelBg;
-		border: $blueTeamPanelBorder;
-		mix-blend-mode: lighten;
-		background-size: 100%;
-		position: absolute;
-		padding: 16px;
+  .container {
+    font-weight: bold;
+    color: $blueTeamColor;
+    font-size: 80px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: $blueTeamBackground;
+    background-color: $blueTeamPanelBg;
+    border: $blueTeamPanelBorder;
+    mix-blend-mode: lighten;
+    background-size: 100%;
+    position: absolute;
+    padding: 16px;
 
-		.name {
-			font-family: Roboto;
-			text-shadow: $blueTeamShadow;
-		}
-	}
+    .name {
+      font-family: Roboto;
+      text-shadow: $blueTeamShadow;
+    }
+  }
 
-	.dot {
-		background-color: $blueTeamColor;
-		box-shadow: $blueTeamForeground;
-		border: $blueTeamPanelBorder;
-		position: absolute;
-		border-radius: 50%;
-		width: 64px;
-		height: 64px;
-	}
+  .dot {
+    background-color: $blueTeamColor;
+    box-shadow: $blueTeamForeground;
+    border: $blueTeamPanelBorder;
+    position: absolute;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 
-	&.team_red {
-		.dot {
-			background-color: $redTeamColor;
-			box-shadow: $redTeamForeground;
-			border: $redTeamPanelBorder;
-		}
+  &.team_red {
+    .dot {
+      background-color: $redTeamColor;
+      box-shadow: $redTeamForeground;
+      border: $redTeamPanelBorder;
+    }
 
-		.container {
-			box-shadow: $redTeamBackground;
-			background-color: $redTeamPanelBg;
-			border: $redTeamPanelBorder;
-			color: $redTeamColor;
+    .container {
+      box-shadow: $redTeamBackground;
+      background-color: $redTeamPanelBg;
+      border: $redTeamPanelBorder;
+      color: $redTeamColor;
 
-			.name {
-				text-shadow: $redTeamShadow;
-			}
-		}
-	}
+      .name {
+        text-shadow: $redTeamShadow;
+      }
+    }
+  }
 }

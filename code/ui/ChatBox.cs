@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 
 		public TextEntryContainer()
 		{
-			Channel = Add.Label( "[All]", "channel" );
+			Channel = Add.Label( "All", "channel" );
 			Input = AddChild<TabTextEntry>( "" );
 		}
 
@@ -32,9 +32,9 @@ namespace Facepunch.Hover
 			Channel.SetClass( "all", channel == ChatBoxChannel.All );
 
 			if ( channel == ChatBoxChannel.All )
-				Channel.Text = "[All]";
+				Channel.Text = "All";
 			else
-				Channel.Text = "[Team]";
+				Channel.Text = "Team";
 		}
 	}
 

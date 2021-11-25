@@ -1,0 +1,128 @@
+﻿@import "_variables.scss";
+
+weaponlistitem {
+  background-color: $panel-bg;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+  transition: all 0.2s ease-out;
+  margin-top: 4px;
+
+  .icon-container {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 72px;
+    opacity: 1;
+    transition: all 0.2s ease;
+
+    .icon {
+      width: 72px;
+      height: 72px;
+    }
+  }
+  .weapon-info {
+    background-color: rgba(#000, 0.6);
+    display: flex;
+    width: 100%;
+    height: 26px;
+
+    .weapon-number {
+      background-color: rgba(#000, 0.4);
+      align-items: center;
+      color: $light-blue;
+      display: flex;
+      font-family: $fontBold;
+      font-size: 16px;
+      justify-content: center;
+      height: 26px;
+      width: 26px;
+    }
+
+    .weapon-name {
+      align-items: center;
+      display: flex;
+      padding: 0 8px;
+      height: 100%;
+      width: 100%;
+
+      .name {
+        color: $light-blue;
+        font-size: 16px;
+        font-family: $mainFont;
+        transition: all 0.1s ease-out;
+      }
+    }
+  }
+
+  &.active {
+    background-color: $blue;
+    box-shadow: 0 2px 30px rgba($blue, 0.05);
+
+    .weapon-name {
+      .name {
+        color: #fff;
+        font-family: $fontBold;
+        transition: all 0.1s ease-out;
+        text-shadow: 0 1px 0 rgba(#000, 0.2);
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &.passive {
+    background-color: rgba(#000, 0.2);
+
+    .weapon-info {
+      background-color: rgba(#000, 0.2);
+      .weapon-number {
+        display: none;
+      }
+    }
+
+    &.ability {
+      .weapon-info {
+        .weapon-number {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  &.using_ability {
+    transition: all 0.2s ease-out;
+    transform: scale(0.95 0.95);
+    background-color: rgba($green, 0.7);
+    opacity: 1;
+  }
+
+  &.unavailable {
+    transition: all 0.5s ease-out;
+    opacity: 0.2;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.team_red {
+  weaponlistitem {
+    .weapon-info {
+      .weapon-number {
+        color: $light-red;
+      }
+      .weapon-name {
+        .name {
+          color: #fff;
+        }
+      }
+    }
+    &.active {
+      background-color: $red;
+      box-shadow: 0 2px 30px rgba($red, 0.05);
+    }
+  }
+}

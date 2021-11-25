@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="./TutorialScreen.scss" />
+
+<div>
+  <div class="container">
+    <div class="steps-container" @ref="StepsContainer">
+      <label class="game-name">Hover</label>
+      <label @ref="Title" class="title">Title</label>
+
+      <div class="step">
+        <label class="step-number">Step 1</label>
+        <label class="step-body" @ref="StepOne">Body</label>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 2</label>
+        <label class="step-body" @ref="StepTwo">Body</label>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 3</label>
+        <label class="step-body" @ref="StepThree">Body</label>
+      </div>
+    </div>
+    <div class="buttons-container" @ref="ButtonsContainer">
+      <div class="buttons">
+        <TutorialScreenButton @ref="OkayButton" class="btn is-primary">
+          <div class="button-inside"></div
+        ></TutorialScreenButton>
+      </div>
+    </div>
+  </div>
+</div>

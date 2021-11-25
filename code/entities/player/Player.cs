@@ -17,33 +17,34 @@ namespace Facepunch.Hover
 		public int SuccessiveKills { get; private set; }
 
 		[ServerCmd]
-		public static void BuyWeaponUpgrade( string weaponName, string upgradeName )
+		public static void BuyWeaponUpgrade( string configName, string upgradeName )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
+				var config = Library.Create<WeaponConfig>( configName );
 				var upgradeType = Library.Get<WeaponUpgrade>( upgradeName );
+
 				if ( upgradeType == null ) return;
 
-				foreach ( var weapon in player.Children.OfType<Weapon>() )
+				if ( config.Upgrades != null && config.Upgrades.Contains( upgradeType ) )
 				{
-					if ( weapon.Name == weaponName && weapon.Upgrades != null )
+					var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
+
+					if ( player.HasTokens( upgrade.TokenCost) )
 					{
-						if ( weapon.Upgrades.Contains( upgradeType ) )
+						player.GiveWeaponUpgrade( config, upgrade );
+						player.TakeTokens( upgrade.TokenCost );
+
+						var weapons = player.Children
+							.OfType<Weapon>()
+							.Where( v => v.Config.ClassName == config.ClassName );
+
+						foreach ( var weapon in weapons )
 						{
-							var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
-
-							if ( player.HasTokens( upgrade.TokenCost) )
-							{
-								player.GiveWeaponUpgrade( weapon, upgrade );
-								player.TakeTokens( upgrade.TokenCost );
-
-								upgrade.Apply( player, weapon );
-
-								player.Restock();
-							}
-
-							return;
+							upgrade.Apply( player, weapon );
 						}
+
+						player.Restock();
 					}
 				}
 			}
@@ -65,18 +66,64 @@ namespace Facepunch.Hover
 					{
 						player.GiveLoadoutUpgrade( loadoutType );
 						player.TakeTokens( loadout.UpgradeCost );
-						player.GiveLoadout( loadout );
 
-						loadout.UpdateWeapons( weapons.Split( ',' ) );
-						loadout.Respawn( player );
-						loadout.Supply( player );
+						if ( player.Loadout.UpgradesTo == loadoutType )
+						{
+							// This is a direct upgrade to what we have already.
+							player.GiveLoadout( loadout );
+
+							loadout.UpdateWeapons( weapons.Split( ',' ) );
+							loadout.Respawn( player );
+							loadout.Supply( player );
+						}
+
+						StationScreen.Refresh( To.Single( player ) );
 					}
 				}
 			}
 		}
 
 		[ServerCmd]
-		public static void BuyLoadout( string loadoutName, string weapons )
+		public static void SwitchTeam()
+		{
+			if ( ConsoleSystem.Caller.Pawn is Player player )
+			{
+				if ( player.LastTeamSwitchTime > 10f )
+				{
+					var targetTeam = Team.Red;
+					var currentTeam = player.Team;
+
+					if ( currentTeam == Team.Red )
+						targetTeam = Team.Blue;
+
+					var targetPlayers = targetTeam.GetCount();
+					var currentPlayers = currentTeam.GetCount();
+
+					if ( targetPlayers == currentPlayers )
+					{
+						Hud.Toast( player, "The teams are already balanced!" );
+						return;
+					}
+
+					if ( targetPlayers > currentPlayers )
+					{
+						Hud.Toast( player, "There are too many players on that team!" );
+						return;
+					}
+
+					player.LastTeamSwitchTime = 0f;
+					player.SetTeam( targetTeam );
+					player.Respawn();
+				}
+				else
+				{
+					Hud.Toast( player, "You cannot change teams yet!" );
+				}
+			}
+		}
+
+		[ServerCmd]
+		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
@@ -87,22 +134,19 @@ namespace Facepunch.Hover
 					var loadout = Library.Create<BaseLoadout>( loadoutType );
 					if ( loadout == null ) return;
 
-					if ( player.HasTokens( loadout.TokenCost ) )
+					loadout.UpdateWeapons( weapons.Split( ',' ) );
+					player.GiveLoadout( loadout );
+
+					if ( player.LifeState == LifeState.Alive )
 					{
-						loadout.UpdateWeapons( weapons.Split( ',' ) );
+						loadout.Respawn( player );
+						loadout.Supply( player );
 
-						player.TakeTokens( loadout.TokenCost );
-						player.GiveLoadout( loadout );
-
-						if ( player.LifeState == LifeState.Alive )
-						{
-							loadout.Respawn( player );
-							loadout.Supply( player );
-						}
-						else
-						{
-							player.Respawn();
-						}
+						WeaponList.Expand( To.Single( player ), 4f );
+					}
+					else
+					{
+						player.Respawn();
 					}
 				}
 			}
@@ -134,6 +178,7 @@ namespace Facepunch.Hover
 		[Net] public float EnergyRegen { get; set; } = 20f;
 		[Net] public float EnergyDrain { get; set; } = 20f;
 
+		public TimeSince LastTeamSwitchTime { get; set; }
 		public RealTimeUntil? RespawnTime { get; set; }
 		public DamageInfo LastDamageInfo { get; set; }
 		public Player LastKiller { get; set; }
@@ -179,7 +224,7 @@ namespace Facepunch.Hover
 		public void Reset()
 		{
 			Client.SetInt( "captures", 0 );
-			Client.SetInt( "deaths", 0 );
+			Client.SetInt( "kills", 0 );
 			Client.SetInt( "kills", 0 );
 
 			LoadoutUpgrades.Clear();
@@ -230,7 +275,7 @@ namespace Facepunch.Hover
 
 		public bool HasWeaponUpgrade( Weapon weapon, Type type )
 		{
-			var weaponName = weapon.Config.Name;
+			var weaponName = weapon.Config.ClassName;
 
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var set ) )
 			{
@@ -278,9 +323,9 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public List<WeaponUpgrade> GetWeaponUpgrades( Weapon weapon )
+		public List<WeaponUpgrade> GetWeaponUpgrades( WeaponConfig config )
 		{
-			if ( WeaponUpgrades.TryGetValue( weapon.Config.Name, out var upgrades ) )
+			if ( WeaponUpgrades.TryGetValue( config.ClassName, out var upgrades ) )
 			{
 				return upgrades;
 			}
@@ -288,10 +333,13 @@ namespace Facepunch.Hover
 			return null;
 		}
 
-		public void GiveWeaponUpgrade( Weapon weapon, WeaponUpgrade upgrade )
+		public List<WeaponUpgrade> GetWeaponUpgrades( Weapon weapon )
 		{
-			var weaponName = weapon.Config.Name;
+			return GetWeaponUpgrades( weapon.Config );
+		}
 
+		public void GiveWeaponUpgrade( string weaponName, WeaponUpgrade upgrade )
+		{
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
 			{
 				GiveWeaponUpgrade( To.Single( this ), weaponName, upgrade.GetType().Name );
@@ -304,6 +352,16 @@ namespace Facepunch.Hover
 			upgrades.Add( upgrade );
 
 			GiveWeaponUpgrade( To.Single( this ), weaponName, upgrade.GetType().Name );
+		}
+
+		public void GiveWeaponUpgrade( WeaponConfig config, WeaponUpgrade upgrade )
+		{
+			GiveWeaponUpgrade( config.ClassName, upgrade );
+		}
+
+		public void GiveWeaponUpgrade( Weapon weapon, WeaponUpgrade upgrade )
+		{
+			GiveWeaponUpgrade( weapon.Config, upgrade );
 		}
 
 		[ClientRpc]
@@ -527,6 +585,8 @@ namespace Facepunch.Hover
 			KillStreak = 0;
 
 			Rounds.Current?.OnPlayerSpawn( this );
+
+			WeaponList.Expand( To.Single( this ), 4f );
 
 			ClientRespawn();
 		}
@@ -1008,7 +1068,9 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )
 			{
-				Respawn();
+				RespawnScreen.Hide( To.Single( this ) );
+				StationScreen.Show( To.Single( this ), StationScreenMode.Deployment );
+				RespawnTime = null;
 			}
 
 			for ( int i = AssistTrackers.Count - 1; i >= 0; i-- )
@@ -1028,6 +1090,8 @@ namespace Facepunch.Hover
 
 			CheckLowEnergy();
 			UpdateHealthRegen();
+
+			Client.SetInt( "tokens", Tokens );
 		}
 
 		protected virtual void UpdateTargetAlpha()

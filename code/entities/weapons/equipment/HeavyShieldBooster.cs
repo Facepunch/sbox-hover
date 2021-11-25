@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class HeavyShieldBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Shield++";
@@ -11,6 +12,7 @@ namespace Facepunch.Hover
 		public override string SecondaryDescription => "Energy Absorbs Damage";
 		public override string Icon => "ui/equipment/heavy_shield_booster.png";
 		public override string ClassName => "hv_heavy_shield_booster";
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_heavy_shield_booster", Title = "Shield+" )]

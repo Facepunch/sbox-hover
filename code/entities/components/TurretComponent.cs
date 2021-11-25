@@ -87,6 +87,7 @@ namespace Facepunch.Hover
 			{
 				Particles.Create( turret.MuzzleFlashEffect, Entity, turret.MuzzleAttachment );
 			}
+
 			turret.FireProjectile( Target, TargetDirection );
 
 			Recoil = 1f;

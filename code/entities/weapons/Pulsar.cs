@@ -5,6 +5,7 @@ using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class PulsarConfig : WeaponConfig
 	{
 		public override string Name => "Pulsar";
@@ -12,7 +13,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/pulsar.png";
 		public override string ClassName => "hv_pulsar";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 30;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 700;
 	}
 
 	[Library( "hv_pulsar", Title = "Pulsar" )]
@@ -24,12 +33,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override float InheritVelocity => 0.5f;
 		public override string HitSound => "barage.explode";
@@ -43,7 +46,6 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => true;
 		public override float ReloadTime => 1f;
 		public override float Gravity => 0f;
-		public override int BaseDamage => 700;
 		public virtual float BlastRadius => 400f;
 
 		public override void Spawn()
@@ -97,7 +99,7 @@ namespace Facepunch.Hover
 				{
 					var direction = (entity.Position - position).Normal;
 					var distance = entity.Position.Distance( position );
-					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+					var damage = Config.Damage - ((Config.Damage / BlastRadius) * distance);
 
 					if ( entity == Owner )
 					{

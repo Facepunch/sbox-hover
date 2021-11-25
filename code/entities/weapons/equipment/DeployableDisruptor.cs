@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class DeployableDisruptorConfig : WeaponConfig
 	{
 		public override string Name => "Disruptor";
@@ -12,6 +13,12 @@ namespace Facepunch.Hover
 		public override string SecondaryDescription => "Reveals Stealth and Disrupts Radar";
 		public override string Icon => "ui/equipment/deployable_disruptor.png";
 		public override string ClassName => "hv_deployable_disruptor";
+		public override List<Type> Upgrades => new()
+		{
+			typeof( MaxDeployableUpgrade ),
+			typeof( MaxDeployableUpgrade )
+		};
+		public override WeaponType Type => WeaponType.Deployable;
 	}
 
 	[Library( "hv_deployable_disruptor", Title = "Disruptor" )]
@@ -20,10 +27,5 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new DeployableDisruptorConfig();
 		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
 		public override float DeployScale => 0.1f;
-		public override List<Type> Upgrades => new()
-		{
-			typeof( MaxDeployableUpgrade ),
-			typeof( MaxDeployableUpgrade )
-		};
 	}
 }

@@ -4,12 +4,14 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class AmmoBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Ammo+";
 		public override string Description => "+30% Ammo";
 		public override string Icon => "ui/equipment/ammo_booster.png";
 		public override string ClassName => "hv_ammo_booster";
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_ammo_booster", Title = "Ammo+" )]

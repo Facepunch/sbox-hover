@@ -9,9 +9,16 @@ namespace Facepunch.Hover
 	public partial class HeavyGunner : BaseLoadout
 	{
 		public override string Description => "A slow heavy support unit with high health and medium energy";
-		public override string Name => "Heavy Gunner";
+		public override string Name => "Gunner";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
+		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
 		public override int DisplayOrder => 8;
+		public override List<LoadoutTag> Tags => new()
+		{
+			new LoadoutTag( LoadoutTagType.Primary, "Support" ),
+			new LoadoutTag( LoadoutTagType.Secondary, "Suppression" ),
+			new LoadoutTag( LoadoutTagType.Tertiary, "Traps" )
+		};
 		public override Type UpgradesTo => typeof( HeavyGunnerMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]
 		{
@@ -33,7 +40,7 @@ namespace Facepunch.Hover
 				new DeployableJumpMineConfig()
 			}
 		};
-		public override float JetpackScale => 0.6f;
+		public override float JetpackScale => 0.75f;
 		public override float EnergyRegen => 15f;
 		public override float Health => 2000f;
 		public override float Energy => 75f;

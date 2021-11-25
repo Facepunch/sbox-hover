@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class CarbineConfig : WeaponConfig
 	{
 		public override string Name => "Carbine";
@@ -11,7 +12,15 @@ namespace Facepunch.Hover
 		public override string ClassName => "hv_carbine";
 		public override string Icon => "ui/weapons/carbine.png";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 90;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 100;
 	}
 
 	[Library( "hv_carbine", Title = "Carbine" )]
@@ -23,12 +32,6 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/carbine/carbine_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 2;
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 30;
 		public override float PrimaryRate => 12f;
@@ -36,7 +39,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 6000f;
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 100;
 		public override bool CanMeleeAttack => true;
 
 		public override void Spawn()
@@ -67,11 +69,7 @@ namespace Facepunch.Hover
 
 			ShootEffects();
 			PlaySound( $"generic.energy.fire3" );
-
-			//using ( Owner.Client.CompensateLag( LagCompensationType.Bounds ) )
-			//{
-				ShootBullet( 0.01f, 1.5f, BaseDamage, 8.0f );
-			//}
+			ShootBullet( 0.01f, 1.5f, Config.Damage, 8.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );

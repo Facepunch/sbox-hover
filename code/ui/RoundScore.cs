@@ -6,15 +6,16 @@ using System;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class RoundScoreItem : Panel
 	{
-		public Panel Icon;
-		public Label Score;
+		public Panel Icon {get; set;}
+		public Label Score {get; set;}
 
 		public RoundScoreItem()
 		{
-			Icon = Add.Panel( "icon" );
-			Score = Add.Label( "0", "score" );
+			// Icon = Add.Panel( "icon" );
+			// Score = Add.Label( "0", "score" );
 		}
 	}
 

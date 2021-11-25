@@ -1,0 +1,209 @@
+﻿@import "../_variables.scss";
+
+LoadoutSelectItem {
+  margin-right: 8px;
+  cursor: pointer;
+
+  &.is-upgrade {
+  }
+
+  &:hover {
+    sound-in: hover.hoversharp;
+
+    .loadout {
+      opacity: 1;
+      border: 2px solid rgba($blue, 0.05);
+
+      .loadout-icon-container {
+        .loadout-icon {
+          background-color: rgba($blue, 1);
+        }
+      }
+    }
+  }
+
+  &.is-selected {
+    box-shadow: 0 4px 12px rgba($blue, 0.05);
+
+    .loadout {
+      opacity: 1;
+      .loadout-icon-container {
+        .loadout-level {
+        }
+        .loadout-icon {
+          background-color: #448d8a;
+
+          .loadout-player {
+          }
+        }
+      }
+      .loadout-name {
+        background-color: $blue;
+
+        label {
+          color: $dark-grey;
+        }
+      }
+    }
+  }
+
+  .loadout-name {
+    font-size: 16px;
+    font-family: $fontBold;
+  }
+
+  .loadout {
+    width: 140px;
+    flex-direction: column;
+    opacity: 0.6;
+    transition: all 0.25s ease;
+    border: 2px solid rgba($blue, 0);
+
+    .loadout-icon-container {
+      border: 2px solid transparent;
+      width: 100%;
+      height: 140px;
+      padding: 8px;
+      transition: all 0.25s ease;
+
+      .loadout-level {
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        background-color: $blue;
+        width: 30px;
+        height: 30px;
+        z-index: 1;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: $fontBold;
+        color: $dark-grey;
+      }
+
+      .loadout-icon {
+        background: linear-gradient(
+          to bottom,
+          rgba($dull-blue, 0.4),
+          rgba($dull-blue, 0.7)
+        );
+        width: 100%;
+        height: 100%;
+        backdrop-filter: $default-blur;
+        transition: all 0.1s ease;
+
+        .loadout-player {
+          background-size: 100%;
+          width: 116px;
+          height: 159px;
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
+      .loadout-type {
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+
+        .loadout-type-icon {
+          width: 24px;
+          height: 24px;
+          background-image-tint: $blue;
+        }
+      }
+    }
+
+    .loadout-name {
+      background-color: transparent;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+
+      label {
+        color: $blue;
+        font-size: 12px;
+        font-family: $fontBold;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.team_red {
+  LoadoutSelectItem {
+    &:hover {
+      .loadout {
+        border: 2px solid rgba($red, 0.05);
+
+        .loadout-icon-container {
+          .loadout-icon {
+            background-color: rgba($red, 1);
+          }
+        }
+      }
+    }
+    &.is-selected {
+      box-shadow: 0 4px 12px rgba($red, 0.05);
+
+      .loadout {
+        border: 2px solid $red;
+        .loadout-icon-container {
+          //border: 2px solid $red;
+
+          .loadout-level {
+          }
+          .loadout-icon {
+            background-color: $red;
+
+            .loadout-player {
+            }
+          }
+        }
+        .loadout-name {
+          background-color: $red;
+
+          label {
+            color: $dark-grey;
+          }
+        }
+      }
+    }
+
+    .loadout {
+      border: 2px solid rgba($red, 0);
+
+      .loadout-icon-container {
+        .loadout-level {
+          background-color: $red;
+        }
+
+        .loadout-icon {
+          background: linear-gradient(
+            to bottom,
+            rgba($dull-red, 0.4),
+            rgba($dull-red, 0.7)
+          );
+        }
+      }
+
+      .loadout-type {
+        .loadout-type-icon {
+          background-image-tint: $red;
+        }
+      }
+
+      .loadout-name {
+        label {
+          color: $red;
+        }
+      }
+    }
+  }
+}

@@ -12,13 +12,43 @@ namespace Facepunch.Hover
 		Heavy
 	}
 
+	public enum LoadoutRoleType
+	{
+		Attacker,
+		Defender,
+		Support
+	}
+
+	public enum LoadoutTagType
+	{
+		Primary,
+		Secondary,
+		Tertiary,
+		Quaternary
+	}
+
+	public struct LoadoutTag
+	{
+		public LoadoutTagType Type { get; set; }
+		public string Name { get; set; }
+
+		public LoadoutTag( LoadoutTagType type, string name )
+		{
+			Type = type;
+			Name = name;
+		}
+	}
+
 	public partial class BaseLoadout : BaseNetworkable
 	{
 		public virtual WeaponConfig[][] AvailableWeapons => new WeaponConfig[][] { };
 		public virtual LoadoutArmorType ArmorType => LoadoutArmorType.Light;
+		public virtual LoadoutRoleType RoleType => LoadoutRoleType.Attacker;
+		public virtual List<LoadoutTag> Tags => new();
 		public virtual int DisplayOrder => 0;
 		public virtual bool CanUpgradeDependencies => false;
 		public virtual bool CanRepairGenerator => false;
+		public virtual int Level => 1;
 		public virtual float HealthRegen => 50f;
 		public virtual float EnergyRegen => 20f;
 		public virtual float EnergyDrain => 20f;
@@ -34,7 +64,6 @@ namespace Facepunch.Hover
 		public virtual string Description => "";
 		public virtual string Name => "Loadout";
 		public virtual int UpgradeCost => 0;
-		public virtual int TokenCost => 0;
 		public virtual List<string> Clothing => new();
 
 		public WeaponConfig[] Weapons { get; set; }
@@ -42,6 +71,27 @@ namespace Facepunch.Hover
 		public BaseLoadout()
 		{
 			Weapons = new WeaponConfig[AvailableWeapons.Length];
+
+			for ( int i = Weapons.Length - 1; i >= 0; i-- )
+			{
+				var weapon = Weapons[i];
+
+				if ( weapon == null )
+				{
+					weapon = AvailableWeapons[i].FirstOrDefault();
+					Weapons[i] = weapon;
+				}
+			}
+		}
+
+		public virtual string GetSlotName( int slot )
+		{
+			return slot switch
+			{
+				0 => "Primary",
+				1 => "Secondary",
+				_ => "Equipment",
+			};
 		}
 
 		public virtual void UpdateWeapons( params string[] weapons )
@@ -91,12 +141,6 @@ namespace Facepunch.Hover
 			for ( int i = Weapons.Length - 1; i >= 0; i-- )
 			{
 				var weapon = Weapons[i];
-
-				if ( weapon == null )
-				{
-					weapon = AvailableWeapons[i].FirstOrDefault();
-					Weapons[i] = weapon;
-				}
 
 				if ( weapon != null )
 				{

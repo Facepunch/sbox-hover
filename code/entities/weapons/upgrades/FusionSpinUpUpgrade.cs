@@ -8,6 +8,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Decreased Spin Time";
 		public override string Description => "-15% Spin Time";
+		public override string Icon => "ui/icons/icon_upgrade.png";
 		public override int TokenCost => 400;
 
 		public override void Apply( Player player, Weapon weapon )

@@ -1,0 +1,79 @@
+﻿// Font
+$mainFont: "Quantico-Regular";
+$fontBold: "Quantico-Bold";
+
+// Colours
+$red: #cf3131;
+$blue: #60d8d3;
+$green: #69d636;
+$light-blue: #a3e2e0;
+$light-red: #efc3c3;
+$dark-grey: #1b1a1a;
+
+$dull-blue: #536b6b;
+$dull-red: #501e1e;
+
+$panel-bg: rgba(#000, 0.7);
+$panel-bg-light: rgba(#000, 0.5);
+
+$default-blur: blur(10px);
+$blur-medium: blur(5px);
+$text-shadow: 0 1px 0 rgba(#000, 0.2);
+
+// Blue
+$blueTeamIcon: url(/ui/icons/blue.png);
+$blueTeamTint: $blue;
+$blueTeamColor: $blue;
+$blueTeamShadow: 0px 0px 6px rgba(0 255 255 1);
+$blueTeamPanelBorder: 1px solid rgba(18 210 255 0.05);
+$blueTeamPanelBg: rgba(18 210 255 0.025);
+$blueTeamPanelFg: rgba(18 210 255 0.05);
+$blueTeamBackground: 0px 0px 32px 0px rgba(18 210 255 0.05);
+$blueTeamForeground: 0px 0px 32px 0px rgba(18 210 255 0.1);
+
+// Red
+$redTeamIcon: url(/ui/icons/red.png);
+$redTeamTint: $red;
+$redTeamColor: $red;
+$redTeamShadow: 0px 0px 6px rgba(255 0 0 0.3);
+$redTeamPanelBorder: 1px solid rgba(255 75 75 0.05);
+$redTeamPanelBg: rgba(255 75 75 0.025);
+$redTeamPanelFg: rgba(255 75 75 0.05);
+$redTeamBackground: 0px 0px 32px 0px rgba(255 75 75 0.05);
+$redTeamForeground: 0px 0px 32px 0px rgba(255 75 75 0.1);
+
+// Tokens
+$tokenColor: yellow;
+$tokenShadow: 0 -1px 4px #fff 0 0px 10px #ff0 0 -10px 20px #ff8000 0 -18px 40px;
+$tokenBackground: 0px 0px 32px 0px rgba(255 255 0 0.2);
+
+// Tabs
+$selectedTabBackground: 0px 0px 16px -2px rgba(255 255 0 0.05);
+$selectedTabForeground: 0px 0px 32px -2px rgba(255 255 0 0.2);
+$selectedTabPanelBorder: 2px solid rgba(255 255 0 0.1);
+$selectedTabPanelBg: rgba(255 255 0 0.05);
+$selectedTabPanelFg: rgba(255 255 0 0.1);
+$selectedTabColor: yellow;
+$selectedTabShadow: 0px 0px 6px rgba(255 255 0 1);
+
+// Black
+$blackForeground: 0px 0px 32px 0px rgba(0 0 0 0.2);
+$blackPanelBorder: 2px solid rgba(0 0 0 0.2);
+$blackShadow: 0px 0px 6px rgba(0 0 0 1);
+$blackPanelBg: rgba(0 0 0 0.1);
+$blackPanelFg: rgba(0 0 0 0.2);
+
+// Ability
+$abilityUsingBackground: 0px 0px 16px -2px rgba(0 255 0 0.1);
+$abilityUsingPanelBg: rgba(0 255 0 0.05);
+$abilityUsingBorder: 2px solid rgba(0 255 0 0.15);
+$abilityUsingColor: lightgreen;
+$abilityUsingShadow: 0px 0px 6px rgba(0 255 0 1);
+
+// Chat
+$chatInfoColor: yellow;
+$chatInfoShadow: 0px 0px 6px rgba(255 255 0 1);
+$chatInfoBackground: 0px 0px 32px -2px rgba(210 255 0 0.05);
+$chatTipColor: lightgreen;
+$chatTipShadow: 0px 0px 6px rgba(0 255 0 1);
+$chatTipBackground: 0px 0px 32px -2px rgba(0 255 0 0.05);

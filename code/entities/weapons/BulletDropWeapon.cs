@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 			if ( IsServer && target.IsValid() )
 			{
 				var distance = target.Position.Distance( projectile.StartPosition );
-				var damage = GetDamageFalloff( distance, BaseDamage );
+				var damage = GetDamageFalloff( distance, Config.Damage );
 				DealDamage( target, projectile.Position, projectile.Velocity * 0.1f, damage );
 			}
 		}

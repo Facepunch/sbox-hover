@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="./RespawnScreen.scss" />
+
+<div>
+  <div class="respawn-feed">
+    <RespawnKillerInfo @ref="KillerInfo"></RespawnKillerInfo>
+
+    <div class="respawn-box deploy">
+      <div class="respawn-header">
+        <label>Redeploy In</label>
+      </div>
+      <div class="respawn-body">
+        <label @ref="RespawnTimeLabel" @text="RespawnTimeLeft">x</label>
+      </div>
+    </div>
+  </div>
+</div>

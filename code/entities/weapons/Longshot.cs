@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class LongshotConfig : WeaponConfig
 	{
 		public override string Name => "Longshot";
@@ -11,7 +12,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/longshot.png";
 		public override string ClassName => "hv_longshot";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Hitscan;
 		public override int Ammo => 20;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 700;
 	}
 
 	[Library( "hv_longshot", Title = "Longshot" )]
@@ -22,12 +31,6 @@ namespace Facepunch.Hover
 		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "semiautomatic";
 		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
@@ -36,7 +39,6 @@ namespace Facepunch.Hover
 		public override float DamageFalloffEnd => 25000f;
 		public override int ClipSize => 3;
 		public override float ReloadTime => 4f;
-		public override int BaseDamage => 700;
 
 		public bool IsScoped { get; private set; }
 
@@ -121,7 +123,7 @@ namespace Facepunch.Hover
 			PlayAttackAnimation();
 			ShootEffects();
 			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
-			ShootBullet( 0f, 5f, BaseDamage, 10.0f );
+			ShootBullet( 0f, 5f, Config.Damage, 16.0f );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "pulserifle.empty" );

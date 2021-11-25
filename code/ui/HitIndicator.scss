@@ -1,43 +1,43 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 hitindicator {
-	mix-blend-mode: lighten;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	align-items: center;
-	justify-content: center;
+  mix-blend-mode: lighten;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
 
-	hitpoint {
-		width: 80px;
-		height: 80px;
-		opacity: 0.7;
-		position: absolute;
-		transition: all 0.1s ease-out;
-		background-image: url( /ui/hit.png );
-		background-image-tint: $blueTeamColor;
-		background-size: 100%;
+  hitpoint {
+    width: 80px;
+    height: 80px;
+    opacity: 0.7;
+    position: absolute;
+    transition: all 0.1s ease-out;
+    background-image: url(/ui/hit.png);
+    background-image-tint: $blueTeamColor;
+    background-size: 100%;
 
-		label {
-		}
+    label {
+    }
 
-		&:intro {
-			opacity: 0;
-		}
+    &:intro {
+      opacity: 0;
+    }
 
-		&:outro {
-			transition: all 0.1s ease-in;
-			opacity: 0;
-		}
-	}
+    &:outro {
+      transition: all 0.1s ease-in;
+      opacity: 0;
+    }
+  }
 }
 
 .team_red {
-	hitindicator {
-		hitpoint {
-			background-image-tint: $redTeamColor;
-		}
-	}
+  hitindicator {
+    hitpoint {
+      background-image-tint: $redTeamColor;
+    }
+  }
 }

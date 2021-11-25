@@ -36,13 +36,13 @@ namespace Facepunch.Hover
 
 		public void Update( Entity attacker, Player victim )
 		{
-			if ( attacker is IKillFeedIcon killFeedIcon )
+			if ( attacker is IKillFeedIcon feedInfo )
 			{
-				Attacker.Text = killFeedIcon.GetKillFeedName();
-				Attacker.Style.FontColor = killFeedIcon.GetKillFeedTeam().GetColor();
+				Attacker.Text = feedInfo.GetKillFeedName();
+				Attacker.Style.FontColor = feedInfo.GetKillFeedTeam().GetColor();
 				Attacker.Style.Dirty();
 
-				Icon.Texture = Texture.Load( killFeedIcon.GetKillFeedIcon() );
+				Icon.Texture = Texture.Load( feedInfo.GetKillFeedIcon() );
 			}
 			else
 			{
@@ -69,10 +69,10 @@ namespace Facepunch.Hover
 
 			if ( weapon.IsValid() )
 			{
-				if ( weapon is IKillFeedIcon killFeedIcon )
-					Icon.Texture = Texture.Load( killFeedIcon.GetKillFeedIcon() );
-				else if ( weapon is Weapon castWeapon )
-					Icon.Texture = Texture.Load( castWeapon.Config.Icon );
+				if ( weapon is IKillFeedIcon feedinfo )
+					Icon.Texture = Texture.Load( feedinfo.GetKillFeedIcon() );
+				else if ( weapon is Weapon typed )
+					Icon.Texture = Texture.Load( typed.Config.Icon );
 				else
 					Icon.Texture = Texture.Load( "ui/icons/skull.png" );
 			}
@@ -111,7 +111,7 @@ namespace Facepunch.Hover
 
 			Icon.SetClass( "hidden", icon == null );
 
-			EndTime = Time.Now + 5f;
+			EndTime = Time.Now + Game.ToastDuration;
 		}
 
 		public override void Tick()

@@ -54,17 +54,24 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<LongshotScope>();
 			RootPanel.AddChild<RoundInfo>();
 
-			var leftRow = RootPanel.Add.Panel( "hud_left" );
-			leftRow.AddChild<Vitals>();
-			leftRow.AddChild<Ammo>();
+			var leftPanel = RootPanel.Add.Panel( "hud_left" );
+			
+
+			var centerPanel = RootPanel.Add.Panel("hud_center");
+			centerPanel.AddChild<Vitals>();
+			centerPanel.AddChild<Speedometer>();
+
+			var rightPanel = RootPanel.Add.Panel("hud_right");
+			rightPanel.AddChild<Ammo>();
+			rightPanel.AddChild<WeaponList>();
 
 			RootPanel.AddChild<Tokens>();
 			RootPanel.AddChild<OutpostList>();
-			RootPanel.AddChild<Speedometer>();
+			
 			RootPanel.AddChild<VoiceList>();
 			RootPanel.AddChild<DamageIndicator>();
 			RootPanel.AddChild<HitIndicator>();
-			RootPanel.AddChild<WeaponList>();
+			
 			RootPanel.AddChild<Scoreboard>();
 			RootPanel.AddChild<StationScreen>();
 			RootPanel.AddChild<RespawnScreen>();

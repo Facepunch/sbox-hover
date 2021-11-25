@@ -1,0 +1,126 @@
+﻿@import "../_variables.scss";
+
+RespawnScreen {
+  background: linear-gradient(to bottom, rgba($blue, 0.5), rgba(#000, 0.4));
+  transition: all 4s ease-in;
+  backdrop-filter-blur: 32px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  opacity: 1;
+
+  .respawn-feed {
+    flex-direction: row;
+  }
+
+  .respawn-box {
+    display: flex;
+    flex-direction: column;
+    margin-right: 16px;
+
+    &.deploy {
+      margin-left: 16px;
+    }
+
+    label {
+      font-family: $fontBold;
+    }
+
+    .respawn-header {
+      align-items: center;
+      background-color: $panel-bg;
+      letter-spacing: 2px;
+      padding: 0 8px;
+      text-transform: uppercase;
+      height: 22px;
+
+      label {
+        color: $light-blue;
+        font-size: 12px;
+        text-shadow: $text-shadow;
+      }
+    }
+    .respawn-body {
+      background-color: $panel-bg-light;
+      height: 60px;
+
+      .avatar {
+        width: 60px;
+        height: 60px;
+      }
+
+      label {
+        color: $light-blue;
+        font-size: 42px;
+        text-shadow: $text-shadow;
+        padding: 0 8px;
+      }
+    }
+
+    &.team-box {
+      .respawn-body {
+        label {
+          color: $dark-grey;
+          text-shadow: none;
+        }
+      }
+    }
+  }
+
+  .respawn {
+    text-shadow: $blueTeamShadow;
+    font-family: $mainFont;
+    font-size: 50px;
+    color: white;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .killedby {
+    margin-top: 24px;
+    text-shadow: $text-shadow;
+    font-family: $mainFont;
+    font-size: 32px;
+    color: white;
+  }
+
+  .killer {
+    background-color: $panel-bg;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    padding: 16px;
+    margin-top: 16px;
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    .name {
+      color: $blue;
+      font-family: $mainFont;
+      font-size: 24px;
+    }
+  }
+
+  &.hidden {
+    display: none;
+    opacity: 0;
+  }
+}
+
+.team_red {
+  RespawnScreen {
+    background: linear-gradient(to bottom, rgba($red, 0.5), rgba(#000, 0.4));
+  }
+}

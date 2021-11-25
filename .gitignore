@@ -3,10 +3,9 @@ obj/
 code/accesslist.txt
 Properties
 codegen-*
-sbox-pool.csproj
+sbox-hover.csproj
 .intermediate
 *bakeresourcecache*
 tools_*_*.bin
-code/sbox-rts.csproj
 release.zip
 *.los

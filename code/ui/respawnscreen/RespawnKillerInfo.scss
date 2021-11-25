@@ -1,0 +1,35 @@
+﻿@import "../_variables.scss";
+
+RespawnKillerInfo {
+  .respawn-box {
+    &.weapon {
+      display: none;
+    }
+  }
+
+  &.has-weapon {
+    display: flex;
+
+    .respawn-box {
+      &.weapon {
+        display: flex;
+      }
+    }
+  }
+
+  &.team_red {
+    .respawn-box .respawn-body {
+      background-color: $red;
+    }
+  }
+  &.team_blue {
+    .respawn-box .respawn-body {
+      background-color: $blue;
+    }
+  }
+  &.team_none {
+    .respawn-box .respawn-body {
+      background-color: $panel-bg;
+    }
+  }
+}

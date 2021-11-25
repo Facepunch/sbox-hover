@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BarageConfig : WeaponConfig
 	{
 		public override string Name => "Barage";
@@ -12,7 +13,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/barage.png";
 		public override string ClassName => "hv_barage";
 		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 20;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 400;
 	}
 
 	[Library( "hv_barage", Title = "Barage" )]
@@ -23,12 +32,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override DamageFlags DamageType => DamageFlags.Blast;
@@ -40,7 +43,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 400;
 		public override float Gravity => 35f;
 		public virtual float BlastRadius => 500f;
 
@@ -99,7 +101,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsServer )
 			{
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}
 		}
 	}

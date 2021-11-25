@@ -5,6 +5,7 @@ using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BigPulsarConfig : WeaponConfig
 	{
 		public override string Name => "Big Pulsar";
@@ -13,7 +14,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/big_pulsar.png";
 		public override string ClassName => "hv_big_pulsar";
 		public override AmmoType AmmoType => AmmoType.Rifle;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 30;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 800;
 	}
 
 	[Library( "hv_big_pulsar", Title = "Big Pulsar" )]
@@ -26,18 +35,11 @@ namespace Facepunch.Hover
 		public override float InheritVelocity => 0.5f;
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/big_pulsar/big_pulsar_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 5000f;
 		public override float ProjectileLifeTime => 5f;
 		public override float Speed => 3000f;
 		public override float ReloadTime => 1.2f;
-		public override int BaseDamage => 800;
 
 		public override void Spawn()
 		{
@@ -61,7 +63,7 @@ namespace Facepunch.Hover
 				{
 					var direction = (entity.Position - position).Normal;
 					var distance = entity.Position.Distance( position );
-					var damage = BaseDamage - ((BaseDamage / BlastRadius) * distance);
+					var damage = Config.Damage - ((Config.Damage / BlastRadius) * distance);
 
 					if ( entity == Owner || entity is GeneratorAsset )
 						damage *= 1.25f;

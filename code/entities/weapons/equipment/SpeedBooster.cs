@@ -4,12 +4,14 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class SpeedBoosterConfig : WeaponConfig
 	{
 		public override string Name => "Speed+";
 		public override string Description => "+20% Max Speed and +10% Move Speed";
 		public override string Icon => "ui/equipment/speed_booster.png";
 		public override string ClassName => "hv_speed_booster";
+		public override WeaponType Type => WeaponType.Equipment;
 	}
 
 	[Library( "hv_speed_booster", Title = "Speed+" )]

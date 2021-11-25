@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class BlasterConfig : WeaponConfig
 	{
 		public override string Name => "Blaster";
@@ -11,7 +12,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/blaster.png";
 		public override string ClassName => "hv_blaster";
 		public override AmmoType AmmoType => AmmoType.SMG;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 90;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 120;
 	}
 
 	[Library( "hv_blaster", Title = "Blaster" )]
@@ -23,12 +32,6 @@ namespace Facepunch.Hover
 		public override string TrailEffect => "particles/weapons/blaster/blaster_projectile.vpcf";
 		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "automatic";
 		public override float ProjectileLifeTime => 2f;
 		public override float PrimaryRate => 7.5f;
@@ -43,7 +46,6 @@ namespace Facepunch.Hover
 		public override float Gravity => 0f;
 		public override bool ReloadAnimation => true;
 		public override float ReloadTime => 3f;
-		public override int BaseDamage => 120;
 
 		public override void Spawn()
 		{

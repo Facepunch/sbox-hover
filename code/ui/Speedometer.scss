@@ -1,0 +1,42 @@
+@import "_variables.scss";
+
+speedometer {
+  background-color: $panel-bg;
+  backdrop-filter: blur(10px);
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  font-family: $mainFont;
+  flex-direction: row;
+  position: absolute;
+  height: 26px;
+  color: #fff;
+  min-width: 100px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .icon {
+    background-image: url(/ui/icons/speed.png);
+    background-image-tint: rgba(255 255 0 1);
+    display: none;
+    background-size: 100%;
+    margin-right: 16px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .amount {
+    font-size: 16px;
+    color: $light-blue;
+    text-shadow: $text-shadow;
+  }
+}
+
+.team_red {
+  speedometer {
+    .amount {
+      color: $light-red;
+    }
+  }
+}

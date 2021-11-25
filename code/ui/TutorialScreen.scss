@@ -1,76 +1,99 @@
-﻿@import "Variables.scss";
+﻿@import "_variables.scss";
 
 tutorialscreen {
-    pointer-events: all;
-    backdrop-filter-blur: 32px;
-    background-color: rgba( 0 0 0 0.5 );
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 7;
+  pointer-events: all;
+  backdrop-filter-blur: 32px;
+  background: linear-gradient(rgba(#17181a, 0.95), rgba(#0f2b2b, 0.9));
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 50;
 
-    .container {
-        box-shadow: $selectedTabBackground;
-        background-color: $selectedTabPanelBg;
-        border: $selectedTabPanelBorder;
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 32px;
-        margin-top: 16px;
-        width: 60%;
-
-        .title {
-            font-size: 48px;
-            text-shadow: $selectedTabShadow;
-            color: $selectedTabColor;
-        }
-
-        .help {
-            text-shadow: $selectedTabShadow;
-            font-size: 24px;
-            margin-top: 32px;
-            color: white;
-        }
-    }
-
-    &.hidden {
-        display: none;
-    }
-}
-
-tutorialscreenbutton {
-    width: 250px;
-    border-radius: 16px;
-    cursor: pointer;
-    padding: 16px;
-    margin-top: 32px;
+  .container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255 216 0 0.2);
-    border: 2px solid rgba(255 216 0 0.4);
-    box-shadow: $tokenBackground;
-    transition: all 0.1s ease-out;
+    padding: 32px;
+    margin-top: 16px;
+    width: 60%;
 
-    .label {
-        color: $tokenColor;
-        text-shadow: $tokenShadow;
-        font-size: 24px;
-        font-family: $mainFont;
+    .steps-container {
+      align-items: flex-start;
+      flex-direction: column;
+      width: 100%;
+
+      .game-name {
+        background-color: $panel-bg;
+        color: $light-blue;
+        font-family: $fontBold;
+        padding: 16px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .title {
+        background-color: $blue;
+        align-self: flex-start;
+        font-size: 64px;
+        font-family: $fontBold;
+        color: $dark-grey;
+        padding: 8px 16px;
+        margin-bottom: 48px;
+      }
+
+      .step {
+        flex-direction: column;
+        max-width: 600px;
+        margin-bottom: 16px;
+        width: 100%;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        label {
+          font-family: $mainFont;
+          text-transform: uppercase;
+          text-shadow: $text-shadow;
+        }
+
+        .step-number {
+          background-color: $panel-bg;
+          color: $light-blue;
+          padding: 8px 16px;
+        }
+
+        .step-body {
+          color: #fff;
+          background-color: $panel-bg-light;
+          padding: 16px;
+        }
+      }
     }
 
-    &:hover {
-        sound-in: hover.hoversharp;
-        transform: scale( 1.02 1.04 );
-        background-color: rgba(255 216 0 0.4);
-        border: 2px solid rgba(255 216 0 0.6);
+    .buttons-container {
+      align-items: flex-end;
+      width: 340px;
+
+      .buttons {
+        flex-direction: column;
+        width: 100%;
+      }
     }
+
+    .help {
+      color: $light-blue;
+      font-family: $mainFont;
+      font-size: 24px;
+      margin-top: 32px;
+    }
+  }
+
+  &.hidden {
+    pointer-events: none;
+    display: none;
+  }
 }

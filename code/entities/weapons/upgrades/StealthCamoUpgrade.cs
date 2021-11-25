@@ -9,6 +9,7 @@ namespace Facepunch.Hover
 	{
 		public override string Name => "Stealth Capacitor";
 		public override string Description => "-10% Stealth Energy Drain";
+		public override string Icon => "ui/icons/icon_upgrade.png";
 		public override int TokenCost => 500;
 
 		public override void Apply( Player player, Weapon weapon )

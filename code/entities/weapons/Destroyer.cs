@@ -5,6 +5,7 @@ using Gamelib.Utility;
 
 namespace Facepunch.Hover
 {
+	[Library]
 	public class DestroyerConfig : WeaponConfig
 	{
 		public override string Name => "Destroyer";
@@ -13,7 +14,15 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/weapons/destroyer.png";
 		public override string ClassName => "hv_destroyer";
 		public override AmmoType AmmoType => AmmoType.Grenade;
+		public override WeaponType Type => WeaponType.Projectile;
 		public override int Ammo => 10;
+		public override List<Type> Upgrades => new()
+		{
+			typeof( AmmoPackUpgrade ),
+			typeof( DamageVsHeavy ),
+			typeof( AmmoPackUpgrade )
+		};
+		public override int Damage => 1200;
 	}
 
 	[Library( "hv_destroyer", Title = "Destroyer" )]
@@ -26,12 +35,6 @@ namespace Facepunch.Hover
 		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
-		public override List<Type> Upgrades => new()
-		{
-			typeof( AmmoPackUpgrade ),
-			typeof( DamageVsHeavy ),
-			typeof( AmmoPackUpgrade )
-		};
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override float ProjectileLifeTime => 20f;
@@ -41,7 +44,6 @@ namespace Facepunch.Hover
 		public override bool CanMeleeAttack => true;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 4f;
-		public override int BaseDamage => 1200;
 		public override float Gravity => 5f;
 		public override float Speed => 1500f;
 		public virtual float BlastRadius => 800f;
@@ -104,7 +106,7 @@ namespace Facepunch.Hover
 			{
 				Audio.Play( "explosion.far", projectile.Position );
 
-				DamageInRadius( projectile.Position, BlastRadius, BaseDamage, 4f );
+				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}
 		}
 	}

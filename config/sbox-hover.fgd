@@ -166,8 +166,8 @@ metadata
 = daynight_window : "A brush entity that will enable and disable at random times during the morning and night time"
 [
 	rendercolor(color255) { alpha = true } : "Color (R G B A)" : "255 255 255 255" : "The color tint of this entity."
-	enabledelay(float) : "Enable Delay Time" : 3 : ""
-	disabledelay(float) : "Disable Delay Time" : 3 : ""
+	enabledelay(float) : "Enable Delay Time" : "3" : ""
+	disabledelay(float) : "Disable Delay Time" : "3" : ""
 	enabled(boolean) : "Enabled" : 1 : "Whether this func_brush is visible/active at all"
 	solid(boolean) : "Solid" : 1 : "Whether this func_brush has collisions"
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
@@ -224,7 +224,7 @@ metadata
 }
 = hv_radar_sensor : ""
 [
-	rangescale(float) : "Range Scale" : 1 : ""
+	rangescale(float) : "Range Scale" : "1" : ""
 	team(choices) : "Team" : 0 : "" =
 	[
 		0 : "None"
@@ -493,8 +493,8 @@ metadata
 [
 	rendercolor(color255) { alpha = true } : "Color (R G B A)" : "255 255 255 255" : "The color tint of this entity."
 	targetentity(target_destination) : "Target Entity" : "" : ""
-	verticalboost(float) : "Vertical Boost" : 200 : ""
-	force(float) : "Force" : 1000 : ""
+	verticalboost(float) : "Vertical Boost" : "200" : ""
+	force(float) : "Force" : "1000" : ""
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
