@@ -345,18 +345,18 @@ StationScreen {
         margin-right: 48px;
 
         .weapon-list-item {
-          justify-content: center;
           background-color: $panel-bg;
           cursor: pointer;
           flex-direction: column;
           margin-bottom: 1px;
           padding: 8px;
           transition: all 0.15s ease;
-          height: 40px;
+          height: 36px;
+          overflow: hidden;
 
           &:hover {
             background-color: rgba($blue, 0.2);
-            height: 140px;
+            height: 200px;
 
             label {
               color: #fff;
@@ -369,7 +369,8 @@ StationScreen {
 
           &.active {
             background-color: $blue;
-            height: 140px;
+            height: 200px;
+            z-index: 1;
 
             .weapon-list-icon {
               opacity: 1;
@@ -386,12 +387,13 @@ StationScreen {
 
           .weapon-list-icon {
             background-size: 100%;
-            width: 96px;
-            height: 96px;
+            width: 256px;
+            height: 256px;
             align-self: center;
-            margin-top: 8px;
             opacity: 0;
             transition: all 0.2s ease;
+            position: absolute;
+            bottom: -40px;
           }
 
           label {
@@ -412,13 +414,13 @@ StationScreen {
           align-items: center;
           justify-content: center;
           width: 100%;
+          height: 200px;
           background-color: $blue;
-          padding: 20px 0;
 
           img {
             background-size: 100%;
-            width: 144px;
-            height: 144px;
+            width: 256px;
+            height: 256px;
           }
         }
 
@@ -576,177 +578,177 @@ StationScreen {
 }
 
 .team_red {
-    StationScreen {
-        .character-header {
-            .loadout-weight {
-                color: $red;
-            }
+  StationScreen {
+    .character-header {
+      .loadout-weight {
+        color: $red;
+      }
 
-            .loadout-description {
-                color: $light-red;
-            }
-        }
-
-        .panel-right {
-            background: linear-gradient(rgba($red, 0.1), rgba($red, 0));
-
-            .character-level {
-                .level-box {
-                    border: 2px solid $red;
-
-                    label {
-                        color: $red;
-                    }
-                }
-
-                .upgrade-available {
-                    label {
-                        color: $red;
-                    }
-                }
-            }
-        }
-
-        .character-stats {
-            .stat-row {
-                .stat-value {
-                    color: $red;
-                }
-            }
-        }
+      .loadout-description {
+        color: $light-red;
+      }
     }
 
-    .weapon-view {
-        .back-button {
+    .panel-right {
+      background: linear-gradient(rgba($red, 0.1), rgba($red, 0));
+
+      .character-level {
+        .level-box {
+          border: 2px solid $red;
+
+          label {
+            color: $red;
+          }
+        }
+
+        .upgrade-available {
+          label {
+            color: $red;
+          }
+        }
+      }
+    }
+
+    .character-stats {
+      .stat-row {
+        .stat-value {
+          color: $red;
+        }
+      }
+    }
+  }
+
+  .weapon-view {
+    .back-button {
+      &:hover {
+        background-color: $red;
+
+        .icon {
+          background-image: url(/ui/icons/icon_arrow_left_grey.png);
+        }
+      }
+
+      .icon {
+        background-image: url(/ui/icons/icon_arrow_left_red.png);
+      }
+    }
+
+    .weapon-body {
+      .weapon-view-header {
+        .player-currency {
+          background-color: $red;
+        }
+      }
+
+      .weapon-sub-body {
+        .box {
+          .box-title {
+            color: $red;
+          }
+        }
+
+        .weapon-stats {
+          .stats-row {
+            .title {
+              color: $light-red;
+            }
+
+            .description {
+              color: $light-red;
+            }
+          }
+        }
+
+        .weapon-list {
+          .weapon-list-item {
             &:hover {
-                background-color: $red;
-
-                .icon {
-                    background-image: url(/ui/icons/icon_arrow_left_grey.png);
-                }
+              background-color: rgba($red, 0.2);
             }
 
-            .icon {
-                background-image: url(/ui/icons/icon_arrow_left_red.png);
+            label {
+              color: $dark-grey;
             }
+
+            &:not(.active) {
+              label {
+                color: $red;
+              }
+            }
+
+            &.active {
+              background-color: $red;
+            }
+          }
         }
 
-        .weapon-body {
-            .weapon-view-header {
-                .player-currency {
-                    background-color: $red;
-                }
+        .weapon-info {
+          .weapon-info-icon {
+            background-color: $red;
+          }
+
+          .weapon-info-body {
+            .weapon-info-title {
+              color: $red;
             }
 
-            .weapon-sub-body {
-                .box {
-                    .box-title {
-                        color: $red;
-                    }
-                }
-
-                .weapon-stats {
-                    .stats-row {
-                        .title {
-                            color: $light-red;
-                        }
-
-                        .description {
-                            color: $light-red;
-                        }
-                    }
-                }
-
-                .weapon-list {
-                    .weapon-list-item {
-                        &:hover {
-                            background-color: rgba($red, 0.2);
-                        }
-
-                        label {
-                            color: $dark-grey;
-                        }
-
-                        &:not( .active ) {
-                            label {
-                                color: $red;
-                            }
-                        }
-
-                        &.active {
-                            background-color: $red;
-                        }
-                    }
-                }
-
-                .weapon-info {
-                    .weapon-info-icon {
-                        background-color: $red;
-                    }
-
-                    .weapon-info-body {
-                        .weapon-info-title {
-                            color: $red;
-                        }
-
-                        .weapon-info-subtitle {
-                            color: $light-red;
-                        }
-
-                        .weapon-info-description {
-                            color: $dull-red;
-                        }
-                    }
-                }
-
-                .weapon-upgrades {
-                    .upgrade-row {
-                        &:hover {
-                            background-color: rgba($red, 0.02);
-                        }
-
-                        .upgrade-icon {
-                            background-color: $red;
-
-                            .locked-icon {
-                                background-image: url(/ui/icons/icon_lock_red.png);
-                            }
-                        }
-
-                        .upgrade-body {
-                            .title {
-                                color: $red;
-                            }
-
-                            .subtitle {
-                                color: $dull-red;
-                            }
-                        }
-
-                        &.locked {
-                            .upgrade-icon {
-                                background-color: rgba($dull-red, 0.5);
-                            }
-
-                            .btn {
-                                cursor: default;
-
-                                .currency-icon {
-                                    display: none;
-                                }
-
-                                label {
-                                    color: $red;
-                                }
-
-                                .button-inside {
-                                    display: none;
-                                }
-                            }
-                        }
-                    }
-                }
+            .weapon-info-subtitle {
+              color: $light-red;
             }
+
+            .weapon-info-description {
+              color: $dull-red;
+            }
+          }
         }
+
+        .weapon-upgrades {
+          .upgrade-row {
+            &:hover {
+              background-color: rgba($red, 0.02);
+            }
+
+            .upgrade-icon {
+              background-color: $red;
+
+              .locked-icon {
+                background-image: url(/ui/icons/icon_lock_red.png);
+              }
+            }
+
+            .upgrade-body {
+              .title {
+                color: $red;
+              }
+
+              .subtitle {
+                color: $dull-red;
+              }
+            }
+
+            &.locked {
+              .upgrade-icon {
+                background-color: rgba($dull-red, 0.5);
+              }
+
+              .btn {
+                cursor: default;
+
+                .currency-icon {
+                  display: none;
+                }
+
+                label {
+                  color: $red;
+                }
+
+                .button-inside {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      }
     }
+  }
 }
