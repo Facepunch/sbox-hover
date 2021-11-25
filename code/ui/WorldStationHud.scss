@@ -5,40 +5,43 @@ worldstationhud {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  mix-blend-mode: lighten;
+  //mix-blend-mode: lighten;
 
   .label {
-    text-shadow: $blueTeamShadow;
-    box-shadow: $blueTeamForeground;
+    align-items: center;
+    justify-content: center;
     background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
+    backdrop-filter-blur: 10px;
     font-family: $mainFont;
     color: white;
     padding: 16px;
     font-size: 30px;
-    margin-bottom: 16px;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: $text-shadow;
   }
 
   simpleiconbar {
-    text-shadow: $blueTeamShadow;
-    box-shadow: $blueTeamForeground;
-    background-color: $blueTeamPanelBg;
-    border: $blueTeamPanelBorder;
-    border-radius: 8px;
+    background-color: rgba(#000, 0.2);
+    backdrop-filter-blur: 10px;
     padding: 8px;
+    width: 100%;
 
     .outerBar {
-      background-color: rgba(255 216 0 0.2);
+      background-color: $panel-bg;
+      border-radius: 0;
     }
 
     .innerBar {
-      background-color: rgba(255 216 0 0.8);
+      background-color: rgba($blue, 0.2);
+      border-radius: 0;
     }
 
     .icon {
       background-image: url(ui/icons/ammo.png);
-      background-image-tint: yellow;
+      background-image-tint: white;
+      margin-right: 8px;
     }
   }
 
@@ -48,17 +51,16 @@ worldstationhud {
 
   &.team_red {
     .label {
-      background-color: $redTeamPanelBg;
-      text-shadow: $redTeamShadow;
-      box-shadow: $redTeamForeground;
-      border: $redTeamPanelBorder;
+      background-color: rgba($red, 0.2);
+      mix-blend-mode: lighten;
     }
 
     simpleiconbar {
-      background-color: $redTeamPanelBg;
       text-shadow: $redTeamShadow;
-      box-shadow: $redTeamForeground;
-      border: $redTeamPanelBorder;
+
+      .innerBar {
+        background-color: rgba($red, 0.2);
+      }
     }
   }
 
@@ -67,7 +69,6 @@ worldstationhud {
       text-shadow: $selectedTabShadow;
       box-shadow: $selectedTabBackground;
       background-color: $selectedTabPanelBg;
-      border: $selectedTabPanelBorder;
     }
 
     simpleiconbar {
