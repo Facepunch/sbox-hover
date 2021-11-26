@@ -66,13 +66,11 @@ worldstationhud {
 
   &.team_none {
     .label {
-      text-shadow: $selectedTabShadow;
-      box-shadow: $selectedTabBackground;
       background-color: $selectedTabPanelBg;
     }
 
     simpleiconbar {
-      box-shadow: $tokenBackground;
+      background-color: red;
     }
   }
 }
