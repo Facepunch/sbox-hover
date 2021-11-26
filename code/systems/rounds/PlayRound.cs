@@ -10,6 +10,8 @@ namespace Facepunch.Hover
 		public override int RoundDuration => 1200;
 		public override bool ShowRoundInfo => true;
 		public override bool ShowTimeLeft => true;
+		public override bool CanCaptureFlags => true;
+		public override bool CanCaptureOutposts => true;
 
 		[Net] public int BlueScore { get; set; }
 		[Net] public int RedScore { get; set; }

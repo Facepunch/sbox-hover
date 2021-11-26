@@ -28,6 +28,15 @@ namespace Facepunch.Hover
 		[ServerVar( "hv_award_duration", Help = "The time that awards take to disappear." )]
 		public static float AwardDuration { get; set; } = 3f;
 
+		[ServerCmd( "hv_victory" )]
+		public static void ShowVictoryScreen( string team )
+		{
+			if ( team == "blue" )
+				VictoryScreen.Show( Team.Blue, 200f );
+			else
+				VictoryScreen.Show( Team.Red, 200f );
+		}
+
 		[ServerCmd( "hv_respawn_screen" )]
 		public static void DebugRespawnScreen( string type )
 		{

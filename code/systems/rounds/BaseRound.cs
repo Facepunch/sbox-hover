@@ -9,6 +9,8 @@ namespace Facepunch.Hover
 		public virtual string RoundName => "";
 		public virtual bool ShowTimeLeft => false;
 		public virtual bool ShowRoundInfo => false;
+		public virtual bool CanCaptureFlags => false;
+		public virtual bool CanCaptureOutposts => false;
 
 		public List<Player> Players = new();
 		public RealTimeUntil NextSecondTime { get; private set; }
