@@ -169,6 +169,7 @@ namespace Facepunch.Hover
 			base.Tick();
 		}
 
+		[ClientCmd( "hv_tip" )]
 		private void ShowRandomTip()
 		{
 			var tip = Rand.FromArray( Tips );

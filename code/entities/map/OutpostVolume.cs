@@ -153,6 +153,8 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
+			if ( !Rounds.Current.CanCaptureOutposts ) return;
+
 			var distinctTeams = new HashSet<Team>();
 
 			foreach ( var player in TouchingEntities.OfType<Player>() )

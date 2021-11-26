@@ -129,6 +129,8 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
+			if ( !Rounds.Current.CanCaptureFlags ) return;
+
 			if ( IsServer && other is Player player )
 			{
 				if ( player.Team == Team )
