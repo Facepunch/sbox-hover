@@ -80,6 +80,12 @@ namespace Facepunch.Hover
 			Current?.AddEntry( null, message, avatar, "info" );
 		}
 
+		[ClientCmd( "hv_tip" )]
+		public static void ShowTipCommand()
+		{
+			Current.ShowRandomTip();
+		}
+
 		[ServerCmd( "say" )]
 		public static void Say( string message, ChatBoxChannel channel )
 		{
@@ -169,7 +175,6 @@ namespace Facepunch.Hover
 			base.Tick();
 		}
 
-		[ClientCmd( "hv_tip" )]
 		private void ShowRandomTip()
 		{
 			var tip = Rand.FromArray( Tips );
