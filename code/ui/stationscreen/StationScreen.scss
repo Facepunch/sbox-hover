@@ -405,10 +405,9 @@ StationScreen {
       }
 
       .weapon-info {
-        max-width: 600px;
-        margin-right: 48px;
         flex-direction: column;
-        flex-grow: 1;
+        width: 600px;
+        margin-right: 48px;
 
         .weapon-info-icon {
           align-items: center;
