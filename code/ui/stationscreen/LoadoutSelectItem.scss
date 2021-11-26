@@ -27,6 +27,7 @@ LoadoutSelectItem {
 
     .loadout {
       opacity: 1;
+      border: 2px solid $blue;
       .loadout-icon-container {
         .loadout-level {
         }
