@@ -99,11 +99,18 @@ namespace Facepunch.Hover
 		}
 
 		[ServerCmd( "hv_award" )]
-		public static void GiveAward()
+		public static void GiveAward( string type )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				player.GiveAward<KillAward>();
+				if ( type == "revenge" )
+					player.GiveAward<RevengeAward>();
+				else if ( type == "capture" )
+					player.GiveAward<CaptureFlagAward>();
+				else if ( type == "return" )
+					player.GiveAward<ReturnFlagAward>();
+				else
+					player.GiveAward<KillAward>();
 			}
 		}
 
