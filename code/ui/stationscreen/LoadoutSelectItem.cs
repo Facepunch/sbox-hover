@@ -63,7 +63,7 @@ namespace Facepunch.Hover
 		protected override void OnClick( MousePanelEvent e )
 		{
 			List?.SetSelectedItem( this );
-
+			Audio.Play( "hover.clickbeep" );
 			base.OnClick( e );
 		}
 	}
