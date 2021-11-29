@@ -6,12 +6,18 @@ weaponlist {
   flex-direction: column-reverse;
   bottom: 100px;
   right: 0;
-  width: 300px;
+  width: 240px;
+  transition: all 0.2s ease;
 
   &.closed {
     opacity: 0.8;
+    width: 160px;
 
     weaponlistitem {
+      height: 26px;
+      padding-left: 8px;
+      padding-right: 0;
+
       .icon-container {
         overflow: hidden;
         height: 0;
