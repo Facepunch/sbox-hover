@@ -351,12 +351,14 @@ StationScreen {
           margin-bottom: 1px;
           padding: 8px;
           transition: all 0.15s ease;
-          height: 36px;
+          height: 160px;
+          opacity: 0.5;
           overflow: hidden;
 
           &:hover {
             background-color: rgba($blue, 0.2);
-            height: 200px;
+            height: 160px;
+            opacity: 1;
 
             label {
               color: #fff;
@@ -369,7 +371,8 @@ StationScreen {
 
           &.active {
             background-color: $blue;
-            height: 200px;
+            height: 160px;
+            opacity: 1;
             z-index: 1;
 
             .weapon-list-icon {
@@ -390,10 +393,10 @@ StationScreen {
             width: 256px;
             height: 256px;
             align-self: center;
-            opacity: 0;
+            opacity: 1;
             transition: all 0.2s ease;
             position: absolute;
-            bottom: -40px;
+            bottom: -50px;
           }
 
           label {
