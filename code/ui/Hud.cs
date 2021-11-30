@@ -55,7 +55,6 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<RoundInfo>();
 
 			var leftPanel = RootPanel.Add.Panel( "hud_left" );
-			
 
 			var centerPanel = RootPanel.Add.Panel("hud_center");
 			centerPanel.AddChild<Vitals>();
@@ -80,20 +79,32 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<TutorialScreen>();
 			RootPanel.AddChild<VictoryScreen>();
 			RootPanel.AddChild<ChatBox>();
+
+			PostProcess.Add( new StandardPostProcess() );
 		}
 
 		[Event.Tick.Client]
 		private void ClientTick()
 		{
-			if ( Local.Pawn is Player player )
-			{
-				// TODO: Use a nice shader for this effect instead of this shit method.
-				var healthScale = (0.4f / player.MaxHealth) * player.Health;
+			if ( Local.Pawn is not Player player ) return;
 
-				RootPanel.Style.BackdropFilterSaturate = 0.6f + healthScale;
-				RootPanel.Style.BackdropFilterContrast = 1.4f - healthScale;
-				RootPanel.Style.Dirty();
-			}
+			var pp = PostProcess.Get<StandardPostProcess>();
+
+			pp.ChromaticAberration.Enabled = true;
+			pp.ChromaticAberration.Offset = Vector3.Zero;
+
+			pp.Sharpen.Enabled = true;
+			pp.Sharpen.Strength = 0.1f;
+
+			var healthScale = (0.4f / player.MaxHealth) * player.Health;
+			pp.Saturate.Enabled = true;
+			pp.Saturate.Amount = 0.7f + healthScale;
+
+			pp.Vignette.Enabled = true;
+			pp.Vignette.Intensity = 0.8f - healthScale * 2f;
+			pp.Vignette.Color = Color.Red;
+			pp.Vignette.Smoothness = 4f;
+			pp.Vignette.Roundness = 2f;
 		}
 	}
 }

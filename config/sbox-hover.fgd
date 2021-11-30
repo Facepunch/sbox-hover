@@ -83,7 +83,6 @@ metadata
 	dayambience(sound) : "Day Ambient Sound" :  : ""
 	duskambience(sound) : "Dusk Ambient Sound" :  : ""
 	nightambience(sound) : "Night Ambient Sound" :  : ""
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -151,7 +150,6 @@ metadata
 	timetoplay(integer) : "Time To Play" : 12 : ""
 	timetostop(integer) : "Time To Stop" : -1 : ""
 	deleteonplay(boolean) : "Delete On Play" : 0 : ""
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -186,7 +184,6 @@ metadata
 //
 @PointClass base(BaseProperties_sbox_hover) = hover : ""
 [
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
@@ -555,7 +552,6 @@ metadata
 		1 : "Red"
 		2 : "Blue"
 	]
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
 //
