@@ -658,7 +658,6 @@ namespace Facepunch.Hover
 		{
 			Projectiles.Simulate();
 
-			SimulateActiveChild( client, ActiveChild );
 
 			var targetWeapon = Input.ActiveChild as Weapon;
 
@@ -1070,6 +1069,10 @@ namespace Facepunch.Hover
 			{
 				RespawnScreen.Hide( To.Single( this ) );
 				StationScreen.Show( To.Single( this ), StationScreenMode.Deployment );
+
+				// Respawn bots immediately because they can't select loadouts.
+				if ( Client.IsBot ) Respawn();
+
 				RespawnTime = null;
 			}
 
