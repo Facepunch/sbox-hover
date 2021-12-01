@@ -1,6 +1,7 @@
 ﻿@import "_variables.scss";
 
 victoryscreen {
+  background-color: $panel-bg;
   backdrop-filter-blur: 32px;
   transition: all 0.5s ease-out;
   position: absolute;
@@ -18,10 +19,8 @@ victoryscreen {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: $blackPanelFg;
-    box-shadow: $blackForeground;
-    border: $blackPanelBorder;
-    border-radius: 16px;
+    background-color: $panel-bg;
+
     padding: 64px;
 
     .winner {
