@@ -10,7 +10,6 @@ weaponlist {
   transition: all 0.2s ease;
 
   &.closed {
-    opacity: 0.8;
     width: 160px;
 
     weaponlistitem {

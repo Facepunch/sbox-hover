@@ -22,6 +22,7 @@
           .circle {
             .name {
               color: $dark-grey;
+              text-shadow: none;
             }
           }
         }
@@ -91,6 +92,7 @@ outpostlist {
           font-family: $fontBold;
           font-size: 18px;
           color: $light-blue;
+          text-shadow: $text-shadow;
         }
       }
     }
@@ -106,6 +108,7 @@ outpostlist {
         .circle {
           .name {
             color: $dark-grey;
+            text-shadow: none;
           }
         }
       }
@@ -121,6 +124,7 @@ outpostlist {
         .circle {
           .name {
             color: $dark-grey;
+            text-shadow: none;
           }
         }
       }
