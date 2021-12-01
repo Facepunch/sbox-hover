@@ -44,6 +44,7 @@ outpostlist {
     transition: all 0.2s ease-out;
     align-items: center;
     background-color: $panel-bg-light;
+    backdrop-filter: $blur-medium;
     width: 100%;
     height: 50px;
     margin-right: 1px;
