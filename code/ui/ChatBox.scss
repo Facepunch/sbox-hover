@@ -132,7 +132,7 @@ chatentry {
   }
 
   .channel {
-    font-weight: 600;
+    font-family: $fontBold;
     font-size: 14px;
     color: #c0fb2e;
     flex-shrink: 0;
@@ -181,14 +181,28 @@ chatentry {
   }
 
   &.tip {
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($chatTipColor, 0.1);
+    box-shadow: 0 5px 10px rgba($dark-grey, 0.1);
+    padding: 0 8px 0 0;
+    margin: 0;
     .message {
-      text-shadow: $chatTipShadow;
+      text-shadow: $text-shadow;
       font-size: 16px;
       color: $chatTipColor;
+      padding: 0;
+      margin: 0;
     }
 
     .channel {
+      color: #fff;
+      text-shadow: $text-shadow;
+      background-color: rgba($chatTipColor, 0.3);
       font-size: 16px;
+      padding: 0;
+      margin: 0 8px 0 0;
+      padding: 8px;
     }
   }
 
