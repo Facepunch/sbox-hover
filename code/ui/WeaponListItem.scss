@@ -67,7 +67,7 @@ weaponlistitem {
 
     .weapon-name {
       .name {
-        color: #fff;
+        color: $dark-grey;
         font-family: $fontBold;
         transition: all 0.1s ease-out;
         text-shadow: 0 1px 0 rgba(#000, 0.2);

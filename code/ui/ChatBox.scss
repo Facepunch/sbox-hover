@@ -176,7 +176,7 @@ chatentry {
 
   &.info {
     .message {
-      color: $chatInfoColor;
+      color: $yellow;
     }
   }
 
@@ -186,7 +186,8 @@ chatentry {
     background-color: rgba($chatTipColor, 0.1);
     box-shadow: 0 5px 10px rgba($dark-grey, 0.1);
     padding: 0 8px 0 0;
-    margin: 0;
+    min-height: 40px;
+
     .message {
       text-shadow: $text-shadow;
       font-size: 16px;
@@ -203,6 +204,7 @@ chatentry {
       padding: 0;
       margin: 0 8px 0 0;
       padding: 8px;
+      height: 40px;
     }
   }
 
