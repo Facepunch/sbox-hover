@@ -658,6 +658,7 @@ namespace Facepunch.Hover
 		{
 			Projectiles.Simulate();
 
+			SimulateActiveChild(client, ActiveChild);
 
 			var targetWeapon = Input.ActiveChild as Weapon;
 
