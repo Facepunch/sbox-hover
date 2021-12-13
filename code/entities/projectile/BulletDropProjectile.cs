@@ -122,6 +122,9 @@ namespace Facepunch.Hover
 
         public virtual void Simulate()
         {
+			// A little trick to force lag compensation on until simulate ends.
+			Trace.Ray( Vector3.Zero, Vector3.Zero ).UseLagCompensation();
+
 			if ( FaceDirection )
             {
 				Rotation = Rotation.LookAt( Velocity.Normal );

@@ -10,9 +10,9 @@ namespace Facepunch.Hover
     public partial class ProjectileSimulator
     {
         public List<BulletDropProjectile> List { get; private set; }
-        public Player Owner { get; private set; }
+        public Entity Owner { get; private set; }
 
-        public ProjectileSimulator( Player owner )
+        public ProjectileSimulator( Entity owner )
         {
             List = new();
             Owner = owner;
