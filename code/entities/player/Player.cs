@@ -533,7 +533,7 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			LagCompensation = true;
+			EnableLagCompensation = true;
 
 			base.Spawn();
 		}
