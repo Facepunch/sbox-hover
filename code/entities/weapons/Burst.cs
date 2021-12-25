@@ -84,16 +84,19 @@ namespace Facepunch.Hover
 
 			if ( BulletsToFire > 0 && (LastBulletTime > 0.075f || FireBulletNow) )
 			{
-				FireBulletNow = false;
-				BulletsToFire--;
+				using ( LagCompensation() )
+				{
+					FireBulletNow = false;
+					BulletsToFire--;
 
-				Rand.SetSeed( Time.Tick );
+					Rand.SetSeed( Time.Tick );
 
-				ShootEffects();
-				PlaySound( $"generic.energy.fire3" );
-				ShootBullet( 0.015f, 1.5f, Config.Damage, 8.0f );
+					ShootEffects();
+					PlaySound( $"generic.energy.fire3" );
+					ShootBullet( 0.015f, 1.5f, Config.Damage, 8.0f );
 
-				LastBulletTime = 0;
+					LastBulletTime = 0;
+				}
 			}
 		}
 	}

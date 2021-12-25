@@ -40,19 +40,22 @@ namespace Facepunch.Hover
 
         public void Simulate()
         {
-            for ( int i = List.Count - 1; i >= 0; i-- )
-            {
-                var projectile = List[i];
+			using ( Entity.LagCompensation() )
+			{
+				for ( int i = List.Count - 1; i >= 0; i-- )
+				{
+					var projectile = List[i];
 
-                if ( !projectile.IsValid() )
-                {
-                    List.RemoveAt( i );
-                    continue;
-                }
+					if ( !projectile.IsValid() )
+					{
+						List.RemoveAt( i );
+						continue;
+					}
 
-                if ( Prediction.FirstTime )
-                    projectile.Simulate();
-            }
+					if ( Prediction.FirstTime )
+						projectile.Simulate();
+				}
+			}
         }
     }
 

@@ -429,7 +429,6 @@ namespace Facepunch.Hover
 			bool inWater = Physics.TestPointContents( start, CollisionLayer.Water );
 
 			yield return Trace.Ray( start, end )
-				.UseLagCompensation()
 				.UseHitboxes()
 				.HitLayer( CollisionLayer.Water, !inWater )
 				.Ignore( Owner )
