@@ -18,7 +18,7 @@ hitindicator {
     transition: all 0.1s ease-out;
     background-image: url(/ui/hit.png);
     background-image-tint: $blueTeamColor;
-    background-size: 100%;
+    background-size: cover;
 
     label {
     }

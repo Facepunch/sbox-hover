@@ -118,7 +118,7 @@ StationScreen {
 
         .icon {
           background-image: url(/ui/icons/icon_currency_dark.png);
-          background-size: 100%;
+          background-size: cover;
           width: 24px;
           height: 24px;
           margin-left: 8px;
@@ -210,373 +210,379 @@ StationScreen {
 
 // Weapon View
 .weapon-view {
-  flex-direction: row;
-  padding: 64px;
+    flex-direction: row;
+    padding: 64px;
 
-  .back-button {
-    align-items: center;
-    justify-content: center;
-    background-color: $panel-bg;
-    cursor: pointer;
-    width: 64px;
-    height: 64px;
-    margin-right: 64px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background-color: $blue;
-      sound-in: hover.hoversharp;
-
-      .icon {
-        background-image: url(/ui/icons/icon_arrow_left_grey.png);
-        margin-right: 8px;
-      }
-    }
-
-    .icon {
-      background-image: url(/ui/icons/icon_arrow_left_blue.png);
-      transition: all 0.1s ease;
-      width: 40px;
-      height: 40px;
-      background-size: 100%;
-      margin-right: 2px;
-      transition: all 0.2s ease;
-    }
-  }
-
-  .weapon-view-buttons {
-    position: absolute;
-    flex-direction: column;
-    bottom: 64px;
-    right: 64px;
-
-    .btn {
-      width: 260px;
-    }
-  }
-
-  .weapon-body {
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-
-    .weapon-view-header {
-      width: 100%;
-      flex-direction: row;
-      margin-bottom: 32px;
-      align-items: center;
-
-      .player-currency {
+    .back-button {
         align-items: center;
         justify-content: center;
-        background-color: $blue;
-        padding: 4px 4px;
-        min-width: 80px;
-
-        label {
-          color: $dark-grey;
-          font-family: $fontBold;
-          font-size: 12px;
-          text-transform: uppercase;
-          text-shadow: $text-shadow;
-        }
-
-        .currency-icon {
-          background-image: url(/ui/icons/icon_currency_dark.png);
-          width: 24px;
-          height: 24px;
-          margin-right: 4px;
-          background-size: 100%;
-        }
-      }
-
-      .weapon-name {
-        color: #fff;
-        font-size: 48px;
-        font-family: $fontBold;
-        text-transform: uppercase;
-        text-shadow: $text-shadow;
-        flex-grow: 1;
-      }
-    }
-
-    .weapon-sub-body {
-      .box {
-        flex-direction: column;
-        padding: 16px;
         background-color: $panel-bg;
+        cursor: pointer;
+        width: 64px;
+        height: 64px;
+        margin-right: 64px;
+        transition: all 0.2s ease;
 
-        .box-title {
-          font-family: $fontBold;
-          color: $blue;
-          margin-bottom: 16px;
-          text-transform: uppercase;
-        }
-      }
-
-      .weapon-stats {
-        .stats-row {
-          margin-bottom: 8px;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-          label {
-            font-family: $mainFont;
-            text-transform: uppercase;
-            text-shadow: $text-shadow;
-          }
-          .title {
-            color: $light-blue;
-            flex-grow: 1;
-            opacity: 0.5;
-          }
-          .description {
-            color: $light-blue;
-            font-family: $fontBold;
-            text-align: right;
-          }
-        }
-      }
-
-      .weapon-list {
-        flex-direction: column;
-        width: 288px;
-        margin-right: 48px;
-
-        .weapon-list-item {
-          background-color: $panel-bg;
-          cursor: pointer;
-          flex-direction: column;
-          margin-bottom: 1px;
-          padding: 8px;
-          transition: all 0.15s ease;
-          height: 160px;
-          opacity: 0.5;
-          overflow: hidden;
-
-          &:hover {
-            background-color: rgba($blue, 0.2);
-            height: 160px;
-            opacity: 1;
-
-            label {
-              color: #fff;
-            }
-
-            .weapon-list-icon {
-              opacity: 1;
-            }
-          }
-
-          &.active {
+        &:hover {
             background-color: $blue;
-            height: 160px;
-            opacity: 1;
-            z-index: 1;
+            sound-in: hover.hoversharp;
 
-            .weapon-list-icon {
-              opacity: 1;
+            .icon {
+                background-image: url(/ui/icons/icon_arrow_left_grey.png);
+                margin-right: 8px;
             }
-
-            &:hover {
-              padding-left: 8px;
-            }
-
-            label {
-              color: $dark-grey;
-            }
-          }
-
-          .weapon-list-icon {
-            background-size: 100%;
-            width: 256px;
-            height: 256px;
-            align-self: center;
-            opacity: 1;
-            transition: all 0.2s ease;
-            position: absolute;
-            bottom: -50px;
-          }
-
-          label {
-            color: $blue;
-            font-family: $fontBold;
-            text-transform: uppercase;
-          }
-        }
-      }
-
-      .weapon-info {
-        flex-direction: column;
-        width: 600px;
-        margin-right: 48px;
-
-        .weapon-info-icon {
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 200px;
-          background-color: $blue;
-
-          img {
-            background-size: 100%;
-            width: 256px;
-            height: 256px;
-          }
         }
 
-        .weapon-info-body {
-          margin-bottom: 32px;
-
-          label {
-            font-family: $fontBold;
-            text-shadow: $text-shadow;
-          }
-
-          .weapon-info-title {
-            color: $blue;
-            font-size: 32px;
-            text-transform: uppercase;
-          }
-
-          .weapon-info-subtitle {
-            font-size: 16px;
-            color: $light-blue;
-            margin-bottom: 6px;
-          }
-
-          .weapon-info-description {
-            font-family: $mainFont;
-            color: $dull-blue;
-
-            &.hidden {
-              display: none;
-            }
-          }
-        }
-      }
-
-      .weapon-upgrades {
-        flex-direction: column;
-        max-width: 440px;
-
-        &.hidden {
-          display: none;
-        }
-
-        .upgrade-row {
-          flex-direction: row;
-          margin-bottom: 16px;
-
-          &:hover {
-            background-color: rgba($blue, 0.02);
-          }
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-
-          label {
-            font-family: $fontBold;
-          }
-
-          .upgrade-icon {
-            align-items: center;
-            justify-content: center;
-            background-color: $blue;
+        .icon {
+            background-image: url(/ui/icons/icon_arrow_left_blue.png);
+            transition: all 0.1s ease;
             width: 40px;
             height: 40px;
-            margin-right: 14px;
-
-            .locked-icon {
-              width: 20px;
-              height: 20px;
-              background-image: url(/ui/icons/icon_lock_blue.png);
-              background-size: 100%;
-              position: absolute;
-              opacity: 0;
-            }
-
-            img {
-              width: 30px;
-              height: 30px;
-              background-size: 100%;
-            }
-          }
-
-          .upgrade-body {
-            flex-direction: column;
-            flex-grow: 1;
-            padding-right: 20px;
-
-            .title {
-              color: $blue;
-              text-transform: uppercase;
-            }
-
-            .subtitle {
-              color: $dull-blue;
-              font-family: $mainFont;
-              font-size: 12px;
-            }
-          }
-
-          &.owned {
-          }
-          &.locked {
-            cursor: default;
-
-            &:hover {
-              background-color: transparent;
-            }
-
-            .upgrade-icon {
-              background-color: rgba($dull-blue, 0.5);
-              .locked-icon {
-                opacity: 1;
-              }
-            }
-
-            .upgrade-body,
-            .upgrade-icon,
-            .btn {
-              opacity: 0.5;
-            }
-
-            .btn {
-              cursor: default;
-
-              .currency-icon {
-                display: none;
-              }
-
-              label {
-                color: $blue;
-              }
-              .button-inside {
-                display: none;
-              }
-            }
-          }
-
-          .btn {
-            width: 100px;
-            margin: 0;
-            padding: 0;
-
-            .currency-icon {
-              background-image: url(/ui/icons/icon_currency_dark.png);
-              background-size: 100%;
-              width: 24px;
-              height: 24px;
-              margin-right: 4px;
-            }
-          }
+            background-size: cover;
+            margin-right: 2px;
+            transition: all 0.2s ease;
         }
-      }
     }
-  }
+
+    .weapon-view-buttons {
+        position: absolute;
+        flex-direction: column;
+        bottom: 64px;
+        right: 64px;
+
+        .btn {
+            width: 260px;
+        }
+    }
+
+    .weapon-body {
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .weapon-view-header {
+            width: 100%;
+            flex-direction: row;
+            margin-bottom: 32px;
+            align-items: center;
+
+            .player-currency {
+                align-items: center;
+                justify-content: center;
+                background-color: $blue;
+                padding: 4px 4px;
+                min-width: 80px;
+
+                label {
+                    color: $dark-grey;
+                    font-family: $fontBold;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    text-shadow: $text-shadow;
+                }
+
+                .currency-icon {
+                    background-image: url(/ui/icons/icon_currency_dark.png);
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 4px;
+                    background-size: cover;
+                }
+            }
+
+            .weapon-name {
+                color: #fff;
+                font-size: 48px;
+                font-family: $fontBold;
+                text-transform: uppercase;
+                text-shadow: $text-shadow;
+                flex-grow: 1;
+            }
+        }
+
+        .weapon-sub-body {
+            .box {
+                flex-direction: column;
+                padding: 16px;
+                background-color: $panel-bg;
+
+                .box-title {
+                    font-family: $fontBold;
+                    color: $blue;
+                    margin-bottom: 16px;
+                    text-transform: uppercase;
+                }
+            }
+
+            .weapon-stats {
+                .stats-row {
+                    margin-bottom: 8px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    label {
+                        font-family: $mainFont;
+                        text-transform: uppercase;
+                        text-shadow: $text-shadow;
+                    }
+
+                    .title {
+                        color: $light-blue;
+                        flex-grow: 1;
+                        opacity: 0.5;
+                    }
+
+                    .description {
+                        color: $light-blue;
+                        font-family: $fontBold;
+                        text-align: right;
+                    }
+                }
+            }
+
+            .weapon-list {
+                flex-direction: column;
+                width: 288px;
+                margin-right: 48px;
+
+                .weapon-list-item {
+                    background-color: $panel-bg;
+                    cursor: pointer;
+                    flex-direction: column;
+                    margin-bottom: 1px;
+                    padding: 8px;
+                    transition: all 0.15s ease;
+                    height: 160px;
+                    opacity: 0.5;
+                    overflow: hidden;
+
+                    &:hover {
+                        background-color: rgba($blue, 0.2);
+                        height: 160px;
+                        opacity: 1;
+
+                        label {
+                            color: #fff;
+                        }
+
+                        .weapon-list-icon {
+                            opacity: 1;
+                        }
+                    }
+
+                    &.active {
+                        background-color: $blue;
+                        height: 160px;
+                        opacity: 1;
+                        z-index: 1;
+
+                        .weapon-list-icon {
+                            opacity: 1;
+                        }
+
+                        &:hover {
+                            padding-left: 8px;
+                        }
+
+                        label {
+                            color: $dark-grey;
+                        }
+                    }
+
+                    .weapon-list-icon {
+                        background-size: cover;
+                        width: 256px;
+                        height: 256px;
+                        align-self: center;
+                        opacity: 1;
+                        transition: all 0.2s ease;
+                        position: absolute;
+                        bottom: -50px;
+                    }
+
+                    label {
+                        color: $blue;
+                        font-family: $fontBold;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+
+            .weapon-info {
+                flex-direction: column;
+                width: 600px;
+                margin-right: 48px;
+
+                .weapon-info-icon {
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 200px;
+                    background-color: $blue;
+
+                    img {
+                        background-size: cover;
+                        width: 256px;
+                        height: 256px;
+                    }
+                }
+
+                .weapon-info-body {
+                    margin-bottom: 32px;
+
+                    label {
+                        font-family: $fontBold;
+                        text-shadow: $text-shadow;
+                    }
+
+                    .weapon-info-title {
+                        color: $blue;
+                        font-size: 32px;
+                        text-transform: uppercase;
+                    }
+
+                    .weapon-info-subtitle {
+                        font-size: 16px;
+                        color: $light-blue;
+                        margin-bottom: 6px;
+                    }
+
+                    .weapon-info-description {
+                        font-family: $mainFont;
+                        color: $dull-blue;
+
+                        &.hidden {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            .weapon-upgrades {
+                flex-direction: column;
+                max-width: 440px;
+
+                &.hidden {
+                    display: none;
+                }
+
+                .upgrade-row {
+                    flex-direction: row;
+                    margin-bottom: 16px;
+
+                    &:hover {
+                        background-color: rgba($blue, 0.02);
+                    }
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    label {
+                        font-family: $fontBold;
+                    }
+
+                    .upgrade-icon {
+                        align-items: center;
+                        justify-content: center;
+                        background-color: $blue;
+                        width: 40px;
+                        height: 40px;
+                        margin-right: 14px;
+
+                        .locked-icon {
+                            width: 20px;
+                            height: 20px;
+                            background-image: url(/ui/icons/icon_lock_blue.png);
+                            background-size: cover;
+                            position: absolute;
+                            opacity: 0;
+                        }
+
+                        img {
+                            width: 30px;
+                            height: 30px;
+                            background-size: cover;
+                        }
+                    }
+
+                    .upgrade-body {
+                        flex-direction: column;
+                        flex-grow: 1;
+                        padding-right: 20px;
+
+                        .title {
+                            color: $blue;
+                            text-transform: uppercase;
+                        }
+
+                        .subtitle {
+                            color: $dull-blue;
+                            font-family: $mainFont;
+                            font-size: 12px;
+                        }
+                    }
+
+                    &.owned {
+                    }
+
+                    &.locked {
+                        cursor: default;
+
+                        &:hover {
+                            background-color: transparent;
+                        }
+
+                        .upgrade-icon {
+                            background-color: rgba($dull-blue, 0.5);
+
+                            .locked-icon {
+                                opacity: 1;
+                            }
+                        }
+
+                        .upgrade-body,
+                        .upgrade-icon,
+                        .btn {
+                            opacity: 0.5;
+                        }
+
+                        .btn {
+                            cursor: default;
+
+                            .currency-icon {
+                                display: none;
+                            }
+
+                            label {
+                                color: $blue;
+                            }
+
+                            .button-inside {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .btn {
+                        width: 100px;
+                        margin: 0;
+                        padding: 0;
+
+                        .currency-icon {
+                            background-image: url(/ui/icons/icon_currency_dark.png);
+                            background-size: cover;
+                            width: 24px;
+                            height: 24px;
+                            margin-right: 4px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .team_red {

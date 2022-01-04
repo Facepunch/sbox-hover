@@ -186,7 +186,7 @@ scoreboard {
       position: relative;
 
       .team-icon {
-        background-size: 100%;
+        background-size: cover;
         width: 34px;
         height: 34px;
         margin-right: 8px;
@@ -215,7 +215,7 @@ scoreboard {
         }
 
         .stat-icon {
-          background-size: 100%;
+          background-size: cover;
           margin-right: 6px;
           width: 24px;
           height: 24px;

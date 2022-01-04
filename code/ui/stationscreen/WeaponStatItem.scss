@@ -89,7 +89,7 @@ WeaponStatItem {
                 backdrop-filter: $default-blur;
 
                 .loadout-player {
-                    background-size: 100%;
+                    background-size: cover;
                     width: 116px;
                     height: 159px;
                     position: absolute;
