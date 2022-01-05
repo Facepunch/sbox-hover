@@ -420,7 +420,7 @@ namespace Facepunch.Hover
 					{
 						Velocity += Vector3.Up * Gravity * Time.Delta;
 
-						var boost = Scale( JetpackBoost ) * JetpackScale * 8f;
+						var boost = Scale( JetpackBoost ) * JetpackScale * 2f;
 						var trace = Trace.Ray( Position, Vector3.Up * boost * Time.Delta * 8f )
 							.Ignore( Pawn )
 							.Run();
@@ -441,7 +441,7 @@ namespace Facepunch.Hover
 			{
 				ClearGroundEntity();
 
-				var groundFactor = 1.0f;
+				var groundFactor = 0.5f;
 				var multiplier = Scale( 268.3281572999747f * 1.2f );
 
 				Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
