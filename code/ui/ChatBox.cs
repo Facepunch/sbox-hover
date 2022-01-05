@@ -106,12 +106,6 @@ namespace Facepunch.Hover
 				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), channel );
 		}
 
-		[ClientCmd( "openchat" )]
-		public static void OnOpenChat()
-		{
-			Current?.Open();
-		}
-
 		public ChatBoxChannel Channel { get; private set; } = ChatBoxChannel.Team;
 
 		public ChatBox()
@@ -124,11 +118,13 @@ namespace Facepunch.Hover
 
 			TextEntry = AddChild<TextEntryContainer>();
 			TextEntry.Input.AddEventListener( "onsubmit", () => Submit() );
-			TextEntry.Input.AddEventListener( "onblur", () => Close() );
+			TextEntry.Input.AddEventListener( "onblur", () => CloseOnBlur() );
 			TextEntry.Input.AcceptsFocus = true;
 			TextEntry.Input.AllowEmojiReplace = true;
 			TextEntry.Input.OnTabPressed += OnTabPressed;
 			TextEntry.SetChannel( Channel );
+
+			Chat.OnOpenChat += Open;
 		}
 
 		public void Open()
@@ -195,6 +191,15 @@ namespace Facepunch.Hover
 				Channel = ChatBoxChannel.All;
 
 			TextEntry.SetChannel( Channel );
+		}
+
+		private void CloseOnBlur()
+		{
+			// Conna: Not sure why I have to do this, why does `onblur` get called when it hasn't lost focus?
+			if ( InputFocus.Current != TextEntry.Input )
+			{
+				Close();
+			}
 		}
 
 		private void Submit()
