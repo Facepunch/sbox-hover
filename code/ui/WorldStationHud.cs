@@ -5,21 +5,16 @@ using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class WorldStationHud : WorldPanel
 	{
 		public StationAsset Entity { get; private set; }
-		public SimpleIconBar IconBar { get; private set; }
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
-		public Label UseLabel { get; set; }
 
-		public WorldStationHud()
-		{
-			StyleSheet.Load( "/ui/WorldStationHud.scss" );
-			UseLabel = Add.Label( $"Press [{Input.GetKeyWithBinding( "iv_use" )}] to Open Station", "label" );
-			IconBar = AddChild<SimpleIconBar>( "restock" );
-		}
+		private SimpleIconBar IconBar { get; set; }
+		private Image Glyph { get; set; }
 
 		public void SetEntity( StationAsset entity, string attachment )
 		{
@@ -77,6 +72,8 @@ namespace Facepunch.Hover
 
 			SetRestockTime( player.NextStationRestock );
 			SetClass( "hidden", false );
+
+			Glyph.Texture = Input.GetGlyph( InputButton.Use, InputGlyphSize.Medium );
 
 			base.Tick();
 		}

@@ -1,83 +1,92 @@
 ﻿@import "_variables.scss";
 
 worldstationhud {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  //mix-blend-mode: lighten;
-
-  .label {
     align-items: center;
     justify-content: center;
-    background-color: $blueTeamPanelBg;
-    backdrop-filter-blur: 10px;
-    font-family: $mainFont;
-    color: white;
-    padding: 16px;
-    font-size: 30px;
-    width: 100%;
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: $text-shadow;
-  }
+    display: flex;
+    flex-direction: column;
 
-  simpleiconbar {
-    background-color: rgba(#000, 0.2);
-    backdrop-filter-blur: 10px;
-    padding: 8px;
-    width: 100%;
+    .binding {
+        background-color: $blueTeamPanelBg;
+        backdrop-filter-blur: 10px;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        width: 100%;
 
-    .outerBar {
-      background-color: $panel-bg;
-      border-radius: 0;
-    }
+        label {
+            font-family: $mainFont;
+            color: white;
+            font-size: 30px;
+            text-transform: uppercase;
+            text-shadow: $text-shadow;
+        }
 
-    .innerBar {
-      background-color: rgba($blue, 0.2);
-      border-radius: 0;
-    }
-
-    .icon {
-      background-image: url(ui/icons/ammo.png);
-      background-image-tint: white;
-      margin-right: 8px;
-    }
-  }
-
-  &.hidden {
-    display: none;
-  }
-
-  &.team_red {
-    .label {
-      background-color: rgba($red, 0.2);
+        img {
+            min-height: 16px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
     }
 
     simpleiconbar {
-      .outerBar {
-        background-color: $panel-bg;
-        border-radius: 0;
-      }
-      .innerBar {
-        background-color: rgba($red, 0.2);
-      }
-    }
-  }
+        background-color: rgba(#000, 0.2);
+        backdrop-filter-blur: 10px;
+        padding: 8px;
+        width: 100%;
 
-  &.team_none {
-    .label {
-      background-color: rgba($yellow, 0.2);
+        .outerBar {
+            background-color: $panel-bg;
+            border-radius: 0;
+        }
+
+        .innerBar {
+            background-color: rgba($blue, 0.2);
+            border-radius: 0;
+        }
+
+        .icon {
+            background-image: url(ui/icons/ammo.png);
+            background-image-tint: white;
+            margin-right: 8px;
+        }
     }
 
-    simpleiconbar {
-      .outerBar {
-        background-color: $panel-bg;
-        border-radius: 0;
-      }
-      .innerBar {
-        background-color: rgba($yellow, 0.2);
-      }
+    &.hidden {
+        display: none;
     }
-  }
+
+    &.team_red {
+        .binding {
+            background-color: rgba($red, 0.2);
+        }
+
+        simpleiconbar {
+            .outerBar {
+                background-color: $panel-bg;
+                border-radius: 0;
+            }
+
+            .innerBar {
+                background-color: rgba($red, 0.2);
+            }
+        }
+    }
+
+    &.team_none {
+        .label {
+            background-color: rgba($yellow, 0.2);
+        }
+
+        simpleiconbar {
+            .outerBar {
+                background-color: $panel-bg;
+                border-radius: 0;
+            }
+
+            .innerBar {
+                background-color: rgba($yellow, 0.2);
+            }
+        }
+    }
 }
