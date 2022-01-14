@@ -1,5 +1,15 @@
 {
-	"sharedassets": "*.*",
-	"type": "game",
-	"ident": "facepunch.hover"
+  "SharedAssets": "*.*",
+  "Title": "Hover",
+  "Type": "game",
+  "Org": "facepunch",
+  "Ident": "hover",
+  "FullIdent": "facepunch.hover",
+  "Schema": 1,
+  "NeedsUpgrade": false,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "Facepunch.Hover"
 }
