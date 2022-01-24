@@ -15,6 +15,20 @@ worldgeneratorhud {
     border-radius: 8px;
     padding: 16px;
 
+    .engineer {
+        color: lightgray;
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    BindingLabel {
+        &.hidden {
+            display: none;
+        }
+    }
+
     .label {
       text-shadow: $blueTeamShadow;
       color: $blueTeamColor;

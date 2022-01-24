@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 			Victim.Style.FontColor = victim.Team.GetColor();
 			Victim.Style.Dirty();
 
-			Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+			Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
 
 			EndTime = Time.Now + 3f;
 		}
@@ -42,11 +42,11 @@ namespace Facepunch.Hover
 				Attacker.Style.FontColor = feedInfo.GetKillFeedTeam().GetColor();
 				Attacker.Style.Dirty();
 
-				Icon.Texture = Texture.Load( feedInfo.GetKillFeedIcon() );
+				Icon.Texture = Texture.Load( FileSystem.Mounted, feedInfo.GetKillFeedIcon() );
 			}
 			else
 			{
-				Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+				Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
 				Attacker.SetClass( "hidden", true );
 			}
 
@@ -70,15 +70,15 @@ namespace Facepunch.Hover
 			if ( weapon.IsValid() )
 			{
 				if ( weapon is IKillFeedIcon feedinfo )
-					Icon.Texture = Texture.Load( feedinfo.GetKillFeedIcon() );
+					Icon.Texture = Texture.Load( FileSystem.Mounted, feedinfo.GetKillFeedIcon() );
 				else if ( weapon is Weapon typed )
-					Icon.Texture = Texture.Load( typed.Config.Icon );
+					Icon.Texture = Texture.Load( FileSystem.Mounted, typed.Config.Icon );
 				else
-					Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+					Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
 			}
 			else
 			{
-				Icon.Texture = Texture.Load( "ui/icons/skull.png" );
+				Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
 			}
 
 			EndTime = Time.Now + 3f;

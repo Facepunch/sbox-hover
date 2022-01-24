@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 		{
 			Loadout = loadout;
 			Name.Text = loadout.Name;
-			Icon.Texture = Texture.Load( "ui/icons/player-icon-highlighted.png" );
+			Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/player-icon-highlighted.png" );
 
 			if ( Local.Pawn is Player player )
 			{
@@ -36,7 +36,7 @@ namespace Facepunch.Hover
 
 				
 
-				SmallIcon.Texture = Texture.Load( $"ui/icons/{roleName}.png" );
+				SmallIcon.Texture = Texture.Load( FileSystem.Mounted, $"ui/icons/{roleName}.png" );
 			}
 
 			if ( Rand.Int( 1, 2 ) == 2 )

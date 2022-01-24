@@ -11,16 +11,9 @@ namespace Facepunch.Hover
 		public string Attachment { get; set; }
 		public new float WorldScale { get; set; } = 1f;
 		public Panel Container { get; set; }
-		public Label RepairLabel { get; set; }
 		public Label RegenLabel { get; set; }
-
-		public WorldGeneratorHud()
-		{
-			StyleSheet.Load( "/ui/WorldGeneratorHud.scss" );
-			Container = Add.Panel( "container" );
-			RepairLabel = Container.Add.Label( "", "label" );
-			RegenLabel = Container.Add.Label( "", "regen" );
-		}
+		public Label EngineerLabel { get; set; }
+		public BindingLabel BindingLabel { get; set; }
 
 		public void SetEntity( GeneratorAsset entity, string attachment )
 		{
@@ -55,11 +48,8 @@ namespace Facepunch.Hover
 				Transform = attachment.Value.WithScale( WorldScale );
 			}
 
-
-			if ( !player.Loadout.CanRepairGenerator )
-				RepairLabel.Text = $"Must be Engineer to Repair";
-			else
-				RepairLabel.Text = $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Repair";
+			EngineerLabel.SetClass( "hidden", player.Loadout.CanRepairGenerator );
+			BindingLabel.SetClass( "hidden", !player.Loadout.CanRepairGenerator );
 
 			if ( Entity.StartRegenTime )
 			{

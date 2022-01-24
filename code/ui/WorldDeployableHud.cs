@@ -13,15 +13,6 @@ namespace Facepunch.Hover
 		public SimpleIconBar IconBar { get; private set; }
 		public new float WorldScale { get; set; } = 1f;
 		public Panel Container { get; set; }
-		public Label UseLabel { get; set; }
-
-		public WorldDeployableHud()
-		{
-			StyleSheet.Load( "/ui/WorldDeployableHud.scss" );
-			Container = Add.Panel( "container" );
-			UseLabel = Container.Add.Label( $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Pickup", "label" );
-			IconBar = Container.AddChild<SimpleIconBar>( "bar" );
-		}
 
 		public void SetEntity( DeployableEntity entity )
 		{

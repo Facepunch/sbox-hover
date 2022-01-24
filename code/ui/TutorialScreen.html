@@ -4,19 +4,27 @@
   <div class="container">
     <div class="steps-container" @ref="StepsContainer">
       <label class="game-name">Hover</label>
-      <label @ref="Title" class="title">Title</label>
+      <label class="title">How to Play</label>
 
       <div class="step">
         <label class="step-number">Step 1</label>
-        <label class="step-body" @ref="StepOne">Body</label>
+        <div class="step-body">
+            <BindingLabel action="Jump" hold>to Ski</BindingLabel>
+            <label>When you are skiing you maintain your velocity as long as you are not going uphill.</label>
+        </div>
       </div>
       <div class="step">
         <label class="step-number">Step 2</label>
-        <label class="step-body" @ref="StepTwo">Body</label>
+        <div class="step-body">
+            <label>You should ski down slopes to gain velocity, and Jetpack by</label>
+            <BindingLabel action="Attack2" hold>to travel over hills without losing velocity while you ski.</BindingLabel>
+        </div>
       </div>
       <div class="step">
         <label class="step-number">Step 3</label>
-        <label class="step-body" @ref="StepThree">Body</label>
+        <div class="step-body">
+            <label>Capture the enemy flag, or defend your own, and lead your team to victory.</label>
+        </div>
       </div>
     </div>
     <div class="buttons-container" @ref="ButtonsContainer">

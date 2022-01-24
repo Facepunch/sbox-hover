@@ -18,17 +18,6 @@ namespace Facepunch.Hover
 		public Label TokensLeft { get; set; }
 		public Label UseLabel { get; set; }
 
-		public WorldUpgradeHud()
-		{
-			StyleSheet.Load( "/ui/WorldUpgradeHud.scss" );
-			Container = Add.Panel( "container" );
-			UseLabel = Container.Add.Label( $"Hold [{Input.GetKeyWithBinding( "iv_use" )}] to Upgrade", "label" );
-			Name = Container.Add.Label( "", "name" );
-			Description = Container.Add.Label( "", "description" );
-			IconBar = Container.AddChild<SimpleIconBar>( "bar" );
-			TokensLeft = Container.Add.Label( "0", "tokens" );
-		}
-
 		public void SetEntity( GeneratorDependency entity )
 		{
 			Entity = entity;

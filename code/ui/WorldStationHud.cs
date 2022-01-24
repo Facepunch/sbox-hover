@@ -14,7 +14,6 @@ namespace Facepunch.Hover
 		public new float WorldScale { get; set; } = 1f;
 
 		private SimpleIconBar IconBar { get; set; }
-		private Image Glyph { get; set; }
 
 		public void SetEntity( StationAsset entity, string attachment )
 		{
@@ -72,8 +71,6 @@ namespace Facepunch.Hover
 
 			SetRestockTime( player.NextStationRestock );
 			SetClass( "hidden", false );
-
-			Glyph.Texture = Input.GetGlyph( InputButton.Use, InputGlyphSize.Medium );
 
 			base.Tick();
 		}

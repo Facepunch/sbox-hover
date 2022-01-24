@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="./WorldStationHud.scss" />
 
 <div>
-    <div class="binding">
-        <label>Press</label><img @ref="Glyph" /><label>to Open Station</label>
-    </div>
+    <BindingLabel action="Use">Open Station</BindingLabel>
     <SimpleIconBar @ref="IconBar" class="restock"></SimpleIconBar>
 </div>

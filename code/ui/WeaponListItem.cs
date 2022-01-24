@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 		public void Update( Weapon weapon )
 		{
 			Weapon = weapon;
-			Icon.Texture = Texture.Load( weapon.Config.Icon );
+			Icon.Texture = Texture.Load( FileSystem.Mounted, weapon.Config.Icon );
 			Name.Text = weapon.Config.Name;
 
 			if ( !string.IsNullOrEmpty( KeyBind ) )

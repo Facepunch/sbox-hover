@@ -47,10 +47,6 @@ namespace Facepunch.Hover
 		public Panel Container { get; private set; }
 		public Panel StepsContainer { get; private set; }
 		public Panel ButtonContainer { get; private set; }
-		public Label Title { get; private set; }
-		public Label StepOne { get; private set; }
-		public Label StepTwo { get; private set; }
-		public Label StepThree { get; private set; }
 		public TutorialScreenButton OkayButton { get; private set; }
 		public RealTimeUntil HideTime { get; private set; }
 
@@ -88,31 +84,12 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			Title.Text = "How to Play";
-			StepOne.Text = StepOneText();
-			StepTwo.Text = StepTwoText();
-			StepThree.Text = StepThreeText();
-
 			OkayButton.SetDisabled( !HideTime );
 
 			if ( HideTime )
 				OkayButton.SetText( $"Continue" );
 			else
 				OkayButton.SetText( $"Continue ({ HideTime.Relative.CeilToInt() })" );
-		}
-
-		private string StepOneText()
-		{
-			return $@"Hold [{Input.GetKeyWithBinding( "iv_jump" )}] to Ski. When you are skiing you maintain your velocity as long as you are not going uphill.";
-		}
-
-		private string StepTwoText()
-		{
-			return $@"You should ski down slopes to gain velocity, and Jetpack by holding [{Input.GetKeyWithBinding( "iv_attack2" )}] to travel over hills without losing velocity while you ski.";
-		}
-		private string StepThreeText()
-		{
-			return "Capture the enemy flag, or defend your own, and lead your team to victory.";
 		}
 	}
 }

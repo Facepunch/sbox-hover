@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public static void Toast( string text, string icon = "" )
 		{
-			ToastList.Instance.AddItem( text, Texture.Load( icon ) );
+			ToastList.Instance.AddItem( text, Texture.Load( FileSystem.Mounted, icon ) );
 		}
 
 		public Hud()
