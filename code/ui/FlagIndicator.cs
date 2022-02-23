@@ -15,9 +15,9 @@ namespace Facepunch.Hover
 		public void SetTeam( Team team )
 		{
 			if ( team == Team.Blue )
-				Texture = Texture.Load( "ui/icons/flag-blue.png" );
+				Texture = Texture.Load( FileSystem.Mounted, "ui/icons/flag-blue.png" );
 			else
-				Texture = Texture.Load( "ui/icons/flag-red.png" );
+				Texture = Texture.Load( FileSystem.Mounted, "ui/icons/flag-red.png" );
 		}
 	}
 }

@@ -27,14 +27,14 @@ namespace Facepunch.Hover
 
 		public void Update( IKillFeedIcon killer )
 		{
-			KillerAvatar.Texture = Texture.Load( killer.GetKillFeedIcon() );
+			KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, killer.GetKillFeedIcon() );
 			KillerName.Text = killer.GetKillFeedName();
 			SetTeam( killer.GetKillFeedTeam() );
 		}
 
 		public void Update( string killerName )
 		{
-			KillerAvatar.Texture = Texture.Load( "ui/icons/skull.png" );
+			KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
 			KillerName.Text = killerName;
 			SetTeam( Team.None );
 		}

@@ -5,7 +5,7 @@ namespace Facepunch.Hover
 {
     public abstract partial class Award
 	{
-		public virtual Texture Icon => Texture.Load( "ui/icons/blue.png" );
+		public virtual Texture Icon => Texture.Load( FileSystem.Mounted, "ui/icons/blue.png" );
 		public virtual string Name => "";
 		public virtual string Description => "";
 		public virtual bool TeamReward => false;
