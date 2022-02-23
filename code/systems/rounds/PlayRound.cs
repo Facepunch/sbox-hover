@@ -81,7 +81,7 @@ namespace Facepunch.Hover
 				else if ( damageInfo.Weapon.IsValid() )
 					Hud.AddKillFeed( To.Everyone, killer, player, damageInfo.Weapon );
 				else
-					Hud.AddKillFeed( To.Everyone, killer, player, attacker.ActiveChild as Weapon );
+					Hud.AddKillFeed( To.Everyone, killer, player, killer.ActiveChild as Weapon );
 			}
 			else if ( attacker is IKillFeedIcon )
 			{

@@ -134,7 +134,7 @@ namespace Facepunch.Hover
 		{
 			StyleSheet.Load( "/ui/EntityHud.scss" );
 
-			SceneObject.ZBufferMode = ZBufferMode.None;
+			//SceneObject.ZBufferMode = ZBufferMode.None;
 
 			PanelBounds = new Rect( -1000, -1000, 2000, 2000 );
 		}

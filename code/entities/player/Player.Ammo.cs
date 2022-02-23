@@ -7,7 +7,7 @@ namespace Facepunch.Hover
 	partial class Player
 	{
 		[Net]
-		public List<int> Ammo { get; set; } = new();
+		public IList<int> Ammo { get; set; } = new List<int>();
 
 		public void ClearAmmo()
 		{

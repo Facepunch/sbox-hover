@@ -56,7 +56,7 @@ namespace Facepunch.Hover
 				viewModel.SetIsAiming( isScoped, 0.15f );
 			}
 
-			if ( Owner.Camera is FirstPersonCamera camera )
+			if ( Owner is Player player && player.CameraMode is FirstPersonCamera camera )
 			{
 				camera.TargetFieldOfView = isScoped ? 10f : camera.DefaultFieldOfView;
 			}
@@ -139,8 +139,7 @@ namespace Facepunch.Hover
 
 		public override void SimulateAnimator( PawnAnimator anim )
 		{
-			anim.SetParam( "holdtype", 2 );
-			anim.SetParam( "aimat_weight", 1.0f );
+			anim.SetAnimParameter( "holdtype", 2 );
 		}
 
 		protected override ModelEntity GetEffectEntity()

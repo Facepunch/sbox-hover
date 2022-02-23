@@ -1,6 +1,5 @@
 ﻿using Gamelib.Extensions;
 using Sandbox;
-using Sandbox.Joints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -218,7 +217,7 @@ namespace Facepunch.Hover
 
 		public bool IsSpectator
 		{
-			get => (Camera is SpectateCamera);
+			get => (CameraMode is SpectateCamera);
 		}
 
 		public void Reset()
@@ -516,7 +515,7 @@ namespace Facepunch.Hover
 			EnableDrawing = false;
 			LifeState = LifeState.Dead;
 			Controller = null;
-			Camera = new SpectateCamera();
+			CameraMode = new SpectateCamera();
 		}
 
 		public virtual bool CanSelectWeapon( Weapon weapon )
@@ -687,7 +686,7 @@ namespace Facepunch.Hover
 			if ( IsServer && Input.Released( InputButton.Drop ) )
 			{
 				var spottedPlayers = 0;
-				var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 20000f )
+				var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 20000f )
 					.Ignore( this )
 					.Run();
 
@@ -696,10 +695,10 @@ namespace Facepunch.Hover
 					if ( !IsEnemyPlayer( player ) )
 						continue;
 
-					if ( player.Position.DistanceToLine( trace.StartPos, trace.EndPos, out var _ ) > 200f )
+					if ( player.Position.DistanceToLine( trace.StartPosition, trace.EndPosition, out var _ ) > 200f )
 						continue;
 
-					var visibleTrace = Trace.Ray( EyePos, EyePos + (player.WorldSpaceBounds.Center - EyePos).Normal * 20000f )
+					var visibleTrace = Trace.Ray( EyePosition, EyePosition + (player.WorldSpaceBounds.Center - EyePosition).Normal * 20000f )
 						.Ignore( this )
 						.Run();
 
@@ -718,10 +717,10 @@ namespace Facepunch.Hover
 
 			if ( Input.Released( InputButton.View ) )
 			{
-				if ( Camera is FirstPersonCamera )
-					Camera = new ThirdPersonCamera();
+				if ( CameraMode is FirstPersonCamera )
+					CameraMode = new ThirdPersonCamera();
 				else
-					Camera = new FirstPersonCamera();
+					CameraMode = new FirstPersonCamera();
 			}
 
 			foreach ( var child in Children )
@@ -737,7 +736,7 @@ namespace Facepunch.Hover
 
 			if ( IsServer && Input.Released( InputButton.Use ) )
 			{
-				var station = Physics.GetEntitiesInSphere( Position, 50f )
+				var station = Entity.FindInSphere( Position, 50f )
 					.OfType<StationAsset>()
 					.FirstOrDefault();
 
@@ -893,7 +892,7 @@ namespace Facepunch.Hover
 
 				if ( info.Flags.HasFlag( DamageFlags.Blunt ) )
 				{
-					var dotDirection = EyeRot.Forward.Dot( attacker.EyeRot.Forward );
+					var dotDirection = EyeRotation.Forward.Dot( attacker.EyeRotation.Forward );
 
 					if ( dotDirection >= 0.5f )
 					{
@@ -1265,14 +1264,14 @@ namespace Facepunch.Hover
 
 		protected override Entity FindUsable()
 		{
-			var trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+			var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
 				.HitLayer( CollisionLayer.Water, true )
 				.Ignore( this )
 				.Run();
 
 			if ( !IsValidUseEntity( trace.Entity ) )
 			{
-				trace = Trace.Ray( EyePos, EyePos + EyeRot.Forward * 150f )
+				trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
 				.HitLayer( CollisionLayer.Water, true )
 				.Radius( 2 )
 				.Ignore( this )

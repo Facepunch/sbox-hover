@@ -98,11 +98,11 @@ namespace Facepunch.Hover
 		{
 			if ( Pawn is not Player player ) return;
 
-			EyePosLocal = Vector3.Up * Scale( EyeHeight );
+			EyeLocalPosition = Vector3.Up * Scale( EyeHeight );
 			UpdateBBox();
 
-			EyePosLocal += TraceOffset;
-			EyeRot = Input.Rotation;
+			EyeLocalPosition += TraceOffset;
+			EyeRotation = Input.Rotation;
 			Player = player;
 
 			if ( Unstuck.TestAndFix() )
@@ -126,7 +126,7 @@ namespace Facepunch.Hover
 			}
 
 			CheckLadder();
-			Swimming = Pawn.WaterLevel.Fraction > 0.6f;
+			Swimming = Pawn.WaterLevel > 0.6f;
 
 			PreVelocity = Velocity;
 
@@ -290,7 +290,7 @@ namespace Facepunch.Hover
 
 				if ( pm.Fraction == 1 )
 				{
-					Position = pm.EndPos;
+					Position = pm.EndPosition;
 					StayOnGround();
 					return;
 				}
@@ -573,7 +573,7 @@ namespace Facepunch.Hover
 
 			if ( moveToEndPos && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
 			{
-				Position = pm.EndPos;
+				Position = pm.EndPosition;
 			}
 		}
 
@@ -644,7 +644,7 @@ namespace Facepunch.Hover
 			var end = Position + Vector3.Down * StepSize;
 
 			var trace = TraceBBox( Position, start );
-			start = trace.EndPos;
+			start = trace.EndPosition;
 
 			trace = TraceBBox( start, end );
 
@@ -653,7 +653,7 @@ namespace Facepunch.Hover
 			if ( trace.StartedSolid ) return;
 			if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > StayOnGroundAngle ) return;
 
-			Position = trace.EndPos;
+			Position = trace.EndPosition;
 		}
 	}
 }

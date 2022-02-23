@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_disruptor" )]
 	public partial class Disruptor : DeployableEntity
 	{
-		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
+		public override string ModelName => "models/radar_jammer/radar_jammer.vmdl";
 
 		public override void Spawn()
 		{

@@ -101,9 +101,9 @@ namespace Facepunch.Hover
 			Log.Info( $"{caller}: {message}" );
 
 			if ( channel == ChatBoxChannel.All )
-				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass() );
+				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team.GetHudClass() );
 			else
-				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), channel );
+				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team.GetHudClass(), channel );
 		}
 
 		public ChatBoxChannel Channel { get; private set; } = ChatBoxChannel.Team;

@@ -16,7 +16,7 @@ namespace Gamelib.Utility
 
 		public static IEnumerable<T> GetBlastEntities<T>( Vector3 position, float radius ) where T : Entity
 		{
-			var proximity = Physics.GetEntitiesInSphere( position, radius )
+			var proximity = Entity.FindInSphere( position, radius )
 				.OfType<T>()
 				.Where( v =>
 				{
@@ -34,7 +34,7 @@ namespace Gamelib.Utility
 
 		public static IEnumerable<Entity> GetBlastEntities( Vector3 position, float radius )
 		{
-			var proximity = Physics.GetEntitiesInSphere( position, radius )
+			var proximity = Entity.FindInSphere( position, radius )
 				.Where( v =>
 			   {
 				   var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )

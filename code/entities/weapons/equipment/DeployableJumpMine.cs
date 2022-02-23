@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 	public partial class DeployableJumpMine : DeployableEquipment<JumpMine>, IDeployableDamageVsHeavy
 	{
 		public override WeaponConfig Config => new DeployableJumpMineConfig();
-		public override string Model => "models/mines/mines.vmdl";
+		public override string ModelName => "models/mines/mines.vmdl";
 
 		public float DamageVsHeavy { get; set; } = 1f;
 		public float Radius { get; set; } = 150f;

@@ -58,7 +58,7 @@ namespace Facepunch.Hover
 			if ( Owner is not Player player || player.Controller is not MoveController controller )
 				return;
 
-			Rotation = Local.Pawn.EyeRot;
+			Rotation = Local.Pawn.EyeRotation;
 
 			if ( IsAiming )
 			{

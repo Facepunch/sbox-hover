@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 	public partial class DeployableMotionAlarm : DeployableEquipment<MotionAlarm>
 	{
 		public override WeaponConfig Config => new DeployableMotionAlarmConfig();
-		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
+		public override string ModelName => "models/motion_sensor/motion_sensor.vmdl";
 
 		public float Radius { get; set; } = 300f;
 

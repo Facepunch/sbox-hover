@@ -86,7 +86,7 @@ namespace Facepunch.Hover
 			if ( Team == Team.None || !IsPowered || !NextSensePlayers )
 				return;
 
-			var disruptors = Physics.GetEntitiesInSphere( Position, Range )
+			var disruptors = Entity.FindInSphere( Position, Range )
 				.OfType<Disruptor>()
 				.Where( IsEnemyDisruptor );
 
@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			var players = Physics.GetEntitiesInSphere( Position, Range )
+			var players = Entity.FindInSphere( Position, Range )
 				.OfType<Player>()
 				.Where( IsValidTarget );
 
@@ -135,9 +135,9 @@ namespace Facepunch.Hover
 		protected override void OnIsPoweredChanged( bool isPowered )
 		{
 			if ( isPowered )
-				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+				SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 1f ) );
 			else
-				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
+				SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 0f ) );
 
 			base.OnIsPoweredChanged( isPowered );
 		}

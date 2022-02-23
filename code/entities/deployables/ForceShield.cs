@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_force_shield" )]
 	public partial class ForceShield : DeployableEntity, IKillFeedIcon
 	{
-		public override string Model => "models/force_field/force_field.vmdl";
+		public override string ModelName => "models/force_field/force_field.vmdl";
 
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float FullDamage { get; set; } = 700f;
@@ -90,7 +90,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsPowered && IsDeployed && NextDamageTime )
 			{
-				var players = Physics.GetEntitiesInBox( WorldSpaceBounds )
+				var players = Entity.FindInBox( WorldSpaceBounds )
 					.OfType<Player>();
 
 				var didDamagePlayer = false;

@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		public virtual string DeploySound => "turret.deploy";
 		public virtual bool CanPickup => true;
 		public virtual float DeployTime => 2f;
-		public virtual string Model => "";
+		public virtual string ModelName => "";
 
 		[Net] public float MaxHealth { get; set; } = 100f;
 		[Net, Change] public bool IsDeployed { get; set; }
@@ -78,7 +78,7 @@ namespace Facepunch.Hover
 
 		public override void Spawn()
 		{
-			SetModel( Model );
+			SetModel( ModelName );
 			SetupPhysicsFromModel( MotionType );
 
 			if ( StartFrozen )

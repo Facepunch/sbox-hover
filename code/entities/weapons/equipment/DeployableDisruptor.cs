@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 	public partial class DeployableDisruptor : DeployableEquipment<Disruptor>
 	{
 		public override WeaponConfig Config => new DeployableDisruptorConfig();
-		public override string Model => "models/radar_jammer/radar_jammer.vmdl";
+		public override string ModelName => "models/radar_jammer/radar_jammer.vmdl";
 		public override float DeployScale => 0.1f;
 	}
 }

@@ -15,7 +15,7 @@ namespace Facepunch.Hover
 		[Net, Predicted] public string FollowEffect { get; set; } = "";
 		[Net, Predicted] public string TrailEffect { get; set; } = "";
 		[Net, Predicted] public string HitSound { get; set; } = "";
-		[Net, Predicted] public string Model { get; set; } = "";
+		[Net, Predicted] public string ModelName { get; set; } = "";
 
 		public Action<BulletDropProjectile, Entity> Callback { get; private set; }
 		public List<string> FlybySounds { get; set; }
@@ -116,8 +116,8 @@ namespace Facepunch.Hover
 			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
 				LaunchSound = PlaySound( LaunchSoundName );
 
-			if ( !string.IsNullOrEmpty( Model ) )
-				ModelEntity = SceneObject.CreateModel( Model );
+			if ( !string.IsNullOrEmpty( ModelName ) )
+				ModelEntity = new SceneObject( Map.Scene, ModelName );
 		}
 
         public virtual void Simulate()
@@ -141,7 +141,7 @@ namespace Facepunch.Hover
 				.Ignore( IgnoreEntity )
 				.Run();
 
-			Position = trace.EndPos;
+			Position = trace.EndPosition;
 
 			if ( LifeTime.HasValue && DestroyTime )
 			{
@@ -166,7 +166,7 @@ namespace Facepunch.Hover
 			{
 				if ( NextFlyby && FlybySounds != null )
 				{
-					WeaponUtil.PlayFlybySounds( Attacker, trace.StartPos, trace.EndPos, Radius, Radius * 4f, FlybySounds );
+					WeaponUtil.PlayFlybySounds( Attacker, trace.StartPosition, trace.EndPosition, Radius, Radius * 4f, FlybySounds );
 					NextFlyby = Time.Delta * 2f;
 				}
 			}

@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public partial class FirstPersonCamera : Camera
+	public partial class FirstPersonCamera : CameraMode
 	{
 		public float DefaultFieldOfView { get; set; } = 80f;
 		public float TargetFieldOfView { get; set; }
@@ -14,10 +14,10 @@ namespace Facepunch.Hover
 			var pawn = Local.Pawn;
 			if ( pawn == null ) return;
 
-			Pos = pawn.EyePos;
-			Rot = pawn.EyeRot;
+			Position = pawn.EyePosition;
+			Rotation = pawn.EyeRotation;
 			FieldOfView = DefaultFieldOfView;
-			LastPosition = Pos;
+			LastPosition = Position;
 			TargetFieldOfView = DefaultFieldOfView;
 		}
 
@@ -26,17 +26,17 @@ namespace Facepunch.Hover
 			var pawn = Local.Pawn;
 			if ( pawn == null ) return;
 
-			var eyePos = pawn.EyePos;
+			var eyePos = pawn.EyePosition;
 
 			if ( eyePos.Distance( LastPosition ) < 300 )
-				Pos = Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20.0f * Time.Delta );
+				Position = Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20.0f * Time.Delta );
 			else
-				Pos = eyePos;
+				Position = eyePos;
 
-			Rot = pawn.EyeRot;
+			Rotation = pawn.EyeRotation;
 			ZNear = 4f;
 			Viewer = pawn;
-			LastPosition = Pos;
+			LastPosition = Position;
 			FieldOfView = FieldOfView.LerpTo( TargetFieldOfView, Time.Delta * 4f );
 		}
 	}

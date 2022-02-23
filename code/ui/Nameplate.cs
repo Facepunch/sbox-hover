@@ -47,10 +47,12 @@ namespace Facepunch.Hover
 				return;
 			}
 
+			/*
 			if ( !Player.ShouldHideOnRadar || Player.Team == localPlayer.Team )
 				SceneObject.ZBufferMode = ZBufferMode.None;
 			else
 				SceneObject.ZBufferMode = ZBufferMode.TestAndWrite;
+			*/
 
 			var transform = Transform;
 

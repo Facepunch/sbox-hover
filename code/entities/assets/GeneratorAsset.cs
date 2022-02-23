@@ -49,7 +49,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void OnClientGameReset()
 		{
-			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+			SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 1f ) );
 		}
 
 		public void Repair()
@@ -274,14 +274,14 @@ namespace Facepunch.Hover
 			HealthBarRight.SetIsLow( Health < MaxHealth * 0.2f );
 
 			var damage = 1f - (Health / MaxHealth);
-			SceneObject.SetValue( "Damage", Easing.EaseIn( damage ) * 0.5f );
+			SceneObject.Attributes.Set( "Damage", Easing.EaseIn( damage ) * 0.5f );
 		}
 
 		[ClientRpc]
 		private void OnClientGeneratorRepaired()
 		{
 			Icon.SetTexture( "ui/icons/generator.png" );
-			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+			SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 1f ) );
 			OnGeneratorRepaired?.Invoke( this );
 		}
 
@@ -289,7 +289,7 @@ namespace Facepunch.Hover
 		private void OnClientGeneratorBroken()
 		{
 			Icon.SetTexture( "ui/icons/generator_offline.png" );
-			SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
+			SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 0f ) );
 			OnGeneratorBroken?.Invoke( this );
 		}
 	}

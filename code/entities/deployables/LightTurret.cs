@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_light_turret" )]
 	public partial class LightTurret : DeployableEntity, ITurretComponent, IKillFeedIcon
 	{
-		public override string Model => "models/deploy_turret/deploy_turret.vmdl";
+		public override string ModelName => "models/deploy_turret/deploy_turret.vmdl";
 
 		public List<string> FlybySounds => new()
 		{
@@ -112,7 +112,7 @@ namespace Facepunch.Hover
 				.Ignore( this )
 				.Run();
 
-			var fullEndPos = trace.EndPos;
+			var fullEndPos = trace.EndPosition;
 
 			if ( !string.IsNullOrEmpty( TracerEffect ) )
 			{
@@ -127,12 +127,12 @@ namespace Facepunch.Hover
 				impact.SetForward( 0, trace.Normal );
 			}
 
-			WeaponUtil.PlayFlybySounds( this, trace.Entity, trace.StartPos, trace.EndPos, bulletSize * 2f, bulletSize * 50f, FlybySounds );
+			WeaponUtil.PlayFlybySounds( this, trace.Entity, trace.StartPosition, trace.EndPosition, bulletSize * 2f, bulletSize * 50f, FlybySounds );
 
 			if ( trace.Entity.IsValid() )
 			{
 				damage = GetDamageFalloff( trace.Distance, damage );
-				DealDamage( trace.Entity, trace.EndPos, trace.Normal * 100f * force, damage );
+				DealDamage( trace.Entity, trace.EndPosition, trace.Normal * 100f * force, damage );
 			}
 		}
 

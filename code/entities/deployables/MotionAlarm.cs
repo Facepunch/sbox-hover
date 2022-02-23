@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_motion_alarm" )]
 	public partial class MotionAlarm : DeployableEntity
 	{
-		public override string Model => "models/motion_sensor/motion_sensor.vmdl";
+		public override string ModelName => "models/motion_sensor/motion_sensor.vmdl";
 		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
 		public float BaseDamage { get; set; } = 20f;
 		public float Radius { get; set; } = 300f;
@@ -71,7 +71,7 @@ namespace Facepunch.Hover
 		{
 			if ( !NextSense ) return;
 
-			var players = Physics.GetEntitiesInSphere( Position, Radius )
+			var players = Entity.FindInSphere( Position, Radius )
 				.OfType<Player>()
 				.Where( IsValidVictim );
 

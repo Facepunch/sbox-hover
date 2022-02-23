@@ -64,7 +64,7 @@ namespace Facepunch.Hover
 		{
 			base.ServerTick();
 
-			var entities = Physics.GetEntitiesInSphere( Position, 100f ).OfType<Player>();
+			var entities = Entity.FindInSphere( Position, 100f ).OfType<Player>();
 
 			foreach ( var player in entities )
 			{
@@ -87,9 +87,9 @@ namespace Facepunch.Hover
 				DestroyIdleParticles();
 
 			if ( isPowered )
-				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 1f ) );
+				SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 1f ) );
 			else
-				SceneObject.SetValue( "ScrollSpeed", new Vector2( 0f, 0f ) );
+				SceneObject.Attributes.Set( "ScrollSpeed", new Vector2( 0f, 0f ) );
 
 			base.OnIsPoweredChanged( isPowered );
 		}

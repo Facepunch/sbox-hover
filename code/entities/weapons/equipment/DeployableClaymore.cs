@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 	public partial class DeployableClaymore : DeployableEquipment<Claymore>, IDeployableDamageVsHeavy
 	{
 		public override WeaponConfig Config => new DeployableClaymoreConfig();
-		public override string Model => "models/claymore_mines/claymore_mines.vmdl";
+		public override string ModelName => "models/claymore_mines/claymore_mines.vmdl";
 
 		public float DamageVsHeavy { get; set; } = 1f;
 		public float Radius { get; set; } = 100f;

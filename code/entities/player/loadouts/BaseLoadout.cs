@@ -188,7 +188,7 @@ namespace Facepunch.Hover
 				MaxSpeed = MaxSpeed
 			};
 
-			player.Camera = new FirstPersonCamera();
+			player.CameraMode = new FirstPersonCamera();
 
 			player.EnergyRegen = EnergyRegen;
 			player.EnergyDrain = EnergyDrain;

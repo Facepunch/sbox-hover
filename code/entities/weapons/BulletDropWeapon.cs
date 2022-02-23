@@ -42,21 +42,21 @@ namespace Facepunch.Hover
 				HitSound = HitSound,
 				LifeTime = ProjectileLifeTime,
 				Gravity = Gravity,
-				Model = ProjectileModel
+				ModelName = ProjectileModel
 			};
 
 			OnCreateProjectile( projectile );
 
 			var muzzle = GetAttachment( MuzzleAttachment );
 			var position = muzzle.Value.Position;
-			var forward = player.EyeRot.Forward;
-			var endPosition = player.EyePos + forward * BulletRange;
-			var trace = Trace.Ray( player.EyePos, endPosition )
+			var forward = player.EyeRotation.Forward;
+			var endPosition = player.EyePosition + forward * BulletRange;
+			var trace = Trace.Ray( player.EyePosition, endPosition )
 				.Ignore( player )
 				.Ignore( this )
 				.Run();
 
-			var direction = (trace.EndPos - position).Normal;
+			var direction = (trace.EndPosition - position).Normal;
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
 

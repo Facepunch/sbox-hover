@@ -73,9 +73,9 @@ namespace Facepunch.Hover
 
 			ClientDirection = ClientDirection.LerpTo( TargetDirection, Time.Delta * turret.RotateSpeed );
 
-			Entity.SetAnimFloat( "fire", Recoil );
-			Entity.SetAnimVector( "target", Entity.Transform.NormalToLocal( ClientDirection ) );
-			Entity.SetAnimFloat( "weight", 1f );
+			Entity.SetAnimParameter( "fire", Recoil );
+			Entity.SetAnimParameter( "target", Entity.Transform.NormalToLocal( ClientDirection ) );
+			Entity.SetAnimParameter( "weight", 1f );
 		}
 
 		protected virtual void FireProjectile()
@@ -155,7 +155,7 @@ namespace Facepunch.Hover
 			if ( Entity is not ITurretComponent turret )
 				return;
 
-			var targets = Physics.GetEntitiesInSphere( Entity.Position, turret.AttackRadius )
+			var targets = Sandbox.Entity.FindInSphere( Entity.Position, turret.AttackRadius )
 				.OfType<Player>()
 				.Where( IsValidTarget );
 

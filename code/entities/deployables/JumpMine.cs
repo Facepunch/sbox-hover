@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public override PhysicsMotionType MotionType => PhysicsMotionType.Dynamic;
 		public override bool RequiresPower => false;
 		public override bool StartFrozen => true;
-		public override string Model => "models/mines/mines.vmdl";
+		public override string ModelName => "models/mines/mines.vmdl";
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float BaseDamage { get; set; } = 700f;
 		public float DamageVsHeavy { get; set; } = 1f;

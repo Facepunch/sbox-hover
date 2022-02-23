@@ -39,7 +39,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public override string Model => "models/claymore_mines/claymore_mines.vmdl";
+		public override string ModelName => "models/claymore_mines/claymore_mines.vmdl";
 		public override bool RequiresPower => false;
 		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
 		public float DamageVsHeavy { get; set; } = 1f;

@@ -228,7 +228,7 @@ namespace Facepunch.Hover
 
 				if ( trace.Hit || trace.StartedSolid )
 				{
-					Position = trace.EndPos + height;
+					Position = trace.EndPosition + height;
 					return;
 				}
 

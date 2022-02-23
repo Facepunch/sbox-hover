@@ -43,6 +43,7 @@ namespace Facepunch.Hover
 		public override void Tick()
 		{
 			Glyph.Texture = Input.GetGlyph( Action, InputGlyphSize.Medium );
+			Glyph.Style.AspectRatio = Glyph.Texture.Width / Glyph.Texture.Height;
 
 			base.Tick();
 		}

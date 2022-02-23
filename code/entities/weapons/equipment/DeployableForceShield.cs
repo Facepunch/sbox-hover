@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 	public partial class DeployableForceShield : DeployableEquipment<ForceShield>
 	{
 		public override WeaponConfig Config => new DeployableForceShieldConfig();
-		public override string Model => "models/force_field/force_field.vmdl";
+		public override string ModelName => "models/force_field/force_field.vmdl";
 
 		public float ShieldHealth { get; set; } = 1250f;
 

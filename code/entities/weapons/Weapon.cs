@@ -97,17 +97,17 @@ namespace Facepunch.Hover
 
 		public virtual void PlayAttackAnimation()
 		{
-			AnimationOwner?.SetAnimBool( "b_attack", true );
+			AnimationOwner?.SetAnimParameter( "b_attack", true );
 		}
 
 		public virtual void PlayReloadAnimation()
 		{
-			AnimationOwner?.SetAnimBool( "b_reload", true );
+			AnimationOwner?.SetAnimParameter( "b_reload", true );
 		}
 
 		public virtual void OnMeleeAttack()
 		{
-			ViewModelEntity?.SetAnimBool( "melee", true );
+			ViewModelEntity?.SetAnimParameter( "melee", true );
 			TimeSinceMeleeAttack = 0f;
 			MeleeStrike( MeleeDamage, MeleeForce );
 			PlaySound( "player.melee" );
@@ -278,7 +278,7 @@ namespace Facepunch.Hover
 		{
 			if ( ReloadAnimation )
 			{
-				ViewModelEntity?.SetAnimBool( "reload", true );
+				ViewModelEntity?.SetAnimParameter( "reload", true );
 			}
 		}
 
@@ -295,10 +295,10 @@ namespace Facepunch.Hover
 
 		public virtual void MeleeStrike( float damage, float force )
 		{
-			var forward = Owner.EyeRot.Forward;
+			var forward = Owner.EyeRotation.Forward;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * MeleeRange, 10f ) )
+			foreach ( var trace in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * MeleeRange, 10f ) )
 			{
 				if ( !trace.Entity.IsValid() )
 					continue;
@@ -311,7 +311,7 @@ namespace Facepunch.Hover
 					using ( Prediction.Off() )
 					{
 						var damageInfo = new DamageInfo()
-							.WithPosition( trace.EndPos )
+							.WithPosition( trace.EndPosition )
 							.WithFlag( DamageFlags.Blunt )
 							.WithForce( forward * 100f * force )
 							.UsingTraceResult( trace )
@@ -328,18 +328,18 @@ namespace Facepunch.Hover
 
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
-			var forward = Owner.EyeRot.Forward;
+			var forward = Owner.EyeRotation.Forward;
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePos, Owner.EyePos + forward * BulletRange, bulletSize ) )
+			foreach ( var trace in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * BulletRange, bulletSize ) )
 			{
 				if ( string.IsNullOrEmpty( ImpactEffect ) )
 				{
 					trace.Surface.DoBulletImpact( trace );
 				}
 
-				var fullEndPos = trace.EndPos + trace.Direction * bulletSize;
+				var fullEndPos = trace.EndPosition + trace.Direction * bulletSize;
 
 				if ( !string.IsNullOrEmpty( TracerEffect ) )
 				{
@@ -357,14 +357,14 @@ namespace Facepunch.Hover
 				if ( !IsServer )
 					continue;
 
-				WeaponUtil.PlayFlybySounds( Owner, trace.Entity, trace.StartPos, trace.EndPos, bulletSize * 2f, bulletSize * 50f, FlybySounds );
+				WeaponUtil.PlayFlybySounds( Owner, trace.Entity, trace.StartPosition, trace.EndPosition, bulletSize * 2f, bulletSize * 50f, FlybySounds );
 
 				if ( trace.Entity.IsValid() )
 				{
 					using ( Prediction.Off() )
 					{
 						var damageInfo = new DamageInfo()
-							.WithPosition( trace.EndPos )
+							.WithPosition( trace.EndPosition )
 							.WithFlag( DamageType )
 							.WithForce( forward * 100f * force )
 							.UsingTraceResult( trace )
@@ -426,7 +426,7 @@ namespace Facepunch.Hover
 
 		public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
 		{
-			bool inWater = Physics.TestPointContents( start, CollisionLayer.Water );
+			bool inWater = Map.Physics.IsPointWater( start );
 
 			yield return Trace.Ray( start, end )
 				.UseHitboxes()
@@ -460,7 +460,7 @@ namespace Facepunch.Hover
 				_ = new Sandbox.ScreenShake.Perlin();
 			}
 
-			ViewModelEntity?.SetAnimBool( "fire", true );
+			ViewModelEntity?.SetAnimParameter( "fire", true );
 			CrosshairPanel?.CreateEvent( "fire" );
 		}
 

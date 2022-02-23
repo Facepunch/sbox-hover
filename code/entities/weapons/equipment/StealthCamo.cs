@@ -112,7 +112,7 @@ namespace Facepunch.Hover
 
 				if ( NextJammerCheck )
 				{
-					var jammers = Physics.GetEntitiesInSphere( Position, 1000f )
+					var jammers = Entity.FindInSphere( Position, 1000f )
 						.OfType<RadarJammer>();
 
 					foreach ( var jammer in jammers )
@@ -124,7 +124,7 @@ namespace Facepunch.Hover
 						}
 					}
 
-					var disruptors = Physics.GetEntitiesInSphere( Position, 1000f )
+					var disruptors = Entity.FindInSphere( Position, 1000f )
 						.OfType<Disruptor>()
 						.Where( IsEnemyDisruptor );
 

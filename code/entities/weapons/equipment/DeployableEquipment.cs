@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 	{
 		public override string ViewModelPath => null;
 		public override bool IsMelee => true;
-		public virtual string Model => "";
+		public virtual string ModelName => "";
 		public virtual float DeployScale => 1f;
 		public virtual float MinDistanceFromOthers => 1000f;
 		public virtual int MaxDeployables { get; set; } = 1;
@@ -129,7 +129,7 @@ namespace Facepunch.Hover
 		{
 			Ghost?.Delete();
 			Ghost = new ModelEntity();
-			Ghost.SetModel( Model );
+			Ghost.SetModel( ModelName );
 			Ghost.Scale = DeployScale;
 		}
 
@@ -150,7 +150,7 @@ namespace Facepunch.Hover
 
 		protected bool GetPlacePosition( out Vector3 position, out Rotation rotation )
 		{
-			var trace = Trace.Ray( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 150f )
+			var trace = Trace.Ray( Owner.EyePosition, Owner.EyePosition + Owner.EyeRotation.Forward * 150f )
 				.Ignore( this )
 				.Ignore( Owner )
 				.Run();
@@ -160,7 +160,7 @@ namespace Facepunch.Hover
 
 			foreach ( var entity in existing )
 			{
-				if ( entity.Position.Distance( trace.EndPos ) <= MinDistanceFromOthers )
+				if ( entity.Position.Distance( trace.EndPosition ) <= MinDistanceFromOthers )
 				{
 					isNearOthers = true;
 					break;
@@ -175,26 +175,26 @@ namespace Facepunch.Hover
 			}
 
 			if ( !inDeploymentBlocker && !isNearOthers && trace.Hit && trace.Entity.IsWorld
-				&& trace.Normal.Dot( Vector3.Up ) >= 0.8f && trace.EndPos.Distance( Owner.Position ) >= 60f )
+				&& trace.Normal.Dot( Vector3.Up ) >= 0.8f && trace.EndPosition.Distance( Owner.Position ) >= 60f )
 			{
-				var lookAt = Vector3.Cross( trace.Normal, Owner.EyeRot.Right );
-				position = trace.EndPos;
+				var lookAt = Vector3.Cross( trace.Normal, Owner.EyeRotation.Right );
+				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, trace.Normal );
 
 				return true;
 			}
 			else if ( trace.Normal.Dot( Vector3.Up ) >= 0.8f )
 			{
-				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRot.Right );
-				position = trace.EndPos;
+				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRotation.Right );
+				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, trace.Normal );
 
 				return false;
 			}
 			else
 			{
-				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRot.Right );
-				position = trace.EndPos;
+				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRotation.Right );
+				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, Vector3.Up );
 
 				return false;

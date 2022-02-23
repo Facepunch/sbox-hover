@@ -103,7 +103,7 @@ namespace Facepunch.Hover
 
 		protected void UpdateBaseAssets()
 		{
-			foreach ( var dependency in Physics.GetEntitiesInBox( WorldSpaceBounds ) )
+			foreach ( var dependency in Entity.FindInBox( WorldSpaceBounds ) )
 			{
 				if ( dependency is IBaseAsset asset )
 				{

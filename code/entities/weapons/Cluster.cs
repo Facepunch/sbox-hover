@@ -81,8 +81,7 @@ namespace Facepunch.Hover
 
 		public override void SimulateAnimator( PawnAnimator anim )
 		{
-			anim.SetParam( "holdtype", 2 );
-			anim.SetParam( "aimat_weight", 1.0f );
+			anim.SetAnimParameter( "holdtype", 2 );
 		}
 
 		protected virtual void CreateBomb( Vector3 position )

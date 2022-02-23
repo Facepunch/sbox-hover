@@ -24,7 +24,7 @@ namespace Facepunch.Hover
 				Skid = Skid.LerpTo( 0f, Time.Delta * 5f );
 			}
 
-			SetParam( "skid", Skid );
+			SetAnimParameter( "skid", Skid );
 		}
 	}
 }

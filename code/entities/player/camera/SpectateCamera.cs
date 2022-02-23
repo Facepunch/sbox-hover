@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	public partial class SpectateCamera : Camera
+	public partial class SpectateCamera : CameraMode
 	{
 		public override void Activated()
 		{
@@ -10,8 +10,8 @@ namespace Facepunch.Hover
 
 			if ( Local.Pawn is Player player )
 			{
-				Pos = player.EyePos;
-				Rot = player.EyeRot;
+				Position = player.EyePosition;
+				Rotation = player.EyeRotation;
 			}
 
 			FieldOfView = 80f;
@@ -22,12 +22,12 @@ namespace Facepunch.Hover
 			if ( Local.Pawn is not Player player )
 				return;
 
-			Pos = player.EyePos;
+			Position = player.EyePosition;
 
 			if ( player.Ragdoll.IsValid() )
 			{
-				var direction = (player.Ragdoll.PhysicsBody.Position - Pos).Normal;
-				Rot = Rotation.Slerp( Rot, Rotation.LookAt( direction ), Time.Delta );
+				var direction = (player.Ragdoll.PhysicsBody.Position - Position).Normal;
+				Rotation = Rotation.Slerp( Rotation, Rotation.LookAt( direction ), Time.Delta );
 			}
 		}
 	}

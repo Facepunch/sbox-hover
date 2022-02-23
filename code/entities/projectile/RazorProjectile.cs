@@ -60,7 +60,7 @@ namespace Facepunch.Hover
 		{
 			var newPosition = base.GetTargetPosition();
 
-			var targets = Physics.GetEntitiesInSphere( Position, SeekRadius )
+			var targets = Entity.FindInSphere( Position, SeekRadius )
 				.OfType<Player>()
 				.Where( IsValidTarget );
 

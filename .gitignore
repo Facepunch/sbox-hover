@@ -9,3 +9,4 @@ sbox-hover.csproj
 tools_*_*.bin
 release.zip
 *.los
+.vs
