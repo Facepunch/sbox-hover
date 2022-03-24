@@ -9,5 +9,11 @@
   "ResourcePaths": null,
   "HasCode": true,
   "CodePath": "code",
-  "RootNamespace": "Facepunch.Hover"
+  "RootNamespace": "Facepunch.Hover",
+  "Metadata": {
+    "MapList": [],
+    "MinPlayers": 0,
+    "MaxPlayers": 32,
+    "MapSelect": 2
+  }
 }
