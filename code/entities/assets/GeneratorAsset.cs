@@ -2,12 +2,13 @@
 using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_generator" )]
 	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Generator", "Hover", "Defines a point where a team's generator spawns" )]
+	[Display( Name = "Generator", GroupName = "Hover" )]
 	public partial class GeneratorAsset : ModelEntity, IGameResettable, IUse, IHudEntity
 	{
 		public delegate void GeneratorEvent( GeneratorAsset generator );

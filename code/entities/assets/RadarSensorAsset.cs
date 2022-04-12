@@ -1,13 +1,14 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_radar_sensor" )]
 	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Radar Sensor", "Hover", "Defines a point where a sensor spawns" )]
+	[Display( Name = "Radar Sensor", GroupName = "Hover" )]
 	[Hammer.Sphere( 8000, 75, 75, 255 )]
 	public partial class RadarSensorAsset : GeneratorDependency, IBaseAsset
 	{

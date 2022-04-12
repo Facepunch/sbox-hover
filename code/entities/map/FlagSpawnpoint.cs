@@ -1,12 +1,13 @@
 ﻿using Sandbox;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_flag_spawnpoint" )]
 	[Hammer.EditorModel( "models/flag/temp_flag_base.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Flag Spawnpoint", "Hover", "Defines a point where a team's flag spawns" )]
+	[Display( Name = "Flag Spawnpoint", GroupName = "Hover" )]
 	public partial class FlagSpawnpoint : ModelEntity
 	{
 		public delegate void FlagEvent( Player player, FlagEntity flag );

@@ -1,13 +1,14 @@
 ﻿using Gamelib.UI;
 using Sandbox;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_station" )]
 	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Station", "Hover", "Defines a point where a station spawns" )]
+	[Display( Name = "Station", GroupName = "Hover" )]
 	public partial class StationAsset : GeneratorDependency, IBaseAsset
 	{
 		public override string IconName => "ui/icons/loadouts.png";

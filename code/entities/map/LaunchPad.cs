@@ -1,12 +1,13 @@
 ﻿using Sandbox;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_launch_pad" )]
 	[Hammer.RenderFields]
 	[Hammer.EditorModel( "models/launch_pad/launch_pad.vmdl", FixedBounds = true )]
-	[Hammer.EntityTool( "Launch Pad", "Hover", "A pad that launches players toward a target entity" )]
+	[Display( Name = "Launch Pad", GroupName = "Hover" )]
 	[Hammer.Line( "targetname", "targetentity" )]
 	public partial class LaunchPad : ModelEntity
 	{
