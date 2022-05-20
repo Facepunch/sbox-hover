@@ -144,7 +144,7 @@ namespace Facepunch.Hover
 
 				if ( weapon != null )
 				{
-					var entity = Library.Create<Weapon>( weapon.ClassName );
+					var entity = TypeLibrary.Create<Weapon>( weapon.ClassName );
 					player.Inventory.Add( entity );
 					player.ActiveChild = entity;
 					entity.Slot = i + 1;

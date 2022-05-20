@@ -118,7 +118,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client owner )
 		{
-			if ( IsSpinningUp && !Input.Down( InputButton.Attack1 ) && Prediction.FirstTime )
+			if ( IsSpinningUp && !Input.Down( InputButton.PrimaryAttack ) && Prediction.FirstTime )
 			{
 				HideChargeParticles();
 				StopChargeSound();

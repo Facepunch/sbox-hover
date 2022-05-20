@@ -63,7 +63,7 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil NextTipTime { get; set; }
 
-		[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "chat_add", CanBeCalledFromServer = true )]
 		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, ChatBoxChannel channel = ChatBoxChannel.All )
 		{
 			Current?.AddEntry( name, message, avatar, className, channel );
@@ -74,19 +74,19 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ClientCmd( "chat_addinfo", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "chat_addinfo", CanBeCalledFromServer = true )]
 		public static void AddInformation( string message, string avatar = null )
 		{
 			Current?.AddEntry( null, message, avatar, "info" );
 		}
 
-		[ClientCmd( "hv_tip" )]
+		[ConCmd.Client( "hv_tip" )]
 		public static void ShowTipCommand()
 		{
 			Current.ShowRandomTip();
 		}
 
-		[ServerCmd( "say" )]
+		[ConCmd.Server( "say" )]
 		public static void Say( string message, ChatBoxChannel channel )
 		{
 			var caller = ConsoleSystem.Caller;

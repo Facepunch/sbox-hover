@@ -140,7 +140,7 @@ namespace Facepunch.Hover
 			{
 				for ( int i = 0; i < config.Upgrades.Count; i++ )
 				{
-					var upgrade = Library.Create<WeaponUpgrade>( config.Upgrades[i] );
+					var upgrade = TypeLibrary.Create<WeaponUpgrade>( config.Upgrades[i] );
 					var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
 					item.SetUpgrade( i, config, upgrade );
 				}
@@ -274,7 +274,7 @@ namespace Facepunch.Hover
 			UpgradeButton.BindClass( "hidden", IsUpgradeButtonHidden );
 
 			if ( loadout.UpgradesTo != null )
-				NextUpgrade = Library.Create<BaseLoadout>( loadout.UpgradesTo );
+				NextUpgrade = TypeLibrary.Create<BaseLoadout>( loadout.UpgradesTo );
 			else
 				NextUpgrade = null;
 

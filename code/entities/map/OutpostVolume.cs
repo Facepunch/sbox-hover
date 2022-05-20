@@ -3,12 +3,14 @@ using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_outpost_volume" )]
-	[Hammer.AutoApplyMaterial("materials/editor/hv_outpost_volume.vmat")]
-	[Hammer.Solid]
+	[AutoApplyMaterial("materials/editor/hv_outpost_volume.vmat")]
+	[Solid]
+	[HammerEntity]
 	public partial class OutpostVolume : BaseTrigger, IGameResettable, IHudEntity
 	{
 		public delegate void OutpostEvent( OutpostVolume generator );

@@ -16,19 +16,19 @@ namespace Facepunch.Hover
 			get => Current as Game;
 		}
 
-		[ServerVar( "hv_min_players", Help = "The minimum players required to start." )]
+		[ConVar.Server( "hv_min_players", Help = "The minimum players required to start." )]
 		public static int MinPlayers { get; set; } = 2;
 
-		[ServerVar( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
+		[ConVar.Server( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
-		[ServerVar( "hv_toast_duration", Help = "The time that toasts take to disappear." )]
+		[ConVar.Server( "hv_toast_duration", Help = "The time that toasts take to disappear." )]
 		public static float ToastDuration { get; set; } = 5f;
 
-		[ServerVar( "hv_award_duration", Help = "The time that awards take to disappear." )]
+		[ConVar.Server( "hv_award_duration", Help = "The time that awards take to disappear." )]
 		public static float AwardDuration { get; set; } = 3f;
 
-		[ServerCmd( "hv_victory" )]
+		[ConCmd.Server( "hv_victory" )]
 		public static void ShowVictoryScreen( string team )
 		{
 			if ( team == "blue" )
@@ -37,7 +37,7 @@ namespace Facepunch.Hover
 				VictoryScreen.Show( Team.Red, 200f );
 		}
 
-		[ServerCmd( "hv_respawn_screen" )]
+		[ConCmd.Server( "hv_respawn_screen" )]
 		public static void DebugRespawnScreen( string type )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -63,7 +63,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd( "hv_killfeed" )]
+		[ConCmd.Server( "hv_killfeed" )]
 		public static void DebugKillFeed( string type )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd( "hv_toast" )]
+		[ConCmd.Server( "hv_toast" )]
 		public static void DebugToast()
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -98,7 +98,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd( "hv_award" )]
+		[ConCmd.Server( "hv_award" )]
 		public static void GiveAward( string type )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -114,7 +114,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd( "hv_switch_teams" )]
+		[ConCmd.Server( "hv_switch_teams" )]
 		public static void SwitchTeams()
         {
 			if ( ConsoleSystem.Caller.Pawn is Player player )

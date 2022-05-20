@@ -1,5 +1,5 @@
 ﻿using Sandbox;
-using System.ComponentModel.DataAnnotations;
+using SandboxEditor;
 using System.Threading.Tasks;
 
 namespace Gamelib.DayNight
@@ -9,8 +9,9 @@ namespace Gamelib.DayNight
 	/// </summary>
 
 	[Library( "daynight_window" )]
-	[Display( Name = "Window Brush", GroupName = "Day and Night" )]
-	[Hammer.Solid]
+	[Title( "Window Brush" )]
+	[Solid]
+	[HammerEntity]
 	public class DayNightWindow : BrushEntity
 	{
 		[Property( Title = "Enable Delay Time" )]

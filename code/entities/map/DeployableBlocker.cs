@@ -3,12 +3,14 @@ using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_deployable_blocker" )]
-	[Hammer.AutoApplyMaterial("materials/editor/hv_deployable_blocker.vmat")]
-	[Hammer.Solid]
+	[AutoApplyMaterial("materials/editor/hv_deployable_blocker.vmat")]
+	[Solid]
+	[HammerEntity]
 	public partial class DeployableBlocker : BaseTrigger
 	{
 		[Net, Property] public Team Team { get; set; }

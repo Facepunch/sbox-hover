@@ -1,14 +1,14 @@
 ﻿using Gamelib.UI;
 using Sandbox;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_station" )]
-	[Hammer.EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
-	[Display( Name = "Station", GroupName = "Hover" )]
+	[EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
+	[Title( "Station" )]
 	public partial class StationAsset : GeneratorDependency, IBaseAsset
 	{
 		public override string IconName => "ui/icons/loadouts.png";

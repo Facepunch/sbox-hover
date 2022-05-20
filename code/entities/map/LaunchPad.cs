@@ -1,14 +1,14 @@
 ﻿using Sandbox;
-using System;
-using System.ComponentModel.DataAnnotations;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_launch_pad" )]
-	[Hammer.RenderFields]
-	[Hammer.EditorModel( "models/launch_pad/launch_pad.vmdl", FixedBounds = true )]
-	[Display( Name = "Launch Pad", GroupName = "Hover" )]
-	[Hammer.Line( "targetname", "targetentity" )]
+	[RenderFields]
+	[EditorModel( "models/launch_pad/launch_pad.vmdl", FixedBounds = true )]
+	[Title( "Launch Pad" )]
+	[Line( "targetname", "targetentity" )]
+	[HammerEntity]
 	public partial class LaunchPad : ModelEntity
 	{
 		[Net, Property, FGDType( "target_destination" )] public string TargetEntity { get; set; } = "";

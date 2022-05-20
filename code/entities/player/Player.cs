@@ -15,19 +15,19 @@ namespace Facepunch.Hover
 		public TimeSince LastKillTime { get; private set; }
 		public int SuccessiveKills { get; private set; }
 
-		[ServerCmd]
+		[ConCmd.Server]
 		public static void BuyWeaponUpgrade( string configName, string upgradeName )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				var config = Library.Create<WeaponConfig>( configName );
-				var upgradeType = Library.Get<WeaponUpgrade>( upgradeName );
+				var config = TypeLibrary.Create<WeaponConfig>( configName );
+				var upgradeType = TypeLibrary.GetTypeByName<WeaponUpgrade>( upgradeName );
 
 				if ( upgradeType == null ) return;
 
 				if ( config.Upgrades != null && config.Upgrades.Contains( upgradeType ) )
 				{
-					var upgrade = Library.Create<WeaponUpgrade>( upgradeType );
+					var upgrade = TypeLibrary.Create<WeaponUpgrade>( upgradeType );
 
 					if ( player.HasTokens( upgrade.TokenCost) )
 					{
@@ -49,16 +49,16 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd]
+		[ConCmd.Server]
 		public static void BuyLoadoutUpgrade( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				var loadoutType = Library.Get<BaseLoadout>( loadoutName );
+				var loadoutType = TypeLibrary.GetTypeByName<BaseLoadout>( loadoutName );
 
 				if ( loadoutType != null )
 				{
-					var loadout = Library.Create<BaseLoadout>( loadoutType );
+					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutType );
 					if ( loadout == null ) return;
 
 					if ( player.HasTokens( loadout.UpgradeCost ) )
@@ -82,7 +82,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd]
+		[ConCmd.Server]
 		public static void SwitchTeam()
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
@@ -121,16 +121,16 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ServerCmd]
+		[ConCmd.Server]
 		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				var loadoutType = Library.Get<BaseLoadout>( loadoutName );
+				var loadoutType = TypeLibrary.GetTypeByName<BaseLoadout>( loadoutName );
 
 				if ( loadoutType != null )
 				{
-					var loadout = Library.Create<BaseLoadout>( loadoutType );
+					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutType );
 					if ( loadout == null ) return;
 
 					loadout.UpdateWeapons( weapons.Split( ',' ) );
@@ -366,7 +366,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void GiveWeaponUpgrade( string weaponName, string typeName )
 		{
-			var upgrade = Library.Create<WeaponUpgrade>( typeName );
+			var upgrade = TypeLibrary.Create<WeaponUpgrade>( typeName );
 
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
 			{
@@ -400,7 +400,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void GiveLoadoutUpgrade( string typeName )
 		{
-			var type = Library.Get<BaseLoadout>( typeName );
+			var type = TypeLibrary.GetTypeByName<BaseLoadout>( typeName );
 
 			if ( type != null )
 			{
@@ -988,7 +988,7 @@ namespace Facepunch.Hover
 		{
 			if ( flags.HasFlag( DamageFlags.Fall ) )
 			{
-				_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, amount.Remap( 0f, MaxHealth, 0f, 10f ), 0.8f );
+				//_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, amount.Remap( 0f, MaxHealth, 0f, 10f ), 0.8f );
 			}
 
 			DamageIndicator.Current?.OnHit( position );

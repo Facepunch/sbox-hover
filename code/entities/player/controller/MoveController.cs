@@ -140,7 +140,7 @@ namespace Facepunch.Hover
 			IsJetpacking = false;
 			IsSkiing = false;
 
-			if ( Input.Down( Input.UsingController ? InputButton.Jump : InputButton.Attack2 ) )
+			if ( Input.Down( Input.UsingController ? InputButton.Jump : InputButton.SecondaryAttack ) )
 			{
 				DoJetpackMovement();
 			}
@@ -151,7 +151,7 @@ namespace Facepunch.Hover
 			{
 				Velocity = Velocity.WithZ( 0 );
 
-				if ( Input.Down( Input.UsingController ? InputButton.Attack2 : InputButton.Jump ) )
+				if ( Input.Down( Input.UsingController ? InputButton.SecondaryAttack : InputButton.Jump ) )
 				{
 					HandleSki();
 				}

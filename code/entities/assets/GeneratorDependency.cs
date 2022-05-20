@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	public partial class GeneratorDependency : AnimEntity, IHudEntity, IGameResettable, IUse
+	public partial class GeneratorDependency : AnimatedEntity, IHudEntity, IGameResettable, IUse
 	{
 		public virtual float UpgradeTokensPerSecond => 50f;
 		public virtual List<DependencyUpgrade> Upgrades => null;

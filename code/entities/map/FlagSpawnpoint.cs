@@ -1,13 +1,14 @@
 ﻿using Sandbox;
 using System;
-using System.ComponentModel.DataAnnotations;
+using SandboxEditor;
 using System.Linq;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_flag_spawnpoint" )]
-	[Hammer.EditorModel( "models/flag/temp_flag_base.vmdl", FixedBounds = true )]
-	[Display( Name = "Flag Spawnpoint", GroupName = "Hover" )]
+	[EditorModel( "models/flag/temp_flag_base.vmdl", FixedBounds = true )]
+	[Title( "Flag Spawnpoint" )]
+	[HammerEntity]
 	public partial class FlagSpawnpoint : ModelEntity
 	{
 		public delegate void FlagEvent( Player player, FlagEntity flag );

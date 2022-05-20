@@ -25,14 +25,14 @@ namespace Facepunch.Hover
 		{
 			container.DeleteChildren();
 
-			var loadouts = Library.GetAll<BaseLoadout>();
+			var loadouts = TypeLibrary.GetTypes<BaseLoadout>();
 
 			foreach ( var type in loadouts )
 			{
 				if ( type == typeof( BaseLoadout ) )
 					continue;
 
-				var loadout = Library.Create<BaseLoadout>( type );
+				var loadout = TypeLibrary.Create<BaseLoadout>( type );
 
 				if ( loadout.ArmorType != armor )
 					continue;

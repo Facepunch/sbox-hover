@@ -1,10 +1,12 @@
 ﻿using Sandbox;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_world_border" )]
-	[Hammer.AutoApplyMaterial( "materials/map_border.vmat" )]
-	[Hammer.Solid]
+	[AutoApplyMaterial( "materials/map_border.vmat" )]
+	[Solid]
+	[HammerEntity]
 	public partial class WorldBorder : ModelEntity
 	{
 		public override void Spawn()

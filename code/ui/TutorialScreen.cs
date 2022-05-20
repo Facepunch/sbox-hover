@@ -41,13 +41,13 @@ namespace Facepunch.Hover
 	{
 		public static TutorialScreen Instance { get; private set; }
 
-		[ClientVar( "hv_always_show_tutorial" )]
+		[ConVar.Client( "hv_always_show_tutorial" )]
 		public static bool AlwaysShowTutorial { get; set; }
 
-		public Panel Container { get; private set; }
-		public Panel StepsContainer { get; private set; }
-		public Panel ButtonContainer { get; private set; }
-		public TutorialScreenButton OkayButton { get; private set; }
+		public Panel Container { get; set; }
+		public Panel StepsContainer { get; set; }
+		public Panel ButtonContainer { get; set; }
+		public TutorialScreenButton OkayButton { get; set; }
 		public RealTimeUntil HideTime { get; private set; }
 
 		[ClientRpc]
@@ -72,24 +72,31 @@ namespace Facepunch.Hover
 
 		public TutorialScreen()
 		{
-			OkayButton.OnClicked = () =>
-			{
-				Audio.Play( "hover.clickbeep" );
-				Hide();
-			};
-			
 			SetClass( "hidden", true );
 			Instance = this;
 		}
 
 		public override void Tick()
 		{
+			if ( OkayButton == null ) return;
+
 			OkayButton.SetDisabled( !HideTime );
 
 			if ( HideTime )
 				OkayButton.SetText( $"Continue" );
 			else
 				OkayButton.SetText( $"Continue ({ HideTime.Relative.CeilToInt() })" );
+		}
+
+		protected override void PostTemplateApplied()
+		{
+			OkayButton.OnClicked = () =>
+			{
+				Audio.Play( "hover.clickbeep" );
+				Hide();
+			};
+
+			base.PostTemplateApplied();
 		}
 	}
 }

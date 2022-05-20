@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using SandboxEditor;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_radar_sensor" )]
-	[Hammer.EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
-	[Display( Name = "Radar Sensor", GroupName = "Hover" )]
-	[Hammer.Sphere( 8000, 75, 75, 255 )]
+	[EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
+	[Title( "Radar Sensor" )]
+	[Sphere( 8000, 75, 75, 255 )]
 	public partial class RadarSensorAsset : GeneratorDependency, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()

@@ -1,14 +1,14 @@
 ﻿using Gamelib.UI;
 using Sandbox;
-using System;
-using System.Collections.Generic;
+using SandboxEditor;
 using System.ComponentModel.DataAnnotations;
 
 namespace Facepunch.Hover
 {
 	[Library( "hv_generator" )]
-	[Hammer.EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
-	[Display( Name = "Generator", GroupName = "Hover" )]
+	[EditorModel( "models/tempmodels/generator/generator_temp.vmdl", FixedBounds = true )]
+	[Title( "Generator" )]
+	[HammerEntity]
 	public partial class GeneratorAsset : ModelEntity, IGameResettable, IUse, IHudEntity
 	{
 		public delegate void GeneratorEvent( GeneratorAsset generator );
