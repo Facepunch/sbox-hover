@@ -174,25 +174,26 @@ PS
         o.Roughness =        lerp( a.Roughness, b.Roughness, amount );
         o.Metalness =        lerp( a.Metalness, b.Metalness, amount );
         o.AmbientOcclusion = lerp( a.AmbientOcclusion, b.AmbientOcclusion, amount );
-        o.BlendMask =        lerp( a.BlendMask, b.BlendMask, amount );
         o.TintMask  =        lerp( a.TintMask, b.TintMask, amount );
         o.Opacity   =        lerp( a.Opacity, b.Opacity, amount );
         return o;
     }
 
     // Construct our materials
-    Material GatherMaterialWithoutBlend( float2 uv, bool isTopMaterial )
+    Material GatherMaterialWithoutBlend( PixelInput i, float2 uv, bool isTopMaterial )
     {
         if(isTopMaterial)
         {
-            return ToMaterial(  Tex2DS( g_tTopColor, TextureFiltering, uv ), 
+            return ToMaterial(  i,
+                                Tex2DS( g_tTopColor, TextureFiltering, uv ), 
                                 Tex2DS( g_tTopNormal, TextureFiltering, uv ), 
                                 float4( Tex2DS( g_tTopRma, TextureFiltering, uv ).rgb, 1.0f ), 
                                 g_flTopTintColor );
         }
         else
         {
-            return ToMaterial(  Tex2DS( g_tBottomColor, TextureFiltering, uv ),
+            return ToMaterial(  i,
+                    Tex2DS( g_tBottomColor, TextureFiltering, uv ),
                     Tex2DS( g_tBottomNormal, TextureFiltering, uv ),
                     float4(Tex2DS( g_tBottomRma, TextureFiltering, uv ).rgb, 1.0f),
                     g_flBottomTintColor );
@@ -202,8 +203,8 @@ PS
 	PixelOutput MainPs( PixelInput i )
 	{
         // Get our materials
-        Material topMaterial = GatherMaterialWithoutBlend( i.vTextureCoords, true );
-        Material bottomMaterial = GatherMaterialWithoutBlend( i.vTextureCoords, false );
+        Material topMaterial = GatherMaterialWithoutBlend( i, i.vTextureCoords, true );
+        Material bottomMaterial = GatherMaterialWithoutBlend( i, i.vTextureCoords, false );
 
         // Create a noise mask
         float noiseMask = saturate(RemapCurve(GradientNoise(i.vTextureCoords + float2(NoiseSeed, NoiseSeed), NoiseScale, NoiseOctaves)));
