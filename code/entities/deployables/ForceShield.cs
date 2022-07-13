@@ -32,18 +32,15 @@ namespace Facepunch.Hover
 
 		public string GetKillFeedName()
 		{
-			return "Force Field";
+			return "Force Shield";
 		}
 
 		public override void Spawn()
 		{
 			base.Spawn();
 
-			CollisionGroup = CollisionGroup.Default;
-			SetInteractsAs( CollisionLayer.Water );
-			SetInteractsWith( CollisionLayer.Solid );
-
 			Tags.Add( "blastproof" );
+			Tags.Add( "passplayers" );
 
 			Scale = 0.2f;
 		}
@@ -90,7 +87,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsPowered && IsDeployed && NextDamageTime )
 			{
-				var players = Entity.FindInBox( WorldSpaceBounds )
+				var players = FindInBox( WorldSpaceBounds )
 					.OfType<Player>();
 
 				var didDamagePlayer = false;

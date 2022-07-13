@@ -15,10 +15,12 @@ namespace Facepunch.Hover
 		{
 			MoveType = MoveType.Physics;
 			UsePhysicsCollision = true;
+		}
 
-			SetInteractsAs( CollisionLayer.Debris );
-			SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
-			SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
+		public override void Spawn()
+		{
+			Tags.Add( "corpse" );
+			base.Spawn();
 		}
 
 		public void CopyFrom( Player player )

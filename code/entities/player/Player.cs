@@ -534,6 +534,8 @@ namespace Facepunch.Hover
 		{
 			EnableLagCompensation = true;
 
+			Tags.Add( "player" );
+
 			base.Spawn();
 		}
 

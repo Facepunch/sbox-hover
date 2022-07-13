@@ -24,10 +24,8 @@ namespace Facepunch.Hover
 			MaxStandableAngle = 10.0f;
 			Trace = Trace.Ray( 0f, 0f )
 				.WorldAndEntities()
-				.HitLayer( CollisionLayer.All, false )
-				.HitLayer( CollisionLayer.Solid, true )
-				.HitLayer( CollisionLayer.GRATE, true )
-				.HitLayer( CollisionLayer.PLAYER_CLIP, true );
+				.WithoutTags( "passplayers" )
+				.WithAnyTags( "solid", "playerclip", "passbullets", "player" );
 		}
 
 		public TraceResult TraceFromTo( Vector3 start, Vector3 end )

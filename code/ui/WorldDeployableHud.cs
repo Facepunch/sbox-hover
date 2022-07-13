@@ -1,12 +1,11 @@
-﻿
-using Gamelib.UI;
+﻿using Gamelib.UI;
 using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using Gamelib.Extensions;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class WorldDeployableHud : WorldPanel
 	{
 		public DeployableEntity Entity { get; private set; }
