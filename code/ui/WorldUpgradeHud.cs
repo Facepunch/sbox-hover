@@ -6,6 +6,7 @@ using Gamelib.UI;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class WorldUpgradeHud : WorldPanel
 	{
 		public GeneratorDependency Entity { get; private set; }

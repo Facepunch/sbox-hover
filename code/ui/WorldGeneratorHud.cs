@@ -1,10 +1,9 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class WorldGeneratorHud : WorldPanel
 	{
 		public GeneratorAsset Entity { get; private set; }

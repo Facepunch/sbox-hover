@@ -114,7 +114,7 @@ namespace Facepunch.Hover
 			}
 
 			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
-				LaunchSound = PlaySound( LaunchSoundName );
+				LaunchSound = Sound.FromWorld( LaunchSoundName, Position );
 
 			if ( !string.IsNullOrEmpty( ModelName ) )
 				ModelEntity = new SceneObject( Map.Scene, ModelName );
@@ -135,7 +135,6 @@ namespace Facepunch.Hover
 			var newPosition = GetTargetPosition();
 
 			var trace = Trace.Ray( Position, newPosition )
-				.HitLayer( CollisionLayer.Water, true )
 				.Size( Radius )
 				.Ignore( this )
 				.Ignore( IgnoreEntity )
@@ -248,7 +247,6 @@ namespace Facepunch.Hover
 		private void RemoveEffects()
 		{
 			ModelEntity?.Delete();
-			LaunchSound.Stop();
 			Follower?.Destroy();
 			Trail?.Destroy();
 			Trail = null;
