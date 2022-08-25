@@ -8,7 +8,7 @@
 		<LangVersion>10</LangVersion>
 		<NoWarn>1701;1702;1591;</NoWarn>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<DefineConstants>SANDBOX;DEBUG;TRACE</DefineConstants>
+		<DefineConstants>SANDBOX;ADDON;DEBUG</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,9 +24,10 @@
 	</ItemGroup>
 
   <PropertyGroup>
-	<OutputPath>../.vs/output/</OutputPath>
-	<DocumentationFile>../.vs/output/hover.xml</DocumentationFile>
-	<RootNamespace>Facepunch.Hover</RootNamespace>
+	<OutputPath>..\..\../.vs/output/</OutputPath>
+	<DocumentationFile>..\..\../.vs/output/hover.xml</DocumentationFile>
+	<RootNamespace>Sandbox</RootNamespace>
+	<Nullable>disable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
