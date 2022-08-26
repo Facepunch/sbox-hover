@@ -6,7 +6,10 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": null,
+  "ResourcePaths": [
+    "/ui/*",
+    "/fonts/*"
+  ],
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Facepunch.Hover",
@@ -66,6 +69,10 @@
           "r": "Ignore"
         }
       ]
+    },
+    "GameCategory": "Shooter",
+    "ControlModes": {
+      "Keyboard": true
     }
   }
 }
