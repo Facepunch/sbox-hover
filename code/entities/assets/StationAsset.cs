@@ -9,6 +9,7 @@ namespace Facepunch.Hover
 	[Library( "hv_station" )]
 	[EditorModel( "models/upgrade_station/upgrade_station.vmdl", FixedBounds = true )]
 	[Title( "Station" )]
+	[HammerEntity]
 	public partial class StationAsset : GeneratorDependency, IBaseAsset
 	{
 		public override string IconName => "ui/icons/loadouts.png";

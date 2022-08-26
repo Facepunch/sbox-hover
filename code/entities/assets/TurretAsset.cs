@@ -10,6 +10,7 @@ namespace Facepunch.Hover
 	[EditorModel( "models/tempmodels/turret/turret.vmdl", FixedBounds = true )]
 	[Title( "Turret" )]
 	[Sphere( 3000, 75, 255, 65)]
+	[HammerEntity]
 	public partial class TurretAsset : GeneratorDependency, IKillFeedIcon, ITurretComponent, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
