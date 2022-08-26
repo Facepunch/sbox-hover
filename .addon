@@ -8,13 +8,16 @@
   "AssetsPath": "",
   "ResourcePaths": [
     "/ui/*",
-    "/fonts/*"
+    "/fonts/*",
+    "/resources/*"
   ],
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Facepunch.Hover",
   "Metadata": {
-    "MapList": [],
+    "MapList": [
+      "facepunch.hv_dune"
+    ],
     "MinPlayers": 0,
     "MaxPlayers": 32,
     "MapSelect": "Tagged",
