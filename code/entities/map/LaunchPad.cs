@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 			{
 				Force = 1000f;
 			}
-
+			Tags.Add( "trigger" );
 			base.Spawn();
 		}
 
