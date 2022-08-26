@@ -4,7 +4,7 @@ namespace Facepunch.Hover
 {
 	public partial class FirstPersonCamera : CameraMode
 	{
-		public float DefaultFieldOfView { get; set; } = 80f;
+		public float DefaultFieldOfView { get; set; } = 95f;
 		public float TargetFieldOfView { get; set; }
 
 		private Vector3 LastPosition { get; set; }

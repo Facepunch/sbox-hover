@@ -34,6 +34,7 @@ namespace Facepunch.Hover
 
 			EnableAllCollisions = false;
 			EnableTouch = true;
+			Tags.Add( "trigger" );
 
 			Transmit = TransmitType.Always;
 
