@@ -25,21 +25,21 @@ namespace Facepunch.Hover
 		{
 			container.DeleteChildren();
 
-			var loadouts = TypeLibrary.GetTypes<BaseLoadout>();
+			var loadouts = TypeLibrary.GetDescriptions<BaseLoadout>();
 
-			foreach ( var type in loadouts )
+			foreach ( var desc in loadouts )
 			{
-				if ( type == typeof( BaseLoadout ) )
+				if ( desc.TargetType == typeof( BaseLoadout ) )
 					continue;
 
-				var loadout = TypeLibrary.Create<BaseLoadout>( type );
+				var loadout = TypeLibrary.Create<BaseLoadout>( desc.TargetType );
 
 				if ( loadout.ArmorType != armor )
 					continue;
 
 				if ( loadout.UpgradesTo == null || !player.HasLoadoutUpgrade( loadout.UpgradesTo ) )
 				{
-					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( type ) )
+					if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( desc.TargetType ) )
 					{
 						var child = container.AddChild<LoadoutSelectItem>();
 						child.SetLoadout( loadout );

@@ -1,9 +1,4 @@
 ﻿using Sandbox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Facepunch.Hover
 {
@@ -13,8 +8,8 @@ namespace Facepunch.Hover
 
 		public PlayerCorpse()
 		{
-			MoveType = MoveType.Physics;
 			UsePhysicsCollision = true;
+			PhysicsEnabled = true;
 		}
 
 		public override void Spawn()

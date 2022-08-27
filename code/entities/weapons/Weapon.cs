@@ -426,11 +426,8 @@ namespace Facepunch.Hover
 
 		public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
 		{
-			bool inWater = Map.Physics.IsPointWater( start );
-
 			yield return Trace.Ray( start, end )
 				.UseHitboxes()
-				.HitLayer( CollisionLayer.Water, !inWater )
 				.Ignore( Owner )
 				.Ignore( this )
 				.Size( radius )

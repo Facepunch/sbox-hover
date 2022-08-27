@@ -136,9 +136,7 @@ namespace Gamelib.FlowFields
 			transform.Position = (position + _centerOffset).WithZ( _collisionExtents.z + heightMap + 5f );
 
 			var trace = Trace.Sweep( _physicsBody, transform, transform )
-				.EntitiesOnly()
 				.WithoutTags( "ff_ignore" )
-				.HitLayer( CollisionLayer.PLAYER_CLIP, true )
 				.Run();
 
 			return trace;

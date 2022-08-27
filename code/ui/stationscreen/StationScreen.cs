@@ -404,8 +404,8 @@ namespace Facepunch.Hover
 
 			var mousePosition = Mouse.Position;
 
-			mousePosition.x -= AvatarPanel.Box.Rect.width * 2f;
-			mousePosition.y -= AvatarPanel.Box.Rect.height * 0.5f;
+			mousePosition.x -= AvatarPanel.Box.Rect.Width * 2f;
+			mousePosition.y -= AvatarPanel.Box.Rect.Height * 0.5f;
 			mousePosition /= AvatarPanel.ScaleToScreen;
 
 			var worldPos = new Vector3( 200f, mousePosition.x, -mousePosition.y );

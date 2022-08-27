@@ -21,13 +21,13 @@ namespace Facepunch.Hover
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
 				var config = TypeLibrary.Create<WeaponConfig>( configName );
-				var upgradeType = TypeLibrary.GetTypeByName<WeaponUpgrade>( upgradeName );
+				var upgradeDesc = TypeLibrary.GetDescription<WeaponUpgrade>( upgradeName );
 
-				if ( upgradeType == null ) return;
+				if ( upgradeDesc == null ) return;
 
-				if ( config.Upgrades != null && config.Upgrades.Contains( upgradeType ) )
+				if ( config.Upgrades != null && config.Upgrades.Contains( upgradeDesc.TargetType ) )
 				{
-					var upgrade = TypeLibrary.Create<WeaponUpgrade>( upgradeType );
+					var upgrade = TypeLibrary.Create<WeaponUpgrade>( upgradeDesc.TargetType );
 
 					if ( player.HasTokens( upgrade.TokenCost) )
 					{
@@ -54,19 +54,19 @@ namespace Facepunch.Hover
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				var loadoutType = TypeLibrary.GetTypeByName<BaseLoadout>( loadoutName );
+				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
 
-				if ( loadoutType != null )
+				if ( loadoutDesc != null )
 				{
-					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutType );
+					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutDesc.TargetType );
 					if ( loadout == null ) return;
 
 					if ( player.HasTokens( loadout.UpgradeCost ) )
 					{
-						player.GiveLoadoutUpgrade( loadoutType );
+						player.GiveLoadoutUpgrade( loadoutDesc.TargetType );
 						player.TakeTokens( loadout.UpgradeCost );
 
-						if ( player.Loadout.UpgradesTo == loadoutType )
+						if ( player.Loadout.UpgradesTo == loadoutDesc.TargetType )
 						{
 							// This is a direct upgrade to what we have already.
 							player.GiveLoadout( loadout );
@@ -126,11 +126,11 @@ namespace Facepunch.Hover
 		{
 			if ( ConsoleSystem.Caller.Pawn is Player player )
 			{
-				var loadoutType = TypeLibrary.GetTypeByName<BaseLoadout>( loadoutName );
+				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
 
-				if ( loadoutType != null )
+				if ( loadoutDesc != null )
 				{
-					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutType );
+					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutDesc.TargetType );
 					if ( loadout == null ) return;
 
 					loadout.UpdateWeapons( weapons.Split( ',' ) );
@@ -400,11 +400,11 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void GiveLoadoutUpgrade( string typeName )
 		{
-			var type = TypeLibrary.GetTypeByName<BaseLoadout>( typeName );
+			var desc = TypeLibrary.GetDescription<BaseLoadout>( typeName );
 
-			if ( type != null )
+			if ( desc != null )
 			{
-				LoadoutUpgrades.Add( type );
+				LoadoutUpgrades.Add( desc.TargetType );
 				StationScreen.Refresh();
 			}
 		}
@@ -1267,14 +1267,12 @@ namespace Facepunch.Hover
 		protected override Entity FindUsable()
 		{
 			var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
-				.HitLayer( CollisionLayer.Water, true )
 				.Ignore( this )
 				.Run();
 
 			if ( !IsValidUseEntity( trace.Entity ) )
 			{
 				trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
-				.HitLayer( CollisionLayer.Water, true )
 				.Radius( 2 )
 				.Ignore( this )
 				.Run();

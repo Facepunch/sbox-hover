@@ -39,7 +39,6 @@ namespace Gamelib.Utility
 			   {
 				   var trace = Trace.Ray( position, v.WorldSpaceBounds.Center )
 					.WorldAndEntities()
-					.HitLayer( CollisionLayer.Water, true )
 					.Ignore( v )
 					.WithTag( "blastproof" )
 					.Run();
