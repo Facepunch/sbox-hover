@@ -6,12 +6,17 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": null,
+  "ResourcePaths": [
+    "/resources/*",
+    "/fonts/*"
+  ],
   "HasCode": true,
   "CodePath": "code",
   "RootNamespace": "Facepunch.Hover",
   "Metadata": {
-    "MapList": [],
+    "MapList": [
+      "facepunch.hv_dune"
+    ],
     "MinPlayers": 0,
     "MaxPlayers": 32,
     "MapSelect": "Tagged",
@@ -83,6 +88,11 @@
         "DefaultValue": "0",
         "Maximum": 1000
       }
-    }
+    },
+    "ControlModes": {
+      "Keyboard": true,
+      "Gamepad": true
+    },
+    "GameCategory": "Shooter"
   }
 }
