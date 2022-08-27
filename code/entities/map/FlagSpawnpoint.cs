@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( "models/flag/temp_flag_base.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 			EnableAllCollisions = false;
 			EnableTouch = true;

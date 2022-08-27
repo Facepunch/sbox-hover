@@ -141,7 +141,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( "models/tempmodels/generator/generator_temp.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 			Transmit = TransmitType.Always;
 

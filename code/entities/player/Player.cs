@@ -232,7 +232,7 @@ namespace Facepunch.Hover
 			EarnedAwards.Clear();
 			LastDamageInfo = default;
 			LastKiller = null;
-			Tokens = 0;
+			Tokens = Game.StartingTokens;
 			Team = Team.None;
 
 			ResetClient( To.Single( this ) );
@@ -738,7 +738,7 @@ namespace Facepunch.Hover
 
 			if ( IsServer && Input.Released( InputButton.Use ) )
 			{
-				var station = Entity.FindInSphere( Position, 50f )
+				var station = FindInSphere( Position, 50f )
 					.OfType<StationAsset>()
 					.FirstOrDefault();
 

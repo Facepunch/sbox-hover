@@ -24,7 +24,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( "models/launch_pad/launch_pad.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 			if ( Force == 0f )
 			{

@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( "models/radar_sensor/radar_sensor.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 			PlayIdleSound();
 
 			Transmit = TransmitType.Always;

@@ -22,6 +22,9 @@ namespace Facepunch.Hover
 		[ConVar.Server( "hv_friendly_fire", Help = "Whether or not friendly fire is enabled." )]
 		public static bool AllowFriendlyFire { get; set; } = false;
 
+		[ConVar.Server( "hv_starting_tokens", Help = "The amount of tokens players start with." )]
+		public static int StartingTokens { get; set; } = 0;
+
 		[ConVar.Server( "hv_toast_duration", Help = "The time that toasts take to disappear." )]
 		public static float ToastDuration { get; set; } = 5f;
 

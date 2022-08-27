@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 		public override void Spawn()
 		{
 			SetModel( "models/tempmodels/turret/turret.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 			Components.Create<TurretComponent>();
 

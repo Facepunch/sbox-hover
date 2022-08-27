@@ -66,6 +66,23 @@
           "r": "Ignore"
         }
       ]
+    },
+    "GameSettings": {
+      "hv_friendly_fire": {
+        "DisplayType": "Boolean",
+        "Choices": [],
+        "ConVarName": "hv_friendly_fire",
+        "DisplayName": "Friendly Fire",
+        "DefaultValue": "false"
+      },
+      "hv_starting_tokens": {
+        "DisplayType": "Integer",
+        "Choices": [],
+        "ConVarName": "hv_starting_tokens",
+        "DisplayName": "Starting Tokens",
+        "DefaultValue": "0",
+        "Maximum": 1000
+      }
     }
   }
 }

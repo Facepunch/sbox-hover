@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetupPhysicsFromModel( PhysicsMotionType.Static );
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 			Transmit = TransmitType.Always;
 		}
 

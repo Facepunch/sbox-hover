@@ -1,8 +1,5 @@
-﻿using Gamelib.Utility;
-using Sandbox;
+﻿using Sandbox;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -10,7 +7,7 @@ namespace Facepunch.Hover
 	{
 		[Net] public RealTimeUntil FinishDeployTime { get; set; }
 
-		public virtual PhysicsMotionType MotionType => PhysicsMotionType.Static;
+		public virtual PhysicsMotionType MotionType => PhysicsMotionType.Keyframed;
 		public virtual string ExplosionEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
 		public virtual bool StartFrozen => false;
 		public virtual string ExplosionSound => "barage.explode";
