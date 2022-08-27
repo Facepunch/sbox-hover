@@ -251,7 +251,7 @@ namespace Facepunch.Hover
 
 		private void PrecacheAssets()
 		{
-			var assets = FileSystem.Mounted.ReadJsonOrDefault<List<string>>( "hover.assets.json" );
+			var assets = FileSystem.Mounted.ReadJsonOrDefault<List<string>>( "resources/hover.assets.json" );
 
 			foreach ( var asset in assets )
 			{

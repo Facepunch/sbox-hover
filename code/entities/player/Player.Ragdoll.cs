@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 			ragdoll.CopyFrom( this );
 			ragdoll.ApplyForceToBone( force, forceBone );
 			ragdoll.Player = this;
+			ragdoll.PhysicsEnabled = true;
 
 			Ragdoll = ragdoll;
 		}

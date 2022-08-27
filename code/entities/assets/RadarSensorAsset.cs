@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 	[EditorModel( "models/radar_sensor/radar_sensor.vmdl", FixedBounds = true )]
 	[Title( "Radar Sensor" )]
 	[Sphere( 8000, 75, 75, 255 )]
+	[HammerEntity]
 	public partial class RadarSensorAsset : GeneratorDependency, IBaseAsset
 	{
 		public override List<DependencyUpgrade> Upgrades => new()
