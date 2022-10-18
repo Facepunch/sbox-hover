@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 {
 	public class Radar : Panel
 	{
-		private readonly Dictionary<Player, RadarDot> _radarDots = new();
+		private readonly Dictionary<Player, RadarDot> RadarDots = new();
 
 		public Panel Anchor;
 
@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 			var deleteList = new List<Player>();
 			var count = 0;
 
-			deleteList.AddRange( _radarDots.Keys );
+			deleteList.AddRange( RadarDots.Keys );
 
 			var players = Entity.All.OfType<Player>().OrderBy( x => Vector3.DistanceBetween( x.EyePosition, CurrentView.Position ) );
 
@@ -46,8 +46,8 @@ namespace Facepunch.Hover
 
 			foreach ( var player in deleteList )
 			{
-				_radarDots[player].Delete();
-				_radarDots.Remove( player );
+				RadarDots[player].Delete();
+				RadarDots.Remove( player );
 			}
 		}
 
@@ -83,10 +83,10 @@ namespace Facepunch.Hover
 			if ( player.Position.Distance( localPlayer.Position ) > radarRange )
 				return false;
 
-			if ( !_radarDots.TryGetValue( player, out var dot ) )
+			if ( !RadarDots.TryGetValue( player, out var dot ) )
 			{
 				dot = CreateRadarDot( player );
-				_radarDots[player] = dot;
+				RadarDots[player] = dot;
 			}
 
 			// This is probably fucking awful maths but it works.

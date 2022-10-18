@@ -613,7 +613,7 @@ namespace Facepunch.Hover
 			}
 
 
-			BecomeRagdollOnClient( LastDamageInfo.Force, GetHitboxBone( LastDamageInfo.HitboxIndex ) );
+			BecomeRagdollOnClient( LastDamageInfo.Force, LastDamageInfo.BoneIndex );
 			Inventory.DeleteContents();
 
 			if ( LastDamageInfo.Flags.HasFlag( DamageFlags.Fall ) )
@@ -855,7 +855,7 @@ namespace Facepunch.Hover
 
 		public override void TakeDamage( DamageInfo info )
 		{
-			if ( info.HitboxIndex == 0 && !info.Flags.HasFlag( DamageFlags.Blast ) )
+			if ( info.Hitbox.HasTag( "head" ) && !info.Flags.HasFlag( DamageFlags.Blast ) )
 			{
 				info.Damage *= 2.0f;
 			}

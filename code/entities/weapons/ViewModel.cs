@@ -19,7 +19,6 @@ namespace Facepunch.Hover
 		private RealTimeUntil? AimHideTime { get; set; }
 		private Vector3 PositionOffset { get; set; }
 		private Angles RotationOffset { get; set; }
-		private float WalkBob { get; set; }
 
 		private float SwingInfluence => 0.05f;
 		private float ReturnSpeed => 5.0f;

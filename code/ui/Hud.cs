@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Sandbox.Effects;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
@@ -44,6 +45,8 @@ namespace Facepunch.Hover
 			ToastList.Instance.AddItem( text, Texture.Load( FileSystem.Mounted, icon ) );
 		}
 
+		private ScreenEffects PostProcessing { get; set; }
+
 		public Hud()
 		{
 			if ( !IsClient )
@@ -80,7 +83,9 @@ namespace Facepunch.Hover
 			RootPanel.AddChild<VictoryScreen>();
 			RootPanel.AddChild<ChatBox>();
 
-			PostProcess.Add( new StandardPostProcess() );
+			PostProcessing = new();
+
+			Map.Camera.AddHook( PostProcessing );
 		}
 
 		[Event.Tick.Client]
@@ -88,23 +93,20 @@ namespace Facepunch.Hover
 		{
 			if ( Local.Pawn is not Player player ) return;
 
-			var pp = PostProcess.Get<StandardPostProcess>();
+			var pp = PostProcessing;
 
-			pp.ChromaticAberration.Enabled = true;
+			pp.ChromaticAberration.Scale = 0.1f;
 			pp.ChromaticAberration.Offset = Vector3.Zero;
 
-			pp.Sharpen.Enabled = true;
-			pp.Sharpen.Strength = 0.1f;
+			pp.Sharpen = 0.1f;
 
 			var healthScale = (0.4f / player.MaxHealth) * player.Health;
-			pp.Saturate.Enabled = true;
-			pp.Saturate.Amount = 0.7f + healthScale;
+			pp.Saturation = 0.7f + healthScale;
 
-			pp.Vignette.Enabled = true;
 			pp.Vignette.Intensity = 0.8f - healthScale * 2f;
-			pp.Vignette.Color = Color.Red;
-			pp.Vignette.Smoothness = 4f;
-			pp.Vignette.Roundness = 2f;
+			pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
+			pp.Vignette.Smoothness = 1f;
+			pp.Vignette.Roundness = 0.8f;
 		}
 	}
 }

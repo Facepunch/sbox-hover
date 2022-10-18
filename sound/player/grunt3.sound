@@ -2,9 +2,18 @@
 {
 	data = 
 	{
-		sounds = 
+		UI = false
+		Volume = 1
+		VolumeRandom = 0
+		Pitch = 1
+		PitchRandom = 0
+		Decibels = 30
+		Sounds = 
 		[
-			"sound/player/grunt3.wav",
+			resource:"sound/player/grunt3.wav",
 		]
+		SelectionMode = "Random"
+		MaximumDistance = 236.23267
+		MinimumDistance = 11.811633
 	}
 }
