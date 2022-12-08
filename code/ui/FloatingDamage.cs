@@ -80,8 +80,8 @@ namespace Facepunch.Hover
 			Position += Velocity * Time.Delta;
 			Velocity -= Velocity * Time.Delta;
 
-			Rotation = Rotation.LookAt( CurrentView.Position - Position );
-			WorldScale = Position.Distance( CurrentView.Position ).Remap( 0f, 10000f, 2.5f, 5f );
+			Rotation = Rotation.LookAt( Camera.Position - Position );
+			WorldScale = Position.Distance( Camera.Position ).Remap( 0f, 10000f, 2.5f, 5f );
 
 			base.Tick();
 		}

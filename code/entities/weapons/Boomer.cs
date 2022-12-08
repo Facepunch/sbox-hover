@@ -80,9 +80,9 @@ namespace Facepunch.Hover
 			base.PlayReloadSound();
 		}
 
-		public override void SimulateAnimator( PawnAnimator anim )
+		public override void SimulateAnimator( AnimationHelperWithLegs anim )
 		{
-			anim.SetAnimParameter( "holdtype", 2 );
+			anim.HoldType = AnimationHelperWithLegs.HoldTypes.Rifle;
 		}
 
 		protected override float ModifyDamage( Entity victim, float damage )

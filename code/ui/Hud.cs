@@ -85,7 +85,7 @@ namespace Facepunch.Hover
 
 			PostProcessing = new();
 
-			Map.Camera.AddHook( PostProcessing );
+			Camera.Main.AddHook( PostProcessing );
 		}
 
 		[Event.Tick.Client]

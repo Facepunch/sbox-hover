@@ -1,6 +1,5 @@
 ﻿
 using Sandbox;
-using Sandbox.Hooks;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
@@ -63,7 +62,7 @@ namespace Facepunch.Hover
 
 		private RealTimeUntil NextTipTime { get; set; }
 
-		[ConCmd.Client( "chat_add", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "hv_chat_add", CanBeCalledFromServer = true )]
 		public static void AddChatEntry( string name, string message, string avatar = null, string className = null, ChatBoxChannel channel = ChatBoxChannel.All )
 		{
 			Current?.AddEntry( name, message, avatar, className, channel );
@@ -74,7 +73,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[ConCmd.Client( "chat_addinfo", CanBeCalledFromServer = true )]
+		[ConCmd.Client( "hv_chat_info", CanBeCalledFromServer = true )]
 		public static void AddInformation( string message, string avatar = null )
 		{
 			Current?.AddEntry( null, message, avatar, "info" );
@@ -86,7 +85,7 @@ namespace Facepunch.Hover
 			Current.ShowRandomTip();
 		}
 
-		[ConCmd.Server( "say" )]
+		[ConCmd.Server( "hv_say" )]
 		public static void Say( string message, ChatBoxChannel channel )
 		{
 			var caller = ConsoleSystem.Caller;
@@ -101,9 +100,9 @@ namespace Facepunch.Hover
 			Log.Info( $"{caller}: {message}" );
 
 			if ( channel == ChatBoxChannel.All )
-				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team.GetHudClass() );
+				AddChatEntry( To.Everyone, caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass() );
 			else
-				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}", player.Team.GetHudClass(), channel );
+				AddChatEntry( player.Team.GetTo(), caller.Name, message, $"avatar:{ConsoleSystem.Caller.SteamId}", player.Team.GetHudClass(), channel );
 		}
 
 		public ChatBoxChannel Channel { get; private set; } = ChatBoxChannel.Team;
@@ -123,8 +122,6 @@ namespace Facepunch.Hover
 			TextEntry.Input.AllowEmojiReplace = true;
 			TextEntry.Input.OnTabPressed += OnTabPressed;
 			TextEntry.SetChannel( Channel );
-
-			Chat.OnOpenChat += Open;
 		}
 
 		public void Open()
@@ -166,6 +163,11 @@ namespace Facepunch.Hover
 			{
 				ShowRandomTip();
 				NextTipTime = Rand.Float( 45f, 60f );
+			}
+
+			if ( Input.Pressed( InputButton.Chat ) )
+			{
+				Open();
 			}
 
 			base.Tick();

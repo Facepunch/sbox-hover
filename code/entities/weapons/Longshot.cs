@@ -55,11 +55,6 @@ namespace Facepunch.Hover
 			{
 				viewModel.SetIsAiming( isScoped, 0.15f );
 			}
-
-			if ( Owner is Player player && player.CameraMode is FirstPersonCamera camera )
-			{
-				camera.TargetFieldOfView = isScoped ? 10f : camera.DefaultFieldOfView;
-			}
 		}
 
 		public override void ActiveEnd( Entity owner, bool dropped )
@@ -137,9 +132,9 @@ namespace Facepunch.Hover
 			base.PlayReloadSound();
 		}
 
-		public override void SimulateAnimator( PawnAnimator anim )
+		public override void SimulateAnimator( AnimationHelperWithLegs anim )
 		{
-			anim.SetAnimParameter( "holdtype", 2 );
+			anim.HoldType = AnimationHelperWithLegs.HoldTypes.Rifle;
 		}
 
 		protected override ModelEntity GetEffectEntity()
@@ -157,12 +152,12 @@ namespace Facepunch.Hover
 			base.OnDestroy();
 		}
 
-		[Event.BuildInput]
-		protected new virtual void BuildInput( InputBuilder builder )
+		[Event.Client.BuildInput]
+		protected new virtual void BuildInput()
 		{
 			if ( IsScoped )
 			{
-				builder.AnalogLook *= 0.2f;
+				Input.AnalogLook *= 0.2f;
 			}
 		}
 	}

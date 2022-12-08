@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 
 			deleteList.AddRange( RadarDots.Keys );
 
-			var players = Entity.All.OfType<Player>().OrderBy( x => Vector3.DistanceBetween( x.EyePosition, CurrentView.Position ) );
+			var players = Entity.All.OfType<Player>().OrderBy( x => Vector3.DistanceBetween( x.EyePosition, Camera.Position ) );
 
 			foreach ( var v in players )
 			{
@@ -96,7 +96,7 @@ namespace Facepunch.Hover
 			var x = (radarSize / radarRange) * difference.x * 0.5f;
 			var y = (radarSize / radarRange) * difference.y * 0.5f;
 
-			var angle = (MathF.PI / 180) * (CurrentView.Rotation.Yaw() - 90f);
+			var angle = (MathF.PI / 180) * (Camera.Rotation.Yaw() - 90f);
 			var x2 = x * MathF.Cos( angle ) + y * MathF.Sin( angle );
 			var y2 = y * MathF.Cos( angle ) - x * MathF.Sin( angle );
 

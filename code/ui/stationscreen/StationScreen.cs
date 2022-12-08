@@ -60,7 +60,7 @@ namespace Facepunch.Hover
 
 		public List<SceneModel> SceneObjects { get; private set; } = new();
 		public LoadoutSelectList LoadoutList { get; private set; }
-		public StationScreenView CurrentView { get; private set; }
+		public StationScreenView Camera { get; private set; }
 		public StationScreenButton CancelButton { get; private set; }
 		public StationScreenMode Mode { get; private set; }
 		public WeaponConfig CurrentWeapon { get; private set; }
@@ -103,23 +103,25 @@ namespace Facepunch.Hover
 			Avatar = new SceneModel( AvatarWorld, model, Transform.Zero );
 
 			var angles = new Angles( 0f, 180f, 0f );
-			var position = Vector3.Up * 55f + angles.Direction * -100f;
+			var position = Vector3.Up * 55f + angles.Forward * -100f;
 
 			AvatarPanel.World = AvatarWorld;
-			AvatarPanel.CameraPosition = position;
-			AvatarPanel.CameraRotation = Rotation.From( angles );
-			AvatarPanel.FieldOfView = 25f;
-			AvatarPanel.AmbientColor = Color.Gray * 0.2f;
+			AvatarPanel.Camera.Position = position;
+			AvatarPanel.Camera.Rotation = Rotation.From( angles );
+			AvatarPanel.Camera.FieldOfView = 25f;
+			AvatarPanel.Camera.AmbientLightColor = Color.Gray * 0.2f;
 
 			SceneObjects.Add( Avatar );
 
 			var lightWarm = new SceneSpotLight( AvatarWorld, Vector3.Up * 100f + Vector3.Forward * 100f + Vector3.Right * -200f, new Color( 1f, 0.95f, 0.8f ) * 60f );
 			lightWarm.Rotation = Rotation.LookAt( -lightWarm.Position );
-			lightWarm.SpotCone = new SpotLightCone { Inner = 90, Outer = 90 };
+			lightWarm.ConeInner = 90f;
+			lightWarm.ConeOuter = 90f;
 
 			var lightBlue = new SceneSpotLight( AvatarWorld, Vector3.Up * 100f + Vector3.Forward * -100f + Vector3.Right * 100f, new Color( 0f, 0.4f, 1f ) * 100f );
 			lightBlue.Rotation = Rotation.LookAt( -lightBlue.Position );
-			lightBlue.SpotCone = new SpotLightCone { Inner = 90f, Outer = 90f };
+			lightBlue.ConeInner = 90f;
+			lightBlue.ConeOuter = 90f;
 
 			Instance?.Delete();
 			Instance = this;
@@ -181,9 +183,16 @@ namespace Facepunch.Hover
 
 			SceneObjects.Clear();
 
+			var allClothing = ResourceLibrary.GetAll<Clothing>();
+
 			foreach ( var clothing in Loadout.Clothing )
 			{
-				var clothes = new SceneModel( AvatarWorld, Model.Load( clothing ), Avatar.Transform );
+				var modelName = allClothing
+					.Where( c => c.ResourceName.ToLower() == clothing.ToLower() )
+					.Select( c => c.Model )
+					.FirstOrDefault();
+
+				var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
 				Avatar.AddChild( "clothing", clothes );
 				SceneObjects.Add( clothes );
 			}
@@ -310,7 +319,7 @@ namespace Facepunch.Hover
 			{
 				if ( view.Name == name )
 				{
-					CurrentView = view;
+					Camera = view;
 					view.SetActive( true );
 				}
 				else
@@ -478,8 +487,8 @@ namespace Facepunch.Hover
 
 			if ( view != null )
 			{
-				CurrentView = view;
-				CurrentView.SetActive( true );
+				Camera = view;
+				Camera.SetActive( true );
 			}
 
 			CancelButton.SetClass( "hidden", Mode == StationScreenMode.Deployment );

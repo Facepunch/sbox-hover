@@ -150,13 +150,13 @@ namespace Facepunch.Hover
 
 		protected bool GetPlacePosition( out Vector3 position, out Rotation rotation )
 		{
-			var trace = Trace.Ray( Owner.EyePosition, Owner.EyePosition + Owner.EyeRotation.Forward * 150f )
+			var trace = Trace.Ray( Player.EyePosition, Player.EyePosition + Player.EyeRotation.Forward * 150f )
 				.Ignore( this )
 				.Ignore( Owner )
 				.Run();
 
 			var isNearOthers = false;
-			var existing = All.OfType<T>().Where( v => v.Deployer == Owner );
+			var existing = All.OfType<T>().Where( v => v.Deployer == Player );
 
 			foreach ( var entity in existing )
 			{
@@ -167,17 +167,12 @@ namespace Facepunch.Hover
 				}
 			}
 
-			var inDeploymentBlocker = false;
-
-			if ( Owner is Player player && player.InDeployableBlocker )
-			{
-				inDeploymentBlocker = true;
-			}
+			var inDeploymentBlocker = Player.InDeployableBlocker;
 
 			if ( !inDeploymentBlocker && !isNearOthers && trace.Hit && trace.Entity.IsWorld
 				&& trace.Normal.Dot( Vector3.Up ) >= 0.8f && trace.EndPosition.Distance( Owner.Position ) >= 60f )
 			{
-				var lookAt = Vector3.Cross( trace.Normal, Owner.EyeRotation.Right );
+				var lookAt = Vector3.Cross( trace.Normal, Player.EyeRotation.Right );
 				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, trace.Normal );
 
@@ -185,7 +180,7 @@ namespace Facepunch.Hover
 			}
 			else if ( trace.Normal.Dot( Vector3.Up ) >= 0.8f )
 			{
-				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRotation.Right );
+				var lookAt = Vector3.Cross( Vector3.Up, Player.EyeRotation.Right );
 				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, trace.Normal );
 
@@ -193,7 +188,7 @@ namespace Facepunch.Hover
 			}
 			else
 			{
-				var lookAt = Vector3.Cross( Vector3.Up, Owner.EyeRotation.Right );
+				var lookAt = Vector3.Cross( Vector3.Up, Player.EyeRotation.Right );
 				position = trace.EndPosition;
 				rotation = Rotation.LookAt( lookAt, Vector3.Up );
 

@@ -1,9 +1,11 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
+using static Sandbox.Event;
 
 namespace Facepunch.Hover
 {
-	public partial class MoveController : BasePlayerController
+	public partial class MoveController : BaseNetworkable
 	{
 		[Net, Predicted] public Vector3 Impulse { get; set; }
 		[Net, Predicted] public bool IsJetpacking { get; set; }
@@ -44,7 +46,10 @@ namespace Facepunch.Hover
 		public float AirControl { get; set; } = 30f;
 		public bool Swimming { get; set; } = false;
 
-		protected Unstuck Unstuck { get; private set; }
+		public Vector3 WishVelocity { get; private set; }
+
+		protected HashSet<string> Events { get; set; } = new();
+		protected HashSet<string> Tags { get; set; } = new();
 
 		protected float SurfaceFriction { get; set; }
 		protected Vector3 PreVelocity { get; set; }
@@ -52,23 +57,61 @@ namespace Facepunch.Hover
 		protected Vector3 Maxs { get; set; }
 		protected bool IsTouchingLadder { get; set; }
 		protected Vector3 LadderNormal { get; set; }
-		protected Player Player { get; set; }
+		protected Vector3 GroundNormal { get; set; }
+		protected Vector3 TraceOffset { get; set; }
+		protected int StuckTries { get; set; }
 
-		public MoveController()
+		public Player Player { get; set; }
+
+		public void SetActivePlayer( Player player )
 		{
-			Unstuck = new Unstuck( this );
+			Player = player;
+		}
+
+		public bool HasEvent( string eventName )
+		{
+			if ( Events == null ) return false;
+			return Events.Contains( eventName );
+		}
+
+		public bool HasTag( string tagName )
+		{
+			if ( Tags == null ) return false;
+			return Tags.Contains( tagName );
+		}
+
+		public void AddEvent( string eventName )
+		{
+			if ( Events == null )
+				Events = new HashSet<string>();
+
+			if ( Events.Contains( eventName ) )
+				return;
+
+			Events.Add( eventName );
+		}
+
+		public void SetTag( string tagName )
+		{
+			Tags ??= new HashSet<string>();
+
+			if ( Tags.Contains( tagName ) )
+				return;
+
+			Tags.Add( tagName );
 		}
 
 		public void ClearGroundEntity()
 		{
-			if ( GroundEntity == null ) return;
+			if ( !Player.GroundEntity.IsValid() )
+				return;
 
-			GroundEntity = null;
+			Player.GroundEntity = null;
 			GroundNormal = Vector3.Up;
 			SurfaceFriction = 1.0f;
 		}
 
-		public override BBox GetHull()
+		public virtual BBox GetHull()
 		{
 			var girth = BodyGirth * 0.5f;
 			var mins = new Vector3( -girth, -girth, 0 );
@@ -76,42 +119,56 @@ namespace Facepunch.Hover
 			return new BBox( mins, maxs );
 		}
 
-		private void SetBBox( Vector3 mins, Vector3 maxs )
+		public virtual TraceResult TraceBBox( Vector3 start, Vector3 end, Vector3 mins, Vector3 maxs, float liftFeet = 0.0f )
 		{
-			if ( Mins == mins && Maxs == maxs )
-				return;
+			if ( liftFeet > 0 )
+			{
+				start += Vector3.Up * liftFeet;
+				maxs = maxs.WithZ( maxs.z - liftFeet );
+			}
 
-			Mins = mins;
-			Maxs = maxs;
+			var tr = Trace.Ray( start + TraceOffset, end + TraceOffset )
+				.Size( mins, maxs )
+				.WithAnyTags( "solid", "playerclip", "passbullets", "player" )
+				.Ignore( Player )
+				.Run();
+
+			tr.EndPosition -= TraceOffset;
+			return tr;
 		}
 
-		private void UpdateBBox()
+		public virtual TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
 		{
-			var girth = BodyGirth * 0.5f;
-			var mins = Scale( new Vector3( -girth, -girth, 0 ) );
-			var maxs = Scale( new Vector3( +girth, +girth, BodyHeight ) );
-
-			SetBBox( mins, maxs );
+			return TraceBBox( start, end, Mins, Maxs, liftFeet );
 		}
 
-		public override void Simulate()
+		public virtual void FrameSimulate()
 		{
-			if ( Pawn is not Player player ) return;
+			Assert.NotNull( Player );
 
-			EyeLocalPosition = Vector3.Up * Scale( EyeHeight );
+			Player.EyeRotation = Player.ViewAngles.ToRotation();
+		}
+
+		public virtual void Simulate()
+		{
+			Assert.NotNull( Player );
+
+			Events?.Clear();
+			Tags?.Clear();
+
+			Player.EyeLocalPosition = Vector3.Up * Scale( EyeHeight );
 			UpdateBBox();
 
-			EyeLocalPosition += TraceOffset;
-			EyeRotation = Input.Rotation;
-			Player = player;
+			Player.EyeLocalPosition += TraceOffset;
+			Player.EyeRotation = Player.ViewAngles.ToRotation();
 
-			if ( Unstuck.TestAndFix() )
+			if ( CheckStuckAndFix() )
 			{
 				// I hope this never really happens.
 				return;
 			}
 
-			var tr = TraceBBox( Position, Position + Vector3.Down * 8f, 16f );
+			var tr = TraceBBox( Player.Position, Player.Position + Vector3.Down * 8f, 16f );
 
 			if ( tr.Hit )
 			{
@@ -121,20 +178,20 @@ namespace Facepunch.Hover
 			if ( Impulse.Length > 0 )
 			{
 				ClearGroundEntity();
-				Velocity += Impulse;
+				Player.Velocity += Impulse;
 				Impulse = 0f;
 			}
 
 			CheckLadder();
-			Swimming = Pawn.WaterLevel > 0.6f;
+			Swimming = Player.WaterLevel > 0.6f;
 
-			PreVelocity = Velocity;
+			PreVelocity = Player.Velocity;
 
 			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
-				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
-				Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
-				BaseVelocity = BaseVelocity.WithZ( 0 );
+				Player.Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+				Player.Velocity += new Vector3( 0, 0, Player.BaseVelocity.z ) * Time.Delta;
+				Player.BaseVelocity = Player.BaseVelocity.WithZ( 0 );
 			}
 
 			IsJetpacking = false;
@@ -145,11 +202,11 @@ namespace Facepunch.Hover
 				DoJetpackMovement();
 			}
 
-			var startOnGround = GroundEntity != null;
+			var startOnGround = Player.GroundEntity.IsValid();
 
 			if ( startOnGround )
 			{
-				Velocity = Velocity.WithZ( 0 );
+				Player.Velocity = Player.Velocity.WithZ( 0 );
 
 				if ( Input.Down( Input.UsingController ? InputButton.SecondaryAttack : InputButton.Jump ) )
 				{
@@ -175,9 +232,9 @@ namespace Facepunch.Hover
 				}
 			}
 
-			WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
+			WishVelocity = new Vector3( Player.InputDirection.x, Player.InputDirection.y, 0 );
 			var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-			WishVelocity *= Input.Rotation;
+			WishVelocity *= Player.ViewAngles.ToRotation();
 
 			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
@@ -198,14 +255,14 @@ namespace Facepunch.Hover
 			{
 				LadderMove();
 			}
-			else if ( GroundEntity != null )
+			else if ( Player.GroundEntity.IsValid() )
 			{
 				stayOnGround = true;
 				WalkMove();
 			}
 			else
 			{
-				Velocity -= Velocity * 0.05f * Time.Delta;
+				Player.Velocity -= Player.Velocity * 0.05f * Time.Delta;
 				AirMove();
 			}
 
@@ -216,15 +273,33 @@ namespace Facepunch.Hover
 
 			if ( !Swimming && !IsTouchingLadder && !IsJetpacking )
 			{
-				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+				Player.Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 			}
 
-			if ( GroundEntity != null )
+			if ( Player.GroundEntity.IsValid() )
 			{
-				Velocity = Velocity.WithZ( 0 );
+				Player.Velocity = Player.Velocity.WithZ( 0 );
 			}
 
 			if ( IsSkiing ) SetTag( "skiing" );
+		}
+
+		private void SetBBox( Vector3 mins, Vector3 maxs )
+		{
+			if ( Mins == mins && Maxs == maxs )
+				return;
+
+			Mins = mins;
+			Maxs = maxs;
+		}
+
+		private void UpdateBBox()
+		{
+			var girth = BodyGirth * 0.5f;
+			var mins = Scale( new Vector3( -girth, -girth, 0 ) );
+			var maxs = Scale( new Vector3( +girth, +girth, BodyHeight ) );
+
+			SetBBox( mins, maxs );
 		}
 
 		private float GetWishSpeed()
@@ -245,17 +320,17 @@ namespace Facepunch.Hover
 			WishVelocity = WishVelocity.WithZ( 0 );
 			WishVelocity = WishVelocity.Normal * wishSpeed;
 
-			Velocity = Velocity.WithZ( 0 );
+			Player.Velocity = Player.Velocity.WithZ( 0 );
 
 			Accelerate( wishDir, wishSpeed, 0f, Acceleration );
 
 			if ( IsSkiing && !IsJetpacking )
 			{
-				var trace = Trace.Ray( Position, Position + Vector3.Down * 100f )
-					.Ignore( Pawn )
+				var trace = Trace.Ray( Player.Position, Player.Position + Vector3.Down * 100f )
+					.Ignore( Player )
 					.Run();
 
-				var direction = Velocity.WithZ( 0f ).Normal;
+				var direction = Player.Velocity.WithZ( 0f ).Normal;
 				var angle = trace.Normal.Angle( direction );
 				var scale = GroundSlideScale;
 
@@ -270,27 +345,27 @@ namespace Facepunch.Hover
 					scale = angle.Remap( 60f, 90f, SlideDownhillScale, scale );
 				}
 
-				Velocity += trace.Normal.WithZ( 0f ) * Velocity.Length * scale * Time.Delta;
-				Velocity = Velocity.ClampLength( MaxSpeed );
+				Player.Velocity += trace.Normal.WithZ( 0f ) * Player.Velocity.Length * scale * Time.Delta;
+				Player.Velocity = Player.Velocity.ClampLength( MaxSpeed );
 			}
 
-			Velocity = Velocity.WithZ( 0 );
-			Velocity += BaseVelocity;
+			Player.Velocity = Player.Velocity.WithZ( 0 );
+			Player.Velocity += Player.BaseVelocity;
 
 			try
 			{
-				if ( Velocity.Length < 1.0f )
+				if ( Player.Velocity.Length < 1.0f )
 				{
-					Velocity = Vector3.Zero;
+					Player.Velocity = Vector3.Zero;
 					return;
 				}
 
-				var dest = (Position + Velocity * Time.Delta).WithZ( Position.z );
-				var pm = TraceBBox( Position, dest );
+				var dest = (Player.Position + Player.Velocity * Time.Delta).WithZ( Player.Position.z );
+				var pm = TraceBBox( Player.Position, dest );
 
 				if ( pm.Fraction == 1 )
 				{
-					Position = pm.EndPosition;
+					Player.Position = pm.EndPosition;
 					StayOnGround();
 					return;
 				}
@@ -299,7 +374,7 @@ namespace Facepunch.Hover
 			}
 			finally
 			{
-				Velocity -= BaseVelocity;
+				Player.Velocity -= Player.BaseVelocity;
 			}
 
 			StayOnGround();
@@ -307,26 +382,26 @@ namespace Facepunch.Hover
 
 		private void StepMove()
 		{
-			var mover = new MoveHelper( Position, Velocity );
-			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
+			var mover = new MoveHelper( Player.Position, Player.Velocity );
+			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Player );
 			mover.WallBounce = IsSkiing ? SkiWallBounce : 0f;
 			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMoveWithStep( Time.Delta, StepSize );
 
-			Position = mover.Position;
-			Velocity = mover.Velocity;
+			Player.Position = mover.Position;
+			Player.Velocity = mover.Velocity;
 		}
 
 		private void Move()
 		{
-			var mover = new MoveHelper( Position, Velocity );
-			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Pawn );
+			var mover = new MoveHelper( Player.Position, Player.Velocity );
+			mover.Trace = mover.Trace.Size( Mins, Maxs ).Ignore( Player );
 			mover.WallBounce = IsJetpacking ? JetpackSurfaceBounce : 0f;
 			mover.MaxStandableAngle = GroundAngle;
 			mover.TryMove( Time.Delta );
 
-			Position = mover.Position;
-			Velocity = mover.Velocity;
+			Player.Position = mover.Position;
+			Player.Velocity = mover.Velocity;
 		}
 
 		private void Accelerate( Vector3 wishDir, float wishSpeed, float speedLimit, float acceleration )
@@ -334,7 +409,7 @@ namespace Facepunch.Hover
 			if ( speedLimit > 0 && wishSpeed > speedLimit )
 				wishSpeed = speedLimit;
 
-			var currentSpeed = Velocity.Dot( wishDir );
+			var currentSpeed = Player.Velocity.Dot( wishDir );
 			var addSpeed = wishSpeed - currentSpeed;
 
 			if ( addSpeed <= 0 )
@@ -347,13 +422,13 @@ namespace Facepunch.Hover
 
 			if ( IsSkiing || LastSkiTime < 0.5f )
 			{
-				var previousLength = Math.Max( Velocity.Length, wishSpeed );
-				Velocity += wishDir * accelSpeed;
-				Velocity = Velocity.ClampLength( previousLength );
+				var previousLength = Math.Max( Player.Velocity.Length, wishSpeed );
+				Player.Velocity += wishDir * accelSpeed;
+				Player.Velocity = Player.Velocity.ClampLength( previousLength );
 			}
 			else
 			{
-				Velocity += wishDir * accelSpeed;
+				Player.Velocity += wishDir * accelSpeed;
 			}
 		}
 
@@ -363,14 +438,14 @@ namespace Facepunch.Hover
 				wishSpeed = speedLimit;
 
 			var wishVelocity = wishDir * wishSpeed;
-			var pushDir = wishVelocity - Velocity;
+			var pushDir = wishVelocity - Player.Velocity;
 			var pushLen = pushDir.Length;
 			var canPush = 1f * Time.Delta * wishSpeed;
 			
 			if ( canPush > pushLen )
 				canPush = pushLen;
-			
-			Velocity += (pushDir * canPush * Time.Delta);
+
+			Player.Velocity += (pushDir * canPush * Time.Delta);
 		}
 
 		private void HandleSki()
@@ -379,9 +454,45 @@ namespace Facepunch.Hover
 			IsSkiing = true;
 		}
 
+		private bool CheckStuckAndFix()
+		{
+			var result = TraceBBox( Player.Position, Player.Position );
+
+			if ( !result.StartedSolid )
+			{
+				StuckTries = 0;
+				return false;
+			}
+
+			if ( Host.IsClient ) return true;
+
+			var attemptsPerTick = 20;
+
+			for ( int i = 0; i < attemptsPerTick; i++ )
+			{
+				var pos = Player.Position + Vector3.Random.Normal * (StuckTries / 2.0f);
+
+				if ( i == 0 )
+				{
+					pos = Player.Position + Vector3.Up * 5;
+				}
+
+				result = TraceBBox( pos, pos );
+
+				if ( !result.StartedSolid )
+				{
+					Player.Position = pos;
+					return false;
+				}
+			}
+
+			StuckTries++;
+			return true;
+		}
+
 		private void ApplyFriction( float frictionAmount = 1.0f )
 		{
-			var speed = Velocity.Length;
+			var speed = Player.Velocity.Length;
 			if ( speed < 0.1f ) return;
 
 			var control = (speed < StopSpeed) ? StopSpeed : speed;
@@ -393,7 +504,7 @@ namespace Facepunch.Hover
 			if ( newSpeed != speed )
 			{
 				newSpeed /= speed;
-				Velocity *= newSpeed;
+				Player.Velocity *= newSpeed;
 			}
 		}
 
@@ -402,32 +513,32 @@ namespace Facepunch.Hover
 			if ( Swimming )
 			{
 				ClearGroundEntity();
-				Velocity = Velocity.WithZ( 100 );
+				Player.Velocity = Player.Velocity.WithZ( 100 );
 				return;
 			}
 
-			var startZ = Velocity.z;
+			var startZ = Player.Velocity.z;
 
-			if ( GroundEntity == null )
+			if ( !Player.GroundEntity.IsValid() )
 			{
 				if ( Player.Energy >= 5f )
 				{
 					IsJetpacking = true;
 
-					Velocity += Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
+					Player.Velocity += Player.Velocity.WithZ( 0f ).Normal * Scale( JetpackAimThrust * JetpackScale ) * Time.Delta;
 
-					if ( Velocity.z <= MaxJetpackVelocity )
+					if ( Player.Velocity.z <= MaxJetpackVelocity )
 					{
-						Velocity += Vector3.Up * Gravity * Time.Delta;
+						Player.Velocity += Vector3.Up * Gravity * Time.Delta;
 
 						var boost = Scale( JetpackBoost ) * JetpackScale * 2f;
-						var trace = Trace.Ray( Position, Vector3.Up * boost * Time.Delta * 8f )
-							.Ignore( Pawn )
+						var trace = Trace.Ray( Player.Position, Vector3.Up * boost * Time.Delta * 8f )
+							.Ignore( Player )
 							.Run();
 
 						if ( !trace.Hit )
                         {
-							Velocity += Vector3.Up * boost * Time.Delta;
+							Player.Velocity += Vector3.Up * boost * Time.Delta;
 						}
 					}
 				}
@@ -444,8 +555,8 @@ namespace Facepunch.Hover
 				var groundFactor = 0.5f;
 				var multiplier = Scale( 268.3281572999747f * 1.2f );
 
-				Velocity = Velocity.WithZ( startZ + multiplier * groundFactor );
-				Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+				Player.Velocity = Player.Velocity.WithZ( startZ + multiplier * groundFactor );
+				Player.Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
 				AddEvent( "jump" );
 			}
@@ -453,12 +564,12 @@ namespace Facepunch.Hover
 
 		private float Scale( float speed )
 		{
-			return speed * Pawn.Scale;
+			return speed * Player.Scale;
 		}
 
 		private Vector3 Scale( Vector3 velocity )
 		{
-			return velocity * Pawn.Scale;
+			return velocity * Player.Scale;
 		}
 
 		private void AirMove()
@@ -468,11 +579,11 @@ namespace Facepunch.Hover
 
 			Accelerate( wishDir, wishSpeed, AirControl, AirAcceleration );
 
-			Velocity += BaseVelocity;
+			Player.Velocity += Player.BaseVelocity;
 
 			Move();
 
-			Velocity -= BaseVelocity;
+			Player.Velocity -= Player.BaseVelocity;
 		}
 
 		private void WaterMove()
@@ -484,30 +595,30 @@ namespace Facepunch.Hover
 
 			Accelerate( wishDir, wishSpeed, 100f, Acceleration );
 
-			Velocity += BaseVelocity;
+			Player.Velocity += Player.BaseVelocity;
 
 			Move();
 
-			Velocity -= BaseVelocity;
+			Player.Velocity -= Player.BaseVelocity;
 		}
 
 		private void CheckLadder()
 		{
 			if ( IsTouchingLadder && Input.Pressed( InputButton.Jump ) )
 			{
-				Velocity = LadderNormal * 100.0f;
+				Player.Velocity = LadderNormal * 100.0f;
 				IsTouchingLadder = false;
 				return;
 			}
 
 			var ladderDistance = 1.0f;
-			var start = Position;
+			var start = Player.Position;
 			var end = start + (IsTouchingLadder ? (LadderNormal * -1.0f) : WishVelocity.Normal) * ladderDistance;
 
 			var pm = Trace.Ray( start, end )
 				.Size( Mins, Maxs )
 				.WithTag( "ladder" )
-				.Ignore( Pawn )
+				.Ignore( Player )
 				.Run();
 
 			IsTouchingLadder = false;
@@ -525,7 +636,7 @@ namespace Facepunch.Hover
 			var normalDot = velocity.Dot( LadderNormal );
 			var cross = LadderNormal * normalDot;
 
-			Velocity = (velocity - cross) + (-normalDot * LadderNormal.Cross( Vector3.Up.Cross( LadderNormal ).Normal ));
+			Player.Velocity = (velocity - cross) + (-normalDot * LadderNormal.Cross( Vector3.Up.Cross( LadderNormal ).Normal ));
 
 			Move();
 		}
@@ -534,11 +645,11 @@ namespace Facepunch.Hover
 		{
 			SurfaceFriction = 1.0f;
 
-			var point = Position - Vector3.Up * 2f;
-			var bumpOrigin = Position;
+			var point = Player.Position - Vector3.Up * 2f;
+			var bumpOrigin = Player.Position;
 			var moveToEndPos = false;
 
-			if ( GroundEntity != null )
+			if ( Player.GroundEntity.IsValid() )
 			{
 				moveToEndPos = true;
 				point.z -= StepSize;
@@ -549,7 +660,7 @@ namespace Facepunch.Hover
 				point.z -= StepSize;
 			}
 
-			if ( Velocity.z > MaxNonJumpVelocity || Swimming )
+			if ( Player.Velocity.z > MaxNonJumpVelocity || Swimming )
 			{
 				ClearGroundEntity();
 				return;
@@ -562,7 +673,7 @@ namespace Facepunch.Hover
 				ClearGroundEntity();
 				moveToEndPos = false;
 
-				if ( Velocity.z > 0 )
+				if ( Player.Velocity.z > 0 )
 					SurfaceFriction = 0.25f;
 			}
 			else
@@ -572,24 +683,24 @@ namespace Facepunch.Hover
 
 			if ( moveToEndPos && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
 			{
-				Position = pm.EndPosition;
+				Player.Position = pm.EndPosition;
 			}
 		}
 
 		private void UpdateGroundEntity( TraceResult trace )
 		{
-			var wasOnGround = (GroundEntity != null);
+			var wasOnGround = Player.GroundEntity.IsValid();
 
-			GroundNormal = trace.Normal;
-			GroundEntity = trace.Entity;
+			Player.GroundEntity = trace.Entity;
 			SurfaceFriction = trace.Surface.Friction * 1.25f;
+			GroundNormal = trace.Normal;
 
 			if ( SurfaceFriction > 1f )
 				SurfaceFriction = 1f;
 
-			if ( GroundEntity != null )
+			if ( Player.GroundEntity.IsValid() )
 			{
-				BaseVelocity = GroundEntity.Velocity;
+				Player.BaseVelocity = Player.GroundEntity.Velocity;
 
 				if ( !wasOnGround )
 				{
@@ -601,7 +712,7 @@ namespace Facepunch.Hover
 						var overstep = threshold - fallVelocity;
 						var fraction = overstep.Remap( 0f, FallDamageThreshold, 0f, 1f ).Clamp( 0f, 1f );
 
-						Pawn.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
+						Player.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
 							.SetVolume( 0.7f + (0.3f * fraction) )
 							.SetPitch( 1f - (0.35f * fraction) );
 
@@ -609,16 +720,11 @@ namespace Facepunch.Hover
 					}
 					else
 					{
-						var volume = Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
-						Pawn.PlaySound( $"player.land{Rand.Int( 1, 4 )}" ).SetVolume( volume );
+						var volume = Player.Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
+						Player.PlaySound( $"player.land{Rand.Int( 1, 4 )}" ).SetVolume( volume );
 					}
 			 	}
 			}
-		}
-
-		public override TraceResult TraceBBox( Vector3 start, Vector3 end, float liftFeet = 0.0f )
-		{
-			return TraceBBox( start, end, Mins, Maxs, liftFeet );
 		}
 
 		private void OnTakeFallDamage( float fraction )
@@ -626,23 +732,23 @@ namespace Facepunch.Hover
 			if ( Host.IsServer )
 			{
 				var damage = new DamageInfo()
-					.WithAttacker( Pawn )
+					.WithAttacker( Player )
 					.WithFlag( DamageFlags.Fall )
-					.WithForce( Vector3.Down * Velocity.Length * fraction )
-					.WithPosition( Position );
+					.WithForce( Vector3.Down * Player.Velocity.Length * fraction )
+					.WithPosition( Player.Position );
 
 				damage.Damage = FallDamageMin + (FallDamageMax - FallDamageMin) * fraction;
 
-				Pawn.TakeDamage( damage );
+				Player.TakeDamage( damage );
 			}
 		}
 
 		private void StayOnGround()
 		{
-			var start = Position + Vector3.Up * 2;
-			var end = Position + Vector3.Down * StepSize;
+			var start = Player.Position + Vector3.Up * 2;
+			var end = Player.Position + Vector3.Down * StepSize;
 
-			var trace = TraceBBox( Position, start );
+			var trace = TraceBBox( Player.Position, start );
 			start = trace.EndPosition;
 
 			trace = TraceBBox( start, end );
@@ -652,7 +758,7 @@ namespace Facepunch.Hover
 			if ( trace.StartedSolid ) return;
 			if ( Vector3.GetAngle( Vector3.Up, trace.Normal ) > StayOnGroundAngle ) return;
 
-			Position = trace.EndPosition;
+			Player.Position = trace.EndPosition;
 		}
 	}
 }

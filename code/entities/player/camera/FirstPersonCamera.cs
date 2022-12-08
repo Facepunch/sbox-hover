@@ -2,42 +2,32 @@
 
 namespace Facepunch.Hover
 {
-	public partial class FirstPersonCamera : CameraMode
+	public partial class FirstPersonCamera
 	{
-		public float DefaultFieldOfView { get; set; } = 95f;
-		public float TargetFieldOfView { get; set; }
-
 		private Vector3 LastPosition { get; set; }
 
-		public override void Activated()
+		public void Update()
 		{
-			var pawn = Local.Pawn;
-			if ( pawn == null ) return;
+			var player = Local.Pawn as Player;
+			if ( player == null ) return;
 
-			Position = pawn.EyePosition;
-			Rotation = pawn.EyeRotation;
-			FieldOfView = DefaultFieldOfView;
-			LastPosition = Position;
-			TargetFieldOfView = DefaultFieldOfView;
-		}
-
-		public override void Update()
-		{
-			var pawn = Local.Pawn;
-			if ( pawn == null ) return;
-
-			var eyePos = pawn.EyePosition;
+			var eyePos = player.EyePosition;
 
 			if ( eyePos.Distance( LastPosition ) < 300 )
-				Position = Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20.0f * Time.Delta );
+				Camera.Position = Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20.0f * Time.Delta );
 			else
-				Position = eyePos;
+				Camera.Position = eyePos;
 
-			Rotation = pawn.EyeRotation;
-			ZNear = 4f;
-			Viewer = pawn;
-			LastPosition = Position;
-			FieldOfView = FieldOfView.LerpTo( TargetFieldOfView, Time.Delta * 4f );
+			Camera.FirstPersonViewer = player;
+			Camera.Rotation = player.EyeRotation;
+			Camera.ZNear = 4f;
+
+			if ( player.ActiveChild is Longshot longshot && longshot.IsScoped )
+				Camera.FieldOfView = Camera.FieldOfView.LerpTo( 10f, Time.Delta * 4f );
+			else
+				Camera.FieldOfView = Camera.FieldOfView.LerpTo( 90f, Time.Delta * 4f );
+
+			LastPosition = Camera.Position;
 		}
 	}
 }

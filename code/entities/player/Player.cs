@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	public partial class Player : Sandbox.Player
+	public partial class Player : AnimatedEntity
 	{
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
 		public ProjectileSimulator Projectiles { get; private set; }
@@ -14,6 +14,58 @@ namespace Facepunch.Hover
 		public List<Award> EarnedAwards { get; private set; }
 		public TimeSince LastKillTime { get; private set; }
 		public int SuccessiveKills { get; private set; }
+
+		private FirstPersonCamera FirstPersonCamera { get; set; }
+		private SpectateCamera SpectateCamera { get; set; }
+
+		public SceneModel AnimatedLegs { get; private set; }
+
+		private HashSet<string> LegBonesToKeep = new()
+		{
+			"leg_upper_R_twist",
+			"leg_upper_R",
+			"leg_upper_L",
+			"leg_upper_L_twist",
+			"leg_lower_L",
+			"leg_lower_R",
+			"ankle_L",
+			"ankle_R",
+			"ball_L",
+			"ball_R",
+			"leg_knee_helper_L",
+			"leg_knee_helper_R",
+			"leg_lower_R_twist",
+			"leg_lower_L_twist"
+		};
+
+		public Vector3 EyePosition
+		{
+			get => Transform.PointToWorld( EyeLocalPosition );
+			set => EyeLocalPosition = Transform.PointToLocal( value );
+		}
+
+		[Net, Predicted]
+		public Vector3 EyeLocalPosition { get; set; }
+
+		public Rotation EyeRotation
+		{
+			get => Transform.RotationToWorld( EyeLocalRotation );
+			set => EyeLocalRotation = Transform.RotationToLocal( value );
+		}
+
+		[Net, Predicted]
+		public Rotation EyeLocalRotation { get; set; }
+
+		public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
+
+		private class LegsClothingObject
+		{
+			public SceneModel SceneObject { get; set; }
+			public Clothing Asset { get; set; }
+		}
+
+		private Entity LastActiveChild { get; set; }
+		private List<LegsClothingObject> LegsClothing { get; set; } = new();
 
 		[ConCmd.Server]
 		public static void BuyWeaponUpgrade( string configName, string upgradeName )
@@ -158,6 +210,13 @@ namespace Facepunch.Hover
 			public float TotalDamage { get; set; }
 		}
 
+		[Net, Predicted] public MoveController Controller { get; set; }
+		[Net, Predicted] public Entity ActiveChild { get; set; }
+		[ClientInput] public Vector3 InputDirection { get; protected set; }
+		[ClientInput] public Entity ActiveChildInput { get; set; }
+		[ClientInput] public Angles ViewAngles { get; set; }
+		public Angles OriginalViewAngles { get; private set; }
+
 		[Net] public RealTimeUntil NextStationRestock { get; set; }
 		[Net] public RealTimeUntil ShouldHideOnRadar { get; set; }
 		[Net] public TimeSince TimeSinceSpawn { get; private set; }
@@ -177,9 +236,10 @@ namespace Facepunch.Hover
 		[Net] public float EnergyRegen { get; set; } = 20f;
 		[Net] public float EnergyDrain { get; set; } = 20f;
 
-		public TimeSince LastTeamSwitchTime { get; set; }
-		public RealTimeUntil? RespawnTime { get; set; }
-		public DamageInfo LastDamageInfo { get; set; }
+		public TimeSince LastTeamSwitchTime { get; private set; }
+		public RealTimeUntil? RespawnTime { get; private set; }
+		public DamageInfo LastDamageInfo { get; private set; }
+		public Inventory Inventory { get; private set; }
 		public Player LastKiller { get; set; }
 
 		private List<AssistTracker> AssistTrackers { get; set; }
@@ -205,6 +265,8 @@ namespace Facepunch.Hover
 
 		public Player()
 		{
+			FirstPersonCamera = new();
+			SpectateCamera = new();
 			LoadoutUpgrades = new();
 			WeaponUpgrades = new();
 			AssistTrackers = new();
@@ -212,12 +274,11 @@ namespace Facepunch.Hover
 			Projectiles = new( this );
 			EnableTouch = true;
 			Inventory = new Inventory( this );
-			Animator = new PlayerAnimator();
 		}
 
 		public bool IsSpectator
 		{
-			get => (CameraMode is SpectateCamera);
+			get => LifeState == LifeState.Dead;
 		}
 
 		public void Reset()
@@ -515,7 +576,6 @@ namespace Facepunch.Hover
 			EnableDrawing = false;
 			LifeState = LifeState.Dead;
 			Controller = null;
-			CameraMode = new SpectateCamera();
 		}
 
 		public virtual bool CanSelectWeapon( Weapon weapon )
@@ -528,6 +588,59 @@ namespace Facepunch.Hover
 		{
 			StopJetpackLoop();
 			StopSkiLoop();
+		}
+
+		public virtual void Respawn()
+		{
+			RemoveRagdollEntity();
+			ClearAssistTrackers();
+
+			SuccessiveKills = 0;
+			TimeSinceSpawn = 0f;
+			KillStreak = 0;
+			LifeState = LifeState.Alive;
+			WaterLevel = 0;
+			Health = 100f;
+			Velocity = Vector3.Zero;
+
+			Rounds.Current?.OnPlayerSpawn( this );
+
+			WeaponList.Expand( To.Single( this ), 4f );
+
+			ClientRespawn();
+			CreateHull();
+
+			GameManager.Current?.MoveToSpawnpoint( this );
+			ResetInterpolation();
+		}
+
+		public override void OnNewModel( Model model )
+		{
+			if ( IsLocalPawn )
+			{
+				if ( AnimatedLegs.IsValid() )
+				{
+					AnimatedLegs.Delete();
+					AnimatedLegs = null;
+				}
+
+				AnimatedLegs = new( Map.Scene, model, Transform );
+				AnimatedLegs.SetBodyGroup( "Head", 1 );
+
+				foreach ( var clothing in LegsClothing )
+				{
+					clothing.SceneObject.Delete();
+				}
+
+				LegsClothing.Clear();
+
+				foreach ( var child in Children )
+				{
+					AddClothingToLegs( child );
+				}
+			}
+
+			base.OnNewModel( model );
 		}
 
 		public override void Spawn()
@@ -574,27 +687,37 @@ namespace Facepunch.Hover
 			base.EndTouch( other );
 		}
 
-		public override void Respawn()
+		public override void OnChildAdded( Entity child )
 		{
-			base.Respawn();
+			Inventory?.OnChildAdded( child );
+			AddClothingToLegs( child );
+		}
 
-			RemoveRagdollEntity();
-			ClearAssistTrackers();
+		public override void OnChildRemoved( Entity child )
+		{
+			Inventory?.OnChildRemoved( child );
 
-			SuccessiveKills = 0;
-			TimeSinceSpawn = 0f;
-			KillStreak = 0;
+			if ( AnimatedLegs.IsValid() && child is ModelEntity model && child is not Weapon )
+			{
+				if ( model.Model == null ) return;
 
-			Rounds.Current?.OnPlayerSpawn( this );
+				var indexOf = LegsClothing.FindIndex( 0, c => c.Asset.Model.ToLower() == model.Model.Name.ToLower() );
 
-			WeaponList.Expand( To.Single( this ), 4f );
-
-			ClientRespawn();
+				if ( indexOf >= 0 )
+				{
+					var clothing = LegsClothing[indexOf];
+					LegsClothing.RemoveAt( indexOf );
+					clothing.SceneObject.Delete();
+				}
+			}
 		}
 
 		public override void OnKilled()
 		{
-			base.OnKilled();
+			LifeState = LifeState.Dead;
+			StopUsing();
+
+			Client?.AddInt( "deaths", 1 );
 
 			var attacker = LastAttacker;
 
@@ -634,36 +757,79 @@ namespace Facepunch.Hover
 			OnClientKilled();
 		}
 
-		public override void BuildInput( InputBuilder input )
+		public override void BuildInput()
 		{
 			var stationScreen = StationScreen.Instance;
 
 			if ( stationScreen.IsOpen )
 			{
-				if ( stationScreen.Mode == StationScreenMode.Station && input.Released( InputButton.Use ) )
+				if ( stationScreen.Mode == StationScreenMode.Station && Input.Released( InputButton.Use ) )
 				{
 					StationScreen.Hide();
 				}
 
-				input.StopProcessing = true;
-				input.ClearButtons();
-				input.Clear();
+				Input.StopProcessing = true;
+				Input.ClearButtons();
+				Input.AnalogMove = Vector3.Zero;
+				Input.AnalogLook = Angles.Zero;
 
 				return;
 			}
 
-			base.BuildInput( input );
+			OriginalViewAngles = ViewAngles;
+			InputDirection = Input.AnalogMove;
+
+			if ( Input.StopProcessing )
+				return;
+
+			var look = Input.AnalogLook;
+
+			if ( ViewAngles.pitch > 90f || ViewAngles.pitch < -90f )
+			{
+				look = look.WithYaw( look.yaw * -1f );
+			}
+
+			var viewAngles = ViewAngles;
+			viewAngles += look;
+			viewAngles.pitch = viewAngles.pitch.Clamp( -89f, 89f );
+			viewAngles.roll = 0f;
+			ViewAngles = viewAngles.Normal;
+
+			ActiveChild?.BuildInput();
+		}
+
+		public override void FrameSimulate( Client client )
+		{
+			if ( LifeState == LifeState.Alive )
+			{
+				Controller?.SetActivePlayer( this );
+				Controller?.FrameSimulate();
+			}
+
+			if ( LifeState == LifeState.Alive )
+				FirstPersonCamera?.Update();
+			else
+				SpectateCamera?.Update();
+
+			base.FrameSimulate( client );
 		}
 
 		public override void Simulate( Client client )
 		{
 			Projectiles.Simulate();
 
-			SimulateActiveChild(client, ActiveChild);
+			if ( LifeState == LifeState.Alive )
+			{
+				Controller?.SetActivePlayer( this );
+				Controller?.Simulate();
 
-			var targetWeapon = Input.ActiveChild as Weapon;
+				SimulateActiveChild( ActiveChild );
+				SimulateAnimation();
+			}
 
-			if ( targetWeapon != null && ActiveChild != targetWeapon )
+			var targetWeapon = ActiveChildInput as Weapon;
+
+			if ( targetWeapon.IsValid() && ActiveChild != targetWeapon )
 			{
 				if ( CanSelectWeapon( targetWeapon ) )
 				{
@@ -717,14 +883,6 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( Input.Released( InputButton.View ) )
-			{
-				if ( CameraMode is FirstPersonCamera )
-					CameraMode = new ThirdPersonCamera();
-				else
-					CameraMode = new FirstPersonCamera();
-			}
-
 			foreach ( var child in Children )
 			{
 				if ( child is Equipment equipment && equipment.AbilityButton.HasValue )
@@ -765,28 +923,50 @@ namespace Facepunch.Hover
 			}
 
 			TickPlayerUse();
-
-			var controller = GetActiveController();
-			controller?.Simulate( client, this, GetActiveAnimator() );
 		}
 
-		public override void PostCameraSetup( ref CameraSetup setup )
+		private void AddClothingToLegs( Entity child )
 		{
-			base.PostCameraSetup( ref setup );
+			if ( !AnimatedLegs.IsValid() || child is not ModelEntity model || child is Weapon )
+				return;
 
+			if ( model.Model == null ) return;
+
+			var assets = ResourceLibrary.GetAll<Clothing>();
+			var asset = assets.FirstOrDefault( a => !string.IsNullOrEmpty( a.Model ) && a.Model.ToLower() == model.Model.Name.ToLower() );
+			if ( asset == null ) return;
+
+			if ( asset.Category == Sandbox.Clothing.ClothingCategory.Bottoms
+				|| asset.Category == Sandbox.Clothing.ClothingCategory.Footwear
+				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
+			{
+				var clothing = new SceneModel( Map.Scene, model.Model, AnimatedLegs.Transform );
+				AnimatedLegs.AddChild( "clothing", clothing );
+
+				LegsClothing.Add( new()
+				{
+					SceneObject = clothing,
+					Asset = asset
+				} );
+			}
+		}
+
+		[Event.Client.PostCamera]
+		private void PostCameraSetup()
+		{
 			if ( LastCameraRotation == Rotation.Identity )
-				LastCameraRotation = CurrentView.Rotation;
+				LastCameraRotation = Camera.Rotation;
 
-			var angleDiff = Rotation.Difference( LastCameraRotation, CurrentView.Rotation );
+			var angleDiff = Rotation.Difference( LastCameraRotation, Camera.Rotation );
 			var angleDiffDegrees = angleDiff.Angle();
 			var allowance = 20.0f;
 
 			if ( angleDiffDegrees > allowance )
 			{
-				LastCameraRotation = Rotation.Lerp( LastCameraRotation, CurrentView.Rotation, 1.0f - (allowance / angleDiffDegrees) );
+				LastCameraRotation = Rotation.Lerp( LastCameraRotation, Camera.Rotation, 1.0f - (allowance / angleDiffDegrees) );
 			}
 			
-			AddCameraEffects( ref setup );
+			AddCameraEffects();
 		}
 
 		private void ClearAssistTrackers()
@@ -828,29 +1008,29 @@ namespace Facepunch.Hover
 			tracker.TotalDamage += info.Damage;
 		}
 
-		private void AddCameraEffects( ref CameraSetup setup )
+		private void AddCameraEffects()
 		{
 			if ( Controller is not MoveController controller )
 				return;
 
-			var forwardSpeed = Velocity.Normal.Dot( setup.Rotation.Forward );
+			var forwardSpeed = Velocity.Normal.Dot( Camera.Rotation.Forward );
 			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
-			var left = setup.Rotation.Left;
-			var up = setup.Rotation.Up;
+			var left = Camera.Rotation.Left;
+			var up = Camera.Rotation.Up;
 
 			if ( GroundEntity != null )
 			{
-				WalkBob += Time.Delta * 25.0f * speed;
+				WalkBob += Time.Delta * 25f * speed;
 			}
 
-			setup.Position += up * MathF.Sin( WalkBob ) * speed * 2;
-			setup.Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1;
+			Camera.Position += up * MathF.Sin( WalkBob ) * speed * 2f;
+			Camera.Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1f;
 
-			speed = (speed - 0.7f).Clamp( 0, 1 ) * 3.0f;
+			speed = (speed - 0.7f).Clamp( 0f, 1f ) * 3f;
 
-			FOV = FOV.LerpTo( speed * 30 * MathF.Abs( forwardSpeed ), Time.Delta * 2.0f );
+			FOV = FOV.LerpTo( speed * 30f * MathF.Abs( forwardSpeed ), Time.Delta * 2f );
 
-			setup.FieldOfView += FOV;
+			Camera.FieldOfView += (FOV * 0.2f);
 		}
 
 		public override void TakeDamage( DamageInfo info )
@@ -941,7 +1121,20 @@ namespace Facepunch.Hover
 			LastDamageInfo = info;
 			NextRegenTime = RegenDelay;
 
-			base.TakeDamage( info );
+			if ( LifeState == LifeState.Alive )
+			{
+				base.TakeDamage( info );
+
+				this.ProceduralHitReaction( info );
+
+				if ( LifeState == LifeState.Dead && info.Attacker.IsValid() )
+				{
+					if ( info.Attacker.Client.IsValid() && info.Attacker.IsValid() )
+					{
+						info.Attacker.Client.AddInt( "kills" );
+					}
+				}
+			}
 		}
 
 		[ClientRpc]
@@ -1035,11 +1228,116 @@ namespace Facepunch.Hover
 			LastKillTime = 0f;
 		}
 
+		protected void UpdateAnimatedLegBones( SceneModel model )
+		{
+			for ( var i = 0; i < model.Model.BoneCount; i++ )
+			{
+				var boneName = model.Model.GetBoneName( i );
+
+				if ( !LegBonesToKeep.Contains( boneName ) )
+				{
+					var moveBackBy = 25f;
+
+					if ( boneName == "spine_1" ) moveBackBy = 15f;
+					if ( boneName == "spine_0" ) moveBackBy = 10f;
+					if ( boneName == "pelvis" ) moveBackBy = 5f;
+
+					var transform = model.GetBoneWorldTransform( i );
+					transform.Position += model.Rotation.Backward * moveBackBy;
+					transform.Position += model.Rotation.Up * 15f;
+					model.SetBoneWorldTransform( i, transform );
+				}
+			}
+		}
+
+		protected virtual void SimulateActiveChild( Entity child )
+		{
+			if ( Prediction.FirstTime )
+			{
+				if ( LastActiveChild != child )
+				{
+					OnActiveChildChanged( LastActiveChild, child );
+					LastActiveChild = child;
+				}
+			}
+
+			if ( !LastActiveChild.IsValid() )
+				return;
+
+			if ( LastActiveChild.IsAuthority )
+			{
+				LastActiveChild.Simulate( Client );
+			}
+		}
+
+		protected virtual void OnActiveChildChanged( Entity previous, Entity next )
+		{
+			if ( previous is Weapon previousWeapon )
+			{
+				previousWeapon?.ActiveEnd( this, previousWeapon.Owner != this );
+			}
+
+			if ( next is Weapon nextWeapon )
+			{
+				nextWeapon?.ActiveStart( this );
+			}
+		}
+
+		protected virtual float GetFootstepVolume()
+		{
+			return Velocity.WithZ( 0f ).Length.LerpInverse( 0f, 300f ) * 1f;
+		}
+
+		protected virtual void CreateHull()
+		{
+			SetupPhysicsFromAABB( PhysicsMotionType.Keyframed, new Vector3( -16f, -16f, 0f ), new Vector3( 16f, 16f, 72f ) );
+			EnableHitboxes = true;
+		}
+
 		[ClientRpc]
 		protected virtual void OnClientKilled()
 		{
 			StopJetpackLoop();
 			StopSkiLoop();
+		}
+
+		[Event.Client.Frame]
+		protected virtual void OnFrame()
+		{
+			if ( AnimatedLegs.IsValid() )
+			{
+				AnimatedLegs.RenderingEnabled = (LifeState == LifeState.Alive);
+
+				foreach ( var clothing in LegsClothing )
+				{
+					clothing.SceneObject.RenderingEnabled = AnimatedLegs.RenderingEnabled;
+				}
+
+				if ( AnimatedLegs.RenderingEnabled )
+				{
+					var shouldHideLegs = LegsClothing.Any( c => c.Asset.HideBody.HasFlag( Sandbox.Clothing.BodyGroups.Legs ) );
+
+					AnimatedLegs.SetBodyGroup( "Head", 1 );
+					AnimatedLegs.SetBodyGroup( "Hands", 1 );
+					AnimatedLegs.SetBodyGroup( "Legs", shouldHideLegs ? 1 : 0 );
+
+					AnimatedLegs.Flags.CastShadows = false;
+					AnimatedLegs.Transform = Transform;
+					AnimatedLegs.Position += AnimatedLegs.Rotation.Forward * -10f;
+
+					AnimatedLegs.Update( RealTime.Delta );
+
+					foreach ( var clothing in LegsClothing )
+					{
+						clothing.SceneObject.Flags.CastShadows = false;
+						clothing.SceneObject.Update( RealTime.Delta );
+
+						UpdateAnimatedLegBones( clothing.SceneObject );
+					}
+
+					UpdateAnimatedLegBones( AnimatedLegs );
+				}
+			}
 		}
 
 		[Event.Tick.Client]
@@ -1185,7 +1483,7 @@ namespace Facepunch.Hover
 			{
 				if ( IsPlayingWindLoop )
 				{
-					if ( controller.GroundEntity.IsValid() || Velocity.Length < controller.MaxSpeed * 0.1f )
+					if ( GroundEntity.IsValid() || Velocity.Length < controller.MaxSpeed * 0.1f )
 					{
 						StopWindLoop();
 					}
@@ -1194,7 +1492,7 @@ namespace Facepunch.Hover
 						WindLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 0.8f ) );
 					}
 				}
-				else if ( !controller.GroundEntity.IsValid() && Velocity.Length > controller.MaxSpeed * 0.1f )
+				else if ( !GroundEntity.IsValid() && Velocity.Length > controller.MaxSpeed * 0.1f )
 				{
 					StartWindLoop();
 				}
@@ -1257,31 +1555,6 @@ namespace Facepunch.Hover
 			IsPlayingSkiLoop = true;
 			SkiLoop.Stop();
 			SkiLoop = PlaySound( "ski.loop" );
-		}
-
-		protected override void UseFail()
-		{
-			
-		}
-
-		protected override Entity FindUsable()
-		{
-			var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
-				.Ignore( this )
-				.Run();
-
-			if ( !IsValidUseEntity( trace.Entity ) )
-			{
-				trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 150f )
-				.Radius( 2 )
-				.Ignore( this )
-				.Run();
-			}
-
-			if ( !IsValidUseEntity( trace.Entity ) )
-				return null;
-
-			return trace.Entity;
 		}
 
 		protected override void OnDestroy()

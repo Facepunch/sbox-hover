@@ -61,7 +61,7 @@ namespace Facepunch.Hover
 			}
 
 			var transform = Transform;
-			transform.Rotation = Rotation.LookAt( CurrentView.Position - Position );
+			transform.Rotation = Rotation.LookAt( Camera.Position - Position );
 			Transform = transform;
 
 			SetClass( "hidden", false );

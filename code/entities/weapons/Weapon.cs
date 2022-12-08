@@ -1,9 +1,6 @@
-﻿using Gamelib.Extensions;
-using Gamelib.Utility;
+﻿using Gamelib.Utility;
 using Sandbox;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Facepunch.Hover
 {
@@ -68,6 +65,7 @@ namespace Facepunch.Hover
 
 		public float ChargeAttackEndTime { get; private set; }
 		public AnimatedEntity AnimationOwner => Owner as AnimatedEntity;
+		public Player Player => Owner as Player;
 
 		public int AvailableAmmo()
 		{
@@ -154,13 +152,10 @@ namespace Facepunch.Hover
 
 			TimeSinceReload = 0f;
 
-			if ( Owner is Player player )
+			if ( !UnlimitedAmmo )
 			{
-				if ( !UnlimitedAmmo )
-				{
-					if ( player.AmmoCount( Config.AmmoType ) <= 0 )
-						return;
-				}
+				if ( Player.AmmoCount( Config.AmmoType ) <= 0 )
+					return;
 			}
 
 			IsReloading = true;
@@ -174,28 +169,24 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client owner )
 		{
-			if ( owner.Pawn is Player player )
+			// We can't use our weapons at all during the spawn protection period.
+			if ( Player.TimeSinceSpawn < 3f )
 			{
-				// We can't use our weapons at all during the spawn protection period.
-				if ( player.TimeSinceSpawn < 3f )
-				{
-					return;
-				}
+				return;
+			}
 
-				if ( owner.Pawn.LifeState == LifeState.Alive )
+			if ( Player.LifeState == LifeState.Alive )
+			{
+				if ( ChargeAttackEndTime > 0f && Time.Now >= ChargeAttackEndTime )
 				{
-					if ( ChargeAttackEndTime > 0f && Time.Now >= ChargeAttackEndTime )
-					{
-						OnChargeAttackFinish();
-						ChargeAttackEndTime = 0f;
-					}
-				}
-				else
-				{
+					OnChargeAttackFinish();
 					ChargeAttackEndTime = 0f;
 				}
 			}
-
+			else
+			{
+				ChargeAttackEndTime = 0f;
+			}
 			if ( Input.Down( InputButton.Zoom ) )
 			{
 				if ( CanMeleeAttack && TimeSinceMeleeAttack > (1 / MeleeRate) )
@@ -295,10 +286,10 @@ namespace Facepunch.Hover
 
 		public virtual void MeleeStrike( float damage, float force )
 		{
-			var forward = Owner.EyeRotation.Forward;
+			var forward = Player.EyeRotation.Forward;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * MeleeRange, 10f ) )
+			foreach ( var trace in TraceBullet( Player.EyePosition, Player.EyePosition + forward * MeleeRange, 10f ) )
 			{
 				if ( !trace.Entity.IsValid() )
 					continue;
@@ -328,11 +319,11 @@ namespace Facepunch.Hover
 
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
-			var forward = Owner.EyeRotation.Forward;
+			var forward = Player.EyeRotation.Forward;
 			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 			forward = forward.Normal;
 
-			foreach ( var trace in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * BulletRange, bulletSize ) )
+			foreach ( var trace in TraceBullet( Player.EyePosition, Player.EyePosition + forward * BulletRange, bulletSize ) )
 			{
 				if ( string.IsNullOrEmpty( ImpactEffect ) )
 				{
@@ -406,14 +397,6 @@ namespace Facepunch.Hover
 			ViewModelEntity.SetMaterialGroup( ViewModelMaterialGroup );
 		}
 
-		public override void CreateHudElements()
-		{
-			if ( Local.Hud == null ) return;
-
-			//CrosshairPanel = Local.Hud.AddChild<Crosshair>();
-			//CrosshairPanel.AddClass( CrosshairClass );
-		}
-
 		public bool IsUsable()
 		{
 			if ( IsMelee || ClipSize == 0 || AmmoClip > 0 )
@@ -452,13 +435,7 @@ namespace Facepunch.Hover
 				CreateMuzzleFlash();
 			}
 
-			if ( IsLocalPawn )
-			{
-				//_ = new Sandbox.ScreenShake.Perlin();
-			}
-
 			ViewModelEntity?.SetAnimParameter( "fire", true );
-			//CrosshairPanel?.CreateEvent( "fire" );
 		}
 
 		protected virtual ModelEntity GetEffectEntity()

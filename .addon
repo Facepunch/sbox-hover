@@ -3,6 +3,7 @@
   "Type": "game",
   "Org": "facepunch",
   "Ident": "hover",
+  "Tags": "",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
@@ -93,6 +94,7 @@
       "Keyboard": true,
       "Gamepad": true
     },
-    "GameCategory": "Shooter"
+    "GameCategory": "Shooter",
+    "DefaultLeaderboards": null
   }
 }

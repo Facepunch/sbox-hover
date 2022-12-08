@@ -417,7 +417,7 @@ namespace Gamelib.FlowFields
 			var collisionExtents = Vector3.One * collisionSize * 0.5f;
 			var nodeExtents = Vector3.One * nodeSize * 0.5f;
 
-			physicsBody.CollisionEnabled = false;
+			physicsBody.EnableSolidCollisions = false;
 			physicsBody.AddBoxShape( Vector3.Zero, Rotation.Identity, collisionExtents );
 
 			_numberOfChunks = new GridDefinition( numberOfChunks, numberOfChunks );

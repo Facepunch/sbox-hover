@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 
 		public void Update( Player player )
 		{
-			KillerAvatar.SetTexture( $"avatar:{player.Client.PlayerId}" );
+			KillerAvatar.SetTexture( $"avatar:{player.Client.SteamId}" );
 			KillerName.Text = player.Client.Name;
 			SetTeam( player.Team );
 		}

@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 			if ( RotateToFace )
 			{
 				var transform = Transform;
-				transform.Rotation = Rotation.LookAt( CurrentView.Position - Position );
+				transform.Rotation = Rotation.LookAt( Camera.Position - Position );
 				Transform = transform;
 			}
 

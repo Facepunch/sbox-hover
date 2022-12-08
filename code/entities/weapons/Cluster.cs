@@ -79,9 +79,9 @@ namespace Facepunch.Hover
 			base.PlayReloadSound();
 		}
 
-		public override void SimulateAnimator( PawnAnimator anim )
+		public override void SimulateAnimator( AnimationHelperWithLegs anim )
 		{
-			anim.SetAnimParameter( "holdtype", 2 );
+			anim.HoldType = AnimationHelperWithLegs.HoldTypes.Rifle;
 		}
 
 		protected virtual void CreateBomb( Vector3 position )

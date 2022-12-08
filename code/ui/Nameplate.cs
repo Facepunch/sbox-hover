@@ -58,7 +58,7 @@ namespace Facepunch.Hover
 
 			transform.Position = Player.WorldSpaceBounds.Center + Vector3.Up * 60f;
 
-			var targetRotation = Rotation.LookAt( CurrentView.Position - Position );
+			var targetRotation = Rotation.LookAt( Camera.Position - Position );
 			transform.Rotation = targetRotation;
 
 			var distanceToCamera = localPlayer.Position.Distance( Player.Position );

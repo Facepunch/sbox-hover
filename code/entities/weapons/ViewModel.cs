@@ -45,19 +45,22 @@ namespace Facepunch.Hover
 			IsAiming = isAiming;
 		}
 
-		public override void PostCameraSetup( ref CameraSetup camSetup )
+		public override void PlaceViewmodel()
 		{
-			base.PostCameraSetup( ref camSetup );
-
-			AddCameraEffects( ref camSetup );
-		}
-
-		private void AddCameraEffects( ref CameraSetup camSetup )
-		{
-			if ( Owner is not Player player || player.Controller is not MoveController controller )
+			if ( Global.IsRunningInVR )
 				return;
 
-			Rotation = Local.Pawn.EyeRotation;
+			Camera.Main.SetViewModelCamera( 90f, 0.1f, 200f );
+
+			Position = Camera.Position;
+			Rotation = Camera.Rotation;
+		}
+
+		[Event.Client.PostCamera]
+		private void AddCameraEffects()
+		{
+			if ( Owner is not Player player || player.Controller is not MoveController )
+				return;
 
 			if ( IsAiming )
 			{

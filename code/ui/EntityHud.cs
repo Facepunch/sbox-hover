@@ -161,7 +161,7 @@ namespace Facepunch.Hover
 				{
 					Entity.UpdateHudComponents();
 
-					var cameraPosition = CurrentView.Position;
+					var cameraPosition = Camera.Position;
 					var transform = Transform;
 					var position = (Entity.Position + Entity.LocalCenter) + Vector3.Up * UpOffset;
 

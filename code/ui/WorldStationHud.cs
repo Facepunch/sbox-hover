@@ -62,7 +62,7 @@ namespace Facepunch.Hover
 				Transform = attachment.Value.WithScale( WorldScale );
 			}
 
-			var targetRotation = Rotation.LookAt( CurrentView.Position - Position );
+			var targetRotation = Rotation.LookAt( Camera.Position - Position );
 			var transform = Transform;
 
 			transform.Rotation = Rotation.Lerp( transform.Rotation, targetRotation, 0.4f );

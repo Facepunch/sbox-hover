@@ -78,7 +78,7 @@ namespace Gamelib.Utility
 
 			foreach ( var client in Client.All )
 			{
-				var pawn = client.Pawn;
+				var pawn = client.Pawn as Entity;
 
 				if ( !pawn.IsValid() || pawn == attacker )
 					continue;

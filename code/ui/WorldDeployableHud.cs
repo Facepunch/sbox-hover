@@ -56,7 +56,7 @@ namespace Facepunch.Hover
 			var distance = player.Position.Distance( Entity.Position );
 			Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 100f, 500f );
 
-			var cameraPosition = CurrentView.Position;
+			var cameraPosition = Camera.Position;
 			var transform = Transform;
 			var position = Entity.WorldSpaceBounds.Center;
 			var direction = (cameraPosition - position).Normal;

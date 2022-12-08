@@ -6,8 +6,7 @@ using Gamelib.Extensions;
 
 namespace Facepunch.Hover
 {
-	[Library( "hover", Title = "Hover" )]
-	partial class Game : Sandbox.Game
+	partial class Game : GameManager
 	{
 		public Hud Hud { get; set; }
 
@@ -205,16 +204,6 @@ namespace Facepunch.Hover
 		public override void DoPlayerNoclip( Client client )
 		{
 			// Do nothing. The player can't noclip in this mode.
-		}
-
-		public override void DoPlayerSuicide( Client client )
-		{
-			if ( client.Pawn.LifeState == LifeState.Alive )
-			{
-				// This simulates the player being killed.
-				client.Pawn.LifeState = LifeState.Dead;
-				client.Pawn.OnKilled();
-			}
 		}
 
 		public override void PostLevelLoaded()

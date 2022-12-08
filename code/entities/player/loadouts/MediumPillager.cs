@@ -47,11 +47,11 @@ namespace Facepunch.Hover
 
 		public override List<string> Clothing => new()
 		{
-			CitizenClothing.Shoes.WorkBoots,
-			CitizenClothing.Trousers.Police,
-			CitizenClothing.Shirt.Longsleeve.Plain,
-			CitizenClothing.Jacket.Heavy,
-			CitizenClothing.Hat.SecurityHelmet.Normal
+			"black_boots",
+			"tactical_helmet_army",
+			"longsleeve",
+			"chest_armour",
+			"trousers.smart"
 		};
 
 		public override void Respawn( Player player )

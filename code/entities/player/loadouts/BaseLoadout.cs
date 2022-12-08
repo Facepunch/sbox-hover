@@ -175,9 +175,16 @@ namespace Facepunch.Hover
 			player.RemoveClothing();
 			player.SetModel( Model );
 
-			foreach ( var model in Clothing )
+			var allClothing = ResourceLibrary.GetAll<Clothing>();
+
+			foreach ( var assetName in Clothing )
 			{
-				var clothes = player.AttachClothing( model );
+				var modelName = allClothing
+					.Where( c => c.ResourceName.ToLower() == assetName.ToLower() )
+					.Select( c => c.Model )
+					.FirstOrDefault();
+
+				var clothes = player.AttachClothing( modelName );
 				clothes.RenderColor = player.Team.GetColor();
 			}
 
@@ -187,8 +194,6 @@ namespace Facepunch.Hover
 				MoveSpeed = MoveSpeed,
 				MaxSpeed = MaxSpeed
 			};
-
-			player.CameraMode = new FirstPersonCamera();
 
 			player.EnergyRegen = EnergyRegen;
 			player.EnergyDrain = EnergyDrain;

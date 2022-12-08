@@ -1,0 +1,235 @@
+//=========================================================================================================================
+// Optional
+//=========================================================================================================================
+HEADER
+{
+	CompileTargets = ( IS_SM_50 && ( PC || VULKAN ) );
+	Description = "Damage blendable";
+}
+
+//=========================================================================================================================
+// Optional
+//=========================================================================================================================
+FEATURES
+{
+    #include "common/features.hlsl"
+}
+
+MODES
+{
+    VrForward();													// Indicates this shader will be used for main rendering
+    Depth( "vr_depth_only.vfx" ); 									// Shader that will be used for shadowing and depth prepass
+    ToolsVis( S_MODE_TOOLS_VIS ); 									// Ability to see in the editor
+    ToolsWireframe( "vr_tools_wireframe.vfx" ); 					// Allows for mat_wireframe to work
+	ToolsShadingComplexity( "vr_tools_shading_complexity.vfx" ); 	// Shows how expensive drawing is in debug view
+}
+
+//=========================================================================================================================
+COMMON
+{
+	#include "common/shared.hlsl"
+}
+
+//=========================================================================================================================
+
+struct VertexInput
+{
+	#include "common/vertexinput.hlsl"
+};
+
+//=========================================================================================================================
+
+struct PixelInput
+{
+	#include "common/pixelinput.hlsl"
+};
+
+//=========================================================================================================================
+
+VS
+{
+	#include "common/vertex.hlsl"
+	//VS_CommonProcessing_Post
+	// Main
+	//
+	PixelInput MainVs( INSTANCED_SHADER_PARAMS( VertexInput i ) )
+	{
+		PixelInput o = ProcessVertex( i );
+		return FinalizeVertex( o );
+	}
+}
+
+//=========================================================================================================================
+
+PS
+{
+    #include "common/pixel.hlsl"
+
+    // Top texture
+    CreateInputTexture2D( TopTextureColor,            Srgb,   8, "",                 "_topcolor",  "Top Material,10/10", Default3( 1.0, 1.0, 1.0 ) );
+    CreateInputTexture2D( TopTextureNormal,           Linear, 8, "NormalizeNormals", "_topnormal", "Top Material,10/20", Default3( 0.5, 0.5, 1.0 ) );
+    CreateInputTexture2D( TopTextureRoughness,        Linear, 8, "",                 "_toprough",  "Top Material,10/30", Default( 0.5 ) );
+    CreateInputTexture2D( TopTextureMetalness,        Linear, 8, "",                 "_topmetal",  "Top Material,10/40", Default( 1.0 ) );
+    CreateInputTexture2D( TopTextureAmbientOcclusion, Linear, 8, "",                 "_topao",     "Top Material,10/50", Default( 1.0 ) );
+    CreateInputTexture2D( TopTextureTintMask,         Linear, 8, "",                 "_toptint",   "Top Material,10/70", Default( 1.0 ) );
+    CreateTexture2DWithoutSampler( g_tTopColor )  < Channel( RGB,  Box( TopTextureColor ), Srgb ); Channel( A, Box( TopTextureTintMask ), Linear ); OutputFormat( BC7 ); SrgbRead( true ); >;
+    CreateTexture2DWithoutSampler( g_tTopNormal ) < Channel( RGBA, Box( TopTextureNormal ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
+    CreateTexture2DWithoutSampler( g_tTopRma )    < Channel( R,    Box( TopTextureRoughness ), Linear ); Channel( G, Box( TopTextureMetalness ), Linear ); Channel( B, Box( TopTextureAmbientOcclusion ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
+
+    float3 g_flTopTintColor < UiType( Color ); Default3( 1.0, 1.0, 1.0 ); UiGroup( "Top Material,10/80" ); >;
+    
+    // Bottom Texture
+    CreateInputTexture2D( BottomTextureColor,            Srgb,   8, "",                 "_bottomcolor",  "Bottom Material,10/10", Default3( 1.0, 1.0, 1.0 ) );
+    CreateInputTexture2D( BottomTextureNormal,           Linear, 8, "NormalizeNormals", "_bottomnormal", "Bottom Material,10/20", Default3( 0.5, 0.5, 1.0 ) );
+    CreateInputTexture2D( BottomTextureRoughness,        Linear, 8, "",                 "_bottomrough",  "Bottom Material,10/30", Default( 0.5 ) );
+    CreateInputTexture2D( BottomTextureMetalness,        Linear, 8, "",                 "_bottommetal",  "Bottom Material,10/40", Default( 1.0 ) );
+    CreateInputTexture2D( BottomTextureAmbientOcclusion, Linear, 8, "",                 "_bottomao",     "Bottom Material,10/50", Default( 1.0 ) );
+    CreateInputTexture2D( BottomTextureTintMask,         Linear, 8, "",                 "_bottomtint",   "Bottom Material,10/70", Default( 1.0 ) );
+    CreateTexture2DWithoutSampler( g_tBottomColor )  < Channel( RGB,  Box( BottomTextureColor ), Srgb ); Channel( A, Box( BottomTextureTintMask ), Linear ); OutputFormat( BC7 ); SrgbRead( true ); >;
+    CreateTexture2DWithoutSampler( g_tBottomNormal ) < Channel( RGBA, Box( BottomTextureNormal ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
+    CreateTexture2DWithoutSampler( g_tBottomRma )    < Channel( R,    Box( BottomTextureRoughness ), Linear ); Channel( G, Box( BottomTextureMetalness ), Linear ); Channel( B, Box( BottomTextureAmbientOcclusion ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
+
+    float3 g_flBottomTintColor < UiType( Color ); Default3( 1.0, 1.0, 1.0 ); UiGroup( "Bottom Material,10/80" ); >;
+    
+    float NoiseScale< UiType(Slider); Range(0.01f, 2048.0f); Default(128.0f); >;
+    uint NoiseOctaves< UiType(Slider); Range(1, 8); Default(3); >;
+    float Damage< UiType(Slider); Range(0.0f, 1.0f); Default(0.0f); >;
+    float NoiseSeed< UiType(Slider); Range(-100.0f, 100.0f); Default(420.0f); >;
+    float BleedAmount< UiType(Slider); Range(0.0f, 1.0f); Default(0.1f); >;
+    float3 BleedColor< UiType(Color); Default3(1.0f, 0.0f, 0.0f); >;
+    float BleedBoost< UiType(Slider); Range(1.0f, 8.0f); >;
+    float BleedAmbience< UiType(Slider); Range(0.0f, 1.0f); Default(0.4f); >;
+    float BleedTimeMultiplier< UiType(Slider); Range(0.0f, 10.0f); Default(2.0f); >;
+
+    // Fuzzy noise
+    float Noise(float2 uv)
+    {
+        return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453);
+    }
+
+    // Value noise
+    float ValueNoise(float2 uv)
+    {
+        // Get our current cell
+        float2 curCell = floor(uv);
+        float2 cellUv = frac(uv);
+        cellUv = cellUv * cellUv * (3.0f - 2.0f * cellUv);
+
+
+        // Get UVs for each corner of our cell
+        float2 tl = curCell + float2(0.0f, 0.0f);
+        float2 tr = curCell + float2(1.0f, 0.0f);
+        float2 bl = curCell + float2(0.0f, 1.0f);
+        float2 br = curCell + float2(1.0f, 1.0f);
+        
+        // Sample each corner
+        float tlR = Noise(tl);
+        float trR = Noise(tr);
+        float blR = Noise(bl);
+        float brR = Noise(br);
+
+        // Interpolate to get the average noise of the cell
+        float topSmooth = lerp(tlR, trR, cellUv.x);
+        float bottomSmooth = lerp(blR, brR, cellUv.x);
+        return lerp(topSmooth, bottomSmooth, cellUv.y);
+    }
+
+    // Gradient/Perlin noise
+    float GradientNoise(float2 uv, float scale = 1.0f, uint octaves = 3)
+    {
+        float o = 0.0f;
+
+        // Add multiple layers of noise
+        for(uint i = 0; i < octaves; i++)
+        {
+            float frequency = pow(2.0f, float(i));
+            float amplitude = pow(0.5f, float(octaves - i));
+
+            o += ValueNoise(uv * scale / frequency) * amplitude;
+        }
+
+        // Ensure our noise is between 0->1
+        return saturate(o);
+    }
+
+    // Remap to a cubic curve to add bias to the damage scale
+    float RemapCurve(float x)
+    {
+        if(x < 0.5f)
+        {
+            return 4.0f * x * x * x;
+        }
+        else
+        {
+            return 1.0f - pow(-2.0f * x + 2.0f, 3.0f) / 2.0f;
+        }
+    }
+
+    // Lerp for materials is currently broken as opacity is not taken into account!
+    Material LerpMaterial(Material a, Material b, float amount)
+    {
+        Material o;
+        o.Albedo =           lerp( a.Albedo, b.Albedo, amount );
+        o.Normal =           lerp( a.Normal, b.Normal, amount );
+        o.Roughness =        lerp( a.Roughness, b.Roughness, amount );
+        o.Metalness =        lerp( a.Metalness, b.Metalness, amount );
+        o.AmbientOcclusion = lerp( a.AmbientOcclusion, b.AmbientOcclusion, amount );
+        o.TintMask  =        lerp( a.TintMask, b.TintMask, amount );
+        o.Opacity   =        lerp( a.Opacity, b.Opacity, amount );
+        return o;
+    }
+
+    // Construct our materials
+    Material GatherMaterialWithoutBlend( PixelInput i, float2 uv, bool isTopMaterial )
+    {
+        if(isTopMaterial)
+        {
+            return ToMaterial(  i,
+                                Tex2DS( g_tTopColor, TextureFiltering, uv ), 
+                                Tex2DS( g_tTopNormal, TextureFiltering, uv ), 
+                                float4( Tex2DS( g_tTopRma, TextureFiltering, uv ).rgb, 1.0f ), 
+                                g_flTopTintColor );
+        }
+        else
+        {
+            return ToMaterial(  i,
+                    Tex2DS( g_tBottomColor, TextureFiltering, uv ),
+                    Tex2DS( g_tBottomNormal, TextureFiltering, uv ),
+                    float4(Tex2DS( g_tBottomRma, TextureFiltering, uv ).rgb, 1.0f),
+                    g_flBottomTintColor );
+        }
+    }
+
+	PixelOutput MainPs( PixelInput i )
+	{
+        // Get our materials
+        Material topMaterial = GatherMaterialWithoutBlend( i, i.vTextureCoords, true );
+        Material bottomMaterial = GatherMaterialWithoutBlend( i, i.vTextureCoords, false );
+
+        // Create a noise mask
+        float noiseMask = saturate(RemapCurve(GradientNoise(i.vTextureCoords + float2(NoiseSeed, NoiseSeed), NoiseScale, NoiseOctaves)));
+        float mask = step(noiseMask, Damage);
+
+        // Create our bleed mask
+        float smoothMask = (1.0f - smoothstep(Damage, Damage + BleedAmount, noiseMask)) * (1 - mask);
+        // Solid mask of our smooth mask
+        // float maskWithBleed = saturate(step(noiseMask, Damage + BleedAmount) - mask);
+        
+        // Prevent the bleed showing up with 0 damage
+        if(Damage <= 0.0f) {
+            smoothMask = 0.0f;
+        }
+
+        // Blend our damage
+        Material finalMaterial = LerpMaterial(topMaterial, bottomMaterial, mask);
+        
+        // Add our bleed
+        finalMaterial.Albedo += smoothMask * (BleedColor * (BleedAmbience + (sin(g_flTime * BleedTimeMultiplier) + 1.0f) / 2.0f)) * BleedBoost;
+        
+		PixelOutput o;
+		
+        // Output
+		o.vColor = FinalizePixelMaterial(i, finalMaterial);
+		return o;
+	}
+}
