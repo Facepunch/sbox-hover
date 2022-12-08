@@ -7,17 +7,10 @@ using Sandbox;
 
 namespace Facepunch.Hover
 {
+	[UseTemplate]
 	public class Radar : Panel
 	{
 		private readonly Dictionary<Player, RadarDot> RadarDots = new();
-
-		public Panel Anchor;
-
-		public Radar()
-		{
-			StyleSheet.Load( "/ui/Radar.scss" );
-			SetTemplate( "/ui/Radar.html" );
-		}
 
 		public override void Tick()
 		{

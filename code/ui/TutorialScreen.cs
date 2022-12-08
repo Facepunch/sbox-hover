@@ -46,7 +46,6 @@ namespace Facepunch.Hover
 
 		public Panel Container { get; set; }
 		public Panel StepsContainer { get; set; }
-		public Panel ButtonContainer { get; set; }
 		public TutorialScreenButton OkayButton { get; set; }
 		public RealTimeUntil HideTime { get; private set; }
 

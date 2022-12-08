@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 		public Panel StatsList { get; private set; }
 		public int CurrentSlot { get; private set; }
 		public bool IsOpen { get; private set; }
-		public string SlotName => Loadout.GetSlotName( CurrentSlot );
+		public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? strinh.Empty;
 
 		public StationScreen()
 		{
@@ -440,7 +440,7 @@ namespace Facepunch.Hover
 
 		protected string GetUpgradeLevel()
 		{
-			return $"{Loadout.Level}";
+			return $"{Loadout?.Level ?? 0}";
 		}
 
 		protected string GetNextUpgradeLevel()

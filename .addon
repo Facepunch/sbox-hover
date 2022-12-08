@@ -8,8 +8,10 @@
   "HasAssets": true,
   "AssetsPath": "",
   "ResourcePaths": [
-    "/resources/*",
-    "/fonts/*"
+    "resources/*",
+    "fonts/*",
+    "shaders/*",
+    "ui/*"
   ],
   "HasCode": true,
   "CodePath": "code",
@@ -95,6 +97,12 @@
       "Gamepad": true
     },
     "GameCategory": "Shooter",
-    "DefaultLeaderboards": null
+    "DefaultLeaderboards": null,
+    "Summary": "A competitive 32 player capture the flag game where movement is based on jetpacking and skiing.",
+    "Description": "\uD83D\uDD2B Loadouts\r\n\r\nVisit a Loadout Station at your base to change or upgrade your current loadout. Each loadout has alternate weapons and equipment that can be selected.\r\n\r\n\u26F8\uFE0F Jetpacking and Skiing\r\n\r\nTo jetpack hold the [Right Click] button and to ski hold [Space]. When you are skiing, you will maintain your velocity / speed as long as you are not going uphill. Make sure you jetpack uphill and ski downhill and across flat surfaces to gain crazy speed. You should try to be skiing as much as possible while you are moving.\r\n\r\n\uD83C\uDFA4 Communication\r\n\r\nCommunication is vital to your team\u0027s success. Bind a key to \u002Biv_voice to talk with your team.\r\n\r\n\u2B50 Changes\r\n\r\n\uD83D\uDCC5 27/10/2021\r\n* Players can only capture a flag when their flag is on their home stand\r\n* Players instantly return their own flag when they touch it",
+    "Public": true,
+    "GeneralExtensions": false,
+    "TargettedExtensions": true,
+    "ExtensionApiVersion": 1001
   }
 }

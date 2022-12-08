@@ -28,7 +28,6 @@ namespace Facepunch.Hover
 			if ( IconBar.InnerBar.Style.Width != fraction )
 			{
 				IconBar.InnerBar.Style.Width = fraction;
-				IconBar.InnerBar.Style.Dirty();
 			}
 		}
 
