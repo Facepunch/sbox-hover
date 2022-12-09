@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 		public override string Icon => "ui/icons/icon_upgrade.png";
 		public override int TokenCost => 700;
 
-		public override void Apply( Player player, Weapon weapon )
+		public override void Apply( HoverPlayer player, Weapon weapon )
 		{
 			if ( weapon is IDeployableDamageVsHeavy equipment )
 			{

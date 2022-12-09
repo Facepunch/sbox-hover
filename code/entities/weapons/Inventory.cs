@@ -7,9 +7,9 @@ namespace Facepunch.Hover
 {
 	public class Inventory
 	{
-		public Player Player { get; private set; }
+		public HoverPlayer Player { get; private set; }
 
-		public Inventory( Player player )
+		public Inventory( HoverPlayer player )
 		{
 			Player = player;
 		}

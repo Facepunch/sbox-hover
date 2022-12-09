@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
-		protected virtual void DealDamage( Player target, Vector3 position, Vector3 force, float damage )
+		protected virtual void DealDamage( HoverPlayer target, Vector3 position, Vector3 force, float damage )
 		{
 			var damageInfo = new DamageInfo()
 				.WithAttacker( Deployer )
@@ -52,12 +52,12 @@ namespace Facepunch.Hover
 			target.TakeDamage( damageInfo );
 		}
 
-		protected virtual bool IsValidVictim( Player victim )
+		protected virtual bool IsValidVictim( HoverPlayer victim )
 		{
 			return (victim.LifeState == LifeState.Alive && victim.Team != Team);
 		}
 
-		protected virtual void Sense( Player target )
+		protected virtual void Sense( HoverPlayer target )
 		{
 			target.Energy = Math.Max( target.Energy - target.MaxEnergy * 0.4f, 0f );
 
@@ -72,7 +72,7 @@ namespace Facepunch.Hover
 			if ( !NextSense ) return;
 
 			var players = Entity.FindInSphere( Position, Radius )
-				.OfType<Player>()
+				.OfType<HoverPlayer>()
 				.Where( IsValidVictim );
 
 			var didSensePlayer = false;

@@ -4,14 +4,14 @@ namespace Facepunch.Hover
 {
 	public partial class FlagEntity : ModelEntity, IHudEntity, IGameResettable
 	{
-		public delegate void FlagEvent( Player player, FlagEntity flag );
+		public delegate void FlagEvent( HoverPlayer player, FlagEntity flag );
 		public static event FlagEvent OnFlagReturned;
 		public static event FlagEvent OnFlagPickedUp;
 		public static event FlagEvent OnFlagDropped;
 
 		[Net] public RealTimeUntil NextPickupTime { get; private set; }
 		[Net] public FlagSpawnpoint Spawnpoint { get; private set; }
-		[Net] public Player Carrier { get; private set; }
+		[Net] public HoverPlayer Carrier { get; private set; }
 		[Net] public bool IsAtHome { get; private set; }
 		[Net] public Team Team { get; private set; }
 
@@ -111,7 +111,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public void GiveToPlayer( Player player )
+		public void GiveToPlayer( HoverPlayer player )
 		{
 			DoTrailEffects();
 
@@ -132,7 +132,7 @@ namespace Facepunch.Hover
 		{
 			if ( !Rounds.Current.CanCaptureFlags ) return;
 
-			if ( IsServer && other is Player player )
+			if ( IsServer && other is HoverPlayer player )
 			{
 				if ( player.Team == Team )
 				{

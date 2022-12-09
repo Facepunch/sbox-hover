@@ -1,0 +1,113 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.Construct;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/TutorialScreen.scss" )]
+@inherits Panel
+
+<div>
+  <div class="container">
+    <div class="steps-container" @ref="StepsContainer">
+      <label class="game-name">Hover</label>
+      <label class="title">How to Play</label>
+
+      <div class="step">
+        <label class="step-number">Step 1</label>
+        <div class="step-body">
+            <BindingLabel action="Jump" hold>to Ski</BindingLabel>
+            <label>When you are skiing you maintain your velocity as long as you are not going uphill.</label>
+        </div>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 2</label>
+        <div class="step-body">
+            <label>You should ski down slopes to gain velocity, and Jetpack by</label>
+            <BindingLabel action="SecondaryAttack" hold>to travel over hills without losing velocity while you ski.</BindingLabel>
+        </div>
+      </div>
+      <div class="step">
+        <label class="step-number">Step 3</label>
+        <div class="step-body">
+            <label>Capture the enemy flag, or defend your own, and lead your team to victory.</label>
+        </div>
+      </div>
+    </div>
+    <div class="buttons-container">
+      <div class="buttons">
+        <TutorialScreenButton @ref="OkayButton" OnClicked=@OnOkayButtonClicked class="btn is-primary">
+          <div class="button-inside"></div
+        ></TutorialScreenButton>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code
+{
+    public partial class TutorialScreenButton : Panel
+    {
+        public Label Label { get; private set; }
+        public Action OnClicked { get; set; }
+        public bool IsDisabled { get; private set; }
+
+        public TutorialScreenButton()
+        {
+            Label = Add.Label( "" );
+
+            BindClass( "disabled", () => IsDisabled );
+        }
+
+        public void SetText( string text )
+        {
+            Label.Text = text;
+        }
+
+        public void SetDisabled( bool isDisabled )
+        {
+            IsDisabled = isDisabled;
+        }
+
+        protected override void OnClick( MousePanelEvent e )
+        {
+            if ( IsDisabled ) return;
+            OnClicked?.Invoke();
+            base.OnClick( e );
+        }
+    }
+
+    public static TutorialScreen Instance { get; private set; }
+
+    public Panel Container { get; set; }
+    public Panel StepsContainer { get; set; }
+    public TutorialScreenButton OkayButton { get; set; }
+    public RealTimeUntil HideTime { get; private set; }
+
+    public TutorialScreen()
+    {
+        SetClass( "hidden", true );
+        Instance = this;
+    }
+
+    public override void Tick()
+    {
+        if ( OkayButton == null ) return;
+
+        OkayButton.SetDisabled( !HideTime );
+
+        if ( HideTime )
+            OkayButton.SetText( $"Continue" );
+        else
+            OkayButton.SetText( $"Continue ({ HideTime.Relative.CeilToInt() })" );
+    }
+
+    private void OnOkayButtonClicked()
+    {
+        Audio.Play( "hover.clickbeep" );
+        Hide();
+    }
+}

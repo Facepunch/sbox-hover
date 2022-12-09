@@ -6,10 +6,10 @@ namespace Facepunch.Hover
 {
 	public struct AnimationHelperWithLegs
 	{
-		private Player Owner { get; set; }
+		private HoverPlayer Owner { get; set; }
 		private SceneModel Legs => Owner.AnimatedLegs;
 
-		public AnimationHelperWithLegs( Player entity )
+		public AnimationHelperWithLegs( HoverPlayer entity )
 		{
 			Owner = entity;
 		}

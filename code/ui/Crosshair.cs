@@ -1,9 +1,10 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
+using Facepunch.Hover.Utility;
 
 namespace Facepunch.Hover
 {
+	[StyleSheet( "/ui/Crosshair.scss" )]
 	public class Crosshair : Panel
 	{
 		public Panel ChargeBackgroundBar;
@@ -14,8 +15,6 @@ namespace Facepunch.Hover
 
 		public Crosshair()
 		{
-			StyleSheet.Load( "/ui/Crosshair.scss" );
-
 			for ( int i = 0; i < 5; i++ )
 			{
 				var p = Add.Panel( "element" );
@@ -31,7 +30,7 @@ namespace Facepunch.Hover
 		{
 			base.Tick();
 
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 				return;
 
 			Charge.SetClass( "hidden", true );

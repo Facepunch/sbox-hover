@@ -10,17 +10,17 @@ namespace Facepunch.Hover
 		public virtual string Description => "";
 		public virtual int TokenCost => 50;
 
-		public virtual DamageInfo DealDamage( Player player, Player victim, Weapon weapon, DamageInfo info )
+		public virtual DamageInfo DealDamage( HoverPlayer player, HoverPlayer victim, Weapon weapon, DamageInfo info )
 		{
 			return info;
 		}
 
-		public virtual void Restock( Player player, Weapon weapon )
+		public virtual void Restock( HoverPlayer player, Weapon weapon )
 		{
 
 		}
 
-		public virtual void Apply( Player player, Weapon weapon )
+		public virtual void Apply( HoverPlayer player, Weapon weapon )
 		{
 			
 		}

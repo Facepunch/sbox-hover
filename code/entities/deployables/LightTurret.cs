@@ -50,18 +50,18 @@ namespace Facepunch.Hover
 			return "Light Turret";
 		}
 
-		public void FireProjectile( Player target, Vector3 direction )
+		public void FireProjectile( HoverPlayer target, Vector3 direction )
 		{
 			ShootBullet( target, 0.3f, BulletForce, BaseDamage, 16f );
 			PlaySound( $"generic.energy.fire3" );
 		}
 
-		public Vector3 GetTargetPosition( Player target )
+		public Vector3 GetTargetPosition( HoverPlayer target )
 		{
 			return target.WorldSpaceBounds.Center;
 		}
 
-		public bool IsValidVictim( Player player )
+		public bool IsValidVictim( HoverPlayer player )
 		{
 			if ( player.LifeState == LifeState.Dead )
 				return false;
@@ -145,7 +145,7 @@ namespace Facepunch.Hover
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force, float damage )
 		{
-			if ( target is Player player && player.Loadout.ArmorType == LoadoutArmorType.Heavy )
+			if ( target is HoverPlayer player && player.Loadout.ArmorType == LoadoutArmorType.Heavy )
 			{
 				damage *= DamageVsHeavy;
 			}

@@ -54,7 +54,7 @@ namespace Facepunch.Hover
 			return "Base Turret";
 		}
 
-		public void FireProjectile( Player target, Vector3 direction )
+		public void FireProjectile( HoverPlayer target, Vector3 direction )
 		{
 			var projectile = new TurretProjectile()
 			{
@@ -75,7 +75,7 @@ namespace Facepunch.Hover
 			projectile.Initialize( muzzle.Value.Position, direction * ProjectileSpeed, 32f, OnProjectileHit );
 		}
 
-		public Vector3 GetTargetPosition( Player target )
+		public Vector3 GetTargetPosition( HoverPlayer target )
 		{
 			var muzzle = GetAttachment( "muzzle" );
 			var position = target.WorldSpaceBounds.Center;
@@ -88,7 +88,7 @@ namespace Facepunch.Hover
 			return Team == Team.None;
 		}
 
-		public bool IsValidVictim( Player player )
+		public bool IsValidVictim( HoverPlayer player )
 		{
 			if ( player.LifeState == LifeState.Dead )
 				return false;
@@ -128,7 +128,7 @@ namespace Facepunch.Hover
 		{
 			var blastPosition = projectile.Position;
 
-			var proximity = WeaponUtil.GetBlastEntities<Player>( blastPosition, BlastRadius )
+			var proximity = WeaponUtil.GetBlastEntities<HoverPlayer>( blastPosition, BlastRadius )
 				.Where( IsValidVictim );
 
 			foreach ( var target in proximity )

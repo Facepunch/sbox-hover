@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 
 		public bool IsOwned()
 		{
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 				return true;
 
 			var ownedUpgrades = player.GetWeaponUpgrades( Weapon );
@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 
 		public bool IsLocked()
 		{
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 				return true;
 
 			if ( Index == 0 )
@@ -51,19 +51,19 @@ namespace Facepunch.Hover
 
 		public void DoBuyUpgrade()
 		{
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 				return;
 
 			if ( !IsLocked() && !IsOwned() )
 			{
 				if ( player.HasTokens( Upgrade.TokenCost ) )
 				{
-					Player.BuyWeaponUpgrade( Weapon.GetType().Name, Upgrade.GetType().Name );
+					HoverPlayer.BuyWeaponUpgrade( Weapon.GetType().Name, Upgrade.GetType().Name );
 				}
 				else
 				{
 					var tokensNeeded = Upgrade.TokenCost - player.Tokens;
-					Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
+					UI.Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
 				}
 
 				Audio.Play( "hover.clickbeep" );

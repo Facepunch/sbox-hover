@@ -14,7 +14,7 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			var player = Local.Pawn as Player;
+			var player = Local.Pawn as HoverPlayer;
 			if ( player == null ) return;
 
 			var weapon = player.ActiveChild as Weapon;

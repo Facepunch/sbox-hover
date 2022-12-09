@@ -3,7 +3,7 @@ using System;
 
 namespace Facepunch.Hover
 {
-	public partial class Player
+	public partial class HoverPlayer
 	{
 		public Entity Using { get; protected set; }
 

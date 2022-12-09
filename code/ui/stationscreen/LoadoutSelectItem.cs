@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 			Name.Text = loadout.Name;
 			Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/player-icon-highlighted.png" );
 
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				var roleName = "icon_class_attacker";
 

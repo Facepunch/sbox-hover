@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 
 		public override Texture GetShowIcon()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				if ( player.Team == Team.Blue )
 					return Texture.Load( FileSystem.Mounted, "ui/awards/red_capture_flag.png" );

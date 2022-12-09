@@ -65,11 +65,11 @@ namespace Facepunch.Hover
 
 		public float ChargeAttackEndTime { get; private set; }
 		public AnimatedEntity AnimationOwner => Owner as AnimatedEntity;
-		public Player Player => Owner as Player;
+		public HoverPlayer Player => Owner as HoverPlayer;
 
 		public int AvailableAmmo()
 		{
-			if ( Owner is not Player owner ) return 0;
+			if ( Owner is not HoverPlayer owner ) return 0;
 			return owner.AmmoCount( Config.AmmoType );
 		}
 
@@ -82,7 +82,7 @@ namespace Facepunch.Hover
 		{
 			var remainingAmmo = (ClipSize - AmmoClip);
 
-			if ( remainingAmmo > 0 && Owner is Player player )
+			if ( remainingAmmo > 0 && Owner is HoverPlayer player )
 			{
 				player.GiveAmmo( Config.AmmoType, remainingAmmo );
 			}
@@ -241,7 +241,7 @@ namespace Facepunch.Hover
 		{
 			IsReloading = false;
 
-			if ( Owner is Player player )
+			if ( Owner is HoverPlayer player )
 			{
 				if ( !UnlimitedAmmo )
 				{
@@ -445,7 +445,7 @@ namespace Facepunch.Hover
 
 		protected virtual bool IsValidMeleeTarget( Entity target )
 		{
-			return target is Player;
+			return target is HoverPlayer;
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force )

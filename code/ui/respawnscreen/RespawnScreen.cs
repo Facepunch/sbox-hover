@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 		{
 			Instance.SetClass( "hidden", false );
 
-			if ( attacker is Player player )
+			if ( attacker is HoverPlayer player )
 				Instance.KillerInfo.Update( player );
 			else if ( attacker.IsWorld )
 				Instance.KillerInfo.Update( "Unknown" );

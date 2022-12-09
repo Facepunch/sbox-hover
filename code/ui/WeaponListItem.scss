@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-weaponlistitem {
+WeaponListItem {
   background-color: $panel-bg;
   backdrop-filter: blur(10px);
   display: flex;
@@ -108,7 +108,7 @@ weaponlistitem {
 }
 
 .team_red {
-  weaponlistitem {
+  WeaponListItem {
     .weapon-number {
       color: $light-red;
     }

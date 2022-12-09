@@ -10,23 +10,23 @@ namespace Facepunch.Hover
 	[UseTemplate]
 	public class Radar : Panel
 	{
-		private readonly Dictionary<Player, RadarDot> RadarDots = new();
+		private readonly Dictionary<HoverPlayer, RadarDot> RadarDots = new();
 
 		public override void Tick()
 		{
 			base.Tick();
 
-			if ( Local.Pawn is not Player localPlayer )
+			if ( Local.Pawn is not HoverPlayer localPlayer )
 				return;
 
 			SetClass( "hidden", localPlayer.LifeState != LifeState.Alive );
 
-			var deleteList = new List<Player>();
+			var deleteList = new List<HoverPlayer>();
 			var count = 0;
 
 			deleteList.AddRange( RadarDots.Keys );
 
-			var players = Entity.All.OfType<Player>().OrderBy( x => Vector3.DistanceBetween( x.EyePosition, Camera.Position ) );
+			var players = Entity.All.OfType<HoverPlayer>().OrderBy( x => Vector3.DistanceBetween( x.EyePosition, Camera.Position ) );
 
 			foreach ( var v in players )
 			{
@@ -44,7 +44,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public RadarDot CreateRadarDot( Player player )
+		public RadarDot CreateRadarDot( HoverPlayer player )
 		{
 			var tag = new RadarDot( player )
 			{
@@ -54,7 +54,7 @@ namespace Facepunch.Hover
 			return tag;
 		}
 
-		public bool UpdateRadar( Player player )
+		public bool UpdateRadar( HoverPlayer player )
 		{
 			if ( player.IsLocalPawn || !player.HasTeam )
 				return false;
@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 			if ( player.ShouldHideOnRadar )
 				return false;
 
-			if ( Local.Pawn is not Player localPlayer )
+			if ( Local.Pawn is not HoverPlayer localPlayer )
 				return false;
 
 			if ( player.Team == localPlayer.Team )

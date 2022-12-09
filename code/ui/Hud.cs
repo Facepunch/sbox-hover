@@ -1,112 +1,103 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.Effects;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.Threading.Tasks;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI;
+
+public partial class Hud : RootPanel
 {
-	[Library]
-	public partial class Hud : HudEntity<RootPanel>
+	[ClientRpc]
+	public static void AddKillFeed( HoverPlayer attacker, HoverPlayer victim, Entity weapon )
 	{
-		[ClientRpc]
-		public static void AddKillFeed( Player attacker, Player victim, Entity weapon )
-		{
-			ToastList.Instance.AddKillFeed( attacker, victim, weapon );
-		}
+		ToastList.Instance.AddKillFeed( attacker, victim, weapon );
+	}
 
-		[ClientRpc]
-		public static void AddKillFeed( Entity attacker, Player victim )
-		{
-			ToastList.Instance.AddKillFeed( attacker, victim );
-		}
+	[ClientRpc]
+	public static void AddKillFeed( Entity attacker, HoverPlayer victim )
+	{
+		ToastList.Instance.AddKillFeed( attacker, victim );
+	}
 
-		[ClientRpc]
-		public static void AddKillFeed( Player victim )
-		{
-			ToastList.Instance.AddKillFeed( victim );
-		}
+	[ClientRpc]
+	public static void AddKillFeed( HoverPlayer victim )
+	{
+		ToastList.Instance.AddKillFeed( victim );
+	}
 
-		public static void ToastAll( string text, string icon = "" )
-		{
-			Toast( To.Everyone, text, icon );
-		}
+	public static void ToastAll( string text, string icon = "" )
+	{
+		Toast( To.Everyone, text, icon );
+	}
 
-		public static void Toast( Player player, string text, string icon = "" )
-		{
-			Toast( To.Single( player ), text, icon );
-		}
+	public static void Toast( HoverPlayer player, string text, string icon = "" )
+	{
+		Toast( To.Single( player ), text, icon );
+	}
 
-		[ClientRpc]
-		public static void Toast( string text, string icon = "" )
-		{
-			ToastList.Instance.AddItem( text, Texture.Load( FileSystem.Mounted, icon ) );
-		}
+	[ClientRpc]
+	public static void Toast( string text, string icon = "" )
+	{
+		ToastList.Instance.AddItem( text, Texture.Load( FileSystem.Mounted, icon ) );
+	}
 
-		private ScreenEffects PostProcessing { get; set; }
+	private ScreenEffects PostProcessing { get; set; }
 
-		public Hud()
-		{
-			if ( !IsClient )
-				return;
+	public Hud()
+	{
+		StyleSheet.Load( "/ui/Hud.scss" );
 
-			RootPanel.StyleSheet.Load( "/ui/Hud.scss" );
+		AddChild<LongshotScope>();
+		AddChild<RoundInfo>();
 
-			RootPanel.AddChild<LongshotScope>();
-			RootPanel.AddChild<RoundInfo>();
+		var leftPanel = Add.Panel( "hud_left" );
 
-			var leftPanel = RootPanel.Add.Panel( "hud_left" );
+		var centerPanel = Add.Panel("hud_center");
+		centerPanel.AddChild<Vitals>();
+		centerPanel.AddChild<Speedometer>();
 
-			var centerPanel = RootPanel.Add.Panel("hud_center");
-			centerPanel.AddChild<Vitals>();
-			centerPanel.AddChild<Speedometer>();
+		var rightPanel = Add.Panel("hud_right");
+		rightPanel.AddChild<Ammo>();
+		rightPanel.AddChild<WeaponList>();
 
-			var rightPanel = RootPanel.Add.Panel("hud_right");
-			rightPanel.AddChild<Ammo>();
-			rightPanel.AddChild<WeaponList>();
+		AddChild<Tokens>();
+		AddChild<OutpostList>();
+		
+		AddChild<VoiceList>();
+		AddChild<DamageIndicator>();
+		AddChild<HitIndicator>();
+		
+		AddChild<Scoreboard>();
+		AddChild<StationScreen>();
+		AddChild<RespawnScreen>();
+		AddChild<AwardQueue>();
+		AddChild<ToastList>();
+		AddChild<TutorialScreen>();
+		AddChild<VictoryScreen>();
+		AddChild<ChatBox>();
 
-			RootPanel.AddChild<Tokens>();
-			RootPanel.AddChild<OutpostList>();
-			
-			RootPanel.AddChild<VoiceList>();
-			RootPanel.AddChild<DamageIndicator>();
-			RootPanel.AddChild<HitIndicator>();
-			
-			RootPanel.AddChild<Scoreboard>();
-			RootPanel.AddChild<StationScreen>();
-			RootPanel.AddChild<RespawnScreen>();
-			RootPanel.AddChild<AwardQueue>();
-			RootPanel.AddChild<ToastList>();
-			RootPanel.AddChild<TutorialScreen>();
-			RootPanel.AddChild<VictoryScreen>();
-			RootPanel.AddChild<ChatBox>();
+		PostProcessing = new();
 
-			PostProcessing = new();
+		Camera.Main.AddHook( PostProcessing );
+	}
 
-			Camera.Main.AddHook( PostProcessing );
-		}
+	[Event.Tick.Client]
+	private void ClientTick()
+	{
+		if ( Local.Pawn is not HoverPlayer player ) return;
 
-		[Event.Tick.Client]
-		private void ClientTick()
-		{
-			if ( Local.Pawn is not Player player ) return;
+		var pp = PostProcessing;
 
-			var pp = PostProcessing;
+		pp.ChromaticAberration.Scale = 0.1f;
+		pp.ChromaticAberration.Offset = Vector3.Zero;
 
-			pp.ChromaticAberration.Scale = 0.1f;
-			pp.ChromaticAberration.Offset = Vector3.Zero;
+		pp.Sharpen = 0.1f;
 
-			pp.Sharpen = 0.1f;
+		var healthScale = (0.4f / player.MaxHealth) * player.Health;
+		pp.Saturation = 0.7f + healthScale;
 
-			var healthScale = (0.4f / player.MaxHealth) * player.Health;
-			pp.Saturation = 0.7f + healthScale;
-
-			pp.Vignette.Intensity = 0.8f - healthScale * 2f;
-			pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
-			pp.Vignette.Smoothness = 1f;
-			pp.Vignette.Roundness = 0.8f;
-		}
+		pp.Vignette.Intensity = 0.8f - healthScale * 2f;
+		pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
+		pp.Vignette.Smoothness = 1f;
+		pp.Vignette.Roundness = 0.8f;
 	}
 }

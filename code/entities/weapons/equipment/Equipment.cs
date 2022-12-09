@@ -11,8 +11,8 @@ namespace Facepunch.Hover
 
 		[Net] public bool IsUsingAbility { get; protected set; }
 
-		protected virtual void OnEquipmentGiven( Player player ) { }
-		protected virtual void OnEquipmentTaken( Player player ) { }
+		protected virtual void OnEquipmentGiven( HoverPlayer player ) { }
+		protected virtual void OnEquipmentTaken( HoverPlayer player ) { }
 
 		public virtual DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 
 		public override void OnCarryStart( Entity carrier )
 		{
-			if ( carrier is Player player )
+			if ( carrier is HoverPlayer player )
 			{
 				OnEquipmentGiven( player );
 			}
@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
-			if ( Owner is Player player )
+			if ( Owner is HoverPlayer player )
 			{
 				OnEquipmentTaken( player );
 			}

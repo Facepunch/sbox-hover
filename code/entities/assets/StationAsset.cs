@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 		public Particles IdleParticles { get; private set; }
 
 		private RealTimeUntil NextRestockAvailable { get; set; }
-		private WorldStationHud StationHud { get; set; }
+		private UI.WorldStationHud StationHud { get; set; }
 
 		public void ShowUseEffects()
 		{
@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 			particles.SetPosition( 5, RenderColor * 255f );
 		}
 
-		public virtual bool CanPlayerUse( Player player )
+		public virtual bool CanPlayerUse( HoverPlayer player )
 		{
 			return IsPowered && (Team == Team.None || player.Team == Team);
 		}
@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 
 			CreateIdleParticles();
 
-			StationHud = new WorldStationHud();
+			StationHud = new UI.WorldStationHud();
 			StationHud.SetEntity( this, "hud" );
 
 			Hud.UpOffset = 60f;
@@ -66,7 +66,7 @@ namespace Facepunch.Hover
 		{
 			base.ServerTick();
 
-			var entities = Entity.FindInSphere( Position, 100f ).OfType<Player>();
+			var entities = Entity.FindInSphere( Position, 100f ).OfType<HoverPlayer>();
 
 			foreach ( var player in entities )
 			{

@@ -44,7 +44,7 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( other is Player player && player.IsAuthority )
+			if ( other is HoverPlayer player && player.IsAuthority )
 			{
 				var target = FindByName( TargetEntity );
 

@@ -99,7 +99,7 @@ namespace Facepunch.Hover
 			}
 
 			var players = Entity.FindInSphere( Position, Range )
-				.OfType<Player>()
+				.OfType<HoverPlayer>()
 				.Where( IsValidTarget );
 
 			var didFindPlayer = false;
@@ -150,7 +150,7 @@ namespace Facepunch.Hover
 			return (disruptor.Team != Team);
 		}
 
-		private bool IsValidTarget( Player player )
+		private bool IsValidTarget( HoverPlayer player )
 		{
 			if ( player.LifeState == LifeState.Dead )
 				return false;

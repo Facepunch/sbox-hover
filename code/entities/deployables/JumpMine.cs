@@ -52,7 +52,7 @@ namespace Facepunch.Hover
 
 		protected virtual void DealDamage( Vector3 position, float damage )
 		{
-			var players = WeaponUtil.GetBlastEntities<Player>( Position, Radius * 1.25f )
+			var players = WeaponUtil.GetBlastEntities<HoverPlayer>( Position, Radius * 1.25f )
 				.Where( IsValidVictim );
 
 			foreach ( var player in players )
@@ -77,12 +77,12 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected virtual bool IsValidTarget( Player victim )
+		protected virtual bool IsValidTarget( HoverPlayer victim )
 		{
 			return (victim.LifeState == LifeState.Alive && victim.Team != Team);
 		}
 
-		protected virtual bool IsValidVictim( Player victim )
+		protected virtual bool IsValidVictim( HoverPlayer victim )
 		{
 			return (victim.LifeState == LifeState.Alive && (victim == Deployer || victim.Team != Team));
 		}
@@ -108,7 +108,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			var players = WeaponUtil.GetBlastEntities<Player>( Position, Radius )
+			var players = WeaponUtil.GetBlastEntities<HoverPlayer>( Position, Radius )
 				.Where( IsValidTarget );
 
 			if ( players.Any() )

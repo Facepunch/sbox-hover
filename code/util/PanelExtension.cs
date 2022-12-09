@@ -1,13 +1,17 @@
-﻿namespace Sandbox.UI
+﻿using Sandbox;
+using Sandbox.UI;
+using Facepunch.Hover;
+
+namespace Facepunch.Hover.Utility
 {
 	public static class PanelExtension
 	{
 		public static void PositionAtCrosshair( this Panel panel )
 		{
-			panel.PositionAtCrosshair( Local.Pawn as Player );
+			panel.PositionAtCrosshair( Local.Pawn as HoverPlayer );
 		}
 
-		public static void PositionAtCrosshair( this Panel panel, Player player )
+		public static void PositionAtCrosshair( this Panel panel, HoverPlayer player )
 		{
 			if ( !player.IsValid() ) return;
 

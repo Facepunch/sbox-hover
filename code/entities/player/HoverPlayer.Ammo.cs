@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
-	partial class Player
+	partial class HoverPlayer
 	{
 		[Net]
 		public IList<int> Ammo { get; set; } = new List<int>();

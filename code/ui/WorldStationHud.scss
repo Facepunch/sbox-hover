@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-worldstationhud {
+WorldStationHud {
     align-items: center;
     justify-content: center;
     display: flex;
@@ -29,7 +29,7 @@ worldstationhud {
         }
     }
 
-    simpleiconbar {
+    SimpleIconBar {
         background-color: rgba(#000, 0.2);
         backdrop-filter-blur: 10px;
         padding: 8px;

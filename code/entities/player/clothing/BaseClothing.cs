@@ -5,7 +5,7 @@ namespace Facepunch.Hover
 {
 	public partial class BaseClothing : ModelEntity
 	{
-		public Player Wearer => Parent as Player;
+		public HoverPlayer Wearer => Parent as HoverPlayer;
 
 		public virtual void Attached() { }
 

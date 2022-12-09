@@ -26,9 +26,9 @@ namespace Facepunch.Hover
 		public EntityHudAnchor Hud { get; private set; }
 		public EntityHudIcon Icon { get; private set; }
 
-		private WorldHealthBar HealthBarLeft { get; set; }
-		private WorldHealthBar HealthBarRight { get; set; }
-		private WorldGeneratorHud GeneratorHud { get; set; }
+		private UI.WorldHealthBar HealthBarLeft { get; set; }
+		private UI.WorldHealthBar HealthBarRight { get; set; }
+		private UI.WorldGeneratorHud GeneratorHud { get; set; }
 
 		private RealTimeUntil KillRepairEffectTime { get; set; }
 		private RealTimeUntil NextAttackedEffect { get; set; }
@@ -114,7 +114,7 @@ namespace Facepunch.Hover
 
 		public bool IsUsable( Entity user )
 		{
-			if ( user is Player player && player.Loadout.CanRepairGenerator )
+			if ( user is HoverPlayer player && player.Loadout.CanRepairGenerator )
 			{
 				return CanPlayerRepair( player );
 			}
@@ -129,7 +129,7 @@ namespace Facepunch.Hover
 
 		public virtual void UpdateHudComponents()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				var distance = player.Position.Distance( Position );
 
@@ -157,26 +157,26 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
-		public virtual bool CanPlayerRepair( Player player )
+		public virtual bool CanPlayerRepair( HoverPlayer player )
 		{
 			return (player.Team == Team && Health < MaxHealth);
 		}
 
 		public override void ClientSpawn()
 		{
-			HealthBarLeft = new WorldHealthBar();
+			HealthBarLeft = new UI.WorldHealthBar();
 			HealthBarLeft.SetEntity( this, "health_left" );
 			HealthBarLeft.MaximumValue = MaxHealth;
 			HealthBarLeft.WorldScale = 2f;
 			HealthBarLeft.ShowIcon = false;
 
-			HealthBarRight = new WorldHealthBar();
+			HealthBarRight = new UI.WorldHealthBar();
 			HealthBarRight.SetEntity( this, "health_right" );
 			HealthBarRight.MaximumValue = MaxHealth;
 			HealthBarRight.WorldScale = 2f;
 			HealthBarRight.ShowIcon = false;
 
-			GeneratorHud = new WorldGeneratorHud();
+			GeneratorHud = new UI.WorldGeneratorHud();
 			GeneratorHud.SetEntity( this, "repair_hud" );
 			GeneratorHud.WorldScale = 2f;
 
@@ -190,7 +190,7 @@ namespace Facepunch.Hover
 
 		public override void TakeDamage( DamageInfo info )
 		{
-			if ( info.Attacker is Player player && player.Team == Team )
+			if ( info.Attacker is HoverPlayer player && player.Team == Team )
 			{
 				// Players cannot destroy their own team's generator.
 				return;

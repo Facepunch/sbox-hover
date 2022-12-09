@@ -21,7 +21,7 @@ namespace Facepunch.Hover
 			Victim = Add.Label( "", "victim" );
 		}
 
-		public void Update( Player victim )
+		public void Update( HoverPlayer victim )
 		{
 			Attacker.SetClass( "hidden", true );
 
@@ -34,7 +34,7 @@ namespace Facepunch.Hover
 			EndTime = Time.Now + 3f;
 		}
 
-		public void Update( Entity attacker, Player victim )
+		public void Update( Entity attacker, HoverPlayer victim )
 		{
 			if ( attacker is IKillFeedIcon feedInfo )
 			{
@@ -57,7 +57,7 @@ namespace Facepunch.Hover
 			EndTime = Time.Now + 3f;
 		}
 
-		public void Update( Player attacker, Player victim, Entity weapon )
+		public void Update( HoverPlayer attacker, HoverPlayer victim, Entity weapon )
 		{
 			Attacker.Text = attacker.Client.Name;
 			Attacker.Style.FontColor = attacker.Team.GetColor();
@@ -131,19 +131,19 @@ namespace Facepunch.Hover
 			Instance = this;
 		}
 
-		public void AddKillFeed( Player attacker, Player victim, Entity weapon )
+		public void AddKillFeed( HoverPlayer attacker, HoverPlayer victim, Entity weapon )
 		{
 			var item = AddChild<KillFeedItem>();
 			item.Update( attacker, victim, weapon );
 		}
 
-		public void AddKillFeed( Entity attacker, Player victim )
+		public void AddKillFeed( Entity attacker, HoverPlayer victim )
 		{
 			var item = AddChild<KillFeedItem>();
 			item.Update( attacker, victim );
 		}
 
-		public void AddKillFeed( Player victim )
+		public void AddKillFeed( HoverPlayer victim )
 		{
 			var item = AddChild<KillFeedItem>();
 			item.Update( victim );

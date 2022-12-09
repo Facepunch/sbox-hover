@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Facepunch.Hover
 {
-	public partial class Player : AnimatedEntity
+	public partial class HoverPlayer : AnimatedEntity
 	{
 		public Dictionary<string,List<WeaponUpgrade>> WeaponUpgrades { get; private set; }
 		public ProjectileSimulator Projectiles { get; private set; }
@@ -70,7 +70,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server]
 		public static void BuyWeaponUpgrade( string configName, string upgradeName )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				var config = TypeLibrary.Create<WeaponConfig>( configName );
 				var upgradeDesc = TypeLibrary.GetDescription<WeaponUpgrade>( upgradeName );
@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server]
 		public static void BuyLoadoutUpgrade( string loadoutName, string weapons )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
 
@@ -137,7 +137,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server]
 		public static void SwitchTeam()
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				if ( player.LastTeamSwitchTime > 10f )
 				{
@@ -152,13 +152,13 @@ namespace Facepunch.Hover
 
 					if ( targetPlayers == currentPlayers )
 					{
-						Hud.Toast( player, "The teams are already balanced!" );
+						UI.Hud.Toast( player, "The teams are already balanced!" );
 						return;
 					}
 
 					if ( targetPlayers > currentPlayers )
 					{
-						Hud.Toast( player, "There are too many players on that team!" );
+						UI.Hud.Toast( player, "There are too many players on that team!" );
 						return;
 					}
 
@@ -168,7 +168,7 @@ namespace Facepunch.Hover
 				}
 				else
 				{
-					Hud.Toast( player, "You cannot change teams yet!" );
+					UI.Hud.Toast( player, "You cannot change teams yet!" );
 				}
 			}
 		}
@@ -176,7 +176,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server]
 		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
 
@@ -193,7 +193,7 @@ namespace Facepunch.Hover
 						loadout.Respawn( player );
 						loadout.Supply( player );
 
-						WeaponList.Expand( To.Single( player ), 4f );
+						UI.WeaponList.Expand( To.Single( player ), 4f );
 					}
 					else
 					{
@@ -206,7 +206,7 @@ namespace Facepunch.Hover
 		private class AssistTracker
 		{
 			public TimeSince LastDamageTime { get; set; }
-			public Player Attacker { get; set; }
+			public HoverPlayer Attacker { get; set; }
 			public float TotalDamage { get; set; }
 		}
 
@@ -240,7 +240,7 @@ namespace Facepunch.Hover
 		public RealTimeUntil? RespawnTime { get; private set; }
 		public DamageInfo LastDamageInfo { get; private set; }
 		public Inventory Inventory { get; private set; }
-		public Player LastKiller { get; set; }
+		public HoverPlayer LastKiller { get; set; }
 
 		private List<AssistTracker> AssistTrackers { get; set; }
 		private Rotation LastCameraRotation { get; set; }
@@ -263,7 +263,7 @@ namespace Facepunch.Hover
 			get => Team != Team.None;
 		}
 
-		public Player()
+		public HoverPlayer()
 		{
 			FirstPersonCamera = new();
 			SpectateCamera = new();
@@ -507,7 +507,7 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
-		public void ShowAward( string name, Player awardee )
+		public void ShowAward( string name, HoverPlayer awardee )
 		{
 			var award = Awards.Get( name );
 			if ( award == null ) return;
@@ -544,10 +544,10 @@ namespace Facepunch.Hover
 			NextRegenTime = 0f;
 		}
 
-		public Player GetBestAssist( Entity attacker )
+		public HoverPlayer GetBestAssist( Entity attacker )
 		{
 			var minDamageTarget = MaxHealth * 0.3f;
-			var assister = (Player)null;
+			var assister = (HoverPlayer)null;
 			var damage = 0f;
 
 			foreach ( var tracker in AssistTrackers )
@@ -605,7 +605,7 @@ namespace Facepunch.Hover
 
 			Rounds.Current?.OnPlayerSpawn( this );
 
-			WeaponList.Expand( To.Single( this ), 4f );
+			UI.WeaponList.Expand( To.Single( this ), 4f );
 
 			ClientRespawn();
 			CreateHull();
@@ -723,7 +723,7 @@ namespace Facepunch.Hover
 
 			if ( attacker.IsValid() )
 			{
-				if ( attacker is Player killer )
+				if ( attacker is HoverPlayer killer )
 				{
 					killer.OnKillPlayer( this, LastDamageInfo );
 				}
@@ -858,7 +858,7 @@ namespace Facepunch.Hover
 					.Ignore( this )
 					.Run();
 
-				foreach ( var player in All.OfType<Player>() )
+				foreach ( var player in All.OfType<HoverPlayer>() )
 				{
 					if ( !IsEnemyPlayer( player ) )
 						continue;
@@ -974,7 +974,7 @@ namespace Facepunch.Hover
 			AssistTrackers.Clear();
 		}
 
-		private AssistTracker GetAssistTracker( Player attacker )
+		private AssistTracker GetAssistTracker( HoverPlayer attacker )
 		{
 			foreach ( var v in AssistTrackers )
 			{
@@ -995,7 +995,7 @@ namespace Facepunch.Hover
 			return tracker;
 		}
 
-		private void AddAssistDamage( Player attacker, DamageInfo info )
+		private void AddAssistDamage( HoverPlayer attacker, DamageInfo info )
 		{
 			var tracker = GetAssistTracker( attacker );
 
@@ -1045,7 +1045,7 @@ namespace Facepunch.Hover
 				controller.Impulse += info.Force;
 			}
 
-			if ( info.Attacker is Player attacker && attacker != this )
+			if ( info.Attacker is HoverPlayer attacker && attacker != this )
 			{
 				// We can't take damage from our own team.
 				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
@@ -1189,7 +1189,7 @@ namespace Facepunch.Hover
 			DamageIndicator.Current?.OnHit( position );
 		}
 
-		public virtual bool IsEnemyPlayer( Player other )
+		public virtual bool IsEnemyPlayer( HoverPlayer other )
 		{
 			return other.Team != Team;
 		}
@@ -1213,7 +1213,7 @@ namespace Facepunch.Hover
 			GiveAward<ReturnFlagAward>();
 		}
 
-		public virtual void OnKillPlayer( Player victim, DamageInfo damageInfo )
+		public virtual void OnKillPlayer( HoverPlayer victim, DamageInfo damageInfo )
 		{
 			if ( LifeState == LifeState.Alive && IsEnemyPlayer( victim ) )
 			{

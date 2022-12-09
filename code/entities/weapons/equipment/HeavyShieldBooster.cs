@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 
 		public override DamageInfo OwnerTakeDamage( DamageInfo info )
 		{
-			if ( Owner is Player player )
+			if ( Owner is HoverPlayer player )
 			{
 				info.Damage = Math.Max( info.Damage - (player.Energy * 2f ), 0f );
 				player.Energy *= 0.5f;
@@ -32,12 +32,12 @@ namespace Facepunch.Hover
 			return info;
 		}
 
-		protected override void OnEquipmentGiven( Player player )
+		protected override void OnEquipmentGiven( HoverPlayer player )
 		{
 			player.EnergyRegen *= 0.9f;
 		}
 
-		protected override void OnEquipmentTaken( Player player )
+		protected override void OnEquipmentTaken( HoverPlayer player )
 		{
 			player.EnergyRegen *= 1f / 0.9f;
 		}

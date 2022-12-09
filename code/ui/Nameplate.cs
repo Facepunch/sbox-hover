@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 {
 	public class Nameplate : WorldPanel
 	{
-		public Player Player { get; private set; }
+		public HoverPlayer Player { get; private set; }
 		public Panel Container { get; private set; }
 		public Panel Dot { get; private set; }
 		public Label NameLabel { get; private set; }
@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 		public float StartDotDistance { get; set; } = 2250f;
 		public float EndDotDistance { get; set; } = 5000f;
 
-		public Nameplate( Player player )
+		public Nameplate( HoverPlayer player )
 		{
 			StyleSheet.Load( "/ui/Nameplate.scss" );
 			Container = Add.Panel( "container" );
@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			if ( Local.Pawn is not Player localPlayer )
+			if ( Local.Pawn is not HoverPlayer localPlayer )
 				return;
 
 			if ( IsDeleting ) return;

@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 
 		public void UpdateHudComponents()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				var boundsSize = CollisionBounds.Size.Length;
 				var distance = player.Position.Distance( Position );
@@ -126,7 +126,7 @@ namespace Facepunch.Hover
 
 		public override void Touch( Entity other )
 		{
-			if ( IsClient && other is Player player && player.IsLocalPawn )
+			if ( IsClient && other is HoverPlayer player && player.IsLocalPawn )
 			{
 				if ( IsBeingCaptured && CapturingTeam == player.Team && ( LastCapturer != player.Team || Team != player.Team ) )
 				{
@@ -159,7 +159,7 @@ namespace Facepunch.Hover
 
 			var distinctTeams = new HashSet<Team>();
 
-			foreach ( var player in TouchingEntities.OfType<Player>() )
+			foreach ( var player in TouchingEntities.OfType<HoverPlayer>() )
 			{
 				if ( player.LifeState == LifeState.Dead )
 					continue;

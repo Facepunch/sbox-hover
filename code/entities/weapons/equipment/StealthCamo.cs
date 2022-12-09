@@ -67,10 +67,10 @@ namespace Facepunch.Hover
 
 		protected bool IsEnemyDisruptor( Disruptor jammer )
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return false;
 
-			if ( jammer.Owner is not Player other )
+			if ( jammer.Owner is not HoverPlayer other )
 				return false;
 
 			return player.Team == other.Team;
@@ -78,10 +78,10 @@ namespace Facepunch.Hover
 
 		protected bool IsEnemyJammer( RadarJammer jammer )
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return false;
 
-			if ( jammer.Owner is not Player other )
+			if ( jammer.Owner is not HoverPlayer other )
 				return false;
 
 			return player.Team == other.Team;
@@ -90,7 +90,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			if ( IsUsingAbility )
@@ -157,7 +157,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Client]
 		protected virtual void ClientTick()
 		{
-			if ( Owner is Player player && player.IsLocalPawn )
+			if ( Owner is HoverPlayer player && player.IsLocalPawn )
 			{
 				if ( player.TargetAlpha == 0f )
 				{
@@ -189,7 +189,7 @@ namespace Facepunch.Hover
 
 		protected virtual void DisableAbility()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			player.TargetAlpha = 1f;
@@ -200,7 +200,7 @@ namespace Facepunch.Hover
 
 		protected virtual void EnableAbility()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			if ( player.Energy < 10f )

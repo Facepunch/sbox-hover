@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-worlddeployablehud {
+WorldDeployableHud {
   align-items: center;
   justify-content: center;
   display: flex;
@@ -28,7 +28,7 @@ worlddeployablehud {
       font-size: 24px;
     }
 
-    simpleiconbar {
+    SimpleIconBar {
       box-shadow: $blueTeamForeground;
       border-radius: 8px;
       margin-top: 16px;

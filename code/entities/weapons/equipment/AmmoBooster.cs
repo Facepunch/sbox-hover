@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 
 		public override void Restock()
 		{
-			if ( Owner is Player player )
+			if ( Owner is HoverPlayer player )
 			{
 				foreach ( var weapon in player.Loadout.Weapons )
 				{

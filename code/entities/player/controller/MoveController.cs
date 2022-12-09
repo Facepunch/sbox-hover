@@ -1,7 +1,6 @@
 ﻿using Sandbox;
 using System;
 using System.Collections.Generic;
-using static Sandbox.Event;
 
 namespace Facepunch.Hover
 {
@@ -61,9 +60,9 @@ namespace Facepunch.Hover
 		protected Vector3 TraceOffset { get; set; }
 		protected int StuckTries { get; set; }
 
-		public Player Player { get; set; }
+		public HoverPlayer Player { get; set; }
 
-		public void SetActivePlayer( Player player )
+		public void SetActivePlayer( HoverPlayer player )
 		{
 			Player = player;
 		}

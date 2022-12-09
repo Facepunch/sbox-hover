@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover
 {
-	partial class Player
+	partial class HoverPlayer
 	{
 		public PlayerCorpse Ragdoll { get; set; }
 

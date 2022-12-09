@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 
 		public virtual void FireProjectile()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			var projectile = new T()

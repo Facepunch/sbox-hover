@@ -14,14 +14,14 @@ namespace Facepunch.Hover
 		public LoadoutSelectItem Selected { get; private set; }
 		public Action<BaseLoadout> OnLoadoutSelected { get; set; }
 
-		public void Populate( Player player )
+		public void Populate( HoverPlayer player )
 		{
 			AddLoadouts( player, LoadoutArmorType.Light, LightLoadouts );
 			AddLoadouts( player, LoadoutArmorType.Medium, MediumLoadouts );
 			AddLoadouts( player, LoadoutArmorType.Heavy, HeavyLoadouts );
 		}
 
-		public void AddLoadouts( Player player, LoadoutArmorType armor, Panel container )
+		public void AddLoadouts( HoverPlayer player, LoadoutArmorType armor, Panel container )
 		{
 			container.DeleteChildren();
 
@@ -79,7 +79,7 @@ namespace Facepunch.Hover
 
 		protected override void PostTemplateApplied()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				Populate( player );
 			}

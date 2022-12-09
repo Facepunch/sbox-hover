@@ -20,13 +20,13 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new EnergyBoosterConfig();
 		public override bool IsPassive => true;
 
-		protected override void OnEquipmentGiven( Player player )
+		protected override void OnEquipmentGiven( HoverPlayer player )
 		{
 			player.EnergyRegen *= 1.1f;
 			player.MaxEnergy += 20f;
 		}
 
-		protected override void OnEquipmentTaken( Player player )
+		protected override void OnEquipmentTaken( HoverPlayer player )
 		{
 			player.EnergyRegen *= 1f / 1.1f;
 			player.MaxEnergy -= 20f;

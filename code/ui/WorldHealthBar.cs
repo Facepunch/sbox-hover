@@ -1,10 +1,9 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
-using System;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/WorldHealthBar.scss" )]
 	public class WorldHealthBar : WorldPanel
 	{
 		public ModelEntity Entity { get; private set; }
@@ -18,7 +17,6 @@ namespace Facepunch.Hover
 
 		public WorldHealthBar()
 		{
-			StyleSheet.Load( "/ui/WorldHealthBar.scss" );
 			IconBar = AddChild<SimpleIconBar>();
 		}
 

@@ -8,8 +8,6 @@ namespace Facepunch.Hover
 {
 	partial class Game : GameManager
 	{
-		public Hud Hud { get; set; }
-
 		public static Game Instance
 		{
 			get => Current as Game;
@@ -42,7 +40,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server( "hv_respawn_screen" )]
 		public static void DebugRespawnScreen( string type )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				if ( type == "turret" )
 				{
@@ -68,25 +66,25 @@ namespace Facepunch.Hover
 		[ConCmd.Server( "hv_killfeed" )]
 		public static void DebugKillFeed( string type )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				if ( type == "turret" )
 				{
 					var turret = All.OfType<TurretAsset>().FirstOrDefault();
-					Hud.AddKillFeed( turret, player );
+					UI.Hud.AddKillFeed( turret, player );
 				}
 				else if ( type == "suicide" )
 				{
-					Hud.AddKillFeed( player );
+					UI.Hud.AddKillFeed( player );
 				}
 				else if ( type == "deployable" )
 				{
 					var mine = new JumpMine();
-					Hud.AddKillFeed( player, player, mine );
+					UI.Hud.AddKillFeed( player, player, mine );
 				}
 				else
 				{
-					Hud.AddKillFeed( player, player, player.ActiveChild );
+					UI.Hud.AddKillFeed( player, player, player.ActiveChild );
 				}
 			}
 		}
@@ -94,16 +92,16 @@ namespace Facepunch.Hover
 		[ConCmd.Server( "hv_toast" )]
 		public static void DebugToast()
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
-				Hud.ToastAll( $"The blue team have captured Crashed Ship", "ui/icons/blue_outpost.png" );
+				UI.Hud.ToastAll( $"The blue team have captured Crashed Ship", "ui/icons/blue_outpost.png" );
 			}
 		}
 
 		[ConCmd.Server( "hv_award" )]
 		public static void GiveAward( string type )
 		{
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				if ( type == "revenge" )
 					player.GiveAward<RevengeAward>();
@@ -119,7 +117,7 @@ namespace Facepunch.Hover
 		[ConCmd.Server( "hv_switch_teams" )]
 		public static void SwitchTeams()
         {
-			if ( ConsoleSystem.Caller.Pawn is Player player )
+			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
             {
 				if ( player.Team == Team.Red )
 					player.SetTeam( Team.Blue );
@@ -130,26 +128,22 @@ namespace Facepunch.Hover
 			}
         }
 
-		public Game()
+		public override void Spawn()
 		{
-			if ( IsServer )
-			{
-				PrecacheAssets();
-				Hud = new();
-			}
+			PrecacheAssets();
+			AddAwards();
 
-			Awards.Add<KillAward>();
-			Awards.Add<AssistAward>();
-			Awards.Add<DoubleKillAward>();
-			Awards.Add<TripleKillAward>();
-			Awards.Add<KillingSpreeAward>();
-			Awards.Add<DemolitionManAward>();
-			Awards.Add<BuzzkillAward>();
-			Awards.Add<CaptureFlagAward>();
-			Awards.Add<ReturnFlagAward>();
-			Awards.Add<RevengeAward>();
-			Awards.Add<FirstBloodAward>();
-			Awards.Add<CaptureOutpostAward>();
+			base.Spawn();
+		}
+
+		public override void ClientSpawn()
+		{
+			AddAwards();
+
+			Local.Hud?.Delete( true );
+			Local.Hud = new UI.Hud();
+
+			base.ClientSpawn();
 		}
 
 		public async Task StartSecondTimer()
@@ -163,7 +157,7 @@ namespace Facepunch.Hover
 
 		public override void MoveToSpawnpoint( Entity pawn )
 		{
-			if ( pawn is Player player )
+			if ( pawn is HoverPlayer player )
 			{
 				var team = player.Team;
 
@@ -190,8 +184,8 @@ namespace Facepunch.Hover
 		{
 			Host.AssertServer();
 
-			var sourcePlayer = sourceClient.Pawn as Player;
-			var destinationPlayer = destinationClient.Pawn as Player;
+			var sourcePlayer = sourceClient.Pawn as HoverPlayer;
+			var destinationPlayer = destinationClient.Pawn as HoverPlayer;
 
 			if ( sourcePlayer != null && destinationPlayer != null )
 			{
@@ -215,7 +209,7 @@ namespace Facepunch.Hover
 
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
-			Rounds.Current?.OnPlayerLeave( client.Pawn as Player );
+			Rounds.Current?.OnPlayerLeave( client.Pawn as HoverPlayer );
 
 			foreach ( var flag in All.OfType<FlagEntity>() )
 			{
@@ -230,7 +224,7 @@ namespace Facepunch.Hover
 
 		public override void ClientJoined( Client client )
 		{
-			var player = new Player();
+			var player = new HoverPlayer();
 			client.Pawn = player;
 
 			Rounds.Current?.OnPlayerJoin( player );
@@ -247,6 +241,22 @@ namespace Facepunch.Hover
 				Log.Info( $"Precaching: {asset}" );
 				Precache.Add( asset );
 			}
+		}
+
+		private void AddAwards()
+		{
+			Awards.Add<KillAward>();
+			Awards.Add<AssistAward>();
+			Awards.Add<DoubleKillAward>();
+			Awards.Add<TripleKillAward>();
+			Awards.Add<KillingSpreeAward>();
+			Awards.Add<DemolitionManAward>();
+			Awards.Add<BuzzkillAward>();
+			Awards.Add<CaptureFlagAward>();
+			Awards.Add<ReturnFlagAward>();
+			Awards.Add<RevengeAward>();
+			Awards.Add<FirstBloodAward>();
+			Awards.Add<CaptureOutpostAward>();
 		}
 
 		private void OnSecond()

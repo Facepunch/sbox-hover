@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public static void Refresh()
 		{
-			if ( Instance.IsOpen && Local.Pawn is Player player )
+			if ( Instance.IsOpen && Local.Pawn is HoverPlayer player )
 			{
 				Instance.LoadoutList.Populate( player );
 				Log.Info( "Refreshed" );
@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 		public Panel StatsList { get; private set; }
 		public int CurrentSlot { get; private set; }
 		public bool IsOpen { get; private set; }
-		public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? strinh.Empty;
+		public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? string.Empty;
 
 		public StationScreen()
 		{
@@ -209,7 +209,7 @@ namespace Facepunch.Hover
 
 		public void SetLoadout( BaseLoadout loadout )
 		{
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 			{
 				return;
 			}
@@ -295,7 +295,7 @@ namespace Facepunch.Hover
 
 		public void SetOpen( bool isOpen )
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				SetClass( "hidden", !isOpen );
 				IsOpen = isOpen;
@@ -333,16 +333,16 @@ namespace Facepunch.Hover
 
 		public void DoLoadoutUpgrade()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 			{
 				if ( player.HasTokens( NextUpgrade.UpgradeCost ) )
 				{
-					Player.BuyLoadoutUpgrade( NextUpgrade.GetType().Name, string.Join( ",", Weapons.Select( v => v.Name ) ) );
+					HoverPlayer.BuyLoadoutUpgrade( NextUpgrade.GetType().Name, string.Join( ",", Weapons.Select( v => v.Name ) ) );
 				}
 				else
 				{
 					var tokensNeeded = NextUpgrade.UpgradeCost - player.Tokens;
-					Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
+					UI.Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
 				}
 
 				Audio.Play( "hover.clickbeep" );
@@ -401,7 +401,7 @@ namespace Facepunch.Hover
 			var loadout = LoadoutList.Selected.Loadout;
 			var loadoutName = loadout.GetType().Name;
 
-			Player.ChangeLoadout( loadoutName, string.Join( ",", Weapons.Select( v => v.Name ) ) );
+			HoverPlayer.ChangeLoadout( loadoutName, string.Join( ",", Weapons.Select( v => v.Name ) ) );
 		}
 
 		public override void Tick()
@@ -466,7 +466,7 @@ namespace Facepunch.Hover
 
 		protected string GetPlayerTokens()
 		{
-			if ( Local.Pawn is Player player )
+			if ( Local.Pawn is HoverPlayer player )
 				return player.Tokens.ToString();
 			else
 				return "0";

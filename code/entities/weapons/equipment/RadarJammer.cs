@@ -44,7 +44,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			if ( IsUsingAbility )
@@ -72,7 +72,7 @@ namespace Facepunch.Hover
 
 		protected virtual void DisableAbility()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			player.PlaySound( "stealth.off" );
@@ -81,7 +81,7 @@ namespace Facepunch.Hover
 
 		protected virtual void EnableAbility()
 		{
-			if ( Owner is not Player player )
+			if ( Owner is not HoverPlayer player )
 				return;
 
 			if ( player.Energy < 10f )

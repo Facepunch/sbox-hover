@@ -42,7 +42,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( Client client )
 		{
-			if ( Ghost.IsValid() && Owner is Player player )
+			if ( Ghost.IsValid() && Owner is HoverPlayer player )
 			{
 				var canDeploy = GetPlacePosition( out var position, out var rotation );
 
@@ -64,7 +64,7 @@ namespace Facepunch.Hover
 
 		public override void AttackPrimary()
 		{
-			if ( Owner is not Player player ) return;
+			if ( Owner is not HoverPlayer player ) return;
 
 			if ( Deployables == 0 )
 			{
@@ -107,7 +107,7 @@ namespace Facepunch.Hover
 
 		public override void ActiveStart( Entity owner )
 		{
-			if ( owner is Player && IsClient )
+			if ( owner is HoverPlayer && IsClient )
 			{
 				CreateGhostModel();
 			}
@@ -117,7 +117,7 @@ namespace Facepunch.Hover
 
 		public override void ActiveEnd( Entity owner, bool dropped )
 		{
-			if ( owner is Player && IsClient )
+			if ( owner is HoverPlayer && IsClient )
 			{
 				DestroyGhostModel();
 			}

@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-worldupgradehud {
+WorldUpgradeHud {
   align-items: center;
   justify-content: center;
   display: flex;
@@ -51,7 +51,7 @@ worldupgradehud {
       font-size: 20px;
     }
 
-    simpleiconbar {
+    SimpleIconBar {
       box-shadow: $blueTeamForeground;
       border-radius: 8px;
       padding: 8px;

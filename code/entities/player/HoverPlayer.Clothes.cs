@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Facepunch.Hover
 {
-	public partial class Player
+	public partial class HoverPlayer
 	{
 		protected List<BaseClothing> Clothing { get; set; } = new();
 

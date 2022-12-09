@@ -2,7 +2,7 @@
 
 namespace Facepunch.Hover;
 
-public partial class Player
+public partial class HoverPlayer
 {
 	private Entity LastWeaponEntity { get; set; }
 

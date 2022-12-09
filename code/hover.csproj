@@ -24,6 +24,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="ui\WeaponList.razor" />
+	  <AdditionalFiles Remove="ui\WeaponListItem.razor" />
+	  <AdditionalFiles Remove="ui\WorldDeployableHud.razor" />
+	  <AdditionalFiles Remove="ui\WorldGeneratorHud.razor" />
+	  <AdditionalFiles Remove="ui\WorldStationHud.razor" />
+	  <AdditionalFiles Remove="ui\WorldUpgradeHud.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="ui\WeaponList.razor" />
+	  <None Remove="ui\WeaponListItem.razor" />
+	  <None Remove="ui\WorldDeployableHud.razor" />
+	  <None Remove="ui\WorldGeneratorHud.razor" />
+	  <None Remove="ui\WorldStationHud.razor" />
+	  <None Remove="ui\WorldUpgradeHud.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="Sandbox.Internal.GlobalGameNamespace" Static="true" />
 	</ItemGroup>
 
@@ -35,7 +53,13 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll"/>
+		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll" />
+		<Compile Include="ui\WeaponList.razor" />
+		<Compile Include="ui\WeaponListItem.razor" />
+		<Compile Include="ui\WorldDeployableHud.razor" />
+		<Compile Include="ui\WorldGeneratorHud.razor" />
+		<Compile Include="ui\WorldStationHud.razor" />
+		<Compile Include="ui\WorldUpgradeHud.razor" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.System.dll" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.Engine.dll" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.Game.dll" />
@@ -47,6 +71,33 @@
   <ItemGroup>
 		<ProjectReference Include="S:\Steam\steamapps\common\sbox\addons\base\code\base.csproj" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ui\WeaponList.html">
+      <DependentUpon>WeaponList.razor</DependentUpon>
+    </None>
+    <None Update="ui\WeaponList.scss">
+      <DependentUpon>WeaponList.razor</DependentUpon>
+    </None>
+    <None Update="ui\WeaponListItem.scss">
+      <DependentUpon>WeaponListItem.razor</DependentUpon>
+    </None>
+    <None Update="ui\WorldDeployableHud.scss">
+      <DependentUpon>WorldDeployableHud.razor</DependentUpon>
+    </None>
+    <None Update="ui\WorldGeneratorHud.scss">
+      <DependentUpon>WorldGeneratorHud.razor</DependentUpon>
+    </None>
+    <None Update="ui\WorldStationHud.html">
+      <DependentUpon>WorldStationHud.razor</DependentUpon>
+    </None>
+    <None Update="ui\WorldStationHud.scss">
+      <DependentUpon>WorldStationHud.razor</DependentUpon>
+    </None>
+    <None Update="ui\WorldUpgradeHud.scss">
+      <DependentUpon>WorldUpgradeHud.razor</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>

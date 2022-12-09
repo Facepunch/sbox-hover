@@ -6,7 +6,7 @@ namespace Facepunch.Hover
 	{
 		public void Update()
 		{
-			if ( Local.Pawn is not Player player )
+			if ( Local.Pawn is not HoverPlayer player )
 				return;
 
 			Camera.Position = player.EyePosition;

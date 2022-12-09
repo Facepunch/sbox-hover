@@ -16,7 +16,7 @@ namespace Facepunch.Hover
 		[Net] public int UpgradeTokens { get; private set; }
 		[Net] public int NextUpgrade { get; private set; }
 
-		public WorldUpgradeHud UpgradeHud { get; private set; }
+		public UI.WorldUpgradeHud UpgradeHud { get; private set; }
 		public EntityHudIcon NoPowerIcon { get; private set; }
 		public EntityHudAnchor Hud { get; private set; }
 
@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 
 		public virtual bool OnUse( Entity user )
 		{
-			if ( user is not Player player )
+			if ( user is not HoverPlayer player )
 				return false;
 
 			var nextUpgrade = GetNextUpgrade();
@@ -110,7 +110,7 @@ namespace Facepunch.Hover
 			if ( !IsPowered || DefaultTeam == Team.None )
 				return false;
 
-			if ( user is Player player && player.Team == Team )
+			if ( user is HoverPlayer player && player.Team == Team )
 			{
 				if ( player.Loadout.CanUpgradeDependencies )
 				{
@@ -144,7 +144,7 @@ namespace Facepunch.Hover
 				NoPowerIcon.Style.Opacity = mapped;
 			}
 
-			if ( DependencyIcon != null && Local.Pawn is Player player )
+			if ( DependencyIcon != null && Local.Pawn is HoverPlayer player )
 			{
 				distance = player.Position.Distance( Position );
 
@@ -185,7 +185,7 @@ namespace Facepunch.Hover
 
 			if ( Upgrades != null && Upgrades.Count > 0 )
 			{
-				UpgradeHud = new WorldUpgradeHud();
+				UpgradeHud = new UI.WorldUpgradeHud();
 				UpgradeHud.SetEntity( this );
 			}
 
@@ -256,7 +256,7 @@ namespace Facepunch.Hover
 			upgrade.Apply( this );
 		}
 
-		protected virtual void OnFinishUpgrade( Player player )
+		protected virtual void OnFinishUpgrade( HoverPlayer player )
 		{
 			OnAddUpgrade( Upgrades[NextUpgrade] );
 			UpgradeTokens = 0;

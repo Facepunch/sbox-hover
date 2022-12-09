@@ -55,7 +55,7 @@ namespace Facepunch.Hover
 			"trousers.smart"
 		};
 
-		public override void Respawn( Player player )
+		public override void Respawn( HoverPlayer player )
 		{
 			base.Respawn( player );
 

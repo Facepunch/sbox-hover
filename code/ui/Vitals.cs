@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			if ( Local.Pawn is not Player player ) return;
+			if ( Local.Pawn is not HoverPlayer player ) return;
 
 			SetClass( "hidden", player.LifeState != LifeState.Alive );
 

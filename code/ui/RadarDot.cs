@@ -9,7 +9,7 @@ namespace Facepunch.Hover
 {
 	public class RadarDot : Panel
 	{
-		public RadarDot( Player player )
+		public RadarDot( HoverPlayer player )
 		{
 			
 		}

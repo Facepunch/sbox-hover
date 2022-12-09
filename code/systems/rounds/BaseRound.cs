@@ -12,7 +12,7 @@ namespace Facepunch.Hover
 		public virtual bool CanCaptureFlags => false;
 		public virtual bool CanCaptureOutposts => false;
 
-		public List<Player> Players = new();
+		public List<HoverPlayer> Players = new();
 		public RealTimeUntil NextSecondTime { get; private set; }
 		public float RoundEndTime { get; set; }
 
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 			OnFinish();
 		}
 
-		public void AddPlayer( Player player )
+		public void AddPlayer( HoverPlayer player )
 		{
 			Host.AssertServer();
 
@@ -53,13 +53,13 @@ namespace Facepunch.Hover
 				Players.Add( player );
 		}
 
-		public virtual void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo ) { }
+		public virtual void OnPlayerKilled( HoverPlayer player, Entity attacker, DamageInfo damageInfo ) { }
 
-		public virtual void OnPlayerSpawn( Player player ) { }
+		public virtual void OnPlayerSpawn( HoverPlayer player ) { }
 
-		public virtual void OnPlayerJoin( Player player ) { }
+		public virtual void OnPlayerJoin( HoverPlayer player ) { }
 
-		public virtual void OnPlayerLeave( Player player )
+		public virtual void OnPlayerLeave( HoverPlayer player )
 		{
 			Players.Remove( player );
 		}

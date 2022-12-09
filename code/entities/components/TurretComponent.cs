@@ -7,9 +7,9 @@ namespace Facepunch.Hover
 {
 	public interface ITurretComponent
 	{
-		public Vector3 GetTargetPosition( Player target );
-		public void FireProjectile( Player target, Vector3 direction );
-		public bool IsValidVictim( Player target );
+		public Vector3 GetTargetPosition( HoverPlayer target );
+		public void FireProjectile( HoverPlayer target, Vector3 direction );
+		public bool IsValidVictim( HoverPlayer target );
 		public bool IsTurretDisabled();
 		public string MuzzleAttachment { get; }
 		public string MuzzleFlashEffect { get; }
@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 	{
 		[Net] public Vector3 TargetDirection { get; private set; }
 		[Net] public float Recoil { get; private set; }
-		[Net] public Player Target { get; set; }
+		[Net] public HoverPlayer Target { get; set; }
 
 		public virtual List<string> FlybySounds => new()
 		{
@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 
 		protected Vector3 ClientDirection { get; set; }
 
-		protected virtual bool CanSeeTarget( Player player )
+		protected virtual bool CanSeeTarget( HoverPlayer player )
 		{
 			if ( Entity is not ITurretComponent turret )
 				return false;
@@ -52,7 +52,7 @@ namespace Facepunch.Hover
 			return trace.Entity == player;
 		}
 
-		protected virtual bool IsValidTarget( Player player )
+		protected virtual bool IsValidTarget( HoverPlayer player )
 		{
 			if ( Entity is not ITurretComponent turret )
 				return false;
@@ -156,10 +156,10 @@ namespace Facepunch.Hover
 				return;
 
 			var targets = Sandbox.Entity.FindInSphere( Entity.Position, turret.AttackRadius )
-				.OfType<Player>()
+				.OfType<HoverPlayer>()
 				.Where( IsValidTarget );
 
-			var closestTarget = (Player)null;
+			var closestTarget = (HoverPlayer)null;
 			var closestDistance = 0f;
 
 			foreach ( var target in targets )

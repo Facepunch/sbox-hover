@@ -17,28 +17,28 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
-				var players = Client.All.Select( ( client ) => client.Pawn as Player );
+				var players = Client.All.Select( ( client ) => client.Pawn as HoverPlayer );
 
 				foreach ( var player in players )
 					OnPlayerJoin( player );
 			}
 		}
 
-		public override void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo )
+		public override void OnPlayerKilled( HoverPlayer player, Entity attacker, DamageInfo damageInfo )
 		{
 			player.Respawn();
 
 			base.OnPlayerKilled( player, attacker, damageInfo );
 		}
 
-		public override void OnPlayerSpawn( Player player )
+		public override void OnPlayerSpawn( HoverPlayer player )
 		{
 			player.Loadout?.Respawn( player );
 
 			base.OnPlayerSpawn( player );
 		}
 
-		public override void OnPlayerJoin( Player player )
+		public override void OnPlayerJoin( HoverPlayer player )
 		{
 			if ( Players.Contains( player ) )
 			{
@@ -52,7 +52,7 @@ namespace Facepunch.Hover
 			player.GiveLoadout<LightAssault>();
 			player.Respawn();
 
-			TutorialScreen.Show( To.Single( player ) );
+			UI.TutorialScreen.Show( To.Single( player ) );
 
 			base.OnPlayerJoin( player );
 		}

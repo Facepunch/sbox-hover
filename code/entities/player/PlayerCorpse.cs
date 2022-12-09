@@ -4,7 +4,7 @@ namespace Facepunch.Hover
 {
 	public class PlayerCorpse : ModelEntity
 	{
-		public Player Player { get; set; }
+		public HoverPlayer Player { get; set; }
 
 		public PlayerCorpse()
 		{
@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
-		public void CopyFrom( Player player )
+		public void CopyFrom( HoverPlayer player )
 		{
 			RenderColor = player.RenderColor;
 

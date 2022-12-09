@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new SpeedBoosterConfig();
 		public override bool IsPassive => true;
 
-		protected override void OnEquipmentGiven( Player player )
+		protected override void OnEquipmentGiven( HoverPlayer player )
 		{
 			if ( player.Controller is MoveController controller )
 			{
@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		protected override void OnEquipmentTaken( Player player )
+		protected override void OnEquipmentTaken( HoverPlayer player )
 		{
 			if ( player.Controller is MoveController controller )
 			{

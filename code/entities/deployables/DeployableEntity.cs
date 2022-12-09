@@ -20,10 +20,10 @@ namespace Facepunch.Hover
 		[Net] public float MaxHealth { get; set; } = 100f;
 		[Net, Change] public bool IsDeployed { get; set; }
 		[Net] public float PickupProgress { get; set; }
-		[Net] public Player Deployer { get; set; }
+		[Net] public HoverPlayer Deployer { get; set; }
 
-		private WorldDeployableHud DeployableHud { get; set; }
-		private WorldHealthBar HealthBar { get; set; }
+		private UI.WorldDeployableHud DeployableHud { get; set; }
+		private UI.WorldHealthBar HealthBar { get; set; }
 		private TimeSince LastUseTime { get; set; }
 
 		public override void OnGameReset()
@@ -43,7 +43,7 @@ namespace Facepunch.Hover
 
 		public override bool OnUse( Entity user )
 		{
-			if ( user is Player player && player == Deployer )
+			if ( user is HoverPlayer player && player == Deployer )
 			{
 				PickupProgress = Math.Min( PickupProgress + Time.Delta, 1f );
 				LastUseTime = 0f;
@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 
 		public override bool IsUsable( Entity user )
 		{
-			if ( user is Player player && player == Deployer )
+			if ( user is HoverPlayer player && player == Deployer )
             {
 				return true;
             }
@@ -91,7 +91,7 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			HealthBar = new WorldHealthBar();
+			HealthBar = new UI.WorldHealthBar();
 			HealthBar.MaximumValue = MaxHealth;
 			HealthBar.SetEntity( this, HealthAttachment );
 			HealthBar.RotateToFace = true;
@@ -99,7 +99,7 @@ namespace Facepunch.Hover
 
 			if ( Local.Pawn == Deployer && CanPickup )
 			{
-				DeployableHud = new WorldDeployableHud();
+				DeployableHud = new UI.WorldDeployableHud();
 				DeployableHud.SetEntity( this );
 			}
 
@@ -133,7 +133,7 @@ namespace Facepunch.Hover
 		{
 			if ( !FinishDeployTime ) return;
 
-			if ( info.Attacker is Player attacker )
+			if ( info.Attacker is HoverPlayer attacker )
 			{
 				if ( attacker.Team == Team && attacker != Deployer )
 				{

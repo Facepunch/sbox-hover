@@ -59,7 +59,7 @@ namespace Facepunch.Hover
 			base.TakeDamage( info );
 		}
 
-		protected virtual void DealDamage( Player target, Vector3 position, float force, float damage )
+		protected virtual void DealDamage( HoverPlayer target, Vector3 position, float force, float damage )
 		{
 			damage = target.Velocity.Length.Remap( 0f, 2000f, 0f, damage );
 
@@ -78,7 +78,7 @@ namespace Facepunch.Hover
 			target.ShouldHideOnRadar = 2f;
 		}
 
-		protected virtual bool IsValidVictim( Player player )
+		protected virtual bool IsValidVictim( HoverPlayer player )
 		{
 			return (player.LifeState == LifeState.Alive && player.Team != Team);
 		}
@@ -88,7 +88,7 @@ namespace Facepunch.Hover
 			if ( IsPowered && IsDeployed && NextDamageTime )
 			{
 				var players = FindInBox( WorldSpaceBounds )
-					.OfType<Player>();
+					.OfType<HoverPlayer>();
 
 				var didDamagePlayer = false;
 

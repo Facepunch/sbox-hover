@@ -25,16 +25,16 @@ namespace Facepunch.Hover
 			return team == Team.Blue ? BlueScore : RedScore;
 		}
 
-		public override void OnPlayerJoin( Player player )
+		public override void OnPlayerJoin( HoverPlayer player )
 		{
 			SpawnPlayer( player );
 
-			TutorialScreen.Show( To.Single( player ) );
+			UI.TutorialScreen.Show( To.Single( player ) );
 
 			base.OnPlayerJoin( player );
 		}
 
-		public override void OnPlayerKilled( Player player, Entity attacker, DamageInfo damageInfo )
+		public override void OnPlayerKilled( HoverPlayer player, Entity attacker, DamageInfo damageInfo )
 		{
 			var assister = player.GetBestAssist( attacker );
 
@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 					attacker = assister;
 			}
 
-			if ( attacker.IsValid() && attacker is Player killer )
+			if ( attacker.IsValid() && attacker is HoverPlayer killer )
 			{
 				if ( player.IsEnemyPlayer( killer ) )
 				{
@@ -77,19 +77,19 @@ namespace Facepunch.Hover
 				}
 
 				if ( player == killer && damageInfo.Flags.HasFlag( DamageFlags.Fall ) )
-					Hud.AddKillFeed( To.Everyone, killer, player, null );
+					UI.Hud.AddKillFeed( To.Everyone, killer, player, null );
 				else if ( damageInfo.Weapon.IsValid() )
-					Hud.AddKillFeed( To.Everyone, killer, player, damageInfo.Weapon );
+					UI.Hud.AddKillFeed( To.Everyone, killer, player, damageInfo.Weapon );
 				else
-					Hud.AddKillFeed( To.Everyone, killer, player, killer.ActiveChild as Weapon );
+					UI.Hud.AddKillFeed( To.Everyone, killer, player, killer.ActiveChild as Weapon );
 			}
 			else if ( attacker is IKillFeedIcon )
 			{
-				Hud.AddKillFeed( To.Everyone, attacker, player );
+				UI.Hud.AddKillFeed( To.Everyone, attacker, player );
 			}
 			else
 			{
-				Hud.AddKillFeed( To.Everyone, player );
+				UI.Hud.AddKillFeed( To.Everyone, player );
 			}
 
 			RespawnScreen.Show( To.Single( player ), 5f, attacker );
@@ -99,7 +99,7 @@ namespace Facepunch.Hover
 			base.OnPlayerKilled( player, attacker, damageInfo );
 		}
 
-		public override void OnPlayerSpawn( Player player )
+		public override void OnPlayerSpawn( HoverPlayer player )
 		{
 			base.OnPlayerSpawn( player );
 
@@ -137,7 +137,7 @@ namespace Facepunch.Hover
 				BlueScore = 0;
 				RedScore = 0;
 
-				var players = Client.All.Select( ( client ) => client.Pawn as Player ).ToList();
+				var players = Client.All.Select( ( client ) => client.Pawn as HoverPlayer ).ToList();
 
 				foreach ( var player in players )
 				{
@@ -200,14 +200,14 @@ namespace Facepunch.Hover
 			Audio.Play( outpost.LastCapturer, "you.lostoutpost", "lostoutpost" );
 
 			if ( outpost.LastCapturer == Team.Blue )
-				Hud.ToastAll( $"The blue team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+				UI.Hud.ToastAll( $"The blue team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
 			else
-				Hud.ToastAll( $"The red team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
+				UI.Hud.ToastAll( $"The red team have lost {outpost.OutpostName}", "ui/icons/neutral_outpost.png" );
 		}
 
 		private void OnOutpostCaptured( OutpostVolume outpost )
 		{
-			foreach ( var player in outpost.TouchingEntities.OfType<Player>() )
+			foreach ( var player in outpost.TouchingEntities.OfType<HoverPlayer>() )
 			{
 				if ( player.LifeState == LifeState.Alive && player.Team == outpost.Team )
 				{
@@ -218,16 +218,16 @@ namespace Facepunch.Hover
 			Audio.Play( outpost.Team, "you.takenoutpost", "takenoutpost" );
 
 			if ( outpost.Team == Team.Blue )
-				Hud.ToastAll( $"The blue team have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
+				UI.Hud.ToastAll( $"The blue team have captured {outpost.OutpostName}", "ui/icons/blue_outpost.png" );
 			else
-				Hud.ToastAll( $"The red team have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
+				UI.Hud.ToastAll( $"The red team have captured {outpost.OutpostName}", "ui/icons/red_outpost.png" );
 		}
 
 		private void OnGeneratorBroken( GeneratorAsset generator )
 		{
 			Audio.Play( generator.Team, $"your.generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
 
-			var attacker = generator.LastAttacker as Player;
+			var attacker = generator.LastAttacker as HoverPlayer;
 
 			if ( attacker.IsValid() )
 			{
@@ -240,7 +240,7 @@ namespace Facepunch.Hover
 			Audio.Play( generator.Team, $"your.generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
 		}
 
-		private void OnFlagDropped( Player player, FlagEntity flag )
+		private void OnFlagDropped( HoverPlayer player, FlagEntity flag )
 		{
 			if ( NextFlagAnnouncement )
 			{
@@ -249,12 +249,12 @@ namespace Facepunch.Hover
 			}
 
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
+				UI.Hud.ToastAll( player.Client.Name + " dropped the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( player.Client.Name + " dropped the Red flag", "ui/icons/flag-red.png" );
+				UI.Hud.ToastAll( player.Client.Name + " dropped the Red flag", "ui/icons/flag-red.png" );
 		}
 
-		private void OnFlagPickedUp( Player player, FlagEntity flag )
+		private void OnFlagPickedUp( HoverPlayer player, FlagEntity flag )
 		{
 			if ( NextFlagAnnouncement )
 			{
@@ -263,29 +263,29 @@ namespace Facepunch.Hover
 			}
 
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
+				UI.Hud.ToastAll( player.Client.Name + " picked up the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( player.Client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
+				UI.Hud.ToastAll( player.Client.Name + " picked up the Red flag", "ui/icons/flag-red.png" );
 		}
 
-		private void OnFlagReturned( Player player, FlagEntity flag )
+		private void OnFlagReturned( HoverPlayer player, FlagEntity flag )
 		{
 			Audio.Play( flag.Team, $"your.flagreturned{Rand.Int( 1, 2 )}", $"flagreturned{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
+				UI.Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( player.Client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
+				UI.Hud.ToastAll( player.Client.Name + " returned the Red flag", "ui/icons/flag-red.png" );
 		}
 
-		private void OnFlagCaptured( Player player, FlagEntity flag )
+		private void OnFlagCaptured( HoverPlayer player, FlagEntity flag )
 		{
 			Audio.Play( flag.Team, $"your.flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
-				Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
+				UI.Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
 			else
-				Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
+				UI.Hud.ToastAll( player.Client.Name + " captured the Red flag", "ui/icons/flag-red.png" );
 
 			if ( player.Team == Team.Blue )
 				BlueScore++;
@@ -293,7 +293,7 @@ namespace Facepunch.Hover
 				RedScore++;
 		}
 
-		private void SpawnPlayer( Player player )
+		private void SpawnPlayer( HoverPlayer player )
 		{
 			if ( !Players.Contains( player ) )
 				AddPlayer( player );

@@ -91,7 +91,7 @@ namespace Facepunch.Hover
 			var caller = ConsoleSystem.Caller;
 			Assert.NotNull( caller );
 
-			if ( caller.Pawn is not Player player )
+			if ( caller.Pawn is not HoverPlayer player )
 				return;
 
 			if ( message.Contains( '\n' ) || message.Contains( '\r' ) )

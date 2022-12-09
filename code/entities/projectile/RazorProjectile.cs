@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 	public partial class RazorProjectile : BulletDropProjectile
 	{
 		[Net, Predicted] public bool HasTarget { get; set; }
-		[Net, Predicted] public Player Target { get; set; }
+		[Net, Predicted] public HoverPlayer Target { get; set; }
 
 		public Vector3 UpVelocity { get; set; }
 		public float SeekRadius { get; set; }
@@ -61,7 +61,7 @@ namespace Facepunch.Hover
 			var newPosition = base.GetTargetPosition();
 
 			var targets = Entity.FindInSphere( Position, SeekRadius )
-				.OfType<Player>()
+				.OfType<HoverPlayer>()
 				.Where( IsValidTarget );
 
 			var target = targets.FirstOrDefault();
@@ -109,14 +109,14 @@ namespace Facepunch.Hover
 				Audio.Play( HitSound, Position );
 		}
 
-		private bool IsValidTarget( Player player )
+		private bool IsValidTarget( HoverPlayer player )
 		{
 			if ( player.LifeState == LifeState.Dead )
 			{
 				return false;
 			}
 
-			if ( Attacker is Player attacker )
+			if ( Attacker is HoverPlayer attacker )
 			{
 				return attacker.Team != player.Team;
 			}

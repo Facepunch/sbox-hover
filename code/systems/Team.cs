@@ -48,14 +48,14 @@ namespace Facepunch.Hover
 			return To.Multiple( team.GetAll().Select( e => e.Client ) );
 		}
 
-		public static IEnumerable<Player> GetAll( this Team team )
+		public static IEnumerable<HoverPlayer> GetAll( this Team team )
 		{
-			return Entity.All.OfType<Player>().Where( e => e.Team == team );
+			return Entity.All.OfType<HoverPlayer>().Where( e => e.Team == team );
 		}
 
 		public static int GetCount( this Team team )
 		{
-			return Entity.All.OfType<Player>().Where( e => e.Team == team ).Count();
+			return Entity.All.OfType<HoverPlayer>().Where( e => e.Team == team ).Count();
 		}
 	}
 }

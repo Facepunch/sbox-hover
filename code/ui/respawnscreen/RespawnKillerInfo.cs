@@ -18,7 +18,7 @@ namespace Facepunch.Hover
 			SetClass( "hidden", !isVisible );
 		}
 
-		public void Update( Player player )
+		public void Update( HoverPlayer player )
 		{
 			KillerAvatar.SetTexture( $"avatar:{player.Client.SteamId}" );
 			KillerName.Text = player.Client.Name;

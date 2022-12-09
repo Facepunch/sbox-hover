@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 	[HammerEntity]
 	public partial class FlagSpawnpoint : ModelEntity
 	{
-		public delegate void FlagEvent( Player player, FlagEntity flag );
+		public delegate void FlagEvent( HoverPlayer player, FlagEntity flag );
 		public static event FlagEvent OnFlagCaptured;
 
 		[Property] public Team Team { get; set; }
@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
-		public bool CanCaptureFlag( Player player, FlagEntity flag )
+		public bool CanCaptureFlag( HoverPlayer player, FlagEntity flag )
 		{
 			if ( flag.Team == Team)
 				return false;

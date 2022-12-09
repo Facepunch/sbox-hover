@@ -114,7 +114,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public virtual void Restock( Player player )
+		public virtual void Restock( HoverPlayer player )
 		{
 			player.ClearAmmo();
 
@@ -134,7 +134,7 @@ namespace Facepunch.Hover
 			player.RestockWeaponUpgrades();
 		}
 
-		public virtual void Supply( Player player )
+		public virtual void Supply( HoverPlayer player )
 		{
 			player.Inventory.DeleteContents();
 
@@ -156,7 +156,7 @@ namespace Facepunch.Hover
 			Restock( player );
 		}
 
-		public virtual void Initialize( Player player )
+		public virtual void Initialize( HoverPlayer player )
 		{
 			var deployables = Entity.All.OfType<DeployableEntity>()
 				.Where( v => v.Deployer == player );
@@ -167,7 +167,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public virtual void Respawn( Player player )
+		public virtual void Respawn( HoverPlayer player )
 		{
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();

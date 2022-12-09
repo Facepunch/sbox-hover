@@ -56,7 +56,7 @@ namespace Facepunch.Hover
 
 		public void DoSwitchTeam()
 		{
-			Player.SwitchTeam();
+			HoverPlayer.SwitchTeam();
 		}
 
 		protected virtual ScoreboardEntry AddClient( Client entry )
