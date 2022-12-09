@@ -1,5 +1,6 @@
 ﻿using Gamelib.Extensions;
 using Sandbox;
+using Sandbox.Component;
 using Sandbox.Utility;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,15 @@ namespace Facepunch.Hover
 		{
 			get => Transform.PointToWorld( EyeLocalPosition );
 			set => EyeLocalPosition = Transform.PointToLocal( value );
+		}
+
+		public float WaterLevel
+		{
+			get
+			{
+				var c = Components.Get<WaterEffectComponent>();
+				return c?.WaterLevel ?? 0;
+			}
 		}
 
 		[Net, Predicted]

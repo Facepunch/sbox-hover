@@ -182,7 +182,7 @@ namespace Facepunch.Hover
 			}
 
 			CheckLadder();
-			Swimming = false;
+			Swimming = Player.WaterLevel > 0.6f;
 
 			PreVelocity = Player.Velocity;
 
