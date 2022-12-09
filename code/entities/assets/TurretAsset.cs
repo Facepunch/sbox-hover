@@ -28,6 +28,8 @@ namespace Facepunch.Hover
 			"flyby.rifleclose4"
 		};
 
+		[BindComponent] public TurretComponent TurretComponent { get; }
+
 		public string MuzzleAttachment => "muzzle";
 		public string MuzzleFlashEffect => "particles/weapons/muzzle_flash_plasma/muzzle_large/muzzleflash_large.vpcf";
 
@@ -106,8 +108,6 @@ namespace Facepunch.Hover
 		{
 			SetModel( "models/tempmodels/turret/turret.vmdl" );
 			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-
-			Components.Create<TurretComponent>();
 
 			base.Spawn();
 		}

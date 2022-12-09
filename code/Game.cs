@@ -37,6 +37,15 @@ namespace Facepunch.Hover
 				VictoryScreen.Show( Team.Red, 200f );
 		}
 
+		public static void ChangeRound( BaseRound round )
+		{
+			Assert.NotNull( round );
+
+			Instance.InternalRound?.Finish();
+			Instance.InternalRound = round;
+			Instance.InternalRound?.Start();
+		}
+
 		[ConCmd.Server( "hv_respawn_screen" )]
 		public static void DebugRespawnScreen( string type )
 		{
@@ -45,20 +54,20 @@ namespace Facepunch.Hover
 				if ( type == "turret" )
 				{
 					var turret = All.OfType<TurretAsset>().FirstOrDefault();
-					RespawnScreen.Show( 30f, turret );
+					UI.RespawnScreen.Show( 30f, turret );
 				}
 				else if ( type == "suicide" )
 				{
-					RespawnScreen.Show( 30f, player );
+					UI.RespawnScreen.Show( 30f, player );
 				}
 				else if ( type == "deployable" )
 				{
 					var mine = new JumpMine();
-					RespawnScreen.Show( 30f, player, mine );
+					UI.RespawnScreen.Show( 30f, player, mine );
 				}
 				else
 				{
-					RespawnScreen.Show( 30f, player, player.ActiveChild );
+					UI.RespawnScreen.Show( 30f, player, player.ActiveChild );
 				}
 			}
 		}
@@ -127,6 +136,10 @@ namespace Facepunch.Hover
 				player.Respawn();
 			}
         }
+
+		public static BaseRound Round => Instance?.InternalRound;
+
+		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; private set; }
 
 		public override void Spawn()
 		{
@@ -209,7 +222,7 @@ namespace Facepunch.Hover
 
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
 		{
-			Rounds.Current?.OnPlayerLeave( client.Pawn as HoverPlayer );
+			Round?.OnPlayerLeave( client.Pawn as HoverPlayer );
 
 			foreach ( var flag in All.OfType<FlagEntity>() )
 			{
@@ -227,9 +240,15 @@ namespace Facepunch.Hover
 			var player = new HoverPlayer();
 			client.Pawn = player;
 
-			Rounds.Current?.OnPlayerJoin( player );
+			Round?.OnPlayerJoin( player );
 
 			base.ClientJoined( client );
+		}
+
+		private void OnRoundChanged( BaseRound oldRound, BaseRound newRound )
+		{
+			oldRound?.Finish();
+			newRound?.Start();
 		}
 
 		private void PrecacheAssets()
@@ -269,7 +288,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsServer )
 			{
-				Rounds.Change( new LobbyRound() );
+				ChangeRound( new LobbyRound() );
 			}
 		}
 
@@ -277,14 +296,14 @@ namespace Facepunch.Hover
 		{
 			if ( Client.All.Count >= MinPlayers )
 			{
-				if ( Rounds.Current is LobbyRound || Rounds.Current == null )
+				if ( Round is LobbyRound || Round == null )
 				{
-					Rounds.Change( new PlayRound() );
+					ChangeRound( new PlayRound() );
 				}
 			}
-			else if ( Rounds.Current is not LobbyRound )
+			else if ( Round is not LobbyRound )
 			{
-				Rounds.Change( new LobbyRound() );
+				ChangeRound( new LobbyRound() );
 			}
 		}
 	}

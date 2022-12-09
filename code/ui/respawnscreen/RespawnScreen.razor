@@ -1,0 +1,51 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/respawnscreen/RespawnScreen.scss" )]
+@inherits Panel
+
+<div>
+  <div class="respawn-feed">
+    <RespawnKillerInfo @ref="KillerInfo"></RespawnKillerInfo>
+
+    <div class="respawn-box deploy">
+      <div class="respawn-header">
+        <label>Redeploy In</label>
+      </div>
+      <div class="respawn-body">
+        <label @ref="RespawnTimeLabel" @text="RespawnTimeLeft">x</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code
+{
+	public static RespawnScreen Instance { get; private set; }
+
+	public RespawnKillerInfo KillerInfo { get; private set; }
+	public Label RespawnTimeLabel { get; private set; }
+	public Label KilledByLabel { get; private set; }
+
+	public RealTimeUntil RespawnTime { get; private set; }
+
+	public string RespawnTimeLeft => GetRespawnTimeLeft();
+
+	public RespawnScreen()
+	{
+		SetClass( "hidden", true );
+
+		Instance = this;
+	}
+
+	private string GetRespawnTimeLeft()
+	{
+		var timeLeftWithMax = Math.Max( RespawnTime.Relative.CeilToInt(), 0 );
+		return $"{TimeSpan.FromSeconds( timeLeftWithMax ).ToString( @"mm\:ss" )}";
+	}
+}

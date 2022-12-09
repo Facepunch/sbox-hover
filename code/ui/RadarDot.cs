@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sandbox;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	public class RadarDot : Panel
 	{

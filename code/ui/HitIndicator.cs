@@ -4,8 +4,9 @@ using Sandbox.UI.Construct;
 using System;
 using System.Threading.Tasks;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/HitIndicator.scss" )]
 	public partial class HitIndicator : Panel
 	{
 		public static HitIndicator Current { get; private set; }
@@ -13,7 +14,6 @@ namespace Facepunch.Hover
 		public HitIndicator()
 		{
 			Current = this;
-			StyleSheet.Load( "/ui/HitIndicator.scss" );
 		}
 
 		public override void Tick()

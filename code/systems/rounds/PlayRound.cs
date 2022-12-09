@@ -17,7 +17,7 @@ namespace Facepunch.Hover
 		[Net] public int RedScore { get; set; }
 		
 		private RealTimeUntil NextFlagAnnouncement { get; set; }
-		private RoundScore ScoreHud { get; set; }
+		private UI.RoundScore ScoreHud { get; set; }
 		private bool HasFirstBlood { get; set; }
 
 		public int GetScore( Team team )
@@ -92,7 +92,7 @@ namespace Facepunch.Hover
 				UI.Hud.AddKillFeed( To.Everyone, player );
 			}
 
-			RespawnScreen.Show( To.Single( player ), 5f, attacker );
+			UI.RespawnScreen.Show( To.Single( player ), 5f, attacker );
 
 			player.MakeSpectator( player.Position, 5f );
 
@@ -103,7 +103,7 @@ namespace Facepunch.Hover
 		{
 			base.OnPlayerSpawn( player );
 
-			RespawnScreen.Hide( To.Single( player ) );
+			UI.RespawnScreen.Hide( To.Single( player ) );
 
 			var loadout = player.Loadout;
 
@@ -146,7 +146,7 @@ namespace Facepunch.Hover
 			}
 			else
 			{
-				ScoreHud = Local.Hud.AddChild<RoundScore>();
+				ScoreHud = Local.Hud.AddChild<UI.RoundScore>();
 			}
 		}
 
@@ -169,7 +169,7 @@ namespace Facepunch.Hover
 					VictoryScreen.Show( Team.None, 10f );
 				}
 
-				StationScreen.Hide();
+				UI.StationScreen.Hide();
 
 				GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
 				GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
@@ -180,7 +180,7 @@ namespace Facepunch.Hover
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
 				FlagEntity.OnFlagDropped -= OnFlagDropped;
 
-				Rounds.Change( new StatsRound() );
+				Game.ChangeRound( new StatsRound() );
 			}
 			else
 			{
@@ -307,7 +307,7 @@ namespace Facepunch.Hover
 
 			if ( player.Client.IsBot == false )
 			{
-				StationScreen.Show( To.Single( player ), StationScreenMode.Deployment );
+				UI.StationScreen.Show( To.Single( player ), UI.StationScreenMode.Deployment );
 				Game.Instance.MoveToSpawnpoint( player );
 				player.MakeSpectator( player.Position );
 			}

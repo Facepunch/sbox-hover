@@ -4,21 +4,19 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
-	[UseTemplate]
 	public class RoundScoreItem : Panel
 	{
-		public Panel Icon {get; set;}
-		public Label Score {get; set;}
+		public Label Score { get; set; }
 
 		public RoundScoreItem()
 		{
-			// Icon = Add.Panel( "icon" );
-			// Score = Add.Label( "0", "score" );
+			Score = Add.Label( "0", "score" );
 		}
 	}
 
+	[StyleSheet( "/ui/RoundScore.scss" )]
 	public class RoundScore : Panel
 	{
 		public Panel Container;
@@ -27,8 +25,6 @@ namespace Facepunch.Hover
 
 		public RoundScore()
 		{
-			StyleSheet.Load( "/ui/RoundScore.scss" );
-
 			Container = Add.Panel( "container" );
 			Blue = Container.AddChild<RoundScoreItem>( "blue" );
 			Red = Container.AddChild<RoundScoreItem>( "red" );
@@ -42,7 +38,7 @@ namespace Facepunch.Hover
 			var game = Game.Instance;
 			if ( game == null ) return;
 
-			if ( Rounds.Current is PlayRound round )
+			if ( Game.Round is PlayRound round )
 			{
 				Blue.Score.Text = round.BlueScore.ToString();
 				Red.Score.Text = round.RedScore.ToString();

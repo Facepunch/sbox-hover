@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-roundscore {
+RoundScore {
   position: absolute;
   align-items: center;
   display: flex;
@@ -18,29 +18,11 @@ roundscore {
     align-items: center;
     top: 84px;
 
-    roundscoreitem {
+    RoundScoreItem {
       align-items: center;
+	  justify-content: center;
       width: 130px;
-
-      .score-container {
-        text-align: center;
-
-        .score-value {
-          color: $dark-grey;
-          font-family: $fontBold;
-          font-size: 20px;
-          text-align: center;
-          width: 100%;
-        }
-      }
-
-      .icon {
-        background-size: cover;
-        margin-right: 8px;
-        width: 40px;
-        height: 40px;
-      }
-
+	  
       .score {
         font-family: $mainFont;
         font-size: 28px;

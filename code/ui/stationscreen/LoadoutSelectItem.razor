@@ -1,0 +1,77 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/LoadoutSelectItem.scss" )]
+@inherits Panel
+
+<root>
+    <div class="loadout">
+        <div class="loadout-icon-container">
+            <label @ref="Level" class="loadout-level"></label>
+            <div class="loadout-icon">
+                <img @ref="Icon" class="loadout-player" />
+            </div>
+            <div class="loadout-type">
+                <img @ref="SmallIcon" class="loadout-type-icon" />
+            </div>
+        </div>
+        <div class="loadout-name">
+            <label @ref="Name"></label>
+        </div>
+    </div>
+</root>
+
+@code
+{
+    public Image Icon { get; private set; }
+    public Label Level { get; private set; }
+    public Image SmallIcon { get; private set; }
+    public Label Name { get; private set; }
+    public BaseLoadout Loadout { get; set; }
+    public LoadoutSelectList List { get; set; }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        if ( Loadout is not null )
+        {
+            Name.Text = Loadout.Name;
+            Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/player-icon-highlighted.png" );
+
+            if ( Local.Pawn is HoverPlayer player )
+            {
+                var roleName = "icon_class_attacker";
+
+                if ( Loadout.RoleType == LoadoutRoleType.Defender )
+                    roleName = "icon_class_defender";
+                else if ( Loadout.RoleType == LoadoutRoleType.Support )
+                    roleName = "icon_class_support";
+
+                SmallIcon.Texture = Texture.Load( FileSystem.Mounted, $"ui/icons/{roleName}.png" );
+            }
+
+            if ( Loadout.Level > 1 )
+            {
+                Level.Text = Loadout.Level.ToString();
+                SetClass( "is-upgrade", true );
+            }
+            else
+            {
+                SetClass( "is-upgrade", false );
+            }
+        }
+
+        base.OnAfterTreeRender( firstTime );
+    }
+
+	protected override void OnClick( MousePanelEvent e )
+	{
+		List?.SetSelectedItem( this );
+		Audio.Play( "hover.clickbeep" );
+		base.OnClick( e );
+	}
+}

@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Facepunch.Hover.Utility;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	[StyleSheet( "/ui/Crosshair.scss" )]
 	public class Crosshair : Panel

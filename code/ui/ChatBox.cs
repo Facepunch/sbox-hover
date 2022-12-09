@@ -37,6 +37,7 @@ namespace Facepunch.Hover.UI
 		}
 	}
 
+	[StyleSheet( "/ui/ChatBox.scss" )]
 	public partial class ChatBox : Panel
 	{
 		public static ChatBox Current { get; private set; }
@@ -110,8 +111,6 @@ namespace Facepunch.Hover.UI
 		public ChatBox()
 		{
 			Current = this;
-
-			StyleSheet.Load( "/ui/ChatBox.scss" );
 
 			Canvas = Add.Panel( "chat_canvas" );
 

@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer )
 			{
-				Rounds.Change( new PlayRound() );
+				Game.ChangeRound( new PlayRound() );
 			}
 
 			base.OnTimeUp();

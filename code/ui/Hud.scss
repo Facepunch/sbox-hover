@@ -2,7 +2,7 @@
 @import "_buttons.scss";
 @import "_tags.scss";
 
-rootpanel {
+RootPanel {
   background-color: rgba(#333, 0);
   transition: background-color 0.2s ease-in;
   transform-origin: 50% 50%;
@@ -37,7 +37,7 @@ rootpanel {
   right: 64px;
 }
 
-voicelist {
+VoiceList {
   font-family: $mainFont;
 
   voiceentry {
@@ -58,7 +58,7 @@ voicelist {
   }
 }
 
-vitals {
+Vitals {
   color: #fff;
   font-family: $mainFont;
   flex-direction: row;
@@ -66,7 +66,7 @@ vitals {
   font-size: 40px;
   position: relative;
 
-  hudiconbar {
+  HudIconBar {
     width: 90px;
     position: relative;
   }

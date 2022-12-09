@@ -4,6 +4,7 @@ using Sandbox.UI;
 
 namespace Facepunch.Hover.UI;
 
+[StyleSheet( "/ui/Hud.scss" )]
 public partial class Hud : RootPanel
 {
 	[ClientRpc]
@@ -44,8 +45,6 @@ public partial class Hud : RootPanel
 
 	public Hud()
 	{
-		StyleSheet.Load( "/ui/Hud.scss" );
-
 		AddChild<LongshotScope>();
 		AddChild<RoundInfo>();
 

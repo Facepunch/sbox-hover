@@ -1,17 +1,12 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/FlagIndicator.scss" )]
 	public class FlagIndicator : EntityHudIcon
 	{
-		public FlagIndicator() : base()
-		{
-			StyleSheet.Load( "/ui/FlagIndicator.scss" );
-		}
-
 		public void SetTeam( Team team )
 		{
 			if ( team == Team.Blue )

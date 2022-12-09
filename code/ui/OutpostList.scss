@@ -31,107 +31,108 @@
   }
 }
 
-outpostlist {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  width: 256px;
-  top: 297px;
-  margin-left: 64px;
-  left: 0px;
-  z-index: 2;
+OutpostList {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 256px;
+    top: 297px;
+    margin-left: 64px;
+    left: 0px;
+    z-index: 2;
 
-  outpostitem {
-    transition: all 0.2s ease-out;
-    align-items: center;
-    background-color: $panel-bg-light;
-    backdrop-filter: $blur-medium;
-    width: 100%;
-    height: 50px;
-    margin-right: 1px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    .bar {
-      transition: all 0.2s ease-out;
-      min-height: 5%;
-      opacity: 1;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      &.hidden {
-        display: none;
-      }
-    }
-
-    .content {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      position: absolute;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      .circle {
+    OutpostItem {
         transition: all 0.2s ease-out;
-        display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        background-color: $panel-bg-light;
+        backdrop-filter-blur: $blur-medium;
         width: 100%;
-        height: 100%;
+        height: 50px;
+        margin-right: 1px;
 
-        .name {
-          transition: all 0.2s ease-out;
-          font-family: $fontBold;
-          font-size: 18px;
-          color: $light-blue;
-          text-shadow: $text-shadow;
+        &:last-child {
+            margin-right: 0;
         }
-      }
+
+        .bar {
+            transition: all 0.2s ease-out;
+            min-height: 5%;
+            opacity: 1;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            &.hidden {
+                display: none;
+            }
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .circle {
+                transition: all 0.2s ease-out;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+
+                .name {
+                    transition: all 0.2s ease-out;
+                    font-family: $fontBold;
+                    font-size: 18px;
+                    color: $light-blue;
+                    text-shadow: $text-shadow;
+                }
+            }
+        }
+
+        &.team_red {
+            background-color: rgba($red, 0.3);
+
+            .bar {
+                background-color: $red;
+            }
+
+            .content {
+                .circle {
+                    .name {
+                        color: $dark-grey;
+                        text-shadow: none;
+                    }
+                }
+            }
+        }
+
+        &.team_blue {
+            background-color: rgba($blue, 0.3);
+
+            .bar {
+                background-color: $blue;
+            }
+
+            .content {
+                .circle {
+                    .name {
+                        color: $dark-grey;
+                        text-shadow: none;
+                    }
+                }
+            }
+        }
     }
 
-    &.team_red {
-      background-color: rgba($red, 0.3);
-
-      .bar {
-        background-color: $red;
-      }
-
-      .content {
-        .circle {
-          .name {
-            color: $dark-grey;
-            text-shadow: none;
-          }
-        }
-      }
+    &.hidden {
+        display: none;
     }
-
-    &.team_blue {
-      background-color: rgba($blue, 0.3);
-      .bar {
-        background-color: $blue;
-      }
-
-      .content {
-        .circle {
-          .name {
-            color: $dark-grey;
-            text-shadow: none;
-          }
-        }
-      }
-    }
-  }
-
-  &.hidden {
-    display: none;
-  }
 }

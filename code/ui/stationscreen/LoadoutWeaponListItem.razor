@@ -1,0 +1,41 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/LoadoutWeaponListItem.scss" )]
+@inherits Panel
+
+<root class="weapon-list-item">
+    <label>@Config.Name</label>
+    <div style="background-image: url( @Config.Icon )" class="weapon-list-icon"></div>
+</root>
+
+@code
+{
+    public WeaponConfig Config { get; set; }
+    public bool IsActive { get; set; }
+
+    public LoadoutWeaponListItem()
+    {
+        BindClass( "active", () => IsActive );
+    }
+
+    protected override void OnClick( MousePanelEvent e )
+    {
+        StationScreen.Instance.SetWeapon( Config );
+
+        CreateEvent( "onpressed" );
+        Audio.Play( "hover.clickbeep" );
+
+        base.OnClick( e );
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( Config );
+    }
+}

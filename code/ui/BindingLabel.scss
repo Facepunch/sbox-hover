@@ -25,7 +25,7 @@ BindingLabel {
         color: lightgray;
 
         &.visible {
-            display: block;
+            display: flex;
         }
     }
 }

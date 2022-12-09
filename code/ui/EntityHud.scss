@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-entityhudanchor {
+EntityHudAnchor {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@ entityhudanchor {
     display: none;
   }
 
-  entityhudiconbar {
+  EntityHudIconBar {
     margin-bottom: 4px;
     flex-direction: row;
     align-items: center;
@@ -19,14 +19,14 @@ entityhudanchor {
     border-radius: 2px;
     padding: 2px;
 
-    entityhudicon {
+    EntityHudIcon {
       margin-right: 4px;
       margin-bottom: 0px;
       height: 20px;
       width: 20px;
     }
 
-    entityhudbar {
+    EntityHudBar {
       margin-bottom: 0px;
     }
 
@@ -35,13 +35,13 @@ entityhudanchor {
     }
   }
 
-  entityhudiconlist {
+  EntityHudIconList {
     margin-bottom: 4px;
     flex-direction: row;
     align-items: center;
     display: flex;
 
-    entityhudicon {
+    EntityHudIcon {
       margin-right: 4px;
       margin-bottom: 0px;
       border-radius: 2px;
@@ -59,7 +59,7 @@ entityhudanchor {
   }
 }
 
-entityhudicon {
+EntityHudIcon {
   margin-bottom: 4px;
   height: 64px;
   width: 64px;
@@ -84,7 +84,7 @@ entityhudicon {
   }
 }
 
-entityhudbar {
+EntityHudBar {
   border: 1px black solid;
   background-color: black;
   border-radius: 2px;
@@ -104,7 +104,7 @@ entityhudbar {
   }
 }
 
-outposthud {
+OutpostHud {
   min-width: 90px;
   display: flex;
   align-items: center;

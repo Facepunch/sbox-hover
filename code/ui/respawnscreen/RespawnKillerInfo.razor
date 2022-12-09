@@ -1,0 +1,92 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/respawnscreen/RespawnKillerInfo.scss" )]
+@inherits Panel
+
+<div>
+  <div class="respawn-box team-box player-name">
+    <div class="respawn-header">
+      <label>Killed By</label>
+    </div>
+    <div class="respawn-body">
+      <img @ref="KillerAvatar" class="avatar" />
+      <label @ref="KillerName">Username</label>
+    </div>
+  </div>
+
+  <div class="respawn-box team-box weapon">
+    <div class="respawn-header">
+      <label>Using</label>
+    </div>
+    <div class="respawn-body">
+      <label @ref="WeaponName">Weapon</label>
+    </div>
+  </div>
+</div>
+
+@code
+{
+	public Image KillerAvatar { get; private set; }
+	public Label KillerName { get; private set; }
+	public Label WeaponName { get; private set; }
+
+	private Team CurrentTeam { get; set; }
+
+	public void SetVisible( bool isVisible )
+	{
+		SetClass( "hidden", !isVisible );
+	}
+
+	public void Update( HoverPlayer player )
+	{
+		KillerAvatar.SetTexture( $"avatar:{player.Client.SteamId}" );
+		KillerName.Text = player.Client.Name;
+		SetTeam( player.Team );
+	}
+
+	public void Update( IKillFeedIcon killer )
+	{
+		KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, killer.GetKillFeedIcon() );
+		KillerName.Text = killer.GetKillFeedName();
+		SetTeam( killer.GetKillFeedTeam() );
+	}
+
+	public void Update( string killerName )
+	{
+		KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
+		KillerName.Text = killerName;
+		SetTeam( Team.None );
+	}
+
+	public void SetTeam( Team team )
+	{
+		SetClass( CurrentTeam.GetHudClass(), false );
+		SetClass( team.GetHudClass(), true );
+		CurrentTeam = team;
+	}
+
+	public void SetWeapon( Entity weapon )
+	{
+		if ( weapon.IsValid() && !weapon.IsWorld )
+		{
+			SetClass( "has-weapon", true );
+
+			if ( weapon is IKillFeedIcon feedInfo )
+				WeaponName.Text = feedInfo.GetKillFeedName();
+			else if ( weapon is Weapon typed )
+				WeaponName.Text = typed.Config.Name;
+			else
+				WeaponName.Text = weapon.Name;
+		}
+		else
+		{
+			SetClass( "has-weapon", false );
+		}
+	}
+}

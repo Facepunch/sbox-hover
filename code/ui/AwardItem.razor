@@ -1,0 +1,55 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute[StyleSheet( "/ui/AwardItem.scss" )]
+@inherits Panel
+
+<root>
+    <div class="header">
+        <img @ref="Icon" class="icon" />
+        <label @ref="Title" class="title"></label>
+    </div>
+    <label @ref="Text" class="text"></label>
+    <div class="reward">
+        <div class="icon"></div>
+        <label @ref="Reward" class="amount">0</label>
+    </div>
+</root>
+
+@code
+{
+	public float EndTime { get; set; }
+	public Label Reward { get; set; }
+	public Label Title { get; set; }
+	public Label Text { get; set; }
+	public Image Icon { get; set; }
+
+	public void Update( string title, string text )
+	{
+		Title.Text = title;
+		Text.Text = text;
+	}
+
+	public void SetIcon( Texture texture )
+	{
+		Icon.Texture = texture;
+	}
+
+	public void SetReward( int amount )
+	{
+		Reward.Text = $"{amount:C0}";
+	}
+
+	public override void Tick()
+	{
+		if ( !IsDeleting && Time.Now >= EndTime )
+		{
+			Delete();
+		}
+	}
+}

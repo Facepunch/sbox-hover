@@ -1,11 +1,11 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using System;
 using System.Threading.Tasks;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/DamageIndicator.scss" )]
 	public partial class DamageIndicator : Panel
 	{
 		public static DamageIndicator Current;
@@ -13,7 +13,6 @@ namespace Facepunch.Hover
 		public DamageIndicator()
 		{
 			Current = this;
-			StyleSheet.Load( "/ui/DamageIndicator.scss" );
 		}
 
 		public void OnHit( Vector3 pos )

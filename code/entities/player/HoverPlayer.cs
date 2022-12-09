@@ -128,7 +128,7 @@ namespace Facepunch.Hover
 							loadout.Supply( player );
 						}
 
-						StationScreen.Refresh( To.Single( player ) );
+						UI.StationScreen.Refresh( To.Single( player ) );
 					}
 				}
 			}
@@ -245,8 +245,8 @@ namespace Facepunch.Hover
 		private List<AssistTracker> AssistTrackers { get; set; }
 		private Rotation LastCameraRotation { get; set; }
 		private Particles SpeedLines { get; set; }
-		private Nameplate Nameplate { get; set; }
-		private Radar RadarHud { get; set; }
+		private UI.Nameplate Nameplate { get; set; }
+		private UI.Radar RadarHud { get; set; }
 		private bool PlayLowEnergySound { get; set; }
 		private bool IsPlayingJetpackLoop { get; set; }
 		private bool IsPlayingWindLoop { get; set; }
@@ -432,14 +432,14 @@ namespace Facepunch.Hover
 			if ( WeaponUpgrades.TryGetValue( weaponName, out var upgrades ) )
 			{
 				upgrades.Add( upgrade );
-				StationScreen.Refresh();
+				UI.StationScreen.Refresh();
 				return;
 			}
 
 			upgrades = new List<WeaponUpgrade>();
 			WeaponUpgrades[weaponName] = upgrades;
 			upgrades.Add( upgrade );
-			StationScreen.Refresh();
+			UI.StationScreen.Refresh();
 		}
 
 		public bool HasLoadoutUpgrade( Type type )
@@ -466,7 +466,7 @@ namespace Facepunch.Hover
 			if ( desc != null )
 			{
 				LoadoutUpgrades.Add( desc.TargetType );
-				StationScreen.Refresh();
+				UI.StationScreen.Refresh();
 			}
 		}
 
@@ -603,7 +603,7 @@ namespace Facepunch.Hover
 			Health = 100f;
 			Velocity = Vector3.Zero;
 
-			Rounds.Current?.OnPlayerSpawn( this );
+			Game.Round?.OnPlayerSpawn( this );
 
 			UI.WeaponList.Expand( To.Single( this ), 4f );
 
@@ -657,11 +657,11 @@ namespace Facepunch.Hover
 			if ( IsLocalPawn )
 			{
 				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
-				RadarHud = Local.Hud.AddChild<Radar>();
+				RadarHud = Local.Hud.AddChild<UI.Radar>();
 			}
 			else
 			{
-				Nameplate = new Nameplate( this );
+				Nameplate = new UI.Nameplate( this );
 			}
 
 			base.ClientSpawn();
@@ -728,11 +728,11 @@ namespace Facepunch.Hover
 					killer.OnKillPlayer( this, LastDamageInfo );
 				}
 
-				Rounds.Current?.OnPlayerKilled( this, attacker, LastDamageInfo );
+				Game.Round?.OnPlayerKilled( this, attacker, LastDamageInfo );
 			}
 			else
 			{
-				Rounds.Current?.OnPlayerKilled( this, null, LastDamageInfo );
+				Game.Round?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
 
@@ -747,7 +747,7 @@ namespace Facepunch.Hover
 			var bloodExplosion = Particles.Create( "particles/blood/explosion_blood/explosion_blood.vpcf", Position );
 			bloodExplosion.SetForward( 0, LastDamageInfo.Force.Normal );
 
-			StationScreen.Hide( To.Single( this ) );
+			UI.StationScreen.Hide( To.Single( this ) );
 
 			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
 
@@ -759,13 +759,13 @@ namespace Facepunch.Hover
 
 		public override void BuildInput()
 		{
-			var stationScreen = StationScreen.Instance;
+			var stationScreen = UI.StationScreen.Instance;
 
 			if ( stationScreen.IsOpen )
 			{
-				if ( stationScreen.Mode == StationScreenMode.Station && Input.Released( InputButton.Use ) )
+				if ( stationScreen.Mode == UI.StationScreenMode.Station && Input.Released( InputButton.Use ) )
 				{
-					StationScreen.Hide();
+					UI.StationScreen.Hide();
 				}
 
 				Input.StopProcessing = true;
@@ -905,7 +905,7 @@ namespace Facepunch.Hover
 					using ( Prediction.Off() )
 					{
 						station.ShowUseEffects();
-						StationScreen.Show( To.Single( this ), StationScreenMode.Station );
+						UI.StationScreen.Show( To.Single( this ), UI.StationScreenMode.Station );
 					}
 				}
 			}
@@ -1143,7 +1143,7 @@ namespace Facepunch.Hover
 			// Don't show damage that happened to us.
 			if ( IsLocalPawn ) return;
 
-			var panel = FloatingDamage.Rent();
+			var panel = UI.FloatingDamage.Rent();
 
 			panel.SetLifeTime( Rand.Float( 2f, 3f ) );
 			panel.SetDamage( damage );
@@ -1175,18 +1175,13 @@ namespace Facepunch.Hover
 		public void DidDamage( Vector3 position, float amount, float inverseHealth )
 		{
 			Sound.FromScreen( "hitmarker" ).SetPitch( 1f + inverseHealth * 1f );
-			HitIndicator.Current?.OnHit( position, amount );
+			UI.HitIndicator.Current?.OnHit( position, amount );
 		}
 
 		[ClientRpc]
 		public void TookDamage( Vector3 position, float amount, DamageFlags flags )
 		{
-			if ( flags.HasFlag( DamageFlags.Fall ) )
-			{
-				//_ = new Sandbox.ScreenShake.Perlin( 2f, 1f, amount.Remap( 0f, MaxHealth, 0f, 10f ), 0.8f );
-			}
-
-			DamageIndicator.Current?.OnHit( position );
+			UI.DamageIndicator.Current?.OnHit( position );
 		}
 
 		public virtual bool IsEnemyPlayer( HoverPlayer other )
@@ -1367,8 +1362,8 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )
 			{
-				RespawnScreen.Hide( To.Single( this ) );
-				StationScreen.Show( To.Single( this ), StationScreenMode.Deployment );
+				UI.RespawnScreen.Hide( To.Single( this ) );
+				UI.StationScreen.Show( To.Single( this ), UI.StationScreenMode.Deployment );
 
 				// Respawn bots immediately because they can't select loadouts.
 				if ( Client.IsBot ) Respawn();

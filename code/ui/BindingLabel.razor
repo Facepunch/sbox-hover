@@ -1,0 +1,60 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/BindingLabel.scss" )]
+@inherits Panel
+
+<root>
+    <label @ref="HoldLabel" class="hold">(Hold)</label>
+    <img @ref="Glyph" />
+    <label @ref="ActionLabel"></label>
+</root>
+
+@code
+{
+    public Label ActionLabel { get; private set; }
+    public Label HoldLabel { get; private set; }
+    public Image Glyph { get; private set; }
+
+    public bool Hold { get; set; }
+
+    public InputButton Action { get; private set; }
+
+    public override void SetContent( string value )
+    {
+        ActionLabel.Text = value;
+
+        base.SetContent( value );
+    }
+
+    public override void SetProperty( string name, string value )
+    {
+        if ( name == "hold" )
+        {
+            Hold = true;
+			return;
+		}
+
+		if ( name == "action" )
+		{
+			Action = Enum.Parse<InputButton>( value );
+			return;
+		}
+
+		base.SetProperty( name, value );
+	}
+
+	public override void Tick()
+	{
+		Glyph.Texture = Input.GetGlyph( Action, InputGlyphSize.Medium );
+		Glyph.Style.AspectRatio = Glyph.Texture.Width / Glyph.Texture.Height;
+        HoldLabel.SetClass( "visible", Hold );
+
+		base.Tick();
+	}
+}

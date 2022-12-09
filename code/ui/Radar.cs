@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Sandbox;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
-	[UseTemplate]
+	[StyleSheet( "/ui/Radar.scss" )]
 	public class Radar : Panel
 	{
+		public Radar()
+		{
+			Add.Panel( "anchor" );
+		}
+
 		private readonly Dictionary<HoverPlayer, RadarDot> RadarDots = new();
 
 		public override void Tick()

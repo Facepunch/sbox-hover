@@ -147,7 +147,7 @@
 
     private string GetTimeLeftFormatted()
     {
-        if ( Rounds.Current is PlayRound round )
+        if ( Game.Round is PlayRound round )
             return TimeSpan.FromSeconds( round.TimeLeftSeconds ).ToString( @"mm\:ss" );
         else
             return "00:00";
@@ -155,7 +155,7 @@
 
     private int GetFlagCaptures( Team team )
     {
-        if ( Rounds.Current is PlayRound round )
+        if ( Game.Round is PlayRound round )
         {
             return team == Team.Blue ? round.BlueScore : round.RedScore;
         }

@@ -1,0 +1,44 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/LoadoutWeaponItem.scss" )]
+@inherits Panel
+
+<root class="weapon @((Config is null || Loadout is null) ? "hidden" : "")">
+    @if ( Config is not null && Loadout is not null )
+    {
+        <div class="weapon-fill"></div>
+        <label class="weapon-level">@(Loadout.AvailableWeapons[Index].Length.ToString())</label>
+        <label class="weapon-name">@Config.Name</label>
+        <div class="weapon-icon">
+            <img class="weapon-image" src=@Config.Icon />
+        </div>
+    }
+</root>
+
+@code
+{
+    public WeaponConfig Config { get; set; }
+    public BaseLoadout Loadout { get; set; }
+    public int Index { get; set; }
+
+    protected override void OnClick( MousePanelEvent e )
+    {
+        StationScreen.Instance.OpenWeapons( Index );
+
+        Audio.Play( "hover.clickbeep" );
+        CreateEvent( "onpressed" );
+
+        base.OnClick( e );
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( Config, Index, Loadout );
+    }
+}

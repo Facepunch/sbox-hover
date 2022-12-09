@@ -1,0 +1,28 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/WeaponStatItem.scss" )]
+@inherits Panel
+
+<root class="stats-row">
+    <label class="title">@Key</label>
+    <label class="description">@Value</label>
+</root>
+
+@code
+{
+    public string Key => Stat.Key;
+    public string Value => Stat.Value;
+    public int Index { get; private set; }
+    public WeaponStat Stat { get; set; }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( Stat );
+    }
+}

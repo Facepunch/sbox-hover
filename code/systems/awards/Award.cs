@@ -18,11 +18,11 @@ namespace Facepunch.Hover
 
 		public virtual void Show()
 		{
-			var item = new AwardItem();
+			var item = new UI.AwardItem();
 			item.Update( Name, Description );
 			item.SetIcon( GetShowIcon() );
 			item.SetReward( Tokens );
-			AwardQueue.Instance.AddItem( item );
+			UI.AwardQueue.Instance.AddItem( item );
 		}
 	}
 }

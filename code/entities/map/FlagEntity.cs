@@ -15,8 +15,8 @@ namespace Facepunch.Hover
 		[Net] public bool IsAtHome { get; private set; }
 		[Net] public Team Team { get; private set; }
 
-		public FlagIndicator Indicator { get; private set; }
-		public EntityHudAnchor Hud { get; private set; }
+		public UI.FlagIndicator Indicator { get; private set; }
+		public UI.EntityHudAnchor Hud { get; private set; }
 		public bool IsOnGround { get; private set; }
 		public Vector3 CustomVelocity { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
@@ -43,10 +43,10 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Create( this );
+			Hud = UI.EntityHud.Create( this );
 			Hud.UpOffset = 40f;
 
-			Indicator = Hud.AddChild<FlagIndicator>( "flag" );
+			Indicator = Hud.AddChild<UI.FlagIndicator>( "flag" );
 			Indicator.SetTeam( Team );
 
 			base.ClientSpawn();
@@ -130,7 +130,7 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( !Rounds.Current.CanCaptureFlags ) return;
+			if ( !Game.Round.CanCaptureFlags ) return;
 
 			if ( IsServer && other is HoverPlayer player )
 			{

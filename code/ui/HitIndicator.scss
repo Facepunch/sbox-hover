@@ -1,6 +1,6 @@
 ﻿@import "_variables.scss";
 
-hitindicator {
+HitIndicator {
   mix-blend-mode: lighten;
   position: absolute;
   left: 0;
@@ -10,7 +10,7 @@ hitindicator {
   align-items: center;
   justify-content: center;
 
-  hitpoint {
+  HitPoint {
     width: 80px;
     height: 80px;
     opacity: 0.7;

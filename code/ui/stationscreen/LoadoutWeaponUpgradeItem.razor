@@ -1,0 +1,108 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/LoadoutWeaponUpgradeItem.scss" )]
+@inherits Panel
+
+<root class="upgrade-row">
+  <div class="upgrade-icon">
+        <img src=@Upgrade.Icon />
+        <div class="locked-icon"></div>
+  </div>
+  <div class="upgrade-body">
+        <label class="title">@Upgrade.Name</label>
+        <label class="subtitle">@Upgrade.Description</label>
+  </div>
+  <StationScreenButton
+    @ref="BuyButton"
+    class="btn is-primary is-small"
+    onpressed=@DoBuyUpgrade
+  >
+    <div class="button-inside"></div>
+    <div class="currency-icon"></div>
+        <label>@ButtonText</label>
+  </StationScreenButton>
+</root>
+
+
+@code
+{
+    public string ButtonText => GetButtonText();
+    public StationScreenButton BuyButton { get; set; }
+    public WeaponUpgrade Upgrade { get; set; }
+    public WeaponConfig Weapon { get; set; }
+    public int Index { get; set; }
+
+    public LoadoutWeaponUpgradeItem()
+    {
+        BindClass( "owned", () => IsOwned() );
+        BindClass( "locked", () => IsLocked() );
+    }
+
+    public bool IsOwned()
+    {
+        if ( Local.Pawn is not HoverPlayer player )
+            return true;
+
+        var ownedUpgrades = player.GetWeaponUpgrades( Weapon );
+        return (ownedUpgrades != null && ownedUpgrades.Count > Index);
+    }
+
+    public bool IsLocked()
+    {
+        if ( Local.Pawn is not HoverPlayer player )
+            return true;
+
+        if ( Index == 0 )
+            return false;
+
+        var ownedUpgrades = player.GetWeaponUpgrades( Weapon );
+        return (ownedUpgrades == null || ownedUpgrades.Count < Index);
+    }
+
+    public void DoBuyUpgrade()
+    {
+        if ( Local.Pawn is not HoverPlayer player )
+            return;
+
+        if ( !IsLocked() && !IsOwned() )
+        {
+            if ( player.HasTokens( Upgrade.TokenCost ) )
+            {
+                HoverPlayer.BuyWeaponUpgrade( Weapon.GetType().Name, Upgrade.GetType().Name );
+            }
+            else
+            {
+                var tokensNeeded = Upgrade.TokenCost - player.Tokens;
+                UI.Hud.Toast( $"You need {tokensNeeded} Tokens for this upgrade!", "ui/icons/icon_currency_blue.png" );
+            }
+
+            Audio.Play( "hover.clickbeep" );
+        }
+    }
+
+    public override void Tick()
+    {
+        BuyButton.IsDisabled = IsLocked() || IsOwned();
+
+        base.Tick();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( ButtonText, Upgrade, Weapon, Index );
+    }
+
+    protected string GetButtonText()
+    {
+		if ( IsLocked() ) return "Locked";
+		if ( IsOwned() ) return "Owned";
+
+		return Upgrade.TokenCost.ToString();
+	}
+}

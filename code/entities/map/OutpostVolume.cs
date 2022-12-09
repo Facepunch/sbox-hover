@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		[Net] public Team LastCapturer { get; set; }
 		[Net] public Team Team { get; set; }
 
-		public EntityHudAnchor Hud { get; private set; }
+		public UI.EntityHudAnchor Hud { get; private set; }
 
 		public RealTimeUntil NextGiveTokens { get; set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
@@ -81,13 +81,13 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Create( this );
+			Hud = UI.EntityHud.Create( this );
 
 			if ( !string.IsNullOrEmpty( Letter ) )
 			{
-				var captureHud = Hud.AddChild<OutpostHud>( "outpost" );
+				var captureHud = Hud.AddChild<UI.OutpostHud>( "outpost" );
 				captureHud.SetOutpost( this );
-				OutpostList.AddOutpost( this );
+				UI.OutpostList.AddOutpost( this );
 			}
 
 			base.ClientSpawn();
@@ -155,7 +155,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Server]
 		protected virtual void ServerTick()
 		{
-			if ( !Rounds.Current.CanCaptureOutposts ) return;
+			if ( !Game.Round.CanCaptureOutposts ) return;
 
 			var distinctTeams = new HashSet<Team>();
 

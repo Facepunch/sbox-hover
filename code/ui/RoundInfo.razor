@@ -1,0 +1,49 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/RoundInfo.scss" )]
+@inherits Panel
+
+<root>
+    <div @ref="Container" class="round-info">
+        <text class="round-name">@RoundName</text>
+        <text class="round-time">@TimeLeft</text>
+    </div>
+</root>
+
+@code
+{
+    public Panel Container { get; set; }
+
+    public string RoundName => Game.Round?.RoundName ?? string.Empty;
+    public string TimeLeft => TimeSpan.FromSeconds( Game.Round?.TimeLeftSeconds ?? 0 ).ToString( @"mm\:ss" );
+
+    public override void Tick()
+    {
+        var player = Local.Pawn;
+        if ( player == null ) return;
+
+        var game = Game.Instance;
+        if ( game == null ) return;
+
+        var round = Game.Round;
+        if ( round == null ) return;
+
+        if ( round.RoundDuration > 0 )
+            Container.SetClass( "roundNameOnly", false );
+        else
+            Container.SetClass( "roundNameOnly", true );
+
+        base.Tick();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( TimeLeft, RoundName );
+    }
+}

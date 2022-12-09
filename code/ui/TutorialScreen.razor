@@ -59,7 +59,7 @@
         {
             Label = Add.Label( "" );
 
-            BindClass( "disabled", () => IsDisabled );
+            BindClass( "disabled", ShouldBeHidden );
         }
 
         public void SetText( string text )
@@ -77,6 +77,11 @@
             if ( IsDisabled ) return;
             OnClicked?.Invoke();
             base.OnClick( e );
+        }
+
+        private bool ShouldBeHidden()
+        {
+            return IsDisabled;
         }
     }
 

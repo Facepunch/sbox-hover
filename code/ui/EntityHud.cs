@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	public class EntityHudIconList : Panel
 	{
@@ -124,6 +124,7 @@ namespace Facepunch.Hover
 		}
 	}
 
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class EntityHudAnchor : WorldPanel
 	{
 		public IHudEntity Entity { get; private set; }
@@ -132,10 +133,6 @@ namespace Facepunch.Hover
 
 		public EntityHudAnchor()
 		{
-			StyleSheet.Load( "/ui/EntityHud.scss" );
-
-			//SceneObject.ZBufferMode = ZBufferMode.None;
-
 			PanelBounds = new Rect( -1000, -1000, 2000, 2000 );
 		}
 

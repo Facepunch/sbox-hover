@@ -17,14 +17,14 @@ namespace Facepunch.Hover
 		[Net] public int NextUpgrade { get; private set; }
 
 		public UI.WorldUpgradeHud UpgradeHud { get; private set; }
-		public EntityHudIcon NoPowerIcon { get; private set; }
-		public EntityHudAnchor Hud { get; private set; }
+		public UI.EntityHudIcon NoPowerIcon { get; private set; }
+		public UI.EntityHudAnchor Hud { get; private set; }
 
 		[Net, Property, Change] public Team Team { get; set; }
 		[Net] public Team DefaultTeam { get; set; }
 
 		public RealTimeUntil NextStopUpgradeLoop { get; private set; }
-		public EntityHudIcon DependencyIcon { get; private set; }
+		public UI.EntityHudIcon DependencyIcon { get; private set; }
 		public Vector3 LocalCenter => CollisionBounds.Center;
 		public Sound? UpgradeLoop { get; private set; }
 
@@ -170,15 +170,15 @@ namespace Facepunch.Hover
 
 		public override void ClientSpawn()
 		{
-			Hud = EntityHud.Create( this );
+			Hud = UI.EntityHud.Create( this );
 
-			NoPowerIcon = Hud.AddChild<EntityHudIcon>( "power" );
+			NoPowerIcon = Hud.AddChild<UI.EntityHudIcon>( "power" );
 			NoPowerIcon.SetTexture( "ui/icons/no-power.png" );
 			NoPowerIcon.SetActive( !IsPowered );
 
 			if ( !string.IsNullOrEmpty( IconName ) )
             {
-				DependencyIcon = Hud.AddChild<EntityHudIcon>( "dependency" );
+				DependencyIcon = Hud.AddChild<UI.EntityHudIcon>( "dependency" );
 				DependencyIcon.SetTexture( IconName );
 				DependencyIcon.SetActive( IsPowered );
 			} 

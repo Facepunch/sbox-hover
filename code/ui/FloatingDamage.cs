@@ -4,8 +4,9 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Collections.Generic;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/FloatingDamage.scss" )]
 	public class FloatingDamage : WorldPanel
 	{
 		private static Queue<FloatingDamage> Pool { get; set; } = new();
@@ -45,7 +46,6 @@ namespace Facepunch.Hover
 
 		public FloatingDamage()
 		{
-			StyleSheet.Load( "/ui/FloatingDamage.scss" );
 			DamageLabel = Add.Label( "0", "damage" );
 			PanelBounds = new Rect( -1000f, -1000f, 2000f, 2000f );
 		}

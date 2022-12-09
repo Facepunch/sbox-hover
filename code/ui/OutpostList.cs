@@ -4,7 +4,7 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Collections.Generic;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	public class OutpostItem : Panel
 	{
@@ -48,6 +48,7 @@ namespace Facepunch.Hover
 		}
 	}
 
+	[StyleSheet( "/ui/OutpostList.scss" )]
 	public class OutpostList : Panel
 	{
 		public static OutpostList Instance { get; private set; }
@@ -68,8 +69,6 @@ namespace Facepunch.Hover
 
 		public OutpostList()
 		{
-			StyleSheet.Load( "/ui/OutpostList.scss" );
-
 			Container = Add.Panel( "container" );
 			Items = new();
 
@@ -92,7 +91,7 @@ namespace Facepunch.Hover
 
 		private bool ShouldHidePanel()
 		{
-			return (Rounds.Current is not PlayRound);
+			return (Game.Round is not PlayRound);
 		}
 	}
 }

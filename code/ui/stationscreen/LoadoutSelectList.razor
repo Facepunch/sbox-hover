@@ -1,0 +1,117 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/LoadoutSelectList.scss" )]
+@inherits Panel
+
+<root>
+  <div class="loadout-category">
+    <div class="loadout-header">
+      <label class="loadout-title">Light</label>
+      <div class="divider"></div>
+    </div>
+    <div @ref="LightLoadouts" class="light"></div>
+  </div>
+
+  <div class="loadout-category">
+    <div class="loadout-header">
+      <label class="loadout-title">Medium</label>
+      <div class="divider"></div>
+    </div>
+    <div @ref="MediumLoadouts" class="medium"></div>
+  </div>
+  <div class="loadout-category">
+    <div class="loadout-header">
+      <label class="loadout-title">Heavy</label>
+      <div class="divider"></div>
+    </div>
+    <div @ref="HeavyLoadouts" class="heavy"></div>
+  </div>
+</root>
+
+@code
+{
+    public Panel LightLoadouts { get; private set; }
+    public Panel MediumLoadouts { get; private set; }
+    public Panel HeavyLoadouts { get; private set; }
+    public LoadoutSelectItem Selected { get; private set; }
+    public Action<BaseLoadout> OnLoadoutSelected { get; set; }
+
+    public void Populate( HoverPlayer player )
+    {
+        AddLoadouts( player, LoadoutArmorType.Light, LightLoadouts );
+        AddLoadouts( player, LoadoutArmorType.Medium, MediumLoadouts );
+        AddLoadouts( player, LoadoutArmorType.Heavy, HeavyLoadouts );
+    }
+
+    public void AddLoadouts( HoverPlayer player, LoadoutArmorType armor, Panel container )
+    {
+        container.DeleteChildren();
+
+        var loadouts = TypeLibrary.GetDescriptions<BaseLoadout>();
+
+        foreach ( var desc in loadouts )
+        {
+            if ( desc.TargetType == typeof( BaseLoadout ) )
+                continue;
+
+            var loadout = TypeLibrary.Create<BaseLoadout>( desc.TargetType );
+
+            if ( loadout.ArmorType != armor )
+                continue;
+
+            if ( loadout.UpgradesTo == null || !player.HasLoadoutUpgrade( loadout.UpgradesTo ) )
+            {
+                if ( loadout.UpgradeCost == 0 || player.HasLoadoutUpgrade( desc.TargetType ) )
+                {
+                    var child = container.AddChild<LoadoutSelectItem>();
+                    child.Loadout = loadout;
+                    child.List = this;
+                }
+            }
+        }
+
+        container.SortChildren<LoadoutSelectItem>( ( panel ) =>
+        {
+            return panel.Loadout.DisplayOrder;
+        } );
+
+        foreach ( var item in container.ChildrenOfType<LoadoutSelectItem>() )
+        {
+            if ( player.Loadout.GetType() == item.Loadout.GetType() )
+            {
+                SetSelectedItem( item );
+                break;
+            }
+        }
+    }
+
+    public void SetSelectedItem( LoadoutSelectItem item )
+    {
+        if ( Selected != null )
+        {
+            Selected.SetClass( "is-selected", false );
+        }
+
+        item.SetClass( "is-selected", true );
+
+        Selected = item;
+
+        OnLoadoutSelected?.Invoke( item.Loadout );
+    }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        if ( Local.Pawn is HoverPlayer player && firstTime )
+        {
+            Populate( player );
+        }
+
+        base.OnAfterTreeRender( firstTime );
+    }
+}

@@ -1,0 +1,40 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/stationscreen/StationScreenView.scss" )]
+@inherits Panel
+
+@code
+{
+    public bool IsDefault { get; private set; }
+    public bool IsActive { get; set; }
+    public string Name { get; set; }
+
+    public StationScreenView()
+    {
+        SetClass( "hidden", true );
+        BindClass( "hidden", () => !IsActive );
+    }
+
+    public override void SetProperty( string name, string value )
+    {
+        if ( name == "default" )
+        {
+            IsDefault = true;
+            IsActive = true;
+            return;
+		}
+
+		base.SetProperty( name, value );
+	}
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( IsDefault, Name );
+    }
+}

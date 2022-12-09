@@ -4,8 +4,9 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/LongshotScope.scss" )]
 	public class LongshotScope : Panel
 	{
 		public static LongshotScope Instance { get; private set; }
@@ -28,8 +29,6 @@ namespace Facepunch.Hover
 
 		public LongshotScope()
 		{
-			StyleSheet.Load( "/ui/LongshotScope.scss" );
-
 			Left = Add.Panel( "left" );
 			Right = Add.Panel( "right" );
 			Top = Add.Panel( "top" );

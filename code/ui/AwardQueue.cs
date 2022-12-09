@@ -5,8 +5,9 @@ using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/AwardQueue.scss" )]
 	public class AwardQueue : Panel
 	{
 		public static AwardQueue Instance { get; private set; }
@@ -15,7 +16,6 @@ namespace Facepunch.Hover
 
 		public AwardQueue()
 		{
-			StyleSheet.Load( "/ui/AwardQueue.scss" );
 			Instance = this;
 			Queue = new();
 		}

@@ -1,12 +1,11 @@
 ﻿using Sandbox.UI.Construct;
 using Sandbox.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Sandbox;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/Nameplate.scss" )]
 	public class Nameplate : WorldPanel
 	{
 		public HoverPlayer Player { get; private set; }
@@ -20,7 +19,6 @@ namespace Facepunch.Hover
 
 		public Nameplate( HoverPlayer player )
 		{
-			StyleSheet.Load( "/ui/Nameplate.scss" );
 			Container = Add.Panel( "container" );
 			Dot = Add.Panel( "dot" );
 			NameLabel = Container.Add.Label( "", "name" );

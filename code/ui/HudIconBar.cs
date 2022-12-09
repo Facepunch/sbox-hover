@@ -3,8 +3,9 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/HudIconBar.scss" )]
 	public class HudIconBar : Panel
 	{
 		public Panel InnerBar;
@@ -14,8 +15,6 @@ namespace Facepunch.Hover
 
 		public HudIconBar()
 		{
-			StyleSheet.Load( "/ui/HudIconBar.scss" );
-
 			OuterBar = Add.Panel( "outerBar" );
 			InnerBar = OuterBar.Add.Panel( "innerBar" );
 			Icon = Add.Panel( "icon" );

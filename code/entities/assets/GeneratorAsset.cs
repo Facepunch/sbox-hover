@@ -23,8 +23,8 @@ namespace Facepunch.Hover
 
 		[Net, Property] public Team Team { get; set; }
 
-		public EntityHudAnchor Hud { get; private set; }
-		public EntityHudIcon Icon { get; private set; }
+		public UI.EntityHudAnchor Hud { get; private set; }
+		public UI.EntityHudIcon Icon { get; private set; }
 
 		private UI.WorldHealthBar HealthBarLeft { get; set; }
 		private UI.WorldHealthBar HealthBarRight { get; set; }
@@ -180,9 +180,9 @@ namespace Facepunch.Hover
 			GeneratorHud.SetEntity( this, "repair_hud" );
 			GeneratorHud.WorldScale = 2f;
 
-			Hud = EntityHud.Create( this );
+			Hud = UI.EntityHud.Create( this );
 
-			Icon = Hud.AddChild<EntityHudIcon>( "generator" );
+			Icon = Hud.AddChild<UI.EntityHudIcon>( "generator" );
 			Icon.SetTexture( "ui/icons/generator.png" );
 
 			base.ClientSpawn();

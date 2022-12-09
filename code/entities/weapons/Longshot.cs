@@ -47,9 +47,9 @@ namespace Facepunch.Hover
 			IsScoped = isScoped;
 
 			if ( isScoped )
-				LongshotScope.Instance.Show();
+				UI.LongshotScope.Instance.Show();
 			else
-				LongshotScope.Instance.Hide();
+				UI.LongshotScope.Instance.Hide();
 
 			if ( ViewModelEntity is ViewModel viewModel )
 			{
