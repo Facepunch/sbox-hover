@@ -141,6 +141,8 @@ namespace Facepunch.Hover
 
 		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; private set; }
 
+		private TimeUntil NextSecondTime { get; set; }
+
 		public override void Spawn()
 		{
 			PrecacheAssets();
@@ -157,15 +159,6 @@ namespace Facepunch.Hover
 			Local.Hud = new UI.Hud();
 
 			base.ClientSpawn();
-		}
-
-		public async Task StartSecondTimer()
-		{
-			while (true)
-			{
-				await Task.DelaySeconds( 1 );
-				OnSecond();
-			}
 		}
 
 		public override void MoveToSpawnpoint( Entity pawn )
@@ -211,13 +204,6 @@ namespace Facepunch.Hover
 		public override void DoPlayerNoclip( Client client )
 		{
 			// Do nothing. The player can't noclip in this mode.
-		}
-
-		public override void PostLevelLoaded()
-		{
-			_ = StartSecondTimer();
-
-			base.PostLevelLoaded();
 		}
 
 		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
@@ -278,9 +264,15 @@ namespace Facepunch.Hover
 			Awards.Add<CaptureOutpostAward>();
 		}
 
-		private void OnSecond()
+		[Event.Tick.Server]
+		private void ServerTick()
 		{
-			CheckMinimumPlayers();
+			if ( NextSecondTime )
+			{
+				CheckMinimumPlayers();
+				Round?.OnSecond();
+				NextSecondTime = 1f;
+			}
 		}
 
 		[Event.Entity.PostSpawn]
