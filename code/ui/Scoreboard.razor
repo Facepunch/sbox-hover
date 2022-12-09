@@ -1,0 +1,218 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.Construct;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/Scoreboard.scss" )]
+@inherits Panel
+
+<root>
+  <div class="scoreboard-header">
+    <div class="scoreboard-time">
+            <label>@TimeLeft</label>
+    </div>
+    <div class="scoreboard-flags">
+      <div class="scoreboard-flags-header">
+        <label>Flags Captured</label>
+      </div>
+      <div class="scores">
+        <div class="score-box blue">
+          <label>@BlueCaptures</label>
+        </div>
+        <div class="score-box red">
+          <label>@RedCaptures</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scoreboard-body">
+    <div class="scoreboard-container blue-team">
+      <div class="team-container">
+        <div class="team-header">
+          <div class="team-icon"></div>
+          <label class="team-name">BLUE TEAM</label>
+          <div class="team-stat">
+            <div class="stat-icon captures"></div>
+            <label>@BlueCaptures</label>
+          </div>
+          <div class="team-stat">
+            <div class="stat-icon players"></div>
+            <label>@BlueMembers</label>
+          </div>
+        </div>
+
+        <div class="table-header">
+          <label class="name">NAME</label>
+          <label class="tokens">TOKENS</label>
+          <label class="captures">CAPTURES</label>
+          <label class="kills">KILLS</label>
+          <label class="deaths">DEATHS</label>
+          <label class="ping">PING</label>
+        </div>
+
+        <div class="canvas">
+            @foreach ( var client in Client.All )
+            {
+                if ( client.IsValid() && client.Pawn is HoverPlayer a )
+                {
+                    if ( a.Team == Team.Blue )
+                    {
+                        <ScoreboardEntry Client=@client></ScoreboardEntry>
+                    }
+                }
+            }
+        </div>
+      </div>
+    </div>
+    <div class="scoreboard-container red-team">
+      <div class="team-container">
+        <div class="team-header">
+          <div class="team-icon"></div>
+          <label class="team-name">RED TEAM</label>
+          <div class="team-stat">
+            <div class="stat-icon captures"></div>
+            <label>@RedCaptures</label>
+          </div>
+          <div class="team-stat">
+            <div class="stat-icon players"></div>
+            <label>@RedMembers</label>
+          </div>
+        </div>
+
+        <div class="table-header">
+          <label class="name">NAME</label>
+          <label class="tokens">TOKENS</label>
+          <label class="captures">CAPTURES</label>
+          <label class="kills">KILLS</label>
+          <label class="deaths">DEATHS</label>
+          <label class="ping">PING</label>
+        </div>
+
+        <div class="canvas">
+            @foreach ( var client in Client.All )
+            {
+                if ( client.IsValid() && client.Pawn is HoverPlayer a )
+                {
+                    if ( a.Team == Team.Red )
+                    {
+                        <ScoreboardEntry Client=@client></ScoreboardEntry>
+                    }
+                }
+            }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scoreboard-footer">
+    <StationScreenButton onpressed=@DoSwitchTeam class="btn is-primary">
+      <div class="button-inside"></div>
+      <text>Switch Team</text>
+    </StationScreenButton>
+  </div>
+</root>
+
+
+@code
+{
+    public string TimeLeft => GetTimeLeftFormatted();
+
+    public string BlueCaptures => GetFlagCaptures( Team.Blue ).ToString();
+    public string RedCaptures => GetFlagCaptures( Team.Red ).ToString();
+
+    public string BlueMembers => Team.Blue.GetCount().ToString();
+    public string RedMembers => Team.Red.GetCount().ToString();
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        SetClass( "open", Input.Down( InputButton.Score ) );
+    }
+
+    public void DoSwitchTeam()
+    {
+        HoverPlayer.SwitchTeam();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( TimeLeft, BlueCaptures, RedCaptures, BlueMembers, RedMembers, Client.All.Count );
+    }
+
+    private string GetTimeLeftFormatted()
+    {
+        if ( Rounds.Current is PlayRound round )
+            return TimeSpan.FromSeconds( round.TimeLeftSeconds ).ToString( @"mm\:ss" );
+        else
+            return "00:00";
+    }
+
+    private int GetFlagCaptures( Team team )
+    {
+        if ( Rounds.Current is PlayRound round )
+        {
+            return team == Team.Blue ? round.BlueScore : round.RedScore;
+        }
+
+        return 0;
+    }
+
+	public class ScoreboardEntry : Panel
+	{
+		public Client Client { get; set; }
+		public Label PlayerName { get; set; }
+		public Label Captures { get; set; }
+		public Label Tokens { get; set; }
+		public Label Kills { get; set; }
+		public Label Deaths { get; set; }
+		public Label Ping { get; set; }
+
+		private RealTimeSince TimeSinceUpdate { get; set; }
+
+		public ScoreboardEntry()
+		{
+			AddClass( "entry" );
+
+			PlayerName = Add.Label( "PlayerName", "name" );
+			Tokens = Add.Label( "", "tokens" );
+			Captures = Add.Label( "", "captures" );
+			Kills = Add.Label( "", "kills" );
+			Deaths = Add.Label( "", "deaths" );
+			Ping = Add.Label( "", "ping" );
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+
+			if ( !IsVisible )
+				return;
+
+			if ( !Client.IsValid() )
+				return;
+
+			if ( TimeSinceUpdate < 0.1f )
+				return;
+
+			TimeSinceUpdate = 0;
+			UpdateData();
+		}
+
+        private void UpdateData()
+        {
+            PlayerName.Text = Client.Name;
+            Captures.Text = Client.GetInt( "captures" ).ToString();
+            Tokens.Text = $"{Client.GetInt( "tokens" ):C0}";
+            Kills.Text = Client.GetInt( "kills" ).ToString();
+            Deaths.Text = Client.GetInt( "deaths" ).ToString();
+            Ping.Text = Client.Ping.ToString();
+            SetClass( "me", Client == Local.Client );
+        }
+	}
+}

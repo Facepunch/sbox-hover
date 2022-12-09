@@ -5,7 +5,7 @@ using Sandbox.UI.Construct;
 using System;
 using System.Text.RegularExpressions;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	public enum ChatBoxChannel
 	{

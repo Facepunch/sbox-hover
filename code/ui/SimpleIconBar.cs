@@ -1,7 +1,8 @@
 ﻿using Sandbox.UI;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/SimpleIconBar.scss" )]
 	public class SimpleIconBar : Panel
 	{
 		public Panel InnerBar;
@@ -10,8 +11,6 @@ namespace Facepunch.Hover
 
 		public SimpleIconBar()
 		{
-			StyleSheet.Load( "/ui/SimpleIconBar.scss" );
-
 			Icon = Add.Panel( "icon" );
 			OuterBar = Add.Panel( "outerBar" );
 			InnerBar = OuterBar.Add.Panel( "innerBar" );

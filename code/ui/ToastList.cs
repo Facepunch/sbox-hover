@@ -4,7 +4,7 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
 
-namespace Facepunch.Hover
+namespace Facepunch.Hover.UI
 {
 	public class KillFeedItem : Panel
 	{

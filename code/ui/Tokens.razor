@@ -1,0 +1,29 @@
+﻿@using System;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/Tokens.scss" )]
+@inherits Panel
+
+@if ( Local.Pawn is not HoverPlayer player ) return;
+
+<root class=@(player.LifeState == LifeState.Dead ? "hidden": "")>
+    <div class="icon"></div>
+    <text class="amount">@($"{player.Tokens:C0}")</text>
+</root>
+
+
+@code
+{
+    protected override int BuildHash()
+    {
+        if ( Local.Pawn is not HoverPlayer player )
+            return 0;
+
+        return HashCode.Combine( player.LifeState, player.Tokens );
+    }
+}
