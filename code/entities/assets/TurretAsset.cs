@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gamelib.Utility;
-using SandboxEditor;
+using Editor;
 
 namespace Facepunch.Hover
 {
@@ -137,7 +137,7 @@ namespace Facepunch.Hover
 				var distance = position.Distance( blastPosition );
 				var damageInfo = new DamageInfo()
 					.WithAttacker( this )
-					.WithFlag( DamageFlags.Blast | DamageFlags.Shock )
+					.WithTag( "blast" )
 					.WithForce( (blastPosition - position).Normal * projectile.Velocity.Length * 0.1f )
 					.WithPosition( blastPosition )
 					.WithWeapon( this );

@@ -1,5 +1,6 @@
 ﻿using Gamelib.Extensions;
 using Sandbox;
+using Sandbox.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace Facepunch.Hover
 			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
 				var config = TypeLibrary.Create<WeaponConfig>( configName );
-				var upgradeDesc = TypeLibrary.GetDescription<WeaponUpgrade>( upgradeName );
+				var upgradeDesc = TypeLibrary.GetType<WeaponUpgrade>( upgradeName );
 
 				if ( upgradeDesc == null ) return;
 
@@ -106,7 +107,7 @@ namespace Facepunch.Hover
 		{
 			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
-				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
+				var loadoutDesc = TypeLibrary.GetType<BaseLoadout>( loadoutName );
 
 				if ( loadoutDesc != null )
 				{
@@ -178,7 +179,7 @@ namespace Facepunch.Hover
 		{
 			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
 			{
-				var loadoutDesc = TypeLibrary.GetDescription<BaseLoadout>( loadoutName );
+				var loadoutDesc = TypeLibrary.GetType<BaseLoadout>( loadoutName );
 
 				if ( loadoutDesc != null )
 				{
@@ -461,7 +462,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		public void GiveLoadoutUpgrade( string typeName )
 		{
-			var desc = TypeLibrary.GetDescription<BaseLoadout>( typeName );
+			var desc = TypeLibrary.GetType<BaseLoadout>( typeName );
 
 			if ( desc != null )
 			{
@@ -599,7 +600,6 @@ namespace Facepunch.Hover
 			TimeSinceSpawn = 0f;
 			KillStreak = 0;
 			LifeState = LifeState.Alive;
-			WaterLevel = 0;
 			Health = 100f;
 			Velocity = Vector3.Zero;
 
@@ -740,7 +740,7 @@ namespace Facepunch.Hover
 			BecomeRagdollOnClient( LastDamageInfo.Force, LastDamageInfo.BoneIndex );
 			Inventory.DeleteContents();
 
-			if ( LastDamageInfo.Flags.HasFlag( DamageFlags.Fall ) )
+			if ( LastDamageInfo.HasTag( "fall" ) )
 			{
 				PlaySound( "player.falldie" );
 			}
@@ -1036,7 +1036,7 @@ namespace Facepunch.Hover
 
 		public override void TakeDamage( DamageInfo info )
 		{
-			if ( info.Hitbox.HasTag( "head" ) && !info.Flags.HasFlag( DamageFlags.Blast ) )
+			if ( info.Hitbox.HasTag( "head" ) && !info.HasTag( "blast" ) )
 			{
 				info.Damage *= 2.0f;
 			}
@@ -1073,7 +1073,7 @@ namespace Facepunch.Hover
 					}
 				}
 
-				if ( info.Flags.HasFlag( DamageFlags.Blunt ) )
+				if ( info.HasTag( "blunt" ) )
 				{
 					var dotDirection = EyeRotation.Forward.Dot( attacker.EyeRotation.Forward );
 
@@ -1107,7 +1107,7 @@ namespace Facepunch.Hover
 			else if ( info.Attacker.IsValid() )
 				fromPosition = info.Attacker.Position;
 
-			TookDamage( To.Single( this ), fromPosition, info.Damage, info.Flags );
+			TookDamage( To.Single( this ), fromPosition, info.Damage );
 
 			var bloodSplat = Particles.Create( "particles/blood/large_blood/large_blood.vpcf", info.Position );
 			bloodSplat.SetForward( 0, info.Force.Normal );
@@ -1180,7 +1180,7 @@ namespace Facepunch.Hover
 		}
 
 		[ClientRpc]
-		public void TookDamage( Vector3 position, float amount, DamageFlags flags )
+		public void TookDamage( Vector3 position, float amount )
 		{
 			UI.DamageIndicator.Current?.OnHit( position );
 		}

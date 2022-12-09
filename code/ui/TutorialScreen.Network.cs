@@ -22,6 +22,12 @@ public partial class TutorialScreen
 			return;
 		}
 
+		if ( Instance == null )
+		{
+			ShowWhenCreated = true;
+			return;
+		}
+
 		Instance.SetClass( "hidden", false );
 		Instance.HideTime = 5f;
 	}
@@ -29,6 +35,8 @@ public partial class TutorialScreen
 	[ClientRpc]
 	public static void Hide()
 	{
+		if ( Instance == null ) return;
+
 		Instance.SetClass( "hidden", true );
 		Cookie.Set( "tutorial", true );
 	}

@@ -87,6 +87,8 @@
 
     public static TutorialScreen Instance { get; private set; }
 
+    private static bool ShowWhenCreated { get; set; }
+
     public Panel Container { get; set; }
     public Panel StepsContainer { get; set; }
     public TutorialScreenButton OkayButton { get; set; }
@@ -94,7 +96,7 @@
 
     public TutorialScreen()
     {
-        SetClass( "hidden", true );
+        SetClass( "hidden", !ShowWhenCreated );
         Instance = this;
     }
 

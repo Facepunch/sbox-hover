@@ -23,7 +23,7 @@ namespace Facepunch.Hover
 		public float RotateSpeed => 10f;
 		public float DamageFalloffStart => 1000f;
 		public float DamageFalloffEnd => 2000f;
-		public DamageFlags DamageType => DamageFlags.Bullet;
+		public string DamageType => "bullet";
 		public string MuzzleFlashEffect => "particles/weapons/deployable_turret/deployable_turret_muzzleflash.vpcf";
 		public string TracerEffect => "particles/weapons/deployable_turret/deployable_turret_projectile.vpcf";
 		public string ImpactEffect => "particles/weapons/deployable_turret/deployable_turret_impact.vpcf";
@@ -155,7 +155,7 @@ namespace Facepunch.Hover
 				.WithWeapon( this )
 				.WithPosition( position )
 				.WithForce( force )
-				.WithFlag( DamageType );
+				.WithTag( DamageType );
 
 			damageInfo.Damage = damage;
 

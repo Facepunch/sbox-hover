@@ -182,7 +182,7 @@ namespace Facepunch.Hover
 			}
 
 			CheckLadder();
-			Swimming = Player.WaterLevel > 0.6f;
+			Swimming = false;
 
 			PreVelocity = Player.Velocity;
 
@@ -732,7 +732,7 @@ namespace Facepunch.Hover
 			{
 				var damage = new DamageInfo()
 					.WithAttacker( Player )
-					.WithFlag( DamageFlags.Fall )
+					.WithTag( "fall" )
 					.WithForce( Vector3.Down * Player.Velocity.Length * fraction )
 					.WithPosition( Player.Position );
 

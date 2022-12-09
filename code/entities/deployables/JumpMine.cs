@@ -13,7 +13,7 @@ namespace Facepunch.Hover
 		public override bool RequiresPower => false;
 		public override bool StartFrozen => true;
 		public override string ModelName => "models/mines/mines.vmdl";
-		public DamageFlags DamageType { get; set; } = DamageFlags.Blast;
+		public string DamageType { get; set; } = "blast";
 		public float BaseDamage { get; set; } = 700f;
 		public float DamageVsHeavy { get; set; } = 1f;
 		public float Radius { get; set; } = 150f;
@@ -64,7 +64,7 @@ namespace Facepunch.Hover
 					.WithWeapon( this )
 					.WithPosition( position )
 					.WithForce( force )
-					.WithFlag( DamageType );
+					.WithTag( DamageType );
 
 				damageInfo.Damage = damage;
 

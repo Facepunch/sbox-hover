@@ -10,7 +10,7 @@ namespace Facepunch.Hover
 	public partial class MotionAlarm : DeployableEntity
 	{
 		public override string ModelName => "models/motion_sensor/motion_sensor.vmdl";
-		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
+		public string DamageType { get; set; } = "shock";
 		public float BaseDamage { get; set; } = 20f;
 		public float Radius { get; set; } = 300f;
 		
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 				.WithWeapon( this )
 				.WithPosition( position )
 				.WithForce( force )
-				.WithFlag( DamageType );
+				.WithTag( DamageType );
 
 			damageInfo.Damage = damage;
 

@@ -37,7 +37,7 @@ namespace Facepunch.Hover
 		public virtual float MeleeRange => 200f;
 		public virtual float MeleeRate => 1f;
 		public virtual float ChargeAttackDuration => 2f;
-		public virtual DamageFlags DamageType => DamageFlags.Bullet;
+		public virtual string DamageType => "bullet";
 		public virtual int HoldType => 1;
 		public virtual int ViewModelMaterialGroup => 0;
 		public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -303,7 +303,7 @@ namespace Facepunch.Hover
 					{
 						var damageInfo = new DamageInfo()
 							.WithPosition( trace.EndPosition )
-							.WithFlag( DamageFlags.Blunt )
+							.WithTag( "blunt" )
 							.WithForce( forward * 100f * force )
 							.UsingTraceResult( trace )
 							.WithAttacker( Owner )
@@ -356,7 +356,7 @@ namespace Facepunch.Hover
 					{
 						var damageInfo = new DamageInfo()
 							.WithPosition( trace.EndPosition )
-							.WithFlag( DamageType )
+							.WithTag( DamageType )
 							.WithForce( forward * 100f * force )
 							.UsingTraceResult( trace )
 							.WithAttacker( Owner )
@@ -460,7 +460,7 @@ namespace Facepunch.Hover
 				.WithWeapon( this )
 				.WithPosition( position )
 				.WithForce( force )
-				.WithFlag( DamageType );
+				.WithTag( DamageType );
 
 			damageInfo.Damage = damage;
 

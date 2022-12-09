@@ -1,7 +1,8 @@
 ﻿using Gamelib.UI;
 using Sandbox;
-using SandboxEditor;
+using Editor;
 using System.ComponentModel.DataAnnotations;
+using Sandbox.Utility;
 
 namespace Facepunch.Hover
 {
@@ -196,7 +197,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			if ( !info.Flags.HasFlag( DamageFlags.Blast ) )
+			if ( !info.HasTag( "blast" ) )
 				info.Damage *= 0.4f;
 			else
 				info.Damage *= 1.2f;

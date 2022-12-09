@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public override string MuzzleFlashEffect => "particles/weapons/boomer/boomer_muzzleflash.vpcf";
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
-		public override DamageFlags DamageType => DamageFlags.Blast;
+		public override string DamageType => "blast";
 		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
 		public override float Speed => 1300f;

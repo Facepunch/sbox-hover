@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 		public override int ViewModelMaterialGroup => 1;
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/sticky/sticky_muzzleflash.vpcf";
-		public override DamageFlags DamageType => DamageFlags.Blast;
+		public override string DamageType => "blast";
 		public override string CrosshairClass => "shotgun";
 		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;

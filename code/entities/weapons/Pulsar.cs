@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override float Speed => 3500f;
 		public override float Spread => 0f;
-		public override DamageFlags DamageType => DamageFlags.Blast;
+		public override string DamageType => "blast";
 		public override int ClipSize => 1;
 		public override bool ReloadAnimation => false;
 		public override bool CanMeleeAttack => true;

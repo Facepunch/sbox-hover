@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 using System;
-using SandboxEditor;
+using Editor;
 using System.Linq;
 
 namespace Facepunch.Hover

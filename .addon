@@ -15,7 +15,6 @@
   ],
   "HasCode": true,
   "CodePath": "code",
-  "RootNamespace": "Facepunch.Hover",
   "Metadata": {
     "MapList": [
       "facepunch.hv_dune"

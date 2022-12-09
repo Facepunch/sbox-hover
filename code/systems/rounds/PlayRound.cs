@@ -76,7 +76,7 @@ namespace Facepunch.Hover
 						killer.GiveAward<TripleKillAward>();
 				}
 
-				if ( player == killer && damageInfo.Flags.HasFlag( DamageFlags.Fall ) )
+				if ( player == killer && damageInfo.HasTag( "fall" ) )
 					UI.Hud.AddKillFeed( To.Everyone, killer, player, null );
 				else if ( damageInfo.Weapon.IsValid() )
 					UI.Hud.AddKillFeed( To.Everyone, killer, player, damageInfo.Weapon );

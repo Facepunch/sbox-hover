@@ -11,7 +11,7 @@ namespace Facepunch.Hover
 	{
 		public override string ModelName => "models/force_field/force_field.vmdl";
 
-		public DamageFlags DamageType { get; set; } = DamageFlags.Shock;
+		public string DamageType { get; set; } = "shock";
 		public float FullDamage { get; set; } = 700f;
 
 		private RealTimeUntil LastDamageSound { get; set; }
@@ -69,7 +69,7 @@ namespace Facepunch.Hover
 				.WithWeapon( this )
 				.WithPosition( position )
 				.WithForce( direction * 100f * force )
-				.WithFlag( DamageType );
+				.WithTag( DamageType );
 
 			damageInfo.Damage = damage;
 

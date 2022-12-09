@@ -53,7 +53,7 @@
     {
         container.DeleteChildren();
 
-        var loadouts = TypeLibrary.GetDescriptions<BaseLoadout>();
+        var loadouts = TypeLibrary.GetTypes<BaseLoadout>();
 
         foreach ( var desc in loadouts )
         {

@@ -2,7 +2,7 @@
 using Sandbox;
 using System;
 using System.Linq;
-using SandboxEditor;
+using Editor;
 
 namespace Facepunch.Hover
 {
