@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Gamelib.Extensions;
+using Sandbox.Effects;
 
 namespace Facepunch.Hover
 {
@@ -142,6 +143,7 @@ namespace Facepunch.Hover
 		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; set; }
 
 		private TimeUntil NextSecondTime { get; set; }
+		private ScreenEffects PostProcessing { get; set; }
 
 		public Game()
 		{
@@ -149,6 +151,11 @@ namespace Facepunch.Hover
 			{
 				Local.Hud?.Delete( true );
 				Local.Hud = new UI.Hud();
+
+				PostProcessing = new();
+
+				Camera.Main.RemoveAllHooks();
+				Camera.Main.AddHook( PostProcessing );
 			}
 		}
 
@@ -281,6 +288,27 @@ namespace Facepunch.Hover
 				Round?.OnSecond();
 				NextSecondTime = 1f;
 			}
+		}
+
+		[Event.Tick.Client]
+		private void ClientTick()
+		{
+			if ( Local.Pawn is not HoverPlayer player ) return;
+
+			var pp = PostProcessing;
+
+			pp.ChromaticAberration.Scale = 0.1f;
+			pp.ChromaticAberration.Offset = Vector3.Zero;
+
+			pp.Sharpen = 0.1f;
+
+			var healthScale = (0.4f / player.MaxHealth) * player.Health;
+			pp.Saturation = 0.7f + healthScale;
+
+			pp.Vignette.Intensity = 0.8f - healthScale * 2f;
+			pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
+			pp.Vignette.Smoothness = 1f;
+			pp.Vignette.Roundness = 0.8f;
 		}
 
 		[Event.Entity.PostSpawn]

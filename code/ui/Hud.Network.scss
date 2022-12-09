@@ -1,0 +1,194 @@
+﻿@import "_variables.scss";
+@import "_buttons.scss";
+@import "_tags.scss";
+
+RootPanel {
+  background-color: rgba(#333, 0);
+  transition: background-color 0.2s ease-in;
+  transform-origin: 50% 50%;
+
+  &.devcamera {
+    display: none;
+  }
+}
+
+.anchors {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.hud_left {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 32px;
+  left: 64px;
+}
+
+.hud_center {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hud_right {
+  //background-color: red;
+  position: absolute;
+  bottom: 32px;
+  right: 64px;
+}
+
+VoiceList {
+  font-family: $mainFont;
+
+  voiceentry {
+    background-color: $blueTeamPanelBg;
+    box-shadow: $blueTeamBackground;
+    border: $blueTeamPanelBorder;
+    background-color: rgba(black, 0.8);
+  }
+}
+
+.team_red {
+  voicelist {
+    voiceentry {
+      background-color: $redTeamPanelBg;
+      box-shadow: $redTeamBackground;
+      border: $redTeamPanelBorder;
+    }
+  }
+}
+
+Vitals {
+  color: #fff;
+  font-family: $mainFont;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 40px;
+  position: relative;
+
+  HudIconBar {
+    width: 90px;
+    position: relative;
+  }
+
+  .icon {
+    margin-left: 0;
+    width: 24px;
+    height: 24px;
+  }
+
+  .outerbar {
+    background-color: $panel-bg;
+    position: absolute;
+    border-radius: 0;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 4px;
+
+    .innerBar {
+      border-radius: 0;
+    }
+  }
+
+  .divider {
+    width: 2px;
+    background-color: rgba(#fff, 0.2);
+    height: 130%;
+    margin: 0 16px;
+  }
+
+  .energy {
+    .innerBar {
+      background-color: rgba(0 170 255 0.5);
+    }
+
+    .text {
+      transition: all 0.25s ease-out;
+    }
+
+    .icon {
+      background-image: url(/ui/icons/icon_energy_white.png);
+    }
+
+    &.grow {
+      transition: all 0.25s ease-out;
+
+      .text {
+        text-shadow: $selectedTabShadow;
+        right: 4px;
+      }
+    }
+  }
+
+  .health {
+    .innerBar {
+      background-color: rgba(0 255 0 0.5);
+    }
+
+    .text {
+      transition: all 0.25s ease-out;
+    }
+
+    .icon {
+      background-image: url(/ui/icons/icon_health_white.png);
+    }
+
+    &.grow {
+      transition: all 0.25s ease-out;
+
+      .text {
+        text-shadow: $selectedTabShadow;
+        right: 4px;
+      }
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.tags-list {
+  flex-direction: row;
+
+  .tag {
+    align-items: center;
+    justify-content: center;
+    background-color: $blue;
+    color: $dark-grey;
+    font-family: $fontBold;
+    text-shadow: none;
+    margin-right: 4px;
+    padding: 2px 8px;
+    text-transform: uppercase;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.type-1 {
+      background-color: rgba(#cdc6ae, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+
+    &.type-2 {
+      background-color: rgba(#aebecd, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+
+    &.type-3 {
+      background-color: rgba(#cdaeae, 0.1);
+      color: rgba(#fff, 0.9);
+    }
+  }
+}

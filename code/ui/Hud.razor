@@ -1,0 +1,85 @@
+﻿@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+@using System.Collections.Generic;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/Hud.scss" )]
+@inherits RootPanel
+
+@{
+    var player = Local.Pawn as HoverPlayer;
+}
+
+<root class="@(player.IsValid() ? player.Team.GetHudClass() : "")">
+    <div @ref="InternalAnchors" class=" anchors"></div>
+
+    <LongshotScope></LongshotScope>
+    <RoundInfo></RoundInfo>
+
+    <div class="hud_left">
+
+    </div>
+
+    <div class="hud_center">
+        <Vitals></Vitals>
+        <Speedometer></Speedometer>
+    </div>
+
+    <div class="hud_right">
+        <Ammo></Ammo>
+        <WeaponList></WeaponList>
+    </div>
+
+
+    <Tokens></Tokens>
+    <OutpostList></OutpostList>
+    <VoiceList></VoiceList>
+    <DamageIndicator></DamageIndicator>
+    <HitIndicator></HitIndicator>
+    <Scoreboard></Scoreboard>
+    <StationScreen></StationScreen>
+    <RespawnScreen></RespawnScreen>
+    <AwardQueue></AwardQueue>
+    <ToastList></ToastList>
+    <TutorialScreen></TutorialScreen>
+    <VictoryScreen></VictoryScreen>
+    <ChatBox></ChatBox>
+</root>
+
+@code
+{
+    public static Panel Anchors => (Local.Hud as Hud)?.InternalAnchors;
+
+    private static List<EntityHudAnchor> PendingAnchors { get; set; } = new();
+
+    public static void AddAnchor( EntityHudAnchor anchor )
+    {
+        if ( Anchors is not null )
+            Anchors.AddChild( anchor );
+        else
+            PendingAnchors.Add( anchor );
+    }
+
+    private Panel InternalAnchors { get; set; }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        foreach ( var anchor in PendingAnchors )
+        {
+            InternalAnchors.AddChild( anchor );
+        }
+
+        PendingAnchors.Clear();
+
+        base.OnAfterTreeRender( firstTime );
+    }
+
+    protected override int BuildHash()
+    {
+        var player = Local.Pawn as HoverPlayer;
+        if ( !player.IsValid() ) return 0;
+        return HashCode.Combine( player, player.Team );
+    }
+}
