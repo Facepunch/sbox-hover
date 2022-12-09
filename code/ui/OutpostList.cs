@@ -59,6 +59,8 @@ namespace Facepunch.Hover.UI
 
 		public static void AddOutpost( OutpostVolume outpost )
 		{
+			if ( Outposts.Contains( outpost ) ) return;
+
 			if ( Instance != null )
 			{
 				Instance.AddItem( outpost );
@@ -74,7 +76,7 @@ namespace Facepunch.Hover.UI
 
 			foreach ( var outpost in Outposts )
 			{
-				AddOutpost( outpost );
+				AddItem( outpost );
 			}
 
 			BindClass( "hidden", ShouldHidePanel );

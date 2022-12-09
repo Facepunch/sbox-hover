@@ -1,62 +1,61 @@
 ﻿@import "_variables.scss";
 
 EntityHudAnchor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  &.hidden {
-    display: none;
-  }
-
-  EntityHudIconBar {
-    margin-bottom: 4px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0 0 0 0.6);
-    border-radius: 2px;
-    padding: 2px;
-
-    EntityHudIcon {
-      margin-right: 4px;
-      margin-bottom: 0px;
-      height: 20px;
-      width: 20px;
-    }
-
-    EntityHudBar {
-      margin-bottom: 0px;
-    }
-
-    &.hidden {
-      display: none;
-    }
-  }
-
-  EntityHudIconList {
-    margin-bottom: 4px;
-    flex-direction: row;
-    align-items: center;
     display: flex;
-
-    EntityHudIcon {
-      margin-right: 4px;
-      margin-bottom: 0px;
-      border-radius: 2px;
-      height: 20px;
-      width: 20px;
-
-      &.hidden {
-        display: none;
-      }
-    }
+    flex-direction: column;
+    position: absolute;
 
     &.hidden {
-      display: none;
+        display: none;
     }
-  }
+
+    EntityHudIconBar {
+        margin-bottom: 4px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0 0 0 0.6);
+        border-radius: 2px;
+        padding: 2px;
+
+        EntityHudIcon {
+            margin-right: 4px;
+            margin-bottom: 0px;
+            height: 20px;
+            width: 20px;
+        }
+
+        EntityHudBar {
+            margin-bottom: 0px;
+        }
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    EntityHudIconList {
+        margin-bottom: 4px;
+        flex-direction: row;
+        align-items: center;
+        display: flex;
+
+        EntityHudIcon {
+            margin-right: 4px;
+            margin-bottom: 0px;
+            border-radius: 2px;
+            height: 20px;
+            width: 20px;
+
+            &.hidden {
+                display: none;
+            }
+        }
+
+        &.hidden {
+            display: none;
+        }
+    }
 }
 
 EntityHudIcon {

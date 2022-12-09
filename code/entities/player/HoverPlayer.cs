@@ -618,8 +618,9 @@ namespace Facepunch.Hover
 		{
 			if ( IsLocalPawn )
 			{
-				if ( AnimatedLegs.IsValid() )
+				if ( AnimatedLegs is not null )
 				{
+					AnimatedLegs.RenderingEnabled = false;
 					AnimatedLegs.Delete();
 					AnimatedLegs = null;
 				}

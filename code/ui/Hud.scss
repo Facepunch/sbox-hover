@@ -12,6 +12,14 @@ RootPanel {
   }
 }
 
+.anchors {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
 .hud_left {
   display: flex;
   flex-direction: row;

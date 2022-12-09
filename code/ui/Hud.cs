@@ -1,12 +1,25 @@
 ﻿using Sandbox;
 using Sandbox.Effects;
 using Sandbox.UI;
+using System.Collections.Generic;
 
 namespace Facepunch.Hover.UI;
 
 [StyleSheet( "/ui/Hud.scss" )]
 public partial class Hud : RootPanel
 {
+	public static Panel Anchors => (Local.Hud as Hud)?.InternalAnchors;
+
+	private static List<EntityHudAnchor> PendingAnchors { get; set; } = new();
+
+	public static void AddAnchor( EntityHudAnchor anchor )
+	{
+		if ( Anchors is not null )
+			Anchors.AddChild( anchor );
+		else
+			PendingAnchors.Add( anchor );
+	}
+
 	[ClientRpc]
 	public static void AddKillFeed( HoverPlayer attacker, HoverPlayer victim, Entity weapon )
 	{
@@ -42,9 +55,19 @@ public partial class Hud : RootPanel
 	}
 
 	private ScreenEffects PostProcessing { get; set; }
+	private Panel InternalAnchors { get; set; }
 
 	public Hud()
 	{
+		InternalAnchors = Add.Panel( "anchors" );
+
+		foreach ( var anchor in PendingAnchors )
+		{
+			InternalAnchors.AddChild( anchor );
+		}
+
+		PendingAnchors.Clear();
+
 		AddChild<LongshotScope>();
 		AddChild<RoundInfo>();
 
@@ -76,6 +99,7 @@ public partial class Hud : RootPanel
 
 		PostProcessing = new();
 
+		Camera.Main.RemoveAllHooks();
 		Camera.Main.AddHook( PostProcessing );
 	}
 

@@ -139,9 +139,18 @@ namespace Facepunch.Hover
 
 		public static BaseRound Round => Instance?.InternalRound;
 
-		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; private set; }
+		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; set; }
 
 		private TimeUntil NextSecondTime { get; set; }
+
+		public Game()
+		{
+			if ( IsClient )
+			{
+				Local.Hud?.Delete( true );
+				Local.Hud = new UI.Hud();
+			}
+		}
 
 		public override void Spawn()
 		{
@@ -155,8 +164,7 @@ namespace Facepunch.Hover
 		{
 			AddAwards();
 
-			Local.Hud?.Delete( true );
-			Local.Hud = new UI.Hud();
+			Event.Run( "refresh" );
 
 			base.ClientSpawn();
 		}

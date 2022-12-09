@@ -125,7 +125,7 @@ namespace Facepunch.Hover.UI
 	}
 
 	[StyleSheet( "/ui/EntityHud.scss" )]
-	public class EntityHudAnchor : WorldPanel
+	public class EntityHudAnchor : Panel
 	{
 		public IHudEntity Entity { get; private set; }
 		public float UpOffset { get; set; } = 80f;
@@ -133,7 +133,7 @@ namespace Facepunch.Hover.UI
 
 		public EntityHudAnchor()
 		{
-			PanelBounds = new Rect( -1000, -1000, 2000, 2000 );
+			UI.Hud.AddAnchor( this );
 		}
 
 		public void SetEntity( IHudEntity entity )
@@ -158,17 +158,15 @@ namespace Facepunch.Hover.UI
 				{
 					Entity.UpdateHudComponents();
 
-					var cameraPosition = Camera.Position;
-					var transform = Transform;
-					var position = (Entity.Position + Entity.LocalCenter) + Vector3.Up * UpOffset;
+					var position = (Entity.Position + Entity.LocalCenter).ToScreen();
+					position.x *= Screen.Size.x;
+					position.y *= Screen.Size.y;
 
-					transform.Position = position;
-					transform.Rotation = Rotation.LookAt( cameraPosition - Position );
+					position.x -= Box.Rect.Width * 0.5f;
+					position.y -= Box.Rect.Height * 0.5f;
 
-					var distanceToCamera = position.Distance( cameraPosition );
-					transform.Scale = distanceToCamera.Remap( 0f, 20000f, 10f, 40f );
-
-					Transform = transform;
+					Style.Left = Length.Pixels( position.x * ScaleFromScreen );
+					Style.Top = Length.Pixels( position.y * ScaleFromScreen );
 				}
 
 				SetClass( "hidden", !IsActive );

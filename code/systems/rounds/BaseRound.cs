@@ -30,6 +30,8 @@ namespace Facepunch.Hover
 		{
 			if ( Host.IsServer && RoundDuration > 0 )
 				RoundEndTime = Time.Now + RoundDuration;
+
+			Event.Register( this );
 			
 			OnStart();
 		}
@@ -41,6 +43,8 @@ namespace Facepunch.Hover
 				RoundEndTime = 0f;
 				Players.Clear();
 			}
+
+			Event.Unregister( this );
 
 			OnFinish();
 		}

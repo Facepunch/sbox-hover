@@ -149,6 +149,7 @@ namespace Facepunch.Hover
 				ScoreHud = Local.Hud.AddChild<UI.RoundScore>();
 			}
 		}
+		
 
 		protected override void OnTimeUp()
 		{
@@ -193,6 +194,12 @@ namespace Facepunch.Hover
 		protected override void OnFinish()
 		{
 
+		}
+
+		[Event( "refresh" )]
+		private void OnRefresh()
+		{
+			ScoreHud = Local.Hud.AddChild<UI.RoundScore>();
 		}
 
 		private void OnOutpostLost( OutpostVolume outpost )
