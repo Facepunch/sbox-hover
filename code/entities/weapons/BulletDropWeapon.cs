@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 		{
 			if ( Prediction.FirstTime )
             {
-				Rand.SetSeed( Time.Tick );
+				Game.SetRandomSeed( Time.Tick );
 				FireProjectile();
             }
 		}
@@ -92,7 +92,7 @@ namespace Facepunch.Hover
 
 		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( IsServer && target.IsValid() )
+			if ( Game.IsServer && target.IsValid() )
 			{
 				var distance = target.Position.Distance( projectile.StartPosition );
 				var damage = GetDamageFalloff( distance, Config.Damage );

@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( IsServer && other is HoverPlayer player && player.Team == Team )
+			if ( Game.IsServer && other is HoverPlayer player && player.Team == Team )
 			{
 				player.InDeployableBlocker = true;
 			}
@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 
 		public override void EndTouch( Entity other )
 		{
-			if ( IsServer && other is HoverPlayer player && player.Team == Team )
+			if ( Game.IsServer && other is HoverPlayer player && player.Team == Team )
 			{
 				player.InDeployableBlocker = false;
 			}

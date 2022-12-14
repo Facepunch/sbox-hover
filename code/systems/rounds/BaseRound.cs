@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 
 		public void Start()
 		{
-			if ( Host.IsServer && RoundDuration > 0 )
+			if ( Game.IsServer && RoundDuration > 0 )
 				RoundEndTime = Time.Now + RoundDuration;
 
 			Event.Register( this );
@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 
 		public void Finish()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				RoundEndTime = 0f;
 				Players.Clear();
@@ -51,7 +51,7 @@ namespace Facepunch.Hover
 
 		public void AddPlayer( HoverPlayer player )
 		{
-			Host.AssertServer();
+			Game.AssertServer();
 
 			if ( !Players.Contains(player) )
 				Players.Add( player );
@@ -79,7 +79,7 @@ namespace Facepunch.Hover
 
 		public virtual void OnSecond()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				if ( RoundEndTime > 0f && Time.Now >= RoundEndTime )
 				{

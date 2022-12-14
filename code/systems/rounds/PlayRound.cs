@@ -116,7 +116,7 @@ namespace Facepunch.Hover
 
 		protected override void OnStart()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
 				GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
@@ -137,7 +137,7 @@ namespace Facepunch.Hover
 				BlueScore = 0;
 				RedScore = 0;
 
-				var players = Client.All.Select( ( client ) => client.Pawn as HoverPlayer ).ToList();
+				var players = Game.Clients.Select( ( client ) => client.Pawn as HoverPlayer ).ToList();
 
 				foreach ( var player in players )
 				{
@@ -146,24 +146,24 @@ namespace Facepunch.Hover
 			}
 			else
 			{
-				ScoreHud = Local.Hud.AddChild<UI.RoundScore>();
+				ScoreHud = Game.RootPanel.AddChild<UI.RoundScore>();
 			}
 		}
 		
 
 		protected override void OnTimeUp()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				if ( BlueScore > RedScore )
 				{
 					VictoryScreen.Show( Team.Blue, 10f );
-					Audio.Play( $"blue.victory{Rand.Int( 1, 2 )}" );
+					Audio.Play( $"blue.victory{Game.Random.Int( 1, 2 )}" );
 				}
 				else if ( RedScore > BlueScore )
 				{
 					VictoryScreen.Show( Team.Red, 10f );
-					Audio.Play( $"red.victory{Rand.Int( 1, 2 )}" );
+					Audio.Play( $"red.victory{Game.Random.Int( 1, 2 )}" );
 				}
 				else
 				{
@@ -181,7 +181,7 @@ namespace Facepunch.Hover
 				FlagEntity.OnFlagPickedUp -= OnFlagPickedUp;
 				FlagEntity.OnFlagDropped -= OnFlagDropped;
 
-				Game.ChangeRound( new StatsRound() );
+				HoverGame.ChangeRound( new StatsRound() );
 			}
 			else
 			{
@@ -199,7 +199,7 @@ namespace Facepunch.Hover
 		[Event( "refresh" )]
 		private void OnRefresh()
 		{
-			ScoreHud = Local.Hud.AddChild<UI.RoundScore>();
+			ScoreHud = Game.RootPanel.AddChild<UI.RoundScore>();
 		}
 
 		private void OnOutpostLost( OutpostVolume outpost )
@@ -232,7 +232,7 @@ namespace Facepunch.Hover
 
 		private void OnGeneratorBroken( GeneratorAsset generator )
 		{
-			Audio.Play( generator.Team, $"your.generatordestroyed{Rand.Int( 1, 2 )}", $"generatordestroyed{Rand.Int( 1, 2 )}" );
+			Audio.Play( generator.Team, $"your.generatordestroyed{Game.Random.Int( 1, 2 )}", $"generatordestroyed{Game.Random.Int( 1, 2 )}" );
 
 			var attacker = generator.LastAttacker as HoverPlayer;
 
@@ -244,14 +244,14 @@ namespace Facepunch.Hover
 
 		private void OnGeneratorRepaired( GeneratorAsset generator )
 		{
-			Audio.Play( generator.Team, $"your.generatorrepaired{Rand.Int( 1, 2 )}", $"generatorrepaired{Rand.Int( 1, 2 )}" );
+			Audio.Play( generator.Team, $"your.generatorrepaired{Game.Random.Int( 1, 2 )}", $"generatorrepaired{Game.Random.Int( 1, 2 )}" );
 		}
 
 		private void OnFlagDropped( HoverPlayer player, FlagEntity flag )
 		{
 			if ( NextFlagAnnouncement )
 			{
-				Audio.Play( flag.Team, $"your.flagdropped{Rand.Int( 1, 2 )}", $"flagdropped{Rand.Int( 1, 2 )}" );
+				Audio.Play( flag.Team, $"your.flagdropped{Game.Random.Int( 1, 2 )}", $"flagdropped{Game.Random.Int( 1, 2 )}" );
 				NextFlagAnnouncement = 5f;
 			}
 
@@ -265,7 +265,7 @@ namespace Facepunch.Hover
 		{
 			if ( NextFlagAnnouncement )
 			{
-				Audio.Play( flag.Team, $"your.flagtaken{Rand.Int( 1, 2 )}", $"flagtaken{Rand.Int( 1, 2 )}" );
+				Audio.Play( flag.Team, $"your.flagtaken{Game.Random.Int( 1, 2 )}", $"flagtaken{Game.Random.Int( 1, 2 )}" );
 				NextFlagAnnouncement = 5f;
 			}
 
@@ -277,7 +277,7 @@ namespace Facepunch.Hover
 
 		private void OnFlagReturned( HoverPlayer player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"your.flagreturned{Rand.Int( 1, 2 )}", $"flagreturned{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagreturned{Game.Random.Int( 1, 2 )}", $"flagreturned{Game.Random.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				UI.Hud.ToastAll( player.Client.Name + " returned the Blue flag", "ui/icons/flag-blue.png" );
@@ -287,7 +287,7 @@ namespace Facepunch.Hover
 
 		private void OnFlagCaptured( HoverPlayer player, FlagEntity flag )
 		{
-			Audio.Play( flag.Team, $"your.flagcaptured{Rand.Int( 1, 2 )}", $"flagcaptured{Rand.Int( 1, 2 )}" );
+			Audio.Play( flag.Team, $"your.flagcaptured{Game.Random.Int( 1, 2 )}", $"flagcaptured{Game.Random.Int( 1, 2 )}" );
 
 			if ( flag.Team == Team.Blue )
 				UI.Hud.ToastAll( player.Client.Name + " captured the Blue flag", "ui/icons/flag-blue.png" );
@@ -315,7 +315,7 @@ namespace Facepunch.Hover
 			if ( player.Client.IsBot == false )
 			{
 				UI.StationScreen.Show( To.Single( player ), UI.StationScreenMode.Deployment );
-				Game.Instance.MoveToSpawnpoint( player );
+				HoverGame.Entity.MoveToSpawnpoint( player );
 				player.MakeSpectator( player.Position );
 			}
 			else

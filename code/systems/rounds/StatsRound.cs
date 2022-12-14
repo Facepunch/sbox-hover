@@ -19,7 +19,7 @@ namespace Facepunch.Hover
 
 		protected override void OnFinish()
 		{
-			if ( Host.IsClient )
+			if ( Game.IsClient )
 			{
 				VictoryScreen.Hide();
 			}
@@ -29,9 +29,9 @@ namespace Facepunch.Hover
 
 		protected override void OnTimeUp()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
-				Game.ChangeRound( new PlayRound() );
+				HoverGame.ChangeRound( new PlayRound() );
 			}
 
 			base.OnTimeUp();

@@ -30,7 +30,7 @@ namespace Facepunch.Hover.UI
 		{
 			base.Tick();
 
-			if ( Local.Pawn is not HoverPlayer player )
+			if ( Game.LocalPawn is not HoverPlayer player )
 				return;
 
 			Charge.SetClass( "hidden", true );

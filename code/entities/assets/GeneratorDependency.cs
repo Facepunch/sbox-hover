@@ -136,7 +136,7 @@ namespace Facepunch.Hover
 
 		public virtual void UpdateHudComponents()
 		{
-			var distance = Local.Pawn.Position.Distance( Position ) - 1000f;
+			var distance = Game.LocalPawn.Position.Distance( Position ) - 1000f;
 			var mapped = 1f - distance.Remap( 0f, 1000f, 0f, 1f );
 
 			if ( NoPowerIcon.Style.Opacity != mapped )
@@ -144,7 +144,7 @@ namespace Facepunch.Hover
 				NoPowerIcon.Style.Opacity = mapped;
 			}
 
-			if ( DependencyIcon != null && Local.Pawn is HoverPlayer player )
+			if ( DependencyIcon != null && Game.LocalPawn is HoverPlayer player )
 			{
 				distance = player.Position.Distance( Position );
 

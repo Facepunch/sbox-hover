@@ -46,7 +46,7 @@
 
     public bool IsOwned()
     {
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
             return true;
 
         var ownedUpgrades = player.GetWeaponUpgrades( Weapon );
@@ -55,7 +55,7 @@
 
     public bool IsLocked()
     {
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
             return true;
 
         if ( Index == 0 )
@@ -67,7 +67,7 @@
 
     public void DoBuyUpgrade()
     {
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
             return;
 
         if ( !IsLocked() && !IsOwned() )

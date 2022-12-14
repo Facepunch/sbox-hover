@@ -130,7 +130,7 @@ namespace Facepunch.Hover
 
 		public virtual void UpdateHudComponents()
 		{
-			if ( Local.Pawn is HoverPlayer player )
+			if ( Game.LocalPawn is HoverPlayer player )
 			{
 				var distance = player.Position.Distance( Position );
 

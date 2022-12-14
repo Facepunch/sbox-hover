@@ -61,7 +61,7 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( IsServer && other is FlagEntity flag && flag.Carrier.IsValid() )
+			if ( Game.IsServer && other is FlagEntity flag && flag.Carrier.IsValid() )
 			{
 				if ( CanCaptureFlag( flag.Carrier, flag ) )
 				{

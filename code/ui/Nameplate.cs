@@ -28,7 +28,7 @@ namespace Facepunch.Hover.UI
 
 		public override void Tick()
 		{
-			if ( Local.Pawn is not HoverPlayer localPlayer )
+			if ( Game.LocalPawn is not HoverPlayer localPlayer )
 				return;
 
 			if ( IsDeleting ) return;

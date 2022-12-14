@@ -97,7 +97,7 @@ namespace Facepunch.Hover
 			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			if ( IsServer )
+			if ( Game.IsServer )
             {
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}

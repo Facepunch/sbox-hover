@@ -21,7 +21,7 @@ namespace Facepunch.Hover.UI
 		{
 			base.Tick();
 
-			if ( Local.Pawn is not HoverPlayer localPlayer )
+			if ( Game.LocalPawn is not HoverPlayer localPlayer )
 				return;
 
 			SetClass( "hidden", localPlayer.LifeState != LifeState.Alive );
@@ -70,7 +70,7 @@ namespace Facepunch.Hover.UI
 			if ( player.ShouldHideOnRadar )
 				return false;
 
-			if ( Local.Pawn is not HoverPlayer localPlayer )
+			if ( Game.LocalPawn is not HoverPlayer localPlayer )
 				return false;
 
 			if ( player.Team == localPlayer.Team )

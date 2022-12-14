@@ -34,7 +34,7 @@
     {
         base.Tick();
 
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
             return;
 
         for ( int i = 0; i < Weapons.Length; i++ )
@@ -254,7 +254,7 @@
 	[Event.Client.BuildInput]
 	private void ProcessClientInput()
 	{
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
 			return;
 
 		if ( Input.MouseWheel == 1 )

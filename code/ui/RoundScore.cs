@@ -32,13 +32,10 @@ namespace Facepunch.Hover.UI
 
 		public override void Tick()
 		{
-			var player = Local.Pawn;
+			var player = Game.LocalPawn;
 			if ( player == null ) return;
 
-			var game = Game.Instance;
-			if ( game == null ) return;
-
-			if ( Game.Round is PlayRound round )
+			if ( HoverGame.Round is PlayRound round )
 			{
 				Blue.Score.Text = round.BlueScore.ToString();
 				Red.Score.Text = round.RedScore.ToString();

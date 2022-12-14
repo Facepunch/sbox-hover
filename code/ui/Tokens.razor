@@ -9,7 +9,7 @@
 @attribute [StyleSheet( "/ui/Tokens.scss" )]
 @inherits Panel
 
-@if ( Local.Pawn is not HoverPlayer player ) return;
+@if ( Game.LocalPawn is not HoverPlayer player ) return;
 
 <root class=@(player.LifeState == LifeState.Dead ? "hidden": "")>
     <div class="icon"></div>
@@ -20,7 +20,7 @@
 {
     protected override int BuildHash()
     {
-        if ( Local.Pawn is not HoverPlayer player )
+        if ( Game.LocalPawn is not HoverPlayer player )
             return 0;
 
         return HashCode.Combine( player.LifeState, player.Tokens );

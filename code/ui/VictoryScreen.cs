@@ -95,7 +95,7 @@ namespace Facepunch.Hover
 
 		public void AddAwards()
 		{
-			if ( Local.Pawn is not HoverPlayer player )
+			if ( Game.LocalPawn is not HoverPlayer player )
 				return;
 
 			AwardContainer.DeleteChildren( true );

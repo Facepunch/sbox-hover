@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 
 		public override void OnAbilityUsed()
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				using ( Prediction.Off() )
 				{

@@ -25,7 +25,7 @@ namespace Facepunch.Hover
 		public bool SetAmmo( AmmoType type, int amount )
 		{
 			var iType = (int)type;
-			if ( !Host.IsServer ) return false;
+			if ( !Game.IsServer ) return false;
 			if ( Ammo == null ) return false;
 
 			while ( Ammo.Count <= iType )
@@ -39,7 +39,7 @@ namespace Facepunch.Hover
 
 		public bool GiveAmmo( AmmoType type, int amount )
 		{
-			if ( !Host.IsServer ) return false;
+			if ( !Game.IsServer ) return false;
 			if ( Ammo == null ) return false;
 
 			SetAmmo( type, AmmoCount( type ) + amount );

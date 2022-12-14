@@ -9,7 +9,7 @@
 @inherits RootPanel
 
 @{
-    var player = Local.Pawn as HoverPlayer;
+    var player = Game.LocalPawn as HoverPlayer;
 }
 
 <root class="@(player.IsValid() ? player.Team.GetHudClass() : "")">
@@ -50,7 +50,7 @@
 
 @code
 {
-    public static Panel Anchors => (Local.Hud as Hud)?.InternalAnchors;
+    public static Panel Anchors => (Game.RootPanel as Hud)?.InternalAnchors;
 
     private static List<EntityHudAnchor> PendingAnchors { get; set; } = new();
 
@@ -78,7 +78,7 @@
 
     protected override int BuildHash()
     {
-        var player = Local.Pawn as HoverPlayer;
+        var player = Game.LocalPawn as HoverPlayer;
         if ( !player.IsValid() ) return 0;
         return HashCode.Combine( player, player.Team );
     }

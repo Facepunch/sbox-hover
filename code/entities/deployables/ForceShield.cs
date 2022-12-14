@@ -51,7 +51,7 @@ namespace Facepunch.Hover
 			{
 				PlaySound( "forceshield.impact" )
 					.SetRandomPitch( 0.5f, 1f )
-					.SetVolume( Rand.Float( 0.8f, 1f ) );
+					.SetVolume( Game.Random.Float( 0.8f, 1f ) );
 
 				LastDamageSound = 0.2f;
 			}

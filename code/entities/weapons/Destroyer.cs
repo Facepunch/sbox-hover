@@ -101,7 +101,7 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				Audio.Play( "explosion.far", projectile.Position );
 

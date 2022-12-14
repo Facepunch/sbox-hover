@@ -15,9 +15,9 @@ namespace Facepunch.Hover
 
 		protected override void OnStart()
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
-				var players = Client.All.Select( ( client ) => client.Pawn as HoverPlayer );
+				var players = Game.Clients.Select( ( client ) => client.Pawn as HoverPlayer );
 
 				foreach ( var player in players )
 					OnPlayerJoin( player );
@@ -48,7 +48,7 @@ namespace Facepunch.Hover
 			AddPlayer( player );
 
 			player.Reset();
-			player.SetTeam( Rand.Float() > 0.5f ? Team.Red : Team.Blue );
+			player.SetTeam( Game.Random.Float() > 0.5f ? Team.Red : Team.Blue );
 			player.GiveLoadout<LightAssault>();
 			player.Respawn();
 

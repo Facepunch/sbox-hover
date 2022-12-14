@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.Diagnostics;
 using System;
 using System.Collections.Generic;
 
@@ -218,7 +219,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				if ( !IsJetpacking && (startOnGround || !OnlyRegenJetpackOnGround) )
 				{
@@ -463,7 +464,7 @@ namespace Facepunch.Hover
 				return false;
 			}
 
-			if ( Host.IsClient ) return true;
+			if ( Game.IsClient ) return true;
 
 			var attemptsPerTick = 20;
 
@@ -542,7 +543,7 @@ namespace Facepunch.Hover
 					}
 				}
 
-				if ( Host.IsServer && !Player.InEnergyElevator )
+				if ( Game.IsServer && !Player.InEnergyElevator )
 				{
 					Player.Energy = (Player.Energy - Player.EnergyDrain * Time.Delta).Clamp( 0f, Player.MaxEnergy );
 				}
@@ -711,7 +712,7 @@ namespace Facepunch.Hover
 						var overstep = threshold - fallVelocity;
 						var fraction = overstep.Remap( 0f, FallDamageThreshold, 0f, 1f ).Clamp( 0f, 1f );
 
-						Player.PlaySound( $"player.fall{Rand.Int(1, 3)}" )
+						Player.PlaySound( $"player.fall{Game.Random.Int(1, 3)}" )
 							.SetVolume( 0.7f + (0.3f * fraction) )
 							.SetPitch( 1f - (0.35f * fraction) );
 
@@ -720,7 +721,7 @@ namespace Facepunch.Hover
 					else
 					{
 						var volume = Player.Velocity.Length.Remap( 0f, MaxSpeed, 0.1f, 0.5f );
-						Player.PlaySound( $"player.land{Rand.Int( 1, 4 )}" ).SetVolume( volume );
+						Player.PlaySound( $"player.land{Game.Random.Int( 1, 4 )}" ).SetVolume( volume );
 					}
 			 	}
 			}
@@ -728,7 +729,7 @@ namespace Facepunch.Hover
 
 		private void OnTakeFallDamage( float fraction )
 		{
-			if ( Host.IsServer )
+			if ( Game.IsServer )
 			{
 				var damage = new DamageInfo()
 					.WithAttacker( Player )

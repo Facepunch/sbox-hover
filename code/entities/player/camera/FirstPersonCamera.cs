@@ -8,7 +8,7 @@ namespace Facepunch.Hover
 
 		public void Update()
 		{
-			var player = Local.Pawn as HoverPlayer;
+			var player = Game.LocalPawn as HoverPlayer;
 			if ( player == null ) return;
 
 			var eyePos = player.EyePosition;

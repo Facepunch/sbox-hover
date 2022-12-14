@@ -117,7 +117,7 @@ namespace Facepunch.Hover
 				LaunchSound = Sound.FromWorld( LaunchSoundName, Position );
 
 			if ( !string.IsNullOrEmpty( ModelName ) )
-				ModelEntity = new SceneObject( Map.Scene, ModelName );
+				ModelEntity = new SceneObject( Game.SceneWorld, ModelName );
 		}
 
         public virtual void Simulate()
@@ -129,7 +129,7 @@ namespace Facepunch.Hover
 
 			if ( Debug )
             {
-				DebugOverlay.Sphere( Position, Radius, IsClient ? Color.Blue : Color.Red );
+				DebugOverlay.Sphere( Position, Radius, Game.IsClient ? Color.Blue : Color.Red );
             }
 
 			var newPosition = GetTargetPosition();

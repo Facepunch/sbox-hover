@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 			base.Restock();
 		}
 
-		public override void Simulate( Client client )
+		public override void Simulate( IClient client )
 		{
 			if ( Ghost.IsValid() && Owner is HoverPlayer player )
 			{
@@ -76,7 +76,7 @@ namespace Facepunch.Hover
 
 			if ( canDeploy )
 			{
-				if ( IsServer )
+				if ( Game.IsServer )
 				{
 					using ( Prediction.Off() )
 					{
@@ -107,7 +107,7 @@ namespace Facepunch.Hover
 
 		public override void ActiveStart( Entity owner )
 		{
-			if ( owner is HoverPlayer && IsClient )
+			if ( owner is HoverPlayer && Game.IsClient )
 			{
 				CreateGhostModel();
 			}
@@ -117,7 +117,7 @@ namespace Facepunch.Hover
 
 		public override void ActiveEnd( Entity owner, bool dropped )
 		{
-			if ( owner is HoverPlayer && IsClient )
+			if ( owner is HoverPlayer && Game.IsClient )
 			{
 				DestroyGhostModel();
 			}

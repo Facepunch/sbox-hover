@@ -53,7 +53,7 @@ namespace Facepunch.Hover
 			var explosion = Particles.Create( "particles/weapons/big_pulsar/big_pulsar_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			if ( IsServer )
+			if ( Game.IsServer )
             {
 				var position = projectile.Position;
 				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );

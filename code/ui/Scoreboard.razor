@@ -56,7 +56,7 @@
         </div>
 
         <div class="canvas">
-            @foreach ( var client in Client.All )
+            @foreach ( var client in Game.Clients )
             {
                 if ( client.IsValid() && client.Pawn is HoverPlayer a )
                 {
@@ -94,7 +94,7 @@
         </div>
 
         <div class="canvas">
-            @foreach ( var client in Client.All )
+            @foreach ( var client in Game.Clients )
             {
                 if ( client.IsValid() && client.Pawn is HoverPlayer a )
                 {
@@ -142,12 +142,12 @@
 
     protected override int BuildHash()
     {
-        return HashCode.Combine( TimeLeft, BlueCaptures, RedCaptures, BlueMembers, RedMembers, Client.All.Count );
+        return HashCode.Combine( TimeLeft, BlueCaptures, RedCaptures, BlueMembers, RedMembers, Game.Clients.Count );
     }
 
     private string GetTimeLeftFormatted()
     {
-        if ( Game.Round is PlayRound round )
+        if ( HoverGame.Round is PlayRound round )
             return TimeSpan.FromSeconds( round.TimeLeftSeconds ).ToString( @"mm\:ss" );
         else
             return "00:00";
@@ -155,7 +155,7 @@
 
     private int GetFlagCaptures( Team team )
     {
-        if ( Game.Round is PlayRound round )
+        if ( HoverGame.Round is PlayRound round )
         {
             return team == Team.Blue ? round.BlueScore : round.RedScore;
         }
@@ -165,7 +165,7 @@
 
 	public class ScoreboardEntry : Panel
 	{
-		public Client Client { get; set; }
+        public IClient Client { get; set; }
 		public Label PlayerName { get; set; }
 		public Label Captures { get; set; }
 		public Label Tokens { get; set; }
@@ -212,7 +212,7 @@
             Kills.Text = Client.GetInt( "kills" ).ToString();
             Deaths.Text = Client.GetInt( "deaths" ).ToString();
             Ping.Text = Client.Ping.ToString();
-            SetClass( "me", Client == Local.Client );
+            SetClass( "me", Client == Game.LocalClient );
         }
 	}
 }

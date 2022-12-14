@@ -31,7 +31,7 @@ namespace Facepunch.Hover.UI
 			{
 				Audio.Play( "award.earned" );
 				var item = Queue.Dequeue();
-				item.EndTime = Time.Now + Game.AwardDuration;
+				item.EndTime = Time.Now + HoverGame.AwardDuration;
 				AddChild( item );
 			}
 		}

@@ -8,7 +8,7 @@ namespace Facepunch.Hover.Utility
 	{
 		public static void PositionAtCrosshair( this Panel panel )
 		{
-			panel.PositionAtCrosshair( Local.Pawn as HoverPlayer );
+			panel.PositionAtCrosshair( Game.LocalPawn as HoverPlayer );
 		}
 
 		public static void PositionAtCrosshair( this Panel panel, HoverPlayer player )

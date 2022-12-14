@@ -7,7 +7,7 @@ public partial class StationScreen
 	[ClientRpc]
 	public static void Refresh()
 	{
-		if ( Instance.IsOpen && Local.Pawn is HoverPlayer player )
+		if ( Instance.IsOpen && Game.LocalPawn is HoverPlayer player )
 		{
 			Instance.LoadoutList.Populate( player );
 			Log.Info( "Refreshed" );

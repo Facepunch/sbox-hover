@@ -51,7 +51,7 @@ namespace Facepunch.Hover
 				if ( PickupProgress == 1f )
 				{
 					player.OnDeployablePickedUp( this );
-					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+					PlaySound( $"weapon.pickup{Game.Random.Int( 1, 4 )}" );
 					Delete();
 
 					return false;
@@ -97,7 +97,7 @@ namespace Facepunch.Hover
 			HealthBar.RotateToFace = true;
 			HealthBar.ShowIcon = false;
 
-			if ( Local.Pawn == Deployer && CanPickup )
+			if ( Game.LocalPawn == Deployer && CanPickup )
 			{
 				DeployableHud = new UI.WorldDeployableHud();
 				DeployableHud.SetEntity( this );

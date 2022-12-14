@@ -56,11 +56,11 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			PlayAttackAnimation();
 			ShootEffects();
-			PlaySound( $"shotblast.fire{Rand.Int(1, 2)}" );
+			PlaySound( $"shotblast.fire{Game.Random.Int(1, 2)}" );
 
 			for ( int i = 0; i < BulletsPerFire; i++ )
 			{

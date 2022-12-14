@@ -82,7 +82,7 @@ namespace Gamelib.DayNight
 
 		private void HandleSectionChanged( TimeSection section )
 		{
-			if ( IsClient ) return;
+			if ( Game.IsClient ) return;
 
 			if ( section == TimeSection.Dawn )
 			{

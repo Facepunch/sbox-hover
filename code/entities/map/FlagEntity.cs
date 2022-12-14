@@ -130,9 +130,9 @@ namespace Facepunch.Hover
 
 		public override void StartTouch( Entity other )
 		{
-			if ( !Game.Round.CanCaptureFlags ) return;
+			if ( !HoverGame.Round.CanCaptureFlags ) return;
 
-			if ( IsServer && other is HoverPlayer player )
+			if ( Game.IsServer && other is HoverPlayer player )
 			{
 				if ( player.Team == Team )
 				{
@@ -264,7 +264,7 @@ namespace Facepunch.Hover
 
 		public void UpdateHudComponents()
 		{
-			var distance = Local.Pawn.Position.Distance( Position ) - 1500f;
+			var distance = Game.LocalPawn.Position.Distance( Position ) - 1500f;
 			var mapped = distance.Remap( 0f, 1000f, 0f, 1f ).Clamp( 0f, 1f );
 
 			if ( Hud.Style.Opacity != mapped )

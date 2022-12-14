@@ -66,7 +66,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			PlayAttackAnimation();
 			ShootEffects();

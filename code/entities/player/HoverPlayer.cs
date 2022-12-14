@@ -304,7 +304,7 @@ namespace Facepunch.Hover
 			EarnedAwards.Clear();
 			LastDamageInfo = default;
 			LastKiller = null;
-			Tokens = Game.StartingTokens;
+			Tokens = HoverGame.StartingTokens;
 			Team = Team.None;
 
 			ResetClient( To.Single( this ) );
@@ -547,7 +547,7 @@ namespace Facepunch.Hover
 
 			if ( loadout != null )
 			{
-				PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+				PlaySound( $"weapon.pickup{Game.Random.Int( 1, 4 )}" );
 				loadout.Restock( this );
 			}
 
@@ -613,14 +613,14 @@ namespace Facepunch.Hover
 			Health = 100f;
 			Velocity = Vector3.Zero;
 
-			Game.Round?.OnPlayerSpawn( this );
+			HoverGame.Round?.OnPlayerSpawn( this );
 
 			UI.WeaponList.Expand( To.Single( this ), 4f );
 
 			ClientRespawn();
 			CreateHull();
 
-			GameManager.Current?.MoveToSpawnpoint( this );
+			HoverGame.Entity?.MoveToSpawnpoint( this );
 			ResetInterpolation();
 		}
 
@@ -635,7 +635,7 @@ namespace Facepunch.Hover
 					AnimatedLegs = null;
 				}
 
-				AnimatedLegs = new( Map.Scene, model, Transform );
+				AnimatedLegs = new( Game.SceneWorld, model, Transform );
 				AnimatedLegs.SetBodyGroup( "Head", 1 );
 
 				foreach ( var clothing in LegsClothing )
@@ -668,7 +668,7 @@ namespace Facepunch.Hover
 			if ( IsLocalPawn )
 			{
 				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
-				RadarHud = Local.Hud.AddChild<UI.Radar>();
+				RadarHud = Game.RootPanel.AddChild<UI.Radar>();
 			}
 			else
 			{
@@ -739,11 +739,11 @@ namespace Facepunch.Hover
 					killer.OnKillPlayer( this, LastDamageInfo );
 				}
 
-				Game.Round?.OnPlayerKilled( this, attacker, LastDamageInfo );
+				HoverGame.Round?.OnPlayerKilled( this, attacker, LastDamageInfo );
 			}
 			else
 			{
-				Game.Round?.OnPlayerKilled( this, null, LastDamageInfo );
+				HoverGame.Round?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
 
@@ -760,7 +760,7 @@ namespace Facepunch.Hover
 
 			UI.StationScreen.Hide( To.Single( this ) );
 
-			PlaySound( $"grunt{Rand.Int( 1, 4 )}" );
+			PlaySound( $"grunt{Game.Random.Int( 1, 4 )}" );
 
 			SuccessiveKills = 0;
 			KillStreak = 0;
@@ -809,7 +809,7 @@ namespace Facepunch.Hover
 			ActiveChild?.BuildInput();
 		}
 
-		public override void FrameSimulate( Client client )
+		public override void FrameSimulate( IClient client )
 		{
 			if ( LifeState == LifeState.Alive )
 			{
@@ -825,7 +825,7 @@ namespace Facepunch.Hover
 			base.FrameSimulate( client );
 		}
 
-		public override void Simulate( Client client )
+		public override void Simulate( IClient client )
 		{
 			Projectiles.Simulate();
 
@@ -844,7 +844,7 @@ namespace Facepunch.Hover
 			{
 				if ( CanSelectWeapon( targetWeapon ) )
 				{
-					PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+					PlaySound( $"weapon.pickup{Game.Random.Int( 1, 4 )}" );
 					ActiveChild = targetWeapon;
 				}
 				else
@@ -853,7 +853,7 @@ namespace Facepunch.Hover
 
 					if ( ActiveChild != firstWeapon )
 					{
-						PlaySound( $"weapon.pickup{Rand.Int( 1, 4 )}" );
+						PlaySound( $"weapon.pickup{Game.Random.Int( 1, 4 )}" );
 						ActiveChild = firstWeapon;
 					}
 				}
@@ -862,7 +862,7 @@ namespace Facepunch.Hover
 			if ( LifeState != LifeState.Alive )
 				return;
 
-			if ( IsServer && Input.Released( InputButton.Drop ) )
+			if ( Game.IsServer && Input.Released( InputButton.Drop ) )
 			{
 				var spottedPlayers = 0;
 				var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 20000f )
@@ -905,7 +905,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( IsServer && Input.Released( InputButton.Use ) )
+			if ( Game.IsServer && Input.Released( InputButton.Use ) )
 			{
 				var station = FindInSphere( Position, 50f )
 					.OfType<StationAsset>()
@@ -921,7 +921,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( IsServer && Input.Released( InputButton.Drop ) )
+			if ( Game.IsServer && Input.Released( InputButton.Drop ) )
 			{
 				foreach ( var flag in All.OfType<FlagEntity>() )
 				{
@@ -951,7 +951,7 @@ namespace Facepunch.Hover
 				|| asset.Category == Sandbox.Clothing.ClothingCategory.Footwear
 				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
 			{
-				var clothing = new SceneModel( Map.Scene, model.Model, AnimatedLegs.Transform );
+				var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
 				AnimatedLegs.AddChild( "clothing", clothing );
 
 				LegsClothing.Add( new()
@@ -1059,7 +1059,7 @@ namespace Facepunch.Hover
 			if ( info.Attacker is HoverPlayer attacker && attacker != this )
 			{
 				// We can't take damage from our own team.
-				if ( attacker.Team == Team && !Game.AllowFriendlyFire )
+				if ( attacker.Team == Team && !HoverGame.AllowFriendlyFire )
 				{
 					return;
 				}
@@ -1123,9 +1123,9 @@ namespace Facepunch.Hover
 			bloodSplat.SetForward( 0, info.Force.Normal );
 
 			// Don't play grunt sounds too often - it can be annoying.
-			if ( Rand.Float() >= 0.5f )
+			if ( Game.Random.Float() >= 0.5f )
 			{
-				PlaySound( "grunt" + Rand.Int( 1, 4 ) );
+				PlaySound( "grunt" + Game.Random.Int( 1, 4 ) );
 			}
 
 			IsRegenerating = false;
@@ -1156,9 +1156,9 @@ namespace Facepunch.Hover
 
 			var panel = UI.FloatingDamage.Rent();
 
-			panel.SetLifeTime( Rand.Float( 2f, 3f ) );
+			panel.SetLifeTime( Game.Random.Float( 2f, 3f ) );
 			panel.SetDamage( damage );
-			panel.Velocity = Vector3.Up * Rand.Float( 30f, 50f ) + Vector3.Random * Rand.Float( 50f, 125f );
+			panel.Velocity = Vector3.Up * Game.Random.Float( 30f, 50f ) + Vector3.Random * Game.Random.Float( 50f, 125f );
 			panel.Position = position;
 		}
 
@@ -1170,7 +1170,7 @@ namespace Facepunch.Hover
 
 		public void RemoveRagdollEntity()
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				RemoveRagdollOnClient();
 			}

@@ -20,18 +20,15 @@
 {
     public Panel Container { get; set; }
 
-    public string RoundName => Game.Round?.RoundName ?? string.Empty;
-    public string TimeLeft => TimeSpan.FromSeconds( Game.Round?.TimeLeftSeconds ?? 0 ).ToString( @"mm\:ss" );
+    public string RoundName => HoverGame.Round?.RoundName ?? string.Empty;
+    public string TimeLeft => TimeSpan.FromSeconds( HoverGame.Round?.TimeLeftSeconds ?? 0 ).ToString( @"mm\:ss" );
 
     public override void Tick()
     {
-        var player = Local.Pawn;
+        var player = Game.LocalPawn;
         if ( player == null ) return;
 
-        var game = Game.Instance;
-        if ( game == null ) return;
-
-        var round = Game.Round;
+        var round = HoverGame.Round;
         if ( round == null ) return;
 
         if ( round.RoundDuration > 0 )

@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 				ExplosionEffect = "particles/weapons/projectile_plasma_impact.vpcf",
 				FlybySounds = FlybySounds,
 				IgnoreEntity = this,
-				LaunchSoundName = $"pulserifle.fire{Rand.Int( 1, 2 )}",
+				LaunchSoundName = $"pulserifle.fire{Game.Random.Int( 1, 2 )}",
 				MoveTowardTarget = 2000f,
 				HitSound = "barage.explode",
 				LifeTime = 10f,

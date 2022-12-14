@@ -28,7 +28,7 @@ namespace Gamelib.Network
 				GlobalName = name
 			};
 
-			if ( Host.IsServer && !_cache.ContainsKey( name ) )
+			if ( Game.IsServer && !_cache.ContainsKey( name ) )
 			{
 				var entity = new T()
 				{

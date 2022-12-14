@@ -167,7 +167,7 @@ namespace Facepunch.Hover
 			DoClientReload();
 		}
 
-		public override void Simulate( Client owner )
+		public override void Simulate( IClient owner )
 		{
 			// We can't use our weapons at all during the spawn protection period.
 			if ( Player.TimeSinceSpawn < 3f )
@@ -278,7 +278,7 @@ namespace Facepunch.Hover
 			TimeSincePrimaryAttack = 0;
 			TimeSinceSecondaryAttack = 0;
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			ShootEffects();
 			ShootBullet( 0.05f, 1.5f, Config.Damage, 3.0f );
@@ -297,7 +297,7 @@ namespace Facepunch.Hover
 				if ( !IsValidMeleeTarget( trace.Entity ) )
 					continue;
 
-				if ( IsServer )
+				if ( Game.IsServer )
 				{
 					using ( Prediction.Off() )
 					{
@@ -345,7 +345,7 @@ namespace Facepunch.Hover
 					impact?.SetForward( 0, trace.Normal );
 				}
 
-				if ( !IsServer )
+				if ( !Game.IsServer )
 					continue;
 
 				WeaponUtil.PlayFlybySounds( Owner, trace.Entity, trace.StartPosition, trace.EndPosition, bulletSize * 2f, bulletSize * 50f, FlybySounds );
@@ -381,7 +381,7 @@ namespace Facepunch.Hover
 
 		public override void CreateViewModel()
 		{
-			Host.AssertClient();
+			Game.AssertClient();
 
 			if ( string.IsNullOrEmpty( ViewModelPath ) )
 				return;
@@ -428,7 +428,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		protected virtual void ShootEffects()
 		{
-			Host.AssertClient();
+			Game.AssertClient();
 
 			if ( !IsMelee )
 			{

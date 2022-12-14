@@ -86,7 +86,7 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 			}

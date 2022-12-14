@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 
 			TimeSincePrimaryAttack = 0f;
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			ShootEffects();
 			PlaySound( $"generic.energy.fire3" );

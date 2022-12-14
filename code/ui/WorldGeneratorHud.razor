@@ -34,7 +34,7 @@
 
 	public override void Tick()
 	{
-		if ( Local.Pawn is not HoverPlayer player )
+		if ( Game.LocalPawn is not HoverPlayer player )
 			return;
 
 		if ( IsDeleting ) return;

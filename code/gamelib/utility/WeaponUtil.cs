@@ -74,9 +74,9 @@ namespace Gamelib.Utility
 
 		public static void PlayFlybySounds( Entity attacker, Entity victim, Vector3 start, Vector3 end, float minDistance, float maxDistance, List<string> sounds )
 		{
-			var sound = Rand.FromList( sounds );
+			var sound = Game.Random.FromList( sounds );
 
-			foreach ( var client in Client.All )
+			foreach ( var client in Game.Clients )
 			{
 				var pawn = client.Pawn as Entity;
 

@@ -91,9 +91,9 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public override void Simulate( Client owner )
+		public override void Simulate( IClient owner )
 		{
-			if ( IsClient && Input.Pressed( InputButton.Run ) )
+			if ( Game.IsClient && Input.Pressed( InputButton.Run ) )
 			{
 				if ( Prediction.FirstTime )
 				{
@@ -113,11 +113,11 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			PlayAttackAnimation();
 			ShootEffects();
-			PlaySound( $"longshot.fire{Rand.Int(1, 2)}" );
+			PlaySound( $"longshot.fire{Game.Random.Int(1, 2)}" );
 			ShootBullet( 0f, 5f, Config.Damage, 16.0f );
 
 			if ( AmmoClip == 0 )

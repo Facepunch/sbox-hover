@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 
 			TimeSincePrimaryAttack = 0f;
 
-			Rand.SetSeed( Time.Tick );
+			Game.SetRandomSeed( Time.Tick );
 
 			ShootEffects();
 			PlaySound( $"blaster.fire1" );
@@ -116,7 +116,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		public override void Simulate( Client owner )
+		public override void Simulate( IClient owner )
 		{
 			if ( IsSpinningUp && !Input.Down( InputButton.PrimaryAttack ) && Prediction.FirstTime )
 			{

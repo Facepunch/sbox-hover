@@ -92,14 +92,14 @@ namespace Facepunch.Hover
 				TrailEffect = TrailEffect,
 				Bounciness = 0.5f,
 				HitSound = HitSound,
-				LifeTime = Rand.Float( 0.5f, 1.5f ),
+				LifeTime = Game.Random.Float( 0.5f, 1.5f ),
 				Gravity = 50f
 			};
 			
 			bomb.SetModel( ProjectileModel );
 
-			var random = new Vector3( Rand.Float( -1f, 1f ), Rand.Float( -1f, 1f ), Rand.Float( 0.5f, 1f ) );
-			var direction = (Vector3.Up * Rand.Float( 0.6f, 1f )) + (random * Rand.Float( 1f, 1.5f ));
+			var random = new Vector3( Game.Random.Float( -1f, 1f ), Game.Random.Float( -1f, 1f ), Game.Random.Float( 0.5f, 1f ) );
+			var direction = (Vector3.Up * Game.Random.Float( 0.6f, 1f )) + (random * Game.Random.Float( 1f, 1.5f ));
 
 			bomb.Initialize( position, direction * 400f, 8f, OnBombHit );
 		}
@@ -118,7 +118,7 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 

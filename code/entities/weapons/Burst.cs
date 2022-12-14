@@ -78,7 +78,7 @@ namespace Facepunch.Hover
 				PlaySound( "blaster.empty" );
 		}
 
-		public override void Simulate( Client owner )
+		public override void Simulate( IClient owner )
 		{
 			base.Simulate( owner );
 
@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 					FireBulletNow = false;
 					BulletsToFire--;
 
-					Rand.SetSeed( Time.Tick );
+					Game.SetRandomSeed( Time.Tick );
 
 					ShootEffects();
 					PlaySound( $"generic.energy.fire3" );

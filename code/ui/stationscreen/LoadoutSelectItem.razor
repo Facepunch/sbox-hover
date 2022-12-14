@@ -42,7 +42,7 @@
             Name.Text = Loadout.Name;
             Icon.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/player-icon-highlighted.png" );
 
-            if ( Local.Pawn is HoverPlayer player )
+            if ( Game.LocalPawn is HoverPlayer player )
             {
                 var roleName = "icon_class_attacker";
 

@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Sandbox.Diagnostics;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
@@ -68,7 +69,7 @@ namespace Facepunch.Hover.UI
 		{
 			Current?.AddEntry( name, message, avatar, className, channel );
 
-			if ( !Global.IsListenServer )
+			if ( !Game.IsListenServer )
 			{
 				Log.Info( $"{name}: {message}" );
 			}
@@ -161,7 +162,7 @@ namespace Facepunch.Hover.UI
 			if ( NextTipTime )
 			{
 				ShowRandomTip();
-				NextTipTime = Rand.Float( 45f, 60f );
+				NextTipTime = Game.Random.Float( 45f, 60f );
 			}
 
 			if ( Input.Pressed( InputButton.Chat ) )
@@ -174,7 +175,7 @@ namespace Facepunch.Hover.UI
 
 		private void ShowRandomTip()
 		{
-			var tip = Rand.FromArray( Tips );
+			var tip = Game.Random.FromArray( Tips );
 
 			tip = Regex.Replace( tip, "(\\+iv_[a-zA-Z0-9]+)", ( match ) =>
 			{

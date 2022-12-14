@@ -1,18 +1,15 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
 using Gamelib.Extensions;
 using Sandbox.Effects;
+using Sandbox.Diagnostics;
 
 namespace Facepunch.Hover
 {
-	partial class Game : GameManager
+	partial class HoverGame : GameManager
 	{
-		public static Game Instance
-		{
-			get => Current as Game;
-		}
+		public static HoverGame Entity => Current as HoverGame;
 
 		[ConVar.Server( "hv_min_players", Help = "The minimum players required to start." )]
 		public static int MinPlayers { get; set; } = 2;
@@ -42,9 +39,9 @@ namespace Facepunch.Hover
 		{
 			Assert.NotNull( round );
 
-			Instance.InternalRound?.Finish();
-			Instance.InternalRound = round;
-			Instance.InternalRound?.Start();
+			Entity.InternalRound?.Finish();
+			Entity.InternalRound = round;
+			Entity.InternalRound?.Start();
 		}
 
 		[ConCmd.Server( "hv_respawn_screen" )]
@@ -138,19 +135,19 @@ namespace Facepunch.Hover
 			}
         }
 
-		public static BaseRound Round => Instance?.InternalRound;
+		public static BaseRound Round => Entity?.InternalRound;
 
 		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; set; }
 
 		private TimeUntil NextSecondTime { get; set; }
 		private ScreenEffects PostProcessing { get; set; }
 
-		public Game()
+		public HoverGame() : base()
 		{
-			if ( IsClient )
+			if ( Game.IsClient )
 			{
-				Local.Hud?.Delete( true );
-				Local.Hud = new UI.Hud();
+				Game.RootPanel?.Delete( true );
+				Game.RootPanel = new UI.Hud();
 
 				PostProcessing = new();
 
@@ -201,27 +198,22 @@ namespace Facepunch.Hover
 			base.MoveToSpawnpoint( pawn );
 		}
 
-		public override bool CanHearPlayerVoice( Client sourceClient, Client destinationClient )
+		public override bool CanHearPlayerVoice( IClient src, IClient dest )
 		{
-			Host.AssertServer();
+			Game.AssertServer();
 
-			var sourcePlayer = sourceClient.Pawn as HoverPlayer;
-			var destinationPlayer = destinationClient.Pawn as HoverPlayer;
+			var a = src.Pawn as HoverPlayer;
+			var b = dest.Pawn as HoverPlayer;
 
-			if ( sourcePlayer != null && destinationPlayer != null )
+			if ( a != null && b != null )
 			{
-				return sourcePlayer.Team == destinationPlayer.Team;
+				return a.Team == b.Team;
 			}
 
 			return false;
 		}
 
-		public override void DoPlayerNoclip( Client client )
-		{
-			// Do nothing. The player can't noclip in this mode.
-		}
-
-		public override void ClientDisconnect( Client client, NetworkDisconnectionReason reason )
+		public override void ClientDisconnect( IClient client, NetworkDisconnectionReason reason )
 		{
 			Round?.OnPlayerLeave( client.Pawn as HoverPlayer );
 
@@ -236,7 +228,7 @@ namespace Facepunch.Hover
 			base.ClientDisconnect( client, reason );
 		}
 
-		public override void ClientJoined( Client client )
+		public override void ClientJoined( IClient client )
 		{
 			var player = new HoverPlayer();
 			client.Pawn = player;
@@ -293,7 +285,7 @@ namespace Facepunch.Hover
 		[Event.Tick.Client]
 		private void ClientTick()
 		{
-			if ( Local.Pawn is not HoverPlayer player ) return;
+			if ( Game.LocalPawn is not HoverPlayer player ) return;
 
 			var pp = PostProcessing;
 
@@ -314,7 +306,7 @@ namespace Facepunch.Hover
 		[Event.Entity.PostSpawn]
 		private void OnEntityPostSpawn()
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				ChangeRound( new LobbyRound() );
 			}
@@ -322,7 +314,7 @@ namespace Facepunch.Hover
 
 		private void CheckMinimumPlayers()
 		{
-			if ( Client.All.Count >= MinPlayers )
+			if ( Game.Clients.Count >= MinPlayers )
 			{
 				if ( Round is LobbyRound || Round == null )
 				{

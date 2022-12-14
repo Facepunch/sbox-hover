@@ -65,7 +65,7 @@ namespace Facepunch.Hover
 
 			PlayAttackAnimation();
 			ShootEffects();
-			PlaySound( $"pulserifle.fire{Rand.Int(1, 2)}" );
+			PlaySound( $"pulserifle.fire{Game.Random.Int(1, 2)}" );
 
 			if ( AmmoClip == 0 )
 				PlaySound( "blaster.empty" );
@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
 
-			if ( IsServer )
+			if ( Game.IsServer )
             {
 				var position = projectile.Position;
 				var entities = WeaponUtil.GetBlastEntities( position, BlastRadius );

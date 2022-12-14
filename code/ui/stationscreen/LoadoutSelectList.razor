@@ -107,7 +107,7 @@
 
     protected override void OnAfterTreeRender( bool firstTime )
     {
-        if ( Local.Pawn is HoverPlayer player && firstTime )
+        if ( Game.LocalPawn is HoverPlayer player && firstTime )
         {
             Populate( player );
         }

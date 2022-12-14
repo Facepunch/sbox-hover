@@ -47,7 +47,7 @@ namespace Facepunch.Hover
 
 		public override void PlaceViewmodel()
 		{
-			if ( Global.IsRunningInVR )
+			if ( Game.IsRunningInVR )
 				return;
 
 			Camera.Main.SetViewModelCamera( 90f, 0.1f, 200f );

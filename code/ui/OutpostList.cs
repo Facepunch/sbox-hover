@@ -93,7 +93,7 @@ namespace Facepunch.Hover.UI
 
 		private bool ShouldHidePanel()
 		{
-			return (Game.Round is not PlayRound);
+			return (HoverGame.Round is not PlayRound);
 		}
 	}
 }
