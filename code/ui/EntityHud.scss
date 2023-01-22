@@ -59,28 +59,28 @@ EntityHudAnchor {
 }
 
 EntityHudIcon {
-  margin-bottom: 4px;
-  height: 64px;
-  width: 64px;
-
-  &.hidden {
-    display: none;
-  }
-
-  &.dependency {
-    width: 64px;
-    height: 64px;
-  }
-
-  &.generator {
-    width: 64px;
-    height: 64px;
-  }
-
-  &.power {
-    width: 48px;
+    margin-bottom: 4px;
     height: 48px;
-  }
+    width: 48px;
+
+    &.hidden {
+        display: none;
+    }
+
+    &.dependency {
+        width: 48px;
+        height: 48px;
+    }
+
+    &.generator {
+        width: 48px;
+        height: 48px;
+    }
+
+    &.power {
+        width: 48px;
+        height: 48px;
+    }
 }
 
 EntityHudBar {
@@ -104,127 +104,111 @@ EntityHudBar {
 }
 
 OutpostHud {
-  min-width: 90px;
-  display: flex;
-  align-items: center;
-
-  .container {
-    //border: $blackPanelBorder;
-    //background-color: $panel-bg-light;
-    transition: all 0.2s ease-out;
-    padding: 2px;
-
-    .bar {
-      transition: all 0.2s ease-out;
-      position: absolute;
-      border-radius: 2px;
-      left: 2px;
-      top: 2px;
-      min-width: 5%;
-      opacity: 0.2;
-      height: 100%;
-
-      &.hidden {
-        display: none;
-      }
-    }
-
-    .content {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      margin-left: 4px;
-      margin-right: 4px;
-      padding: 2px;
-
-      .circle {
-        background-color: $panel-bg-light;
-        transition: all 0.2s ease-out;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 8px solid white;
-        border-radius: 50%;
-        opacity: 0.8;
-        width: 128px;
-        height: 128px;
-
-        .letter {
-          transition: all 0.2s ease-out;
-          font-family: $fontBold;
-          font-size: 64px;
-          color: white;
-        }
-      }
-
-      .name {
-        transition: all 0.2s ease-out;
-        text-shadow: $blackShadow;
-        font-family: $mainFont;
-        text-align: center;
-        font-size: 56px;
-        color: white;
-
-        &.hidden {
-          display: none;
-        }
-      }
-    }
-  }
-
-  &.team_red {
-    transition: all 0.2s ease-out;
+    min-width: 90px;
+    display: flex;
+    align-items: center;
 
     .container {
-      .bar {
-        //background-color: $redTeamColor;
-        //box-shadow: $redTeamBackground;
-      }
+        padding: 2px;
 
-      .content {
-        .circle {
-          background-color: $red;
-          border-color: $red;
+        .bar {
+            position: absolute;
+            border-radius: 2px;
+            left: 2px;
+            top: 2px;
+            min-width: 5%;
+            opacity: 0.2;
+            height: 100%;
 
-          .letter {
-            color: $dark-grey;
-          }
+            &.hidden {
+                display: none;
+            }
         }
 
-        .name {
-          text-shadow: $redTeamShadow;
-          color: $redTeamColor;
+        .content {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-left: 4px;
+            margin-right: 4px;
+            padding: 2px;
+
+            .circle {
+                background-color: $panel-bg-light;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: 4px solid white;
+                border-radius: 50%;
+                opacity: 0.8;
+                width: 96px;
+                height: 96px;
+
+                .letter {
+                    font-family: $fontBold;
+                    font-size: 48px;
+                    color: white;
+                }
+            }
+
+            .name {
+                text-shadow: $blackShadow;
+                font-family: $mainFont;
+                text-align: center;
+                font-size: 32px;
+                color: white;
+
+                &.hidden {
+                    display: none;
+                }
+            }
         }
-      }
     }
-  }
 
-  &.team_blue {
-    transition: all 0.2s ease-out;
+    &.team_red {
+        .container {
+            .content {
+                .circle {
+                    background-color: $red;
+                    border-color: $red;
 
-    .container {
-      .content {
-        .circle {
-          background-color: $blue;
-          border-color: $blue;
+                    .letter {
+                        color: $dark-grey;
+                    }
+                }
 
-          .letter {
-            color: $dark-grey;
-          }
+                .name {
+                    text-shadow: $redTeamShadow;
+                    color: $redTeamColor;
+                }
+            }
         }
-      }
-
-      .bar {
-        box-shadow: $blueTeamBackground;
-        background-color: $blueTeamColor;
-      }
-
-      .name {
-        text-shadow: $blueTeamShadow;
-        color: $blueTeamColor;
-      }
     }
-  }
+
+    &.team_blue {
+        .container {
+            .content {
+                .circle {
+                    background-color: $blue;
+                    border-color: $blue;
+
+                    .letter {
+                        color: $dark-grey;
+                    }
+                }
+            }
+
+            .bar {
+                box-shadow: $blueTeamBackground;
+                background-color: $blueTeamColor;
+            }
+
+            .name {
+                text-shadow: $blueTeamShadow;
+                color: $blueTeamColor;
+            }
+        }
+    }
 }

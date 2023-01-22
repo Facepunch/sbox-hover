@@ -1,0 +1,58 @@
+﻿@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using Facepunch.Hover;
+
+@namespace Facepunch.Hover.UI
+@attribute [StyleSheet( "/ui/InputHints.scss" )]
+@inherits Panel
+
+@code
+{
+	public static InputHints Current { get; private set; }
+
+	public Panel Container { get; private set; }
+
+	public InputHints()
+	{
+		StyleSheet.Load( "/ui/InputHints.scss" );
+		Container = Add.Panel( "container" );
+		Current = this;
+
+		Update();
+	}
+
+	public void Update()
+	{
+		Container.DeleteChildren( true );
+
+        if ( Game.LocalPawn is HoverPlayer player )
+		{
+            AddHint( InputButton.PrimaryAttack, "Attack" );
+            AddHint( InputButton.SecondaryAttack, "Jetpack" );
+            AddHint( InputButton.Jump, "Hold to Ski" );
+            AddHint( InputButton.Drop, "Spot Enemy" );
+            AddHint( InputButton.Reload, "Reload" );
+            AddHint( InputButton.Use, "Interact" );
+		}
+	}
+
+	private InputHint AddHint( InputButton button, string name )
+	{
+		var hint = Container.AddChild<InputHint>();
+		hint.SetButton( button );
+		hint.SetContent( name );
+		return hint;
+	}
+
+	public override void Tick()
+	{
+        UpdateDynamicHints();
+		base.Tick();
+	}
+
+	private void UpdateDynamicHints()
+	{
+        if ( Game.LocalPawn is not HoverPlayer player ) return;
+	}
+}

@@ -89,7 +89,7 @@ namespace Facepunch.Hover
 			if ( Team == Team.None || !IsPowered || !NextSensePlayers )
 				return;
 
-			var disruptors = Entity.FindInSphere( Position, Range )
+			var disruptors = FindInSphere( Position, Range )
 				.OfType<Disruptor>()
 				.Where( IsEnemyDisruptor );
 
@@ -98,7 +98,7 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			var players = Entity.FindInSphere( Position, Range )
+			var players = FindInSphere( Position, Range )
 				.OfType<HoverPlayer>()
 				.Where( IsValidTarget );
 

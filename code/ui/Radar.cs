@@ -73,9 +73,6 @@ namespace Facepunch.Hover.UI
 			if ( Game.LocalPawn is not HoverPlayer localPlayer )
 				return false;
 
-			if ( player.Team == localPlayer.Team )
-				return false;
-
 			var radarRange = 8000f;
 
 			if ( player.Position.Distance( localPlayer.Position ) > radarRange )

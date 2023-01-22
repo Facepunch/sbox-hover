@@ -6,50 +6,61 @@
 @using System.Collections.Generic;
 
 @namespace Facepunch.Hover.UI
-@attribute[StyleSheet( "/ui/AwardItem.scss" )]
+@attribute [StyleSheet( "/ui/AwardItem.scss" )]
 @inherits Panel
 
 <root>
     <div class="header">
         <img @ref="Icon" class="icon" />
-        <label @ref="Title" class="title"></label>
+        <label class="title">@Title</label>
     </div>
-    <label @ref="Text" class="text"></label>
+    <label class="text">@Text</label>
     <div class="reward">
-        <div class="icon"></div>
-        <label @ref="Reward" class="amount">0</label>
+        <div @ref="Icon" class="icon"></div>
+        <label class="amount">@Reward</label>
     </div>
 </root>
 
 @code
 {
-	public float EndTime { get; set; }
-	public Label Reward { get; set; }
-	public Label Title { get; set; }
-	public Label Text { get; set; }
-	public Image Icon { get; set; }
+    public float EndTime { get; set; }
+    public string Reward { get; set; }
+    public Texture Texture { get; set; }
+    public string Title { get; set; }
+    public string Text { get; set; }
+    public Image Icon { get; set; }
 
-	public void Update( string title, string text )
-	{
-		Title.Text = title;
-		Text.Text = text;
-	}
+    public void Update( string title, string text )
+    {
+        Title = title;
+        Text = text;
+    }
 
-	public void SetIcon( Texture texture )
-	{
-		Icon.Texture = texture;
-	}
+    public void SetIcon( Texture texture )
+    {
+        Texture = texture;
+    }
 
-	public void SetReward( int amount )
-	{
-		Reward.Text = $"{amount:C0}";
-	}
+    public void SetReward( int amount )
+    {
+        Reward = $"{amount:C0}";
+    }
 
-	public override void Tick()
-	{
-		if ( !IsDeleting && Time.Now >= EndTime )
-		{
-			Delete();
-		}
-	}
+    public override void Tick()
+    {
+        if ( !IsDeleting && Time.Now >= EndTime )
+        {
+            Delete();
+        }
+    }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        if ( Texture is not null )
+        {
+            Icon.Texture = Texture;
+        }
+
+        base.OnAfterTreeRender( firstTime );
+    }
 }

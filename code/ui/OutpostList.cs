@@ -3,6 +3,7 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Facepunch.Hover.UI
 {
@@ -53,7 +54,7 @@ namespace Facepunch.Hover.UI
 	{
 		public static OutpostList Instance { get; private set; }
 		public static List<OutpostVolume> Outposts => new();
-		public List<OutpostItem> Items { get; private set; }
+		public HashSet<OutpostItem> Items { get; private set; }
 		
 		public Panel Container { get; private set; }
 
@@ -74,8 +75,9 @@ namespace Facepunch.Hover.UI
 			Container = Add.Panel( "container" );
 			Items = new();
 
-			foreach ( var outpost in Outposts )
+			foreach ( var outpost in Entity.All.OfType<OutpostVolume>() )
 			{
+				Outposts.Add( outpost );
 				AddItem( outpost );
 			}
 

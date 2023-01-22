@@ -22,10 +22,12 @@ namespace Facepunch.Hover
 			Camera.Rotation = player.EyeRotation;
 			Camera.ZNear = 4f;
 
+			var targetDefaultFov = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
+
 			if ( player.ActiveChild is Longshot longshot && longshot.IsScoped )
 				Camera.FieldOfView = Camera.FieldOfView.LerpTo( 10f, Time.Delta * 4f );
 			else
-				Camera.FieldOfView = Camera.FieldOfView.LerpTo( 90f, Time.Delta * 4f );
+				Camera.FieldOfView = Camera.FieldOfView.LerpTo( targetDefaultFov, Time.Delta * 4f );
 
 			LastPosition = Camera.Position;
 		}

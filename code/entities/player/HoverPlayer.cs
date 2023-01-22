@@ -267,7 +267,6 @@ namespace Facepunch.Hover
 		private Sound WindLoop { get; set; }
 		private Sound SkiLoop { get; set; }
 		private float WalkBob { get; set; }
-		private float FOV { get; set; }
 
 		public bool HasTeam
 		{
@@ -622,6 +621,8 @@ namespace Facepunch.Hover
 
 			HoverGame.Entity?.MoveToSpawnpoint( this );
 			ResetInterpolation();
+
+			UI.InputHints.UpdateOnClient();
 		}
 
 		public override void OnNewModel( Model model )
@@ -1036,12 +1037,6 @@ namespace Facepunch.Hover
 
 			Camera.Position += up * MathF.Sin( WalkBob ) * speed * 2f;
 			Camera.Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1f;
-
-			speed = (speed - 0.7f).Clamp( 0f, 1f ) * 3f;
-
-			FOV = FOV.LerpTo( speed * 30f * MathF.Abs( forwardSpeed ), Time.Delta * 2f );
-
-			Camera.FieldOfView += (FOV * 0.2f);
 		}
 
 		public override void TakeDamage( DamageInfo info )

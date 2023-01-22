@@ -24,6 +24,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="ui\InputHint.razor" />
+	  <None Remove="ui\InputHints.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="Sandbox.Internal.GlobalGameNamespace" Static="true" />
 	</ItemGroup>
 
@@ -35,7 +40,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll"/>
+		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.System.dll" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.Engine.dll" />
 		<Reference Include="..\..\..\bin\managed/Sandbox.Game.dll" />
@@ -47,6 +52,15 @@
   <ItemGroup>
 		<ProjectReference Include="S:\Steam\steamapps\common\sbox\addons\base\code\base.csproj" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ui\InputHint.scss">
+      <DependentUpon>%(Filename).cs</DependentUpon>
+    </None>
+    <None Update="ui\InputHints.scss">
+      <DependentUpon>%(Filename).cs</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>
