@@ -42,7 +42,7 @@ Crosshair {
   }
 
   &.shotgun {
-    opacity: 0.2;
+    opacity: 0.7;
     transition: opacity 0.5s linear;
 
     .el0 {
@@ -95,7 +95,7 @@ Crosshair {
   }
 
   &.semiautomatic {
-    opacity: 0.3;
+    opacity: 0.7;
     transition: opacity 0.3s ease-out;
 
     .el0,
@@ -175,7 +175,7 @@ Crosshair {
   }
 
   &.automatic {
-    opacity: 0.5;
+    opacity: 0.7;
     transition: opacity 0.5s ease-in;
 
     .el0 {

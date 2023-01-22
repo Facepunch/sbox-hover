@@ -1,4 +1,5 @@
-﻿using Gamelib.Utility;
+﻿using Facepunch.Hover.UI;
+using Gamelib.Utility;
 using Sandbox;
 using System.Collections.Generic;
 
@@ -111,6 +112,16 @@ namespace Facepunch.Hover
 			PlaySound( "player.melee" );
 		}
 
+		private Crosshair CrosshairPanel { get; set; }
+
+		public virtual void CreateCrosshair()
+		{
+			if ( Game.RootPanel == null ) return;
+
+			CrosshairPanel = Game.RootPanel.AddChild<Crosshair>();
+			CrosshairPanel.AddClass( CrosshairClass );
+		}
+
 		public override bool CanReload()
 		{
 			if ( CanMeleeAttack && TimeSinceMeleeAttack < (1 / MeleeRate) )
@@ -126,11 +137,23 @@ namespace Facepunch.Hover
 			return base.CanReload();
 		}
 
+		public override void ActiveEnd( Entity ent, bool dropped )
+		{
+			CrosshairPanel?.Delete( true );
+
+			base.ActiveEnd( ent, dropped );
+		}
+
 		public override void ActiveStart( Entity owner )
 		{
 			base.ActiveStart( owner );
 
 			TimeSinceDeployed = 0f;
+
+			if ( Game.IsClient )
+			{
+				CreateCrosshair();
+			}
 		}
 
 		public override void Spawn()
@@ -436,6 +459,7 @@ namespace Facepunch.Hover
 			}
 
 			ViewModelEntity?.SetAnimParameter( "fire", true );
+			CrosshairPanel?.CreateEvent( "fire" );
 		}
 
 		protected virtual ModelEntity GetEffectEntity()
@@ -446,6 +470,13 @@ namespace Facepunch.Hover
 		protected virtual bool IsValidMeleeTarget( Entity target )
 		{
 			return target is HoverPlayer;
+		}
+
+		protected override void OnDestroy()
+		{
+			CrosshairPanel?.Delete( true );
+
+			base.OnDestroy();
 		}
 
 		protected void DealDamage( Entity target, Vector3 position, Vector3 force )

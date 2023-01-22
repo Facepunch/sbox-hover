@@ -11,7 +11,7 @@ namespace Facepunch.Hover.UI
 		public Panel ChargeForegroundBar;
 		public Panel Charge;
 
-		private int _fireCounter;
+		private int FireCounter;
 
 		public Crosshair()
 		{
@@ -50,16 +50,16 @@ namespace Facepunch.Hover.UI
 
 			this.PositionAtCrosshair();
 
-			SetClass( "fire", _fireCounter > 0 );
+			SetClass( "fire", FireCounter > 0 );
 
-			if ( _fireCounter > 0 )
-				_fireCounter--;
+			if ( FireCounter > 0 )
+				FireCounter--;
 		}
 
 		[PanelEvent]
 		public void FireEvent()
 		{
-			_fireCounter += 2;
+			FireCounter += 2;
 		}
 	}
 }
