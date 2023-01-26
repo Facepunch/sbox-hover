@@ -1348,7 +1348,7 @@ namespace Facepunch.Hover
 			{
 				var speed = Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 1f );
 				speed = Math.Min( Easing.EaseIn( speed ) * 60f, 60f );
-				SpeedLines.SetPosition( 1, new Vector3( speed, 0f, 0f ) );
+				SpeedLines.Set( "speed_lines", speed );
 			}
 
 			if ( IsLocalPawn )
