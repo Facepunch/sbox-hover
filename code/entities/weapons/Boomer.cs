@@ -25,27 +25,21 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_boomer", Title = "Boomer" )]
-	partial class Boomer : BulletDropWeapon<BulletDropProjectile>
+	partial class Boomer : ProjectileWeapon<Projectile>
 	{
 		public override WeaponConfig Config => new BoomerConfig();
-		public override string ImpactEffect => "particles/weapons/boomer/boomer_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/boomer/boomer_projectile.vpcf";
+		public override string ProjectileData => "boomer";
 		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 1;
 		public override string MuzzleFlashEffect => "particles/weapons/boomer/boomer_muzzleflash.vpcf";
 		public override string CrosshairClass => "shotgun";
-		public override string HitSound => "barage.explode";
 		public override string DamageType => "blast";
 		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
-		public override float Speed => 1300f;
-		public override float Gravity => 10f;
 		public override float InheritVelocity => 0.5f;
 		public override bool CanMeleeAttack => true;
-		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 1;
 		public override float ReloadTime => 2.3f;
-		public override float ProjectileLifeTime => 1.5f;
 		public virtual float BlastRadius => 300f;
 
 		public override void Spawn()
@@ -92,10 +86,10 @@ namespace Facepunch.Hover
 			return base.ModifyDamage( victim, damage );
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/boomer/boomer_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
+			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Data.Radius );
 
 			if ( Game.IsServer )
             {

@@ -1,0 +1,13 @@
+{
+  "FaceDirection": true,
+  "LifeTime": "1.50,5.00,0",
+  "Gravity": "10.00,50.00,0",
+  "Speed": "1300.00,2000.00,0",
+  "Radius": 8,
+  "ModelName": "models/weapons/barage_grenade/barage_grenade.vmdl",
+  "ExplosionEffect": "particles/weapons/boomer/boomer_impact.vpcf",
+  "FollowEffect": null,
+  "TrailEffect": "particles/weapons/boomer/boomer_projectile.vpcf",
+  "LaunchSound": null,
+  "HitSound": "sound/weapons/barage.explode.sound"
+}

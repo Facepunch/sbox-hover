@@ -8,7 +8,7 @@ using System.Linq;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class RazorProjectile : BulletDropProjectile
+	public partial class RazorProjectile : Projectile
 	{
 		[Net, Predicted] public bool HasTarget { get; set; }
 		[Net, Predicted] public HoverPlayer Target { get; set; }
@@ -22,9 +22,9 @@ namespace Facepunch.Hover
 		{
 			TrailColor = Color.Green;
 
-			if ( !string.IsNullOrEmpty( TrailEffect ) )
+			if ( !string.IsNullOrEmpty( Data.TrailEffect ) )
 			{
-				Trail = Particles.Create( TrailEffect, this );
+				Trail = Particles.Create( Data.TrailEffect, this );
 
 				if ( !string.IsNullOrEmpty( Attachment ) )
 					Trail.SetEntityAttachment( 0, this, Attachment );
@@ -34,17 +34,19 @@ namespace Facepunch.Hover
 				Trail.SetPosition( 1, TrailColor * 255f );
 			}
 
-			if ( !string.IsNullOrEmpty( FollowEffect ) )
+			if ( !string.IsNullOrEmpty( Data.FollowEffect ) )
 			{
-				Follower = Particles.Create( FollowEffect, this );
+				Follower = Particles.Create( Data.FollowEffect, this );
 				Follower.SetPosition( 1, TrailColor * 255f );
 			}
 
-			if ( !string.IsNullOrEmpty( LaunchSoundName ) )
-				LaunchSound = PlaySound( LaunchSoundName );
+			if ( !string.IsNullOrEmpty( Data.LaunchSound ) )
+			{
+				LaunchSound = PlaySound( Data.LaunchSound );
+			}
 		}
 
-		protected override void ClientTick()
+		protected override void PreRender()
 		{
 			if ( Target.IsValid() )
 				TrailColor = Color.Lerp( TrailColor, Color.Red, Time.Delta * 10f );
@@ -53,14 +55,14 @@ namespace Facepunch.Hover
 
 			Trail?.SetPosition( 1, TrailColor * 255f );
 
-			base.ClientTick();
+			base.PreRender();
 		}
 
 		protected override Vector3 GetTargetPosition()
 		{
 			var newPosition = base.GetTargetPosition();
 
-			var targets = Entity.FindInSphere( Position, SeekRadius )
+			var targets = FindInSphere( Position, SeekRadius )
 				.OfType<HoverPlayer>()
 				.Where( IsValidTarget );
 
@@ -93,9 +95,9 @@ namespace Facepunch.Hover
 				return;
 			}
 
-			if ( !string.IsNullOrEmpty( ExplosionEffect ) )
+			if ( !string.IsNullOrEmpty( Data.ExplosionEffect ) )
 			{
-				var explosion = Particles.Create( ExplosionEffect );
+				var explosion = Particles.Create( Data.ExplosionEffect );
 
 				if ( explosion != null )
 				{
@@ -105,8 +107,10 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( !string.IsNullOrEmpty( HitSound ) )
-				Audio.Play( HitSound, Position );
+			if ( !string.IsNullOrEmpty( Data.HitSound ) )
+			{
+				Audio.Play( Data.HitSound, Position );
+			}
 		}
 
 		private bool IsValidTarget( HoverPlayer player )

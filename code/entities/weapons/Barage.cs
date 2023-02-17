@@ -25,25 +25,20 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_barage", Title = "Barage" )]
-	partial class Barage : BulletDropWeapon<BouncingProjectile>
+	partial class Barage : ProjectileWeapon<BouncingProjectile>
 	{
 		public override WeaponConfig Config => new BarageConfig();
-		public override string ImpactEffect => "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf";
+		public override string ProjectileData => "barage";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override string CrosshairClass => "shotgun";
-		public override string HitSound => "barage.explode";
 		public override string DamageType => "blast";
-		public override float ProjectileLifeTime => 2f;
 		public override float InheritVelocity => 0.5f;
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
 		public override bool CanMeleeAttack => true;
-		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 3;
 		public override float ReloadTime => 3f;
-		public override float Gravity => 35f;
 		public virtual float BlastRadius => 500f;
 
 		public override void Spawn()
@@ -96,7 +91,7 @@ namespace Facepunch.Hover
 			return base.ModifyDamage( victim, damage );
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			if ( Game.IsServer )
 			{

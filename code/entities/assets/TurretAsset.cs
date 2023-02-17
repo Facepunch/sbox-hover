@@ -58,23 +58,15 @@ namespace Facepunch.Hover
 
 		public void FireProjectile( HoverPlayer target, Vector3 direction )
 		{
-			var projectile = new TurretProjectile()
-			{
-				FollowEffect = "particles/weapons/projectile_plasma.vpcf",
-				TrailEffect = "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
-				ExplosionEffect = "particles/weapons/projectile_plasma_impact.vpcf",
-				FlybySounds = FlybySounds,
-				IgnoreEntity = this,
-				LaunchSoundName = $"pulserifle.fire{Game.Random.Int( 1, 2 )}",
-				MoveTowardTarget = 2000f,
-				HitSound = "barage.explode",
-				LifeTime = 10f,
-				Target = target,
-				Gravity = 0f
-			};
+			var projectile = Projectile.Create<TurretProjectile>( "turret" );
+
+			projectile.FlybySounds = FlybySounds;
+			projectile.IgnoreEntity = this;
+			projectile.MoveTowardTarget = 2000f;
+			projectile.Target = target;
 
 			var muzzle = GetAttachment( "muzzle" );
-			projectile.Initialize( muzzle.Value.Position, direction * ProjectileSpeed, 32f, OnProjectileHit );
+			projectile.Initialize( muzzle.Value.Position, direction * ProjectileSpeed, OnProjectileHit );
 		}
 
 		public Vector3 GetTargetPosition( HoverPlayer target )
@@ -126,7 +118,7 @@ namespace Facepunch.Hover
 			FireRate = 3f;
 		}
 
-		private void OnProjectileHit( BulletDropProjectile projectile, Entity victim )
+		private void OnProjectileHit( Projectile projectile, Entity victim )
 		{
 			var blastPosition = projectile.Position;
 

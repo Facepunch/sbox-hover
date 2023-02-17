@@ -25,27 +25,22 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_pulsar", Title = "Pulsar" )]
-	partial class Pulsar : BulletDropWeapon<BulletDropProjectile>
+	partial class Pulsar : ProjectileWeapon<Projectile>
 	{
 		public override WeaponConfig Config => new PulsarConfig();
-		public override float ProjectileRadius => 20f;
-		public override string ImpactEffect => "particles/weapons/fusion_rifle/fusion_rifle_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf";
+		public override string ProjectileData => "pulsar";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string CrosshairClass => "semiautomatic";
 		public override float InheritVelocity => 0.5f;
-		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 0.5f;
 		public override float SecondaryRate => 1.0f;
-		public override float Speed => 3500f;
 		public override float Spread => 0f;
 		public override string DamageType => "blast";
 		public override int ClipSize => 1;
 		public override bool ReloadAnimation => false;
 		public override bool CanMeleeAttack => true;
 		public override float ReloadTime => 1f;
-		public override float Gravity => 0f;
 		public virtual float BlastRadius => 400f;
 
 		public override void Spawn()
@@ -84,10 +79,10 @@ namespace Facepunch.Hover
 			anim.HoldType = AnimationHelperWithLegs.HoldTypes.Rifle;
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/fusion_rifle/fusion_rifle_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
+			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Data.Radius );
 
 			if ( Game.IsServer )
             {

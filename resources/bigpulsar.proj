@@ -1,0 +1,13 @@
+{
+  "FaceDirection": true,
+  "LifeTime": "5.00,5.00,0",
+  "Gravity": "0.00,50.00,0",
+  "Speed": "3000.00,2000.00,0",
+  "Radius": 20,
+  "ModelName": null,
+  "ExplosionEffect": "particles/weapons/big_pulsar/big_pulsar_impact.vpcf",
+  "FollowEffect": null,
+  "TrailEffect": "particles/weapons/big_pulsar/big_pulsar_projectile.vpcf",
+  "LaunchSound": null,
+  "HitSound": "sound/weapons/barage.explode.sound"
+}

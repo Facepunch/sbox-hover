@@ -102,6 +102,7 @@
     "Public": true,
     "GeneralExtensions": false,
     "TargettedExtensions": true,
-    "ExtensionApiVersion": 1001
+    "ExtensionApiVersion": 1001,
+    "CsProjName": ""
   }
 }

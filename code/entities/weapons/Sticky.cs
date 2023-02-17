@@ -25,26 +25,21 @@ namespace Facepunch.Hover
 	}
 
 	[Library( "hv_sticky", Title = "Sticky" )]
-	partial class Sticky : BulletDropWeapon<StickyGrenade>
+	partial class Sticky : ProjectileWeapon<StickyGrenade>
 	{
 		public override WeaponConfig Config => new StickyConfig();
-		public override string ImpactEffect => "particles/weapons/sticky/sticky_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/sticky/sticky_projectile.vpcf";
 		public override int ViewModelMaterialGroup => 1;
+		public override string ProjectileData => "sticky";
 		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/sticky/sticky_muzzleflash.vpcf";
 		public override string DamageType => "blast";
 		public override string CrosshairClass => "shotgun";
-		public override string HitSound => "barage.explode";
 		public override float PrimaryRate => 2.0f;
 		public override float SecondaryRate => 1.0f;
-		public override float ProjectileLifeTime => 10f;
 		public override float InheritVelocity => 0.5f;
 		public override bool CanMeleeAttack => true;
-		public override string ProjectileModel => "models/weapons/barage_grenade/barage_grenade.vmdl";
 		public override int ClipSize => 2;
 		public override float ReloadTime => 3f;
-		public override float Gravity => 35f;
 		public virtual float BlastRadius => 200f;
 
 		public override void Spawn()
@@ -84,7 +79,7 @@ namespace Facepunch.Hover
 			anim.HoldType = AnimationHelperWithLegs.HoldTypes.Rifle;
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			if ( Game.IsServer )
 			{

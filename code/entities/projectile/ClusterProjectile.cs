@@ -4,7 +4,7 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class ClusterProjectile : BulletDropProjectile
+	public partial class ClusterProjectile : Projectile
 	{
 		public TimeSince TimeSinceCreated { get; private set; }
 

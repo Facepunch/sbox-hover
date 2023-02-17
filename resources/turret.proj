@@ -1,0 +1,13 @@
+{
+  "FaceDirection": true,
+  "LifeTime": "10.00,5.00,0",
+  "Gravity": "0.00,50.00,0",
+  "Speed": "2000.00,2000.00,0",
+  "Radius": 32,
+  "ModelName": null,
+  "ExplosionEffect": "particles/weapons/projectile_plasma_impact.vpcf",
+  "FollowEffect": "particles/weapons/projectile_plasma.vpcf",
+  "TrailEffect": "particles/weapons/muzzle_flash_plasma/trail_effect.vpcf",
+  "LaunchSound": "sound/weapons/pulserifle.fire1.sound",
+  "HitSound": "sound/weapons/barage.explode.sound"
+}

@@ -1,0 +1,13 @@
+{
+  "FaceDirection": true,
+  "LifeTime": "5.00,5.00,0",
+  "Gravity": "0.00,50.00,0",
+  "Speed": "3500.00,2000.00,0",
+  "Radius": 8,
+  "ModelName": null,
+  "ExplosionEffect": null,
+  "FollowEffect": null,
+  "TrailEffect": "particles/weapons/fusion_rifle/fusion_rifle_projectile.vpcf",
+  "LaunchSound": null,
+  "HitSound": "sound/weapons/barage.explode.sound"
+}

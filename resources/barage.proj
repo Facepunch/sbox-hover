@@ -1,0 +1,13 @@
+{
+  "FaceDirection": true,
+  "LifeTime": "2.00,5.00,0",
+  "Gravity": "35.00,50.00,0",
+  "Speed": "2000.00,2000.00,0",
+  "Radius": 8,
+  "ModelName": "models/weapons/barage_grenade/barage_grenade.vmdl",
+  "ExplosionEffect": "particles/weapons/grenade_launcher/grenade_launcher_impact.vpcf",
+  "FollowEffect": null,
+  "TrailEffect": "particles/weapons/grenade_launcher/grenade_launcher_projectile.vpcf",
+  "LaunchSound": null,
+  "HitSound": "sound/weapons/barage.explode.sound"
+}

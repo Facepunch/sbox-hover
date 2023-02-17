@@ -29,16 +29,13 @@ namespace Facepunch.Hover
 	partial class BigPulsar : Pulsar
 	{
 		public override WeaponConfig Config => new BigPulsarConfig();
-		public override string ImpactEffect => "particles/weapons/big_pulsar/big_pulsar_impact.vpcf";
-		public override string TrailEffect => "particles/weapons/big_pulsar/big_pulsar_projectile.vpcf";
 		public override int ViewModelMaterialGroup => 1;
+		public override string ProjectileData => "bigpulsar";
 		public override float InheritVelocity => 0.5f;
 		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/big_pulsar/big_pulsar_muzzleflash.vpcf";
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 5000f;
-		public override float ProjectileLifeTime => 5f;
-		public override float Speed => 3000f;
 		public override float ReloadTime => 1.2f;
 
 		public override void Spawn()
@@ -48,10 +45,10 @@ namespace Facepunch.Hover
 			SetMaterialGroup( 1 );
 		}
 
-		protected override void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			var explosion = Particles.Create( "particles/weapons/big_pulsar/big_pulsar_explosion.vpcf" );
-			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Radius );
+			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Data.Radius );
 
 			if ( Game.IsServer )
             {

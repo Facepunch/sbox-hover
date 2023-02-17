@@ -3,7 +3,7 @@
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class TurretProjectile : BulletDropProjectile
+	public partial class TurretProjectile : Projectile
 	{
 		public float MoveTowardTarget { get; set; }
 		public ModelEntity Target { get; set; }

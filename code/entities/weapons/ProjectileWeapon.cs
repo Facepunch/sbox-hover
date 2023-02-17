@@ -4,16 +4,10 @@ using System;
 
 namespace Facepunch.Hover
 {
-	public abstract partial class BulletDropWeapon<T> : Weapon where T : BulletDropProjectile, new()
+	public abstract partial class ProjectileWeapon<T> : Weapon where T : Projectile, new()
 	{
-		public virtual string ProjectileModel => "";
-		public virtual float ProjectileRadius => 10f;
-		public virtual float ProjectileLifeTime => 10f;
-		public virtual string TrailEffect => null;
-		public virtual string HitSound => null;
+		public virtual string ProjectileData => "";
 		public virtual float InheritVelocity => 0f;
-		public virtual float Gravity => 50f;
-		public virtual float Speed => 2000f;
 		public virtual float Spread => 0.05f;
 
 		public override void AttackPrimary()
@@ -30,20 +24,17 @@ namespace Facepunch.Hover
 			if ( Owner is not HoverPlayer player )
 				return;
 
-			var projectile = new T()
+			if ( string.IsNullOrEmpty( ProjectileData ) )
 			{
-				ExplosionEffect = ImpactEffect,
-				FaceDirection = true,
-				IgnoreEntity = this,
-				FlybySounds = FlybySounds,
-				TrailEffect = TrailEffect,
-				Simulator = player.Projectiles,
-				Attacker = player,
-				HitSound = HitSound,
-				LifeTime = ProjectileLifeTime,
-				Gravity = Gravity,
-				ModelName = ProjectileModel
-			};
+				throw new Exception( $"Projectile Data has not been set for {this}!" );
+			}
+
+			var projectile = Projectile.Create<T>( ProjectileData );
+
+			projectile.IgnoreEntity = this;
+			projectile.FlybySounds = FlybySounds;
+			projectile.Simulator = player.Projectiles;
+			projectile.Attacker = player;
 
 			OnCreateProjectile( projectile );
 
@@ -60,8 +51,11 @@ namespace Facepunch.Hover
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
 
-			var velocity = (direction * Speed) + (player.Velocity * InheritVelocity);
-			projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+			Game.SetRandomSeed( Time.Tick );
+
+			var speed = projectile.Data.Speed.GetValue();
+			var velocity = (direction * speed) + (player.Velocity * InheritVelocity);
+			projectile.Initialize( position, velocity, OnProjectileHit );
 		}
 
 		protected virtual float ModifyDamage( Entity victim, float damage )
@@ -90,7 +84,7 @@ namespace Facepunch.Hover
 
 		}
 
-		protected virtual void OnProjectileHit( BulletDropProjectile projectile, Entity target )
+		protected virtual void OnProjectileHit( Projectile projectile, Entity target )
 		{
 			if ( Game.IsServer && target.IsValid() )
 			{
