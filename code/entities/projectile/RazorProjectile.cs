@@ -88,7 +88,7 @@ namespace Facepunch.Hover
 		[ClientRpc]
 		protected override void PlayHitEffects( Vector3 normal )
 		{
-			if ( HasClientProxy() )
+			if ( IsServerSideCopy() )
 			{
 				return;
 			}

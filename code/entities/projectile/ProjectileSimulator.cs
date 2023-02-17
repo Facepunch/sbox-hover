@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Facepunch.Hover
 {
-    public partial class ProjectileSimulator
+    public partial class ProjectileSimulator : IValid
     {
         public List<BulletDropProjectile> List { get; private set; }
         public Entity Owner { get; private set; }
+		public bool IsValid => Owner.IsValid();
 
         public ProjectileSimulator( Entity owner )
         {
@@ -40,20 +41,19 @@ namespace Facepunch.Hover
 
         public void Simulate()
         {
-			using ( Entity.LagCompensation() )
+			for ( int i = List.Count - 1; i >= 0; i-- )
 			{
-				for ( int i = List.Count - 1; i >= 0; i-- )
+				var projectile = List[i];
+
+				if ( !projectile.IsValid() )
 				{
-					var projectile = List[i];
+					List.RemoveAt( i );
+					continue;
+				}
 
-					if ( !projectile.IsValid() )
-					{
-						List.RemoveAt( i );
-						continue;
-					}
-
-					if ( Prediction.FirstTime )
-						projectile.Simulate();
+				if ( Prediction.FirstTime )
+				{
+					projectile.Simulate();
 				}
 			}
         }
