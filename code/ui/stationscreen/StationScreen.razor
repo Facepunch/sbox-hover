@@ -203,7 +203,7 @@
         SceneObjects.Add( Avatar );
 
         var lightWarm = new SceneSpotLight( AvatarWorld, Vector3.Up * 100f + Vector3.Forward * 100f + Vector3.Right * -200f, new Color( 1f, 0.95f, 0.8f ) * 60f );
-        lightWarm.Rotation = Rotation.LookAt( -lightWarm.Position );
+        lightWarm.Rotation = Rotation.LookAt( lightWarm.Position );
         lightWarm.ConeInner = 90f;
         lightWarm.ConeOuter = 90f;
 
@@ -275,6 +275,7 @@
         SceneObjects.Clear();
 
         var allClothing = ResourceLibrary.GetAll<Clothing>();
+        var localPawn = (Game.LocalPawn as HoverPlayer);
 
         foreach ( var clothing in Loadout.Clothing )
         {
@@ -284,6 +285,7 @@
                 .FirstOrDefault();
 
             var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
+            clothes.ColorTint = localPawn.Team.GetColor();
             Avatar.AddChild( "clothing", clothes );
             SceneObjects.Add( clothes );
         }

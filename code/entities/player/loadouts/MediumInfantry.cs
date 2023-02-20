@@ -47,11 +47,11 @@ namespace Facepunch.Hover
 
 		public override List<string> Clothing => new()
 		{
-			"black_boots",
-			"tactical_helmet_army",
-			"longsleeve",
-			"chest_armour",
-			"trousers.smart"
+			"light_shoes",
+			"light_helmet",
+			"light_chest",
+			"light_gloves",
+			"light_legs"
 		};
 
 		public override void Respawn( HoverPlayer player )

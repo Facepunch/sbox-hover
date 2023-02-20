@@ -953,6 +953,7 @@ namespace Facepunch.Hover
 				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
 			{
 				var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
+				clothing.ColorTint = model.RenderColor;
 				AnimatedLegs.AddChild( "clothing", clothing );
 
 				LegsClothing.Add( new()
@@ -1316,9 +1317,11 @@ namespace Facepunch.Hover
 
 				if ( AnimatedLegs.RenderingEnabled )
 				{
+					var shouldHideChest = LegsClothing.Any( c => c.Asset.HideBody.HasFlag( Sandbox.Clothing.BodyGroups.Chest ) );
 					var shouldHideLegs = LegsClothing.Any( c => c.Asset.HideBody.HasFlag( Sandbox.Clothing.BodyGroups.Legs ) );
 
 					AnimatedLegs.SetBodyGroup( "Head", 1 );
+					AnimatedLegs.SetBodyGroup( "Chest", shouldHideChest ? 1 : 0 );
 					AnimatedLegs.SetBodyGroup( "Hands", 1 );
 					AnimatedLegs.SetBodyGroup( "Legs", shouldHideLegs ? 1 : 0 );
 

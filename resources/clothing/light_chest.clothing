@@ -1,0 +1,15 @@
+{
+  "Title": "Light Chest",
+  "Subtitle": "",
+  "Category": "Tops",
+  "SubCategory": "",
+  "Parent": null,
+  "Model": "models/cosmetics/outfit/boomeroutfit_chest.vmdl",
+  "SkinMaterial": null,
+  "EyesMaterial": null,
+  "MaterialGroup": "",
+  "SlotsUnder": 0,
+  "SlotsOver": 0,
+  "HideBody": "Chest",
+  "Icon": {}
+}

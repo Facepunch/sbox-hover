@@ -1,0 +1,15 @@
+{
+  "Title": "Light Shoes",
+  "Subtitle": "",
+  "Category": "Footwear",
+  "SubCategory": "",
+  "Parent": null,
+  "Model": "models/cosmetics/outfit/boomeroutfit_shoes.vmdl",
+  "SkinMaterial": null,
+  "EyesMaterial": null,
+  "MaterialGroup": "",
+  "SlotsUnder": 0,
+  "SlotsOver": 0,
+  "HideBody": 0,
+  "Icon": {}
+}
