@@ -108,14 +108,10 @@ OutpostHud {
     display: flex;
     align-items: center;
 
-    .container {
-        padding: 2px;
-
+    > .container {
         .bar {
             position: absolute;
-            border-radius: 2px;
-            left: 2px;
-            top: 2px;
+            border-radius: 4px;
             min-width: 5%;
             opacity: 0.2;
             height: 100%;
@@ -125,16 +121,15 @@ OutpostHud {
             }
         }
 
-        .content {
+        > .content {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            margin-left: 4px;
-            margin-right: 4px;
-            padding: 2px;
+            width: 96px;
+            height: 96px;
 
-            .circle {
+            > .circle {
                 background-color: $panel-bg-light;
                 display: flex;
                 flex-direction: column;
@@ -143,8 +138,8 @@ OutpostHud {
                 border: 4px solid white;
                 border-radius: 50%;
                 opacity: 0.8;
-                width: 96px;
-                height: 96px;
+                width: 100%;
+                height: 100%;
 
                 .letter {
                     font-family: $fontBold;

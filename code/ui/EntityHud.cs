@@ -60,16 +60,7 @@ namespace Facepunch.Hover.UI
 		public void SetOutpost( OutpostVolume outpost )
 		{
 			Letter.Text = outpost.Letter;
-
-			/*
-			if ( !string.IsNullOrEmpty( outpost.OutpostName ) )
-				Name.Text = outpost.OutpostName;
-			else
-				Name.SetClass( "hidden", true );
-			*/
-
 			Name.SetClass( "hidden", true );
-
 			Outpost = outpost;
 		}
 
@@ -87,6 +78,7 @@ namespace Facepunch.Hover.UI
 			else
 			{
 				Bar.SetClass( "hidden", true );
+				Bar.Style.Width = 0f;
 			}
 
 			base.Tick();
