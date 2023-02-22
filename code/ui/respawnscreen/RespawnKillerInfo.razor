@@ -15,8 +15,8 @@
       <label>Killed By</label>
     </div>
     <div class="respawn-body">
-      <img @ref="KillerAvatar" class="avatar" />
-      <label @ref="KillerName">Username</label>
+      <img src=@Icon class="avatar" />
+      <label @ref="KillerNameLabel">@KillerName</label>
     </div>
   </div>
 
@@ -25,16 +25,20 @@
       <label>Using</label>
     </div>
     <div class="respawn-body">
-      <label @ref="WeaponName">Weapon</label>
+      <label @ref="WeaponNameLabel">@WeaponName</label>
     </div>
   </div>
 </div>
 
 @code
 {
-	public Image KillerAvatar { get; private set; }
-	public Label KillerName { get; private set; }
-	public Label WeaponName { get; private set; }
+    public string Icon { get; set; }
+    public string KillerName { get; set; }
+    public string WeaponName { get; set; }
+    public Label KillerNameLabel { get; set; }
+    public Label WeaponNameLabel { get; set; }
+    public Color KillerNameColor { get; set; }
+    public Color WeaponNameColor { get; set; }
 
 	private Team CurrentTeam { get; set; }
 
@@ -43,50 +47,69 @@
 		SetClass( "hidden", !isVisible );
 	}
 
-	public void Update( HoverPlayer player )
-	{
-		KillerAvatar.SetTexture( $"avatar:{player.Client.SteamId}" );
-		KillerName.Text = player.Client.Name;
-		SetTeam( player.Team );
-	}
+    public void Update( HoverPlayer player )
+    {
+        Icon = $"avatar:{player.Client.SteamId}";
+        KillerNameColor = player.Team.GetColor().Darken( 0.4f );
+        KillerName = player.Client.Name;
+        SetTeam( player.Team );
+    }
 
-	public void Update( IKillFeedIcon killer )
-	{
-		KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, killer.GetKillFeedIcon() );
-		KillerName.Text = killer.GetKillFeedName();
-		SetTeam( killer.GetKillFeedTeam() );
-	}
+    public void Update( IKillFeedIcon killer )
+    {
+        Icon = killer.GetKillFeedIcon();
+        KillerNameColor = killer.GetKillFeedTeam().GetColor().Darken( 0.4f );
+        KillerName = killer.GetKillFeedName();
+        SetTeam( killer.GetKillFeedTeam() );
+    }
 
-	public void Update( string killerName )
-	{
-		KillerAvatar.Texture = Texture.Load( FileSystem.Mounted, "ui/icons/skull.png" );
-		KillerName.Text = killerName;
-		SetTeam( Team.None );
-	}
+    public void Update( string killerName )
+    {
+        Icon = "textures/ui/skull.png";
+        KillerNameColor = Team.None.GetColor().Darken( 0.4f );
+        KillerName = killerName;
+        SetTeam( Team.None );
+    }
 
-	public void SetTeam( Team team )
-	{
-		SetClass( CurrentTeam.GetHudClass(), false );
-		SetClass( team.GetHudClass(), true );
-		CurrentTeam = team;
-	}
+    public void SetTeam( Team team )
+    {
+        SetClass( CurrentTeam.GetHudClass(), false );
+        SetClass( team.GetHudClass(), true );
+        CurrentTeam = team;
+    }
 
-	public void SetWeapon( Entity weapon )
-	{
-		if ( weapon.IsValid() && !weapon.IsWorld )
-		{
-			SetClass( "has-weapon", true );
+    public void SetWeapon( Entity weapon )
+    {
+        if ( weapon.IsValid() && !weapon.IsWorld )
+        {
+            SetClass( "has-weapon", true );
 
-			if ( weapon is IKillFeedIcon feedInfo )
-				WeaponName.Text = feedInfo.GetKillFeedName();
-			else if ( weapon is Weapon typed )
-				WeaponName.Text = typed.Config.Name;
-			else
-				WeaponName.Text = weapon.Name;
-		}
-		else
-		{
-			SetClass( "has-weapon", false );
-		}
-	}
+            WeaponNameColor = CurrentTeam.GetColor().Darken( 0.4f );
+
+            if ( weapon is IKillFeedIcon feed )
+                WeaponName = feed.GetKillFeedName();
+            else if ( weapon is Weapon typed )
+                WeaponName = typed.Config.Name;
+            else
+                WeaponName = weapon.Name;
+        }
+        else
+        {
+            SetClass( "has-weapon", false );
+        }
+    }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        WeaponNameLabel.Style.FontColor = WeaponNameColor;
+        KillerNameLabel.Style.FontColor = KillerNameColor;
+
+        base.OnAfterTreeRender( firstTime );
+    }
+
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine( WeaponName, KillerName, Icon );
+    }
 }
