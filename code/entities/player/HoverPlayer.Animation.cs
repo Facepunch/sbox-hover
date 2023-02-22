@@ -29,6 +29,12 @@ public partial class HoverPlayer
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithLookAt( EyePosition + rotation.Forward * 100.0f, 1.0f, 1.0f, 0.5f );
 		animHelper.AimAngle = rotation;
+
+		if ( Controller.IsSkiing )
+			animHelper.Skid = animHelper.Skid.LerpTo( 0.8f, Time.Delta * 8f );
+		else
+			animHelper.Skid = animHelper.Skid.LerpTo( 0f, Time.Delta * 8f );
+
 		animHelper.FootShuffle = shuffle;
 		animHelper.DuckLevel = MathX.Lerp( animHelper.DuckLevel, Controller.HasTag( "ducked" ) ? 1 : 0, Time.Delta * 10.0f );
 		animHelper.VoiceLevel = (Game.IsClient && Client.IsValid()) ? Client.Voice.LastHeard < 0.5f ? Client.Voice.CurrentLevel : 0.0f : 0.0f;

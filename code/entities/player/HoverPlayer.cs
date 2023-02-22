@@ -18,6 +18,7 @@ namespace Facepunch.Hover
 
 		private FirstPersonCamera FirstPersonCamera { get; set; }
 		private SpectateCamera SpectateCamera { get; set; }
+		private TimeSince TimeSinceLastFootstep { get; set; }
 
 		public SceneModel AnimatedLegs { get; private set; }
 
@@ -622,6 +623,34 @@ namespace Facepunch.Hover
 			ResetInterpolation();
 
 			UI.InputHints.UpdateOnClient();
+		}
+
+		public override void OnAnimEventFootstep( Vector3 position, int foot, float volume )
+		{
+			if ( IsPlayingSkiLoop || LifeState == LifeState.Dead || !Game.IsClient )
+				return;
+
+			if ( TimeSinceLastFootstep < 0.2f )
+				return;
+
+			volume *= GetFootstepVolume();
+
+			TimeSinceLastFootstep = 0f;
+
+			var trace = Trace.Ray( position, position + Vector3.Down * 20f )
+				.Radius( 1f )
+				.Ignore( this )
+				.Run();
+
+			if ( !trace.Hit ) return;
+
+			trace.Surface.DoFootstep( this, trace, foot, volume );
+
+			if ( TargetAlpha > 0.2f )
+			{
+				var sound = PlaySound( "add.walking" );
+				sound.SetVolume( volume * 0.3f );
+			}
 		}
 
 		public override void OnNewModel( Model model )
@@ -1519,7 +1548,7 @@ namespace Facepunch.Hover
 					}
 					else
 					{
-						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed * 0.8f, 0f, 0.8f ) );
+						SkiLoop.SetVolume( Velocity.Length.Remap( 0f, controller.MaxSpeed * 0.8f, 0.2f, 1f ) );
 					}
 				}
 				else if ( controller.IsSkiing && Velocity.Length > controller.MaxSpeed * 0.1f )

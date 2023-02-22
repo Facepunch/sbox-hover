@@ -96,6 +96,12 @@ namespace Facepunch.Hover
 			set => SetAnimParameter( "move_shuffle", value );
 		}
 
+		public float Skid
+		{
+			get => Owner.GetAnimParameterFloat( "skid" );
+			set => SetAnimParameter( "skid", value );
+		}
+
 		public float DuckLevel
 		{
 			get => Owner.GetAnimParameterFloat( "duck" );
