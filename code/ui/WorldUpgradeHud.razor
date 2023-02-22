@@ -88,7 +88,7 @@
 		var position = Entity.WorldSpaceBounds.Center;
 		var direction = (cameraPosition - position).Normal;
 
-		transform.Position = position + direction * 70f;
+		transform.Position = position + direction * 50f;
 
 		var targetRotation = Rotation.LookAt( cameraPosition - Position );
 		transform.Rotation = Rotation.Lerp( transform.Rotation, targetRotation, 0.4f );
