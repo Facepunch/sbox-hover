@@ -7,6 +7,9 @@ public partial class TutorialScreen
 	[ConVar.Client( "hv_always_show_tutorial", Saved = true )]
 	public static bool AlwaysShowTutorial { get; set; }
 
+	[ConVar.Replicated( "hv_enable_tutorial", Saved = true )]
+	public static bool EnableTutorial { get; set; }
+
 	[ConCmd.Client( "hv_clear_cookies" )]
 	public static void ClearCookies()
 	{
@@ -16,7 +19,7 @@ public partial class TutorialScreen
 	[ClientRpc]
 	public static void Show()
 	{
-		if ( !AlwaysShowTutorial && Cookie.Get( "tutorial", false ) )
+		if ( !EnableTutorial || ( !AlwaysShowTutorial && Cookie.Get( "tutorial", false ) ) )
 		{
 			// Don't show them the screen again.
 			return;
