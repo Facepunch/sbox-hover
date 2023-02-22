@@ -1,5 +1,4 @@
-﻿using Gamelib.Extensions;
-using Sandbox;
+﻿using Sandbox;
 using System.Linq;
 
 namespace Facepunch.Hover

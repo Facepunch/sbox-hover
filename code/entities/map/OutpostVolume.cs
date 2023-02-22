@@ -1,5 +1,4 @@
-﻿using Gamelib.UI;
-using Sandbox;
+﻿using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +98,7 @@ namespace Facepunch.Hover
 			{
 				var boundsSize = CollisionBounds.Size.Length;
 				var distance = player.Position.Distance( Position );
-				Hud.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, boundsSize, 0f, boundsSize + 5000f, boundsSize + 7000f );
+				Hud.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, boundsSize, 0f, boundsSize + 5000f, boundsSize + 7000f );
 			}
 		}
 

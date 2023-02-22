@@ -1,7 +1,6 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
-using Gamelib.Utility;
 using Editor;
 
 namespace Facepunch.Hover

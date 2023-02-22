@@ -1,5 +1,4 @@
-﻿using Gamelib.Network;
-using Sandbox;
+﻿using Sandbox;
 using System.Collections.Generic;
 
 namespace Facepunch.Hover

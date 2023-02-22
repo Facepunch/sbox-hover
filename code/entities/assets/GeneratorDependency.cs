@@ -1,5 +1,4 @@
-﻿using Gamelib.UI;
-using Sandbox;
+﻿using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -148,7 +147,7 @@ namespace Facepunch.Hover
 			{
 				distance = player.Position.Distance( Position );
 
-				DependencyIcon.Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 1250f, 1750f );
+				DependencyIcon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 1250f, 1750f );
 				DependencyIcon.SetActive( IsPowered && (Team == Team.None || player.Team == Team) );
 			}
 		}

@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using Facepunch.Hover.Utility;
+using Facepunch.Hover;
 
 namespace Facepunch.Hover.UI
 {

@@ -2,8 +2,6 @@
 @using Sandbox;
 @using Sandbox.UI;
 @using Facepunch.Hover;
-@using Gamelib.UI;
-@using Gamelib.Extensions;
 
 @namespace Facepunch.Hover.UI
 @attribute [StyleSheet( "/ui/WorldDeployableHud.scss" )]
@@ -64,7 +62,7 @@
         }
 
         var distance = player.Position.Distance( Entity.Position );
-        Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 100f, 500f );
+        Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 100f, 500f );
 
         var cameraPosition = Camera.Position;
         var transform = Transform;
