@@ -21,20 +21,4 @@ public static class ListExtension
 
 		return self;
 	}
-
-	private readonly static int HashCodeSeed = 17;
-	private readonly static int HashCodeMultiplier = 23;
-
-	public static int GetItemsHashCode<T>( this List<T> self )
-	{
-		var hashCode = HashCodeSeed;
-
-		for ( int index = 0; index < self.Count; index++ )
-		{
-			if ( self[index] != null )
-				hashCode = hashCode * HashCodeMultiplier + self[index].GetHashCode();
-		}
-
-		return hashCode;
-	}
 }
