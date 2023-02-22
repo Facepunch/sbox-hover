@@ -93,6 +93,8 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
+			ScreenShake.DoRandomShake( projectile.Position, BlastRadius, 2f );
+
 			if ( Game.IsServer )
 			{
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );

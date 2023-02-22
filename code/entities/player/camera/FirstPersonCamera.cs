@@ -29,6 +29,8 @@ namespace Facepunch.Hover
 			else
 				Camera.FieldOfView = Camera.FieldOfView.LerpTo( targetDefaultFov, Time.Delta * 4f );
 
+			ScreenShake.Apply();
+
 			LastPosition = Camera.Position;
 		}
 	}

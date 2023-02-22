@@ -1,6 +1,6 @@
 {
   "FaceDirection": true,
-  "LifeTime": "0.50,1.50,1",
+  "LifeTime": "1.00,1.50,1",
   "Gravity": "50.00,50.00,0",
   "Speed": "2000.00,2000.00,0",
   "Radius": 8,

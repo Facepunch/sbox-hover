@@ -157,12 +157,14 @@ namespace Facepunch.Hover
 			ChargeSound.Stop();
 		}
 
+		[ClientRpc]
 		private void HideChargeParticles()
 		{
 			ChargeParticles?.Destroy();
 			ChargeParticles = null;
 		}
 
+		[ClientRpc]
 		private void ShowChargeParticles()
 		{
 			HideChargeParticles();

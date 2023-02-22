@@ -95,6 +95,8 @@ namespace Facepunch.Hover
 
 		protected override void OnProjectileHit( Projectile projectile, Entity target )
 		{
+			ScreenShake.DoRandomShake( projectile.Position, BlastRadius, 2f );
+
 			if ( Game.IsServer )
 			{
 				Audio.Play( "explosion.far", projectile.Position );

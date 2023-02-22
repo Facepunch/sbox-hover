@@ -12,67 +12,66 @@
 <root>
     <div class="container">
         <BindingLabel action="Use" hold>Pickup</BindingLabel>
-        <SimpleIconBar @ref="IconBar" class="bar"></SimpleIconBar>"
+        <SimpleIconBar @ref="IconBar" class="bar"></SimpleIconBar>
     </div>
 </root>
 
 @code
 {
-	public DeployableEntity Entity { get; private set; }
-	public SimpleIconBar IconBar { get; private set; }
-	public new float WorldScale { get; set; } = 1f;
-	public Panel Container { get; set; }
+    public DeployableEntity Entity { get; private set; }
+    public SimpleIconBar IconBar { get; private set; }
+    public new float WorldScale { get; set; } = 1f;
+    public Panel Container { get; set; }
 
-	public void SetEntity( DeployableEntity entity )
-	{
-		Entity = entity;
-			
-		AddClass( entity.Team.GetHudClass() );
-	}
+    public void SetEntity( DeployableEntity entity )
+    {
+        Entity = entity;
 
-	public void SetProgress( float progress )
-	{
-		var length = Length.Fraction( progress );
+        AddClass( entity.Team.GetHudClass() );
+    }
 
-		if ( IconBar.InnerBar.Style.Width != length )
-		{
-			IconBar.InnerBar.Style.Width = length;
-			IconBar.InnerBar.Style.Dirty();
-			IconBar.InnerBar.SetClass( "hidden", progress < 0.05f );
-		}
+    public void SetProgress( float progress )
+    {
+        var length = Length.Fraction( progress );
 
-		IconBar.SetClass( "hidden", progress == 0f );
-	}
+        if ( IconBar.InnerBar.Style.Width != length )
+        {
+            IconBar.InnerBar.Style.Width = length;
+            IconBar.InnerBar.Style.Dirty();
+            IconBar.InnerBar.SetClass( "hidden", progress < 0.05f );
+        }
 
-	public override void Tick()
-	{
-		if ( Game.LocalPawn is not HoverPlayer player )
-			return;
+        IconBar.SetClass( "hidden", progress == 0f );
+    }
 
-		if ( IsDeleting ) return;
+    public override void Tick()
+    {
+        if ( Game.LocalPawn is not HoverPlayer player )
+            return;
 
-		if ( !Entity.IsValid() )
-		{
-			Delete();
-			return;
-		}
+        if ( IsDeleting ) return;
 
-		if ( !Entity.IsUsable( player ) )
-		{
-			SetClass( "hidden", true );
-			return;
-		}
+        if ( !Entity.IsValid() )
+        {
+            Delete();
+            return;
+        }
 
-		var distance = player.Position.Distance( Entity.Position );
-		Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 100f, 500f );
+        if ( !Entity.IsUsable( player ) )
+        {
+            SetClass( "hidden", true );
+            return;
+        }
 
-		var cameraPosition = Camera.Position;
-		var transform = Transform;
-		var position = Entity.WorldSpaceBounds.Center;
-		var direction = (cameraPosition - position).Normal;
+        var distance = player.Position.Distance( Entity.Position );
+        Style.Opacity = UIUtility.GetMinMaxDistanceAlpha( distance, 100f, 500f );
 
-		var pushDistance = Entity.WorldSpaceBounds.NearestPoint( cameraPosition ).Distance( position );
-		transform.Position = position + direction * (pushDistance + 10f);
+        var cameraPosition = Camera.Position;
+        var transform = Transform;
+        var position = Entity.WorldSpaceBounds.Center;
+        var direction = (cameraPosition - position).Normal;
+
+        transform.Position = position + direction * 16f;
 
 		var targetRotation = Rotation.LookAt( cameraPosition - Position );
 		transform.Rotation = Rotation.Lerp( transform.Rotation, targetRotation, 0.4f );

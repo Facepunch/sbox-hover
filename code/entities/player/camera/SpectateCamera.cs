@@ -16,6 +16,8 @@ namespace Facepunch.Hover
 				var direction = (player.Ragdoll.PhysicsBody.Position - Camera.Position).Normal;
 				Camera.Rotation = Rotation.Slerp( Camera.Rotation, Rotation.LookAt( direction ), Time.Delta );
 			}
+
+			ScreenShake.Apply();
 		}
 	}
 }

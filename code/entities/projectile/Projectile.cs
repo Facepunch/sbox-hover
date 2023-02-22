@@ -51,8 +51,6 @@ namespace Facepunch.Hover
 
 		public void Initialize( Vector3 start, Vector3 velocity, Action<Projectile, Entity> callback = null )
 		{
-			Game.SetRandomSeed( Time.Tick );
-
 			LifeTime = Data.LifeTime.GetValue();
 			Gravity = Data.Gravity.GetValue();
 

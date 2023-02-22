@@ -50,6 +50,8 @@ namespace Facepunch.Hover
 			var explosion = Particles.Create( "particles/weapons/big_pulsar/big_pulsar_explosion.vpcf" );
 			explosion.SetPosition( 0, projectile.Position - projectile.Velocity.Normal * projectile.Data.Radius );
 
+			ScreenShake.DoRandomShake( projectile.Position, BlastRadius, 2f );
+
 			if ( Game.IsServer )
             {
 				var position = projectile.Position;

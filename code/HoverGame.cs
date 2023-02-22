@@ -282,10 +282,11 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
-		private void ClientTick()
+		[Event.Client.Frame]
+		private void OnFrame()
 		{
-			if ( Game.LocalPawn is not HoverPlayer player ) return;
+			if ( Game.LocalPawn is not HoverPlayer player )
+				return;
 
 			var pp = PostProcessing;
 
@@ -301,6 +302,11 @@ namespace Facepunch.Hover
 			pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
 			pp.Vignette.Smoothness = 1f;
 			pp.Vignette.Roundness = 0.8f;
+
+			var sum = ScreenShake.List.OfType<ScreenShake.Random>().Sum( s => (1f - s.Progress) );
+
+			pp.Pixelation = 0.02f * sum;
+			pp.ChromaticAberration.Scale += (0.05f * sum);
 		}
 
 		[Event.Entity.PostSpawn]
