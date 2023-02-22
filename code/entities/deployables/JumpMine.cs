@@ -89,6 +89,7 @@ namespace Facepunch.Hover
 
 		protected virtual void TriggerMine()
 		{
+			ScreenShake.DoRandomShake( Position, 512f, 2f );
 			PhysicsEnabled = true;
 			PhysicsBody.ApplyImpulse( Vector3.Up * 10f * 3000f );
 			PlaySound( "sticky.warning" );
