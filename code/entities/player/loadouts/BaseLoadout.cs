@@ -186,6 +186,8 @@ namespace Facepunch.Hover
 
 				var clothes = player.AttachClothing( modelName );
 				clothes.RenderColor = player.Team.GetColor();
+				clothes.SetMaterialGroup( player.Team == Team.Red ? 1 : 2 );
+				//clothes.SetMaterialOverride( Material.Load( player.Team.GetTeamSkin() ), "skin" );
 			}
 
 			player.Controller = new MoveController

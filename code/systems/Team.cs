@@ -28,11 +28,11 @@ namespace Facepunch.Hover
 			if ( team == Team.Blue )
 				return Color.Cyan;
 			else if ( team == Team.Red )
-				return new Color( 1f, 0.38f, 0.27f );
+				return new Color( 1f, 0.0f, 0.0f );
 			else
 				return new Color( 1f, 1f, 0f );
 		}
-
+		
 		public static string GetName( this Team team )
 		{
 			if ( team == Team.Blue )

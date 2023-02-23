@@ -4,6 +4,7 @@ using Sandbox.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Facepunch.Hover
 {
@@ -981,7 +982,8 @@ namespace Facepunch.Hover
 				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
 			{
 				var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
-				clothing.ColorTint = model.RenderColor;
+				//clothing.ColorTint = model.RenderColor;
+				clothing.SetMaterialGroup( Team == Team.Red ? "blue" : "red" );
 				AnimatedLegs.AddChild( "clothing", clothing );
 
 				LegsClothing.Add( new()

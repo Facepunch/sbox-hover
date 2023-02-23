@@ -144,149 +144,149 @@
 
 @code
 {
-    public static StationScreen Instance { get; private set; }
+	public static StationScreen Instance { get; private set; }
 
-    public struct LoadoutData
-    {
-        public string Name { get; set; }
-        public string Weight { get; set; }
-        public string Description { get; set; }
-        public string Health { get; set; }
-        public string Speed { get; set; }
-        public string Energy { get; set; }
-    }
+	public struct LoadoutData
+	{
+		public string Name { get; set; }
+		public string Weight { get; set; }
+		public string Description { get; set; }
+		public string Health { get; set; }
+		public string Speed { get; set; }
+		public string Energy { get; set; }
+	}
 
-    public List<SceneModel> SceneObjects { get; private set; } = new();
-    public LoadoutSelectList LoadoutList { get; private set; }
-    public StationScreenButton CancelButton { get; private set; }
-    public StationScreenMode Mode { get; private set; }
-    public WeaponConfig CurrentWeapon { get; private set; }
-    public WeaponConfig[] Weapons { get; private set; }
-    public LoadoutData LoadoutInfo { get; set; }
-    public Panel UpgradesList { get; private set; }
-    public Image WeaponIcon { get; private set; }
-    public string PlayerTokens => GetPlayerTokens();
-    public BaseLoadout Loadout { get; private set; }
-    public SceneWorld AvatarWorld { get; private set; }
-    public ScenePanel AvatarPanel { get; set; }
-    public SceneModel Avatar { get; private set; }
-    public Vector3 AvatarHeadPos { get; private set; }
-    public string UpgradeText => GetUpgradeText();
-    public string UpgradeLevel => GetUpgradeLevel();
-    public string NextUpgradeLevel => GetNextUpgradeLevel();
-    public string UpgradeCost => GetUpgradeCost();
-    public Panel UpgradeButton { get; private set; }
-    public Label SecondaryDescription { get; private set; }
-    public BaseLoadout NextUpgrade { get; private set; }
-    public Vector3 AvatarAimPos { get; private set; }
-    public Panel UpgradesBox { get; private set; }
-    public Panel AvatarRoot { get; private set; }
-    public Panel WeaponList { get; private set; }
-    public Panel TagsList { get; private set; }
-    public Panel StatsList { get; private set; }
-    public int CurrentSlot { get; private set; }
-    public bool IsOpen { get; private set; }
-    public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? string.Empty;
+	public List<SceneModel> SceneObjects { get; private set; } = new();
+	public LoadoutSelectList LoadoutList { get; private set; }
+	public StationScreenButton CancelButton { get; private set; }
+	public StationScreenMode Mode { get; private set; }
+	public WeaponConfig CurrentWeapon { get; private set; }
+	public WeaponConfig[] Weapons { get; private set; }
+	public LoadoutData LoadoutInfo { get; set; }
+	public Panel UpgradesList { get; private set; }
+	public Image WeaponIcon { get; private set; }
+	public string PlayerTokens => GetPlayerTokens();
+	public BaseLoadout Loadout { get; private set; }
+	public SceneWorld AvatarWorld { get; private set; }
+	public ScenePanel AvatarPanel { get; set; }
+	public SceneModel Avatar { get; private set; }
+	public Vector3 AvatarHeadPos { get; private set; }
+	public string UpgradeText => GetUpgradeText();
+	public string UpgradeLevel => GetUpgradeLevel();
+	public string NextUpgradeLevel => GetNextUpgradeLevel();
+	public string UpgradeCost => GetUpgradeCost();
+	public Panel UpgradeButton { get; private set; }
+	public Label SecondaryDescription { get; private set; }
+	public BaseLoadout NextUpgrade { get; private set; }
+	public Vector3 AvatarAimPos { get; private set; }
+	public Panel UpgradesBox { get; private set; }
+	public Panel AvatarRoot { get; private set; }
+	public Panel WeaponList { get; private set; }
+	public Panel TagsList { get; private set; }
+	public Panel StatsList { get; private set; }
+	public int CurrentSlot { get; private set; }
+	public bool IsOpen { get; private set; }
+	public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? string.Empty;
 
-    public StationScreen()
-    {
-        SetClass( "hidden", true );
+	public StationScreen()
+	{
+		SetClass( "hidden", true );
 
-        AvatarWorld = new SceneWorld();
+		AvatarWorld = new SceneWorld();
 
-        var model = Model.Load( "models/citizen/citizen.vmdl" );
+		var model = Model.Load( "models/citizen/citizen.vmdl" );
 
-        Avatar = new SceneModel( AvatarWorld, model, Transform.Zero );
+		Avatar = new SceneModel( AvatarWorld, model, Transform.Zero );
 
-        SceneObjects.Add( Avatar );
+		SceneObjects.Add( Avatar );
 
-        var lightWarm = new SceneSpotLight( AvatarWorld, Vector3.Up * 100f + Vector3.Forward * 100f + Vector3.Right * -200f, new Color( 1f, 0.95f, 0.8f ) * 60f );
-        lightWarm.Rotation = Rotation.LookAt( lightWarm.Position );
-        lightWarm.ConeInner = 90f;
-        lightWarm.ConeOuter = 90f;
+		var sun = new SceneSunLight(AvatarWorld, Rotation.FromPitch(-50), Color.White * 0.50f + Color.Cyan * 0.20f);
+		sun.ShadowsEnabled = false;
+		sun.SkyColor = Color.White * 0.02f + Color.Cyan * 0.02f;
 
-        var lightBlue = new SceneSpotLight( AvatarWorld, Vector3.Up * 100f + Vector3.Forward * -100f + Vector3.Right * 100f, new Color( 0f, 0.4f, 1f ) * 100f );
-        lightBlue.Rotation = Rotation.LookAt( -lightBlue.Position );
-        lightBlue.ConeInner = 90f;
-        lightBlue.ConeOuter = 90f;
+		new SceneCubemap(AvatarWorld, Texture.Load("textures/cubemaps/default.vtex"), BBox.FromPositionAndSize(Vector3.Zero, 1000));
 
-        Instance?.Delete();
-        Instance = this;
-    }
+		new SceneLight(AvatarWorld, new Vector3(200, 200, 100), 0.05f, Color.White * 0.05f + Color.Cyan * 0.01f);
+		new SceneLight(AvatarWorld, new Vector3(-300, -300, 300), 0.02f, Color.White * 0.01f);
 
-    public void SetWeapon( WeaponConfig config )
-    {
-        var items = WeaponList.ChildrenOfType<LoadoutWeaponListItem>();
+		Instance?.Delete();
+		Instance = this;
+	}
 
-        foreach ( var item in items )
-        {
-            item.IsActive = (item.Config.GetType() == config.GetType());
-        }
+	public void SetWeapon( WeaponConfig config )
+	{
+		var items = WeaponList.ChildrenOfType<LoadoutWeaponListItem>();
 
-        UpgradesList.DeleteChildren();
+		foreach ( var item in items )
+		{
+			item.IsActive = (item.Config.GetType() == config.GetType());
+		}
 
-        if ( config.Upgrades != null )
-        {
-            for ( int i = 0; i < config.Upgrades.Count; i++ )
-            {
-                var upgrade = TypeLibrary.Create<WeaponUpgrade>( config.Upgrades[i] );
-                var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
-                item.Upgrade = upgrade;
-                item.Weapon = config;
-                item.Index = i;
-            }
+		UpgradesList.DeleteChildren();
 
-            UpgradesBox.SetClass( "hidden", false );
-        }
-        else
-        {
-            UpgradesBox.SetClass( "hidden", true );
-        }
+		if ( config.Upgrades != null )
+		{
+			for ( int i = 0; i < config.Upgrades.Count; i++ )
+			{
+				var upgrade = TypeLibrary.Create<WeaponUpgrade>( config.Upgrades[i] );
+				var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
+				item.Upgrade = upgrade;
+				item.Weapon = config;
+				item.Index = i;
+			}
 
-        WeaponIcon.SetTexture( config.Icon );
+			UpgradesBox.SetClass( "hidden", false );
+		}
+		else
+		{
+			UpgradesBox.SetClass( "hidden", true );
+		}
 
-        StatsList.DeleteChildren();
+		WeaponIcon.SetTexture( config.Icon );
 
-        var stats = config.GetStats();
+		StatsList.DeleteChildren();
 
-        for ( int i = 0; i < stats.Count; i++ )
-        {
-            var item = StatsList.AddChild<WeaponStatItem>();
-            item.Stat = stats[i];
-        }
+		var stats = config.GetStats();
 
-        SecondaryDescription.SetClass( "hidden", string.IsNullOrEmpty( config.SecondaryDescription ) );
+		for ( int i = 0; i < stats.Count; i++ )
+		{
+			var item = StatsList.AddChild<WeaponStatItem>();
+			item.Stat = stats[i];
+		}
 
-        CurrentWeapon = config;
-    }
+		SecondaryDescription.SetClass( "hidden", string.IsNullOrEmpty( config.SecondaryDescription ) );
 
-    public void CreateAvatar()
-    {
-        foreach ( var sceneObject in SceneObjects )
-        {
-            if ( sceneObject.Parent.IsValid() )
-            {
-                sceneObject.Delete();
-            }
-        }
+		CurrentWeapon = config;
+	}
 
-        SceneObjects.Clear();
+	public void CreateAvatar()
+	{
+		foreach ( var sceneObject in SceneObjects )
+		{
+			if ( sceneObject.Parent.IsValid() )
+			{
+				sceneObject.Delete();
+			}
+		}
 
-        var allClothing = ResourceLibrary.GetAll<Clothing>();
-        var localPawn = (Game.LocalPawn as HoverPlayer);
+		SceneObjects.Clear();
 
-        foreach ( var clothing in Loadout.Clothing )
-        {
-            var modelName = allClothing
-                .Where( c => c.ResourceName.ToLower() == clothing.ToLower() )
-                .Select( c => c.Model )
-                .FirstOrDefault();
+		var allClothing = ResourceLibrary.GetAll<Clothing>();
+		var localPawn = (Game.LocalPawn as HoverPlayer);
 
-            var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
-            clothes.ColorTint = localPawn.Team.GetColor();
-            Avatar.AddChild( "clothing", clothes );
-            SceneObjects.Add( clothes );
-        }
+		foreach ( var clothing in Loadout.Clothing )
+		{
+			var modelName = allClothing
+				.Where( c => c.ResourceName.ToLower() == clothing.ToLower() )
+				.Select( c => c.Model )
+				.FirstOrDefault();
+
+			var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
+			//clothes.ColorTint = localPawn.Team.GetColor();
+			clothes.Attributes.Set("colortint", localPawn.Team.GetColor());
+			Avatar.AddChild( "clothing", clothes );
+			SceneObjects.Add( clothes );
+		}
 
         SceneObjects.Add( Avatar );
 
