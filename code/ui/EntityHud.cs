@@ -42,13 +42,11 @@ namespace Facepunch.Hover.UI
 		public Panel Container { get; private set; }
 		public Label Letter { get; private set; }
 		public Label Name { get; private set; }
-		public Panel Bar { get; private set; }
 		public OutpostVolume Outpost { get; private set; }
 
 		public OutpostHud()
 		{
 			Container = Add.Panel( "container" );
-			Bar = Container.Add.Panel( "bar" );
 
 			var content = Container.Add.Panel( "content" );
 			var circle = content.Add.Panel( "circle" );
@@ -69,17 +67,6 @@ namespace Facepunch.Hover.UI
 			SetClass( Team.Blue.GetHudClass(), Outpost.Team == Team.Blue );
 			SetClass( Team.Red.GetHudClass(), Outpost.Team == Team.Red );
 			SetClass( Team.None.GetHudClass(), Outpost.Team == Team.None );
-
-			if ( Outpost.CaptureProgress >= 0f )
-			{
-				Bar.SetClass( "hidden", false );
-				Bar.Style.Width = Length.Fraction( Outpost.CaptureProgress );
-			}
-			else
-			{
-				Bar.SetClass( "hidden", true );
-				Bar.Style.Width = 0f;
-			}
 
 			base.Tick();
 		}

@@ -109,18 +109,6 @@ OutpostHud {
     align-items: center;
 
     > .container {
-        .bar {
-            position: absolute;
-            border-radius: 4px;
-            min-width: 5%;
-            opacity: 0.2;
-            height: 100%;
-
-            &.hidden {
-                display: none;
-            }
-        }
-
         > .content {
             display: flex;
             flex-direction: row;
@@ -130,14 +118,9 @@ OutpostHud {
             height: 96px;
 
             > .circle {
-                background-color: $panel-bg-light;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                border: 4px solid white;
-                border-radius: 50%;
-                opacity: 0.8;
                 width: 100%;
                 height: 100%;
 
@@ -166,11 +149,8 @@ OutpostHud {
         .container {
             .content {
                 .circle {
-                    background-color: $red;
-                    border-color: $red;
-
                     .letter {
-                        color: $dark-grey;
+                        color: $redTeamColor;
                     }
                 }
 
@@ -186,18 +166,10 @@ OutpostHud {
         .container {
             .content {
                 .circle {
-                    background-color: $blue;
-                    border-color: $blue;
-
                     .letter {
-                        color: $dark-grey;
+                        color: $blueTeamColor;
                     }
                 }
-            }
-
-            .bar {
-                box-shadow: $blueTeamBackground;
-                background-color: $blueTeamColor;
             }
 
             .name {
