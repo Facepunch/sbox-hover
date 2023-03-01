@@ -19,9 +19,6 @@ WorldUpgradeHud {
 
         > .label {
             text-shadow: $blueTeamShadow;
-            box-shadow: $blueTeamForeground;
-            background-color: $blueTeamPanelBg;
-            border: $blueTeamPanelBorder;
             border-radius: 8px;
             font-family: $mainFont;
             padding: 8px;
@@ -79,10 +76,7 @@ WorldUpgradeHud {
             border: $redTeamPanelBorder;
 
             > .label {
-                background-color: $redTeamPanelBg;
                 text-shadow: $redTeamShadow;
-                box-shadow: $redTeamForeground;
-                border: $redTeamPanelBorder;
             }
 
             > SimpleIconBar {
