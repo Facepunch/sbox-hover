@@ -24,6 +24,7 @@ namespace Facepunch.Hover
 
 		public void AttachClothing( BaseClothing clothing )
 		{
+			clothing.SetMaterialGroup( Team == Team.Red ? "red" : "blue" );
 			clothing.SetParent( this, true );
 			clothing.EnableShadowInFirstPerson = true;
 			clothing.EnableHideInFirstPerson = true;

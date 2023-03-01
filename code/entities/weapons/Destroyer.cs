@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new DestroyerConfig();
 		public override string ProjectileData => "destroyer";
 		public override string MuzzleFlashEffect => "particles/weapons/destroyer/destroyer_muzzleflash.vpcf";
-		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/barage/barage.vmdl";
 		public override int ViewModelMaterialGroup => 2;
 		public override string CrosshairClass => "shotgun";
 		public override float InheritVelocity => 0.5f;
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_barage.vmdl" );
+			SetModel( "models/gameplay/weapons/barage/w_barage.vmdl" );
 			SetMaterialGroup( 2 );
 		}
 

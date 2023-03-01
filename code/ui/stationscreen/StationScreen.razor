@@ -282,8 +282,7 @@
 				.FirstOrDefault();
 
 			var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
-			//clothes.ColorTint = localPawn.Team.GetColor();
-			clothes.Attributes.Set("colortint", localPawn.Team.GetColor());
+			clothes.Attributes.Set( "colortint", localPawn.Team.GetColor() );
 			Avatar.AddChild( "clothing", clothes );
 			SceneObjects.Add( clothes );
 		}

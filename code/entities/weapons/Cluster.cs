@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new ClusterConfig();
 		public override string ProjectileData => "cluster";
-		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/shotblast/shotblast.vmdl";
 		public override int ViewModelMaterialGroup => 2;
 		public override string MuzzleFlashEffect => "particles/weapons/cluster/cluster_muzzleflash.vpcf";
 		public override string CrosshairClass => "shotgun";
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_shotblast.vmdl" );
+			SetModel( "models/gameplay/weapons/shotblast/w_shotblast.vmdl" );
 			SetMaterialGroup( 2 );
 		}
 

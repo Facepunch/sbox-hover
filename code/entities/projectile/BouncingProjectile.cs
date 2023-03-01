@@ -7,6 +7,7 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class BouncingProjectile : Projectile
 	{
+		public string BounceSound { get; set; }
 		public float Bounciness { get; set; } = 1f;
 
 		protected override bool HasHitTarget( TraceResult trace )
@@ -19,6 +20,14 @@ namespace Facepunch.Hover
 
 					GravityModifier = 0f;
 					Velocity = reflect * Velocity.Length * Bounciness;
+
+					if ( !string.IsNullOrEmpty( BounceSound ) && Velocity.Length > 8f )
+					{
+						using ( Prediction.Off() )
+						{
+							PlaySound( BounceSound );
+						}
+					}
 				}
 
 				return false;

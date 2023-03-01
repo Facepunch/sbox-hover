@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new PulsarConfig();
 		public override string ProjectileData => "pulsar";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion_rifle/fusion_rifle_muzzleflash.vpcf";
-		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/pulsar/pulsar.vmdl";
 		public override string CrosshairClass => "semiautomatic";
 		public override float InheritVelocity => 0.5f;
 		public override float PrimaryRate => 0.5f;
@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_pulsar.vmdl" );
+			SetModel( "models/gameplay/weapons/pulsar/w_pulsar.vmdl" );
 		}
 
 		public override void AttackPrimary()

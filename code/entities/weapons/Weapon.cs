@@ -1,6 +1,7 @@
 ﻿using Facepunch.Hover.UI;
 using Sandbox;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Facepunch.Hover
 {
@@ -339,6 +340,17 @@ namespace Facepunch.Hover
 			}
 		}
 
+		[ClientRpc]
+		public virtual void DoTracerEffect( Vector3 endPos, float distance )
+		{
+			if ( !string.IsNullOrEmpty( TracerEffect ) )
+			{
+				var tracer = Particles.Create( TracerEffect, GetEffectEntity(), MuzzleAttachment );
+				tracer?.SetPosition( 1, endPos );
+				tracer?.SetPosition( 2, distance );
+			}
+		}
+
 		public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 		{
 			var forward = Player.EyeRotation.Forward;
@@ -354,12 +366,7 @@ namespace Facepunch.Hover
 
 				var fullEndPos = trace.EndPosition + trace.Direction * bulletSize;
 
-				if ( !string.IsNullOrEmpty( TracerEffect ) )
-				{
-					var tracer = Particles.Create( TracerEffect, GetEffectEntity(), MuzzleAttachment );
-					tracer?.SetPosition( 1, fullEndPos );
-					tracer?.SetPosition( 2, trace.Distance );
-				}
+				DoTracerEffect( fullEndPos, trace.Distance );
 
 				if ( !string.IsNullOrEmpty( ImpactEffect ) )
 				{

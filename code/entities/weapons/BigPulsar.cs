@@ -31,7 +31,7 @@ namespace Facepunch.Hover
 		public override int ViewModelMaterialGroup => 1;
 		public override string ProjectileData => "bigpulsar";
 		public override float InheritVelocity => 0.5f;
-		public override string ViewModelPath => "models/weapons/v_pulsar.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/pulsar/pulsar.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/big_pulsar/big_pulsar_muzzleflash.vpcf";
 		public override float DamageFalloffStart => 1500f;
 		public override float DamageFalloffEnd => 5000f;

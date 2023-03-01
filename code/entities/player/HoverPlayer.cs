@@ -982,8 +982,7 @@ namespace Facepunch.Hover
 				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
 			{
 				var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
-				//clothing.ColorTint = model.RenderColor;
-				clothing.SetMaterialGroup( Team == Team.Red ? "blue" : "red" );
+				clothing.Attributes.Set( "colortint", Team.GetColor() );
 				AnimatedLegs.AddChild( "clothing", clothing );
 
 				LegsClothing.Add( new()

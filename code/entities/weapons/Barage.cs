@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new BarageConfig();
 		public override string ProjectileData => "barage";
-		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/barage/barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/grenade_launcher/grenade_launcher_muzzleflash.vpcf";
 		public override string CrosshairClass => "shotgun";
 		public override string DamageType => "blast";
@@ -44,7 +44,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_barage.vmdl" );
+			SetModel( "models/gameplay/weapons/barage/w_barage.vmdl" );
 		}
 
 		public override void AttackPrimary()
@@ -78,14 +78,16 @@ namespace Facepunch.Hover
 
 		protected override void OnCreateProjectile( BouncingProjectile projectile )
 		{
-			projectile.Bounciness = 0.5f;
+			projectile.BounceSound = "soft.impact";
+			projectile.Bounciness = 0.6f;
 
 			base.OnCreateProjectile( projectile );
 		}
 
 		protected override float ModifyDamage( Entity victim, float damage )
 		{
-			if ( victim == Owner ) return damage * 1.25f;
+			if ( victim == Owner )
+				return damage * 1.25f;
 
 			return base.ModifyDamage( victim, damage );
 		}

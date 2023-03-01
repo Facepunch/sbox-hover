@@ -398,7 +398,9 @@ StationScreen {
                     }
 
                     .weapon-list-icon {
-                        background-size: cover;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        background-position: center;
                         width: 256px;
                         height: 256px;
                         align-self: center;
@@ -429,9 +431,10 @@ StationScreen {
                     background-color: $blue;
 
                     img {
-                        background-size: cover;
-                        width: 256px;
-                        height: 256px;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        background-position: center;
+                        max-height: 256px;
                     }
                 }
 

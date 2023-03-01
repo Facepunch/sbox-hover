@@ -4,7 +4,7 @@ using System;
 namespace Facepunch.Hover
 {
 	[Library]
-	public partial class DestroyerProjectile : BouncingProjectile
+	public partial class DestroyerProjectile :  BouncingProjectile
 	{
 		public TimeSince TimeSinceCreated { get; private set; }
 

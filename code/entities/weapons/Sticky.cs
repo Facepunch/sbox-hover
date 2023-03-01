@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new StickyConfig();
 		public override int ViewModelMaterialGroup => 1;
 		public override string ProjectileData => "sticky";
-		public override string ViewModelPath => "models/weapons/v_barage.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/barage/barage.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/sticky/sticky_muzzleflash.vpcf";
 		public override string DamageType => "blast";
 		public override string CrosshairClass => "shotgun";
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_barage.vmdl" );
+			SetModel( "models/gameplay/weapons/barage/barage.vmdl" );
 			SetMaterialGroup( 1 );
 		}
 

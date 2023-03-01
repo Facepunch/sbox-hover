@@ -36,6 +36,7 @@ namespace Facepunch.Hover
 					var model = e.GetModelName();
 					var clothing = new ModelEntity();
 
+					clothing.SetMaterialGroup( e.GetMaterialGroup() );
 					clothing.RenderColor = e.RenderColor;
 					clothing.SetModel( model );
 					clothing.SetParent( this, true );

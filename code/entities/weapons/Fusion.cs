@@ -32,7 +32,7 @@ namespace Facepunch.Hover
 		public override string TracerEffect => "particles/weapons/fusion/fusion_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/fusion/fusion_muzzleflash.vpcf";
 		public override int ViewModelMaterialGroup => 3;
-		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/blaster/blaster.vmdl";
 		public override string CrosshairClass => "automatic";
 		public override int ClipSize => 250;
 		public override float PrimaryRate => 12f;
@@ -53,7 +53,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_blaster.vmdl" );
+			SetModel( "models/gameplay/weapons/blaster/w_blaster.vmdl" );
 			SetMaterialGroup( 3 );
 		}
 

@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new LongshotConfig();
 		public override string ImpactEffect => "particles/weapons/pulse_sniper/pulse_sniper_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/pulse_sniper/pulse_sniper_projectile.vpcf";
-		public override string ViewModelPath => "models/weapons/v_longshot.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/longshot/longshot.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/pulse_sniper/pulse_sniper_muzzleflash.vpcf";
 		public override string CrosshairClass => "semiautomatic";
 		public override float PrimaryRate => 0.3f;
@@ -71,7 +71,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_longshot.vmdl" );
+			SetModel( "models/gameplay/weapons/longshot/w_longshot.vmdl" );
 		}
 
 		public override void CreateViewModel()

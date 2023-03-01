@@ -28,7 +28,7 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new BlasterConfig();
 		public override string ProjectileData => "blaster";
-		public override string ViewModelPath => "models/weapons/v_blaster.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/blaster/blaster.vmdl";
 		public override string MuzzleFlashEffect => "particles/weapons/blaster/blaster_muzzleflash.vpcf";
 		public override string CrosshairClass => "automatic";
 		public override float PrimaryRate => 7.5f;
@@ -46,7 +46,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_blaster.vmdl" );
+			SetModel( "models/gameplay/weapons/blaster/w_blaster.vmdl" );
 		}
 
 		public override void AttackPrimary()

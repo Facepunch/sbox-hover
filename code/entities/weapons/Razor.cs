@@ -29,7 +29,7 @@ namespace Facepunch.Hover
 		public override WeaponConfig Config => new RazorConfig();
 		public override string ProjectileData => "razor";
 		public override string MuzzleFlashEffect => "particles/weapons/razor/razor_muzzleflash.vpcf";
-		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/sideman/sideman.vmdl";
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 8;
 		public override float PrimaryRate => 12.0f;
@@ -38,15 +38,15 @@ namespace Facepunch.Hover
 		public override float SecondaryRate => 1.0f;
 		public override float ReloadTime => 2.0f;
 		public override bool CanMeleeAttack => true;
-		public override int ViewModelMaterialGroup => 2;
+		public override int ViewModelMaterialGroup => 1;
 		public override float Spread => 0.025f;
 
 		public override void Spawn()
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_sideman.vmdl" );
-			SetMaterialGroup( 2 );
+			SetModel( "models/gameplay/weapons/sideman/w_sideman.vmdl" );
+			SetMaterialGroup( 1 );
 		}
 
 		public override bool CanPrimaryAttack()

@@ -29,7 +29,7 @@ WorldGeneratorHud {
         }
     }
 
-    .label {
+    > .label {
       text-shadow: $blueTeamShadow;
       color: $blueTeamColor;
       font-family: $mainFont;

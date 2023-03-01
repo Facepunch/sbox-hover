@@ -1,0 +1,19 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "shaders/new_toon_shader.shader"
+
+	AO "materials/default/default_ao.tga"
+	Color "models/gameplay/textures/textureatlas_color.png"
+	ColorTint "[0.447059 0.447059 0.447059 1.000000]"
+	Crosshatch "models/gameplay/textures/crosshatch.png"
+	g_bTint "[0.000 0.000 0.000 0.000]"
+	g_flCrosshatchTile "0.000"
+	g_vCrosshatch "0"
+	Mask "models/gameplay/textures/textureatlas_tint.png"
+	Normal "materials/default/default_normal.tga"
+
+	//---- Fog ----
+	g_bFogEnabled "1"
+}

@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 		public override string ImpactEffect => "particles/weapons/sideman/sideman_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/sideman/sideman_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/sideman/sideman_muzzleflash.vpcf";
-		public override string ViewModelPath => "models/weapons/v_sideman.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/sideman/sideman.vmdl";
 		public override string CrosshairClass => "semiautomatic";
 		public override int ClipSize => 15;
 		public override float PrimaryRate => 12.0f;
@@ -44,7 +44,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_sideman.vmdl" );
+			SetModel( "models/gameplay/weapons/sideman/w_sideman.vmdl" );
 		}
 
 		public override bool CanPrimaryAttack()

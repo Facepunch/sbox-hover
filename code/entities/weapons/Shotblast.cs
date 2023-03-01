@@ -30,7 +30,7 @@ namespace Facepunch.Hover
 		public override string ImpactEffect => "particles/weapons/shotblast/shotblast_impact.vpcf";
 		public override string TracerEffect => "particles/weapons/shotblast/shotblast_projectile.vpcf";
 		public override string MuzzleFlashEffect => "particles/weapons/shotblast/shotblast_muzzleflash.vpcf";
-		public override string ViewModelPath => "models/weapons/v_shotblast.vmdl";
+		public override string ViewModelPath => "models/gameplay/weapons/shotblast/shotblast.vmdl";
 		public override string CrosshairClass => "shotgun";
 		public override float DamageFalloffStart => 1000f;
 		public override float DamageFalloffEnd => 2000f;
@@ -45,7 +45,7 @@ namespace Facepunch.Hover
 		{
 			base.Spawn();
 
-			SetModel( "models/weapons/w_shotblast.vmdl" );
+			SetModel( "models/gameplay/weapons/shotblast/w_shotblast.vmdl" );
 		}
 
 		public override void AttackPrimary()

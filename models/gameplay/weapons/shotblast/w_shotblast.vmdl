@@ -1,0 +1,160 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "orange.vmat"
+								to = "models/gameplay/weapons/shotblast/materials/shotblast.vmat"
+							},
+							{
+								from = "metal02.vmat"
+								to = "models/gameplay/textures/textureatlas_orange.vmat"
+							},
+							{
+								from = "metal01.vmat"
+								to = "models/gameplay/textures/textureatlas_orange.vmat"
+							},
+							{
+								from = "blackrubber.vmat"
+								to = "models/gameplay/textures/textureatlas_orange.vmat"
+							},
+							{
+								from = "black.vmat"
+								to = "models/gameplay/textures/textureatlas_orange.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+					{
+						_class = "MaterialGroup"
+						name = "boomer"
+						remaps = 
+						[
+							{
+								from = "models/dev/materialforerrormodel.vmat"
+								to = "models/gameplay/weapons/shotblast/materials/boomer.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "cluster"
+						remaps = 
+						[
+							{
+								from = "models/dev/materialforerrormodel.vmat"
+								to = "models/gameplay/weapons/shotblast/materials/cluster.vmat"
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "muzzle"
+						parent_bone = ""
+						relative_origin = [ 20.99818, 0.0, 1.913237 ]
+						relative_angles = [ -0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "LOD0"
+						filename = "models/gameplay/weapons/shotblast/mesh/shotgun.fbx"
+						import_translation = [ 3.0, 0.0, -2.0 ]
+						import_rotation = [ -6.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = "hold_r"
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "LOD1"
+						filename = "models/gameplay/weapons/shotblast/mesh/shotgunlod1.fbx"
+						import_translation = [ 3.0, 0.0, -2.0 ]
+						import_rotation = [ -6.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = "hold_r"
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "hold_r"
+						origin = [ 0.0, 0.0, 0.0 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						do_not_discard = true
+					},
+				]
+			},
+			{
+				_class = "LODGroupList"
+				children = 
+				[
+					{
+						_class = "LODGroup"
+						switch_threshold = 0.0
+						meshes = 
+						[
+							"LOD0",
+						]
+					},
+					{
+						_class = "LODGroup"
+						switch_threshold = 8.0
+						meshes = 
+						[
+							"LOD1",
+						]
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+		base_model_name = ""
+	}
+}

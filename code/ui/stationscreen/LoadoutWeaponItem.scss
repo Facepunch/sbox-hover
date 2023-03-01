@@ -90,8 +90,9 @@ LoadoutWeaponItem {
 
             .weapon-image {
                 background-repeat: no-repeat;
-                width: 256px;
-                height: 256px;
+                background-size: contain;
+                background-position: center;
+                max-height: 256px;
             }
         }
     }
