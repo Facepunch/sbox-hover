@@ -3,7 +3,6 @@ using System;
 
 namespace Facepunch.Hover
 {
-	[Library]
 	public partial class StickyGrenade : Projectile
 	{
 		private bool IsPrimedToExplode { get; set; }

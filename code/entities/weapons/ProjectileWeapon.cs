@@ -38,7 +38,7 @@ namespace Facepunch.Hover
 			OnCreateProjectile( projectile );
 
 			var muzzle = GetAttachment( MuzzleAttachment );
-			var position = muzzle.Value.Position;
+			var position = muzzle.Value.Position.WithZ( MathF.Max( muzzle.Value.Position.z, player.EyePosition.z ) );
 			var forward = player.EyeRotation.Forward;
 			var endPosition = player.EyePosition + forward * BulletRange;
 			var trace = Trace.Ray( player.EyePosition, endPosition )
@@ -49,8 +49,6 @@ namespace Facepunch.Hover
 			var direction = (trace.EndPosition - position).Normal;
 			direction += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * Spread * 0.25f;
 			direction = direction.Normal;
-
-			Game.SetRandomSeed( Time.Tick );
 
 			var speed = projectile.Data.Speed.GetValue();
 			var velocity = (direction * speed) + (player.Velocity * InheritVelocity);
