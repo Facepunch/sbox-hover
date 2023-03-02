@@ -2,7 +2,7 @@
 
 Layer0
 {
-	shader "damage.vfx"
+	shader "damage.shader"
 
 	//---- Animation ----
 	F_MORPH_SUPPORTED 1
@@ -13,8 +13,10 @@ Layer0
 	BleedColor "[1.000000 0.000000 0.000000 0.000000]"
 	BleedTimeMultiplier "2.000"
 	Damage "0.000"
-	NoiseOctaves "3"
-	NoiseScale "128.000"
+	g_flDirectionalLightmapMinZ "0.050"
+	g_flDirectionalLightmapStrength "1.000"
+	NoiseOctaves "5"
+	NoiseScale "8.000"
 	NoiseSeed "100.000"
 
 	//---- Bottom Material ----
@@ -26,33 +28,21 @@ Layer0
 	BottomTextureTintMask "materials/default/default.tga"
 	g_flBottomTintColor "[1.000000 1.000000 1.000000 0.000000]"
 
-	//---- Color ----
-	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-
-	//---- Fade ----
-	g_flFadeExponent "1.000"
-
-	//---- Fog ----
-	g_bFogEnabled "1"
-
-	//---- Lighting ----
-	g_flDirectionalLightmapMinZ "0.050"
-	g_flDirectionalLightmapStrength "1.000"
-
-	//---- Texture Coordinates ----
-	g_nScaleTexCoordUByModelScaleAxis "0"
-	g_nScaleTexCoordVByModelScaleAxis "0"
-	g_vTexCoordOffset "[0.000 0.000]"
-	g_vTexCoordScale "[1.000 1.000]"
-	g_vTexCoordScrollSpeed "[0.000 0.000]"
+	//---- Material ----
+	TextureColor "materials/default/default_color.tga"
+	TextureTintMask "materials/default/default.tga"
 
 	//---- Top Material ----
 	g_flTopTintColor "[1.000000 1.000000 1.000000 0.000000]"
 	TopTextureAmbientOcclusion "materials/default/default.tga"
-	TopTextureColor "materials/default/default.tga"
+	TopTextureColor "[1.000000 1.000000 1.000000 0.000000]"
 	TopTextureMetalness "materials/default/default.tga"
 	TopTextureNormal "materials/default/default.tga"
 	TopTextureRoughness "materials/default/default.tga"
 	TopTextureTintMask "materials/default/default.tga"
+
+	DynamicParams
+	{
+		Damage "Damage"
+	}
 }
