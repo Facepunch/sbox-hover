@@ -94,7 +94,13 @@
 				[
 					{
 						_class = "DefaultMaterialGroup"
-						remaps = [  ]
+						remaps = 
+						[
+							{
+								from = "materials/models/solids/black.vmat"
+								to = "materials/tempmodels/generator.vmat"
+							},
+						]
 						use_global_default = false
 						global_default_material = ""
 					},
