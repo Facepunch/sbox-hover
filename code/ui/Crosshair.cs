@@ -33,6 +33,7 @@ namespace Facepunch.Hover.UI
 			if ( Game.LocalPawn is not HoverPlayer player )
 				return;
 
+			SetClass( "hidden", !LongshotScope.Instance.HasClass( "hidden" ) );
 			Charge.SetClass( "hidden", true );
 
 			if ( player.ActiveChild is Weapon weapon )

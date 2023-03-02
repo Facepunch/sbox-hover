@@ -9,11 +9,7 @@ namespace Facepunch.Hover.UI
 	{
 		public static LongshotScope Instance { get; private set; }
 
-		public Panel Left { get; private set; }
-		public Panel Right { get; private set; }
-		public Panel Top { get; private set; }
-		public Panel Bottom { get; private set; }
-		public Image Inner { get; private set; }
+		public Panel Inner { get; private set; }
 
 		public void Show()
 		{
@@ -27,51 +23,11 @@ namespace Facepunch.Hover.UI
 
 		public LongshotScope()
 		{
-			Left = Add.Panel( "left" );
-			Right = Add.Panel( "right" );
-			Top = Add.Panel( "top" );
-			Bottom = Add.Panel( "bottom" );
-			Inner = Add.Image( "ui/scope_inner.png", "inner" );
+			Inner = Add.Panel( "inner" );
 
 			Instance = this;
 
 			Hide();
-		}
-
-		public override void Tick()
-		{
-			var screenSize = Box.Rect.Size * ScaleFromScreen;
-			var scopeSize = screenSize.y * 0.75f;
-			var halfScopeSize = scopeSize * 0.5f;
-			var halfScreenX = screenSize.x * 0.5f;
-			var halfScreenY = screenSize.y * 0.5f;
-
-			Inner.Style.Width = scopeSize;
-			Inner.Style.Height = scopeSize;
-			Inner.Style.Left = halfScreenX - halfScopeSize;
-			Inner.Style.Top = halfScreenY - halfScopeSize;
-
-			Left.Style.Width = halfScreenX - halfScopeSize;
-			Left.Style.Top = Inner.Style.Top;
-			Left.Style.Left = 0f;
-			Left.Style.Height = Inner.Style.Height;
-
-			Right.Style.Width = Length.Percent( 100f );
-			Right.Style.Left = halfScreenX + halfScopeSize;
-			Right.Style.Top = Inner.Style.Top;
-			Right.Style.Height = Inner.Style.Height;
-
-			Top.Style.Top = 0f;
-			Top.Style.Width = screenSize.x;
-			Top.Style.Height = Inner.Style.Top;
-			Top.Style.Left = 0f;
-
-			Bottom.Style.Top = halfScreenY + halfScopeSize;
-			Bottom.Style.Width = screenSize.x;
-			Bottom.Style.Height = Length.Percent( 100f );
-			Bottom.Style.Left = 0f;
-
-			base.Tick();
 		}
 	}
 }
