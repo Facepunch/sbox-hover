@@ -75,7 +75,7 @@ namespace Facepunch.ReakSmoke
 							continue;
 
 						var point = new SmokePoint();
-						point.Initialize( positionInSphere );
+						point.Initialize( tick, sizeSquared, distanceToCenter, position, positionInSphere );
 					}
 				}
 			}
