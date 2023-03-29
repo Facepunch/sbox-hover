@@ -87,7 +87,7 @@ namespace Facepunch.Hover
 			{
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
 
-				RealSmoke.Create( projectile.Position, 512f );
+				RealSmoke.Create( RealSmoke.Type.Cube, projectile.Position, 512f );
 			}
 		}
 	}

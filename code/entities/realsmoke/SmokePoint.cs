@@ -18,6 +18,7 @@ namespace Facepunch.ReakSmoke
 		private Vector3 Center { get; set; }
 		private int CreationTick { get; set; }
 		private int TargetTick { get; set; }
+		private RealSmoke.Type Type { get; set; }
 
 		public void FadeOut( float duration )
 		{
@@ -25,7 +26,7 @@ namespace Facepunch.ReakSmoke
 			IsFaded = true;
 		}
 
-		public void Initialize( int tick, float volumeSizeSqr, float distanceSqr, Vector3 center, Vector3 position )
+		public void Initialize( RealSmoke.Type type, int tick, float volumeSizeSqr, float distanceSqr, Vector3 center, Vector3 position )
 		{
 			OriginalPosition = position;
 			Position = position;
@@ -34,20 +35,25 @@ namespace Facepunch.ReakSmoke
 			JiggleRadius = Game.Random.Float( 8f, 16f );
 			Scale = 1f + Game.Random.Float( -0.15f, 0.1f );
 			Center = center;
+			Type = type;
 
 			var fraction = Easing.EaseOut( distanceSqr.Remap( 0f, volumeSizeSqr, 0f, 1f ) );
 
 			CreationTick = tick;
 			TargetTick = tick + (50 * fraction).CeilToInt() + Game.Random.Int( -5, 5 );
+			TimeToHide = 10f + Game.Random.Float( 0.5f ) + (1f - fraction);
+
+			if ( type == RealSmoke.Type.Sphere )
+				SetModel( "models/realsmoke/realsmoke.vmdl" );
+			else
+				SetModel( "models/realsmoke/realsmoke_cube.vmdl" );
+
+			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 		}
 
 		public override void Spawn()
 		{
-			SetModel( "models/realsmoke/realsmoke.vmdl" );
-			SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-
 			EnableSolidCollisions = false;
-			TimeToHide = Game.Random.Float( 10f, 11f );
 			Tags.Add( "realsmoke" );
 
 			base.Spawn();
