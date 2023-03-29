@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Facepunch.ReakSmoke;
+using Sandbox;
 using System.Collections.Generic;
 
 namespace Facepunch.Hover

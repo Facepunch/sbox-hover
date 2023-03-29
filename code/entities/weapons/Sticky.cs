@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Facepunch.ReakSmoke;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 
@@ -85,6 +86,8 @@ namespace Facepunch.Hover
 			if ( Game.IsServer )
 			{
 				DamageInRadius( projectile.Position, BlastRadius, Config.Damage, 4f );
+
+				RealSmoke.Create( projectile.Position, 512f );
 			}
 		}
 	}

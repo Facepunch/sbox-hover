@@ -1,4 +1,5 @@
 ﻿using Facepunch.Hover.UI;
+using Facepunch.ReakSmoke;
 using Sandbox;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -438,6 +439,8 @@ namespace Facepunch.Hover
 
 		public override IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
 		{
+			RealSmoke.CutOnClient( Time.Tick, start, end );
+
 			yield return Trace.Ray( start, end )
 				.UseHitboxes()
 				.Ignore( Owner )
