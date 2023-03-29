@@ -13,6 +13,13 @@ namespace Facepunch.ReakSmoke
 			Cube
 		}
 
+		private static List<SmokePoint> SmokePoints { get; set; } = new();
+
+		public static void Remove( SmokePoint point )
+		{
+			SmokePoints.Remove( point );
+		}
+
 		public static void Create( Type type, Vector3 position, float size )
 		{
 			CreateOnClient( To.Everyone, type, Time.Tick, position, size );
@@ -26,24 +33,20 @@ namespace Facepunch.ReakSmoke
 		[ClientRpc]
 		public static void CutOnClient( int tick, Vector3 start, Vector3 end )
 		{
-			Game.SetRandomSeed( tick );
-
-			var results = Trace.Ray( start, end )
+			var trace = Trace.Ray( start, end )
 				.WorldAndEntities()
-				.WithAnyTags( "solid", "realsmoke" )
-				.IncludeClientside()
+				.WithAnyTags( "solid" )
 				.Size( 4f )
-				.RunAll();
+				.Run();
 
-			if ( results is null )
-				return;
+			end = trace.EndPosition;
 
-			foreach ( var r in results )
+			foreach ( var s in SmokePoints )
 			{
-				if ( r.Entity is not SmokePoint s )
-					return;
-
-				s.FadeOut( Game.Random.Float( 1.2f, 1.8f ) );
+				if ( s.DistanceToLine( start, end ) <= 24f )
+				{
+					s.FadeOut();
+				}
 			}
 		}
 
@@ -89,8 +92,18 @@ namespace Facepunch.ReakSmoke
 
 						var point = new SmokePoint();
 						point.Initialize( type, tick, sizeSquared, distanceToCenter, position, positionInSphere );
+						SmokePoints.Add( point );
 					}
 				}
+			}
+		}
+
+		[Event.Tick.Client]
+		private static void ClientTick()
+		{
+			for ( var i = SmokePoints.Count - 1; i >= 0; i-- )
+			{
+				SmokePoints[i].Tick();
 			}
 		}
 	}
