@@ -20,9 +20,9 @@ namespace Facepunch.ReakSmoke
 			SmokePoints.Remove( point );
 		}
 
-		public static void Create( Type type, Vector3 position, float size )
+		public static void Create( Type type, Vector3 position, float size, float pointScale = 1f )
 		{
-			CreateOnClient( To.Everyone, type, Time.Tick, position, size );
+			CreateOnClient( To.Everyone, type, Time.Tick, position, size, pointScale );
 		}
 
 		public static void Cut( Vector3 start, Vector3 end )
@@ -43,7 +43,7 @@ namespace Facepunch.ReakSmoke
 
 			foreach ( var s in SmokePoints )
 			{
-				if ( s.DistanceToLine( start, end ) <= 24f )
+				if ( s.DistanceToLine( start, end ) <= s.Size )
 				{
 					s.FadeOut();
 				}
@@ -51,14 +51,14 @@ namespace Facepunch.ReakSmoke
 		}
 
 		[ClientRpc]
-		public static void CreateOnClient( Type type, int tick, Vector3 position, float size )
+		public static void CreateOnClient( Type type, int tick, Vector3 position, float size, float pointScale = 1f )
 		{
-			var pointRadius = 32f;
+			var pointRadius = 32f * pointScale;
 			var pointSizeWithSpacing = pointRadius * 1.5f;
 
 			if ( type == Type.Cube )
 			{
-				pointRadius = 48f;
+				pointRadius = 48f * pointScale;
 				pointSizeWithSpacing = pointRadius;
 			}
 
@@ -91,7 +91,7 @@ namespace Facepunch.ReakSmoke
 							continue;
 
 						var point = new SmokePoint();
-						point.Initialize( type, tick, sizeSquared, distanceToCenter, position, positionInSphere );
+						point.Initialize( type, pointScale, tick, sizeSquared, distanceToCenter, position, positionInSphere );
 						SmokePoints.Add( point );
 					}
 				}

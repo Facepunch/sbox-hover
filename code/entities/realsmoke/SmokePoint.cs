@@ -6,6 +6,10 @@ namespace Facepunch.ReakSmoke
 {
 	public partial class SmokePoint
 	{
+		public RealSmoke.Type Type { get; private set; }
+		public float Size => Type == RealSmoke.Type.Cube ? 48f * Scale : 64f * Scale;
+		public float Scale { get; private set; }
+
 		private Vector3 OriginalPosition { get; set; }
 		private TimeUntil TimeToHide { get; set; }
 		private int TickOffset { get; set; }
@@ -50,7 +54,7 @@ namespace Facepunch.ReakSmoke
 			return p.Distance( pb );
 		}
 
-		public void Initialize( RealSmoke.Type type, int tick, float volumeSizeSqr, float distanceSqr, Vector3 center, Vector3 position )
+		public void Initialize( RealSmoke.Type type, float scale, int tick, float volumeSizeSqr, float distanceSqr, Vector3 center, Vector3 position )
 		{
 			var model = "models/realsmoke/realsmoke.vmdl";
 
@@ -61,7 +65,7 @@ namespace Facepunch.ReakSmoke
 			{
 				Position = position,
 				Rotation = Rotation.Identity,
-				Scale = 1f + Game.Random.Float( -0.15f, 0.1f )
+				Scale = scale + Game.Random.Float( -0.15f, 0.1f )
 			};
 
 			SceneObject = new SceneObject( Game.SceneWorld, model );
@@ -73,6 +77,8 @@ namespace Facepunch.ReakSmoke
 			JiggleSpeed = Game.Random.Float( 0.05f, 0.12f );
 			JiggleRadius = Game.Random.Float( 8f, 16f );
 			Center = center;
+			Scale = scale;
+			Type = type;
 
 			var fraction = Easing.EaseOut( distanceSqr.Remap( 0f, volumeSizeSqr, 0f, 1f ) );
 
