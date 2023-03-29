@@ -50,78 +50,45 @@ namespace Facepunch.ReakSmoke
 		[ClientRpc]
 		public static void CreateOnClient( Type type, int tick, Vector3 position, float size )
 		{
-			if ( type == Type.Sphere )
+			var pointRadius = 32f;
+			var pointSizeWithSpacing = pointRadius * 1.5f;
+
+			if ( type == Type.Cube )
 			{
-				var pointRadius = 32f;
-				var pointSizeWithSpacing = pointRadius * 1.5f;
-				var numPointsPerAxis = (size / pointSizeWithSpacing).CeilToInt();
-				var halfPointsPerAxis = numPointsPerAxis / 2;
-				var sizeSquared = size * size;
-				var squaredRadius = sizeSquared * 0.25f;
-
-				Game.SetRandomSeed( tick );
-
-				for ( var x = -halfPointsPerAxis; x <= halfPointsPerAxis; x++ )
-				{
-					for ( var y = -halfPointsPerAxis; y <= halfPointsPerAxis; y++ )
-					{
-						for ( var z = -halfPointsPerAxis; z <= halfPointsPerAxis; z++ )
-						{
-							var offset = new Vector3( x, y, z ) * pointSizeWithSpacing;
-							var positionInSphere = position + offset;
-							var distanceToCenter = position.DistanceSquared( positionInSphere );
-
-							if ( distanceToCenter > squaredRadius )
-								continue;
-
-							var trace = Trace.Ray( position, positionInSphere )
-								.WorldAndEntities()
-								.WithAnyTags( "solid" )
-								.Run();
-
-							if ( trace.Fraction < 0.8f )
-								continue;
-
-							var point = new SmokePoint();
-							point.Initialize( type, tick, sizeSquared, distanceToCenter, position, positionInSphere );
-						}
-					}
-				}
+				pointRadius = 48f;
+				pointSizeWithSpacing = pointRadius;
 			}
-			else
+
+			var numPointsPerAxis = (size / pointSizeWithSpacing).CeilToInt();
+			var halfPointsPerAxis = numPointsPerAxis / 2;
+			var sizeSquared = size * size;
+			var squaredRadius = sizeSquared * 0.25f;
+
+			Game.SetRandomSeed( tick );
+
+			for ( var x = -halfPointsPerAxis; x <= halfPointsPerAxis; x++ )
 			{
-				var boxSize = 48f;
-				var numPointsPerAxis = (size / boxSize).CeilToInt();
-				var halfPointsPerAxis = numPointsPerAxis / 2;
-				var sizeSquared = size * size;
-				var squaredRadius = sizeSquared * 0.25f;
-
-				Game.SetRandomSeed( tick );
-
-				for ( var x = -halfPointsPerAxis; x <= halfPointsPerAxis; x++ )
+				for ( var y = -halfPointsPerAxis; y <= halfPointsPerAxis; y++ )
 				{
-					for ( var y = -halfPointsPerAxis; y <= halfPointsPerAxis; y++ )
+					for ( var z = -halfPointsPerAxis; z <= halfPointsPerAxis; z++ )
 					{
-						for ( var z = -halfPointsPerAxis; z <= halfPointsPerAxis; z++ )
-						{
-							var offset = new Vector3( x, y, z ) * boxSize;
-							var positionInSphere = position + offset;
-							var distanceToCenter = position.DistanceSquared( positionInSphere );
+						var offset = new Vector3( x, y, z ) * pointSizeWithSpacing;
+						var positionInSphere = position + offset;
+						var distanceToCenter = position.DistanceSquared( positionInSphere );
 
-							if ( distanceToCenter > squaredRadius )
-								continue;
+						if ( distanceToCenter > squaredRadius )
+							continue;
 
-							var trace = Trace.Ray( position, positionInSphere )
-								.WorldAndEntities()
-								.WithAnyTags( "solid" )
-								.Run();
+						var trace = Trace.Ray( position, positionInSphere )
+							.WorldAndEntities()
+							.WithAnyTags( "solid" )
+							.Run();
 
-							if ( trace.Fraction < 0.8f )
-								continue;
+						if ( trace.Fraction < 0.8f )
+							continue;
 
-							var point = new SmokePoint();
-							point.Initialize( type, tick, sizeSquared, distanceToCenter, position, positionInSphere );
-						}
+						var point = new SmokePoint();
+						point.Initialize( type, tick, sizeSquared, distanceToCenter, position, positionInSphere );
 					}
 				}
 			}
