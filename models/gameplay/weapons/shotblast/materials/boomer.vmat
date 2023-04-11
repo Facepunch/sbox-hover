@@ -1,19 +1,14 @@
-// THIS FILE IS AUTO-GENERATED
-
-Layer0
+"Layer0"
 {
-	shader "shaders/new_toon_shader.shader"
-
-	AO "materials/default/default_ao.tga"
-	Color "[0.862745 0.074510 0.074510 1.000000]"
-	ColorTint "[1.000000 0.000000 0.000000 1.000000]"
-	Crosshatch "models/gameplay/textures/crosshatch.png"
-	g_bTint "[0.000 0.000 0.000 0.000]"
-	g_flCrosshatchTile "0.000"
-	g_vCrosshatch "0"
-	Mask "materials/default/default_color.tga"
-	Normal "materials/default/default_normal.tga"
-
-	//---- Fog ----
-	g_bFogEnabled "1"
+	"shader"		"shaders/new_toon_shader.shader_c"
+	"AO"		"materials/default/default_ao.tga"
+	"Color"		"[0.862745 0.074510 0.074510 1.000000]"
+	"ColorTint"		"[1.000000 0.000000 0.000000 1.000000]"
+	"Crosshatch"		"models/gameplay/textures/crosshatch.png"
+	"g_bTint"		"[0.000 0.000 0.000 0.000]"
+	"g_flCrosshatchTile"		"0.000000"
+	"g_vCrosshatch"		"0"
+	"Mask"		"materials/default/default_color.tga"
+	"Normal"		"materials/default/default_normal.tga"
+	"g_bFogEnabled"		"1"
 }
