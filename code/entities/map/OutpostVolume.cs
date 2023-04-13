@@ -104,7 +104,7 @@ namespace Facepunch.Hover
 
 		protected void UpdateBaseAssets()
 		{
-			foreach ( var dependency in Entity.FindInBox( WorldSpaceBounds ) )
+			foreach ( var dependency in FindInBox( WorldSpaceBounds ) )
 			{
 				if ( dependency is IBaseAsset asset )
 				{
@@ -237,6 +237,16 @@ namespace Facepunch.Hover
 					}
 				}
 			}
+		}
+
+		protected override void OnDestroy()
+		{
+			UI.OutpostList.RemoveOutpost( this );
+
+			Hud?.Delete( true );
+			Hud = null;
+
+			base.OnDestroy();
 		}
 	}
 }

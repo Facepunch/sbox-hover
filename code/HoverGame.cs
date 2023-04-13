@@ -135,25 +135,12 @@ namespace Facepunch.Hover
         }
 
 		public static BaseRound Round => Entity?.InternalRound;
+		private static bool HasInitialized { get; set; }
 
 		[Net, Change( nameof( OnRoundChanged ) )] private BaseRound InternalRound { get; set; }
 
 		private TimeUntil NextSecondTime { get; set; }
 		private ScreenEffects PostProcessing { get; set; }
-
-		public HoverGame() : base()
-		{
-			if ( Game.IsClient )
-			{
-				Game.RootPanel?.Delete( true );
-				Game.RootPanel = new UI.Hud();
-
-				PostProcessing = new();
-
-				Camera.Main.RemoveAllHooks();
-				Camera.Main.AddHook( PostProcessing );
-			}
-		}
 
 		public override void Spawn()
 		{
@@ -167,7 +154,16 @@ namespace Facepunch.Hover
 		{
 			AddAwards();
 
-			Event.Run( "refresh" );
+			if ( !HasInitialized )
+			{
+				Game.RootPanel?.Delete( true );
+				Game.RootPanel = new UI.Hud();
+				HasInitialized = true;
+			}
+
+			PostProcessing = new();
+			Camera.Main.RemoveAllHooks();
+			Camera.Main.AddHook( PostProcessing );
 
 			base.ClientSpawn();
 		}

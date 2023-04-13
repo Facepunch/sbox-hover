@@ -658,13 +658,7 @@ namespace Facepunch.Hover
 		{
 			if ( IsLocalPawn )
 			{
-				if ( AnimatedLegs is not null )
-				{
-					AnimatedLegs.RenderingEnabled = false;
-					AnimatedLegs.Delete();
-					AnimatedLegs = null;
-				}
-
+				AnimatedLegs?.Delete();
 				AnimatedLegs = new( Game.SceneWorld, model, Transform );
 				AnimatedLegs.SetBodyGroup( "Head", 1 );
 
@@ -1592,6 +1586,12 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
+			Nameplate?.Delete( true );
+			Nameplate = null;
+
+			AnimatedLegs?.Delete();
+			AnimatedLegs = null;
+
 			RemoveRagdollEntity();
 			StopJetpackLoop();
 			StopWindLoop();
@@ -1600,7 +1600,10 @@ namespace Facepunch.Hover
 			if ( IsLocalPawn )
 			{
 				SpeedLines?.Destroy();
+				SpeedLines = null;
+
 				RadarHud?.Delete();
+				RadarHud = null;
 			}
 
 			base.OnDestroy();

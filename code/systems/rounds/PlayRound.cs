@@ -195,12 +195,6 @@ namespace Facepunch.Hover
 
 		}
 
-		[Event( "refresh" )]
-		private void OnRefresh()
-		{
-			ScoreHud = Game.RootPanel.AddChild<UI.RoundScore>();
-		}
-
 		private void OnOutpostLost( OutpostVolume outpost )
 		{
 			Audio.Play( outpost.LastCapturer, "you.lostoutpost", "lostoutpost" );

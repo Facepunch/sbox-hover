@@ -159,7 +159,8 @@ namespace Facepunch.Hover
 
 		protected override void OnDestroy()
 		{
-			Hud?.Delete();
+			Hud?.Delete( true );
+			Hud = null;
 
 			base.OnDestroy();
 		}

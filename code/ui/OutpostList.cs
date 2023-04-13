@@ -53,19 +53,30 @@ namespace Facepunch.Hover.UI
 	public class OutpostList : Panel
 	{
 		public static OutpostList Instance { get; private set; }
-		public static List<OutpostVolume> Outposts => new();
+		public static List<OutpostVolume> Outposts { get; private set; } = new();
+
 		public HashSet<OutpostItem> Items { get; private set; }
-		
 		public Panel Container { get; private set; }
 
-		public static void AddOutpost( OutpostVolume outpost )
+		public static void RemoveOutpost( OutpostVolume outpost )
 		{
-			if ( Outposts.Contains( outpost ) ) return;
+			if ( !Outposts.Contains( outpost ) ) return;
 
 			if ( Instance != null )
 			{
-				Instance.AddItem( outpost );
+				Instance.RemoveItem( outpost );
 			}
+
+			Outposts.Remove( outpost );
+		}
+
+		public static void AddOutpost( OutpostVolume outpost )
+		{
+			if ( Outposts.Contains( outpost ) )
+				return;
+
+			if ( Instance != null )
+				Instance.AddItem( outpost );
 
 			Outposts.Add( outpost );
 		}
@@ -84,6 +95,19 @@ namespace Facepunch.Hover.UI
 			BindClass( "hidden", ShouldHidePanel );
 
 			Instance = this;
+		}
+
+		public void RemoveItem( OutpostVolume outpost )
+		{
+			foreach ( var item in Items )
+			{
+				if ( item.Outpost == outpost )
+				{
+					Items.Remove( item );
+					item.Delete( true );
+					return;
+				}
+			}
 		}
 
 		public void AddItem( OutpostVolume outpost )
