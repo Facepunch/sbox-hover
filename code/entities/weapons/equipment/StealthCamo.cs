@@ -28,7 +28,6 @@ namespace Facepunch.Hover
 
 		public override WeaponConfig Config => new StealthCamoConfig();
 		public override string? AbilityButton => "flashlight";
-		public override string AbilityBind => "iv_flashlight";
 		public override bool IsPassive => true;
 
 		public float EnergyDrain { get; set; } = 8f;

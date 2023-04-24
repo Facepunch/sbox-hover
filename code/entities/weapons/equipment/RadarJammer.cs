@@ -19,8 +19,7 @@ namespace Facepunch.Hover
 	public partial class RadarJammer : Equipment
 	{
 		public override WeaponConfig Config => new RadarJammerConfig();
-		public override string? AbilityButton => "flashlight";
-		public override string AbilityBind => "iv_flashlight";
+		public override string AbilityButton => "flashlight";
 		public override bool IsPassive => true;
 
 		public float EnergyDrain { get; set; } = 4f;

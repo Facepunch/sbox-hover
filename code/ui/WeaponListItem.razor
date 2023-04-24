@@ -23,7 +23,7 @@
             var slotText = "";
 
             if ( !string.IsNullOrEmpty( KeyBind ) )
-                slotText = Input.GetKeyWithBinding( KeyBind ).ToUpper();
+                slotText = Input.GetButtonOrigin( KeyBind ).ToUpper();
         }
 
         <text>@slotText</text>

@@ -7,7 +7,6 @@ namespace Facepunch.Hover
 	public abstract partial class Equipment : Weapon
 	{
 		public virtual string AbilityButton => null;
-		public virtual string AbilityBind => null;
 
 		[Net] public bool IsUsingAbility { get; protected set; }
 

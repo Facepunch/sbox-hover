@@ -177,9 +177,9 @@ namespace Facepunch.Hover.UI
 		{
 			var tip = Game.Random.FromArray( Tips );
 
-			tip = Regex.Replace( tip, "(\\+iv_[a-zA-Z0-9]+)", ( match ) =>
+			tip = Regex.Replace( tip, "(\\+[a-zA-Z0-9]+)", ( match ) =>
 			{
-				return Input.GetKeyWithBinding( match.Value );
+				return Input.GetButtonOrigin( match.Value.Replace( "+", "" ) );
 			} );
 
 			Current?.AddEntry( null, tip, null, "tip", ChatBoxChannel.Tip );
