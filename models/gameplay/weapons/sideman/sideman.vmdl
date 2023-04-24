@@ -170,7 +170,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "boomer/animgraphs/weapons/nailgun/nailgun.vanmgrph"
+		anim_graph_name = "models/gameplay/weapons/sideman/sideman.vanmgrph"
 		base_model_name = ""
 	}
 }

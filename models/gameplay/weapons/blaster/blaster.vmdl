@@ -188,7 +188,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "boomer/animgraphs/weapons/blaster/lightninggun.vanmgrph"
+		anim_graph_name = "models/gameplay/weapons/blaster/blaster.vanmgrph"
 		base_model_name = ""
 	}
 }

@@ -163,7 +163,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "boomer/animgraphs/weapons/longshot/railgun.vanmgrph"
+		anim_graph_name = "models/gameplay/weapons/longshot/longshot.vanmgrph"
 		base_model_name = ""
 	}
 }

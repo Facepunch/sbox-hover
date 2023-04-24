@@ -181,7 +181,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "boomer/animgraphs/weapons/barage/grenadelauncher.vanmgrph"
+		anim_graph_name = "models/gameplay/weapons/barage/barage.vanmgrph"
 		base_model_name = ""
 	}
 }

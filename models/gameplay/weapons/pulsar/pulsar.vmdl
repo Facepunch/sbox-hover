@@ -170,7 +170,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "boomer/animgraphs/weapons/pulsar/rocketlauncher.vanmgrph"
+		anim_graph_name = "models/gameplay/weapons/pulsar/pulsar.vanmgrph"
 		base_model_name = ""
 	}
 }
