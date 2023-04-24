@@ -798,13 +798,13 @@ namespace Facepunch.Hover
 
 			if ( stationScreen.IsOpen )
 			{
-				if ( stationScreen.Mode == UI.StationScreenMode.Station && Input.Released( InputButton.Use ) )
+				if ( stationScreen.Mode == UI.StationScreenMode.Station && Input.Released( "use" ) )
 				{
 					UI.StationScreen.Hide();
 				}
 
 				Input.StopProcessing = true;
-				Input.ClearButtons();
+				Input.ClearActions();
 				Input.AnalogMove = Vector3.Zero;
 				Input.AnalogLook = Angles.Zero;
 
@@ -886,7 +886,7 @@ namespace Facepunch.Hover
 			if ( LifeState != LifeState.Alive )
 				return;
 
-			if ( Game.IsServer && Input.Released( InputButton.Drop ) )
+			if ( Game.IsServer && Input.Released( "drop" ) )
 			{
 				var spottedPlayers = 0;
 				var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 20000f )
@@ -920,16 +920,16 @@ namespace Facepunch.Hover
 
 			foreach ( var child in Children )
 			{
-				if ( child is Equipment equipment && equipment.AbilityButton.HasValue )
+				if ( child is Equipment equipment && !string.IsNullOrEmpty( equipment.AbilityButton ) )
 				{
-					if ( Input.Released( equipment.AbilityButton.Value )  )
+					if ( Input.Released( equipment.AbilityButton )  )
 					{
 						equipment.OnAbilityUsed();
 					}
 				}
 			}
 
-			if ( Game.IsServer && Input.Released( InputButton.Use ) )
+			if ( Game.IsServer && Input.Released( "use" ) )
 			{
 				var station = FindInSphere( Position, 50f )
 					.OfType<StationAsset>()
@@ -945,7 +945,7 @@ namespace Facepunch.Hover
 				}
 			}
 
-			if ( Game.IsServer && Input.Released( InputButton.Drop ) )
+			if ( Game.IsServer && Input.Released( "drop" ) )
 			{
 				foreach ( var flag in All.OfType<FlagEntity>() )
 				{

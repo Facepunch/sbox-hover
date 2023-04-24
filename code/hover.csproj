@@ -9,6 +9,7 @@
 		<NoWarn>1701;1702;1591;</NoWarn>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<DefineConstants>SANDBOX;ADDON;DEBUG</DefineConstants>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -45,7 +46,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-		<ProjectReference Include="C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\base\code\Base Library.csproj" />
+		<ProjectReference Include="S:\Steam\steamapps\common\sbox\addons\base\code\Base Library.csproj" />
 
   </ItemGroup>
 

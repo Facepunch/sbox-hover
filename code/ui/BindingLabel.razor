@@ -23,7 +23,7 @@
 
     public bool Hold { get; set; }
 
-    public InputButton Action { get; private set; }
+    public string Action { get; private set; }
 
     public override void SetContent( string value )
     {
@@ -42,7 +42,7 @@
 
 		if ( name == "action" )
 		{
-			Action = Enum.Parse<InputButton>( value );
+			Action = value;
 			return;
 		}
 

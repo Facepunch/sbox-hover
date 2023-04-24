@@ -49,7 +49,7 @@ namespace Facepunch.Hover
 
 		public override bool CanPrimaryAttack()
 		{
-			return base.CanPrimaryAttack() && Input.Pressed( InputButton.PrimaryAttack );
+			return base.CanPrimaryAttack() && Input.Pressed( "attack1" );
 		}
 
 		public override void PlayReloadSound()

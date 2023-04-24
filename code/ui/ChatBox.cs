@@ -165,7 +165,7 @@ namespace Facepunch.Hover.UI
 				NextTipTime = Game.Random.Float( 45f, 60f );
 			}
 
-			if ( Input.Pressed( InputButton.Chat ) )
+			if ( Input.Pressed( "chat" ) )
 			{
 				Open();
 			}

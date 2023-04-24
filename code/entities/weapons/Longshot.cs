@@ -93,7 +93,7 @@ namespace Facepunch.Hover
 
 		public override void Simulate( IClient owner )
 		{
-			if ( Game.IsClient && Input.Pressed( InputButton.Run ) )
+			if ( Game.IsClient && Input.Pressed( "run" ) )
 			{
 				if ( Prediction.FirstTime )
 				{

@@ -28,16 +28,16 @@
 
         if ( Game.LocalPawn is HoverPlayer player )
 		{
-            AddHint( InputButton.PrimaryAttack, "Attack" );
-            AddHint( InputButton.SecondaryAttack, "Jetpack" );
-            AddHint( InputButton.Jump, "Hold to Ski" );
-            AddHint( InputButton.Drop, "Spot Enemy" );
-            AddHint( InputButton.Reload, "Reload" );
-            AddHint( InputButton.Use, "Interact" );
+            AddHint( "attack1", "Attack" );
+            AddHint( "attack2", "Jetpack" );
+            AddHint( "jump", "Hold to Ski" );
+            AddHint( "drop", "Spot Enemy" );
+            AddHint( "reload", "Reload" );
+            AddHint( "use", "Interact" );
 		}
 	}
 
-	private InputHint AddHint( InputButton button, string name )
+	private InputHint AddHint( string button, string name )
 	{
 		var hint = Container.AddChild<InputHint>();
 		hint.SetButton( button );

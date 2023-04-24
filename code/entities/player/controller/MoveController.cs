@@ -197,7 +197,7 @@ namespace Facepunch.Hover
 			IsJetpacking = false;
 			IsSkiing = false;
 
-			if ( Input.Down( Input.UsingController ? InputButton.Jump : InputButton.SecondaryAttack ) )
+			if ( Input.Down( Input.UsingController ? "jump" : "attack2" ) )
 			{
 				DoJetpackMovement();
 			}
@@ -208,7 +208,7 @@ namespace Facepunch.Hover
 			{
 				Player.Velocity = Player.Velocity.WithZ( 0 );
 
-				if ( Input.Down( Input.UsingController ? InputButton.SecondaryAttack : InputButton.Jump ) )
+				if ( Input.Down( Input.UsingController ? "attack2" : "jump" ) )
 				{
 					HandleSki();
 				}
@@ -604,7 +604,7 @@ namespace Facepunch.Hover
 
 		private void CheckLadder()
 		{
-			if ( IsTouchingLadder && Input.Pressed( InputButton.Jump ) )
+			if ( IsTouchingLadder && Input.Pressed( "jump" ) )
 			{
 				Player.Velocity = LadderNormal * 100.0f;
 				IsTouchingLadder = false;

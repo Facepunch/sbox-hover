@@ -209,7 +209,7 @@ namespace Facepunch.Hover
 			{
 				ChargeAttackEndTime = 0f;
 			}
-			if ( Input.Down( InputButton.Zoom ) )
+			if ( Input.Down( "zoom" ) )
 			{
 				if ( CanMeleeAttack && TimeSinceMeleeAttack > (1 / MeleeRate) )
 				{

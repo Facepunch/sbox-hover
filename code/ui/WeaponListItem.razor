@@ -22,8 +22,8 @@
         @{
             var slotText = "";
 
-            if (!string.IsNullOrEmpty(KeyBind))
-                slotText = Input.GetKeyWithBinding(KeyBind).ToUpper();
+            if ( !string.IsNullOrEmpty( KeyBind ) )
+                slotText = Input.GetKeyWithBinding( KeyBind ).ToUpper();
         }
 
         <text>@slotText</text>
