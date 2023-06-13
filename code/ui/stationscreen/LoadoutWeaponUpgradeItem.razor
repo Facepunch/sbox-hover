@@ -18,14 +18,12 @@
         <label class="title">@Upgrade.Name</label>
         <label class="subtitle">@Upgrade.Description</label>
   </div>
-  <StationScreenButton
-    @ref="BuyButton"
-    class="btn is-primary is-small"
-    onpressed=@DoBuyUpgrade
-  >
-    <div class="button-inside"></div>
-    <div class="currency-icon"></div>
+  <StationScreenButton @ref="BuyButton" class="btn is-primary is-small" onpressed=@DoBuyUpgrade>
+    <ChildContent>
+        <div class="button-inside"></div>
+        <div class="currency-icon"></div>
         <label>@ButtonText</label>
+    </ChildContent>
   </StationScreenButton>
 </root>
 

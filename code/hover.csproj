@@ -13,40 +13,41 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Update="**\*.scss" DependentUpon="%(Filename).cs" />
-		<None Update="**\*.css" DependentUpon="%(Filename).cs" />
-		<None Update="**\*.sass" DependentUpon="%(Filename).cs" />
-		<None Update="**\*.html" DependentUpon="%(Filename).cs" />
-		<None Update="**\*.htm" DependentUpon="%(Filename).cs" />
+		
+		<None Update="**\*.cs.scss" DependentUpon="%(Filename)" />
+		<Compile Update="**\*.razor.cs" DependentUpon="%(Filename)" />
+		<None Update="**\*.razor.scss" DependentUpon="%(Filename)" />
+
 	</ItemGroup>
 
 	<ItemGroup>
 	  <AdditionalFiles Include="**/*.razor" />
 	</ItemGroup>
 
+
 	<ItemGroup>
 		<Using Include="Sandbox.Internal.GlobalGameNamespace" Static="true" />
 	</ItemGroup>
 
   <PropertyGroup>
-	<OutputPath>G:\Facepunch\sbox\game/.vs/output/</OutputPath>
-	<DocumentationFile>G:\Facepunch\sbox\game/.vs/output/hover.xml</DocumentationFile>
+	<OutputPath>..\..\../.vs/output/</OutputPath>
+	<DocumentationFile>..\..\../.vs/output/hover.xml</DocumentationFile>
 	<RootNamespace>Sandbox</RootNamespace>
 	<Nullable>disable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="G:\Facepunch\sbox\game\bin\managed\Sandbox.Generator.dll"/>
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.System.dll" />
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.Engine.dll" />
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.Game.dll" />
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.Event.dll" />
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.Bind.dll" />
-		<Reference Include="G:\Facepunch\sbox\game\bin\managed/Sandbox.Reflection.dll" />
+		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll"/>
+		<Reference Include="..\..\..\bin\managed/Sandbox.System.dll" />
+		<Reference Include="..\..\..\bin\managed/Sandbox.Engine.dll" />
+		<Reference Include="..\..\..\bin\managed/Sandbox.Game.dll" />
+		<Reference Include="..\..\..\bin\managed/Sandbox.Event.dll" />
+		<Reference Include="..\..\..\bin\managed/Sandbox.Bind.dll" />
+		<Reference Include="..\..\..\bin\managed/Sandbox.Reflection.dll" />
 	</ItemGroup>
 
   <ItemGroup>
-		<ProjectReference Include="G:\Facepunch\sbox\game\addons\base\code\Base Library.csproj" />
+		<ProjectReference Include="S:\Steam\steamapps\common\sbox\addons\base\code\Base Library.csproj" />
 
   </ItemGroup>
 

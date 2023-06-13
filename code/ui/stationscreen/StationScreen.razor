@@ -12,280 +12,289 @@
 
 <root>
   <StationScreenView class="loadout-view" default name="loadout">
-    <div class="character-panel">
-      <div class="panel-left">
-        <div class="character-header">
-            <label class="loadout-weight">@LoadoutInfo.Weight</label>
-            <label class="loadout-name">@LoadoutInfo.Name</label>
-            <label class="loadout-description">@LoadoutInfo.Description</label>
-          <div @ref="TagsList" class="tags-list">
+      <ChildContent>
+        <div class="character-panel">
+          <div class="panel-left">
+	        <div class="character-header">
+		        <label class="loadout-weight">@LoadoutInfo.Weight</label>
+		        <label class="loadout-name">@LoadoutInfo.Name</label>
+		        <label class="loadout-description">@LoadoutInfo.Description</label>
+	          <div @ref="TagsList" class="tags-list">
+	          </div>
+	        </div>
+
+	        <div class="character-weapons">
+	          <div class="weapon-row">
+		        <LoadoutWeaponItem index="0" />
+		        <LoadoutWeaponItem index="1" />
+	          </div>
+	          <div class="weapon-row">
+		        <LoadoutWeaponItem index="2" />
+		        <LoadoutWeaponItem index="3" />
+		        <LoadoutWeaponItem index="4" />
+	          </div>
+	        </div>
+          </div>
+          <div class="panel-right">
+	        <div class="character-level">
+	          <div class="level-box">
+		        <label>@UpgradeLevel</label>
+	          </div>
+	          <div class="upgrade-available">
+		        <label>@UpgradeText</label>
+	          </div>
+	          <StationScreenButton @ref="UpgradeButton" onpressed=@DoLoadoutUpgrade class="btn is-primary is-small level-button">
+                  <ChildContent>
+		            <div class="button-inside"></div>
+		            <label>@NextUpgradeLevel</label>
+		            <div class="icon"></div>
+		            <label>@UpgradeCost</label>
+                  </ChildContent>
+	          </StationScreenButton>
+	        </div>
+
+	        <div @ref="AvatarRoot" class="character-icon-container">
+		        <ScenePanel @ref="AvatarPanel" World=@AvatarWorld></ScenePanel>
+	        </div>
+	        <div class="character-stats">
+	          <div class="stat-row">
+		        <label class="stat-name">Health</label>
+		        <label class="stat-value">@LoadoutInfo.Health</label>
+	          </div>
+
+	          <div class="stat-row">
+		        <label class="stat-name">Energy</label>
+		        <label class="stat-value">@LoadoutInfo.Energy</label>
+	          </div>
+
+	          <div class="stat-row">
+		        <label class="stat-name">Speed</label>
+		        <label class="stat-value">@LoadoutInfo.Speed</label>
+	          </div>
+	        </div>
           </div>
         </div>
 
-        <div class="character-weapons">
-          <div class="weapon-row">
-            <LoadoutWeaponItem index="0" />
-            <LoadoutWeaponItem index="1" />
-          </div>
-          <div class="weapon-row">
-            <LoadoutWeaponItem index="2" />
-            <LoadoutWeaponItem index="3" />
-            <LoadoutWeaponItem index="4" />
+        <div class="loadout-container">
+          <LoadoutSelectList @ref="LoadoutList" OnLoadoutSelected=@OnLoadoutSelected></LoadoutSelectList>
+          <div class="loadout-buttons">
+	        <StationScreenButton @ref="CancelButton" onpressed=@DoCancel class="btn is-secondary cancel-button">
+                <ChildContent>
+                    <text>Cancel</text>
+                </ChildContent>
+	        </StationScreenButton>
+
+	        <StationScreenButton onpressed=@DoDeploy class="btn is-primary">
+                <ChildContent>
+	                <div class="button-inside"></div>
+	                <text>Deploy</text>
+                </ChildContent>
+	        </StationScreenButton>
           </div>
         </div>
-      </div>
-      <div class="panel-right">
-        <div class="character-level">
-          <div class="level-box">
-            <label>@UpgradeLevel</label>
-          </div>
-          <div class="upgrade-available">
-            <label>@UpgradeText</label>
-          </div>
-          <StationScreenButton @ref="UpgradeButton" onpressed=@DoLoadoutUpgrade class="btn is-primary is-small level-button">
-            <div class="button-inside"></div>
-            <label>@NextUpgradeLevel</label>
-            <div class="icon"></div>
-            <label>@UpgradeCost</label>
-          </StationScreenButton>
-        </div>
-
-        <div @ref="AvatarRoot" class="character-icon-container">
-            <ScenePanel @ref="AvatarPanel" World=@AvatarWorld></ScenePanel>
-        </div>
-        <div class="character-stats">
-          <div class="stat-row">
-            <label class="stat-name">Health</label>
-            <label class="stat-value">@LoadoutInfo.Health</label>
-          </div>
-
-          <div class="stat-row">
-            <label class="stat-name">Energy</label>
-            <label class="stat-value">@LoadoutInfo.Energy</label>
-          </div>
-
-          <div class="stat-row">
-            <label class="stat-name">Speed</label>
-            <label class="stat-value">@LoadoutInfo.Speed</label>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="loadout-container">
-      <LoadoutSelectList @ref="LoadoutList" OnLoadoutSelected=@OnLoadoutSelected></LoadoutSelectList>
-      <div class="loadout-buttons">
-        <StationScreenButton
-          @ref="CancelButton"
-          onpressed=@DoCancel
-          class="btn is-secondary cancel-button"
-        >
-          <text>Cancel</text>
-        </StationScreenButton>
-
-        <StationScreenButton onpressed=@DoDeploy class="btn is-primary">
-          <div class="button-inside"></div>
-          <text>Deploy</text>
-        </StationScreenButton>
-      </div>
-    </div>
+      </ChildContent>
   </StationScreenView>
 
   <StationScreenView class="weapon-view" name="weapon">
-    <StationScreenButton class="back-button" onpressed=@( () => SetView( "loadout" ) )>
-      <div class="icon"></div>
-    </StationScreenButton>
-    <div class="weapon-body">
-      <div class="weapon-view-header">
-        <label class="weapon-name">@SlotName</label>
-        <div class="player-currency">
-          <div class="currency-icon"></div>
-          <label>@PlayerTokens</label>
-        </div>
-      </div>
-
-      <div class="weapon-sub-body">
-        <div @ref="WeaponList" class="weapon-list"></div>
-        <div class="weapon-info">
-          <div class="weapon-info-icon">
-            <img @ref="WeaponIcon" class="actual-icon" />
-          </div>
-          <div class="box weapon-info-body">
-            <label class="weapon-info-title">@(CurrentWeapon?.Name ?? "")</label>
-            <label class="weapon-info-subtitle">@(CurrentWeapon?.Description ?? "")</label>
-            <label @ref="SecondaryDescription" class="weapon-info-description">@(CurrentWeapon?.SecondaryDescription ?? "")</label>
+      <ChildContent>
+        <StationScreenButton class="back-button" onpressed=@( () => SetView( "loadout" ) )>
+          <ChildContent>
+              <div class="icon"></div>
+          </ChildContent>
+        </StationScreenButton>
+        <div class="weapon-body">
+          <div class="weapon-view-header">
+            <label class="weapon-name">@SlotName</label>
+            <div class="player-currency">
+              <div class="currency-icon"></div>
+              <label>@PlayerTokens</label>
+            </div>
           </div>
 
-          <div @ref="StatsList" class="box weapon-stats">
-            <label class="box-title">Weapon Stats</label>
+          <div class="weapon-sub-body">
+            <div @ref="WeaponList" class="weapon-list"></div>
+            <div class="weapon-info">
+              <div class="weapon-info-icon">
+                <img @ref="WeaponIcon" class="actual-icon" />
+              </div>
+              <div class="box weapon-info-body">
+                <label class="weapon-info-title">@(CurrentWeapon?.Name ?? "")</label>
+                <label class="weapon-info-subtitle">@(CurrentWeapon?.Description ?? "")</label>
+                <label @ref="SecondaryDescription" class="weapon-info-description">@(CurrentWeapon?.SecondaryDescription ?? "")</label>
+              </div>
+
+              <div @ref="StatsList" class="box weapon-stats">
+                <label class="box-title">Weapon Stats</label>
+              </div>
+            </div>
+            <div @ref="UpgradesBox" class="box weapon-upgrades">
+              <label class="box-title">Enhancements</label>
+              <div @ref="UpgradesList" class="weapon-upgrades"></div>
+            </div>
           </div>
         </div>
-        <div @ref="UpgradesBox" class="box weapon-upgrades">
-          <label class="box-title">Enhancements</label>
-          <div @ref="UpgradesList" class="weapon-upgrades"></div>
+        <div class="weapon-view-buttons">
+          <StationScreenButton class="btn is-secondary" onpressed=@( () => SetView( "loadout" ))>
+            <ChildContent>
+              <text>Cancel</text>
+            </ChildContent>
+          </StationScreenButton>
+          <StationScreenButton class="btn is-primary" onpressed=@DoSelectWeapon>
+            <ChildContent>
+                <div class="button-inside"></div>
+                <text>Select Weapon</text>
+            </ChildContent>
+          </StationScreenButton>
         </div>
-      </div>
-    </div>
-    <div class="weapon-view-buttons">
-      <StationScreenButton
-        class="btn is-secondary"
-        onpressed=@( () => SetView( "loadout" ))
-      >
-        <text>Cancel</text>
-      </StationScreenButton>
-      <StationScreenButton class="btn is-primary" onpressed=@DoSelectWeapon>
-        <div class="button-inside"></div>
-        <text>Select Weapon</text>
-      </StationScreenButton>
-    </div>
+    </ChildContent>
   </StationScreenView>
 </root>
 
 
 @code
 {
-	public static StationScreen Instance { get; private set; }
+    public static StationScreen Instance { get; private set; }
 
-	public struct LoadoutData
-	{
-		public string Name { get; set; }
-		public string Weight { get; set; }
-		public string Description { get; set; }
-		public string Health { get; set; }
-		public string Speed { get; set; }
-		public string Energy { get; set; }
-	}
+    public struct LoadoutData
+    {
+        public string Name { get; set; }
+        public string Weight { get; set; }
+        public string Description { get; set; }
+        public string Health { get; set; }
+        public string Speed { get; set; }
+        public string Energy { get; set; }
+    }
 
-	public List<SceneModel> SceneObjects { get; private set; } = new();
-	public LoadoutSelectList LoadoutList { get; private set; }
-	public StationScreenButton CancelButton { get; private set; }
-	public StationScreenMode Mode { get; private set; }
-	public WeaponConfig CurrentWeapon { get; private set; }
-	public WeaponConfig[] Weapons { get; private set; }
-	public LoadoutData LoadoutInfo { get; set; }
-	public Panel UpgradesList { get; private set; }
-	public Image WeaponIcon { get; private set; }
-	public string PlayerTokens => GetPlayerTokens();
-	public BaseLoadout Loadout { get; private set; }
-	public SceneWorld AvatarWorld { get; private set; }
-	public ScenePanel AvatarPanel { get; set; }
-	public SceneModel Avatar { get; private set; }
-	public Vector3 AvatarHeadPos { get; private set; }
-	public string UpgradeText => GetUpgradeText();
-	public string UpgradeLevel => GetUpgradeLevel();
-	public string NextUpgradeLevel => GetNextUpgradeLevel();
-	public string UpgradeCost => GetUpgradeCost();
-	public Panel UpgradeButton { get; private set; }
-	public Label SecondaryDescription { get; private set; }
-	public BaseLoadout NextUpgrade { get; private set; }
-	public Vector3 AvatarAimPos { get; private set; }
-	public Panel UpgradesBox { get; private set; }
-	public Panel AvatarRoot { get; private set; }
-	public Panel WeaponList { get; private set; }
-	public Panel TagsList { get; private set; }
-	public Panel StatsList { get; private set; }
-	public int CurrentSlot { get; private set; }
-	public bool IsOpen { get; private set; }
-	public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? string.Empty;
+    public List<SceneModel> SceneObjects { get; private set; } = new();
+    public LoadoutSelectList LoadoutList { get; private set; }
+    public StationScreenButton CancelButton { get; private set; }
+    public StationScreenMode Mode { get; private set; }
+    public WeaponConfig CurrentWeapon { get; private set; }
+    public WeaponConfig[] Weapons { get; private set; }
+    public LoadoutData LoadoutInfo { get; set; }
+    public Panel UpgradesList { get; private set; }
+    public Image WeaponIcon { get; private set; }
+    public string PlayerTokens => GetPlayerTokens();
+    public BaseLoadout Loadout { get; private set; }
+    public SceneWorld AvatarWorld { get; private set; }
+    public ScenePanel AvatarPanel { get; set; }
+    public SceneModel Avatar { get; private set; }
+    public Vector3 AvatarHeadPos { get; private set; }
+    public string UpgradeText => GetUpgradeText();
+    public string UpgradeLevel => GetUpgradeLevel();
+    public string NextUpgradeLevel => GetNextUpgradeLevel();
+    public string UpgradeCost => GetUpgradeCost();
+    public Panel UpgradeButton { get; private set; }
+    public Label SecondaryDescription { get; private set; }
+    public BaseLoadout NextUpgrade { get; private set; }
+    public Vector3 AvatarAimPos { get; private set; }
+    public Panel UpgradesBox { get; private set; }
+    public Panel AvatarRoot { get; private set; }
+    public Panel WeaponList { get; private set; }
+    public Panel TagsList { get; private set; }
+    public Panel StatsList { get; private set; }
+    public int CurrentSlot { get; private set; }
+    public bool IsOpen { get; private set; }
+    public string SlotName => Loadout?.GetSlotName( CurrentSlot ) ?? string.Empty;
 
-	public StationScreen()
-	{
-		SetClass( "hidden", true );
+    public StationScreen()
+    {
+        SetClass( "hidden", true );
 
-		AvatarWorld = new SceneWorld();
+        AvatarWorld = new SceneWorld();
 
-		var model = Model.Load( "models/citizen/citizen.vmdl" );
+        var model = Model.Load( "models/citizen/citizen.vmdl" );
 
-		Avatar = new SceneModel( AvatarWorld, model, Transform.Zero );
+        Avatar = new SceneModel( AvatarWorld, model, Transform.Zero );
 
-		SceneObjects.Add( Avatar );
+        SceneObjects.Add( Avatar );
 
-		var sun = new SceneSunLight(AvatarWorld, Rotation.FromPitch(-50), Color.White * 0.50f + Color.Cyan * 0.20f);
-		sun.ShadowsEnabled = false;
-		sun.SkyColor = Color.White * 0.02f + Color.Cyan * 0.02f;
+        var sun = new SceneSunLight(AvatarWorld, Rotation.FromPitch(-50), Color.White * 0.50f + Color.Cyan * 0.20f);
+        sun.ShadowsEnabled = false;
+        sun.SkyColor = Color.White * 0.02f + Color.Cyan * 0.02f;
 
-		new SceneCubemap(AvatarWorld, Texture.Load("textures/cubemaps/default.vtex"), BBox.FromPositionAndSize(Vector3.Zero, 1000));
+        new SceneCubemap(AvatarWorld, Texture.Load("textures/cubemaps/default.vtex"), BBox.FromPositionAndSize(Vector3.Zero, 1000));
 
-		new SceneLight(AvatarWorld, new Vector3(200, 200, 100), 0.05f, Color.White * 0.05f + Color.Cyan * 0.01f);
-		new SceneLight(AvatarWorld, new Vector3(-300, -300, 300), 0.02f, Color.White * 0.01f);
+        new SceneLight(AvatarWorld, new Vector3(200, 200, 100), 0.05f, Color.White * 0.05f + Color.Cyan * 0.01f);
+        new SceneLight(AvatarWorld, new Vector3(-300, -300, 300), 0.02f, Color.White * 0.01f);
 
-		Instance?.Delete();
-		Instance = this;
-	}
+        Instance?.Delete();
+        Instance = this;
+    }
 
-	public void SetWeapon( WeaponConfig config )
-	{
-		var items = WeaponList.ChildrenOfType<LoadoutWeaponListItem>();
+    public void SetWeapon( WeaponConfig config )
+    {
+        var items = WeaponList.ChildrenOfType<LoadoutWeaponListItem>();
 
-		foreach ( var item in items )
-		{
-			item.IsActive = (item.Config.GetType() == config.GetType());
-		}
+        foreach ( var item in items )
+        {
+            item.IsActive = (item.Config.GetType() == config.GetType());
+        }
 
-		UpgradesList.DeleteChildren();
+        UpgradesList.DeleteChildren();
 
-		if ( config.Upgrades != null )
-		{
-			for ( int i = 0; i < config.Upgrades.Count; i++ )
-			{
-				var upgrade = TypeLibrary.Create<WeaponUpgrade>( config.Upgrades[i] );
-				var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
-				item.Upgrade = upgrade;
-				item.Weapon = config;
-				item.Index = i;
-			}
+        if ( config.Upgrades != null )
+        {
+            for ( int i = 0; i < config.Upgrades.Count; i++ )
+            {
+                var upgrade = TypeLibrary.Create<WeaponUpgrade>( config.Upgrades[i] );
+                var item = UpgradesList.AddChild<LoadoutWeaponUpgradeItem>();
+                item.Upgrade = upgrade;
+                item.Weapon = config;
+                item.Index = i;
+            }
 
-			UpgradesBox.SetClass( "hidden", false );
-		}
-		else
-		{
-			UpgradesBox.SetClass( "hidden", true );
-		}
+            UpgradesBox.SetClass( "hidden", false );
+        }
+        else
+        {
+            UpgradesBox.SetClass( "hidden", true );
+        }
 
-		WeaponIcon.SetTexture( config.Icon );
+        WeaponIcon.SetTexture( config.Icon );
 
-		StatsList.DeleteChildren();
+        StatsList.DeleteChildren();
 
-		var stats = config.GetStats();
+        var stats = config.GetStats();
 
-		for ( int i = 0; i < stats.Count; i++ )
-		{
-			var item = StatsList.AddChild<WeaponStatItem>();
-			item.Stat = stats[i];
-		}
+        for ( int i = 0; i < stats.Count; i++ )
+        {
+            var item = StatsList.AddChild<WeaponStatItem>();
+            item.Stat = stats[i];
+        }
 
-		SecondaryDescription.SetClass( "hidden", string.IsNullOrEmpty( config.SecondaryDescription ) );
+        SecondaryDescription.SetClass( "hidden", string.IsNullOrEmpty( config.SecondaryDescription ) );
 
-		CurrentWeapon = config;
-	}
+        CurrentWeapon = config;
+    }
 
-	public void CreateAvatar()
-	{
-		foreach ( var sceneObject in SceneObjects )
-		{
-			if ( sceneObject.Parent.IsValid() )
-			{
-				sceneObject.Delete();
-			}
-		}
+    public void CreateAvatar()
+    {
+        foreach ( var sceneObject in SceneObjects )
+        {
+            if ( sceneObject.Parent.IsValid() )
+            {
+                sceneObject.Delete();
+            }
+        }
 
-		SceneObjects.Clear();
+        SceneObjects.Clear();
 
-		var allClothing = ResourceLibrary.GetAll<Clothing>();
-		var localPawn = (Game.LocalPawn as HoverPlayer);
+        var allClothing = ResourceLibrary.GetAll<Clothing>();
+        var localPawn = (Game.LocalPawn as HoverPlayer);
 
-		foreach ( var clothing in Loadout.Clothing )
-		{
-			var modelName = allClothing
-				.Where( c => c.ResourceName.ToLower() == clothing.ToLower() )
-				.Select( c => c.Model )
-				.FirstOrDefault();
+        foreach ( var clothing in Loadout.Clothing )
+        {
+            var modelName = allClothing
+                .Where( c => c.ResourceName.ToLower() == clothing.ToLower() )
+                .Select( c => c.Model )
+                .FirstOrDefault();
 
-			var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
-			clothes.Attributes.Set( "colortint", localPawn.Team.GetColor() );
-			Avatar.AddChild( "clothing", clothes );
-			SceneObjects.Add( clothes );
-		}
+            var clothes = new SceneModel( AvatarWorld, Model.Load( modelName ), Avatar.Transform );
+            clothes.Attributes.Set( "colortint", localPawn.Team.GetColor() );
+            Avatar.AddChild( "clothing", clothes );
+            SceneObjects.Add( clothes );
+        }
 
         SceneObjects.Add( Avatar );
 
@@ -503,6 +512,11 @@
         }
 
         var mousePosition = Mouse.Position;
+
+        if ( AvatarPanel == null )
+        {
+            return;
+        }
 
         mousePosition.x -= AvatarPanel.Box.Rect.Width * 2f;
         mousePosition.y -= AvatarPanel.Box.Rect.Height * 0.5f;
