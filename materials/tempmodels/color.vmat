@@ -1,35 +1,45 @@
-"Layer0"
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
 {
-	"shader"		"shaders/damage.shader_c"
-	"BleedAmbience"		"0.400000"
-	"BleedAmount"		"0.103000"
-	"BleedBoost"		"1.000000"
-	"BleedColor"		"[0.501961 0.000000 0.000000 1.000000]"
-	"BleedTimeMultiplier"		"2.000000"
-	"Damage"		"0.000000"
-	"g_flDirectionalLightmapMinZ"		"0.050000"
-	"g_flDirectionalLightmapStrength"		"1.000000"
-	"NoiseOctaves"		"8"
-	"NoiseScale"		"128.000000"
-	"NoiseSeed"		"100.000000"
-	"BottomTextureAmbientOcclusion"		"materials/default/default.tga"
-	"BottomTextureColor"		"[0.149020 0.149020 0.149020 1.000000]"
-	"BottomTextureMetalness"		"materials/default/default.tga"
-	"BottomTextureNormal"		"materials/default/default.tga"
-	"BottomTextureRoughness"		"materials/default/default.tga"
-	"BottomTextureTintMask"		"materials/default/default.tga"
-	"g_flBottomTintColor"		"[1.000000 1.000000 1.000000 0.000000]"
-	"TextureColor"		"materials/default/default_color.tga"
-	"TextureTintMask"		"materials/default/default.tga"
-	"g_flTopTintColor"		"[1.000000 1.000000 1.000000 0.000000]"
-	"TopTextureAmbientOcclusion"		"materials/default/default.tga"
-	"TopTextureColor"		"[1.000000 1.000000 1.000000 0.000000]"
-	"TopTextureMetalness"		"materials/default/default.tga"
-	"TopTextureNormal"		"materials/default/default.tga"
-	"TopTextureRoughness"		"materials/default/default.tga"
-	"TopTextureTintMask"		"materials/default/default.tga"
-	"DynamicParams"
+	shader "shaders/damage.shader"
+
+	BleedAmbience "0.400"
+	BleedAmount "0.103"
+	BleedBoost "1.000"
+	BleedColor "[0.501961 0.000000 0.000000 1.000000]"
+	BleedTimeMultiplier "2.000"
+	Damage "0.000"
+	g_flDirectionalLightmapMinZ "0.050"
+	g_flDirectionalLightmapStrength "1.000"
+	NoiseOctaves "8"
+	NoiseScale "128.000"
+	NoiseSeed "100.000"
+
+	//---- Bottom Material ----
+	BottomTextureAmbientOcclusion "materials/default/default.tga"
+	BottomTextureColor "[0.149020 0.149020 0.149020 1.000000]"
+	BottomTextureMetalness "materials/default/default.tga"
+	BottomTextureNormal "materials/default/default.tga"
+	BottomTextureRoughness "materials/default/default.tga"
+	BottomTextureTintMask "materials/default/default.tga"
+	g_flBottomTintColor "[1.000000 1.000000 1.000000 0.000000]"
+
+	//---- Material ----
+	TextureColor "materials/default/default_color.tga"
+	TextureTintMask "materials/default/default.tga"
+
+	//---- Top Material ----
+	g_flTopTintColor "[1.000000 1.000000 1.000000 0.000000]"
+	TopTextureAmbientOcclusion "materials/default/default.tga"
+	TopTextureColor "[1.000000 1.000000 1.000000 0.000000]"
+	TopTextureMetalness "materials/default/default.tga"
+	TopTextureNormal "materials/default/default.tga"
+	TopTextureRoughness "materials/default/default.tga"
+	TopTextureTintMask "materials/default/default.tga"
+
+	DynamicParams
 	{
-		"Damage"		"Damage"
+		Damage "Damage"
 	}
 }

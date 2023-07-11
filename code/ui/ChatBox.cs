@@ -45,16 +45,16 @@ namespace Facepunch.Hover.UI
 
 		public static string[] Tips => new string[]
 		{
-			"Hold [+iv_jump] to ski and maintain velocity",
+			"Hold [+jump] to ski and maintain velocity",
 			"Slide down slopes while skiing to gain velocity",
-			"Hold [+iv_attack2] to jetpack over hills while skiing to maintain velocity",
+			"Hold [+attack2] to jetpack over hills while skiing to maintain velocity",
 			"Destroy the enemy Generator to disable their defences",
 			"Visit a Station to change or upgrade your loadout",
 			"Heavier loadouts will decrease your movement speed",
 			"Be careful of weapons that cause blast damage",
-			"Spot enemies by pressing [+iv_drop] while looking at them",
+			"Spot enemies by pressing [+drop] while looking at them",
 			"Some maps have Outposts you can hold to earn passive income",
-			"You can melee attack with [+iv_zoom] for close quarters combat",
+			"You can melee attack with [+zoom] for close quarters combat",
 			"Melee attack an enemy from behind to deal twice the damage",
 			"Your deployables will explode if you change your loadout"
 		};

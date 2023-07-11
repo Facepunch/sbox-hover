@@ -1,8 +1,13 @@
-"Layer0"
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
 {
-	"shader"		"shaders/visualize_cloth.shader_c"
-	"g_flAlpha"		"1.000000"
-	"g_vColorTint"		"[1.000000 1.000000 1.000000 0.000000]"
-	"g_flIndirectContrastBoost"		"0.000000"
-	"g_vWireframeEmit"		"[0.000000 0.000000 0.000000 0.000000]"
+	shader "shaders/visualize_cloth.shader"
+
+	//---- Color ----
+	g_flAlpha "1.000"
+	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
+
+	//---- WireframeEmit ----
+	g_vWireframeEmit "[0.000000 0.000000 0.000000 0.000000]"
 }
