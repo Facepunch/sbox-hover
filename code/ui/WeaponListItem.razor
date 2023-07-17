@@ -7,7 +7,7 @@
 @attribute [StyleSheet( "/ui/WeaponListItem.scss" )]
 @inherits Panel
 
-@if ( !Weapon.IsValid() ) return;
+@if ( !Weapon.IsValid() ) { return; }
 
 <root class="weapon">
     <div class="icon-container">

@@ -9,7 +9,7 @@
 @attribute [StyleSheet( "/ui/Tokens.scss" )]
 @inherits Panel
 
-@if ( Game.LocalPawn is not HoverPlayer player ) return;
+@if ( Game.LocalPawn is not HoverPlayer player ) { return; }
 
 <root class=@(player.LifeState == LifeState.Dead ? "hidden": "")>
     <div class="icon"></div>
