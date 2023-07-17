@@ -3,7 +3,7 @@ obj/
 code/accesslist.txt
 Properties
 codegen-*
-sbox-hover.csproj
+*.csproj
 .intermediate
 *bakeresourcecache*
 tools_*_*.bin
