@@ -279,6 +279,7 @@
         }
       ]
     },
-    "HttpAllowList": null
+    "HttpAllowList": null,
+    "TickRate": 50
   }
 }

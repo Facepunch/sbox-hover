@@ -82,11 +82,11 @@
 						[
 							{
 								from = "materials/dev/reflectivity_30b.vmat"
-								to = "materials/tempmodels/color_1.vmat"
+								to = "materials/tempmodels/color_1a.vmat"
 							},
 							{
 								from = "materials/dev/reflectivity_10b.vmat"
-								to = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
 							},
 							{
 								from = "materials/models/solids/black.vmat"
@@ -102,5 +102,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

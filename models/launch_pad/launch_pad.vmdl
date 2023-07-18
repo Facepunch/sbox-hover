@@ -52,7 +52,7 @@
 						_class = "PhysicsShapeBox"
 						parent_bone = ""
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						origin = [ 1.434882, -0.22964, 21.739052 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 128.245651, 95.194977, 44.478104 ]
@@ -84,11 +84,11 @@
 						[
 							{
 								from = "materials/tempmodels/color.vmat"
-								to = "materials/tempmodels/color_1.vmat"
+								to = "materials/tempmodels/color_1a.vmat"
 							},
 							{
 								from = "materials/tempmodels/nocolor.vmat"
-								to = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
 							},
 						]
 						use_global_default = false
@@ -100,5 +100,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

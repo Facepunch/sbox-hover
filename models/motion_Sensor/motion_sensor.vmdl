@@ -52,7 +52,7 @@
 						_class = "PhysicsShapeCapsule"
 						parent_bone = ""
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						radius = 12.020164
 						point0 = [ -0.000728, 0.0, 6.872713 ]
 						point1 = [ -0.405373, -0.607443, 10.694523 ]
@@ -74,9 +74,32 @@
 					},
 				]
 			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "materials/tempmodels/color_1.vmat"
+								to = "materials/tempmodels/color_1a.vmat"
+							},
+							{
+								from = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

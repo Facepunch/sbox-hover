@@ -52,7 +52,7 @@
 						_class = "PhysicsShapeBox"
 						parent_bone = ""
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						origin = [ 0.041999, -0.011219, 1.77133 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 19.156914, 19.183834, 7.330527 ]
@@ -74,9 +74,32 @@
 					},
 				]
 			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "materials/tempmodels/color_1.vmat"
+								to = "materials/tempmodels/color_1a.vmat"
+							},
+							{
+								from = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

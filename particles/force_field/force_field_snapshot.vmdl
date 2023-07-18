@@ -37,6 +37,7 @@
 						filename = "particles/force_field/dmx/mesh/force_field_snapshot.dmx"
 						output_vsnap = ""
 						bind_pose_reference = ""
+						import_scale = 1.0
 						weighted_bone = ""
 						local_space_bone = ""
 						vertex_normals = false
@@ -59,9 +60,28 @@
 					},
 				]
 			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

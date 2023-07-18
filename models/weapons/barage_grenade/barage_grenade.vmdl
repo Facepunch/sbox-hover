@@ -35,7 +35,7 @@
 						_class = "PhysicsShapeCylinder"
 						parent_bone = ""
 						surface_prop = "rubber"
-						collision_prop = "default"
+						collision_tags = "solid"
 						radius = 1.0
 						point0 = [ -1.485074, 0.0, 0.0 ]
 						point1 = [ 2.480737, 0.0, 0.0 ]
@@ -67,7 +67,7 @@
 						[
 							{
 								from = "materials/weapons/weapon_temp.vmat"
-								to = "materials/generic/wall_panel_d_metal_galvanized.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
 							},
 						]
 						use_global_default = false
@@ -79,5 +79,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = ""
+		base_model_name = ""
 	}
 }

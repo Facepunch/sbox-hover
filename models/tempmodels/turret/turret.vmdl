@@ -86,7 +86,7 @@
 						_class = "PhysicsShapeBox"
 						parent_bone = "base"
 						surface_prop = "default"
-						collision_prop = "default"
+						collision_tags = "solid"
 						origin = [ 0.091124, 0.378288, 45.281307 ]
 						angles = [ 0.0, 0.0, 0.0 ]
 						dimensions = [ 50.608864, 48.557236, 91.562614 ]
@@ -188,6 +188,7 @@
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
+						take = 0
 						reverse = false
 					},
 				]
@@ -202,20 +203,12 @@
 						remaps = 
 						[
 							{
-								from = "models/buildings/buildingtempmaterials/color.vmat"
-								to = "materials/tempmodels/color.vmat"
-							},
-							{
-								from = "models/buildings/buildingtempmaterials/nocolor.vmat"
-								to = "materials/tempmodels/nocolor.vmat"
-							},
-							{
 								from = "materials/tempmodels/nocolor.vmat"
-								to = "materials/tempmodels/nocolor_1.vmat"
+								to = "materials/tempmodels/nocolor_1a.vmat"
 							},
 							{
 								from = "materials/tempmodels/color.vmat"
-								to = "materials/tempmodels/color_1.vmat"
+								to = "materials/tempmodels/color_1a.vmat"
 							},
 						]
 						use_global_default = false
@@ -227,5 +220,6 @@
 		model_archetype = ""
 		primary_associated_entity = ""
 		anim_graph_name = "models/tempmodels/turret/turret.vanmgrph"
+		base_model_name = ""
 	}
 }
