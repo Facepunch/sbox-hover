@@ -36,6 +36,8 @@ namespace Facepunch.Hover
 			"ball_R",
 			"leg_knee_helper_L",
 			"leg_knee_helper_R",
+			"leg_glute_helper_L",
+			"leg_glute_helper_R",
 			"leg_upper_L_twist",
 			"leg_upper_L_twist0",
 			"leg_upper_L_twist1",
