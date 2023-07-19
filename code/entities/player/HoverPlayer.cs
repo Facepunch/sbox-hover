@@ -26,10 +26,8 @@ namespace Facepunch.Hover
 
 		private HashSet<string> LegBonesToKeep = new()
 		{
-			"leg_upper_R_twist",
 			"leg_upper_R",
 			"leg_upper_L",
-			"leg_upper_L_twist",
 			"leg_lower_L",
 			"leg_lower_R",
 			"ankle_L",
@@ -38,8 +36,18 @@ namespace Facepunch.Hover
 			"ball_R",
 			"leg_knee_helper_L",
 			"leg_knee_helper_R",
+			"leg_upper_L_twist",
+			"leg_upper_L_twist0",
+			"leg_upper_L_twist1",
+			"leg_upper_R_twist",
+			"leg_upper_R_twist0",
+			"leg_upper_R_twist1",
+			"leg_lower_L_twist",
+			"leg_lower_L_twist0",
+			"leg_lower_L_twist1",
 			"leg_lower_R_twist",
-			"leg_lower_L_twist"
+			"leg_lower_R_twist0",
+			"leg_lower_R_twist1"
 		};
 
 		public Vector3 EyePosition
