@@ -4,7 +4,7 @@ using Sandbox.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+using Sandbox.Services;
 
 namespace Facepunch.Hover
 {
@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 		public int SuccessiveKills { get; private set; }
 
 		private FirstPersonCamera FirstPersonCamera { get; set; }
+		protected Vector3? LastSkiPosition { get; set; }
 		private SpectateCamera SpectateCamera { get; set; }
 		private TimeSince TimeSinceLastFootstep { get; set; }
 
@@ -341,6 +342,8 @@ namespace Facepunch.Hover
 
 		public void GiveTokens( int tokens )
 		{
+			Game.AssertServer();
+			Stats.Increment( Client, "tokens-earned", tokens );
 			Tokens += tokens;
 		}
 
@@ -775,7 +778,6 @@ namespace Facepunch.Hover
 				HoverGame.Round?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
-
 			BecomeRagdollOnClient( LastDamageInfo.Force, LastDamageInfo.BoneIndex );
 			Inventory.DeleteContents();
 
@@ -1168,6 +1170,7 @@ namespace Facepunch.Hover
 					if ( info.Attacker.Client.IsValid() && info.Attacker.IsValid() )
 					{
 						info.Attacker.Client.AddInt( "kills" );
+						Stats.Increment( info.Attacker.Client, "kills", 1 );
 					}
 				}
 			}
@@ -1235,12 +1238,14 @@ namespace Facepunch.Hover
 
 		public virtual void OnCaptureFlag( FlagEntity flag )
 		{
+			Stats.Increment( Client, "flags-captured", 1 );
 			Client.SetInt( "captures", Client.GetInt( "captures", 0 ) + 1 );
 			GiveAward<CaptureFlagAward>();
 		}
 
 		public virtual void OnReturnFlag( FlagEntity flag )
 		{
+			Stats.Increment( Client, "flags-captured", 1 );
 			GiveAward<ReturnFlagAward>();
 		}
 
@@ -1381,6 +1386,17 @@ namespace Facepunch.Hover
 				var speed = Velocity.Length.Remap( 0f, controller.MaxSpeed, 0f, 1f );
 				speed = Math.Min( Easing.EaseIn( speed ) * 60f, 60f );
 				SpeedLines.Set( "speed_lines", speed );
+
+				if ( controller.IsSkiing && GroundEntity.IsValid() )
+				{
+					var distance = LastSkiPosition.Value.Distance( Position );
+
+					if ( !LastSkiPosition.HasValue || LastSkiPosition.Value.Distance( Position ) >= 32f )
+					{
+						Stats.Increment( "ski-distance", distance.InchToMeter() );
+						LastSkiPosition = Position;
+					}
+				}
 			}
 
 			if ( IsLocalPawn )
