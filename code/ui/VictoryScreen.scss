@@ -1,8 +1,8 @@
 ﻿@import "_variables.scss";
 
-victoryscreen {
+VictoryScreen {
   background-color: $panel-bg;
-  backdrop-filter-blur: 32px;
+  backdrop-filter-blur: 16px;
   transition: all 0.5s ease-out;
   position: absolute;
   width: 100%;
@@ -20,7 +20,9 @@ victoryscreen {
     justify-content: center;
     flex-direction: column;
     background-color: $panel-bg;
-
+    box-shadow: $blueTeamShadow;
+    border-radius: 32px;
+    min-width: 60%;
     padding: 64px;
 
     .winner {
@@ -62,13 +64,13 @@ victoryscreen {
       flex-wrap: wrap;
       width: 600px;
 
-      victoryscreenaward {
+      VictoryScreenAward {
         transition: all 0.5s bounce-out;
         background-color: $selectedTabPanelBg;
         box-shadow: $blackForeground;
         border: $selectedTabPanelBorder;
         border-radius: 16px;
-        width: 170px;
+        width: 200px;
         margin: 4px;
         padding: 16px;
 
@@ -103,6 +105,8 @@ victoryscreen {
     }
 
     &.team_red {
+      box-shadow: $redTeamShadow;
+      
       .winner {
         .icon {
           background-image-tint: $redTeamColor;

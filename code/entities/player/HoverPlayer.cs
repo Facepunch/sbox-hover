@@ -15,6 +15,7 @@ namespace Facepunch.Hover
 		public HashSet<Type> LoadoutUpgrades { get; private set; }
 		public List<Award> EarnedAwards { get; private set; }
 		public TimeSince LastKillTime { get; private set; }
+		public TimeUntil NextCanPickupFlag { get; private set; }
 		public int SuccessiveKills { get; private set; }
 
 		private FirstPersonCamera FirstPersonCamera { get; set; }
@@ -945,6 +946,7 @@ namespace Facepunch.Hover
 				{
 					if ( flag.Carrier == this )
 					{
+						NextCanPickupFlag = 1f;
 						flag.Drop( true );
 						break;
 					}

@@ -122,7 +122,8 @@ namespace Facepunch.Hover
 
 		public override void Tick()
 		{
-			NextGameLabel.Text = $"Next Battle: {NextGameTime.Relative.CeilToInt()}s";
+			var nextGameTime = MathF.Max( NextGameTime.Relative.CeilToInt(), 0f );
+			NextGameLabel.Text = $"Next Battle: {nextGameTime}s";
 
 			base.Tick();
 		}

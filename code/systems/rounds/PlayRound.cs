@@ -305,7 +305,7 @@ namespace Facepunch.Hover
 			if ( player.Loadout == null )
 				player.GiveLoadout<LightAssault>();
 
-			if ( player.Client.IsBot == false )
+			if ( !player.Client.IsBot )
 			{
 				UI.StationScreen.Show( To.Single( player ), UI.StationScreenMode.Deployment );
 				HoverGame.Entity.MoveToSpawnpoint( player );

@@ -102,7 +102,6 @@ namespace Facepunch.Hover
 					CustomVelocity = 0f;
 				}
 
-				NextPickupTime = 0.5f;
 				IsOnGround = false;
 				DoIdleEffects();
 				OnFlagDropped?.Invoke( Carrier, this );
@@ -148,8 +147,11 @@ namespace Facepunch.Hover
 				{
 					if ( NextPickupTime && !Carrier.IsValid() )
 					{
-						PlaySound( "flag.pickup" );
-						GiveToPlayer( player );
+						if ( player.NextCanPickupFlag )
+						{
+							PlaySound( "flag.pickup" );
+							GiveToPlayer( player );
+						}
 					}
 				}
 			}
@@ -234,7 +236,7 @@ namespace Facepunch.Hover
 					return;
 				}
 
-				CustomVelocity -= (CustomVelocity * 0.2f * Time.Delta);
+				CustomVelocity -= (CustomVelocity * 0.05f * Time.Delta);
 
 				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, Time.Delta );
 				Position += CustomVelocity * Time.Delta;

@@ -394,16 +394,14 @@
 
     public void SetOpen( bool isOpen )
     {
-        if ( Game.LocalPawn is HoverPlayer player )
-        {
-            SetClass( "hidden", !isOpen );
-            IsOpen = isOpen;
+	    if ( Game.LocalPawn is not HoverPlayer player ) return;
 
-            if ( isOpen )
-            {
-                LoadoutList.Populate( player );
-            }
-        }
+	    SetView( "loadout" );
+	    SetClass( "hidden", !isOpen );
+	    IsOpen = isOpen;
+
+	    if ( isOpen )
+		    LoadoutList.Populate( player );
     }
 
     public void SetMode( StationScreenMode mode )
