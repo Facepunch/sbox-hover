@@ -1,17 +1,16 @@
 ﻿@import "_variables.scss";
 
 AwardItem {
-    align-items: center;
-    justify-content: center;
     box-shadow: $blueTeamBackground;
     background-color: $blueTeamPanelBg;
-    border-radius: 2px;
-    flex-direction: column;
-    padding: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
     transition: all 0.5s bounce-in;
     opacity: 1;
     bottom: 0;
-    min-width: 400px;
+    gap: 16px;
 
     &:intro {
         opacity: 0;
@@ -24,21 +23,36 @@ AwardItem {
         transform: scale(0 0);
         transition: all 0.5s bounce-out;
     }
+    
+    .col1 {
+        flex-direction: column;
+        
+        .reward {
+            justify-content: center;
+            align-items: center;
+            margin-top: 8px;
 
-    .header {
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 8px;
-
+            .amount {
+                text-shadow: $tokenShadow;
+                font-family: $mainFont;
+                font-size: 24px;
+                color: $tokenColor;
+            }
+        }
+        
         .icon {
-            width: 50px;
-            height: 50px;
+            width: 96px;
+            height: 96px;
             margin-right: 4px;
 
             &.hidden {
                 display: none;
             }
         }
+    }
+    
+    .col2 {
+        flex-direction: column;
 
         .title {
             text-shadow: $blueTeamShadow;
@@ -46,36 +60,14 @@ AwardItem {
             font-size: 32px;
             color: $blueTeamColor;
         }
-    }
 
-    .text {
-        color: white;
-        font-size: 18px;
-        font-family: $mainFont;
-        margin-left: 8px;
-        flex-grow: 1;
-        margin-right: 16px;
-        text-shadow: $blueTeamShadow;
-    }
-
-    .reward {
-        justify-content: center;
-        align-items: center;
-        margin-top: 8px;
-
-        .icon {
-            background-image: url(ui/icons/icon_currency_blue.png);
-            background-size: cover;
-            margin-right: 8px;
-            width: 28px;
-            height: 28px;
-        }
-
-        .amount {
-            text-shadow: $tokenShadow;
-            font-family: $mainFont;
+        .text {
+            color: white;
             font-size: 24px;
-            color: $tokenColor;
+            font-family: $mainFont;
+            flex-grow: 1;
+            margin-right: 16px;
+            text-shadow: $blueTeamShadow;
         }
     }
 }

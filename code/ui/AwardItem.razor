@@ -10,15 +10,17 @@
 @inherits Panel
 
 <root>
-    <div class="header">
-        <img @ref="Icon" class="icon" />
-        <label class="title">@Title</label>
-    </div>
-    <label class="text">@Text</label>
-    <div class="reward">
-        <div @ref="Icon" class="icon"></div>
-        <label class="amount">@Reward</label>
-    </div>
+	<div class="col1">
+		<img @ref="Icon" class="icon"/>
+		<div class="reward">
+			<label class="amount">@Reward</label>
+		</div>
+	</div>
+	
+	<div class="col2">
+		<label class="title">@Title</label>
+		<label class="text">@Text</label>
+	</div>
 </root>
 
 @code
