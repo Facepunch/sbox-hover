@@ -67,10 +67,10 @@ namespace Facepunch.Hover.UI
 			if ( player.LifeState != LifeState.Alive )
 				return false;
 
-			if ( player.ShouldHideOnRadar )
-				return false;
-
 			if ( Game.LocalPawn is not HoverPlayer localPlayer )
+				return false;
+			
+			if ( player.ShouldHideOnRadar && player.Team != localPlayer.Team )
 				return false;
 
 			var radarRange = 8000f;

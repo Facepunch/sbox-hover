@@ -6,7 +6,7 @@ Nameplate {
 
   .container {
     font-weight: bold;
-    color: $blueTeamColor;
+    color: lighten( $blueTeamColor, 0.6 );
     font-size: 80px;
     border-radius: 8px;
     align-items: center;
@@ -14,10 +14,10 @@ Nameplate {
     box-shadow: $blueTeamBackground;
     background-color: $blueTeamPanelBg;
     border: $blueTeamPanelBorder;
-    mix-blend-mode: lighten;
     background-size: cover;
+    border-radius: 16px;
     position: absolute;
-    padding: 16px;
+    padding: 16px 48px;
 
     .name {
       font-family: Roboto;
@@ -31,8 +31,8 @@ Nameplate {
     border: $blueTeamPanelBorder;
     position: absolute;
     border-radius: 50%;
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
   }
 
   &.hidden {
@@ -50,7 +50,7 @@ Nameplate {
       box-shadow: $redTeamBackground;
       background-color: $redTeamPanelBg;
       border: $redTeamPanelBorder;
-      color: $redTeamColor;
+      color: lighten( $redTeamColor, 0.6 );
 
       .name {
         text-shadow: $redTeamShadow;

@@ -7,15 +7,15 @@ namespace Facepunch.Hover.UI
 	[StyleSheet( "/ui/Crosshair.scss" )]
 	public class Crosshair : Panel
 	{
-		public Panel ChargeBackgroundBar;
-		public Panel ChargeForegroundBar;
-		public Panel Charge;
+		private Panel ChargeBackgroundBar { get; }
+		private Panel ChargeForegroundBar { get; }
+		private Panel Charge { get; }
 
 		private int FireCounter;
 
 		public Crosshair()
 		{
-			for ( int i = 0; i < 5; i++ )
+			for ( var i = 0; i < 5; i++ )
 			{
 				var p = Add.Panel( "element" );
 				p.AddClass( $"el{i}" );
@@ -43,8 +43,6 @@ namespace Facepunch.Hover.UI
 					var timeLeft = weapon.ChargeAttackEndTime - Time.Now;
 
 					ChargeForegroundBar.Style.Width = Length.Percent( 100f - ((100f / weapon.ChargeAttackDuration) * timeLeft) );
-					ChargeForegroundBar.Style.Dirty();
-
 					Charge.SetClass( "hidden", false );
 				}
 			}

@@ -5,7 +5,6 @@ WorldUpgradeHud {
     justify-content: center;
     display: flex;
     flex-direction: column;
-    mix-blend-mode: lighten;
 
     > .container {
         display: flex;
@@ -17,6 +16,17 @@ WorldUpgradeHud {
         border-radius: 8px;
         padding: 16px;
 
+        > BindingLabel {
+            background-color: $blueTeamPanelBg;
+            border-radius: 8px;
+            
+            label {
+                color: white;
+                font-size: 16px;
+                text-transform: uppercase;
+            }
+        }
+
         > .label {
             text-shadow: $blueTeamShadow;
             border-radius: 8px;
@@ -24,7 +34,6 @@ WorldUpgradeHud {
             padding: 8px;
             color: white;
             font-size: 24px;
-            margin-bottom: 16px;
         }
 
         > .name {
@@ -39,7 +48,6 @@ WorldUpgradeHud {
             font-family: $mainFont;
             color: white;
             font-size: 16px;
-            margin-bottom: 16px;
         }
 
         > .tokens {
@@ -52,6 +60,7 @@ WorldUpgradeHud {
         > SimpleIconBar {
             box-shadow: $blueTeamForeground;
             border-radius: 8px;
+            border: 1px solid rgba(white,0.2);
             padding: 8px;
 
             > .innerBar {
@@ -74,6 +83,10 @@ WorldUpgradeHud {
             box-shadow: $redTeamForeground;
             background-color: $redTeamPanelBg;
             border: $redTeamPanelBorder;
+
+            > BindingLabel {
+                background-color: $redTeamPanelBg;
+            }
 
             > .label {
                 text-shadow: $redTeamShadow;

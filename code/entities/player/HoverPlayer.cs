@@ -258,7 +258,6 @@ namespace Facepunch.Hover
 		private Rotation LastCameraRotation { get; set; }
 		private Particles SpeedLines { get; set; }
 		private UI.Nameplate Nameplate { get; set; }
-		private UI.Radar RadarHud { get; set; }
 		private bool PlayLowEnergySound { get; set; }
 		private bool IsPlayingJetpackLoop { get; set; }
 		private bool IsPlayingWindLoop { get; set; }
@@ -690,14 +689,9 @@ namespace Facepunch.Hover
 		public override void ClientSpawn()
 		{
 			if ( IsLocalPawn )
-			{
 				SpeedLines = Particles.Create( "particles/player/speed_lines.vpcf" );
-				RadarHud = Game.RootPanel.AddChild<UI.Radar>();
-			}
 			else
-			{
 				Nameplate = new UI.Nameplate( this );
-			}
 
 			base.ClientSpawn();
 		}
@@ -1601,9 +1595,6 @@ namespace Facepunch.Hover
 			{
 				SpeedLines?.Destroy();
 				SpeedLines = null;
-
-				RadarHud?.Delete();
-				RadarHud = null;
 			}
 
 			base.OnDestroy();

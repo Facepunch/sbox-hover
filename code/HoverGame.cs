@@ -1,8 +1,10 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
+using Facepunch.Hover.UI;
 using Sandbox.Effects;
 using Sandbox.Diagnostics;
+using Sandbox.UI;
 
 namespace Facepunch.Hover
 {
@@ -156,8 +158,18 @@ namespace Facepunch.Hover
 
 			if ( !HasInitialized )
 			{
+				
 				Game.RootPanel?.Delete( true );
-				Game.RootPanel = new UI.Hud();
+
+				var hud = new Hud();
+				hud.Style.ZIndex = 1;
+				Game.RootPanel = hud;
+				
+				var anchors = new RootPanel();
+				anchors.Style.ZIndex = -1;
+				Hud.Anchors = anchors;
+				Hud.AddPendingAnchors();
+				
 				HasInitialized = true;
 			}
 

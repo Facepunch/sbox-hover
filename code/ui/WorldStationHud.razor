@@ -15,9 +15,7 @@
 @code
 {
 	public StationAsset Entity { get; private set; }
-	public float MaximumValue { get; set; }
 	public string Attachment { get; set; }
-	public new float WorldScale { get; set; } = 1f;
 
 	private SimpleIconBar IconBar { get; set; }
 
@@ -64,7 +62,7 @@
 
 		if ( attachment.HasValue )
 		{
-			Transform = attachment.Value.WithScale( WorldScale );
+			Transform = attachment.Value.WithScale( 1f );
 		}
 
 		var targetRotation = Rotation.LookAt( Camera.Position - Position );

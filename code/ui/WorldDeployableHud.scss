@@ -5,7 +5,6 @@ WorldDeployableHud {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  mix-blend-mode: lighten;
 
   .container {
     display: flex;
@@ -13,11 +12,11 @@ WorldDeployableHud {
     align-items: center;
     box-shadow: $blueTeamForeground;
     background-color: $blueTeamPanelBg;
+    transition: all 0.2s ease-in-out;
     border: $blueTeamPanelBorder;
     border-radius: 8px;
-    padding: 16px;
 
-    .label {
+    label {
       text-shadow: $blueTeamShadow;
       box-shadow: $blueTeamForeground;
       font-family: $mainFont;
@@ -28,7 +27,6 @@ WorldDeployableHud {
     SimpleIconBar {
       box-shadow: $blueTeamForeground;
       border-radius: 8px;
-      margin-top: 16px;
       padding: 8px;
 
       .innerBar {
@@ -63,7 +61,7 @@ WorldDeployableHud {
         border: $redTeamPanelBorder;
       }
 
-      simpleiconbar {
+      SimpleIconBar {
         box-shadow: $redTeamForeground;
       }
     }

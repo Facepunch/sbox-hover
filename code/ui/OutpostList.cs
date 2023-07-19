@@ -52,21 +52,16 @@ namespace Facepunch.Hover.UI
 	[StyleSheet( "/ui/OutpostList.scss" )]
 	public class OutpostList : Panel
 	{
-		public static OutpostList Instance { get; private set; }
-		public static List<OutpostVolume> Outposts { get; private set; } = new();
-
-		public HashSet<OutpostItem> Items { get; private set; }
-		public Panel Container { get; private set; }
+		private static OutpostList Instance { get; set; }
+		private static List<OutpostVolume> Outposts { get; } = new();
+		private HashSet<OutpostItem> Items { get; }
+		private Panel Container { get; }
 
 		public static void RemoveOutpost( OutpostVolume outpost )
 		{
 			if ( !Outposts.Contains( outpost ) ) return;
 
-			if ( Instance != null )
-			{
-				Instance.RemoveItem( outpost );
-			}
-
+			Instance?.RemoveItem( outpost );
 			Outposts.Remove( outpost );
 		}
 
@@ -75,9 +70,7 @@ namespace Facepunch.Hover.UI
 			if ( Outposts.Contains( outpost ) )
 				return;
 
-			if ( Instance != null )
-				Instance.AddItem( outpost );
-
+			Instance?.AddItem( outpost );
 			Outposts.Add( outpost );
 		}
 
@@ -92,21 +85,16 @@ namespace Facepunch.Hover.UI
 				AddItem( outpost );
 			}
 
-			BindClass( "hidden", ShouldHidePanel );
-
 			Instance = this;
 		}
 
 		public void RemoveItem( OutpostVolume outpost )
 		{
-			foreach ( var item in Items )
+			foreach ( var item in Items.Where( item => item.Outpost == outpost ) )
 			{
-				if ( item.Outpost == outpost )
-				{
-					Items.Remove( item );
-					item.Delete( true );
-					return;
-				}
+				Items.Remove( item );
+				item.Delete( true );
+				return;
 			}
 		}
 
@@ -115,11 +103,6 @@ namespace Facepunch.Hover.UI
 			var item = Container.AddChild<OutpostItem>( "outpost" );
 			item.SetOutpost( outpost );
 			Items.Add( item );
-		}
-
-		private bool ShouldHidePanel()
-		{
-			return (HoverGame.Round is not PlayRound);
 		}
 	}
 }

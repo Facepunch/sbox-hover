@@ -6,9 +6,8 @@ WorldStationHud {
     display: flex;
     flex-direction: column;
 
-    .binding {
+    BindingLabel {
         background-color: $blueTeamPanelBg;
-        backdrop-filter-blur: 10px;
         align-items: center;
         justify-content: center;
         padding: 16px;
@@ -31,7 +30,6 @@ WorldStationHud {
 
     SimpleIconBar {
         background-color: rgba(#000, 0.2);
-        backdrop-filter-blur: 10px;
         padding: 8px;
         width: 100%;
 
@@ -57,11 +55,11 @@ WorldStationHud {
     }
 
     &.team_red {
-        .binding {
+        BindingLabel {
             background-color: rgba($red, 0.2);
         }
 
-        simpleiconbar {
+        SimpleIconBar {
             .outerBar {
                 background-color: $panel-bg;
                 border-radius: 0;
@@ -74,11 +72,11 @@ WorldStationHud {
     }
 
     &.team_none {
-        .label {
+        BindingLabel {
             background-color: rgba($yellow, 0.2);
         }
 
-        simpleiconbar {
+        SimpleIconBar {
             .outerBar {
                 background-color: $panel-bg;
                 border-radius: 0;

@@ -18,8 +18,6 @@
 {
     public DeployableEntity Entity { get; private set; }
     public SimpleIconBar IconBar { get; private set; }
-    public new float WorldScale { get; set; } = 1f;
-    public Panel Container { get; set; }
 
     public void SetEntity( DeployableEntity entity )
     {
@@ -35,7 +33,6 @@
         if ( IconBar.InnerBar.Style.Width != length )
         {
             IconBar.InnerBar.Style.Width = length;
-            IconBar.InnerBar.Style.Dirty();
             IconBar.InnerBar.SetClass( "hidden", progress < 0.05f );
         }
 

@@ -4,6 +4,7 @@ using Sandbox.UI.Construct;
 
 namespace Facepunch.Hover.UI
 {
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class EntityHudIconList : Panel
 	{
 		public void SetActive( bool active )
@@ -12,6 +13,7 @@ namespace Facepunch.Hover.UI
 		}
 	}
 
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class EntityHudIcon : Image
 	{
 		public void SetActive( bool active )
@@ -20,6 +22,7 @@ namespace Facepunch.Hover.UI
 		}
 	}
 
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class EntityHudIconBar : Panel
 	{
 		public EntityHudIcon Icon { get; private set; }
@@ -37,28 +40,20 @@ namespace Facepunch.Hover.UI
 		}
 	}
 
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class OutpostHud : Panel
 	{
-		public Panel Container { get; private set; }
-		public Label Letter { get; private set; }
-		public Label Name { get; private set; }
-		public OutpostVolume Outpost { get; private set; }
+		private Label Letter { get; }
+		private OutpostVolume Outpost { get; set; }
 
 		public OutpostHud()
 		{
-			Container = Add.Panel( "container" );
-
-			var content = Container.Add.Panel( "content" );
-			var circle = content.Add.Panel( "circle" );
-			Letter = circle.Add.Label( "", "letter" );
-
-			Name = content.Add.Label( "", "name" );
+			Letter = Add.Label( "", "letter" );
 		}
 
 		public void SetOutpost( OutpostVolume outpost )
 		{
 			Letter.Text = outpost.Letter;
-			Name.SetClass( "hidden", true );
 			Outpost = outpost;
 		}
 
@@ -67,11 +62,12 @@ namespace Facepunch.Hover.UI
 			SetClass( Team.Blue.GetHudClass(), Outpost.Team == Team.Blue );
 			SetClass( Team.Red.GetHudClass(), Outpost.Team == Team.Red );
 			SetClass( Team.None.GetHudClass(), Outpost.Team == Team.None );
-
+			
 			base.Tick();
 		}
 	}
 
+	[StyleSheet( "/ui/EntityHud.scss" )]
 	public class EntityHudBar : Panel
 	{
 		public Panel Foreground { get; private set; }
@@ -110,11 +106,6 @@ namespace Facepunch.Hover.UI
 		public float UpOffset { get; set; } = 80f;
 		public bool IsActive { get; private set; } = true;
 
-		public EntityHudAnchor()
-		{
-			UI.Hud.AddAnchor( this );
-		}
-
 		public void SetEntity( IHudEntity entity )
 		{
 			Entity = entity;
@@ -131,31 +122,34 @@ namespace Facepunch.Hover.UI
 
 		public override void Tick()
 		{
-			if ( (Entity as Entity).IsValid() )
-			{
-				if ( Entity.ShouldUpdateHud() )
-				{
-					Entity.UpdateHudComponents();
-
-					var position = (Entity.Position + Entity.LocalCenter).ToScreen();
-					position.x *= Screen.Size.x;
-					position.y *= Screen.Size.y;
-
-					position.x -= Box.Rect.Width * 0.5f;
-					position.y -= Box.Rect.Height * 0.5f;
-
-					Style.Left = Length.Pixels( position.x * ScaleFromScreen );
-					Style.Top = Length.Pixels( position.y * ScaleFromScreen );
-				}
-
-				SetClass( "hidden", !IsActive );
-			}
-			else if ( !IsDeleting )
+			if ( !(Entity as Entity).IsValid() && IsDeleting )
 			{
 				Delete();
 			}
 
 			base.Tick();
+		}
+
+		[GameEvent.Client.Frame]
+		private void UpdatePosition()
+		{
+			if ( !(Entity as Entity).IsValid() ) return;
+
+			if ( Entity.ShouldUpdateHud() )
+			{
+				Entity.UpdateHudComponents();
+
+				var position = (Entity.Position + Entity.LocalCenter).ToScreen();
+				position.x *= Screen.Size.x;
+				position.y *= Screen.Size.y;
+				position.x -= Box.Rect.Width * 0.5f;
+				position.y -= Box.Rect.Height * 0.5f;
+
+				Style.Left = Length.Pixels( position.x * ScaleFromScreen );
+				Style.Top = Length.Pixels( position.y * ScaleFromScreen );
+			}
+
+			SetClass( "hidden", !IsActive );
 		}
 	}
 
@@ -165,6 +159,7 @@ namespace Facepunch.Hover.UI
 		{
 			var container = new EntityHudAnchor();
 			container.SetEntity( entity );
+			Hud.AddAnchor( container );
 			return container;
 		}
 	}

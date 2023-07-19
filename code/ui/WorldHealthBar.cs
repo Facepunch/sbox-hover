@@ -10,7 +10,6 @@ namespace Facepunch.Hover.UI
 		public SimpleIconBar IconBar { get; private set; }
 		public float MaximumValue { get; set; }
 		public string Attachment { get; set; }
-		public new float WorldScale { get; set; } = 1f;
 		public bool OnlyShowWhenDamaged { get; set; } = false;
 		public bool RotateToFace { get; set; }
 		public bool ShowIcon { get; set; } = true;
@@ -57,7 +56,7 @@ namespace Facepunch.Hover.UI
 
 			if ( attachment.HasValue )
 			{
-				Transform = attachment.Value.WithScale( WorldScale );
+				Transform = attachment.Value.WithScale( 1.5f );
 			}
 
 			if ( RotateToFace )

@@ -38,6 +38,7 @@ namespace Facepunch.Hover
 		public float BlastDamage { get; set; }
 		public float BlastRadius { get; set; }
 		public float AttackRadius { get; set; }
+		public float Accuracy => 0.5f;
 		public float FireRate { get; set; }
 
 		public string GetKillFeedIcon()
@@ -73,7 +74,7 @@ namespace Facepunch.Hover
 			var muzzle = GetAttachment( "muzzle" );
 			var position = target.WorldSpaceBounds.Center;
 			var timeToReach = (muzzle.Value.Position.Distance( position ) / ProjectileSpeed);
-			return (position + target.Velocity * timeToReach);
+			return (position + target.Velocity * timeToReach * Accuracy);
 		}
 
 		public bool IsTurretDisabled()

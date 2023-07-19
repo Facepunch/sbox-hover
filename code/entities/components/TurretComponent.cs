@@ -25,14 +25,6 @@ namespace Facepunch.Hover
 		[Net] public float Recoil { get; private set; }
 		[Net] public HoverPlayer Target { get; set; }
 
-		public virtual List<string> FlybySounds => new()
-		{
-			"flyby.rifleclose1",
-			"flyby.rifleclose2",
-			"flyby.rifleclose3",
-			"flyby.rifleclose4"
-		};
-
 		public RealTimeUntil NextFindTarget { get; set; }
 		public RealTimeUntil NextFireTime { get; set; }
 
