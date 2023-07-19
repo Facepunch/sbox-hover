@@ -98,7 +98,7 @@ namespace Facepunch.Hover
 
 					if ( entity == Owner )
 					{
-						damage *= 1.25f;
+						damage *= 0.75f;
 					}
 
 					DealDamage( entity, position, direction * projectile.Velocity.Length * 0.2f, damage );

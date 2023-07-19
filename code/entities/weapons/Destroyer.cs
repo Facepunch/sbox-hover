@@ -80,7 +80,8 @@ namespace Facepunch.Hover
 
 		protected override float ModifyDamage( Entity victim, float damage )
 		{
-			if ( victim == Owner ) return damage * 1.25f;
+			if ( victim == Owner )
+				return damage * 1.25f;
 
 			return base.ModifyDamage( victim, damage );
 		}
