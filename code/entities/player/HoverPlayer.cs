@@ -1389,6 +1389,11 @@ namespace Facepunch.Hover
 
 				if ( controller.IsSkiing && GroundEntity.IsValid() )
 				{
+					if ( !LastSkiPosition.HasValue )
+					{
+						LastSkiPosition = Position;
+					}
+					
 					var distance = LastSkiPosition.Value.Distance( Position );
 
 					if ( !LastSkiPosition.HasValue || LastSkiPosition.Value.Distance( Position ) >= 32f )
