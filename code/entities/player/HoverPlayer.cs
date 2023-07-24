@@ -672,8 +672,12 @@ namespace Facepunch.Hover
 			if ( IsLocalPawn )
 			{
 				AnimatedLegs?.Delete();
-				AnimatedLegs = new( Game.SceneWorld, model, Transform );
-				AnimatedLegs.SetBodyGroup( "Head", 1 );
+
+				if ( model is not null )
+				{
+					AnimatedLegs = new( Game.SceneWorld, model, Transform );
+					AnimatedLegs.SetBodyGroup( "Head", 1 );
+				}
 
 				foreach ( var clothing in LegsClothing )
 				{
@@ -682,9 +686,12 @@ namespace Facepunch.Hover
 
 				LegsClothing.Clear();
 
-				foreach ( var child in Children )
+				if ( AnimatedLegs.IsValid() )
 				{
-					AddClothingToLegs( child );
+					foreach ( var child in Children )
+					{
+						AddClothingToLegs( child );
+					}
 				}
 			}
 
