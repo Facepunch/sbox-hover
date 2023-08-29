@@ -810,7 +810,7 @@ namespace Facepunch.Hover
 		{
 			var stationScreen = UI.StationScreen.Instance;
 
-			if ( stationScreen.IsOpen )
+			if ( stationScreen?.IsOpen ?? false )
 			{
 				if ( stationScreen.Mode == UI.StationScreenMode.Station && Input.Released( "use" ) )
 				{
