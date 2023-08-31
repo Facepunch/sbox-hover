@@ -1,12 +1,12 @@
 {
   "publish": {
     "Allowed": true,
-    "Enabled": true,
+    "Enabled": false,
     "ProjectConfig": {
-      "Title": "hv_dune",
+      "Title": "dune_ship_crash",
       "Type": "map",
-      "Org": "facepunch",
-      "Ident": "hv_dune",
+      "Org": "local",
+      "Ident": "dune_ship_crash",
       "Tags": null,
       "Schema": 0,
       "HasAssets": false,
@@ -17,13 +17,11 @@
       "CodePath": null,
       "PackageReferences": [],
       "EditorReferences": [
-        "thefirm.desertsand#23488",
-        "facepunch.hover",
-        "facepunch.glass_a#19946",
-        "drakefruit.glass_blocks_001a#20453"
+        "drakefruit.glass_blocks_001a#20453",
+        "facepunch.hover"
       ],
       "Metadata": {
-        "SingleAssetSource": "maps/hv_dune.vmap"
+        "SingleAssetSource": "maps/prefabs/dune_ship_crash.vmap"
       }
     }
   }
