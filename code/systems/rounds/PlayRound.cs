@@ -145,10 +145,12 @@ namespace Facepunch.Hover
 			}
 			else
 			{
-				ScoreHud = Game.RootPanel.AddChild<UI.RoundScore>();
+				if ( Game.RootPanel.IsValid() )
+				{
+					ScoreHud = Game.RootPanel.AddChild<UI.RoundScore>();
+				}
 			}
 		}
-		
 
 		protected override void OnTimeUp()
 		{
