@@ -74,7 +74,6 @@
     protected override int BuildHash()
     {
         var player = Game.LocalPawn as HoverPlayer;
-        if ( !player.IsValid() ) return 0;
-        return HashCode.Combine( player, player.Team );
+        return !player.IsValid() ? 0 : HashCode.Combine( player, player.Team );
     }
 }

@@ -310,12 +310,9 @@ namespace Facepunch.Hover
 			if ( !player.Client.IsBot )
 			{
 				UI.StationScreen.Show( To.Single( player ), UI.StationScreenMode.Deployment );
-				HoverGame.Entity.MoveToSpawnpoint( player );
 			}
-			else
-			{
-				player.Respawn();
-			}
+			
+			player.Respawn();
 		}
 	}
 }
