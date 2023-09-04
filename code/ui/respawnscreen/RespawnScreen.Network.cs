@@ -7,6 +7,8 @@ public partial class RespawnScreen
 	[ClientRpc]
 	public static void Show( float respawnTime, Entity attacker, Entity weapon = null )
 	{
+		if ( !Instance.IsValid() ) return;
+		
 		Instance.SetClass( "hidden", false );
 
 		if ( attacker is HoverPlayer player )
@@ -19,13 +21,12 @@ public partial class RespawnScreen
 			Instance.KillerInfo.Update( attacker.Name );
 
 		Instance.KillerInfo.SetWeapon( weapon );
-
 		Instance.RespawnTime = respawnTime;
 	}
 
 	[ClientRpc]
 	public static void Hide()
 	{
-		Instance.SetClass( "hidden", true );
+		Instance?.SetClass( "hidden", true );
 	}
 }
