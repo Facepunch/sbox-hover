@@ -311,7 +311,6 @@ namespace Facepunch.Hover
 			{
 				UI.StationScreen.Show( To.Single( player ), UI.StationScreenMode.Deployment );
 				HoverGame.Entity.MoveToSpawnpoint( player );
-				player.MakeSpectator( player.Position );
 			}
 			else
 			{
