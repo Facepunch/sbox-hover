@@ -8,18 +8,20 @@ namespace Facepunch.Hover
 
 		public BaseLoadout GiveLoadout( BaseLoadout loadout )
 		{
-			if ( Loadout.GetType() != loadout.GetType() )
+			if ( Loadout != null && Loadout.GetType() == loadout.GetType() )
 			{
-				Loadout = loadout;
-				Loadout.Initialize( this );
+				return Loadout;
 			}
+
+			Loadout = loadout;
+			Loadout.Initialize( this );
 
 			return Loadout;
 		}
 
 		public BaseLoadout GiveLoadout<T>() where T : BaseLoadout, new()
 		{
-			Loadout = new T();
+			GiveLoadout( new T() );
 			return Loadout;
 		}
 	}
