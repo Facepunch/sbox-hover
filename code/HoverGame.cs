@@ -160,12 +160,10 @@ namespace Facepunch.Hover
 			{
 				Game.RootPanel?.Delete( true );
 
-				var hud = new Hud();
-				hud.Style.ZIndex = 1;
+				var hud = new Hud { Style = { ZIndex = 1 } };
 				Game.RootPanel = hud;
 				
-				var anchors = new RootPanel();
-				anchors.Style.ZIndex = -1;
+				var anchors = new RootPanel { Style = { ZIndex = -1 } };
 				Hud.Anchors = anchors;
 				Hud.AddPendingAnchors();
 				
