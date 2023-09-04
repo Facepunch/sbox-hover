@@ -158,7 +158,6 @@ namespace Facepunch.Hover
 
 			if ( !HasInitialized )
 			{
-				
 				Game.RootPanel?.Delete( true );
 
 				var hud = new Hud();
@@ -296,6 +295,7 @@ namespace Facepunch.Hover
 				return;
 
 			var pp = PostProcessing;
+			if ( pp is null ) return;
 
 			pp.ChromaticAberration.Scale = 0.1f;
 			pp.ChromaticAberration.Offset = Vector3.Zero;
