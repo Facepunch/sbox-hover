@@ -16,8 +16,8 @@ namespace Facepunch.Hover
 		{
 			if ( IsLocalPawn )
 			{
-				Game.RootPanel.RemoveClass( oldTeam.GetHudClass() );
-				Game.RootPanel.AddClass( newTeam.GetHudClass() );
+				Game.RootPanel?.RemoveClass( oldTeam.GetHudClass() );
+				Game.RootPanel?.AddClass( newTeam.GetHudClass() );
 			}
 		}
 	}
