@@ -211,6 +211,7 @@ namespace Facepunch.Hover
 				var position = Position.WithZ( Position.z + height );
 
 				var trace = Trace.Ray( position, position + Vector3.Down * height * 2f )
+					.WithAnyTags( "solid", "world", "playerclip" )
 					.Ignore( this )
 					.Run();
 
@@ -227,6 +228,7 @@ namespace Facepunch.Hover
 				}
 
 				trace = Trace.Ray( position, position + CustomVelocity * Time.Delta )
+					.WithAnyTags( "solid", "world", "playerclip" )
 					.Ignore( this )
 					.Run();
 
@@ -258,6 +260,9 @@ namespace Facepunch.Hover
 				EnableHideInFirstPerson = false;
 
 			EnableShadowInFirstPerson = true;
+
+			if ( !Hud.IsValid() ) return;
+			Hud.UpOffset = Carrier.IsValid() ? 96f : 40f;
 		}
 
 		public bool ShouldUpdateHud()
