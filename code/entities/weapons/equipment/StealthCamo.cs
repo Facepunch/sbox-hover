@@ -27,7 +27,7 @@ namespace Facepunch.Hover
 		[Net] public RealTimeUntil NextReturnToStealth { get; set; }
 
 		public override WeaponConfig Config => new StealthCamoConfig();
-		public override string? AbilityButton => "flashlight";
+		public override string? AbilityButton => "ability";
 		public override bool IsPassive => true;
 
 		public float EnergyDrain { get; set; } = 8f;

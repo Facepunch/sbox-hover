@@ -148,25 +148,25 @@
           "GroupName": "Movement"
         },
         {
-          "Name": "attack1",
+          "Name": "Attack1",
           "KeyboardCode": "mouse1",
           "GamepadCode": "RightTrigger",
           "GroupName": "Actions"
         },
         {
-          "Name": "attack2",
+          "Name": "Attack2",
           "KeyboardCode": "mouse2",
           "GamepadCode": "LeftTrigger",
           "GroupName": "Actions"
         },
         {
-          "Name": "reload",
+          "Name": "Reload",
           "KeyboardCode": "r",
           "GamepadCode": "X",
           "GroupName": "Actions"
         },
         {
-          "Name": "use",
+          "Name": "Use",
           "KeyboardCode": "e",
           "GamepadCode": "Y",
           "GroupName": "Actions"
@@ -237,12 +237,6 @@
           "GroupName": "Inventory"
         },
         {
-          "Name": "View",
-          "KeyboardCode": "C",
-          "GamepadCode": "RightJoystickButton",
-          "GroupName": "Other"
-        },
-        {
           "Name": "Voice",
           "KeyboardCode": "v",
           "GamepadCode": "RightJoystickButton",
@@ -255,7 +249,7 @@
           "GroupName": "Other"
         },
         {
-          "Name": "Flashlight",
+          "Name": "Ability",
           "KeyboardCode": "f",
           "GamepadCode": "DpadNorth",
           "GroupName": "Other"
@@ -267,7 +261,7 @@
           "GroupName": "Other"
         },
         {
-          "Name": "Menu",
+          "Name": "Spot",
           "KeyboardCode": "Q",
           "GamepadCode": "SwitchRightMenu",
           "GroupName": "Other"
@@ -275,6 +269,11 @@
         {
           "Name": "Chat",
           "KeyboardCode": "enter",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Melee",
+          "KeyboardCode": "MOUSE3",
           "GroupName": "Other"
         }
       ]
