@@ -1,8 +1,7 @@
 ﻿@import "_variables.scss";
 
 AwardItem {
-    box-shadow: $blueTeamBackground;
-    background-color: $blueTeamPanelBg;
+    background-color: $panel-bg;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -41,8 +40,8 @@ AwardItem {
         }
         
         .icon {
-            width: 96px;
-            height: 96px;
+            width: 64px;
+            height: 64px;
             margin-right: 4px;
 
             &.hidden {
@@ -74,9 +73,6 @@ AwardItem {
 
 .team_red {
     AwardItem {
-        background-color: $redTeamPanelBg;
-        box-shadow: $redTeamBackground;
-
         .header {
             .title {
                 text-shadow: $redTeamShadow;
