@@ -40,7 +40,7 @@ namespace Facepunch.Hover
 			base.OnAbilityUsed();
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( Owner is not HoverPlayer player )

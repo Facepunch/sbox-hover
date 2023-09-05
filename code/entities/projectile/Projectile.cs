@@ -239,7 +239,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.PreRender]
+		[GameEvent.PreRender]
 		protected virtual void PreRender()
 		{
 			if ( ModelEntity.IsValid() )
@@ -248,7 +248,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( !Simulator.IsValid() )

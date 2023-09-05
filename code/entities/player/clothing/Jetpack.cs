@@ -14,7 +14,7 @@ namespace Facepunch.Hover
 			base.Spawn();
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			if ( !Wearer.IsValid() ) return;

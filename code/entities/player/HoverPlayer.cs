@@ -1005,7 +1005,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Client.PostCamera]
+		[GameEvent.Client.PostCamera]
 		private void PostCameraSetup()
 		{
 			if ( LastCameraRotation == Rotation.Identity )
@@ -1347,7 +1347,7 @@ namespace Facepunch.Hover
 			StopSkiLoop();
 		}
 
-		[Event.Client.Frame]
+		[GameEvent.Client.Frame]
 		protected virtual void OnFrame()
 		{
 			if ( AnimatedLegs.IsValid() )
@@ -1388,7 +1388,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			if ( IsLocalPawn && Controller is MoveController controller )
@@ -1426,7 +1426,7 @@ namespace Facepunch.Hover
 			EnableDrawing = (LifeState == LifeState.Alive);
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )

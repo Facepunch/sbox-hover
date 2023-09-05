@@ -209,7 +209,7 @@ namespace Facepunch.Hover
 			base.OnDestroy();
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( UpgradeLoop.HasValue && NextStopUpgradeLoop )

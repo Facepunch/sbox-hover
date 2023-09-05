@@ -56,7 +56,7 @@ namespace Facepunch.Hover
 			Rotation = Camera.Rotation;
 		}
 
-		[Event.Client.PostCamera]
+		[GameEvent.Client.PostCamera]
 		private void AddCameraEffects()
 		{
 			if ( Owner is not HoverPlayer player || player.Controller is not MoveController )

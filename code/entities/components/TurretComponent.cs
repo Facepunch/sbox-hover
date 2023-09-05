@@ -52,7 +52,7 @@ namespace Facepunch.Hover
 			return (turret.IsValidVictim( player ) && CanSeeTarget( player ));
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			UpdateAnimation();
@@ -85,7 +85,7 @@ namespace Facepunch.Hover
 			Recoil = 1f;
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( Entity is not ITurretComponent turret )

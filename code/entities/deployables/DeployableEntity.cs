@@ -144,7 +144,7 @@ namespace Facepunch.Hover
 			base.TakeDamage( info );
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			if ( HealthBar == null ) return;
@@ -153,7 +153,7 @@ namespace Facepunch.Hover
 			HealthBar.SetIsLow( Health < MaxHealth * 0.1f );
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void UpdateDeployment()
 		{
 			if ( !FinishDeployTime )

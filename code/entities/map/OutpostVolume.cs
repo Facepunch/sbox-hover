@@ -141,7 +141,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			if ( IsPlayingCaptureSound && LastPlayCaptureSound >= 0.5f )
@@ -151,7 +151,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( !HoverGame.Round.CanCaptureOutposts ) return;

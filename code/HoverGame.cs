@@ -275,7 +275,7 @@ namespace Facepunch.Hover
 			Awards.Add<CaptureOutpostAward>();
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		private void ServerTick()
 		{
 			if ( NextSecondTime )
@@ -286,7 +286,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Client.Frame]
+		[GameEvent.Client.Frame]
 		private void OnFrame()
 		{
 			if ( Game.LocalPawn is not HoverPlayer player )
@@ -314,7 +314,7 @@ namespace Facepunch.Hover
 			pp.ChromaticAberration.Scale += (0.05f * sum);
 		}
 
-		[Event.Entity.PostSpawn]
+		[GameEvent.Entity.PostSpawn]
 		private void OnEntityPostSpawn()
 		{
 			if ( Game.IsServer )

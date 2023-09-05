@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using System;
+using Sandbox;
 
 namespace Facepunch.Hover
 {
@@ -95,7 +96,14 @@ namespace Facepunch.Hover
 				if ( inheritVelocity )
 				{
 					CustomVelocity = Carrier.Velocity * 0.75f;
-					Position += Carrier.Velocity * 0.25f;
+
+					var velocityToAdd = Carrier.Velocity * 0.25f;
+					var trace = Trace.Ray( Position, Position + velocityToAdd )
+						.WithAnyTags( "solid", "playerclip" )
+						.Ignore( this )
+						.Run();
+
+					Position = trace.EndPosition;
 				}
 				else
 				{
@@ -194,7 +202,7 @@ namespace Facepunch.Hover
 			Effects.SetPosition( 1, Team.GetColor() * 255f );
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		private void ServerTick()
 		{
 			if ( IsAtHome ) return;
@@ -207,11 +215,12 @@ namespace Facepunch.Hover
 
 			if ( !Carrier.IsValid() )
 			{
-				var height = 60f;
+				const float height = 60f;
+				
 				var position = Position.WithZ( Position.z + height );
 
 				var trace = Trace.Ray( position, position + Vector3.Down * height * 2f )
-					.WithAnyTags( "solid", "world", "playerclip" )
+					.WithAnyTags( "solid", "playerclip" )
 					.Ignore( this )
 					.Run();
 
@@ -228,13 +237,13 @@ namespace Facepunch.Hover
 				}
 
 				trace = Trace.Ray( position, position + CustomVelocity * Time.Delta )
-					.WithAnyTags( "solid", "world", "playerclip" )
+					.WithAnyTags( "solid", "playerclip" )
 					.Ignore( this )
 					.Run();
 
 				if ( trace.Hit || trace.StartedSolid )
 				{
-					Position = trace.EndPosition + height;
+					CustomVelocity = Vector3.Reflect( CustomVelocity.Normal, trace.Normal ) * CustomVelocity.Length * 0.5f;
 					return;
 				}
 
@@ -250,7 +259,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		private void ClientTick()
 		{
 			// Hide the flag if we're the current carrier. It can be annoying.
@@ -275,11 +284,11 @@ namespace Facepunch.Hover
 			var distance = Game.LocalPawn.Position.Distance( Position ) - 1500f;
 			var mapped = distance.Remap( 0f, 1000f, 0f, 1f ).Clamp( 0f, 1f );
 
-			if ( Hud.Style.Opacity != mapped )
-			{
-				Hud.Style.Opacity = mapped;
-				Hud.Style.Dirty();
-			}
+			if ( Hud.Style.Opacity.HasValue && Math.Abs( Hud.Style.Opacity.Value - mapped ) <= 0.001f )
+				return;
+
+			Hud.Style.Opacity = mapped;
+			Hud.Style.Dirty();
 		}
 	}
 }

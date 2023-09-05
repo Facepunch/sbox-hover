@@ -232,7 +232,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		public virtual void ServerTick()
 		{
 			if ( RepairEffect != null && KillRepairEffectTime )
@@ -266,7 +266,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		public virtual void ClientTick()
 		{
 			HealthBarLeft.SetValue( Health );

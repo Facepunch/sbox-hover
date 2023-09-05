@@ -152,7 +152,7 @@ namespace Facepunch.Hover
 			base.OnDestroy();
 		}
 
-		[Event.Client.BuildInput]
+		[GameEvent.Client.BuildInput]
 		protected new virtual void BuildInput()
 		{
 			if ( IsScoped )

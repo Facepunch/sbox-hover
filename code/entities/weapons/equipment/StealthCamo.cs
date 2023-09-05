@@ -86,7 +86,7 @@ namespace Facepunch.Hover
 			return player.Team == other.Team;
 		}
 
-		[Event.Tick.Server]
+		[GameEvent.Tick.Server]
 		protected virtual void ServerTick()
 		{
 			if ( Owner is not HoverPlayer player )
@@ -153,7 +153,7 @@ namespace Facepunch.Hover
 			}
 		}
 
-		[Event.Tick.Client]
+		[GameEvent.Tick.Client]
 		protected virtual void ClientTick()
 		{
 			if ( Owner is HoverPlayer player && player.IsLocalPawn )
