@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 			typeof( DamageVsHeavy ),
 			typeof( AmmoPackUpgrade )
 		};
-		public override int Damage => 700;
+		public override int Damage => 350;
 	}
 
 	[Library( "hv_longshot", Title = "Longshot" )]
