@@ -132,13 +132,22 @@ LoadoutSelectItem {
             background-color: transparent;
             align-items: center;
             justify-content: center;
-            height: 30px;
+            flex-direction: column;
+            height: 36px;
 
             label {
                 color: $blue;
-                font-size: 12px;
-                font-family: $fontBold;
+                font-family: $mainFont;
+                font-size: 14px;
                 text-transform: uppercase;
+                
+                &:not( .availability ) {
+                    font-family: $fontBold;
+                }
+            }
+            
+            .availability {
+                font-size: 12px;
             }
         }
     }

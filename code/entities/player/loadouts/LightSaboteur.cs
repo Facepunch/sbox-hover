@@ -17,6 +17,7 @@ namespace Facepunch.Hover
 			new LoadoutTag( LoadoutTagType.Tertiary, "Fast" ),
 			new LoadoutTag( LoadoutTagType.Quaternary, "Stealth" )
 		};
+		public override float Availability => 0.5f;
 		public override int DisplayOrder => 2;
 		public override Type UpgradesTo => typeof( LightSaboteurMk2 );
 		public override WeaponConfig[][] AvailableWeapons => new WeaponConfig[][]

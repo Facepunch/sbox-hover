@@ -22,7 +22,7 @@ namespace Facepunch.Hover
 		protected Vector3? LastSkiPosition { get; set; }
 		private SpectateCamera SpectateCamera { get; set; }
 		private TimeSince TimeSinceLastFootstep { get; set; }
-
+		
 		public SceneModel AnimatedLegs { get; private set; }
 
 		private HashSet<string> LegBonesToKeep = new()
@@ -200,30 +200,33 @@ namespace Facepunch.Hover
 		[ConCmd.Server]
 		public static void ChangeLoadout( string loadoutName, string weapons )
 		{
-			if ( ConsoleSystem.Caller.Pawn is HoverPlayer player )
+			if ( ConsoleSystem.Caller.Pawn is not HoverPlayer player )
+				return;
+
+			var loadoutDesc = TypeLibrary.GetType<BaseLoadout>( loadoutName );
+
+			if ( loadoutDesc is null )
+				return;
+
+			var loadout = TypeLibrary.Create<BaseLoadout>( loadoutDesc.TargetType );
+			if ( loadout is null ) return;
+
+			if ( !player.Loadout.IsTheSameAs( loadout ) && !loadout.IsAvailable() )
+				return;
+
+			loadout.UpdateWeapons( weapons.Split( ',' ) );
+			player.GiveLoadout( loadout );
+
+			if ( player.LifeState == LifeState.Alive )
 			{
-				var loadoutDesc = TypeLibrary.GetType<BaseLoadout>( loadoutName );
+				loadout.Respawn( player );
+				loadout.Supply( player );
 
-				if ( loadoutDesc != null )
-				{
-					var loadout = TypeLibrary.Create<BaseLoadout>( loadoutDesc.TargetType );
-					if ( loadout == null ) return;
-
-					loadout.UpdateWeapons( weapons.Split( ',' ) );
-					player.GiveLoadout( loadout );
-
-					if ( player.LifeState == LifeState.Alive )
-					{
-						loadout.Respawn( player );
-						loadout.Supply( player );
-
-						UI.WeaponList.Expand( To.Single( player ), 4f );
-					}
-					else
-					{
-						player.Respawn();
-					}
-				}
+				UI.WeaponList.Expand( To.Single( player ), 4f );
+			}
+			else
+			{
+				player.Respawn();
 			}
 		}
 
@@ -900,7 +903,7 @@ namespace Facepunch.Hover
 			if ( LifeState != LifeState.Alive )
 				return;
 
-			if ( Game.IsServer && Input.Released( "drop" ) )
+			if ( Game.IsServer && Input.Released( "spot" ) )
 			{
 				var spottedPlayers = 0;
 				var trace = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 20000f )

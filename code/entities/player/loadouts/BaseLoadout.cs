@@ -48,6 +48,7 @@ namespace Facepunch.Hover
 		public virtual int DisplayOrder => 0;
 		public virtual bool CanUpgradeDependencies => false;
 		public virtual bool CanRepairGenerator => false;
+		public virtual float Availability => 1f;
 		public virtual int Level => 1;
 		public virtual float HealthRegen => 50f;
 		public virtual float EnergyRegen => 20f;
@@ -82,6 +83,31 @@ namespace Facepunch.Hover
 					Weapons[i] = weapon;
 				}
 			}
+		}
+
+		public int GetTotalPlayers()
+		{
+			return Entity.All
+				.OfType<HoverPlayer>()
+				.Where( p =>
+					p.Loadout is not null )
+				.Count( p => p.Loadout.IsTheSameAs( this ) );
+		}
+
+		public int GetTotalAllowed()
+		{
+			var players = Entity.All.OfType<HoverPlayer>();
+			return (players.Count() * Availability).CeilToInt();
+		}
+
+		public bool IsTheSameAs( BaseLoadout loadout )
+		{
+			return loadout.GetType().IsAssignableFrom( GetType() ) || GetType().IsAssignableTo( loadout.GetType() );
+		}
+
+		public virtual bool IsAvailable()
+		{
+			return GetTotalPlayers() < GetTotalAllowed();
 		}
 
 		public virtual string GetSlotName( int slot )

@@ -19,6 +19,7 @@ namespace Facepunch.Hover
 			new LoadoutTag( LoadoutTagType.Tertiary, "Repairing" )
 		};
 		public override Type UpgradesTo => typeof( MediumEngineerMk2 );
+		public override float Availability => 0.6f;
 		public override bool CanUpgradeDependencies => true;
 		public override bool CanRepairGenerator => true;
 		public override int DisplayOrder => 5;

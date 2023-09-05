@@ -21,7 +21,8 @@
             </div>
         </div>
         <div class="loadout-name">
-            <label @ref="Name"></label>
+	        <label @ref="Name"></label>
+	        <label class="availability">(@Loadout.GetTotalPlayers()/@Loadout.GetTotalAllowed())</label>
         </div>
     </div>
 </root>

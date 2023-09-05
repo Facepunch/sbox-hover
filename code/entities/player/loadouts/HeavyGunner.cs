@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string Name => "Gunner";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
+		public override float Availability => 0.3f;
 		public override int DisplayOrder => 8;
 		public override List<LoadoutTag> Tags => new()
 		{

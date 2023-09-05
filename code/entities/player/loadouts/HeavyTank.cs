@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string Name => "Tank";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Heavy;
 		public override LoadoutRoleType RoleType => LoadoutRoleType.Defender;
+		public override float Availability => 0.3f;
 		public override List<LoadoutTag> Tags => new()
 		{
 			new LoadoutTag( LoadoutTagType.Primary, "Destruction" ),

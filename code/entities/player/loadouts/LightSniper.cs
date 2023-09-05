@@ -38,6 +38,7 @@ namespace Facepunch.Hover
 				new EnergyBoosterConfig()
 			}
 		};
+		public override float Availability => 0.2f;
 		public override float RegenDelay => 20f;
 		public override float Health => 700f;
 		public override float Energy => 90f;

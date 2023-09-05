@@ -496,7 +496,17 @@
 
         Audio.Play( "hover.clickbeep" );
 
+	    if ( Game.LocalClient.Pawn is not HoverPlayer localPlayer )
+		    return;
+	    
         var loadout = LoadoutList.Selected.Loadout;
+
+	    if ( !loadout.IsAvailable() && !localPlayer.Loadout.IsTheSameAs( loadout ) )
+	    {
+		    UI.Hud.Toast( $"There are currently too many players with this loadout!", "ui/icons/icon_currency_blue.png" );
+		    return;
+	    }
+	    
         var loadoutName = loadout.GetType().Name;
 
         HoverPlayer.ChangeLoadout( loadoutName, string.Join( ",", Weapons.Select( v => v.Name ) ) );

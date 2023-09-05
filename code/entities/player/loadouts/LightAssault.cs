@@ -35,6 +35,8 @@ namespace Facepunch.Hover
 				new AmmoBoosterConfig()
 			}
 		};
+
+		public override float Availability => 1f;
 		public override float RegenDelay => 20f;
 		public override float EnergyRegen => 15f;
 		public override float Health => 800f;

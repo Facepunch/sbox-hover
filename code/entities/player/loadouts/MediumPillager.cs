@@ -11,6 +11,7 @@ namespace Facepunch.Hover
 		public override string Name => "Pillager";
 		public override LoadoutArmorType ArmorType => LoadoutArmorType.Medium;
 		public override LoadoutRoleType RoleType => LoadoutRoleType.Support;
+		public override float Availability => 0.6f;
 		public override Type UpgradesTo => typeof( MediumPillagerMk2 );
 		public override List<LoadoutTag> Tags => new()
 		{
