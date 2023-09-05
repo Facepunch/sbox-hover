@@ -306,7 +306,7 @@ namespace Facepunch.Hover
 		public void Reset()
 		{
 			Client.SetInt( "captures", 0 );
-			Client.SetInt( "kills", 0 );
+			Client.SetInt( "deaths", 0 );
 			Client.SetInt( "kills", 0 );
 
 			LoadoutUpgrades.Clear();
