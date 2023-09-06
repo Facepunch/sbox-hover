@@ -12,9 +12,11 @@ namespace Facepunch.Hover
 	public partial class GeneratorAsset : ModelEntity, IGameResettable, IUse, IHudEntity
 	{
 		public delegate void GeneratorEvent( GeneratorAsset generator );
+		public static event GeneratorEvent OnGeneratorAttacked;
 		public static event GeneratorEvent OnGeneratorRepaired;
 		public static event GeneratorEvent OnGeneratorBroken;
 
+		[Net] public RealTimeSince TimeSinceLastDamage { get; set; }
 		[Net] public RealTimeUntil StartRegenTime { get; set; }
 		[Net] public float MaxHealth { get; set; } = 6000f;
 		[Net] public bool IsDestroyed { get; set; }
@@ -29,8 +31,9 @@ namespace Facepunch.Hover
 		private UI.WorldHealthBar HealthBarLeft { get; set; }
 		private UI.WorldHealthBar HealthBarRight { get; set; }
 		private UI.WorldGeneratorHud GeneratorHud { get; set; }
-
+		
 		private RealTimeUntil KillRepairEffectTime { get; set; }
+		private RealTimeUntil NextAttackedNotification { get; set; }
 		private RealTimeUntil NextAttackedEffect { get; set; }
 		private Particles RepairEffect { get; set; }
 		private bool IsRegenerating { get; set; }
@@ -129,13 +132,27 @@ namespace Facepunch.Hover
 
 		public virtual void UpdateHudComponents()
 		{
-			if ( Game.LocalPawn is HoverPlayer player )
+			if ( Game.LocalPawn is not HoverPlayer player )
 			{
-				var distance = player.Position.Distance( Position );
-
-				Icon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 2000f, 3000f );
-				Icon.SetActive( player.Team == Team );
+				return;
 			}
+
+			var distance = player.Position.Distance( Position );
+
+			if ( !IsDestroyed && TimeSinceLastDamage < 5f )
+			{
+				Icon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 500f, 0f, 10000f, 11000f );
+				Icon.SetTexture( "ui/icons/generator_attacked.png" );
+				Icon.SetClass( "attacked", true );
+			}
+			else
+			{
+				Icon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 1000f, 0f, 2000f, 3000f );
+				Icon.SetTexture( IsDestroyed ? "ui/icons/generator_offline.png" : "ui/icons/generator.png" );
+				Icon.SetClass( "attacked", false );
+			}
+				
+			Icon.SetActive( player.Team == Team );
 		}
 
 		public override void Spawn()
@@ -207,6 +224,13 @@ namespace Facepunch.Hover
 				NextAttackedEffect = 0.5f;
 			}
 
+			if ( NextAttackedNotification )
+			{
+				NextAttackedNotification = 10f;
+				OnGeneratorAttacked?.Invoke( this );
+			}
+			
+			TimeSinceLastDamage = 0f;
 			StartRegenTime = 240f;
 			IsRegenerating = false;
 

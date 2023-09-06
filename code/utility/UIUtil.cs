@@ -12,7 +12,7 @@ public static class UIUtil
 	}
 
 	public static float GetMinMaxDistanceAlpha( float distance, float fadeInStart, float fadeInEnd, float fadeOutStart, float fadeOutEnd )
-        {
+	{
 		distance -= fadeInStart;
 
 		var mapped = distance.Remap( fadeInEnd, fadeInStart, 0f, 1f );

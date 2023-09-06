@@ -117,6 +117,7 @@ namespace Facepunch.Hover
 		{
 			if ( Game.IsServer )
 			{
+				GeneratorAsset.OnGeneratorAttacked += OnGeneratorAttacked;
 				GeneratorAsset.OnGeneratorRepaired += OnGeneratorRepaired;
 				GeneratorAsset.OnGeneratorBroken += OnGeneratorBroken;
 				OutpostVolume.OnOutpostCaptured += OnOutpostCaptured;
@@ -173,6 +174,7 @@ namespace Facepunch.Hover
 
 				UI.StationScreen.Hide();
 
+				GeneratorAsset.OnGeneratorAttacked -= OnGeneratorAttacked;
 				GeneratorAsset.OnGeneratorRepaired -= OnGeneratorRepaired;
 				GeneratorAsset.OnGeneratorBroken -= OnGeneratorBroken;
 				OutpostVolume.OnOutpostCaptured -= OnOutpostCaptured;
@@ -229,6 +231,9 @@ namespace Facepunch.Hover
 		{
 			Audio.Play( generator.Team, $"your.generatordestroyed{Game.Random.Int( 1, 2 )}", $"generatordestroyed{Game.Random.Int( 1, 2 )}" );
 
+			var clients = generator.Team.GetAll().Select( p => p.Client );
+			UI.Hud.Toast( To.Multiple( clients ), "Your generator has been destroyed!", "ui/icons/no-power.png" );
+			
 			var attacker = generator.LastAttacker as HoverPlayer;
 
 			if ( attacker.IsValid() )
@@ -236,10 +241,22 @@ namespace Facepunch.Hover
 				attacker.GiveAward<DemolitionManAward>();
 			}
 		}
+		
+		private void OnGeneratorAttacked( GeneratorAsset generator )
+		{
+			//Audio.Play( generator.Team, $"your.generatorrepaired{Game.Random.Int( 1, 2 )}", $"generatorrepaired{Game.Random.Int( 1, 2 )}" );
+			
+			var clients = generator.Team.GetAll().Select( p => p.Client );
+			UI.Hud.Toast( To.Multiple( clients ), "Your generator is under attack!", "ui/icons/generator_attacked.png" );
+		}
+
 
 		private void OnGeneratorRepaired( GeneratorAsset generator )
 		{
 			Audio.Play( generator.Team, $"your.generatorrepaired{Game.Random.Int( 1, 2 )}", $"generatorrepaired{Game.Random.Int( 1, 2 )}" );
+			
+			var clients = generator.Team.GetAll().Select( p => p.Client );
+			UI.Hud.Toast( To.Multiple( clients ), "Your generator has been repaired!", "ui/icons/power.png" );
 		}
 
 		private void OnFlagDropped( HoverPlayer player, FlagEntity flag )
