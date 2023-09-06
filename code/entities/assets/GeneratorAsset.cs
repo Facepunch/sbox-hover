@@ -141,7 +141,7 @@ namespace Facepunch.Hover
 
 			if ( !IsDestroyed && TimeSinceLastDamage < 5f )
 			{
-				Icon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 500f, 0f, 10000f, 11000f );
+				Icon.Style.Opacity = UIUtil.GetMinMaxDistanceAlpha( distance, 500f, 0f, float.PositiveInfinity, float.PositiveInfinity );
 				Icon.SetTexture( "ui/icons/generator_attacked.png" );
 				Icon.SetClass( "attacked", true );
 			}
