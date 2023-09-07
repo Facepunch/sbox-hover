@@ -231,7 +231,7 @@ namespace Facepunch.Hover
 			}
 			
 			TimeSinceLastDamage = 0f;
-			StartRegenTime = 240f;
+			StartRegenTime = 120f;
 			IsRegenerating = false;
 
 			base.TakeDamage( info );
