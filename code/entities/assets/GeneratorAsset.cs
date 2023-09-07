@@ -20,7 +20,7 @@ namespace Facepunch.Hover
 		[Net] public RealTimeUntil StartRegenTime { get; set; }
 		[Net] public float MaxHealth { get; set; } = 6000f;
 		[Net] public bool IsDestroyed { get; set; }
-		public float RepairRate { get; set; } = 100f;
+		public float RepairRate { get; set; } = 500f;
 		public Vector3 LocalCenter => CollisionBounds.Center;
 
 		[Net, Property] public Team Team { get; set; }
