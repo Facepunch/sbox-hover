@@ -135,11 +135,18 @@ namespace Facepunch.Hover.UI
 		{
 			if ( !(Entity as Entity).IsValid() ) return;
 
+			var position = (Entity.Position + Entity.LocalCenter).ToScreen();
+
+			if ( position.z <= 0f )
+			{
+				SetClass( "hidden", true );
+				return;
+			}
+			
 			if ( Entity.ShouldUpdateHud() )
 			{
 				Entity.UpdateHudComponents();
-
-				var position = (Entity.Position + Entity.LocalCenter).ToScreen();
+				
 				position.x *= Screen.Size.x;
 				position.y *= Screen.Size.y;
 				position.x -= Box.Rect.Width * 0.5f;
