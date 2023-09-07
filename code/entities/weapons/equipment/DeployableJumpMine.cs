@@ -33,6 +33,7 @@ namespace Facepunch.Hover
 		protected override void OnDeploy( JumpMine deployable )
 		{
 			deployable.Radius = Radius;
+			deployable.DamageVsHeavy = DamageVsHeavy;
 
 			base.OnDeploy( deployable );
 		}

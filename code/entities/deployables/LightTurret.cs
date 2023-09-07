@@ -9,7 +9,8 @@ namespace Facepunch.Hover
 	public partial class LightTurret : DeployableEntity, ITurretComponent, IKillFeedIcon
 	{
 		public override string ModelName => "models/deploy_turret/deploy_turret.vmdl";
-
+		public override bool RequiresPower => false;
+		
 		public List<string> FlybySounds => new()
 		{
 			"flyby.rifleclose1",

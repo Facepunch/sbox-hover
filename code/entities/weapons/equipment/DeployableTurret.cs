@@ -26,7 +26,7 @@ namespace Facepunch.Hover
 	{
 		public override WeaponConfig Config => new DeployableTurretConfig();
 		public override string ModelName => "models/deploy_turret/deploy_turret.vmdl";
-		public override int MaxDeployables { get; set; } = 1;
+		public override int MaxDeployables { get; set; } = 2;
 
 		public float TargetingSpeed { get; set; } = 1f;
 		public float DamageVsHeavy { get; set; } = 1f;
@@ -34,6 +34,7 @@ namespace Facepunch.Hover
 		protected override void OnDeploy( LightTurret deployable )
 		{
 			deployable.TargetingSpeed = TargetingSpeed;
+			deployable.DamageVsHeavy = DamageVsHeavy;
 
 			base.OnDeploy( deployable );
 		}
