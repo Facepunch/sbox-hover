@@ -48,7 +48,7 @@ namespace Facepunch.Hover
 			StationHud = new UI.WorldStationHud();
 			StationHud.SetEntity( this, "hud" );
 
-			Hud.UpOffset = 60f;
+			Hud.UpOffset = 40f;
 		}
 
 		public override void OnKilled()

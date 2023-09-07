@@ -66,6 +66,14 @@ EntityHudIcon {
     &.hidden {
         display: none;
     }
+    
+    &.ammo {
+        animation-name: pulse-attacked;
+        animation-duration: 0.4s;
+        animation-timing-function: ease;
+        animation-direction: alternate;
+        background-tint: yellow;
+    }
 
     &.dependency {
         width: 48px;

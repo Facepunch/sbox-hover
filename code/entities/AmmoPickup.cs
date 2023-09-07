@@ -33,7 +33,7 @@ namespace Facepunch.Hover
 		public override void ClientSpawn()
 		{
 			Hud = UI.EntityHud.Create( this );
-			Hud.UpOffset = 120f;
+			Hud.UpOffset = 20f;
 
 			Icon = Hud.AddChild<UI.EntityHudIcon>( "ammo" );
 			Icon.SetTexture( "ui/icons/ammo.png" );
@@ -86,7 +86,7 @@ namespace Facepunch.Hover
 		{
 			if ( TimeUntilAutoDelete )
 			{
-				//Delete();
+				Delete();
 			}
 		}
 	}
