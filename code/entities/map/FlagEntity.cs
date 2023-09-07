@@ -94,21 +94,9 @@ namespace Facepunch.Hover
 			if ( !IsAtHome && Carrier.IsValid() )
 			{
 				if ( inheritVelocity )
-				{
-					CustomVelocity = Carrier.Velocity * 0.75f;
-
-					var velocityToAdd = Carrier.Velocity * 0.25f;
-					var trace = Trace.Ray( Position, Position + velocityToAdd )
-						.WithAnyTags( "solid", "playerclip" )
-						.Ignore( this )
-						.Run();
-
-					Position = trace.EndPosition;
-				}
+					CustomVelocity = (Carrier.ViewAngles.Forward * Carrier.Velocity.Length * 2f);
 				else
-				{
 					CustomVelocity = 0f;
-				}
 
 				IsOnGround = false;
 				DoIdleEffects();
@@ -236,6 +224,8 @@ namespace Facepunch.Hover
 					return;
 				}
 
+				CustomVelocity += Vector3.Down * 600f * Time.Delta;
+
 				trace = Trace.Ray( position, position + CustomVelocity * Time.Delta )
 					.WithAnyTags( "solid", "playerclip" )
 					.Ignore( this )
@@ -251,7 +241,6 @@ namespace Facepunch.Hover
 
 				Rotation = Rotation.Slerp( Rotation, Rotation.Identity, Time.Delta );
 				Position += CustomVelocity * Time.Delta;
-				Position += Vector3.Down * 600f * Time.Delta;
 			}
 			else
 			{
