@@ -35,7 +35,7 @@ namespace Facepunch.Hover
 		public override string DamageType => "blast";
 		public override float PrimaryRate => 0.3f;
 		public override float SecondaryRate => 1.0f;
-		public override float InheritVelocity => 0.5f;
+		public override float InheritVelocity => 0.7f;
 		public override bool CanMeleeAttack => true;
 		public override int ClipSize => 1;
 		public override float ReloadTime => 2.3f;
