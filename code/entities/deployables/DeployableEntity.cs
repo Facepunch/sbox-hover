@@ -124,7 +124,10 @@ namespace Facepunch.Hover
 		protected override void OnDestroy()
 		{
 			DeployableHud?.Delete();
+			DeployableHud = null;
+			
 			HealthBar?.Delete();
+			HealthBar = null;
 
 			base.OnDestroy();
 		}

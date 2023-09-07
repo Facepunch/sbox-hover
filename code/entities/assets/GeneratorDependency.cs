@@ -204,7 +204,8 @@ namespace Facepunch.Hover
 				UpgradeLoop.Value.Stop();
 			}
 
-			Hud?.Delete();
+			Hud?.Delete( true );
+			Hud = null;
 
 			base.OnDestroy();
 		}

@@ -788,6 +788,19 @@ namespace Facepunch.Hover
 				HoverGame.Round?.OnPlayerKilled( this, null, LastDamageInfo );
 			}
 
+			var weapons = Children.OfType<Weapon>();
+
+			foreach ( var weapon in weapons )
+			{
+				if ( weapon.Config.Ammo <= 0 )
+					continue;
+
+				var pickup = new AmmoPickup();
+				pickup.SetAmmoType( weapon.Config.AmmoType, (weapon.Config.Ammo * 0.25f).CeilToInt() );
+				pickup.Position = CollisionWorldSpaceCenter;
+				pickup.ApplyLocalImpulse( Vector3.Random * 100f );
+			}
+
 			BecomeRagdollOnClient( LastDamageInfo.Force, LastDamageInfo.BoneIndex );
 			Inventory.DeleteContents();
 

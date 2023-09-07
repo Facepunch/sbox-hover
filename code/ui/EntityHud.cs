@@ -103,7 +103,7 @@ namespace Facepunch.Hover.UI
 	public class EntityHudAnchor : Panel
 	{
 		public IHudEntity Entity { get; private set; }
-		public float UpOffset { get; set; } = 80f;
+		public float UpOffset { get; set; } = 40f;
 		public bool IsActive { get; private set; } = true;
 
 		public void SetEntity( IHudEntity entity )
@@ -135,7 +135,7 @@ namespace Facepunch.Hover.UI
 		{
 			if ( !(Entity as Entity).IsValid() ) return;
 
-			var position = (Entity.Position + Entity.LocalCenter).ToScreen();
+			var position = (Entity.Position + Entity.LocalCenter + Vector3.Up * UpOffset).ToScreen();
 
 			if ( position.z <= 0f )
 			{

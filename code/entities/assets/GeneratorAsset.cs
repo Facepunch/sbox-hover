@@ -302,6 +302,14 @@ namespace Facepunch.Hover
 			SceneObject.Attributes.Set( "Damage", Easing.EaseIn( damage ) * 0.5f );
 		}
 
+		protected override void OnDestroy()
+		{
+			Hud?.Delete( true );
+			Hud = null;
+			
+			base.OnDestroy();
+		}
+
 		[ClientRpc]
 		private void OnClientGeneratorRepaired()
 		{

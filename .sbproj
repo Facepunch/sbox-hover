@@ -32,7 +32,8 @@
         "water": "Trigger",
         "passplayers": "Collide",
         "player": "Collide",
-        "corpse": "Collide"
+        "corpse": "Collide",
+        "pickup": "Collide"
       },
       "Pairs": [
         {
@@ -69,6 +70,11 @@
           "a": "player",
           "b": "corpse",
           "r": "Ignore"
+        },
+        {
+          "a": "player",
+          "b": "pickup",
+          "r": "Trigger"
         }
       ]
     },
