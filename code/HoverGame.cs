@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using System;
+using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
 using Facepunch.Hover.UI;
@@ -286,6 +287,11 @@ namespace Facepunch.Hover
 			}
 		}
 
+		private float VignetteIntensity { get; set; } = 0f;
+		private Color VignetteColor { get; set; } = Color.Black;
+		private float Saturation { get; set; }
+		private float Pixelation { get; set; }
+
 		[GameEvent.Client.Frame]
 		private void OnFrame()
 		{
@@ -297,21 +303,40 @@ namespace Facepunch.Hover
 
 			pp.ChromaticAberration.Scale = 0.1f;
 			pp.ChromaticAberration.Offset = Vector3.Zero;
-
 			pp.Sharpen = 0.1f;
 
 			var healthScale = (0.4f / player.MaxHealth) * player.Health;
-			pp.Saturation = 0.7f + healthScale;
+			Saturation = 0.7f + healthScale;
 
-			pp.Vignette.Intensity = 0.8f - healthScale * 2f;
-			pp.Vignette.Color = Color.Red.WithAlpha( 0.1f );
+			VignetteIntensity = 0.8f - healthScale * 2f;
+			VignetteColor = Color.Lerp( Color.Red, Color.Black, (1f / player.MaxHealth) * player.Health).WithAlpha( 0.1f );
+			
 			pp.Vignette.Smoothness = 1f;
 			pp.Vignette.Roundness = 0.8f;
 
 			var sum = ScreenShake.List.OfType<ScreenShake.Random>().Sum( s => (1f - s.Progress) );
 
-			pp.Pixelation = 0.02f * sum;
 			pp.ChromaticAberration.Scale += (0.05f * sum);
+			Pixelation = 0.02f * sum;
+
+			if ( player.LifeState == LifeState.Alive )
+			{
+				var stealthFraction = player.TargetAlpha.Remap( 0f, 1f, 1f, 0f );
+				if ( stealthFraction > 0f )
+				{
+					Pixelation += 0.01f + MathF.Abs( MathF.Sin( Time.Now * 0.1f ) ) * 0.05f * stealthFraction;
+					VignetteIntensity += 0.2f * stealthFraction;
+					VignetteColor = Color.Lerp( pp.Vignette.Color, Color.White.WithAlpha( 0.1f ), stealthFraction * 0.75f );
+					Saturation -= 0.2f * stealthFraction;
+				}
+			}
+
+			VignetteIntensity = VignetteIntensity.Clamp( 0f, 0.8f );
+
+			pp.Pixelation = pp.Pixelation.LerpTo( Pixelation, Time.Delta * 2f );
+			pp.Vignette.Color = Color.Lerp( pp.Vignette.Color, VignetteColor, Time.Delta * 4f );
+			pp.Vignette.Intensity = pp.Vignette.Intensity.LerpTo( VignetteIntensity, Time.Delta * 4f );
+			pp.Saturation = pp.Saturation.LerpTo( Saturation, Time.Delta * 4f );
 		}
 
 		[GameEvent.Entity.PostSpawn]
