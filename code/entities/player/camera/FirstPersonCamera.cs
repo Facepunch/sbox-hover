@@ -8,15 +8,11 @@ namespace Facepunch.Hover
 
 		public void Update()
 		{
-			var player = Game.LocalPawn as HoverPlayer;
-			if ( player == null ) return;
+			if ( Game.LocalPawn is not HoverPlayer player ) return;
 
 			var eyePos = player.EyePosition;
 
-			if ( eyePos.Distance( LastPosition ) < 300 )
-				Camera.Position = Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20.0f * Time.Delta );
-			else
-				Camera.Position = eyePos;
+			Camera.Position = eyePos.Distance( LastPosition ) < 300f ? Vector3.Lerp( eyePos.WithZ( LastPosition.z ), eyePos, 20f * Time.Delta ) : eyePos;
 
 			Camera.FirstPersonViewer = player;
 			Camera.Rotation = player.EyeRotation;
@@ -24,10 +20,7 @@ namespace Facepunch.Hover
 
 			var targetDefaultFov = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 
-			if ( player.ActiveChild is Longshot longshot && longshot.IsScoped )
-				Camera.FieldOfView = Camera.FieldOfView.LerpTo( 10f, Time.Delta * 4f );
-			else
-				Camera.FieldOfView = Camera.FieldOfView.LerpTo( targetDefaultFov, Time.Delta * 4f );
+			Camera.FieldOfView = Camera.FieldOfView.LerpTo( player.ActiveChild is Longshot { IsScoped: true } ? 10f : targetDefaultFov, Time.Delta * 4f );
 
 			ScreenShake.Apply();
 
