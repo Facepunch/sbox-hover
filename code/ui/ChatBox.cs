@@ -54,8 +54,6 @@ namespace Facepunch.Hover.UI
 			"Be careful of weapons that cause blast damage",
 			"Spot enemies by pressing [+spot] while looking at them",
 			"Some maps have Outposts you can hold to earn passive income",
-			"You can melee attack with [+melee] for close quarters combat",
-			"Melee attack an enemy from behind to deal twice the damage",
 			"Your deployables will explode if you change your loadout"
 		};
 

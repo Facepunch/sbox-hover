@@ -49,7 +49,7 @@ namespace Facepunch.Hover
 		public override float Health => 1200f;
 		public override float Energy => 80f;
 		public override float MoveSpeed => 500f;
-		public override float MaxSpeed => 1000f;
+		public override float MaxSpeed => 1600f;
 
 		public override List<string> Clothing => new()
 		{

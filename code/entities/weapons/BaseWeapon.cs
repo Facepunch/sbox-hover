@@ -53,7 +53,8 @@ namespace Facepunch.Hover
 
 		public virtual bool CanReload()
 		{
-			if ( !Owner.IsValid() || !Input.Down( "reload" ) ) return false;
+			if ( !Owner.IsValid() || !Input.Down( "reload" ) )
+				return false;
 
 			return true;
 		}

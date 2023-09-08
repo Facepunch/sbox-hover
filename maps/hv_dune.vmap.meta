@@ -23,7 +23,10 @@
         "drakefruit.glass_blocks_001a#20453"
       ],
       "Metadata": {
-        "SingleAssetSource": "maps/hv_dune.vmap"
+        "SingleAssetSource": "maps/hv_dune.vmap",
+        "GameSupport": [
+          "facepunch.hover"
+        ]
       }
     }
   }

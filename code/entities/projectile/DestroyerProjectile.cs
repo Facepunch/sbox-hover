@@ -6,14 +6,9 @@ namespace Facepunch.Hover
 	[Library]
 	public partial class DestroyerProjectile :  BouncingProjectile
 	{
-		public TimeSince TimeSinceCreated { get; private set; }
+		private TimeSince TimeSinceCreated { get; set; } = 0f;
 
 		private bool PlayedLandingSound { get; set; }
-
-		public DestroyerProjectile()
-        {
-			TimeSinceCreated = 0f;
-		}
 
 		protected override bool HasHitTarget( TraceResult trace )
 		{

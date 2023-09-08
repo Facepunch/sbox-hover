@@ -19,7 +19,7 @@ namespace Facepunch.Hover
 		public virtual string CrosshairClass => "automatic";
 		public virtual string ImpactEffect => null;
 		public virtual int ClipSize => 16;
-		public virtual float AutoReloadDelay => 1.5f;
+		public virtual float AutoReloadDelay => 2f;
 		public virtual float ReloadTime => 3.0f;
 		public virtual bool IsMelee => false;
 		public virtual float DamageFalloffStart => 0f;
@@ -209,6 +209,8 @@ namespace Facepunch.Hover
 			{
 				ChargeAttackEndTime = 0f;
 			}
+			
+			/*
 			if ( Input.Down( "melee" ) )
 			{
 				if ( CanMeleeAttack && TimeSinceMeleeAttack > (1 / MeleeRate) )
@@ -218,6 +220,7 @@ namespace Facepunch.Hover
 					return;
 				}
 			}
+			*/
 
 			if ( !IsReloading )
 			{

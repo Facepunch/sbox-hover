@@ -8,7 +8,7 @@
   "HasAssets": true,
   "AssetsPath": "",
   "Resources": "resources/*\nfonts/*\nshaders/*\nui/*",
-  "MenuResources": null,
+  "MenuResources": "",
   "HasCode": true,
   "CodePath": "code",
   "PackageReferences": [],
@@ -278,11 +278,6 @@
           "GroupName": "Other"
         },
         {
-          "Name": "Melee",
-          "KeyboardCode": "MOUSE3",
-          "GroupName": "Other"
-        },
-        {
           "Name": "Suicide",
           "KeyboardCode": "I",
           "GroupName": "Other"
@@ -302,6 +297,14 @@
         "PreLaunchCommand": "",
         "PostLaunchCommand": ""
       }
-    ]
+    ],
+    "Compiler": {
+      "RootNamespace": "Facepunch.Hover",
+      "DefineConstants": "SANDBOX;ADDON;DEBUG",
+      "NoWarn": "1701;1702;1591;",
+      "WarningsAsErrors": "",
+      "References": [],
+      "DistinctReferences": []
+    }
   }
 }

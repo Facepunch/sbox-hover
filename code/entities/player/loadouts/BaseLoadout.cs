@@ -59,7 +59,7 @@ namespace Facepunch.Hover
 		public virtual float Health => 500f;
 		public virtual float Energy => 100f;
 		public virtual float MoveSpeed => 400f;
-		public virtual float MaxSpeed => 1800f;
+		public virtual float MaxSpeed => 2400f;
 		public virtual string Model => "models/citizen/citizen.vmdl";
 		public virtual string SecondaryDescription => "";
 		public virtual string Description => "";

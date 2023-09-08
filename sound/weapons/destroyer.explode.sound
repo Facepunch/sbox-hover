@@ -1,0 +1,12 @@
+{
+  "UI": false,
+  "Volume": "1.00,1.00,0",
+  "Pitch": "1.00,1.00,0",
+  "Decibels": 105,
+  "SelectionMode": "Random",
+  "Sounds": [
+    "sound/weapons/destroyer.explode.vsnd"
+  ],
+  "MaximumDistance": 2533.85,
+  "MinimumDistance": 126.692505
+}

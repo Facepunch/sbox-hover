@@ -41,7 +41,7 @@ namespace Facepunch.Hover
 		public override float Energy => 90f;
 		public override float EnergyRegen => 15f;
 		public override float MoveSpeed => 550f;
-		public override float MaxSpeed => 1500f;
+		public override float MaxSpeed => 2100f;
 
 		public override List<string> Clothing => new()
 		{

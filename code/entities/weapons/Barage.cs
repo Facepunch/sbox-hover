@@ -78,7 +78,6 @@ namespace Facepunch.Hover
 
 		protected override void OnCreateProjectile( BouncingProjectile projectile )
 		{
-			projectile.BounceSound = "soft.impact";
 			projectile.Bounciness = 0.6f;
 
 			base.OnCreateProjectile( projectile );

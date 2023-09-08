@@ -9,5 +9,5 @@
   "FollowEffect": null,
   "TrailEffect": "particles/weapons/destroyer/destroyer_projectile.vpcf",
   "LaunchSound": null,
-  "HitSound": "sound/weapons/barage.explode.sound"
+  "HitSound": "sound/weapons/destroyer.explode.sound"
 }
