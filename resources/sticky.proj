@@ -1,7 +1,7 @@
 {
   "FaceDirection": true,
   "LifeTime": "10.00,5.00,0",
-  "Gravity": "35.00,50.00,0",
+  "Gravity": "25.00,50.00,0",
   "Speed": "2000.00,2000.00,0",
   "Radius": 8,
   "ModelName": "models/weapons/barage_grenade/barage_grenade.vmdl",
