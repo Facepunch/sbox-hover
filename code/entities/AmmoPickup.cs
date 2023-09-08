@@ -52,7 +52,7 @@ namespace Facepunch.Hover
 			if ( !player.IsValid() ) return;
 			
 			var distance = player.Position.Distance( Position );
-			var fadeInDistance = 400f;
+			var fadeInDistance = 600f;
 			
 			Icon.Style.Opacity = distance >= fadeInDistance ? distance.Remap( fadeInDistance, fadeInDistance * 1.25f, 1f, 0f ) : 1f;
 		}
@@ -70,6 +70,7 @@ namespace Facepunch.Hover
 			if ( !usesAmmoType ) return;
 				
 			player.GiveAmmo( AmmoType, AmmoAmount );
+			Sound.FromWorld( To.Everyone, $"weapon.pickup{Game.Random.Int( 1, 4 )}", Position );
 			Delete();
 		}
 
