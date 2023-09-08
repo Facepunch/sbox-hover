@@ -4,6 +4,7 @@ using Sandbox.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Facepunch.Hover.UI;
 using Sandbox.Services;
 
 namespace Facepunch.Hover
@@ -18,6 +19,8 @@ namespace Facepunch.Hover
 		public TimeUntil NextCanPickupFlag { get; private set; }
 		public int SuccessiveKills { get; private set; }
 
+		private TimeSince TimeSinceSuicidePressed { get; set; }
+		private TimeSince TimeSinceLastSuicide { get; set; }
 		private FirstPersonCamera FirstPersonCamera { get; set; }
 		protected Vector3? LastSkiPosition { get; set; }
 		private SpectateCamera SpectateCamera { get; set; }
@@ -343,6 +346,21 @@ namespace Facepunch.Hover
 			Projectiles.Clear();
 		}
 
+		public void Suicide()
+		{
+			Game.AssertServer();
+
+			var damageInfo = new DamageInfo()
+				.WithAttacker( this )
+				.WithWeapon( this )
+				.WithForce( Velocity.Normal * 200f )
+				.WithPosition( Position )
+				.WithDamage( 10000f )
+				.WithTags( "suicide" );
+
+			TakeDamage( damageInfo );
+		}
+		
 		public void GiveTokens( int tokens )
 		{
 			Game.AssertServer();
@@ -812,7 +830,7 @@ namespace Facepunch.Hover
 			var bloodExplosion = Particles.Create( "particles/blood/explosion_blood/explosion_blood.vpcf", Position );
 			bloodExplosion.SetForward( 0, LastDamageInfo.Force.Normal );
 
-			UI.StationScreen.Hide( To.Single( this ) );
+			StationScreen.Hide( To.Single( this ) );
 
 			PlaySound( $"grunt{Game.Random.Int( 1, 4 )}" );
 
@@ -915,6 +933,31 @@ namespace Facepunch.Hover
 
 			if ( LifeState != LifeState.Alive )
 				return;
+			
+			if ( Game.IsServer )
+			{
+				if ( Input.Pressed( "Suicide" ) )
+				{
+					TimeSinceSuicidePressed = 0f;
+				}
+
+				if ( Input.Down( "Suicide" ) && TimeSinceSuicidePressed > 1f )
+				{
+					TimeSinceSuicidePressed = 0f;
+					
+					if ( TimeSinceLastSuicide < 30f )
+					{
+						var timeLeft = (30f - TimeSinceLastSuicide);
+						Hud.Toast( To.Single( this ), $"You need to wait {timeLeft.CeilToInt()}s to do this again!", "ui/icons/skull.png" );
+					}
+					else
+					{
+						TimeSinceLastSuicide = 0f;
+						Suicide();
+						return;
+					}
+				}
+			}
 
 			if ( Game.IsServer && Input.Released( "spot" ) )
 			{
@@ -979,12 +1022,11 @@ namespace Facepunch.Hover
 			{
 				foreach ( var flag in All.OfType<FlagEntity>() )
 				{
-					if ( flag.Carrier == this )
-					{
-						NextCanPickupFlag = 1f;
-						flag.Drop( true );
-						break;
-					}
+					if ( flag.Carrier != this ) continue;
+
+					NextCanPickupFlag = 1f;
+					flag.Drop( true );
+					break;
 				}
 			}
 
@@ -999,23 +1041,23 @@ namespace Facepunch.Hover
 			if ( model.Model == null ) return;
 
 			var assets = ResourceLibrary.GetAll<Clothing>();
-			var asset = assets.FirstOrDefault( a => !string.IsNullOrEmpty( a.Model ) && a.Model.ToLower() == model.Model.Name.ToLower() );
-			if ( asset == null ) return;
+			var asset = assets.FirstOrDefault( a => !string.IsNullOrEmpty( a.Model ) && string.Equals( a.Model, model.Model.Name, StringComparison.CurrentCultureIgnoreCase ) );
 
-			if ( asset.Category == Sandbox.Clothing.ClothingCategory.Bottoms
-				|| asset.Category == Sandbox.Clothing.ClothingCategory.Footwear
-				|| asset.Category == Sandbox.Clothing.ClothingCategory.Tops )
+			if ( asset?.Category is not (Sandbox.Clothing.ClothingCategory.Bottoms
+			    or Sandbox.Clothing.ClothingCategory.Footwear or Sandbox.Clothing.ClothingCategory.Tops) )
 			{
-				var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
-				clothing.Attributes.Set( "colortint", Team.GetColor() );
-				AnimatedLegs.AddChild( "clothing", clothing );
-
-				LegsClothing.Add( new()
-				{
-					SceneObject = clothing,
-					Asset = asset
-				} );
+				return;
 			}
+
+			var clothing = new SceneModel( Game.SceneWorld, model.Model, AnimatedLegs.Transform );
+			clothing.Attributes.Set( "colortint", Team.GetColor() );
+			AnimatedLegs.AddChild( "clothing", clothing );
+
+			LegsClothing.Add( new()
+			{
+				SceneObject = clothing,
+				Asset = asset
+			} );
 		}
 
 		[GameEvent.Client.PostCamera]
@@ -1026,7 +1068,7 @@ namespace Facepunch.Hover
 
 			var angleDiff = Rotation.Difference( LastCameraRotation, Camera.Rotation );
 			var angleDiffDegrees = angleDiff.Angle();
-			var allowance = 20.0f;
+			const float allowance = 20.0f;
 
 			if ( angleDiffDegrees > allowance )
 			{
@@ -1043,12 +1085,9 @@ namespace Facepunch.Hover
 
 		private AssistTracker GetAssistTracker( HoverPlayer attacker )
 		{
-			foreach ( var v in AssistTrackers )
+			foreach ( var v in AssistTrackers.Where( v => v.Attacker == attacker ) )
 			{
-				if ( v.Attacker == attacker )
-				{
-					return v;
-				}
+				return v;
 			}
 
 			var tracker = new AssistTracker
@@ -1080,15 +1119,13 @@ namespace Facepunch.Hover
 			if ( Controller is not MoveController controller )
 				return;
 
-			var forwardSpeed = Velocity.Normal.Dot( Camera.Rotation.Forward );
+			//var forwardSpeed = Velocity.Normal.Dot( Camera.Rotation.Forward );
 			var speed = Velocity.Length.LerpInverse( 0, controller.MaxSpeed );
 			var left = Camera.Rotation.Left;
 			var up = Camera.Rotation.Up;
 
 			if ( GroundEntity != null )
-			{
 				WalkBob += Time.Delta * 25f * speed;
-			}
 
 			Camera.Position += up * MathF.Sin( WalkBob ) * speed * 2f;
 			Camera.Position += left * MathF.Sin( WalkBob * 0.6f ) * speed * 1f;
@@ -1097,28 +1134,19 @@ namespace Facepunch.Hover
 		public override void TakeDamage( DamageInfo info )
 		{
 			if ( info.Hitbox.HasTag( "head" ) && !info.HasTag( "blast" ) )
-			{
 				info.Damage *= 2.0f;
-			}
 
-			if ( Controller is MoveController controller )
-			{
-				controller.Impulse += info.Force;
-			}
+			if ( Controller is not null )
+				Controller.Impulse += info.Force;
 
 			if ( info.Attacker is HoverPlayer attacker && attacker != this )
 			{
 				// We can't take damage from our own team.
 				if ( attacker.Team == Team && !HoverGame.AllowFriendlyFire )
-				{
 					return;
-				}
 
 				// We can't take damage from others during the spawn protection period.
-				if ( TimeSinceSpawn < 3f )
-				{
-					return;
-				}
+				if ( TimeSinceSpawn < 3f ) return;
 
 				if ( info.Weapon is Weapon weapon )
 				{
@@ -1182,21 +1210,22 @@ namespace Facepunch.Hover
 			LastDamageInfo = info;
 			NextRegenTime = RegenDelay;
 
-			if ( LifeState == LifeState.Alive )
+			if ( LifeState != LifeState.Alive )
 			{
-				base.TakeDamage( info );
-
-				this.ProceduralHitReaction( info );
-
-				if ( LifeState == LifeState.Dead && info.Attacker.IsValid() )
-				{
-					if ( info.Attacker.Client.IsValid() && info.Attacker.IsValid() )
-					{
-						info.Attacker.Client.AddInt( "kills" );
-						Stats.Increment( info.Attacker.Client, "kills", 1 );
-					}
-				}
+				return;
 			}
+
+			base.TakeDamage( info );
+			this.ProceduralHitReaction( info );
+
+			if ( LifeState != LifeState.Dead || !info.Attacker.IsValid() )
+				return;
+
+			if ( !info.Attacker.Client.IsValid() || !info.Attacker.IsValid() )
+				return;
+
+			info.Attacker.Client.AddInt( "kills" );
+			Stats.Increment( info.Attacker.Client, "kills", 1 );
 		}
 
 		[ClientRpc]
@@ -1444,8 +1473,8 @@ namespace Facepunch.Hover
 		{
 			if ( LifeState != LifeState.Alive && RespawnTime.HasValue && RespawnTime.Value )
 			{
-				UI.RespawnScreen.Hide( To.Single( this ) );
-				UI.StationScreen.Show( To.Single( this ), UI.StationScreenMode.Deployment );
+				RespawnScreen.Hide( To.Single( this ) );
+				StationScreen.Show( To.Single( this ), StationScreenMode.Deployment );
 
 				// Respawn bots immediately because they can't select loadouts.
 				if ( Client.IsBot ) Respawn();

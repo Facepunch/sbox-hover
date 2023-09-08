@@ -281,6 +281,11 @@
           "Name": "Melee",
           "KeyboardCode": "MOUSE3",
           "GroupName": "Other"
+        },
+        {
+          "Name": "Suicide",
+          "KeyboardCode": "I",
+          "GroupName": "Other"
         }
       ]
     },
