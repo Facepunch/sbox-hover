@@ -39,6 +39,11 @@
 
 @code
 {
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( Game.InGame );
+	}
+
 	private void LeaveGame()
     {
         Game.Menu.LeaveServer("Leaving");
