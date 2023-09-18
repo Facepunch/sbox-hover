@@ -25,7 +25,8 @@ public class MenuScene : ScenePanel
 	public override void Tick()
 	{
 		var direction = (Vector3.Backward + Vector3.Right * 0.5f).Normal;
-		
+
+		Citizen.Rotation = Rotation.FromYaw( -25f );
 		Citizen.Position = new( 0f, 0f, MathF.Sin( RealTime.Now * 2f ) * 5f );
 		
 		Camera.Position = Vector3.Forward * 200f + Vector3.Left * 30f + Vector3.Up * 35f;
