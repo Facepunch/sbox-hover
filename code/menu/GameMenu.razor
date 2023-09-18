@@ -19,7 +19,6 @@
         DefaultUrl = "/";
 
         AddDestination( "/", typeof( FrontPage ) );
-        AddDestination( "/active", typeof( ActivePage ) );
         AddDestination( "/settings", typeof( SettingsPage ) );
 
         if ( Game.InGame ) Navigate( "/active" );
@@ -40,7 +39,7 @@
 	}
 
     [GameEvent.Menu.ServerJoined]
-    public void OnServerJoined() => Navigate( "/active" );
+    public void OnServerJoined() => Navigate( "/" );
 
     [GameEvent.Menu.LobbyJoined]
     public void OnLobbyJoined() => Navigate( "/lobby" );
