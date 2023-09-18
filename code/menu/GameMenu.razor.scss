@@ -1,6 +1,6 @@
 GameMenu
 {
-	background-color: #343948;
+	background-color: #262a32;
 	padding: 0 170px;
 	opacity: 1;
 	flex-direction: column;
@@ -10,6 +10,12 @@ GameMenu
 	position: absolute;
 	transition: all 0.3s ease-out;
 	color: white;
+
+	MenuScene {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
 
 	&:intro
 	{
