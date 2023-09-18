@@ -31,28 +31,28 @@ GameMenu
 
 .button, .block
 {
-	padding: 4px 16px;
-
-	opacity: 0.8;
-
-	font-size: 28px;
-	font-family: Poppins;
-	font-weight: 700;
+	font-size: 32px;
+	padding: 4px;
+	font-family: Quantico-Bold;
 	flex-shrink: 0;
 }
 
 .button
 {
-	background-color: #000a;
+	transition: all 0.2s ease-in;
 	cursor: pointer;
+	color: lightgoldenrodyellow;
 
 	&:hover
 	{
-		opacity: 1;
+		background-color: rgba( #caab4d, 0.2 );
+		sound-in: "hover.hoversharp";
+		transform: scale( 1.05 );
 	}
 
 	&:active
 	{
+		sound-in: "hover.clickbeep";
 		left: 2px;
 		top: 3px;
 	}
@@ -93,7 +93,7 @@ section
 
 h2
 {
-	font-family: poppins;
+	font-family: Quantico-Regular;
 	font-weight: 400;
 	opacity: 0.2;
 	margin-bottom: 16px;
