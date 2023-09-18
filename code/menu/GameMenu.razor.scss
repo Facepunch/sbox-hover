@@ -25,6 +25,7 @@ GameMenu
 
 	&.ingame
 	{
+		background-filter: blur( 16px );
 		background-color: #151313ee;
 	}
 }

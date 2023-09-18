@@ -1,6 +1,6 @@
 LoadingPanel
 {
-	background-color: #222;
+	background-color: #262a32;
 	background-size: cover;
 	width: 100%;
 	height: 100%;
@@ -9,13 +9,13 @@ LoadingPanel
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: Poppins;
+	font-family: Quantico-Bold;
 	pointer-events: all;
 
 	> .title
 	{
 		font-size: 80px;
-		color: #888;
+		color: #caab4d;
 		font-weight: bolder;
 	}
 
