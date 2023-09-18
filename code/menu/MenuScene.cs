@@ -70,6 +70,8 @@ public class MenuScene : ScenePanel
 			"light_legs"
 		};
 
+		Game.SetRandomSeed( RealTime.Now.CeilToInt() );
+		
 		var team = Game.Random.Int( 0, 1 ) == 0 ? Team.Red : Team.Blue;
 
 		foreach ( var assetName in clothingToWear )

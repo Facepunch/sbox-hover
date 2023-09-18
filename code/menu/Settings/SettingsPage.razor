@@ -60,14 +60,6 @@
 
 @code
 {
-    public void CancelChanges()
-    {
-        foreach (var kb in Descendants.OfType<KeyBind>())
-        {
-            kb.Cancel();
-        }
-    }
-
     public void RestoreDefaults()
     {
         Game.Menu.ResetBinds();

@@ -19,9 +19,7 @@
         DefaultUrl = "/";
 
         AddDestination( "/", typeof( FrontPage ) );
-        AddDestination( "/settings", typeof( SettingsPage ) );
-
-        if ( Game.InGame ) Navigate( "/active" );
+		AddDestination( "/settings", typeof( SettingsPage ) );
 
         BindClass( "ingame", () => Game.InGame );
         BindClass( "inlobby", () => Game.Menu?.Lobby != null);
