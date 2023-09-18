@@ -31,10 +31,12 @@ public class MenuScene : ScenePanel
 		
 		Camera.Position = Vector3.Forward * 200f + Vector3.Left * 30f + Vector3.Up * 35f;
 		Camera.Rotation = Rotation.LookAt( direction, Vector3.Up );
+
+		var dt = Game.InGame ? Time.Delta : RealTime.Delta;
 		
 		foreach ( var model in Models )
 		{
-			model.Update( RealTime.Delta );
+			model.Update( dt );
 		}
 
 		World.AmbientLightColor = Color.White.Darken( 0.5f );
@@ -46,7 +48,7 @@ public class MenuScene : ScenePanel
 			Particles.SetControlPoint( 0, attachment.Value.Position );
 		}
 
-		Particles.Simulate( RealTime.Delta );
+		Particles.Simulate( dt );
 		
 		base.Tick();
 	}
@@ -56,6 +58,7 @@ public class MenuScene : ScenePanel
 		World = new();
 		Light = new( World );
 		Citizen = new( World, "models/citizen/citizen.vmdl", new( Vector3.Zero, Rotation.Identity ) );
+		Models.Add( Citizen );
 		
 		var allClothing = ResourceLibrary.GetAll<Clothing>();
 		var clothingToWear = new List<string>()
@@ -97,7 +100,6 @@ public class MenuScene : ScenePanel
 		};
 
 		Models.Add( Jetpack );
-		Models.Add( Citizen );
 		
 		Camera.FieldOfView = 60f;
 	}
