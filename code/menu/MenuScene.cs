@@ -70,7 +70,7 @@ public class MenuScene : ScenePanel
 			"light_legs"
 		};
 
-		Game.SetRandomSeed( RealTime.Now.CeilToInt() );
+		Game.SetRandomSeed( DateTime.Now.Second );
 		
 		var team = Game.Random.Int( 0, 1 ) == 0 ? Team.Red : Team.Blue;
 
