@@ -62,13 +62,6 @@
 
         </div>
 
-        <div style="flex-shrink: 0;">
-            <section class="nogrow">
-                <h2>Map</h2>
-                <MapButton MapIdent=@Game.Server.MapIdent OnClicked="@OnMapClicked"></MapButton>
-            </section>
-        </div>
-
     </section>
     
     <div class="navbar">
@@ -114,15 +107,5 @@
         {
             this.Navigate( "/" );
         }
-    }
-
-	private void OnMapClicked()
-	{
-        Game.Overlay.ShowPackageSelector( "type:map sort:popular game:facepunch.hover", OnMapSelected );
-    }
-
-    private void OnMapSelected( Package map )
-    {
-        Game.Menu.ChangeServerMap( map.FullIdent );
     }
 }
