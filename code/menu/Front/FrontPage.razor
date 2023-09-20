@@ -16,6 +16,7 @@
 
         @if ( Game.InGame )
         {
+	        <a class="button" onclick=@ReturnToGame>Return to Game</a>
             <a class="button" onclick=@LeaveGame>Leave Game</a>
             <span style="height: 20px;"></span>
         }
@@ -44,9 +45,14 @@
 		return HashCode.Combine( Game.InGame );
 	}
 
+	private void ReturnToGame()
+	{
+		Game.Menu.HideMenu();
+	}
+	
 	private void LeaveGame()
     {
-        Game.Menu.LeaveServer("Leaving");
+        Game.Menu.LeaveServer( "Leaving" );
     }
 
 	private void CreateNewGame()

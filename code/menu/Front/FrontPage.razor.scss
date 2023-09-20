@@ -8,10 +8,16 @@ GameMenu FrontPage
 		font-family: Quantico-Bold;
 		font-weight: 700;
 		font-size: 96px;
-		color: #60d8d3;
+		color: #caab4d;
 	}
 	
-	&.red {
+	&.team_blue {
+		.game-title {
+			color: #caab4d;
+		}
+	}
+	
+	&.team_red {
 		.game-title {
 			color: crimson;
 		}

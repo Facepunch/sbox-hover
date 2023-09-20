@@ -1,4 +1,5 @@
 @using System
+@using System.Linq
 @using Sandbox;
 @using Sandbox.MenuSystem;
 @using Sandbox.UI;
@@ -7,7 +8,7 @@
 @implements Sandbox.Menu.IGameMenuPanel
 @namespace Facepunch.Hover
 
-<root class="@(Team == Team.Blue ? "team_blue" : "team_red")">
+<root class="@($"team_{Team.ToString().ToLower()}")")">
 	<div class="video"></div>
 	<MenuScene Team=@Team/>
 	<div class="navigator-canvas" slot="navigator-canvas"></div>
@@ -15,7 +16,8 @@
 
 @code
 {
-	public Team Team { get; set; }
+	public Team Team => Game.InGame ? Team.None : RandomTeam;
+	private Team RandomTeam { get; set; }
 	
     public GameMenu()
     {
@@ -31,8 +33,13 @@
 	protected override void OnParametersSet()
 	{
 		Game.SetRandomSeed( DateTime.Now.Second );
-		Team = Game.Random.Int( 0, 1 ) == 0 ? Team.Red : Team.Blue;
+		RandomTeam = Game.Random.Int( 0, 1 ) == 0 ? Team.Red : Team.Blue;
 		base.OnParametersSet();
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( Team );
 	}
 
 	protected override void OnEvent( PanelEvent e )
