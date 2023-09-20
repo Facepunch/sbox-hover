@@ -8,7 +8,13 @@ GameMenu FrontPage
 		font-family: Quantico-Bold;
 		font-weight: 700;
 		font-size: 96px;
-		color: #caab4d;
+		color: #60d8d3;
+	}
+	
+	&.red {
+		.game-title {
+			color: crimson;
+		}
 	}
 
 	.controls
@@ -16,5 +22,15 @@ GameMenu FrontPage
 		flex-direction: column;
 		gap: 8px;
 		align-items: flex-start;
+	}
+}
+
+GameMenu {
+	&.team_red {
+		FrontPage {
+			.game-title {
+				color: crimson;
+			}
+		}
 	}
 }

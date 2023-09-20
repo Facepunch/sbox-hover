@@ -27,6 +27,19 @@ GameMenu
 	{
 		backdrop-filter: blur( 16px );
 		background-color: #151313ee;
+		
+		.video {
+			display: none;
+		}
+	}
+	
+	.video {
+		background: url( /menu/menuvideo.mp4 );
+		position: absolute;
+		filter: saturate( 0.7 );
+		filter: blur( 4px );
+		width: 100%;
+		height: 100%;
 	}
 }
 
@@ -59,6 +72,27 @@ GameMenu
 	}
 }
 
+GameMenu {
+	&.team_red {
+		.button {
+			color: #fff2f2;
+			
+			&:hover {
+				background-color: rgba( crimson, 0.4 );
+			}
+		}
+	}
+
+	&.team_blue {
+		.button {
+			color: #e8f7ff;
+
+			&:hover {
+				background-color: rgba( #00ffff, 0.4 );
+			}
+		}
+	}
+}
 
 GameMenu .navigator-canvas
 {
@@ -81,7 +115,6 @@ section
 	&.box
 	{
 		background-color: rgba( black, 0.5 );
-		
 	}
 }
 
@@ -96,7 +129,7 @@ h2
 {
 	font-family: Quantico-Regular;
 	font-weight: 400;
-	opacity: 0.2;
+	opacity: 0.4;
 	margin-bottom: 16px;
 	flex-shrink: 0;
 }
@@ -182,6 +215,10 @@ h2
 		flex-shrink: 0;
 		gap: 10px;
 	}
+	
+	.block {
+		opacity: 0.5;
+	}
 
 	.left
 	{
@@ -207,7 +244,7 @@ $form-row-height: 48px;
 
 		> .form-label
 		{
-			opacity: 0.5;
+			opacity: 0.6;
 			height: $form-row-height;
 			font-size: 20px;
 			white-space: nowrap;

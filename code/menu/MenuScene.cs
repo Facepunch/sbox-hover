@@ -8,6 +8,8 @@ namespace Facepunch.Hover;
 
 public class MenuScene : ScenePanel
 {
+	public Team Team { get; set; }
+	
 	private SceneSpotLight Light { get; set; }
 	private List<SceneModel> Models { get; set; } = new();
 	private SceneParticles Particles { get; set; }
@@ -70,10 +72,6 @@ public class MenuScene : ScenePanel
 			"light_legs"
 		};
 
-		Game.SetRandomSeed( DateTime.Now.Second );
-		
-		var team = Game.Random.Int( 0, 1 ) == 0 ? Team.Red : Team.Blue;
-
 		foreach ( var assetName in clothingToWear )
 		{
 			var modelName = allClothing
@@ -83,10 +81,10 @@ public class MenuScene : ScenePanel
 
 			var clothing = new SceneModel( World, modelName, Transform.Zero )
 			{
-				ColorTint = team.GetColor()
+				ColorTint = Team.GetColor()
 			};
 			
-			clothing.SetMaterialGroup( team == Team.Red ? "red" : "blue" );
+			clothing.SetMaterialGroup( Team == Team.Red ? "red" : "blue" );
 
 			Citizen.AddChild( "clothes", clothing );
 
