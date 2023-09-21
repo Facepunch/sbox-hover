@@ -8,11 +8,17 @@ Crosshair {
     opacity: 1;
     
     .reload {
-        background-color: red;
         position: absolute;
         transform: translateX(-50%) translateY(-50%);
-        width: 50px;
-        height: 50px;
+        height: 48px;
+        aspect-ratio: 1;
+        background-size: cover;
+        mask-size: cover;
+        mask-image: radial-gradient( white 40%, white 50%, black 50% );
+        
+        &.hidden {
+            display: none;
+        }
     }
 
     .charge {
@@ -38,6 +44,14 @@ Crosshair {
 
         &.hidden {
             display: none;
+        }
+    }
+    
+    &.reloading {
+        transition: all 0.1s ease-in-out;
+        
+        .element {
+            opacity: 0;    
         }
     }
 

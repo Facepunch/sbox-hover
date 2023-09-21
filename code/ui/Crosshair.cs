@@ -11,6 +11,8 @@ namespace Facepunch.Hover.UI
 		private Panel ChargeBackgroundBar { get; }
 		private Panel ChargeForegroundBar { get; }
 		private Panel Charge { get; }
+		
+		private float ReloadProgress { get; set; }
 
 		private int FireCounter;
 
@@ -38,6 +40,8 @@ namespace Facepunch.Hover.UI
 			SetClass( "hidden", !LongshotScope.Instance.HasClass( "hidden" ) );
 			Charge.SetClass( "hidden", true );
 
+			var isReloading = false;
+			
 			if ( player.ActiveChild is Weapon weapon )
 			{
 				if ( weapon.ChargeAttackEndTime > 0f && Time.Now < weapon.ChargeAttackEndTime )
@@ -47,9 +51,29 @@ namespace Facepunch.Hover.UI
 					ChargeForegroundBar.Style.Width = Length.Percent( 100f - ((100f / weapon.ChargeAttackDuration) * timeLeft) );
 					Charge.SetClass( "hidden", false );
 				}
+
+				if ( weapon.IsReloading )
+				{
+					var progress = ((weapon.TimeSinceReload / weapon.ReloadTime) * 100f).Clamp( 0f, 100f );
+					var gradient = 100f - progress;
+					var teamColor = player.Team.GetColor().Hex;
+					
+					ReloadIndicator.Style.Set( "background-image", $"conic-gradient( {teamColor} {gradient + 10}%, {teamColor} {gradient + 9}%, {teamColor} {gradient}% )" );
+					
+					var opacity = 1f;
+
+					if ( progress >= 90f )
+						opacity = (1f / 10f) * (100f - progress);
+					
+					ReloadIndicator.Style.Set( "opacity", $"{opacity}" );
+					isReloading = true;
+				}
 			}
 
 			SetClass( "fire", FireCounter > 0 );
+			
+			ReloadIndicator.SetClass( "hidden", !isReloading );
+			SetClass( "reloading", isReloading );w
 
 			if ( FireCounter > 0 )
 				FireCounter--;
