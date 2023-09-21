@@ -377,7 +377,7 @@
 			m_bGammaCorrectVertexColors = false
 			m_bSaturateColorPreAlphaBlend = false
 			m_bAdditive = true
-			m_hTexture = resource:"materials/particles/trails/grenade_bomb_trail.vtex"
+			m_hTexture = resource:"materials/particles/beam_hotwhite.vtex"
 		},
 		{
 			_class = "C_OP_RenderRopes"
