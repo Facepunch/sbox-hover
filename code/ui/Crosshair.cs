@@ -73,7 +73,7 @@ namespace Facepunch.Hover.UI
 			SetClass( "fire", FireCounter > 0 );
 			
 			ReloadIndicator.SetClass( "hidden", !isReloading );
-			SetClass( "reloading", isReloading );w
+			SetClass( "reloading", isReloading );
 
 			if ( FireCounter > 0 )
 				FireCounter--;
