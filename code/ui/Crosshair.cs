@@ -7,6 +7,7 @@ namespace Facepunch.Hover.UI
 	[StyleSheet( "/ui/Crosshair.scss" )]
 	public class Crosshair : Panel
 	{
+		private Panel ReloadIndicator { get; }
 		private Panel ChargeBackgroundBar { get; }
 		private Panel ChargeForegroundBar { get; }
 		private Panel Charge { get; }
@@ -22,6 +23,7 @@ namespace Facepunch.Hover.UI
 			}
 
 			Charge = Add.Panel( "charge" );
+			ReloadIndicator = Add.Panel( "reload" );
 			ChargeBackgroundBar = Charge.Add.Panel( "background" );
 			ChargeForegroundBar = ChargeBackgroundBar.Add.Panel( "foreground" );
 		}
@@ -46,8 +48,6 @@ namespace Facepunch.Hover.UI
 					Charge.SetClass( "hidden", false );
 				}
 			}
-
-			this.PositionAtCrosshair();
 
 			SetClass( "fire", FireCounter > 0 );
 

@@ -14,29 +14,25 @@ public static class PanelExtension
 	public static void PositionAtCrosshair( this Panel panel, HoverPlayer player )
 	{
 		if ( !player.IsValid() ) return;
-
-		var eyePos = player.EyePosition;
-		var eyeRot = player.EyeRotation;
-
-		var tr = Trace.Ray( eyePos, eyePos + eyeRot.Forward * 1000 )
-			.Size( 1.0f )
+		
+		var trace = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 1000f )
+			.Size( 1f )
 			.Ignore( player )
-			.UseHitboxes()
+			.Ignore( player.ActiveChild )
 			.Run();
 
-		panel.PositionAtWorld( tr.EndPosition );
+		panel.PositionAtWorld( trace.EndPosition );
 	}
 
 	public static void PositionAtWorld( this Panel panel, Vector3 position )
 	{
 		var screenPos = position.ToScreen();
 
-		if ( screenPos.z < 0 )
+		if ( screenPos.z < 0f )
 			return;
 
 		panel.Style.Left = Length.Fraction( screenPos.x );
 		panel.Style.Top = Length.Fraction( screenPos.y );
-		panel.Style.Dirty();
 	}
 
 	public static IEnumerable<T> GetAllChildrenOfType<T>( this Panel panel ) where T : Panel
